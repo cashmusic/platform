@@ -1,0 +1,130 @@
+{
+	"restfulnouns":{
+		"assets":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new asset.",
+					"plantfunction":"addAsset",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get asset by id.",
+					"plantfunction":"getAssetInfo",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing asset.",
+					"plantfunction":"editAsset",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete an asset. Deletion of asset file handled on seed level.",
+					"plantfunction":"deleteAsset",
+					"authrequired":true
+				}
+			}
+		}
+	},
+	"requestactions":{
+		"addasset":{
+			"description":"Add a new asset.",
+			"plantfunction":"addAsset",
+			"security":["direct"]
+		},
+		"addlockcode":{
+			"description":"Creates a lock code for asset redemption.",
+			"plantfunction":"addLockCode",
+			"security":["direct"]
+		},
+		"claim":{
+			"description":"Claim an asset and redirect if lock code validates.",
+			"plantfunction":"redirectToAsset",
+			"security":["direct"]
+		},
+		"deleteasset":{
+			"description":"Delete an asset.",
+			"plantfunction":"deleteAsset",
+			"security":["direct"]
+		},
+		"editasset":{
+			"description":"Edit an asset.",
+			"plantfunction":"editAsset",
+			"security":["direct"]
+		},
+		"finalizeupload":{
+			"description":"Finalize asset upload.",
+			"plantfunction":"finalizeUpload",
+			"security":["direct"]
+		},
+		"findassets":{
+			"description":"Find assets based on certain criteria other than just id.",
+			"plantfunction":"findAssets",
+			"security":["direct"]
+		},
+		"getanalytics":{
+			"description":"Get analytics for a given asset.",
+			"plantfunction":"getAnalytics",
+			"security":["direct"]
+		},
+		"getasset":{
+			"description":"Get asset by id.",
+			"plantfunction":"getAsset",
+			"security":["direct"]
+		},
+		"getassetsforconnection":{
+			"description":"Get assets by connection type.",
+			"plantfunction":"getAssetsForConnection",
+			"security":["direct"]
+		},
+		"getassetsforparent":{
+			"description":"Get assets by parent id.",
+			"plantfunction":"getAssetsForParent",
+			"security":["direct"]
+		},
+		"getassetsforuser":{
+			"description":"Get assets by user id.",
+			"plantfunction":"getAssetsForUser",
+			"security":["direct"]
+		},
+		"getassetfromunlockcode":{
+			"description":"Get asset by unlock code.",
+			"plantfunction":"getAssetFromUnlockCode",
+			"security":["direct"]
+		},
+		"getasseturl":{
+			"description":"Get final asset location.",
+			"plantfunction":"getFinalAssetLocation",
+			"security":["direct"]
+		},
+		"getfulfillmentassets":{
+			"description":"Get stored assets.",
+			"plantfunction":"getStoredAssets",
+			"security":["direct"]
+		},
+		"getuploadparameters":{
+			"description":"Build upload parameters for upload method.",
+			"plantfunction":"getUploadParameters",
+			"security":["direct"]
+		},
+		"getpublicurl":{
+			"description":"Get public url for asset.",
+			"plantfunction":"getPublicURL",
+			"security":["direct"]
+		},
+		"makepublic":{
+			"description":"Make asset public.",
+			"plantfunction":"makePublic",
+			"security":["direct"]
+		},
+		"redeemcode":{
+			"description":"Redeem lock code for asset.",
+			"plantfunction":"redeemLockCode",
+			"security":["direct"]
+		},
+		"unlock":{
+			"description":"Unlock an asset.",
+			"plantfunction":"unlockAsset",
+			"security":["direct"]
+		}
+	}
+}
