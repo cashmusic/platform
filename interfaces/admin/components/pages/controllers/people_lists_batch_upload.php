@@ -13,7 +13,10 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 if (!empty($_FILES)) {
 
     $total_added = 0;
-    $uploaded_emails = file_get_contents($_FILES['element_upload']['tmp_name']);
+    $uploaded_emails = fread(
+        fopen($_FILES['element_upload']['tmp_name'], 'r'),
+        filesize($_FILES['element_upload']['tmp_name'])
+    );
 
     $email_array = CASHSystem::parseBulkEmailInput($uploaded_emails);
 
