@@ -1,0 +1,154 @@
+{
+	"restfulnouns":{
+		"logins":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new login.",
+					"plantfunction":"addLogin",
+					"authrequired":true
+				},
+				"PATCH":{
+					"description":"Modify an existing login.",
+					"plantfunction":"setLoginCredentials",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete a login.",
+					"plantfunction":"deleteLogin",
+					"authrequired":true
+				}
+			}
+		},
+		"templates":{
+			"verbs":{
+				"GET":{
+					"description":"Get template.",
+					"plantfunction":"getTemplate",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete a template.",
+					"plantfunction":"deleteTemplate",
+					"authrequired":true
+				}
+			}
+		}
+	},
+	"requestactions":{
+		"addbulklockcodes":{
+			"description":"Add bulk lock codes.",
+			"plantfunction":"addBulkLockCodes",
+			"security":["direct"]
+		},
+		"addlogin":{
+			"description":"Add new login.",
+			"plantfunction":"addLogin",
+			"security":["direct"]
+		},
+		"addlockcode":{
+			"description":"Add lock code.",
+			"plantfunction":"addLockCode",
+			"security":["direct"]
+		},
+		"deletelogin":{
+			"description":"Delete a login.",
+			"plantfunction":"deleteLogin",
+			"security":["direct"]
+		},
+		"deletesettings":{
+			"description":"Delete settings.",
+			"plantfunction":"deleteSettings",
+			"security":["direct"]
+		},
+		"deletetemplate":{
+			"description":"Delete template.",
+			"plantfunction":"deleteTemplate",
+			"security":["direct"]
+		},
+		"getapicredentials":{
+			"description":"Get API credentials.",
+			"plantfunction":"getAPICredentials",
+			"security":["direct"]
+		},
+		"getlockcodes":{
+			"description":"Get lock codes.",
+			"plantfunction":"getLockCodes",
+			"security":["direct"]
+		},
+		"getnewesttemplate":{
+			"description":"Get newest template.",
+			"plantfunction":"getNewestTemplate",
+			"security":["direct"]
+		},
+		"getsettings":{
+			"description":"Get settings.",
+			"plantfunction":"getSettings",
+			"security":["direct"]
+		},
+		"gettemplate":{
+			"description":"Get template.",
+			"plantfunction":"getTemplate",
+			"security":["direct"]
+		},
+		"gettemplatesforuser":{
+			"description":"Get templates for user.",
+			"plantfunction":"getTemplatesForUser",
+			"security":["direct"]
+		},
+		"migratedb":{
+			"description":"Migrate database.",
+			"plantfunction":"doMigrateDB",
+			"security":["direct"]
+		},
+		"redeemlockcode":{
+			"description":"Redeem lock code.",
+			"plantfunction":"redeemLockCode",
+			"security":["direct"]
+		},
+		"setapicredentials":{
+			"description":"Set API credentials.",
+			"plantfunction":"setAPICredentials",
+			"security":["direct"]
+		},
+		"setlogincredentials":{
+			"description":"Set login credentials.",
+			"plantfunction":"setLoginCredentials",
+			"security":["direct"]
+		},
+		"setresetflag":{
+			"description":"Set reset flag.",
+			"plantfunction":"setResetFlag",
+			"security":["direct"]
+		},
+		"setsettings":{
+			"description":"Set settings.",
+			"plantfunction":"setSettings",
+			"security":["direct"]
+		},
+		"settemplate":{
+			"description":"Set template.",
+			"plantfunction":"setTemplate",
+			"security":["direct"]
+		},
+		"startjssession":{
+			"description":"Start a Javascript session.",
+			"plantfunction":"startJSSession",
+			"security":["direct"]
+		},
+		"validateapicredentials":{
+			"description":"Validate API credentials.",
+			"plantfunction":"validateAPICredentials",
+			"security":["direct"]
+		},
+		"validatelogin":{
+			"description":"Validate login credentials.",
+			"plantfunction":"validateLogin",
+			"security":["direct"]
+		},
+		"validateresetflag":{
+			"description":"Validate a reset flag.",
+			"plantfunction":"validateResetFlag",
+			"security":["direct"]
+		}
+	}
+}
