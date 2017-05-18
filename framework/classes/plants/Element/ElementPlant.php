@@ -29,37 +29,8 @@ class ElementPlant extends PlantBase {
 
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
-		$this->routing_table = array(
-			// alphabetical for ease of reading
-			// first value  = target method to call
-			// second value = allowed request methods (string or array of strings)
-			'addelementtocampaign'      => array('addElementToCampaign','direct'),
-			'addcampaign'               => array('addCampaign','direct'),
-			'addelement'                => array('addElement','direct'),
-			'addlockcode'               => array('addLockCode','direct'),
-			'checkuserrequirements'     => array('checkUserRequirements','direct'),
-			'deletecampaign'            => array('deleteCampaign','direct'),
-			'deleteelement'             => array('deleteElement','direct'),
-			'editelement'               => array('editElement','direct'),
-			'editcampaign'              => array('editCampaign','direct'),
-			'getanalytics'              => array('getAnalytics','direct'),
-			'getanalyticsforcampaign'   => array('getAnalyticsForCampaign','direct'),
-			'getcampaign'               => array('getCampaign','direct'),
-			'getelement'                => array('getElement','direct'),
-			'getcampaignsforuser'       => array('getCampaignsForUser','direct'),
-			'getcampaignforelement'     => array('getCampaignForElement','direct'),
-			'getelementsforcampaign'    => array('getElementsForCampaign','direct'),
-			'getelementsforuser'        => array('getElementsForUser','direct'),
-			'getelementtemplate'        => array('getElementTemplate','direct'),
-			//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
-			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via
-			// API or GET. we'll need to require signed status codes and reopen...
-			'getmarkup'                 => array('getElementMarkup','direct'),
-			'getsupportedtypes'         => array('getSupportedTypes','direct'),
-			'redeemcode'                => array('redeemLockCode',array('direct','get','post')),
-			'removeelementfromcampaign' => array('removeElementFromCampaign','direct'),
-			'setelementtemplate'        => array('setElementTemplate','direct')
-		);
+        $this->getRoutingTable();
+
 		$this->buildElementsArray();
 		$this->plantPrep($request_type,$request);
 	}

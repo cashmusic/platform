@@ -26,69 +26,12 @@ use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
 
 class CommercePlant extends PlantBase {
-    protected $subscription_active_status;
+    protected $subscription_active_status, $request_type, $routing_table;
 
     public function __construct($request_type,$request) {
+
         $this->request_type = 'commerce';
-        $this->routing_table = array(
-            // alphabetical for ease of reading
-            // first value  = target method to call
-            // second value = allowed request methods (string or array of strings)
-            'additem'                  => array('addItem','direct'),
-            'additemvariants'          => array('addItemVariants','direct'),
-            'addorder'                 => array('addOrder','direct'),
-            'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
-            'addtransaction'              => array('addTransaction','direct'),
-            'cancelorder'			      => array('cancelOrder','direct'),
-            'cancelsubscription'        => array('cancelSubscription', 'direct'),
-            'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
-            'createcompedsubscription' => array('createCompedSubscription', 'direct'),
-            'deleteitem'               => array('deleteItem','direct'),
-            'deleteitemvariant'        => array('deleteItemVariant','direct'),
-            'deleteitemvariants'       => array('deleteItemVariants','direct'),
-            'deletesubscription'       => array('deleteSubscription', 'direct'),
-            'deletesubscriptionplan'       => array('deleteSubscriptionPlan', 'direct'),
-            'editcartquantity'	      => array('editCartQuantity',array('get','post','direct','api_public')),
-            'editcartshipping'	      => array('editCartShipping',array('get','post','direct','api_public')),
-            'editfulfillmentorder'     => array('editFulfillmentOrder','direct'),
-            'edititem'                 => array('editItem','direct'),
-            'edititemvariant'   	      => array('editItemVariant','direct'),
-            'editorder'                => array('editOrder','direct'),
-            'edittransaction'          => array('editTransaction','direct'),
-            'emailbuyersbyitem'	      => array('emailBuyersByItem','direct'),
-            'emptycart'				      => array('emptyCart',array('get','post','direct','api_public')),
-            'formatvariantname'        => array('formatVariantName','direct'),
-            'getanalytics'             => array('getAnalytics','direct'),
-            'getcart'				      => array('getCart','direct'),
-            'getfulfillmentjobbytier'  => array('getFulfillmentJobByTier','direct'),
-            'getfulfillmentorder'      => array('getFulfillmentOrder','direct'),
-            'getitem'                  => array('getItem','direct'),
-            'getitemvariants'          => array('getItemVariants','direct'),
-            'getitemsforuser'          => array('getItemsForUser','direct'),
-            'getorder'                 => array('getOrder','direct'),
-            'getordersforuser'         => array('getOrdersForUser','direct'),
-            'getordersbycustomer'      => array('getOrdersByCustomer','direct'),
-            'getordersbyitem'		      => array('getOrdersByItem','direct'),
-            'getordertotals' 		      => array('getOrderTotals','direct'),
-            'getsubscriptiondetails'    => array('getSubscriptionDetails', 'direct'),
-            'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
-            'getsubscriptionplanbysku'       => array('getSubscriptionPlanBySku', 'direct'),
-            'getallsubscriptionsbyplan' => array('getAllSubscriptionsByPlan', 'direct'),
-            'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
-            'getsubscriptionstats'      => array('getSubscriptionStats', 'direct'),
-            'getsubscribercount'        => array('getSubscriberCount', 'direct'),
-            'getsubscriptiontransactions' => array('getSubscriptionTransactions', 'direct'),
-            'gettransaction'           => array('getTransaction','direct'),
-            'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
-            'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
-            'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
-            'loginsubscriber'        => array('loginSubscriber', array('get', 'post', 'direct', 'api_public')),
-            'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
-            'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
-            'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
-            'updatesubscription'    => array('updateSubscription', 'direct', 'public', 'get', 'post'),
-            'validatesubscription'      => array('validateSubscription', array('get', 'post', 'direct', 'api_public'))
-        );
+        $this->getRoutingTable();
 
         $this->plantPrep($request_type,$request);
 

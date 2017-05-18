@@ -27,32 +27,7 @@ use CASHMusic\Seeds\S3Seed;
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
-		$this->routing_table = array(
-			// alphabetical for ease of reading
-			// first value  = target method to call
-			// second value = allowed request methods (string or array of strings)
-			'addasset'                => array('addAsset','direct'),
-			'addlockcode'             => array('addLockCode','direct'),
-			'claim'                   => array('redirectToAsset',array('get','post','direct')),
-			'deleteasset'             => array('deleteAsset','direct'),
-			'editasset'               => array('editAsset','direct'),
-			'finalizeupload'          => array('finalizeUpload','direct'),
-			'findassets'              => array('findAssets','direct'),
-			'getanalytics'            => array('getAnalytics','direct'),
-			'getasset'                => array('getAssetInfo','direct'),
-			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
-			'getassetsforparent'      => array('getAssetsForParent','direct'),
-			'getassetsforuser'        => array('getAssetsForUser','direct'),
-			'getassetfromunlockcode'  => array('getAssetFromUnlockCode', 'direct'),
-			'getasseturl'             => array('getFinalAssetLocation','direct'),
-			'getfulfillmentassets'    => array('getStoredAssets','direct'),
-			'getuploadparameters'     => array('getUploadParameters','direct'),
-			'getpublicurl'				  => array('getPublicURL','direct'),
-			'makepublic'              => array('makePublic','direct'),
-			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
-			'unlock'                  => array('unlockAsset','direct')
-		);
-
+        $this->getRoutingTable();
 
 		$this->plantPrep($request_type,$request);
 	}

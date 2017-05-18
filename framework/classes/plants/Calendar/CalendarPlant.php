@@ -31,23 +31,7 @@ class CalendarPlant extends PlantBase {
 		$this->request_type = 'calendar';
 		$this->venues_api = CASH_VENUES_API;
 
-		$this->routing_table = array(
-			// alphabetical for ease of reading
-			// first value  = target method to call
-			// second value = allowed request methods (string or array of strings)
-			'addevent'          => array('addEvent','direct'),
-			'addvenue'          => array('addVenue','direct'),
-			'deleteevent'       => array('deleteEvent','direct'),
-			'deletevenue'       => array('deleteVenue','direct'),
-			'editevent'         => array('editEvent','direct'),
-			'editvenue'         => array('editVenue','direct'),
-			'findvenues'        => array('findVenues','direct'),
-			'getallvenues'      => array('getAllVenues','direct'),
-			'getevent'          => array('getEvent','direct'),
-			'getevents'         => array('getEvents','direct'),
-			'geteventsnostatus' => array('getEventsNoStatus', 'direct'),
-			'getvenue'          => array('getVenue','direct')
-		);
+        $this->getRoutingTable();
 
 
 		$this->plantPrep($request_type,$request);

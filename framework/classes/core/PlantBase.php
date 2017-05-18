@@ -5,6 +5,7 @@ namespace CASHMusic\Core;
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHResponse as CASHResponse;
 use ReflectionMethod;
+use Exception;
 
 /**
  * Abstract base for all Plant classes
@@ -161,12 +162,26 @@ use ReflectionMethod;
 	}
 
 	public function getRoutingTable() {
+	     try {
+             $routing_table = CASHSystem::getFileContents(
+                 CASH_PLATFORM_ROOT."/classes/plants/".ucfirst($this->request_type)."/"."routing.json"
+             );
+
+             $routing_to_array = json_decode($routing_table, true);
+             $this->routing_table = $routing_to_array['requestactions'];
+
+         } catch (Exception $e) {
+	         // couldn't find routing.json in plant folder
+             $this->routing_table = false;
+         }
+
 		return $this->routing_table;
 	}
 
 	public function routeBasicRequest() {
+        error_log(print_r($this->routing_table[$this->action], true));
 		if (isset($this->routing_table[$this->action])) {
-			if (!$this->checkRequestMethodFor($this->routing_table[$this->action][1])) { 
+			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
 				return $this->response->pushResponse(
 					403, $this->request_type, $this->action,
 					false,
@@ -174,7 +189,7 @@ use ReflectionMethod;
 				);
 			}
 			try {
-				$target_method = $this->routing_table[$this->action][0];
+				$target_method = $this->routing_table[$this->action]['plantfunction'];
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
 				$final_parameters = array();

@@ -26,46 +26,8 @@ class PeoplePlant extends PlantBase {
 
 	public function __construct($request_type,$request) {
 		$this->request_type = 'people';
-		$this->routing_table = array(
-			// alphabetical for ease of reading
-			// first value  = target method to call
-			// second value = allowed request methods (string or array of strings)
-			'addaddresstolist'       => array('addAddress','direct'),
-			'addbulkaddresses'		 => array('addBulkAddresses', 'direct'),
-			'addbulklistmembers'	 => array('addBulkListMembers', 'direct'),
-			'addcontact'             => array('addContact','direct'),
-			'addmailing'             => array('addMailing','direct'),
-			'addlist'                => array('addList','direct'),
-			'buildmailingcontent'	 => array('buildMailingContent', 'direct'),
-			'checkverification'      => array('addressIsVerified','direct'),
-			'deletelist'             => array('deleteList','direct'),
-			'editcontact'            => array('editContact','direct'),
-			'editlist'               => array('editList','direct'),
-			'editmailing'            => array('editMailing','direct'),
-			'getaddresslistinfo'     => array('getAddressListInfo','direct'),
-			'getanalytics'           => array('getAnalytics','direct'),
-			'getcontact'             => array('getContact','direct'),
-			'getcontactsbyinitials'  => array('getContactsByInitials','direct'),
-			'getcontactinitials'     => array('getContactInitials','direct'),
-			'getlistsforuser'        => array('getListsForUser','direct'),
-			'getlist'                => array('getList',array('direct','api_key')),
-			'getmailing'             => array('getMailing','direct'),
-			'getmailingmetadata'	 => array('getMailingMetaData', 'direct'),
-			'getmailinganalytics'    => array('getMailingAnalytics','direct'),
-			'getrecentactivity'      => array('getRecentActivity','direct'),
-			'getuser'                => array('getUser','direct'),
-			'getuseridforaddress'    => array('getUserIDForAddress','direct'),
-			'getuseridforusername'   => array('getUserIDForUsername','direct'),
-			'processwebhook'         => array('processWebhook',array('direct','api_key','get','post')),
-			'recordmailinganalytics' => array('addToMailingAnalytics','direct'),
-			'removeaddress'          => array('removeAddress',array('direct','post','get','api_key')),
-			'sendmailing'            => array('sendMailing','direct'),
-			'signintolist'           => array('validateUserForList',array('post','get','direct','api_key')),
-			'signup'                 => array('doSignup',array('direct','post','get','api_key')),
-			'storeuserdata'          => array('storeUserData','direct'),
-			'verifyaddress'          => array('doAddressVerification',array('direct','post','get')),
-			'viewlist'               => array('viewList','direct')
-		);
+        $this->getRoutingTable();
+
 		$this->plantPrep($request_type,$request);
 	}
 

@@ -33,34 +33,8 @@ class SystemPlant extends PlantBase {
 
 	public function __construct($request_type,$request) {
 		$this->request_type = 'system';
-		$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-			    'addbulklockcodes'		  => array('addBulkLockCodes', 'direct'),
-				'addlogin'                => array('addLogin','direct'),
-				'addlockcode'             => array('addLockCode','direct'),
-				'deletelogin'             => array('deleteLogin','direct'),
-				'deletesettings'          => array('deleteSettings','direct'),
-				'deletetemplate'          => array('deleteTemplate','direct'),
-				'getapicredentials'       => array('getAPICredentials','direct'),
-				'getlockcodes'            => array('getLockCodes','direct'),
-				'getnewesttemplate'       => array('getNewestTemplate','direct'),
-				'getsettings'             => array('getSettings','direct'),
-				'gettemplate'             => array('getTemplate','direct'),
-				'gettemplatesforuser'     => array('getTemplatesForUser','direct'),
-				'migratedb'               => array('doMigrateDB','direct'),
-				'redeemlockcode'          => array('redeemLockCode',array('direct','get','post')),
-				'setapicredentials'       => array('setAPICredentials','direct'),
-				'setlogincredentials'     => array('setLoginCredentials','direct'),
-				'setresetflag'            => array('setResetFlag','direct'),
-				'setsettings'             => array('setSettings','direct'),
-				'settemplate'             => array('setTemplate','direct'),
-				'startjssession'			  => array('startJSSession',array('direct','get','post','api_public')),
-				'validateapicredentials'  => array('validateAPICredentials','direct'),
-				'validatelogin'           => array('validateLogin','direct'),
-				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
-			);
+        $this->getRoutingTable();
+
 		// get global salt for hashing
 		$this->salt = CASHSystem::getSystemSettings('salt');
 		$this->plantPrep($request_type,$request);
