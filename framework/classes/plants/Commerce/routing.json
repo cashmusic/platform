@@ -1,130 +1,558 @@
 {
 	"restfulnouns":{
-		"assets":{
+		"items":{
 			"verbs":{
 				"POST":{
-					"description":"Add a new asset.",
-					"plantfunction":"addAsset",
+					"description":"Add a new item.",
+					"plantfunction":"addItem",
 					"authrequired":true
 				},
 				"GET":{
-					"description":"Get asset by id.",
-					"plantfunction":"getAssetInfo",
+					"description":"Get item by id.",
+					"plantfunction":"getItem",
 					"authrequired":false
 				},
 				"PATCH":{
-					"description":"Modify an existing asset.",
-					"plantfunction":"editAsset",
+					"description":"Modify an existing item.",
+					"plantfunction":"editItem",
 					"authrequired":true
 				},
 				"DELETE":{
-					"description":"Delete an asset. Deletion of asset file handled on seed level.",
-					"plantfunction":"deleteAsset",
+					"description":"Delete an item.",
+					"plantfunction":"deleteItem",
+					"authrequired":true
+				}
+			}
+		},
+		"itemvariants":{
+			"verbs":{
+				"POST":{
+					"description":"Add new item variants.",
+					"plantfunction":"addItemVariants",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get item variants.",
+					"plantfunction":"getItemVariants",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing item variant.",
+					"plantfunction":"editItemVariant",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete an item variant.",
+					"plantfunction":"deleteItemVariant",
+					"authrequired":true
+				}
+			}
+		},
+		"orders":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new order.",
+					"plantfunction":"addOrder",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get an order by id.",
+					"plantfunction":"getOrder",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing order.",
+					"plantfunction":"editOrder",
+					"authrequired":true
+				}
+			}
+		},
+		"transactions":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new transaction.",
+					"plantfunction":"addTransaction",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get transaction by id.",
+					"plantfunction":"getTransaction",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing transaction.",
+					"plantfunction":"editTransaction",
+					"authrequired":true
+				}
+			}
+		},
+		"carts":{
+			"verbs":{
+				"POST":{
+					"description":"Add to cart.",
+					"plantfunction":"addToCart",
+					"authrequired":false
+				},
+				"GET":{
+					"description":"Get cart contents.",
+					"plantfunction":"getCart",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify a cart item's quantity.",
+					"plantfunction":"editCartQuantity",
+					"authrequired":true
+				}
+			}
+		},
+		"subscriptionplans":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new subscription plan.",
+					"plantfunction":"createSubscriptionPlan",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get subscription plan by id.",
+					"plantfunction":"getSubscriptionPlan",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing subscription plan.",
+					"plantfunction":"updateSubscriptionPlan",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete a subscription plan.",
+					"plantfunction":"deleteSubscriptionPlan",
+					"authrequired":true
+				}
+			}
+		},
+		"subscriptions":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new subscription.",
+					"plantfunction":"initiateSubscription",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get subscription by id.",
+					"plantfunction":"getSubscriptionDetails",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify an existing subscription.",
+					"plantfunction":"updateSubscription",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete a subscription.",
+					"plantfunction":"deleteSubscription",
 					"authrequired":true
 				}
 			}
 		}
 	},
 	"requestactions":{
-		"addasset":{
-			"description":"Add a new asset.",
-			"plantfunction":"addAsset",
-			"security":["direct"]
+		"additem": {
+			"description": "Add an item.",
+			"plantfunction": "addItem",
+			"security": [
+				"direct"
+			]
 		},
-		"addlockcode":{
-			"description":"Creates a lock code for asset redemption.",
-			"plantfunction":"addLockCode",
-			"security":["direct"]
+		"additemvariants": {
+			"description": "Add variants to an item.",
+			"plantfunction": "addItemVariants",
+			"security": [
+				"direct"
+			]
 		},
-		"claim":{
-			"description":"Claim an asset and redirect if lock code validates.",
-			"plantfunction":"redirectToAsset",
-			"security":["direct"]
+		"addorder": {
+			"description": "Add a new order.",
+			"plantfunction": "addOrder",
+			"security": [
+				"direct"
+			]
 		},
-		"deleteasset":{
-			"description":"Delete an asset.",
-			"plantfunction":"deleteAsset",
-			"security":["direct"]
+		"addtocart": {
+			"description": "Add item to cart.",
+			"plantfunction": "addToCart",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
 		},
-		"editasset":{
-			"description":"Edit an asset.",
-			"plantfunction":"editAsset",
-			"security":["direct"]
+		"addtransaction": {
+			"description": "Add a new transaction.",
+			"plantfunction": "addTransaction",
+			"security": [
+				"direct"
+			]
 		},
-		"finalizeupload":{
-			"description":"Finalize asset upload.",
-			"plantfunction":"finalizeUpload",
-			"security":["direct"]
+		"cancelorder": {
+			"description": "Cancel an order.",
+			"plantfunction": "cancelOrder",
+			"security": [
+				"direct"
+			]
 		},
-		"findassets":{
-			"description":"Find assets based on certain criteria other than just id.",
-			"plantfunction":"findAssets",
-			"security":["direct"]
+		"cancelsubscription": {
+			"description": "Cancel a subscription.",
+			"plantfunction": "cancelSubscription",
+			"security": [
+				"direct"
+			]
 		},
-		"getanalytics":{
-			"description":"Get analytics for a given asset.",
-			"plantfunction":"getAnalytics",
-			"security":["direct"]
+		"createsubscriptionplan": {
+			"description": "Create a subscription plan.",
+			"plantfunction": "createSubscriptionPlan",
+			"security": [
+				"direct"
+			]
 		},
-		"getasset":{
-			"description":"Get asset by id.",
-			"plantfunction":"getAsset",
-			"security":["direct"]
+		"createcompedsubscription": {
+			"description": "Create a comped subscription.",
+			"plantfunction": "createCompedSubscription",
+			"security": [
+				"direct"
+			]
 		},
-		"getassetsforconnection":{
-			"description":"Get assets by connection type.",
-			"plantfunction":"getAssetsForConnection",
-			"security":["direct"]
+		"deleteitem": {
+			"description": "Delete an item.",
+			"plantfunction": "deleteItem",
+			"security": [
+				"direct"
+			]
 		},
-		"getassetsforparent":{
-			"description":"Get assets by parent id.",
-			"plantfunction":"getAssetsForParent",
-			"security":["direct"]
+		"deleteitemvariant": {
+			"description": "Delete an item variant.",
+			"plantfunction": "deleteItemVariant",
+			"security": [
+				"direct"
+			]
 		},
-		"getassetsforuser":{
-			"description":"Get assets by user id.",
-			"plantfunction":"getAssetsForUser",
-			"security":["direct"]
+		"deleteitemvariants": {
+			"description": "Delete all item variants.",
+			"plantfunction": "deleteItemVariants",
+			"security": [
+				"direct"
+			]
 		},
-		"getassetfromunlockcode":{
-			"description":"Get asset by unlock code.",
-			"plantfunction":"getAssetFromUnlockCode",
-			"security":["direct"]
+		"deletesubscription": {
+			"description": "Delete a subscription.",
+			"plantfunction": "deleteSubscription",
+			"security": [
+				"direct"
+			]
 		},
-		"getasseturl":{
-			"description":"Get final asset location.",
-			"plantfunction":"getFinalAssetLocation",
-			"security":["direct"]
+		"deletesubscriptionplan": {
+			"description": "Delete a subscription plan.",
+			"plantfunction": "deleteSubscriptionPlan",
+			"security": [
+				"direct"
+			]
 		},
-		"getfulfillmentassets":{
-			"description":"Get stored assets.",
-			"plantfunction":"getStoredAssets",
-			"security":["direct"]
+		"editcartquantity": {
+			"description": "Edit cart item quantity.",
+			"plantfunction": "editCartQuantity",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
 		},
-		"getuploadparameters":{
-			"description":"Build upload parameters for upload method.",
-			"plantfunction":"getUploadParameters",
-			"security":["direct"]
+		"editcartshipping": {
+			"description": "Edit a cart's shipping value.",
+			"plantfunction": "editCartShipping",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
 		},
-		"getpublicurl":{
-			"description":"Get public url for asset.",
-			"plantfunction":"getPublicURL",
-			"security":["direct"]
+		"editfulfillmentorder": {
+			"description": "Edit a fulfillment order.",
+			"plantfunction": "editFulfillmentOrder",
+			"security": [
+				"direct"
+			]
 		},
-		"makepublic":{
-			"description":"Make asset public.",
-			"plantfunction":"makePublic",
-			"security":["direct"]
+		"edititem": {
+			"description": "Edit an existing item.",
+			"plantfunction": "editItem",
+			"security": [
+				"direct"
+			]
 		},
-		"redeemcode":{
-			"description":"Redeem lock code for asset.",
-			"plantfunction":"redeemLockCode",
-			"security":["direct"]
+		"edititemvariant": {
+			"description": "Edit an item's variant.",
+			"plantfunction": "editItemVariant",
+			"security": [
+				"direct"
+			]
 		},
-		"unlock":{
-			"description":"Unlock an asset.",
-			"plantfunction":"unlockAsset",
-			"security":["direct"]
+		"editorder": {
+			"description": "Edit an existing order.",
+			"plantfunction": "editOrder",
+			"security": [
+				"direct"
+			]
+		},
+		"edittransaction": {
+			"description": "Edit a transaction.",
+			"plantfunction": "editTransaction",
+			"security": [
+				"direct"
+			]
+		},
+		"emailbuyersbyitem": {
+			"description": "Email buyers for an item.",
+			"plantfunction": "emailBuyersByItem",
+			"security": [
+				"direct"
+			]
+		},
+		"emptycart": {
+			"description": "Empty cart.",
+			"plantfunction": "emptyCart",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"formatvariantname": {
+			"description": "Format a variant's name for display.",
+			"plantfunction": "formatVariantName",
+			"security": [
+				"direct"
+			]
+		},
+		"getanalytics": {
+			"description": "Get commerce analytics.",
+			"plantfunction": "getAnalytics",
+			"security": [
+				"direct"
+			]
+		},
+		"getcart": {
+			"description": "Get cart contents.",
+			"plantfunction": "getCart",
+			"security": [
+				"direct"
+			]
+		},
+		"getfulfillmentjobbytier": {
+			"description": "Get fulfillment jobs by tier.",
+			"plantfunction": "getFulfillmentJobByTier",
+			"security": [
+				"direct"
+			]
+		},
+		"getfulfillmentorder": {
+			"description": "Get a fulfillment order.",
+			"plantfunction": "getFulfillmentOrder",
+			"security": [
+				"direct"
+			]
+		},
+		"getitem": {
+			"description": "Get an item by id.",
+			"plantfunction": "getItem",
+			"security": [
+				"direct"
+			]
+		},
+		"getitemvariants": {
+			"description": "Get an item's variants.",
+			"plantfunction": "getItemVariants",
+			"security": [
+				"direct"
+			]
+		},
+		"getitemsforuser": {
+			"description": "Get items by user id.",
+			"plantfunction": "getItemsForUser",
+			"security": [
+				"direct"
+			]
+		},
+		"getorder": {
+			"description": "Get an order by id.",
+			"plantfunction": "getOrder",
+			"security": [
+				"direct"
+			]
+		},
+		"getordersforuser": {
+			"description": "Get orders by user id.",
+			"plantfunction": "getOrdersForUser",
+			"security": [
+				"direct"
+			]
+		},
+		"getordersbycustomer": {
+			"description": "Get orders by customer.",
+			"plantfunction": "getOrdersByCustomer",
+			"security": [
+				"direct"
+			]
+		},
+		"getordersbyitem": {
+			"description": "Get orders by item.",
+			"plantfunction": "getOrdersByItem",
+			"security": [
+				"direct"
+			]
+		},
+		"getordertotals": {
+			"description": "Get order totals.",
+			"plantfunction": "getOrderTotals",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptiondetails": {
+			"description": "Get subscription details.",
+			"plantfunction": "getSubscriptionDetails",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptionplan": {
+			"description": "Get a subscription plan by id.",
+			"plantfunction": "getSubscriptionPlan",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptionplanbysku": {
+			"description": "Get a subscription plan by seed identifier.",
+			"plantfunction": "getSubscriptionPlanBySku",
+			"security": [
+				"direct"
+			]
+		},
+		"getallsubscriptionsbyplan": {
+			"description": "Get all subscriptions by plan id.",
+			"plantfunction": "getAllSubscriptionsByPlan",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptionplans": {
+			"description": "Get all subscription plans.",
+			"plantfunction": "getAllSubscriptionPlans",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptionstats": {
+			"description": "Get subscription stats.",
+			"plantfunction": "getSubscriptionStats",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscribercount": {
+			"description": "Get subscriber count.",
+			"plantfunction": "getSubscriberCount",
+			"security": [
+				"direct"
+			]
+		},
+		"getsubscriptiontransactions": {
+			"description": "Get subscription transactions.",
+			"plantfunction": "getSubscriptionTransactions",
+			"security": [
+				"direct"
+			]
+		},
+		"gettransaction": {
+			"description": "Get a transaction by id.",
+			"plantfunction": "getTransaction",
+			"security": [
+				"direct"
+			]
+		},
+		"finalizepayment": {
+			"description": "Finalize a payment, seed dependent.",
+			"plantfunction": "finalizePayment",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"initiatecheckout": {
+			"description": "Start a checkout process.",
+			"plantfunction": "initiateCheckout",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"initiatesubscription": {
+			"description": "Start a checkout process for subscription.",
+			"plantfunction": "initiateSubscription",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"loginsubscriber": {
+			"description": "Login subscriber with valid or comped credentials.",
+			"plantfunction": "loginSubscriber",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"processwebhook": {
+			"description": "Process webhooks for various seed services.",
+			"plantfunction": "processWebhook",
+			"security": [
+				"direct",
+				"public",
+				"get",
+				"post"
+			]
+		},
+		"sendorderreceipt": {
+			"description": "Send an order receipt to customer.",
+			"plantfunction": "sendOrderReceipt",
+			"security": [
+				"direct"
+			]
+		},
+		"updatesubscriptionplan": {
+			"description": "Edit an existing subscription plan.",
+			"plantfunction": "updateSubscriptionPlan",
+			"security": [
+				"direct"
+			]
+		},
+		"updatesubscription": {
+			"description": "Update an existing subscription.",
+			"plantfunction": "updateSubscription",
+			"security": [
+				"direct"
+			]
+		},
+		"validatesubscription": {
+			"description": "Validate a subscription, for login.",
+			"plantfunction": "validateSubscription",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
 		}
 	}
 }
