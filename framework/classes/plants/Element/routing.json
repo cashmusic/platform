@@ -49,121 +49,170 @@
 			}
 		}
 	},
-	"requestactions":{
-		"addelementtocampaign":{
-			"description":"Add an element to a campaign.",
-			"plantfunction":"addElementToCampaign",
-			"security":["direct"]
+	"requestactions":
+	{
+		"addelementtocampaign": {
+			"description": "Add an element to a campaign.",
+			"plantfunction": "addElementToCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"addcampaign":{
-			"description":"Add a new campaign.",
-			"plantfunction":"addCampaign",
-			"security":["direct"]
+		"addcampaign": {
+			"description": "Add a new campaign.",
+			"plantfunction": "addCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"addelement":{
-			"description":"Add a new element.",
-			"plantfunction":"addElement",
-			"security":["direct"]
+		"addelement": {
+			"description": "Add a new element.",
+			"plantfunction": "addElement",
+			"security": [
+				"direct"
+			]
 		},
-		"addlockcode":{
-			"description":"Add a lock code for an element.",
-			"plantfunction":"addLockCode",
-			"security":["direct"]
+		"addlockcode": {
+			"description": "Add a lock code for an element.",
+			"plantfunction": "addLockCode",
+			"security": [
+				"direct"
+			]
 		},
-		"checkuserrequirements":{
-			"description":"Check user requirements for element.",
-			"plantfunction":"checkUserRequirements",
-			"security":["direct"]
+		"checkuserrequirements": {
+			"description": "Check user requirements for element.",
+			"plantfunction": "checkUserRequirements",
+			"security": [
+				"direct"
+			]
 		},
-		"deletecampaign":{
-			"description":"Delete existing campaign.",
-			"plantfunction":"deleteCampaign",
-			"security":["direct"]
+		"deletecampaign": {
+			"description": "Delete existing campaign.",
+			"plantfunction": "deleteCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"deleteelement":{
-			"description":"Delete an existing element.",
-			"plantfunction":"deleteElement",
-			"security":["direct"]
+		"deleteelement": {
+			"description": "Delete an existing element.",
+			"plantfunction": "deleteElement",
+			"security": [
+				"direct"
+			]
 		},
-		"editelement":{
-			"description":"Edit an existing element.",
-			"plantfunction":"editElement",
-			"security":["direct"]
+		"editelement": {
+			"description": "Edit an existing element.",
+			"plantfunction": "editElement",
+			"security": [
+				"direct"
+			]
 		},
-		"editcampaign":{
-			"description":"Edit an existing campaign.",
-			"plantfunction":"editCampaign",
-			"security":["direct"]
+		"editcampaign": {
+			"description": "Edit an existing campaign.",
+			"plantfunction": "editCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"getanalytics":{
-			"description":"Get analytics for element.",
-			"plantfunction":"getAnalytics",
-			"security":["direct"]
+		"getanalytics": {
+			"description": "Get analytics for element.",
+			"plantfunction": "getAnalytics",
+			"security": [
+				"direct"
+			]
 		},
-		"getanalyticsforcampaign":{
-			"description":"Get analytics for campaign.",
-			"plantfunction":"getAnalyticsForCampaign",
-			"security":["direct"]
+		"getanalyticsforcampaign": {
+			"description": "Get analytics for campaign.",
+			"plantfunction": "getAnalyticsForCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"getcampaign":{
-			"description":"Get existing campaign.",
-			"plantfunction":"getCampaign",
-			"security":["direct"]
+		"getcampaign": {
+			"description": "Get existing campaign.",
+			"plantfunction": "getCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"getelement":{
-			"description":"Get existing element.",
-			"plantfunction":"getElement",
-			"security":["direct"]
+		"getelement": {
+			"description": "Get existing element.",
+			"plantfunction": "getElement",
+			"security": [
+				"direct"
+			]
 		},
-		"getcampaignsforuser":{
-			"description":"Get campaigns by user id.",
-			"plantfunction":"getCampaignsForUser",
-			"security":["direct"]
+		"getcampaignsforuser": {
+			"description": "Get campaigns by user id.",
+			"plantfunction": "getCampaignsForUser",
+			"security": [
+				"direct"
+			]
 		},
-		"getcampaignforelement":{
-			"description":"Get campaign by element id.",
-			"plantfunction":"getCampaignForElement",
-			"security":["direct"]
+		"getcampaignforelement": {
+			"description": "Get campaign by element id.",
+			"plantfunction": "getCampaignForElement",
+			"security": [
+				"direct"
+			]
 		},
-		"getelementsforcampaign":{
-			"description":"Get elements by campaign.",
-			"plantfunction":"getElementsForCampaign",
-			"security":["direct"]
+		"getelementsforcampaign": {
+			"description": "Get elements by campaign.",
+			"plantfunction": "getElementsForCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"getelementsforuser":{
-			"description":"Get elements by user id.",
-			"plantfunction":"getElementsForUser",
-			"security":["direct"]
+		"getelementsforuser": {
+			"description": "Get elements by user id.",
+			"plantfunction": "getElementsForUser",
+			"security": [
+				"direct"
+			]
 		},
-		"getelementtemplate":{
-			"description":"Get the element template markup.",
-			"plantfunction":"getElementTemplate",
-			"security":["direct"]
+		"getelementtemplate": {
+			"description": "Get the element template markup.",
+			"plantfunction": "getElementTemplate",
+			"security": [
+				"direct"
+			]
 		},
-		"getmarkup":{
-			"description":"Get markup for element.",
-			"plantfunction":"getMarkup",
-			"security":["direct"]
+		"getmarkup": {
+			"description": "Get markup for element.",
+			"plantfunction": "getElementMarkup",
+			"security": [
+				"direct"
+			]
 		},
-		"getsupportedtypes":{
-			"description":"Get supported types.",
-			"plantfunction":"getSupportedTypes",
-			"security":["direct"]
+		"getsupportedtypes": {
+			"description": "Get supported types.",
+			"plantfunction": "getSupportedTypes",
+			"security": [
+				"direct"
+			]
 		},
-		"redeemcode":{
-			"description":"Redeem lock code for element asset.",
-			"plantfunction":"redeemLockCode",
-			"security":["direct"]
+		"redeemcode": {
+			"description": "Redeem lock code for element asset.",
+			"plantfunction": "redeemLockCode",
+			"security": [
+				"direct",
+				"get",
+				"post"
+			]
 		},
-		"removeelementfromcampaign":{
-			"description":"Remove an element from existing campaign.",
-			"plantfunction":"removeElementFromCampaign",
-			"security":["direct"]
+		"removeelementfromcampaign": {
+			"description": "Remove an element from existing campaign.",
+			"plantfunction": "removeElementFromCampaign",
+			"security": [
+				"direct"
+			]
 		},
-		"setelementtemplate":{
-			"description":"Set the element template.",
-			"plantfunction":"setElementTemplate",
-			"security":["direct"]
+		"setelementtemplate": {
+			"description": "Set the element template.",
+			"plantfunction": "setElementTemplate",
+			"security": [
+				"direct"
+			]
 		}
 	}
 }

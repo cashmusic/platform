@@ -45,180 +45,260 @@
 		}
 	},
 	"requestactions":{
-		"addaddresstolist":{
-			"description":"Add a new address to a list.",
-			"plantfunction":"addAddress",
-			"security":["direct"]
+		"addaddresstolist": {
+			"description": "Add a new address to a list.",
+			"plantfunction": "addAddress",
+			"security": [
+				"direct"
+			]
 		},
-		"addbulkaddresses":{
-			"description":"Add bulk addresses to a list.",
-			"plantfunction":"addBulkAddresses",
-			"security":["direct"]
+		"addbulkaddresses": {
+			"description": "Add bulk addresses to a list.",
+			"plantfunction": "addBulkAddresses",
+			"security": [
+				"direct"
+			]
 		},
-		"addbulklistmembers":{
-			"description":"Add bulk list members.",
-			"plantfunction":"addBulkListMembers",
-			"security":["direct"]
+		"addbulklistmembers": {
+			"description": "Add bulk list members.",
+			"plantfunction": "addBulkListMembers",
+			"security": [
+				"direct"
+			]
 		},
-		"addcontact":{
-			"description":"Add a contact.",
-			"plantfunction":"addContact",
-			"security":["direct"]
+		"addcontact": {
+			"description": "Add a contact.",
+			"plantfunction": "addContact",
+			"security": [
+				"direct"
+			]
 		},
-		"addmailing":{
-			"description":"Add a new mailing.",
-			"plantfunction":"addMailing",
-			"security":["direct"]
+		"addmailing": {
+			"description": "Add a new mailing.",
+			"plantfunction": "addMailing",
+			"security": [
+				"direct"
+			]
 		},
-		"addlist":{
-			"description":"Add a new list.",
-			"plantfunction":"addList",
-			"security":["direct"]
+		"addlist": {
+			"description": "Add a new list.",
+			"plantfunction": "addList",
+			"security": [
+				"direct"
+			]
 		},
-		"buildmailingcontent":{
-			"description":"Build content for a mailing.",
-			"plantfunction":"buildMailingContent",
-			"security":["direct"]
+		"buildmailingcontent": {
+			"description": "Build content for a mailing.",
+			"plantfunction": "buildMailingContent",
+			"security": [
+				"direct"
+			]
 		},
-		"checkverification":{
-			"description":"Check verification for list address.",
-			"plantfunction":"addressIsVerified",
-			"security":["direct"]
+		"checkverification": {
+			"description": "Check verification for list address.",
+			"plantfunction": "addressIsVerified",
+			"security": [
+				"direct"
+			]
 		},
-		"deletelist":{
-			"description":"Delete an existing list.",
-			"plantfunction":"deleteList",
-			"security":["direct"]
+		"deletelist": {
+			"description": "Delete an existing list.",
+			"plantfunction": "deleteList",
+			"security": [
+				"direct"
+			]
 		},
-		"editcontact":{
-			"description":"Edit an existing contact.",
-			"plantfunction":"editContact",
-			"security":["direct"]
+		"editcontact": {
+			"description": "Edit an existing contact.",
+			"plantfunction": "editContact",
+			"security": [
+				"direct"
+			]
 		},
-		"editlist":{
-			"description":"Edit an existing list.",
-			"plantfunction":"editList",
-			"security":["direct"]
+		"editlist": {
+			"description": "Edit an existing list.",
+			"plantfunction": "editList",
+			"security": [
+				"direct"
+			]
 		},
-		"editmailing":{
-			"description":"Edit an existing mailing.",
-			"plantfunction":"editMailing",
-			"security":["direct"]
+		"editmailing": {
+			"description": "Edit an existing mailing.",
+			"plantfunction": "editMailing",
+			"security": [
+				"direct"
+			]
 		},
-		"getaddresslistinfo":{
-			"description":"Get the address list info.",
-			"plantfunction":"getAddressListInfo",
-			"security":["direct"]
+		"getaddresslistinfo": {
+			"description": "Get the address list info.",
+			"plantfunction": "getAddressListInfo",
+			"security": [
+				"direct"
+			]
 		},
-		"getanalytics":{
-			"description":"Get analytics for list.",
-			"plantfunction":"getAnalytics",
-			"security":["direct"]
+		"getanalytics": {
+			"description": "Get analytics for list.",
+			"plantfunction": "getAnalytics",
+			"security": [
+				"direct"
+			]
 		},
-		"getcontact":{
-			"description":"Get contact.",
-			"plantfunction":"getContact",
-			"security":["direct"]
+		"getcontact": {
+			"description": "Get contact.",
+			"plantfunction": "getContact",
+			"security": [
+				"direct"
+			]
 		},
-		"getcontactsbyinitials":{
-			"description":"Get contacts by initials.",
-			"plantfunction":"getContactsByInitials",
-			"security":["direct"]
+		"getcontactsbyinitials": {
+			"description": "Get contacts by initials.",
+			"plantfunction": "getContactsByInitials",
+			"security": [
+				"direct"
+			]
 		},
-		"getcontactinitials":{
-			"description":"Get contact initials.",
-			"plantfunction":"getContactInitials",
-			"security":["direct"]
+		"getcontactinitials": {
+			"description": "Get contact initials.",
+			"plantfunction": "getContactInitials",
+			"security": [
+				"direct"
+			]
 		},
-		"getlistsforuser":{
-			"description":"Get lists by user id.",
-			"plantfunction":"getListsForUser",
-			"security":["direct"]
+		"getlistsforuser": {
+			"description": "Get lists by user id.",
+			"plantfunction": "getListsForUser",
+			"security": [
+				"direct"
+			]
 		},
-		"getlist":{
-			"description":"Get list by id.",
-			"plantfunction":"getList",
-			"security":["direct"]
+		"getlist": {
+			"description": "Get list by id.",
+			"plantfunction": "getList",
+			"security": [
+				"direct"
+			]
 		},
-		"getmailing":{
-			"description":"Get mailing by id.",
-			"plantfunction":"getMailing",
-			"security":["direct"]
+		"getmailing": {
+			"description": "Get mailing by id.",
+			"plantfunction": "getMailing",
+			"security": [
+				"direct"
+			]
 		},
-		"getmailingmetadata":{
-			"description":"Get mailing metadata.",
-			"plantfunction":"getMailingMetaData",
-			"security":["direct"]
+		"getmailingmetadata": {
+			"description": "Get mailing metadata.",
+			"plantfunction": "getMailingMetaData",
+			"security": [
+				"direct"
+			]
 		},
-		"getmailinganalytics":{
-			"description":"Get mailing analytics.",
-			"plantfunction":"getMailingAnalytics",
-			"security":["direct"]
+		"getmailinganalytics": {
+			"description": "Get mailing analytics.",
+			"plantfunction": "getMailingAnalytics",
+			"security": [
+				"direct"
+			]
 		},
-		"getrecentactivity":{
-			"description":"Get recent activity.",
-			"plantfunction":"getRecentActivity",
-			"security":["direct"]
+		"getrecentactivity": {
+			"description": "Get recent activity.",
+			"plantfunction": "getRecentActivity",
+			"security": [
+				"direct"
+			]
 		},
-		"getuser":{
-			"description":"Get user by id.",
-			"plantfunction":"getUser",
-			"security":["direct"]
+		"getuser": {
+			"description": "Get user by id.",
+			"plantfunction": "getUser",
+			"security": [
+				"direct"
+			]
 		},
-		"getuseridforaddress":{
-			"description":"Get user ID for address.",
-			"plantfunction":"getUserIDForAddress",
-			"security":["direct"]
+		"getuseridforaddress": {
+			"description": "Get user ID for address.",
+			"plantfunction": "getUserIDForAddress",
+			"security": [
+				"direct"
+			]
 		},
-		"getuseridforusername":{
-			"description":"Get recent activity.",
-			"plantfunction":"getUserIDForUsername",
-			"security":["direct"]
+		"getuseridforusername": {
+			"description": "Get recent activity.",
+			"plantfunction": "getUserIDForUsername",
+			"security": [
+				"direct"
+			]
 		},
-		"processwebhook":{
-			"description":"Process webhooks for seed services.",
-			"plantfunction":"processWebhook",
-			"security":["direct"]
+		"processwebhook": {
+			"description": "Process webhooks for seed services.",
+			"plantfunction": "processWebhook",
+			"security": [
+				"direct",
+				"get",
+				"post"
+			]
 		},
-		"recordmailinganalytics":{
-			"description":"Record analytics for mailing.",
-			"plantfunction":"addToMailingAnalytics",
-			"security":["direct"]
+		"recordmailinganalytics": {
+			"description": "Record analytics for mailing.",
+			"plantfunction": "addToMailingAnalytics",
+			"security": [
+				"direct"
+			]
 		},
-		"removeaddress":{
-			"description":"Remove address from list.",
-			"plantfunction":"removeAddress",
-			"security":["direct"]
+		"removeaddress": {
+			"description": "Remove address from list.",
+			"plantfunction": "removeAddress",
+			"security": [
+				"direct",
+				"post",
+				"get"
+			]
 		},
-		"sendmailing":{
-			"description":"Send mailing.",
-			"plantfunction":"sendMailing",
-			"security":["direct"]
+		"sendmailing": {
+			"description": "Send mailing.",
+			"plantfunction": "sendMailing",
+			"security": [
+				"direct"
+			]
 		},
-		"signintolist":{
-			"description":"Sign in to list.",
-			"plantfunction":"validateUserForList",
-			"security":["direct"]
+		"signintolist": {
+			"description": "Sign in to list.",
+			"plantfunction": "validateUserForList",
+			"security": [
+				"post",
+				"get",
+				"direct"
+			]
 		},
-		"signup":{
-			"description":"Sign up.",
-			"plantfunction":"doSignup",
-			"security":["direct"]
+		"signup": {
+			"description": "Sign up.",
+			"plantfunction": "doSignup",
+			"security": [
+				"direct",
+				"post",
+				"get"
+			]
 		},
-		"storeuserdata":{
-			"description":"Store user data.",
-			"plantfunction":"storeUserData",
-			"security":["direct"]
+		"storeuserdata": {
+			"description": "Store user data.",
+			"plantfunction": "storeUserData",
+			"security": [
+				"direct"
+			]
 		},
-		"verifyaddress":{
-			"description":"Verify address for list.",
-			"plantfunction":"doAddressVerification",
-			"security":["direct"]
+		"verifyaddress": {
+			"description": "Verify address for list.",
+			"plantfunction": "doAddressVerification",
+			"security": [
+				"direct",
+				"post",
+				"get"
+			]
 		},
-		"viewlist":{
-			"description":"View list.",
-			"plantfunction":"viewList",
-			"security":["direct"]
+		"viewlist": {
+			"description": "View list.",
+			"plantfunction": "viewList",
+			"security": [
+				"direct"
+			]
 		}
 	}
 }
