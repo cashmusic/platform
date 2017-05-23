@@ -27,6 +27,7 @@ $user_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];

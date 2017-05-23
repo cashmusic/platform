@@ -164,7 +164,7 @@ use Exception;
 	public function getRoutingTable() {
 	     try {
              $routing_table = CASHSystem::getFileContents(
-                 CASH_PLATFORM_ROOT."/classes/plants/".ucfirst($this->request_type)."/"."routing.json"
+                 CASH_PLATFORM_ROOT."/classes/plants/".ucfirst($this->request_type)."/"."routing.json", true
              );
 
              $routing_to_array = json_decode($routing_table, true);
@@ -179,7 +179,6 @@ use Exception;
 	}
 
 	public function routeBasicRequest() {
-        error_log(print_r($this->routing_table[$this->action], true));
 		if (isset($this->routing_table[$this->action])) {
 			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
 				return $this->response->pushResponse(
@@ -190,8 +189,10 @@ use Exception;
 			}
 			try {
 				$target_method = $this->routing_table[$this->action]['plantfunction'];
+
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
+
 				$final_parameters = array();
 				foreach ($params as $param) {
 					// $param is an instance of ReflectionParameter
@@ -219,6 +220,7 @@ use Exception;
 						}
 					}
 				}
+
 				// call the method using call_user_func_array — slower than ReflectionMethod::invokeArgs
 				// but allows us to stay in $this context, calling protected methods the proper way
 				$result = call_user_func_array(array($this, $target_method), $final_parameters);

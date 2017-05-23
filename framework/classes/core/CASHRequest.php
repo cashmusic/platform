@@ -68,7 +68,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	}
 
 	public function processRequest($request,$method='direct') {
-
         $namespace = '\CASHMusic\Plants\\';
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
@@ -84,6 +83,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 
 					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
 					$this->plant = new $class_name($this->request_method,$this->request);
+
 					$this->response = $this->plant->processRequest();
 				}
 			}

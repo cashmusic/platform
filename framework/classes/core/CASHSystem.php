@@ -955,7 +955,7 @@ abstract class CASHSystem  {
 		return false;
 	}
 
-	public static function getFileContents($file_uri) {
+	public static function getFileContents($file_uri, $get_contents=false) {
 		try {
 			
 			if (file_exists($file_uri)) {
@@ -963,6 +963,8 @@ abstract class CASHSystem  {
 			} else {
 				return false;
 			}
+
+			if ($get_contents) return stream_get_contents($file);
 
 		} catch (Exception $e) {
 
