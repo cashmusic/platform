@@ -144,17 +144,13 @@ class TwitterSeed extends SeedBase {
 	// check the cache before requesting new data. 10 minute shelf life in there
 	protected function getCachedAPIResponse($endpoint,$params) {
 		$data_name = http_build_query($params, '', '-');
-		$data = false; //$this->getCacheData($this->settings_type,$data_name, true, true, false);
-
-		CASHSystem::errorLog($this->twitter);
-        CASHSystem::errorLog($this->error_message);
+		$data = $this->getCacheData($this->settings_type,$data_name, true, true, false);
 
 		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
-			CASHSystem::errorLog($data);
 
 			if (!$data) {
-				$data = false; //$this->getCacheData($this->settings_type,$data_name,true, true, false);
+				$data = $this->getCacheData($this->settings_type,$data_name,true, true, false);
 			} else {
 				foreach ($data as $tweet) {
 
