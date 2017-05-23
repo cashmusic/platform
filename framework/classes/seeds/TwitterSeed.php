@@ -150,6 +150,8 @@ class TwitterSeed extends SeedBase {
 
 		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
+			CASHSystem::errorLog($data);
+
 			if (!$data) {
 				$data = false; //$this->getCacheData($this->settings_type,$data_name,true, true, false);
 			} else {
