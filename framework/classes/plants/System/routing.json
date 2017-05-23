@@ -176,14 +176,16 @@
 			"security": [
 				"direct",
 				"get",
-				"post"
+				"post",
+				"api_public"
 			]
 		},
 		"validateapicredentials": {
 			"description": "Validate API credentials.",
 			"plantfunction": "validateAPICredentials",
 			"security": [
-				"direct"
+				"direct",
+				"api_public"
 			]
 		},
 		"validatelogin": {
@@ -199,7 +201,8 @@
 			"security": [
 				"direct",
 				"get",
-				"post"
+				"post",
+				"api_public"
 			]
 		}
 	}
