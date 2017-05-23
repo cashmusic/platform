@@ -39,11 +39,14 @@ class SocialFeeds extends ElementBase {
 		$tumblr_feeds = array();
 
 		$feedcount = 0;
-		CASHSystem::errorLog("----social feed options\n");
-		CASHSystem::errorLog($this->options);
+
 		if (isset($this->options['twitter'])) {
 			if (is_array($this->options['twitter'])) {
 				foreach($this->options['twitter'] as $feedname => $feed) {
+
+                    CASHSystem::errorLog("----feed");
+                    CASHSystem::errorLog($feed);
+
 					$twitter_request = $this->twitter_seed->getUserFeed($feed['twitterusername'],$feed['twitterhidereplies'],$this->options['post_limit'],$feed['twitterfiltertype'],$feed['twitterfiltervalue']);
 					if ($twitter_request) {
 						$twitter_feeds[] = $twitter_request;
