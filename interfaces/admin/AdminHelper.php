@@ -59,24 +59,26 @@ class AdminHelper  {
 		// if we're not trying to change things, let's just get the setting or fall back to americuhn
 		if (!$set_language) {
 			$session_language = $this->cash_request->sessionGet('session_language');
-
+			if (!ctype_alnum($session_language)) $session_language = "en";
 			if (empty($session_language)) {
 
-				$language_response = $this->cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system',
-						'cash_action' => 'getsettings',
-						'user_id' => $this->cash_admin->effective_user_id,
-						'type' => 'language'
-					)
-				);
+                $session_language = 'en';
 
-				if (!$language_response['payload']) {
+				if (!empty($this->cash_admin->effective_user_id)) {
+                    $language_response = $this->cash_admin->requestAndStore(
+                        array(
+                            'cash_request_type' => 'system',
+                            'cash_action' => 'getsettings',
+                            'user_id' => $this->cash_admin->effective_user_id,
+                            'type' => 'language'
+                        )
+                    );
 
-					$session_language = 'en';
-				} else {
-					$session_language = $language_response['payload'];
+                    if ($language_response['payload']) {
+                        $session_language = $language_response['payload'];
+                    }
 				}
+
 
 				$this->cash_request->sessionSet('session_language',$session_language);
 			}
@@ -130,7 +132,10 @@ class AdminHelper  {
 
 
 	public function getPageMenuDetails() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/components/interface/'. $this->getOrSetLanguage() .'/menu.json'),true);
+
+		$filename = dirname(__FILE__).'/components/interface/'. $this->getOrSetLanguage() .'/menu.json';
+
+		$pages_array = json_decode(CASHSystem::getFileContents($filename, true),true);
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
