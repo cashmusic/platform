@@ -175,7 +175,8 @@
 			"description": "Get list by id.",
 			"plantfunction": "getList",
 			"security": [
-				"direct"
+				"direct",
+				"api_key"
 			]
 		},
 		"getmailing": {
@@ -233,7 +234,8 @@
 			"security": [
 				"direct",
 				"get",
-				"post"
+				"post",
+				"api_key"
 			]
 		},
 		"recordmailinganalytics": {
@@ -249,7 +251,8 @@
 			"security": [
 				"direct",
 				"post",
-				"get"
+				"get",
+				"api_key"
 			]
 		},
 		"sendmailing": {
@@ -265,7 +268,8 @@
 			"security": [
 				"post",
 				"get",
-				"direct"
+				"direct",
+				"api_key"
 			]
 		},
 		"signup": {
@@ -274,7 +278,8 @@
 			"security": [
 				"direct",
 				"post",
-				"get"
+				"get",
+				"api_key"
 			]
 		},
 		"storeuserdata": {
