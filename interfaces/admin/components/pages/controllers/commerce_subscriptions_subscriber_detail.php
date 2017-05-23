@@ -48,8 +48,6 @@ if (is_array($settings_request->response['payload'])) {
                     )
                 );
 
-                error_log(print_r($subscriber_request->response, true));
-
                 if ($subscriber_request->response['payload']) {
                     $admin_helper->formSuccess('Success. Subscriber comped for this plan.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
                 } else {
