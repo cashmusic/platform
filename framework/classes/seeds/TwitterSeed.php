@@ -146,7 +146,7 @@ class TwitterSeed extends SeedBase {
 		$data_name = http_build_query($params, '', '-');
 		$data = false; //$this->getCacheData($this->settings_type,$data_name, true, true, false);
 
-		//error_log(json_encode($data));
+		CASHSystem::errorLog($this->twitter);
 
 		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
