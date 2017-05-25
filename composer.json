@@ -15,7 +15,8 @@
         "eddturtle/direct-upload": "^1.6",
         "filp/whoops": "^2.1",
         "swiftmailer/swiftmailer": "^5.4",
-        "slim/slim": "^3.0"
+        "slim/slim": "^3.0",
+        "phpseclib/phpseclib": "^2.0"
     },
     "autoload": {
         "psr-4": {

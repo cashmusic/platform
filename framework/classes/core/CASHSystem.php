@@ -9,6 +9,8 @@ use Exception;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+use phpseclib\Net\SFTP;
+
 /**
  * An abstract collection of lower level static functions that are useful
  * across other classes.
@@ -1078,51 +1080,28 @@ abstract class CASHSystem  {
 			return false;
 		}
 
-		// open the file or fail
+        $sftp = new SFTP($credentials['domain']);
 
-		// create temp file in memory so we don't lose it on rotation
-		$file = fopen('php://memory', 'r+');
-		fputs($file, $string);
-		rewind($file); // or fseek
 
-		$ch = curl_init();
+        try {
+            if (!$sftp->login($credentials['username'], $credentials['password'])) {
+                if  (CASH_DEBUG) {
+                    error_log("CASHSystem::uploadToFTP login failed");
+                }
+                return false;
+            }
 
-		curl_setopt(
-			$ch, CURLOPT_URL,
-			$protocol.'://' . $credentials['domain'] . '/' . $filename
-		);
-
-		curl_setopt($ch, CURLOPT_USERPWD,
-			$credentials['username'] . ':' . $credentials['password']
-		);
-		curl_setopt($ch, CURLOPT_UPLOAD, 1);
-
-		// if this is SFTP we need to set the protocol for the request
-		if ($protocol == "sftp") {
-			curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_SFTP);
+            if (!$sftp->put($filename, $string)) {
+                if  (CASH_DEBUG) {
+                    error_log("CASHSystem::uploadToFTP upload failed");
+                }
+            	return false;
+			}
+		} catch(Exception $e) {
+			return false;
 		}
 
-		curl_setopt($ch, CURLOPT_INFILE, $file);
-		//curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
-		curl_exec($ch);
-		$error_no = curl_errno($ch);
-		$error = curl_error($ch);
-		return $error;
-
-		if  (CASH_DEBUG) {
-
-			error_log("CASHSystem::uploadToFTP result: ". $error);
-		}
-
-		curl_close($ch);
-		fclose($file);
-
-		// if curl request returns 0 then we're cool
-		if ($error_no == 0) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**

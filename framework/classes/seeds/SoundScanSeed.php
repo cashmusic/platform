@@ -171,43 +171,29 @@ class SoundScanSeed extends SeedBase
 
     public function sendReport() {
 
-        //file_put_contents("/var/www/".$this->filename, $this->report);
-
-        CASHSystem::sendEmail(
-            $this->report_type.' Soundscan report run.',
-            1,
-            'tom@cashmusic.org',
-            nl2br($this->report),
-            $this->report_type.' Soundscan report run.'
-        );
-
-        CASHSystem::sendEmail(
-            $this->report_type.' Soundscan report run.',
-            1,
-            'jesse@cashmusic.org',
-            nl2br($this->report),
-            $this->report_type.' Soundscan report run.'
-        );
-
-        CASHSystem::sendEmail(
-            $this->report_type.' Soundscan report run.',
-            1,
-            'chris@cashmusic.org',
-            nl2br($this->report),
-            $this->report_type.' Soundscan report run.'
-        );
-
-
-        /*        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
+        // uploads to soundscan ftp
+        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
             'domain' => $this->ftp_domain,
             'username' => $this->ftp_user,
             'password' =>$this->ftp_password
         ], "sftp")) {
             // something did not work out right
-            error_log(
-                'omg lol rotfl'
+            CASHSystem::sendEmail(
+                $this->report_type.' Soundscan report upload failed.',
+                1,
+                'tom@cashmusic.org',
+                nl2br($this->report),
+                $this->report_type.' Soundscan report upload failed.'
             );
-        }*/
+        } else {
+            CASHSystem::sendEmail(
+                $this->report_type.' Soundscan report run.',
+                1,
+                'tom@cashmusic.org',
+                nl2br($this->report),
+                $this->report_type.' Soundscan report run.'
+            );
+        }
 
         return $this;
     }

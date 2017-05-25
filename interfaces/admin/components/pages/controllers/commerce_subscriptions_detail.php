@@ -110,6 +110,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         $cash_admin->page_data['gross_active'] = $stats_request->response['payload'][0]['total_active'];
     }
 
+
+    if (empty($cash_admin->page_data['gross_active'])) $cash_admin->page_data['gross_active'] = "0.00";
+
     $stats_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
