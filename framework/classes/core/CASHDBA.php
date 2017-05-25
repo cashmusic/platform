@@ -675,9 +675,7 @@ class CASHDBA {
 				break;
 
 			case 'CommercePlant_getActiveSubscriberTotal':
-				$query = "select sum(gross_price) as total_active from commerce_transactions as t "
-						 ."join commerce_subscriptions_members as m on t.parent_id = m.id AND t.parent = 'sub' and t.status = 'success' "
-				         ."WHERE m.status = 'active' AND m.subscription_id = :plan_id";
+				$query = "SELECT SUM(gross_price) AS total_active FROM (SELECT MAX(t.id), gross_price FROM commerce_transactions AS t JOIN commerce_subscriptions_members AS m ON t.parent_id = m.id AND t.parent = 'sub' AND t.status = 'success' WHERE m.status = 'active' AND m.subscription_id = :plan_id GROUP BY t.parent_id) AS subquery";
 
 				break;
 
