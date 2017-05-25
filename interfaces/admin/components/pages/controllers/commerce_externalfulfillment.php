@@ -6,7 +6,6 @@ use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
-use CASHMusic\Admin\AdminHelper;
 
 use CASHMusic\Seeds\ExternalFulfillmentSeed;
 use CASHMusic\Seeds\SoundScanSeed;
@@ -26,14 +25,13 @@ if (!empty($request_parameters[0])) {
 }
 
 
-
 /**
  * Behind the scenes controller actions
  */
 
 // create a fulfillment seed with the effective user id
-$user_id = $admin_helper->getPersistentData('cash_effective_user');
-$external_fulfillment = new ExternalFulfillmentSeed();
+$user_id = $cash_admin->effective_user_id;
+$external_fulfillment = new ExternalFulfillmentSeed($user_id);
 
 
 if ($action == "soundscan") {
@@ -111,8 +109,6 @@ if ($action == "do_mailing") {
 
         $backers = $external_fulfillment->getBackersForJob($_REQUEST['fulfillment_job_id']);
 
-        //$backers = array_slice($backers, 0, 500);
-
         // remove trailing slash from URLs
         $email_url = rtrim($_REQUEST['email_url'], "/");
 
@@ -124,14 +120,14 @@ if ($action == "do_mailing") {
         ];
 
         // let's break this up into 1000 at a time to make sure we don't overload the mandrill API
-        $chunky_backers = array_chunk($backers, 1000);
+        $chunked_backers = array_chunk($backers, 1000);
 
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
         $html_message .= "\n\n" . '<p><b><a href="*|URL|*?code=*|CODE|*&handlequery=1">Download</a></b></p>';
 
         $subject = trim($_REQUEST['email_subject']);
 
-        foreach ($chunky_backers as $backers) {
+        foreach ($chunked_backers as $backers) {
             $recipients = [];
             $merge_vars = [];
 

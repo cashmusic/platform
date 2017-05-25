@@ -115,6 +115,28 @@ CREATE TABLE `calendar_venues` (
 --
 -- Section: COMMERCE
 --
+DROP TABLE IF EXISTS system_jobs;
+CREATE TABLE `system_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `table_id` int(11) NOT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS system_processes;
+CREATE TABLE `system_processes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` mediumblob,
+  `job_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `commerce_external_fulfillment_jobs`;
 CREATE TABLE `commerce_external_fulfillment_jobs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

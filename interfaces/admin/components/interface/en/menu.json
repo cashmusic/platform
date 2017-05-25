@@ -53,7 +53,7 @@
 	"commerce/subscriptions":
 		{"page_name":"Subscriptions", "menu_icon":"recurring", "tagline":"Member subscriptions", "beta":true},
 	"commerce/externalfulfillment":
-		{"page_name":"3rd Party fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
+		{"page_name":"Crowdfunding Fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
 	"commerce/export":
 		{"page_name":"Export orders", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
