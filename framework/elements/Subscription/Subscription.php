@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Elements\Subscription;
 
+use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
 
@@ -10,6 +11,8 @@ class Subscription extends ElementBase {
 	public $name = 'Subscription';
 
 	public function getData() {
+
+        $this->element_data['name'] = $this->element['name'];
 
         $this->element_data['subscriber_id'] = ($this->sessionGet("subscription_id")) ? $this->sessionGet("subscription_id") : false;
         $this->element_data['email_address'] = ($this->sessionGet("email_address")) ? $this->sessionGet("email_address") : false;
