@@ -13,10 +13,12 @@ namespace CASHMusic\Entities;
  * @property string $first_name
  * @property string $last_name
  * @property string $password
+ * @property array $data
  */
+
 class User extends EntityBase {
 
-    protected $fillable = ['username', 'email_address', 'last_name', 'password'];
+    protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data'];
 
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
@@ -35,6 +37,9 @@ class User extends EntityBase {
 
     /** @Column(type="string") **/
     protected $password;
+
+    /** @Column(type="json_array") **/
+    protected $data;
 
     public function setPasswordAttribute($value) {
         $this->password = md5($value);
