@@ -2066,17 +2066,16 @@ class CommercePlant extends PlantBase {
 
                 if (!$finalize_url) {
                     $finalize_url = CASHSystem::getCurrentURL(true);
-                    if (strpos($finalize_url, "air.") !== false) {
-                        $finalize_url = "https://air.cashmusic.org";
-                    } else
-                        if (strpos($finalize_url, "staging.") !== false) {
-                            $finalize_url = "https://staging.cashmusic.org";
-                        } else {
-                            $finalize_url = "https://cashmusic.org";
-                        }
                 }
 
-
+                if (strpos($finalize_url, "air.") !== false) {
+                    $finalize_url = "https://air.cashmusic.org";
+                } else
+                    if (strpos($finalize_url, "staging.") !== false) {
+                        $finalize_url = "https://staging.cashmusic.org";
+                    } else {
+                        $finalize_url = "https://cashmusic.org";
+                    }
 
 
                 return CASHSystem::sendEmail(
