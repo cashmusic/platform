@@ -2065,18 +2065,8 @@ class CommercePlant extends PlantBase {
                 );
 
                 if (!$finalize_url) {
-                    $finalize_url = CASHSystem::getCurrentURL(true);
+                    $finalize_url = CASHSystem::getCurrentURL();
                 }
-
-                if (strpos($finalize_url, "air.") !== false) {
-                    $finalize_url = "https://air.cashmusic.org";
-                } else
-                    if (strpos($finalize_url, "staging.") !== false) {
-                        $finalize_url = "https://staging.cashmusic.org";
-                    } else {
-                        $finalize_url = "https://cashmusic.org";
-                    }
-
 
                 return CASHSystem::sendEmail(
                     'Thank you for your order',
@@ -2084,7 +2074,7 @@ class CommercePlant extends PlantBase {
                     $order_details['customer_details']['email_address'],
                     $personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
                     . $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n"
-                    . "\n\n" . '[View your receipt and any downloads]('.$finalize_url.'/public/request/html?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+                    . "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
                     . '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($order_details['customer_details']['email_address']) . '&order_id=' . $order_details['id'] . ')',
                     'Thank you.'
                 );
