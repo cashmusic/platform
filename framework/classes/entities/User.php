@@ -10,23 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
  **/
 class User extends EntityBase {
 
+    protected $fillable = ['username', 'email_address', 'last_name', 'password'];
+
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
 
     /** @Column(type="string") **/
-    public $username;
+    protected $username;
 
     /** @Column(type="string") **/
-    public $email_address;
+    protected $email_address;
 
     /** @Column(type="string") **/
-    public $first_name;
+    protected $first_name;
 
     /** @Column(type="string") **/
-    public $last_name;
+    protected $last_name;
 
     /** @Column(type="string") **/
-    public $password;
+    protected $password;
 
     public function setPasswordAttribute($value) {
         $this->password = md5($value);

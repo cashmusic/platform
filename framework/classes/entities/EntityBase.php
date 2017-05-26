@@ -12,8 +12,8 @@ use CASHMusic\Core\CASHDBAL;
 
 class EntityBase {
 
-    protected $entity_name;
     protected $db;
+    protected $fillable = [];
 
 
     public function __construct()
@@ -48,6 +48,10 @@ class EntityBase {
     }
 
     public function __set($property, $value) {
+
+        // never let a property be set unless it's in $fillable array
+        if (!in_array($property, $this->fillable)) return false;
+
         $custom_method = "set".ucwords($property)."Attribute";
 
         if(method_exists($this, $custom_method)){
