@@ -2072,7 +2072,7 @@ class CommercePlant extends PlantBase {
                         if (strpos($finalize_url, "staging.") !== false) {
                             $finalize_url = "https://staging.cashmusic.org";
                         } else {
-                        $finalize_url = "https://cashmusic.org";
+                            $finalize_url = "https://cashmusic.org";
                         }
                 }
 
