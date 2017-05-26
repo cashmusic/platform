@@ -62,7 +62,7 @@ if (!isset($_REQUEST['nooutput'])) {
         if ($requests[0] != 'payload' || $requests[0] != 'json') {
             // open up some mustache in here:
             include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-            $freddiemercury = new Mustache;
+            $freddiemercury = new \Mustache;
         }
 
         if ($requests[0] == 'embed' && isset($requests[1])) {
