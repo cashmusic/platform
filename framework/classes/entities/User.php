@@ -2,12 +2,18 @@
 
 namespace CASHMusic\Entities;
 
-use CASHMusic\Core\CASHSystem;
-use Doctrine\ORM\Mapping as ORM;
-
 /**
+ * Class User
+ * @package CASHMusic\Entities
  * @Entity @Table(name="people")
- **/
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $email_address
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $password
+ */
 class User extends EntityBase {
 
     protected $fillable = ['username', 'email_address', 'last_name', 'password'];
