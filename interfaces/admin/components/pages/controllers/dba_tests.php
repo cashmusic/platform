@@ -2,16 +2,13 @@
 
 namespace CASHMusic\Admin;
 
-use CASHMusic\Entities\User;
+use CASHMusic\Entities\People;
 
-$user = new User();
-$user->username = "foo";
-$user->email_address = "my@email.orgz";
-$user->password = "is a password";
-$user->first_name = "Tommy";
-$user->last_name = "Filepp";
-$user->data = ['foo','bar'=> ['foo', 'bar']];
-$user->save();
+$user = People::create([
+    'username'=>"booby",
+    'email_address'=>"boobies@boobies.com",
+    'password'=>"floobies",
+    'data'=>['123','1345']
+]);
 
-echo $user->password;
-echo print_r($user->data, true);
+echo print_r($user, true);
