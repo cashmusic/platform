@@ -26,11 +26,85 @@ class EntityBase
     /**
      * Static method shortcut to search by id.
      * @param $id
-     * @return EntityBase
+     * @param $limit
+     * @param $order_by
+     * @param $offset
+     * @return object|bool
      */
     public static function find($id)
     {
-        return new self();
+        $db = CASHDBAL::entityManager();
+
+        // if it's an array of ids we can try to get multiples
+        $object = $db->getRepository(get_called_class())->findBy(['id'=>$id]);
+
+        // return a single object if that's what we've got
+        if (count($object) == 1) $object = $object[0];
+
+        if ($object) return $object;
+
+        return false;
+    }
+
+    /**
+     * Static method shortcut to search by multiple values.
+     * @param $values
+     * @param $limit
+     * @param $order_by
+     * @param $offset
+     * @return object|bool
+     */
+    public static function findWhere($values, $limit=null, $order_by=null, $offset=null)
+    {
+
+        $db = CASHDBAL::entityManager();
+
+        // if it's an array of ids we can try to get multiples
+        if (is_array($values)) {
+            $object = $db->getRepository(get_called_class())->findBy($values);
+        } else {
+            $object = self::find($values);
+        }
+
+        if ($object) return $object;
+
+        return false;
+    }
+
+
+    /**
+     * Static method shortcut to get all model results.
+     * @param $limit
+     * @param $order_by
+     * @param $offset
+     * @return object|bool
+     */
+    public static function findAll($limit=null, $order_by=null, $offset=null)
+    {
+
+        $db = CASHDBAL::entityManager();
+        $object = $db->getRepository(get_called_class())->findAll();
+
+        if ($object) return $object;
+
+        return false;
+    }
+
+    /**
+     * This is a start; we could use static method chaining to make this less shitty.
+     * the getQuery/getResult combo at the end kills me.
+     *
+     * $user = People::query()
+     * ->where("t.email_address = :email")
+     * ->setParameter('email', 'info@cashmusic.org')
+     * ->getQuery()->getResult();
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public static function query()
+    {
+        $db = CASHDBAL::entityManager();
+        return $db->getRepository(get_called_class())->createQueryBuilder("t");
     }
 
     /**
@@ -69,6 +143,21 @@ class EntityBase
         $this->db->flush();
 
         return $this;
+    }
+
+    /**
+     * Public shortcut function to delete a model.
+     * @param $id
+     */
+    public function delete($id) {
+
+        $db = CASHDBAL::entityManager();
+
+        $object = self::find($id);
+
+        $db->remove($object);
+        $db->flush();
+
     }
 
     /**
