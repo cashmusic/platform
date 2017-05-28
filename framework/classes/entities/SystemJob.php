@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class SystemJob
+class SystemJob extends EntityBase
 {
-
+    protected $fillable = [];
 }

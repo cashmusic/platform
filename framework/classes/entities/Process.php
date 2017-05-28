@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class Process
+class Process extends EntityBase
 {
-
+    protected $fillable = [];
 }

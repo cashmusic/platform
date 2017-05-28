@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class Transaction
+class Transaction extends EntityBase
 {
-
+    protected $fillable = [];
 }

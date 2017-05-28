@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class ElementCampaign
+class ElementCampaign extends EntityBase
 {
-
+    protected $fillable = [];
 }

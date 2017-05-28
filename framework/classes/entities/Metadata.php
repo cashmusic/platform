@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class Metadata
+class Metadata extends EntityBase
 {
-
+    protected $fillable = [];
 }

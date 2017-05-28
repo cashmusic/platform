@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class SubscriptionMember
+class SubscriptionMember extends EntityBase
 {
-
+    protected $fillable = [];
 }

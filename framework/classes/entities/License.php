@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class License
+class License extends EntityBase
 {
-
+    protected $fillable = [];
 }

@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class LockCode
+class LockCode extends EntityBase
 {
-
+    protected $fillable = [];
 }

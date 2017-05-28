@@ -9,7 +9,7 @@
 namespace CASHMusic\Entities;
 
 
-class PeopleList
+class PeopleList extends EntityBase
 {
-
+    protected $fillable = [];
 }
