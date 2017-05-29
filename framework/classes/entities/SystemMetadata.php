@@ -1,5 +1,5 @@
 <?php
-
+namespace CASHMusic\Entities;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="system_metadata", indexes={@ORM\Index(name="system_metadata_scope_table", columns={"scope_table_alias", "scope_table_id"})})
  * @ORM\Entity
  */
-class SystemMetadata
+class SystemMetadata extends EntityBase
 {
+
+    protected $fillable;
     /**
      * @var string
      *

@@ -1,5 +1,5 @@
 <?php
-
+namespace CASHMusic\Entities;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="elements_analytics_basic")
  * @ORM\Entity
  */
-class ElementsAnalyticsBasic
+class ElementsAnalyticsBasic extends EntityBase
 {
+
+    protected $fillable;
     /**
      * @var integer
      *

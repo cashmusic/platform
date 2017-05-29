@@ -1,5 +1,5 @@
 <?php
-
+namespace CASHMusic\Entities;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="system_licenses")
  * @ORM\Entity
  */
-class SystemLicenses
+class SystemLicenses extends EntityBase
 {
+
+    protected $fillable;
     /**
      * @var string
      *

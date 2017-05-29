@@ -1,5 +1,5 @@
 <?php
-
+namespace CASHMusic\Entities;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="people_lists_members", indexes={@ORM\Index(name="people_lists_members_user_id", columns={"user_id"}), @ORM\Index(name="people_lists_members_list_id", columns={"list_id"})})
  * @ORM\Entity
  */
-class PeopleListsMembers
+class PeopleListsMembers extends EntityBase
 {
+
+    protected $fillable;
     /**
      * @var integer
      *
