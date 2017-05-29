@@ -7,9 +7,21 @@
  */
 
 namespace CASHMusic\Entities;
+/**
+ * @Entity @Table(name="elements")
+ */
 
 
 class Element extends EntityBase
 {
     protected $fillable = [];
+
+    /** @Id @Column(type="integer") @GeneratedValue **/
+    protected $id;
+
+    /** @Column(type="integer", nullable=true) **/
+    protected $creation_date;
+
+    /** @Column(type="integer", nullable=true, options={"default":0}) **/
+    protected $modification_date;
 }

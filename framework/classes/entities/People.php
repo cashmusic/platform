@@ -1,8 +1,6 @@
 <?php
 
 namespace CASHMusic\Entities;
-
-use CASHMusic\Entities\EntityInterface;
 /**
  * @Entity @Table(name="people")
  */
