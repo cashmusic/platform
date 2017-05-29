@@ -1,78 +1,173 @@
 <?php
 
 namespace CASHMusic\Entities;
-/**
- * @Entity @Table(name="people")
- */
 
-class People extends EntityBase {
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * People
+ *
+ * @ORM\Table(name="people", indexes={@ORM\Index(name="email", columns={"email_address"})})
+ * @ORM\Entity
+ */
+class People extends EntityBase
+{
 
     protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data'];
 
-    /** @Id @Column(type="integer") @GeneratedValue **/
-    protected $id;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_address", type="string", length=255, nullable=false)
+     */
+    protected $emailAddress = '';
 
-    /** @Column(type="string") **/
-    protected $username;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     */
+    protected $password = '';
 
-    /** @Column(type="string") **/
-    protected $email_address;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255, nullable=false)
+     */
+    protected $username = '';
 
-    /** @Column(type="string", nullable=true) **/
-    protected $display_name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
+     */
+    protected $displayName;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $first_name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+     */
+    protected $firstName;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $last_name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     */
+    protected $lastName;
 
-    /** @Column(type="string", nullable=true) **/
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="organization", type="string", length=255, nullable=true)
+     */
     protected $organization;
 
-    /** @Column(type="string") **/
-    protected $password;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_line1", type="string", length=255, nullable=true)
+     */
+    protected $addressLine1;
 
-    /** @Column(type="json_array", nullable=true) **/
-    protected $data;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_line2", type="string", length=255, nullable=true)
+     */
+    protected $addressLine2;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $address_line1;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_city", type="string", length=255, nullable=true)
+     */
+    protected $addressCity;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $address_line2;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_region", type="string", length=255, nullable=true)
+     */
+    protected $addressRegion;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $address_city;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_postalcode", type="string", length=255, nullable=true)
+     */
+    protected $addressPostalcode;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $address_region;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address_country", type="string", length=255, nullable=true)
+     */
+    protected $addressCountry;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $address_postalcode;
-
-    /** @Column(type="string", nullable=true) **/
-    protected $address_country;
-
-    /** @Column(type="string", nullable=true) **/
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     */
     protected $url;
 
-    /** @Column(type="boolean") **/
-    protected $is_admin;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_admin", type="boolean", nullable=false)
+     */
+    protected $isAdmin = '0';
 
-    /** @Column(type="string", nullable=true) **/
-    protected $api_key;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="data", type="text", length=65535, nullable=true)
+     */
+    protected $data;
 
-    /** @Column(type="string", nullable=true) **/
-    protected $api_secret;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="api_key", type="string", length=64, nullable=true)
+     */
+    protected $apiKey = '';
 
-    /** @Column(type="integer", nullable=true) **/
-    protected $creation_date;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="api_secret", type="string", length=64, nullable=true)
+     */
+    protected $apiSecret = '';
 
-    /** @Column(type="integer", nullable=true) **/
-    protected $modification_date;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="creation_date", type="integer", nullable=true)
+     */
+    protected $creationDate;
 
-    public function setPasswordAttribute($value) {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="modification_date", type="integer", nullable=true)
+     */
+    protected $modificationDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    protected function setPasswordAttribute($value)
+    {
         $this->password = md5($value);
     }
 }
+

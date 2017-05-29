@@ -10,7 +10,7 @@ class CASHDBAL {
 
     public static function entityManager()
     {
-        $paths = array(CASH_PLATFORM_ROOT."/classes/entities");
+        $paths = array(CASH_PLATFORM_ROOT."/../mappings");
         $isDevMode = false;
 
         $cash_db_settings = CASHSystem::getSystemSettings();
@@ -22,7 +22,7 @@ class CASHDBAL {
             'dbname'   => $cash_db_settings['database'],
         );
 
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $config = Setup::createXMLMetadataConfiguration($paths, $isDevMode);
         return EntityManager::create($dbParams, $config);
 
     }
