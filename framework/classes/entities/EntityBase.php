@@ -4,6 +4,7 @@ namespace CASHMusic\Entities;
 
 use CASHMusic\Core\CASHSystem;
 use Doctrine\ORM\Mapping as ORM;
+
 use CASHMusic\Core\CASHDBAL;
 
 /**

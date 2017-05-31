@@ -5,12 +5,12 @@ namespace CASHMusic\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AssetsAnalytics
+ * AssetAnalytic
  *
- * @ORM\Table(name="assets_analytics", indexes={@ORM\Index(name="assets_analytics_asset_id", columns={"id"})})
- * @ORM\Entity
+ * @Entity @Table(name="assets_analytics", indexes={@ORM\Index(name="assets_analytics_asset_id", columns={"id"})})
  */
-class AssetsAnalytics extends EntityBase
+
+class AssetAnalytics extends EntityBase
 {
 
     protected $fillable;
