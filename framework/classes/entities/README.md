@@ -18,21 +18,21 @@ public function setPasswordAttribute($value) {
 
 Every entity class should have a protected property `$fillable`, which the magic setter method checks against. The magic setter property will drop any fields not in `$fillable`, and will not try to write them in any sort of set operation. This is both to filter out garbage but also to give control over whether or not folks can write over special database fields like `creation_date`.
 
-## Shortcut functions from EntityBase
+# Shortcut functions from EntityBase
 
-### {EntityName}::find($id)
+## {EntityName}::find($id)
 
 Find a model by unique id.
 
 `$asset = Asset::find(5);`
 
-### {EntityName}::all($limit=null, $order_by=null, $offset=null)
+## {EntityName}::all($limit=null, $order_by=null, $offset=null)
 
 Find all instances of a model.
 
 `$assets = Asset::all();`
 
-### {EntityName}::create()
+## {EntityName}::create()
 
 Accepts an array of key=>values. `
 
@@ -41,7 +41,7 @@ Accepts an array of key=>values. `
 $user = People::create([ 'email_address' => 'dev@cashmusic.org', 'username' => "example", 'password'=> "covfefe" ]);
 ```
 
-### {EntityName}::findWhere($array, $limit=null, $order_by=null, $offset=null)
+## {EntityName}::findWhere($array, $limit=null, $order_by=null, $offset=null)
 
 Find multiple results by multiple fields. Accepts an array of key=>values.
 
@@ -52,13 +52,13 @@ $user = People::findWhere([
     ]);
 ```
 
-### {EntityName}::delete($id)
+## {EntityName}::delete($id)
 
 Delete a model by unique id.
 
 `Asset::delete(5);`
 
-### $entity->save()
+## $entity->save()
 
 Save and persist changes to a loaded entity to the database.
 
@@ -68,3 +68,28 @@ $asset = Asset::find(5);
 $asset->property = "foo";
 $asset->save();
 ```
+
+# Relationships
+
+Doctrine ORM was a jerk with having Entity classes extend a base class, so we made our own sort of rudimentary relationships, kind of based off of Eloquent's approach. It's for very basic relationship queries without any filtering, at the moment.
+
+You create a rough relationship by creating a new public method and calling the `hasOne`, `hasMany`, or `belongsTo` methods inside.
+
+```
+public function lists($conditions=false) {
+    // target entity name, current entity primary key, foreign key
+    return $this->hasMany("PeopleList", "id", "user_id");
+}
+```
+
+Then you can get the related objects when you call a related entity:
+
+```
+$user = People::find(1);
+
+foreach($user->lists() as $list) {
+  echo $list->name;
+}
+```
+
+Note that this is currently read only access. Working on getting the array results parsed as entity objects but it means more queries. In the meanwhile it's probably far less expensive to just `PeopleList::find($list->id)` on what you need, if you need to write. If you need to do bulk writing you'll want to use the query builder anyways.

@@ -77,4 +77,17 @@ class People extends EntityBase {
     public function setPasswordAttribute($value) {
         $this->password = md5($value);
     }
+
+    /* relationships */
+    public function lists($conditions=false) {
+        return $this->hasMany("PeopleList", "id", "user_id");
+    }
+
+    public function mailings($conditions=false) {
+        return $this->hasMany("PeopleMailing", "id", "user_id");
+    }
+
+    public function resetPassword($conditions=false) {
+        return $this->hasMany("PeopleResetPassword", "id", "user_id");
+    }
 }

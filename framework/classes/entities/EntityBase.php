@@ -3,6 +3,7 @@
 namespace CASHMusic\Entities;
 
 use CASHMusic\Core\CASHSystem;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 use CASHMusic\Core\CASHDBAL;
@@ -154,8 +155,8 @@ class EntityBase
      */
     public function save()
     {
-
-        $this->db->persist($this);
+        if (!$this->db) $this->db = CASHDBAL::entityManager();
+        $this->db->merge($this);
         $this->db->flush();
 
         return $this;
@@ -204,7 +205,7 @@ class EntityBase
     {
 
         // never let a property be set unless it's in $fillable array
-        if (!in_array($property, self::$fillable)) return false;
+        if (!in_array($property, $this->fillable)) return false;
 
         $custom_method = "set" . ucwords($property) . "Attribute";
 
@@ -213,5 +214,59 @@ class EntityBase
         } elseif (property_exists($this, $property)) {
             $this->$property = $value;
         }
+    }
+
+    /*
+     * Relationships
+     */
+
+    public function hasOne($entity, $key=false, $foreign_key=false) {
+        return $this->getRelationship($entity, $key, $foreign_key);
+    }
+
+    public function hasMany($entity, $key=false, $foreign_key=false) {
+        return $this->getRelationship($entity, $key, $foreign_key);
+    }
+
+    public function belongsTo($entity, $key=false, $foreign_key=false) {
+        return $this->getRelationship($entity, $key, $foreign_key);
+    }
+
+    public function getRelationship($entity, $key=false, $foreign_key=false) {
+
+        $class_fqdn = "\\CASHMusic\\Entities\\$entity";
+        $db = CASHDBAL::entityManager();
+        $tableName = $db->getClassMetadata($class_fqdn)->getTableName();
+
+        if (!$key) {
+            $key = $this->id;
+        } else {
+            $key = CASHSystem::snakeToCamelCase($key);;
+            $key = $this->$key;
+        }
+
+        if (!$foreign_key) {
+            if (substr($tableName, -1) == 's')
+            {
+                $foreign_key = substr($tableName, 0, -1)."_id";
+            } else {
+                throw new \Exception("Needs a foreign key name.");
+            }
+        } else {
+            $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
+        }
+
+        $query = $this->getQueryBuilder($tableName);
+        $result = $query->select($tableName)->from($class_fqdn, $tableName)->where(
+            $query->expr()->eq($tableName.'.'.$foreign_key, ':key')
+        )
+        ->setParameter(':key', $key)->getQuery()->getResult(5);
+
+        return $result;
+    }
+
+    private function getQueryBuilder($tableName) {
+        $db = CASHDBAL::entityManager();
+        return $db->createQueryBuilder($tableName);
     }
 }

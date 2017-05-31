@@ -5,28 +5,42 @@ namespace CASHMusic\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PeopleResetpassword
+ * PeopleList
  *
- * @Table(name="people_resetpassword")
+ * @Table(name="people_lists")
  * @Entity
  */
-class PeopleResetpassword extends EntityBase
+class PeopleList extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['name'];
     /**
      * @var string
      *
-     * @Column(name="key", type="string", length=255, nullable=false)
+     * @Column(name="name", type="string", length=255, nullable=false)
      */
-    protected $key;
+    protected $name = '';
+
+    /**
+     * @var string
+     *
+     * @Column(name="description", type="text", length=65535, nullable=true)
+     */
+    protected $description;
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId = '0';
+    protected $userId;
+
+    /**
+     * @var integer
+     *
+     * @Column(name="connection_id", type="integer", nullable=false)
+     */
+    protected $connectionId;
 
     /**
      * @var integer
@@ -40,9 +54,10 @@ class PeopleResetpassword extends EntityBase
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modificationDate = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
 }
 

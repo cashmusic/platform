@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="people_mailings")
  * @Entity
  */
-class PeopleMailings extends EntityBase
+class PeopleMailing extends EntityBase
 {
 
     protected $fillable;
