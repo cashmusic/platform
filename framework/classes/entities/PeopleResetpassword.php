@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PeopleResetpassword
  *
- * @ORM\Table(name="people_resetpassword")
- * @ORM\Entity
+ * @Table(name="people_resetpassword")
+ * @Entity
  */
 class PeopleResetpassword extends EntityBase
 {
@@ -17,38 +17,32 @@ class PeopleResetpassword extends EntityBase
     /**
      * @var string
      *
-     * @ORM\Column(name="key", type="string", length=255, nullable=false)
+     * @Column(name="key", type="string", length=255, nullable=false)
      */
     protected $key;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @Column(name="user_id", type="integer", nullable=false)
      */
     protected $userId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true)
      */
     protected $creationDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true)
      */
     protected $modificationDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 }
 

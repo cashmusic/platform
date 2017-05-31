@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PeopleLists
  *
- * @ORM\Table(name="people_lists")
- * @ORM\Entity
+ * @Table(name="people_lists")
+ * @Entity
  */
 class PeopleLists extends EntityBase
 {
@@ -17,52 +17,46 @@ class PeopleLists extends EntityBase
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     * @Column(name="description", type="text", length=65535, nullable=true)
      */
     protected $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @Column(name="user_id", type="integer", nullable=false)
      */
     protected $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="connection_id", type="integer", nullable=false)
+     * @Column(name="connection_id", type="integer", nullable=false)
      */
     protected $connectionId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true)
      */
     protected $creationDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true)
      */
     protected $modificationDate = '0';
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
 }

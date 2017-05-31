@@ -7,9 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 use CASHMusic\Core\CASHDBAL;
 
-/**
- * @ORM\Entity
- */
 class EntityBase
 {
 

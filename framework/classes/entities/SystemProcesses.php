@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SystemProcesses
  *
- * @ORM\Table(name="system_processes")
- * @ORM\Entity
+ * @Table(name="system_processes")
+ * @Entity
  */
 class SystemProcesses extends EntityBase
 {
@@ -17,45 +17,39 @@ class SystemProcesses extends EntityBase
     /**
      * @var string
      *
-     * @ORM\Column(name="data", type="blob", length=16777215, nullable=true)
+     * @Column(name="data", type="blob", length=16777215, nullable=true)
      */
     protected $data;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="job_id", type="integer", nullable=false)
+     * @Column(name="job_id", type="integer", nullable=false)
      */
     protected $jobId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true)
      */
     protected $modificationDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true)
      */
     protected $creationDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 }
 

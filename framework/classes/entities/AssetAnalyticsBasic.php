@@ -7,49 +7,44 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AssetAnalyticsBasic
  *
- * @ORM\Table(name="assets_analytics_basic")
- * @ORM\Entity
+ * @Table(name="assets_analytics_basic")
+ * @Entity
  */
 class AssetAnalyticsBasic extends EntityBase
 {
 
     protected $fillable;
+
+    /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
+    protected $id;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="asset_id", type="integer", nullable=false)
+     * @Column(name="asset_id", type="integer", nullable=false)
      */
     protected $assetId = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="total", type="integer", nullable=false)
+     * @Column(name="total", type="integer", nullable=false)
      */
     protected $total;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true)
      */
     protected $creationDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true)
      */
     protected $modificationDate = '0';
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    protected $id;
 
 }
 
