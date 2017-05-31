@@ -12,6 +12,9 @@ class EntityBase
 
     protected $db;
     protected $fillable = [];
+    protected $query = null;
+
+    private static $_instance = null;
 
     /**
      * EntityBase constructor. Loads entity manager for Doctrine ORM.
@@ -34,10 +37,7 @@ class EntityBase
         $db = CASHDBAL::entityManager();
 
         // if it's an array of ids we can try to get multiples
-        $object = $db->getRepository(get_called_class())->findBy(['id'=>$id]);
-
-        // return a single object if that's what we've got
-        if (count($object) == 1) $object = $object[0];
+        $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
 
         if ($object) return $object;
 
@@ -46,6 +46,13 @@ class EntityBase
 
     /**
      * Static method shortcut to search by multiple values.
+     * $values is a key=>value pair array
+     *
+     * [
+     * 'email_address' => "dev@cashmusic.org",
+     * 'is_admin' => "1"
+     * ]
+     *
      * @param $values
      * @param $limit
      * @param $order_by
@@ -99,11 +106,22 @@ class EntityBase
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public static function query()
+
+/*    public static function query()
     {
         $db = CASHDBAL::entityManager();
         return $db->getRepository(get_called_class())->createQueryBuilder("t");
-    }
+    }*/
+
+/*    public static function query()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self;
+        }
+
+        return self::$_instance;
+    }*/
+
 
     /**
      * Static method shortcut to map an array of values to a model and save it.

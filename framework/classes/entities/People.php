@@ -3,7 +3,8 @@
 namespace CASHMusic\Entities;
 
 /**
- * @Entity @Table(name="people")
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHRepository")
+ * @Table(name="people")
  */
 
 class People extends EntityBase {

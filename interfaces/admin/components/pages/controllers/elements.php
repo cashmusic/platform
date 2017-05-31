@@ -5,9 +5,10 @@ namespace CASHMusic\Admin;
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
-use CASHMusic\Entities\AssetAnalytics;
+use CASHMusic\Entities\People;
 
-$asset = AssetAnalytics::find(1);
+$asset = People::find(1);
+
 var_dump($asset);
 
 
