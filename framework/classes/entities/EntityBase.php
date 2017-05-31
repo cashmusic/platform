@@ -84,7 +84,7 @@ class EntityBase
      * @param $offset
      * @return object|bool
      */
-    public static function findAll($limit=null, $order_by=null, $offset=null)
+    public static function all($limit=null, $order_by=null, $offset=null)
     {
 
         $db = CASHDBAL::entityManager();

@@ -7,7 +7,10 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Entities\People;
 
-$asset = People::find(1);
+$asset = People::findWhere([
+	'email_address' => "tom@paperscissorsandglue.com",
+	'creation_date' => "1494279214"
+	]);
 
 var_dump($asset);
 
