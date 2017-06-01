@@ -109,3 +109,7 @@ The returned result is an array of Entity objects, so you can modify objects tha
 # Misc tools
 
 You can easily cast a loaded entity object's properties to an array (`$object->toArray()`) or JSON (`$object->toJson()`).
+
+# Doctrine QueryBuilder
+
+If you need to do something more complex, you can get a direct QueryBuilder instance via `$query = CASHDBAL::queryBuilder()`. [Read more on the Doctrine docs.](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/query-builder.html#high-level-api-methods)

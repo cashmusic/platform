@@ -301,22 +301,13 @@ class EntityBase
             $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
         }
 
-        $query = $this->getQueryBuilder($tableName);
+        $query = CASHDBAL::queryBuilder();
         $result = $query->select($tableName)->from($class_fqdn, $tableName)->where(
             $query->expr()->eq($tableName.'.'.$foreign_key, ':key')
         )
         ->setParameter(':key', $key)->getQuery()->getResult(5);
 
         return $result;
-    }
-
-    /**
-     * @param $tableName
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    private function getQueryBuilder($tableName) {
-        $db = CASHDBAL::entityManager();
-        return $db->createQueryBuilder($tableName);
     }
 
     /**

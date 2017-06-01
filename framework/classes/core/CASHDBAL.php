@@ -29,6 +29,11 @@ class CASHDBAL {
         return EntityManager::create($dbParams, $config);
     }
 
+    public static function queryBuilder() {
+        $db = self::entityManager();
+        return $db->createQueryBuilder();
+    }
+
 
 
 
