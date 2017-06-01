@@ -138,7 +138,7 @@ class MailchimpSeed extends SeedBase {
 		} else {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
-			error_log("FTP" .print_r($connections, true));
+			error_log("wtf ".json_encode($data));
 
 			$client = new MailChimpOAuth(
 				array(
