@@ -15,10 +15,13 @@
         "eddturtle/direct-upload": "^1.6",
         "filp/whoops": "^2.1",
         "swiftmailer/swiftmailer": "^5.4",
-        "slim/slim": "^3.0"
+        "slim/slim": "^3.0",
+        "doctrine/orm": "^2.5",
+        "doctrine/migrations": "^1.5"
     },
     "autoload": {
         "psr-4": {
+            "CASHMusic\\Entities\\": "framework/classes/entities",
             "CASHMusic\\Elements\\": "framework/elements",
             "CASHMusic\\Core\\": "framework/classes/core",
             "CASHMusic\\Plants\\": "framework/classes/plants",
