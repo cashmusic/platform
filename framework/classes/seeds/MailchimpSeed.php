@@ -138,6 +138,8 @@ class MailchimpSeed extends SeedBase {
 		} else {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
+			CASHSystem::errorLog($connections['com.mailchimp']);
+
 			$client = new MailChimpOAuth(
 				array(
 					'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
