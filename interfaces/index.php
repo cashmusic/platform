@@ -136,10 +136,10 @@ if ($user_id) {
 			}
 
 			foreach ($element_embeds[1] as $element_id) {
-				ob_start();
-				CASHSystem::embedElement($element_id,'direct',$user_url,false,$donottrack);
-				$page_vars['element_' . $element_id] = ob_get_contents();
-				ob_end_clean();
+				//ob_start();
+				//CASHSystem::embedElement($element_id,'embed',$user_url,false,$donottrack);
+				$page_vars['element_' . $element_id] = '<script src="'.CASH_PUBLIC_URL.'/cashmusic.js" data-element="'.$element_id.'"></script>'; //ob_get_contents();
+				//ob_end_clean();
 			}
 
 		}

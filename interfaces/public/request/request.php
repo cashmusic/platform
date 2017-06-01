@@ -15,6 +15,8 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+
+
 if (!isset($_REQUEST['nooutput'])) {
     $requests = false;
     if (isset($_GET['p'])) {
@@ -62,7 +64,7 @@ if (!isset($_REQUEST['nooutput'])) {
         if ($requests[0] != 'payload' || $requests[0] != 'json') {
             // open up some mustache in here:
             include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-            $freddiemercury = new Mustache;
+            $freddiemercury = new \Mustache;
         }
 
         if ($requests[0] == 'embed' && isset($requests[1])) {
