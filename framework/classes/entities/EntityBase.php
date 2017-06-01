@@ -145,7 +145,7 @@ class EntityBase
 
             return $new_object;
         } else {
-            throw new \Exception("A valid set of values is required to create a CASHMusic\\Model with this static helper method.");
+            throw new \Exception("A valid set of values is required to create a CASHMusic\\Entity with the create method.");
         }
     }
 
@@ -163,7 +163,27 @@ class EntityBase
     }
 
     /**
-     * Public shortcut function to delete a model.
+     * Public shortcut method for mass updating model properties. Gets filtered through $fillable.
+     * @param $values
+     * @return $this
+     * @throws \Exception
+     */
+    public function update($values) {
+        if (is_array($values) && count($values) > 0) {
+            foreach ($values as $key => $value) {
+                $this->$key = $value;
+            }
+
+            $this->save();
+
+            return $this;
+        } else {
+            throw new \Exception("A valid set of values is required to update a CASHMusic\\Entity with the update method.");
+        }
+    }
+
+    /**
+     * Public shortcut method to delete a model.
      * @param $id
      */
     public function delete($id) {

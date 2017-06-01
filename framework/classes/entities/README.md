@@ -34,9 +34,9 @@ Find all instances of a model.
 
 ## {EntityName}::create()
 
-Accepts an array of key=>values. `
+Accepts an array of key=>values. Returns the created entity.
 
-``` `
+```
 
 $user = People::create([ 'email_address' => 'dev@cashmusic.org', 'username' => "example", 'password'=> "covfefe" ]);
 ```
@@ -69,6 +69,18 @@ $asset->property = "foo";
 $asset->save();
 ```
 
+## $entity->update()
+
+Accepts an array of key=>values. Returns the updated entity.
+
+```
+
+$user->update([
+    'name' => 'covfefe',
+    'email_address' => "dev@cashmusic.org"
+  ]);
+```
+
 # Relationships
 
 Doctrine ORM was a jerk with having Entity classes extend a base class, so we made our own sort of rudimentary relationships, kind of based off of Eloquent's approach. It's for very basic relationship queries without any filtering, at the moment.
@@ -93,3 +105,7 @@ foreach($user->lists() as $list) {
 ```
 
 The returned result is an array of Entity objects, so you can modify objects that are returned like you would above.
+
+# Misc tools
+
+You can easily cast a loaded entity object's properties to an array (`$object->toArray()`) or JSON (`$object->toJson()`).
