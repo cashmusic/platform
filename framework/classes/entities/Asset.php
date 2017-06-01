@@ -117,5 +117,13 @@ class Asset extends EntityBase
      */
     protected $modificationDate = '0';
 
+    public function analytics($conditions=false) {
+        return $this->hasMany("AssetAnalytic", "id", "asset_id");
+    }
+
+    public function basicAnalytics($conditions=false) {
+        return $this->hasOne("AssetAnalyticsBasic", "id", "asset_id");
+    }
+
 }
 

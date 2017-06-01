@@ -5,12 +5,12 @@ namespace CASHMusic\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PeopleAnalytics
+ * PeopleAnalytic
  *
  * @Table(name="people_analytics")
  * @Entity
  */
-class PeopleAnalytics extends EntityBase
+class PeopleAnalytic extends EntityBase
 {
 
     protected $fillable;

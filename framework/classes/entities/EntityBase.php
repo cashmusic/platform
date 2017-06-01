@@ -15,8 +15,6 @@ class EntityBase
     protected $fillable = [];
     protected $query = null;
 
-    private static $_instance = null;
-
     /**
      * EntityBase constructor. Loads entity manager for Doctrine ORM.
      */
@@ -36,10 +34,9 @@ class EntityBase
     public static function find($id)
     {
         $db = CASHDBAL::entityManager();
-
         // if it's an array of ids we can try to get multiples
         $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
-
+        error_log(json_encode($object));
         if ($object) return $object;
 
         return false;
@@ -246,8 +243,25 @@ class EntityBase
      * @param bool $foreign_key
      * @return array
      */
-    public function hasOne($entity, $key=false, $foreign_key=false) {
-        return $this->getRelationship($entity, $key, $foreign_key);
+    public function hasOne($entity, $key=false, $foreign_key=false, $conditions=false) {
+        return $this->getRelationship($entity, $key, $foreign_key, $conditions);
+    }
+
+    /**
+     * @param $entity
+     * @param bool $key
+     * @param bool $foreign_key
+     * @param bool $where
+     * @param bool $limit
+     * @param bool $order_by
+     * @return array
+     */
+    public function hasMany($entity, $key=false, $foreign_key=false, $where=false, $limit=false, $order_by=false) {
+        return $this->getRelationship($entity, $key, $foreign_key, [
+            'where'=>$where,
+            'limit'=>$limit,
+            'order_by'=>$order_by
+        ]);
     }
 
     /**
@@ -256,18 +270,8 @@ class EntityBase
      * @param bool $foreign_key
      * @return array
      */
-    public function hasMany($entity, $key=false, $foreign_key=false) {
-        return $this->getRelationship($entity, $key, $foreign_key);
-    }
-
-    /**
-     * @param $entity
-     * @param bool $key
-     * @param bool $foreign_key
-     * @return array
-     */
-    public function belongsTo($entity, $key=false, $foreign_key=false) {
-        return $this->getRelationship($entity, $key, $foreign_key);
+    public function belongsTo($entity, $key=false, $foreign_key=false, $conditions=false) {
+        return $this->getRelationship($entity, $key, $foreign_key, $conditions);
     }
 
     /**
@@ -277,7 +281,7 @@ class EntityBase
      * @return array
      * @throws \Exception
      */
-    public function getRelationship($entity, $key=false, $foreign_key=false) {
+    public function getRelationship($entity, $key=false, $foreign_key=false, $conditions=false) {
 
         $class_fqdn = "\\CASHMusic\\Entities\\$entity";
         $db = CASHDBAL::entityManager();
@@ -301,11 +305,15 @@ class EntityBase
             $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
         }
 
+
+
         $query = CASHDBAL::queryBuilder();
-        $result = $query->select($tableName)->from($class_fqdn, $tableName)->where(
+        $query = $query->select($tableName)->from($class_fqdn, $tableName)->where(
             $query->expr()->eq($tableName.'.'.$foreign_key, ':key')
         )
-        ->setParameter(':key', $key)->getQuery()->getResult(5);
+        ->setParameter(':key', $key);
+
+        $query->getQuery()->getResult(5);
 
         return $result;
     }

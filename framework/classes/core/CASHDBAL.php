@@ -26,6 +26,7 @@ class CASHDBAL {
         );
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+
         return EntityManager::create($dbParams, $config);
     }
 

@@ -79,6 +79,10 @@ class People extends EntityBase {
     }
 
     /* relationships */
+    public function assets($where=false, $limit=false, $order_by=false) {
+        return $this->hasMany("Asset", "id", "user_id", $where, $limit, $order_by);
+    }
+
     public function lists($conditions=false) {
         return $this->hasMany("PeopleList", "id", "user_id");
     }
@@ -89,5 +93,13 @@ class People extends EntityBase {
 
     public function resetPassword($conditions=false) {
         return $this->hasMany("PeopleResetPassword", "id", "user_id");
+    }
+
+    public function analytics($conditions=false) {
+        return $this->hasMany("PeopleAnalytic", "id", "user_id");
+    }
+
+    public function basicAnalytics($conditions=false) {
+        return $this->hasOne("PeopleAnalyticsBasic", "id", "user_id");
     }
 }
