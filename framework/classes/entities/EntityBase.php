@@ -240,18 +240,43 @@ class EntityBase
      * Relationships
      */
 
+    /**
+     * @param $entity
+     * @param bool $key
+     * @param bool $foreign_key
+     * @return array
+     */
     public function hasOne($entity, $key=false, $foreign_key=false) {
         return $this->getRelationship($entity, $key, $foreign_key);
     }
 
+    /**
+     * @param $entity
+     * @param bool $key
+     * @param bool $foreign_key
+     * @return array
+     */
     public function hasMany($entity, $key=false, $foreign_key=false) {
         return $this->getRelationship($entity, $key, $foreign_key);
     }
 
+    /**
+     * @param $entity
+     * @param bool $key
+     * @param bool $foreign_key
+     * @return array
+     */
     public function belongsTo($entity, $key=false, $foreign_key=false) {
         return $this->getRelationship($entity, $key, $foreign_key);
     }
 
+    /**
+     * @param $entity
+     * @param bool $key
+     * @param bool $foreign_key
+     * @return array
+     * @throws \Exception
+     */
     public function getRelationship($entity, $key=false, $foreign_key=false) {
 
         $class_fqdn = "\\CASHMusic\\Entities\\$entity";
@@ -285,11 +310,18 @@ class EntityBase
         return $result;
     }
 
+    /**
+     * @param $tableName
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     private function getQueryBuilder($tableName) {
         $db = CASHDBAL::entityManager();
         return $db->createQueryBuilder($tableName);
     }
 
+    /**
+     * @return array
+     */
     public function toArray() {
 
         $properties = get_object_vars($this);
@@ -301,6 +333,9 @@ class EntityBase
         return $properties;
     }
 
+    /**
+     * @return string
+     */
     public function toJson() {
         $properties = $this->toArray();
 
