@@ -7,7 +7,6 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Entities\People;
 
-
 /*******************************************************************************
  *
  * 1. HANDLE CAMPAIGN SELECTION / DRAW SELECTOR

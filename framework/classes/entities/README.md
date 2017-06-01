@@ -92,4 +92,4 @@ foreach($user->lists() as $list) {
 }
 ```
 
-Note that this is currently read only access. Working on getting the array results parsed as entity objects but it means more queries. In the meanwhile it's probably far less expensive to just `PeopleList::find($list->id)` on what you need, if you need to write. If you need to do bulk writing you'll want to use the query builder anyways.
+The returned result is an array of Entity objects, so you can modify objects that are returned like you would above.

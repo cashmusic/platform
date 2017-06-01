@@ -269,4 +269,21 @@ class EntityBase
         $db = CASHDBAL::entityManager();
         return $db->createQueryBuilder($tableName);
     }
+
+    public function toArray() {
+
+        $properties = get_object_vars($this);
+
+        unset($properties['fillable']);
+        unset($properties['db']);
+        unset($properties['query']);
+
+        return $properties;
+    }
+
+    public function toJson() {
+        $properties = $this->toArray();
+
+        return json_encode($properties);
+    }
 }
