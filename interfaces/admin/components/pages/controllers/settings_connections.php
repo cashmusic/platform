@@ -147,8 +147,6 @@ if ($settings_action) {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						CASHSystem::errorLog("foo");
-						CASHSystem::errorLog($_REQUEST);
 						$returned_connection = $seed_name::handleRedirectReturn($admin_helper->getPersistentData('cash_effective_user'), $_REQUEST, $admin_helper);
 
 						//TODO: move form stuff here
