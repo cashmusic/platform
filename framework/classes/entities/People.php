@@ -2,6 +2,8 @@
 
 namespace CASHMusic\Entities;
 
+use CASHMusic\Core\CASHDBAL;
+
 /**
  * @Entity(repositoryClass="CASHMusic\Entities\CASHRepository")
  * @Table(name="people")

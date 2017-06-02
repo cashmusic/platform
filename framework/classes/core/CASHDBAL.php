@@ -5,16 +5,13 @@ namespace CASHMusic\Core;
 use CASHMusic\Core\CASHSystem;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class CASHDBAL {
 
     public static function entityManager()
     {
         $paths = array(CASH_PLATFORM_ROOT."/classes/entities");
-        $isDevMode = false;
+        $isDevMode = true;
 
         $cash_db_settings = CASHSystem::getSystemSettings();
 

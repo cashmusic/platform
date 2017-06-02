@@ -4,6 +4,7 @@ namespace CASHMusic\Entities;
 
 use CASHMusic\Core\CASHSystem;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 use CASHMusic\Core\CASHDBAL;
@@ -35,8 +36,12 @@ class EntityBase
     {
         $db = CASHDBAL::entityManager();
         // if it's an array of ids we can try to get multiples
-        $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
-        error_log(json_encode($object));
+        try {
+            $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
+
         if ($object) return $object;
 
         return false;

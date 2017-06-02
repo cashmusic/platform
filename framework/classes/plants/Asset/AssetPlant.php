@@ -18,12 +18,15 @@
 
 namespace CASHMusic\Plants\Asset;
 
+use CASHMusic\Core\CASHDBAL;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
 use CASHMusic\Entities\People;
 use CASHMusic\Seeds\S3Seed;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
@@ -158,10 +161,8 @@ class AssetPlant extends PlantBase {
 				"value" => $parent_id
 			);
 		}*/
-
-		$user = People::find($user_id);
-		error_log("anything");
-
+		$object = People::find(1);
+		error_log(json_encode($object));
 		return true;
 	}
 
