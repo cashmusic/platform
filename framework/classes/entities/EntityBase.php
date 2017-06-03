@@ -16,6 +16,11 @@ class EntityBase
     protected $fillable = [];
     protected $query = null;
 
+    public function __construct()
+    {
+        $this->db = CASHDBAL::entityManager();
+    }
+
     /**
      * EntityBase constructor. Loads entity manager for Doctrine ORM.
      */
@@ -326,6 +331,13 @@ class EntityBase
 
         $properties = get_object_vars($this);
 
+        // make sure we're getting an array for these properties
+        foreach ($properties as $key => &$property) {
+            if (in_array($key, ['metadata', 'data'])) {
+                $property = json_decode($property, true);
+            }
+        }
+
         unset($properties['fillable']);
         unset($properties['db']);
         unset($properties['query']);
@@ -345,5 +357,19 @@ class EntityBase
     public function dd() {
         $properties = $this->toArray();
         CASHSystem::dd($properties);
+    }
+
+    public function getFieldType($field) {
+        $metadata = CASHDBAL::entityManager()->getClassMetadata(get_called_class());
+
+        if (isset($metadata->fieldMappings[$field])) {
+            $nameMetadata = $metadata->fieldMappings[$field];
+            return $nameMetadata['type'];
+        } else {
+            return false;
+        }
+
+
+
     }
 }
