@@ -158,6 +158,7 @@ class AssetPlant extends PlantBase {
 
         try {
 
+			// this should actually be from People but i need to build out conditions for relationships
             $assets = Asset::findWhere($options);
 
 		} catch (\Exception $e) {
@@ -214,37 +215,19 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return string
 	 */protected function getAssetInfo($id,$user_id=false) {
-		// first set conditions based on single id or array
-		if (!is_array($id)) {
-			// straightforward...i mean seriously
-			$conditions = array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			);
-		} else {
-			// implode array and use IN operator
-			$conditions = array(
-				"id" => array(
-					"condition" => "IN",
-					"value" => $id
-				)
-			);
-		}
+
+		// handles array or integer
+    	$conditions = ['id'=>$id];
+
 		if ($user_id) {
-			$conditions['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			$conditions
-		);
+
+		$result = Asset::findWhere($conditions);
+
 		if ($result) {
 			foreach ($result as &$asset_info) {
+				$asset_info = $asset_info->toArray();
 				$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
 				$asset_info['metadata'] = json_decode($asset_info['metadata'],true);
 				if (!is_array($asset_info['metadata'])) {
@@ -258,6 +241,7 @@ class AssetPlant extends PlantBase {
 					$asset_info['metadata'] = $output_array;
 				}
 			}
+
 			if (!is_array($id)) {
 				return $result[0];
 			} else {

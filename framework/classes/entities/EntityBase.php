@@ -314,7 +314,7 @@ class EntityBase
         )
         ->setParameter(':key', $key);
 
-        $query->getQuery()->getResult(5);
+        $result = $query->getQuery()->getResult(5);
 
         return $result;
     }

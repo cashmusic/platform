@@ -200,7 +200,7 @@ if (is_array($files_response['payload'])) {
 	foreach ($files_response['payload'] as &$asset) {
         $asset = $asset->toArray();
         $asset['metadata'] = json_decode($asset['metadata'], true);
-co
+
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
