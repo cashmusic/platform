@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Asset extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = [];
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
@@ -24,14 +24,14 @@ class Asset extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="parent_id", type="integer", nullable=true)
      */
-    protected $parentId;
+    protected $parent_id;
 
     /**
      * @var string
@@ -45,14 +45,14 @@ class Asset extends EntityBase
      *
      * @Column(name="public_url", type="string", length=255, nullable=true)
      */
-    protected $publicUrl;
+    protected $public_url;
 
     /**
      * @var integer
      *
      * @Column(name="connection_id", type="integer", nullable=true)
      */
-    protected $connectionId;
+    protected $connection_id;
 
     /**
      * @var string
@@ -87,7 +87,7 @@ class Asset extends EntityBase
      *
      * @Column(name="public_status", type="boolean", nullable=true)
      */
-    protected $publicStatus = '0';
+    protected $public_status = '0';
 
     /**
      * @var integer
@@ -108,14 +108,14 @@ class Asset extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     public function analytics($conditions=false) {
         return $this->hasMany("AssetAnalytic", "id", "asset_id");

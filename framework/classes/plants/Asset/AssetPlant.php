@@ -23,6 +23,7 @@ use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Entities\Asset;
 use CASHMusic\Entities\People;
 use CASHMusic\Seeds\S3Seed;
 use Doctrine\ORM\EntityManager;
@@ -143,27 +144,32 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getAssetsForUser($user_id,$type=false,$parent_id=false) {
-/*		$options_array = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			)
-		);
+		$options = [
+			"user_id" => $user_id
+		];
+
 		if ($type !== false) {
-			$options_array["type"] = array(
-				"condition" => "=",
-				"value" => $type
-			);
+			$options["type"] = $type;
 		}
+
 		if ($parent_id !== false) {
-			$options_array["parent_id"] = array(
-				"condition" => "=",
-				"value" => $parent_id
-			);
-		}*/
-		$object = People::find(1);
-		error_log(json_encode($object));
-		return true;
+			$options["parent_id"] = $parent_id;
+		}
+
+        try {
+
+            $assets = Asset::findWhere($options);
+
+		} catch (\Exception $e) {
+        	CASHSystem::errorLog($e->getMessage());
+		}
+
+		if (!is_array($assets)) {
+            return $assets->toArray();
+		} else {
+			return $assets;
+		}
+
 	}
 
 	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {

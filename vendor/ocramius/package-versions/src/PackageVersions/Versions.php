@@ -62,7 +62,7 @@ final class Versions
   'symfony/yaml' => 'v3.2.8@acec26fcf7f3031e094e910b94b002fa53d4e4d6',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-dba-to-doctrine@986586f5c226c701806466830cca7bffdc23ca23',
+  'cashmusic/platform' => 'dev-dba-to-doctrine@29a9b724b53ce4fb107937d9d69b3abb4c0a2730',
 );
 
     private function __construct()

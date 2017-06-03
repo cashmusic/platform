@@ -100,6 +100,10 @@ if (is_array($releases_response['payload'])) {
 		$cash_admin->page_data['two_remaining'] = true;
 	}
 	foreach ($releases_response['payload'] as &$asset) {
+
+        $asset = $asset->toArray();
+        $asset['metadata'] = json_decode($asset['metadata'], true);
+
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
@@ -194,6 +198,9 @@ if (is_array($playlists_response['payload'])) {
 if (is_array($files_response['payload'])) {
 	$files_response['payload'] = array_reverse($files_response['payload']); // newest first
 	foreach ($files_response['payload'] as &$asset) {
+        $asset = $asset->toArray();
+        $asset['metadata'] = json_decode($asset['metadata'], true);
+co
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {

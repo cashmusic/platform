@@ -11,7 +11,7 @@ use CASHMusic\Core\CASHDBAL;
 
 class People extends EntityBase {
 
-    protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data'];
+    protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data', 'is_admin'];
 
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
@@ -103,5 +103,9 @@ class People extends EntityBase {
 
     public function basicAnalytics($conditions=false) {
         return $this->hasOne("PeopleAnalyticsBasic", "id", "user_id");
+    }
+
+    public function setEmail($email) {
+        $this->email_address = $email;
     }
 }

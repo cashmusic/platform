@@ -19,10 +19,6 @@ class EntityBase
     /**
      * EntityBase constructor. Loads entity manager for Doctrine ORM.
      */
-    public function __construct()
-    {
-        $this->db = CASHDBAL::entityManager();
-    }
 
     /**
      * Static method shortcut to search by id.
@@ -344,5 +340,10 @@ class EntityBase
         $properties = $this->toArray();
 
         return json_encode($properties);
+    }
+
+    public function dd() {
+        $properties = $this->toArray();
+        CASHSystem::dd($properties);
     }
 }
