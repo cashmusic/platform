@@ -1368,5 +1368,16 @@ abstract class CASHSystem  {
 
         return $string;
     }
+
+    public static function isJson($string) {
+
+    	try {
+            json_decode($string);
+		} catch (\Exception $e) {
+			return false;
+		}
+
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
 } // END class
 ?>

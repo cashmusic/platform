@@ -35,9 +35,9 @@ class EntityBase
      */
     public static function find($id)
     {
-        $db = CASHDBAL::entityManager();
         // if it's an array of ids we can try to get multiples
         try {
+            $db = CASHDBAL::entityManager();
             $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
         } catch (\Exception $e) {
             error_log($e->getMessage());
@@ -66,16 +66,20 @@ class EntityBase
     public static function findWhere($values, $limit=null, $order_by=null, $offset=null)
     {
 
-        $db = CASHDBAL::entityManager();
+        try {
+            $db = CASHDBAL::entityManager();
 
-        // if it's an array of ids we can try to get multiples
-        if (is_array($values)) {
-            $object = $db->getRepository(get_called_class())->findBy($values);
-        } else {
-            $object = self::find($values);
+            // if it's an array of ids we can try to get multiples
+            if (is_array($values)) {
+                $object = $db->getRepository(get_called_class())->findBy($values);
+            } else {
+                $object = self::find($values);
+            }
+
+            if ($object) return $object;
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
         }
-
-        if ($object) return $object;
 
         return false;
     }
@@ -91,40 +95,19 @@ class EntityBase
     public static function all($limit=null, $order_by=null, $offset=null)
     {
 
-        $db = CASHDBAL::entityManager();
-        $object = $db->getRepository(get_called_class())->findAll();
+        try {
 
-        if ($object) return $object;
+
+            $db = CASHDBAL::entityManager();
+            $object = $db->getRepository(get_called_class())->findAll();
+
+            if ($object) return $object;
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
 
         return false;
     }
-
-    /**
-     * This is a start; we could use static method chaining to make this less shitty.
-     * the getQuery/getResult combo at the end kills me.
-     *
-     * $user = People::query()
-     * ->where("t.email_address = :email")
-     * ->setParameter('email', 'info@cashmusic.org')
-     * ->getQuery()->getResult();
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-
-/*    public static function query()
-    {
-        $db = CASHDBAL::entityManager();
-        return $db->getRepository(get_called_class())->createQueryBuilder("t");
-    }*/
-
-/*    public static function query()
-    {
-        if (self::$_instance === null) {
-            self::$_instance = new self;
-        }
-
-        return self::$_instance;
-    }*/
 
 
     /**
@@ -158,9 +141,13 @@ class EntityBase
      */
     public function save()
     {
-        if (!$this->db) $this->db = CASHDBAL::entityManager();
-        $this->db->merge($this);
-        $this->db->flush();
+        try {
+            if (!$this->db) $this->db = CASHDBAL::entityManager();
+            $this->db->merge($this);
+            $this->db->flush();
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
 
         return $this;
     }
@@ -191,12 +178,17 @@ class EntityBase
      */
     public function delete($id) {
 
-        $db = CASHDBAL::entityManager();
+        try {
+            $db = CASHDBAL::entityManager();
 
-        $object = self::find($id);
+            $object = self::find($id);
 
-        $db->remove($object);
-        $db->flush();
+            $db->remove($object);
+            $db->flush();
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
 
     }
 
@@ -250,7 +242,7 @@ class EntityBase
      * @return array
      */
     public function hasOne($entity, $key=false, $foreign_key=false, $conditions=false) {
-        return $this->getRelationship($entity, $key, $foreign_key, $conditions);
+        return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
     }
 
     /**
@@ -263,7 +255,15 @@ class EntityBase
      * @return array
      */
     public function hasMany($entity, $key=false, $foreign_key=false, $where=false, $limit=false, $order_by=false) {
-        return $this->getRelationship($entity, $key, $foreign_key, [
+        return $this->getRelationship($entity, $key, $foreign_key, false, [
+            'where'=>$where,
+            'limit'=>$limit,
+            'order_by'=>$order_by
+        ]);
+    }
+
+    public function hasManyPolymorphic($entity, $key, $scope_alias, $where=false, $limit=false, $order_by=false) {
+        return $this->getRelationship($entity, $key, "polymorphic", $scope_alias, [
             'where'=>$where,
             'limit'=>$limit,
             'order_by'=>$order_by
@@ -277,7 +277,7 @@ class EntityBase
      * @return array
      */
     public function belongsTo($entity, $key=false, $foreign_key=false, $conditions=false) {
-        return $this->getRelationship($entity, $key, $foreign_key, $conditions);
+        return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
     }
 
     /**
@@ -287,39 +287,52 @@ class EntityBase
      * @return array
      * @throws \Exception
      */
-    public function getRelationship($entity, $key=false, $foreign_key=false, $conditions=false) {
+    public function getRelationship($entity, $key=false, $foreign_key=false, $scope=false, $conditions=false) {
 
-        $class_fqdn = "\\CASHMusic\\Entities\\$entity";
-        $db = CASHDBAL::entityManager();
-        $tableName = $db->getClassMetadata($class_fqdn)->getTableName();
+        try {
+            $class_fqdn = "\\CASHMusic\\Entities\\$entity";
+            $db = CASHDBAL::entityManager();
+            $tableName = $db->getClassMetadata($class_fqdn)->getTableName();
 
-        if (!$key) {
-            $key = $this->id;
-        } else {
-            $key = CASHSystem::snakeToCamelCase($key);;
-            $key = $this->$key;
-        }
-
-        if (!$foreign_key) {
-            if (substr($tableName, -1) == 's')
-            {
-                $foreign_key = substr($tableName, 0, -1)."_id";
+            if (!$key) {
+                $key = $this->id;
             } else {
-                throw new \Exception("Needs a foreign key name.");
+                $key = CASHSystem::snakeToCamelCase($key);;
+                $key = $this->$key;
             }
-        } else {
-            $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
+
+            if (!$foreign_key) {
+                if (substr($tableName, -1) == 's') {
+                    $foreign_key = substr($tableName, 0, -1) . "_id";
+                } else {
+                    throw new \Exception("Needs a foreign key name.");
+                }
+            } else {
+                $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
+            }
+
+
+            $query = CASHDBAL::queryBuilder();
+            $query = $query->select($tableName)->from($class_fqdn, $tableName);
+
+            // if this is non polymorphic
+            if (!$scope) {
+                $query = $query->where(
+                    $query->expr()->eq($tableName . '.' . $foreign_key, ':key')
+                )->setParameter(':key', $key);
+            } else {
+                $query = $query->where(
+                    $query->expr()->eq($tableName . '.scope_table_id', ':key')
+                )->andWhere(
+                    $query->expr()->eq($tableName . '.scope_table_alias', ':scope')
+                )->setParameter(':key', $key)->setParameter(':scope', $scope);
+            }
+
+            $result = $query->getQuery()->getResult(5);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
-
-
-
-        $query = CASHDBAL::queryBuilder();
-        $query = $query->select($tableName)->from($class_fqdn, $tableName)->where(
-            $query->expr()->eq($tableName.'.'.$foreign_key, ':key')
-        )
-        ->setParameter(':key', $key);
-
-        $result = $query->getQuery()->getResult(5);
 
         return $result;
     }
@@ -333,7 +346,7 @@ class EntityBase
 
         // make sure we're getting an array for these properties
         foreach ($properties as $key => &$property) {
-            if (in_array($key, ['metadata', 'data'])) {
+            if (CASHSystem::isJson($property)) { //in_array($key, ['metadata', 'data'])
                 $property = json_decode($property, true);
             }
         }
@@ -360,16 +373,18 @@ class EntityBase
     }
 
     public function getFieldType($field) {
-        $metadata = CASHDBAL::entityManager()->getClassMetadata(get_called_class());
 
-        if (isset($metadata->fieldMappings[$field])) {
-            $nameMetadata = $metadata->fieldMappings[$field];
-            return $nameMetadata['type'];
-        } else {
-            return false;
+        try {
+            $metadata = CASHDBAL::entityManager()->getClassMetadata(get_called_class());
+
+            if (isset($metadata->fieldMappings[$field])) {
+                $nameMetadata = $metadata->fieldMappings[$field];
+                return $nameMetadata['type'];
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
         }
-
-
-
     }
 }

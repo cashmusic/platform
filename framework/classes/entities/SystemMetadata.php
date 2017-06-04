@@ -19,21 +19,21 @@ class SystemMetadata extends EntityBase
      *
      * @Column(name="scope_table_alias", type="string", length=255, nullable=false)
      */
-    protected $scopeTableAlias = '';
+    protected $scope_table_alias = '';
 
     /**
      * @var integer
      *
      * @Column(name="scope_table_id", type="integer", nullable=false)
      */
-    protected $scopeTableId = '0';
+    protected $scope_table_id = '0';
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId = '0';
+    protected $user_id = '0';
 
     /**
      * @var string
@@ -54,14 +54,14 @@ class SystemMetadata extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

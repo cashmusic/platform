@@ -10,23 +10,23 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="elements")
  * @Entity
  */
-class Elements extends EntityBase
+class Element extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['template_id'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="template_id", type="integer", nullable=true)
      */
-    protected $templateId = '-2';
+    protected $template_id = '-2';
 
     /**
      * @var string
@@ -54,24 +54,28 @@ class Elements extends EntityBase
      *
      * @Column(name="license_id", type="integer", nullable=true)
      */
-    protected $licenseId = '0';
+    protected $license_id = '0';
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+    public function metadata($conditions=false) {
+        return $this->hasManyPolymorphic("SystemMetadata", "id", "elements");
+    }
 
 }
 

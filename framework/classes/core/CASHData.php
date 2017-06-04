@@ -542,17 +542,12 @@ abstract class CASHData {
 		return $result;
 	}
 
-	public function getAllMetaData($scope_table_alias,$scope_table_id,$data_key=false,$ignore_or_match='match') {
-		$options_array = array(
-			"scope_table_alias" => array(
-				"condition" => "=",
-				"value" => $scope_table_alias
-			),
-			"scope_table_id" => array(
-				"condition" => "=",
-				"value" => $scope_table_id
-			)
-		);
+	public function getAllMetaData($entity,$data_key=false,$ignore_or_match='match') {
+
+		// we pass in an ORM entity, that hopefully has a metadata relationship set
+        if (!$entity) {
+        	return false;
+        }
 		// most $data_keys will be unique per user per table+id, but tags need multiple
 		// so we'll add a filter. pass 'tag' as the final option to getAllMetaData
 		// to get an array of all tag rows for a single table+id
@@ -566,14 +561,20 @@ abstract class CASHData {
 				"value" => $data_key
 			);
 		}
-		$result = $this->db->getData(
-			'metadata',
-			'*',
-			$options_array
-		);
-		if ($result) {
+
+        try {
+            $metadata = $entity->metadata();
+		} catch (\Exception $e) {
+        	if (CASH_DEBUG) {
+        		CASHSystem::errorLog("Missing a metadata relationship on this entity model class.");
+			}
+        	return false;
+		}
+
+		if ($metadata) {
 			$return_array = array();
-			foreach ($result as $row) {
+			foreach ($metadata as $row) {
+				$row = $row->toArray();
 				if ($data_key == 'tag' && $ignore_or_match == 'match') {
 					$return_array[] = $row['value'];
 				} else {

@@ -191,7 +191,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						$admin_primary_cash_request->startSession();
 						$admin_primary_cash_request->sessionSet('cash_actual_user',$id_response['payload']);
 						$admin_primary_cash_request->sessionSet('cash_effective_user',$id_response['payload']);
-						$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
+						$admin_primary_cash_request->sessionSet('cash_effective_user_email',$_REQUEST['address']);
 
 						// handle initial login chores
 						$cash_admin->runAtLogin();

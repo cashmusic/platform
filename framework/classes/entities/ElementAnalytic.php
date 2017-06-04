@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="elements_analytics", indexes={@Index(name="elements_analytics_element_id", columns={"element_id"})})
  * @Entity
  */
-class ElementsAnalytics extends EntityBase
+class ElementAnalytic extends EntityBase
 {
 
     protected $fillable;

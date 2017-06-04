@@ -165,7 +165,7 @@ class AssetPlant extends PlantBase {
         	CASHSystem::errorLog($e->getMessage());
 		}
 
-		if (!is_array($assets)) {
+		if (is_object($assets)) {
             return $assets->toArray();
 		} else {
 			return $assets;

@@ -150,6 +150,7 @@ if ($current_campaign == -1) {
 	if ($extra_elements > 0) {
 		$elements_for_campaign = array();
 		foreach ($all_elements_response['payload'] as $element) {
+			$element = $element->toArray();
 			if (!in_array($element['id'], $campaign_elements)) {
 				$elements_for_campaign[] = $element;
 			}

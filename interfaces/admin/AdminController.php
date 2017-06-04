@@ -134,6 +134,7 @@ class AdminController {
         $cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
         if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_') && $logged_in) {
             $parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
+
             if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
                 define('BASE_PAGENAME', $parsed_request);
                 $include_filename = BASE_PAGENAME.'.php';

@@ -22,6 +22,9 @@ use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\Element;
+use CASHMusic\Entities\ElementAnalytic;
+use CASHMusic\Entities\ElementAnalyticBasic;
 
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
@@ -146,38 +149,25 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function getElement($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+            $element = Element::findWhere(['id'=>$id, 'user_id'=>$user_id]);
+		} else {
+			$element = Element::find($id);
 		}
-		$result = $this->db->getData(
-			'elements',
-			'id,name,type,user_id,template_id,options',
-			$condition
-		);
-		if ($result) {
-			$the_element = array(
-				'id' => $result[0]['id'],
-				'name' => $result[0]['name'],
-				'type' => $result[0]['type'],
-				'user_id' => $result[0]['user_id'],
-				'template_id' => $result[0]['template_id'],
-				'options' => json_decode($result[0]['options'],true)
-			);
+
+		if ($element) {
+
+			if (is_array($element)) $element = $element[0];
 
 			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
-			$allmetadata = $this->getAllMetaData('elements',$id);
+			$allmetadata = $this->getAllMetaData($element);
+
+			// convert this to an array to work with current structure
+            $element = $element->toArray();
 			if (is_array($allmetadata)) {
 				// Loop through $this->options and turn metadata values into real values
-				foreach ($the_element['options'] as $name => $value) {
+				foreach ($element['options'] as $name => $value) {
 					// now check all metadata, one at a time
 					foreach ($allmetadata as $dataname => $data) {
 						// an array means it's a scalar, loop through
@@ -201,7 +191,7 @@ class ElementPlant extends PlantBase {
 				}
 			}
 
-			return $the_element;
+			return $element;
 		} else {
 			return false;
 		}
@@ -253,40 +243,38 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function setElementTemplate($element_id,$template_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $element_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+
+        try {
+            if ($user_id) {
+                $element = Element::findWhere(['id'=>$element_id, 'user_id'=>$user_id]);
+            } else {
+                $element = Element::find($element_id);
+            }
+
+            $element->template_id = $template_id;
+            $element->save();
+
+            return $element->toArray();
+
+		} catch (\Exception $e) {
+			if (CASH_DEBUG) {
+				CASHSystem::errorLog($e->getMessage());
+			}
+        	return false;
 		}
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'template_id' => $template_id
-			),
-			$condition
-		);
-		return $result;
 	}
 
 	protected function getElementsForUser($user_id) {
-		$result = $this->db->getData(
-			'elements',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
+        try {
+            $elements = Element::findWhere(['user_id'=>$user_id]);
+        } catch (\Exception $e) {
+            if (CASH_DEBUG) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+            return false;
+        }
+
+        return $elements;
 	}
 
 	protected function getSupportedTypes($force_all=false) {
@@ -340,41 +328,31 @@ class ElementPlant extends PlantBase {
 		// first the big record if needed
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
-			$result = $this->db->setData(
-				'elements_analytics',
-				array(
-					'element_id' => $id,
-					'access_method' => $access_method,
-					'access_location' => $location,
-					'access_action' => $access_action,
-					'access_data' => json_encode($access_data),
-					'access_time' => time(),
-					'client_ip' => $ip_and_proxy['ip'],
-					'client_proxy' => $ip_and_proxy['proxy'],
-					'cash_session_id' => $this->getSessionID()
-				)
-			);
+
+			$result = ElementAnalytic::create([
+                'element_id' => $id,
+                'access_method' => $access_method,
+                'access_location' => $location,
+                'access_action' => $access_action,
+                'access_data' => json_encode($access_data),
+                'access_time' => time(),
+                'client_ip' => $ip_and_proxy['ip'],
+                'client_proxy' => $ip_and_proxy['proxy'],
+                'cash_session_id' => $this->getSessionID()
+            ]);
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$condition = array(
-				"element_id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			);
-			$current_result = $this->db->getData(
-				'elements_analytics_basic',
-				'*',
-				$condition
-			);
+			$result = ElementAnalyticBasic::findWhere(['element_id'=>$id]);
+
 			$short_geo = false;
 			if (is_array($access_data)) {
 				if (isset($access_data['geo'])) {
 					$short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
 				}
 			}
-			if (is_array($current_result)) {
+
+			if ($result) {
 				$new_total = $current_result[0]['total'] +1;
 				$data      = json_decode($current_result[0]['data'],true);
 				if (isset($data['locations'][$location])) {
@@ -407,15 +385,12 @@ class ElementPlant extends PlantBase {
 				);
 				$condition = false;
 			}
-			$result = $this->db->setData(
-				'elements_analytics_basic',
-				array(
-					'element_id' => $id,
-					'data' => json_encode($data),
-					'total' => $new_total
-				),
-				$condition
-			);
+
+			$result->total = $new_total;
+			$result->data = $data;
+			$result->save();
+
+			return $result->toArray();
 		}
 
 		return $result;

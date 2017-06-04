@@ -125,5 +125,9 @@ class Asset extends EntityBase
         return $this->hasOne("AssetAnalyticsBasic", "id", "asset_id");
     }
 
+    public function metadata($conditions=false) {
+        return $this->hasManyPolymorphic("SystemMetadata", "id", "assets");
+    }
+
 }
 
