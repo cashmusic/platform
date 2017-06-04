@@ -298,7 +298,7 @@ class ElementPlant extends PlantBase {
 	/**
 	 * Records the basic access data to the elements analytics table
 	 *
-	 * @return boolean
+	 * @return array|boolean
 	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$location=false,$access_data='') {
 		// check settings first as they're already loaded in the environment
 		$record_type = CASHSystem::getSystemSettings('analytics');
@@ -390,10 +390,10 @@ class ElementPlant extends PlantBase {
 			$result->data = $data;
 			$result->save();
 
-			return $result->toArray();
+            return $result->toArray();
 		}
 
-		return $result;
+
 	}
 
 	/**
