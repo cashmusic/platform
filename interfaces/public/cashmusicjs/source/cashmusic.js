@@ -933,7 +933,7 @@
 
 				setid: function(id) {
 					var cm = window.cashmusic;
-					var session = JSON.parse(id);
+					var session = id;
 					// first set the local session id
 					cm.sessionid = session.id;
 					// now try making it persistent
