@@ -1,0 +1,41 @@
+{
+    "name": "ocramius/package-versions",
+    "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com"
+        }
+    ],
+    "require": {
+        "php":                 "~7.0",
+        "composer-plugin-api": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit":   "^5.4.7",
+        "composer/composer": "^1.3",
+        "ext-zip":           "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PackageVersions\\": "src/PackageVersions"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PackageVersionsTest\\": "test/PackageVersionsTest"
+        }
+    },
+    "extra": {
+        "class": "PackageVersions\\Installer",
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    },
+    "scripts": {
+        "post-update-cmd":  "PackageVersions\\Installer::dumpVersionsClass",
+        "post-install-cmd": "PackageVersions\\Installer::dumpVersionsClass"
+    }
+}
