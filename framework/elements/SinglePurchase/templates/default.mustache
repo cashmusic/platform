@@ -278,12 +278,10 @@
 			}
 		}
 
-
-
       {{#showsuccess}}
-          var fuckity = {"id":"{{session_id}}"};
-          console.log(fuckity);
-          cm.session.setid(fuckity);
+          var session = {"id":"{{session_id}}"};
+
+          cm.session.setid(session);
           cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
       {{/showsuccess}}
 	});
