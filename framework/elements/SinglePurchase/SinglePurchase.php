@@ -207,8 +207,10 @@ class SinglePurchase extends ElementBase {
 			}
 		}
 
+        CASHSystem::errorLog($this->status_uid);
 
-      if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
+
+        if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
          $this->setError("No valid payment connection found.");
       }
 
