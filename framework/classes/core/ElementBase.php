@@ -51,7 +51,9 @@ abstract class ElementBase extends CASHData {
 			$this->startSession($this->session_id);
 		} else {
 			// not called via embed. on-page element. full session party
-			$this->startSession();
+			$session_id = $this->startSession();
+
+			$this->session_id = $session_id['id'];
 
 			CASHSystem::errorLog("started new session");
 			CASHSystem::errorLog("new session id is ".$this->session_id);
