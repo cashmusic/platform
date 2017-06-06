@@ -19,7 +19,7 @@ class ElementAnalyticBasic extends EntityBase
      *
      * @Column(name="element_id", type="integer", nullable=false)
      */
-    protected $elementId;
+    protected $element_id;
 
     /**
      * @var string
@@ -40,14 +40,14 @@ class ElementAnalyticBasic extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

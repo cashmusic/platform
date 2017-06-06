@@ -19,77 +19,77 @@ class ElementAnalytic extends EntityBase
      *
      * @Column(name="element_id", type="integer", nullable=false)
      */
-    protected $elementId;
+    protected $element_id;
 
     /**
      * @var string
      *
      * @Column(name="access_method", type="string", length=255, nullable=false)
      */
-    protected $accessMethod;
+    protected $access_method;
 
     /**
      * @var string
      *
      * @Column(name="access_location", type="text", length=65535, nullable=false)
      */
-    protected $accessLocation;
+    protected $access_location;
 
     /**
      * @var string
      *
      * @Column(name="access_action", type="string", length=255, nullable=false)
      */
-    protected $accessAction;
+    protected $access_action;
 
     /**
      * @var string
      *
      * @Column(name="access_data", type="text", length=65535, nullable=false)
      */
-    protected $accessData;
+    protected $access_data;
 
     /**
      * @var integer
      *
      * @Column(name="access_time", type="integer", nullable=false)
      */
-    protected $accessTime;
+    protected $access_time;
 
     /**
      * @var string
      *
      * @Column(name="client_ip", type="string", length=255, nullable=false)
      */
-    protected $clientIp;
+    protected $client_ip;
 
     /**
      * @var string
      *
      * @Column(name="client_proxy", type="string", length=255, nullable=false)
      */
-    protected $clientProxy;
+    protected $client_proxy;
 
     /**
      * @var string
      *
      * @Column(name="cash_session_id", type="string", length=255, nullable=false)
      */
-    protected $cashSessionId;
+    protected $cash_session_id;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

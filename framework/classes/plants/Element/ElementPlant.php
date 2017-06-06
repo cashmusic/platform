@@ -19,12 +19,14 @@
 namespace CASHMusic\Plants\Element;
 
 use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHDBAL;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Entities\Element;
 use CASHMusic\Entities\ElementAnalytic;
 use CASHMusic\Entities\ElementAnalyticBasic;
+use CASHMusic\Entities\People;
 
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
@@ -400,53 +402,58 @@ class ElementPlant extends PlantBase {
 	 * Pulls analytics queries in a few different formats
 	 *
 	 * @return array
-	 */protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
+	 */
+	protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
+
+
+
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
-				$result = $this->db->getData(
-					'ElementPlant_getAnalytics_mostactive',
-					false,
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
+
+				$query = CASHDBAL::queryBuilder();
+
+					$query->select(
+						["analytics",
+							"count(analytics.id) as total",
+						    "elements.name as name"]
 					)
-				);
+					->from("CASHMusic:ElementAnalytic", "analytics")
+					->join("CASHMusic:Element", "elements", "WITH", 'analytics.element_id = elements.id')
+                ->where('elements.user_id = :user_id')
+				->andWhere($query->expr()->gte('analytics.access_time', ':two_weeks'))
+				->setParameter("user_id", $user_id)
+				->setParameter("two_weeks", (time() - 1209600))
+					->groupBy("analytics.element_id")
+					->orderBy("total", "DESC");
+
+				$query = $query->getQuery();
+				$result = $query->getScalarResult();
+
 				return $result;
 				break;
 			case 'elementbasics':
-				$result = $this->db->getData(
-					'elements_analytics_basic',
-					'*',
-					array(
-						"element_id" => array(
-							"condition" => "=",
-							"value" => $element_id
-						)
-					)
-				);
+
+				$result = ElementAnalyticBasic::findWhere(['element_id' => $element_id]);
+
 				if ($result) {
-					$data = json_decode($result[0]['data'],true);
-					$data['total'] = $result[0]['total'];
-					return $data;
+
+                    if (is_array($result)) {
+                        $result = $result[0]->toArray();
+                    } else {
+                        $result = $result->toArray();
+                    }
+
+                    $data = $result['data'];
+                    $data['total'] = $result['total'];
+                    return $data;
 				} else {
 					return false;
 				}
 				break;
 			case 'recentlyadded':
-				$result = $this->db->getData(
-					'elements',
-					'*',
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
-					),
-					false,
-					'creation_date DESC'
-				);
+
+				$result = People::find($user_id)->elements(false, false, "creation_date DESC");
+
 				return $result;
 				break;
 		}
@@ -485,17 +492,18 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function addElement($name,$type,$options_data,$user_id) {
-		$options_data = json_encode($options_data);
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'name' => $name,
-				'type' => $type,
-				'options' => $options_data,
-				'user_id' => $user_id
-			)
-		);
-		return $result;
+		// if this worked we can cast to an array
+		if($result = Element::create([
+            'name' => $name,
+            'type' => $type,
+            'options' => $options_data,
+            'user_id' => $user_id
+        ])) {
+			CASHSystem::errorLog($result->toArray());
+			return $result->id;
+		}
+
+		return false;
 	}
 
 	protected function editElement($id,$name,$options_data,$user_id=false) {

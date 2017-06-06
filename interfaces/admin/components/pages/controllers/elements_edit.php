@@ -67,6 +67,7 @@ if ($current_element) {
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
+
 		$cash_admin->page_data['total_views'] = 0;
 		if (is_array($analytics['payload'])) {
 			$cash_admin->page_data['total_views'] = CASHSystem::formatCount($analytics['payload']['total']);

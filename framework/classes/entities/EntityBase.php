@@ -118,8 +118,8 @@ class EntityBase
      */
     public static function create($values)
     {
-
-        $new_object = new self();
+        $entity_class = get_called_class();
+        $new_object = new $entity_class();
 
         // map the array to the object; let the magic __set method figure out if it's allowed or not
         if (is_array($values) && count($values) > 0) {
@@ -127,7 +127,13 @@ class EntityBase
                 $new_object->$key = $value;
             }
 
-            $new_object->save();
+            try {
+                $db = CASHDBAL::entityManager();
+                $db->persist($new_object);
+                $db->flush();
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+            }
 
             return $new_object;
         } else {
@@ -297,7 +303,6 @@ class EntityBase
             if (!$key) {
                 $key = $this->id;
             } else {
-                $key = CASHSystem::snakeToCamelCase($key);;
                 $key = $this->$key;
             }
 
@@ -307,8 +312,6 @@ class EntityBase
                 } else {
                     throw new \Exception("Needs a foreign key name.");
                 }
-            } else {
-                $foreign_key = CASHSystem::snakeToCamelCase($foreign_key);
             }
 
 

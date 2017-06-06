@@ -23,6 +23,7 @@ class CASHDBAL {
         );
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $config->addEntityNamespace("CASHMusic", "CASHMusic\\Entities\\");
 
         return EntityManager::create($dbParams, $config);
     }

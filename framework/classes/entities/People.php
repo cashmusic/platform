@@ -85,6 +85,10 @@ class People extends EntityBase {
         return $this->hasMany("Asset", "id", "user_id", $where, $limit, $order_by);
     }
 
+    public function elements($where=false, $limit=false, $order_by=false) {
+        return $this->hasMany("Element", "id", "user_id", $where, $limit, $order_by);
+    }
+
     public function lists($conditions=false) {
         return $this->hasMany("PeopleList", "id", "user_id");
     }

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Element extends EntityBase
 {
 
-    protected $fillable = ['template_id'];
+    protected $fillable = ['user_id', 'template_id', 'name', 'type', 'options', 'license_id'];
     /**
      * @var integer
      *
@@ -45,7 +45,7 @@ class Element extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="options", type="text", length=65535, nullable=true)
+     * @Column(name="options", type="json_array", length=65535, nullable=true)
      */
     protected $options;
 
