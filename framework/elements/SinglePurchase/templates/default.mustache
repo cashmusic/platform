@@ -281,7 +281,7 @@
 
 
       {{#showsuccess}}
-          cm.session.setid("{{session_id}}");
+          cm.session.setid({"id":"{{session_id}}"});
           cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
       {{/showsuccess}}
 	});
