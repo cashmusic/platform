@@ -3,6 +3,9 @@
     <p class="cm-success">It looks like you already have a CASH Music login. If you want to reset your password use the form below. Otherwise just
         <a href="#" class="existing-user">click here</a> to continue.</p>
 {{/has_password}}
+{{^has_password}}
+    <p class="cm-success">Set a password below for your account to login!</p>
+{{/has_password}}
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
 <form action="#" id="updatecredentials" method="post">
     <input type="text" class="cm-subcription-email" name="email" placeholder="email" value="{{email_address}}">
