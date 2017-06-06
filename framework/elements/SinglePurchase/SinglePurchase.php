@@ -250,7 +250,6 @@ class SinglePurchase extends ElementBase {
 				}
 			}
 
-			CASHSystem::errorLog("show success brah");
 			$this->unlock();
 			$this->element_data['showsuccess'] = true;
 		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
