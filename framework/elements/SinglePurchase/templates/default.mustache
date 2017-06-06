@@ -281,9 +281,7 @@
 
 
       {{#showsuccess}}
-          var fuckity = {"id":"{{session_id}}"};
-          console.log(fuckity);
-          cm.session.setid(fuckity);
+          cm.session.setid({"id":"{{session_id}}"});
           cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
       {{/showsuccess}}
 	});
