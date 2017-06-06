@@ -207,9 +207,6 @@ class SinglePurchase extends ElementBase {
 			}
 		}
 
-        CASHSystem::errorLog($this->status_uid);
-
-
         if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
          $this->setError("No valid payment connection found.");
       }
@@ -252,6 +249,8 @@ class SinglePurchase extends ElementBase {
 					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
 				}
 			}
+
+			CASHSystem::errorLog("show success brah");
 			$this->unlock();
 			$this->element_data['showsuccess'] = true;
 		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
