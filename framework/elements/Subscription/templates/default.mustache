@@ -107,7 +107,6 @@
     {{/key}}
 
     cm.events.add(cm,'ready', function(e) {
-        history.pushState('', document.title, window.location.pathname);
         cm.session.start();
 
         var login = document.querySelector('.cm-login');
