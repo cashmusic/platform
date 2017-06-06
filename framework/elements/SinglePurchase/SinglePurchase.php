@@ -293,6 +293,8 @@ class SinglePurchase extends ElementBase {
 			}
 		}
 
+		CASHSystem::errorLog($this->element_data);
+
 		return $this->element_data;
 	}
 } // END class
