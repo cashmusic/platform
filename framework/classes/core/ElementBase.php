@@ -52,6 +52,9 @@ abstract class ElementBase extends CASHData {
 		} else {
 			// not called via embed. on-page element. full session party
 			$this->startSession();
+
+			CASHSystem::errorLog("started new session");
+			CASHSystem::errorLog($this->session_id);
 		}
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
