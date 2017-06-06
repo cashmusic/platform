@@ -1356,5 +1356,17 @@ abstract class CASHSystem  {
 
         return $results;
     }
+
+    public static function snakeToCamelCase($string)
+    {
+        $string = preg_replace_callback("/(?:^|_)([a-z])/", function ($matches) {
+//       Start or underscore    ^      ^ lowercase character
+            return strtoupper($matches[1]);
+        }, $string);
+
+        $string[0] = strtolower($string[0]);
+
+        return $string;
+    }
 } // END class
 ?>
