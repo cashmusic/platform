@@ -197,7 +197,8 @@
 			"security": [
 				"direct",
 				"get",
-				"post"
+				"post",
+				"api_public"
 			]
 		},
 		"removeelementfromcampaign": {
