@@ -507,28 +507,22 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function editElement($id,$name,$options_data,$user_id=false) {
-		$options_data = json_encode($options_data);
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
+		$conditions = [
+			"id" => $id
+		];
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
+            $element = Element::findWhere($conditions);
+		} else {
+            $element = Element::find($id);
 		}
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'name' => $name,
-				'options' => $options_data,
-			),
-			$condition
-		);
-		return $result;
+
+        $element->name = $name;
+        $element->options = $options_data;
+        $result = $element->save();
+
+        return $result;
 	}
 
 	protected function deleteElement($id,$user_id=false) {

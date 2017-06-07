@@ -76,6 +76,8 @@ class EntityBase
                 $object = self::find($values);
             }
 
+            if (is_array($object) && count($object) == 1) return $object[0];
+
             if ($object) return $object;
         } catch (\Exception $e) {
             error_log($e->getMessage());
@@ -143,7 +145,7 @@ class EntityBase
 
     /**
      * Public shortcut function to save model to database with Doctrine mapping.
-     * @return $this
+     * @return $this|boolean
      */
     public function save()
     {
@@ -152,7 +154,11 @@ class EntityBase
             $this->db->merge($this);
             $this->db->flush();
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            if (CASH_DEBUG) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+
+            return false;
         }
 
         return $this;
