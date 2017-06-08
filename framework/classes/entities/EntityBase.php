@@ -188,15 +188,17 @@ class EntityBase
      * Public shortcut method to delete a model.
      * @param $id
      */
-    public function delete($id) {
+    public function delete() {
 
         try {
-            $db = CASHDBAL::entityManager();
+            if (!$this->db) $this->db = CASHDBAL::entityManager();
 
-            $object = self::find($id);
+            $entity = $this->db->merge($this);
+            $this->db->remove($entity);
+            $this->db->flush();
 
-            $db->remove($object);
-            $db->flush();
+            return true;
+
         } catch (\Exception $e) {
             error_log($e->getMessage());
             return false;

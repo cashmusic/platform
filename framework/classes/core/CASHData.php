@@ -524,38 +524,34 @@ abstract class CASHData {
 	public function removeAllMetaData($scope_table_alias,$scope_table_id,$user_id=false,$ignore_or_match='match',$data_key=false) {
 		// set table / id up front. if no user is specified it will remove ALL
 		// metadata for a given table+id — used primarily when deleting the parent item
-		$conditions_array = array(
-			'scope_table_alias' => array(
-				'condition' => '=',
-				'value' => $scope_table_alias
-			),
-			'scope_table_id' => array(
-				'condition' => '=',
-				'value' => $scope_table_id
-			)
-		);
+
+        $query = $this->qb->table('system_metadata')
+            ->where('scope_table_alias', $scope_table_alias)
+            ->where('scope_table_id', $scope_table_id);
+
 		if ($user_id) {
 			// if a $user_id is present refine the search
 			$conditions_array['user_id'] = array(
 				'condition' => '=',
 				'value' => $user_id
 			);
+
+			$query = $query->where('user_id', $user_id);
 		}
-		if ($data_key) {
-			$key_condition = "=";
-			if ($ignore_or_match = 'ignore') {
-				$key_condition = "!=";
-			}
-			$conditions_array['type'] = array(
-				"condition" => $key_condition,
-				"value" => $data_key
-			);
-		}
-		$result = $this->db->deleteData(
-			'metadata',
-			$conditions_array
-		);
-		return $result;
+
+        if ($data_key) {
+            if ($ignore_or_match == 'ignore') {
+                $query = $query->whereNot("type", $data_key);
+            } else {
+                $query = $query->where("type", $data_key);
+            }
+        }
+
+        if ($query->delete()) {
+		    return true;
+        }
+
+		return false;
 	}
 
 	public function getAllMetaData($scope_table_alias,$scope_table_id,$data_key=false,$ignore_or_match='match') {
