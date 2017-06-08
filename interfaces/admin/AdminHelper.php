@@ -1618,6 +1618,7 @@ class AdminHelper  {
 		if (is_array($available_options)) {
 			$first = true;
 			foreach ($available_options as $item) {
+				if (is_object($item)) $item = $item->toArray();
 				$doloop = true;
 				if ($range) {
 					if (!in_array($item['id'],$range)) {

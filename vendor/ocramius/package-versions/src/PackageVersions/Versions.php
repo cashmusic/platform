@@ -60,9 +60,11 @@ final class Versions
   'symfony/debug' => 'v3.2.8@fd6eeee656a5a7b384d56f1072243fe1c0e81686',
   'symfony/polyfill-mbstring' => 'v1.3.0@e79d363049d1c2128f133a2667e4f4190904f7f4',
   'symfony/yaml' => 'v3.2.8@acec26fcf7f3031e094e910b94b002fa53d4e4d6',
+  'usmanhalalit/pixie' => '2.0.0@5820ef4f62c7be697767fd84830b7ad6fc057375',
+  'usmanhalalit/viocon' => '1.0.1@0878afee16f15355971fb95bf3c6d297aceff35d',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-dba-to-doctrine@29a9b724b53ce4fb107937d9d69b3abb4c0a2730',
+  'cashmusic/platform' => 'dev-dba-to-doctrine@8ab6012cb63200f2d47b426d03a445f934a8423f',
 );
 
     private function __construct()

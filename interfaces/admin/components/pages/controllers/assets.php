@@ -39,14 +39,15 @@ $playlists_response = $cash_admin->requestAndStore(
 	)
 );
 */
+
 $files_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset',
-		'cash_action' => 'getassetsforuser',
-		'type' => 'file',
-		'parent_id' => 0,
-		'user_id' => $user_id
-	)
+    array(
+        'cash_request_type' => 'asset',
+        'cash_action' => 'getassetsforuser',
+        'type' => 'file',
+        'parent_id' => 0,
+        'user_id' => $user_id
+    )
 );
 
 // we need to get all items for the user to determine if an asset is monetized
@@ -125,6 +126,7 @@ if (is_array($releases_response['payload'])) {
 				);
 				if ($cover_response['payload']) {
 					$cover_asset = $cover_response['payload'];
+					$cover_asset = $cover_asset->toArray();
 					$cover_url_response = $cash_admin->requestAndStore(
 						array(
 							'cash_request_type' => 'asset',

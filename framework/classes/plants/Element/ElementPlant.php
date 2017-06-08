@@ -163,7 +163,7 @@ class ElementPlant extends PlantBase {
 			if (is_array($element)) $element = $element[0];
 
 			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
-			$allmetadata = $this->getAllMetaData($element);
+			$allmetadata = $this->getAllMetaData("elements", $id);
 
 			// convert this to an array to work with current structure
             $element = $element->toArray();

@@ -71,8 +71,10 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
                 'user_id' => $cash_admin->effective_user_id
             )
         );
+        
+        $asset = $asset_request->response['payload']->toArray();
 
-        if ($asset_request->response['payload']) {
+        if ($asset) {
 
             $add_code_request = new CASHRequest(
                 array(
@@ -115,7 +117,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
             )
         ];
 
-        if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+        if ($asset && !empty($codes) && is_array($codes)) {
 
             $test_hash = hash("sha256", time());
             $test_id = $test_hash.$asset_id;
@@ -130,7 +132,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
                             '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id='.$test_id.
                             "&address=".$recipient."&code=$code&handlequery=1".
                             "' class='button'>Download ".
-                            htmlentities($asset_request->response['payload']['title']).'</a>'
+                            htmlentities($asset['title']).'</a>'
                     ]
                 ]
             ];

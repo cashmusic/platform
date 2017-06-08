@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Asset extends EntityBase
 {
 
-    protected $fillable = [];
+    protected $fillable = ['title', 'description', 'location', 'user_id', 'connection_id', 'parent_id', 'public_status', 'hash', 'size', 'type', 'public_url', 'metadata'];
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
@@ -78,7 +78,7 @@ class Asset extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="metadata", type="text", length=65535, nullable=true)
+     * @Column(name="metadata", type="json_array", length=65535, nullable=true)
      */
     protected $metadata;
 

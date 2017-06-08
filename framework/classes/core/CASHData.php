@@ -3,6 +3,7 @@
 namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHDBA;
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
  * data handling, provides a CASHDBA object as $this->db, and provides functions
@@ -24,6 +25,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
  */
 abstract class CASHData {
 	protected $db = false,
+			  $qb = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
 			  $cash_session_id = null,
@@ -42,9 +44,10 @@ abstract class CASHData {
 	 * opens the appropriate connection
 	 *
 	 * @return void
-	 */protected function connectDB() {
+	 */
+	protected function connectDB() {
 		$cash_db_settings = CASHSystem::getSystemSettings();
-		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
+
 		$this->db = new CASHDBA(
 			$cash_db_settings['hostname'],
 			$cash_db_settings['username'],
@@ -52,6 +55,19 @@ abstract class CASHData {
 			$cash_db_settings['database'],
 			$cash_db_settings['driver']
 		);
+
+		//TODO: once we integrate ORM and Pixie QB above connection needs to go
+		$config = array(
+			'driver'    => $cash_db_settings['driver'], // Db driver
+			'host'      => $cash_db_settings['hostname'],
+			'database'  => $cash_db_settings['database'],
+			'username'  => $cash_db_settings['username'],
+			'password'  => $cash_db_settings['password']
+		);
+
+		$connection = new \Pixie\Connection('mysql', $config);
+		$this->qb = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+
 	}
 
 	/**
@@ -542,28 +558,30 @@ abstract class CASHData {
 		return $result;
 	}
 
-	public function getAllMetaData($entity,$data_key=false,$ignore_or_match='match') {
+	public function getAllMetaData($scope_table_alias,$scope_table_id,$data_key=false,$ignore_or_match='match') {
 
-		// we pass in an ORM entity, that hopefully has a metadata relationship set
-        if (!$entity) {
-        	return false;
-        }
 		// most $data_keys will be unique per user per table+id, but tags need multiple
 		// so we'll add a filter. pass 'tag' as the final option to getAllMetaData
 		// to get an array of all tag rows for a single table+id
-		if ($data_key) {
-			$key_condition = "=";
-			if ($ignore_or_match == 'ignore') {
-				$key_condition = "!=";
-			}
-			$options_array['type'] = array(
-				"condition" => $key_condition,
-				"value" => $data_key
-			);
-		}
 
         try {
-            $metadata = $entity->metadata();
+            $query = $this->qb->table('system_metadata')
+				->where('scope_table_alias', $scope_table_alias)
+                ->where('scope_table_id', $scope_table_id);
+
+            if ($data_key) {
+
+                if ($ignore_or_match == 'ignore') {
+                    $query = $query->whereNot("type", $data_key);
+                } else {
+                    $query = $query->where("type", $data_key);
+				}
+            }
+
+            $metadata = $query->get();
+
+            CASHSystem::errorLog($metadata);
+
 		} catch (\Exception $e) {
         	if (CASH_DEBUG) {
         		CASHSystem::errorLog("Missing a metadata relationship on this entity model class.");
@@ -574,7 +592,6 @@ abstract class CASHData {
 		if ($metadata) {
 			$return_array = array();
 			foreach ($metadata as $row) {
-				$row = $row->toArray();
 				if ($data_key == 'tag' && $ignore_or_match == 'match') {
 					$return_array[] = $row['value'];
 				} else {

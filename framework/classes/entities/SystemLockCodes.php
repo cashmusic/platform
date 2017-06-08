@@ -65,5 +65,9 @@ class SystemLockCodes extends EntityBase
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+    public function metadata($conditions=false) {
+        return $this->hasManyPolymorphic("SystemMetadata", "id", "assets");
+    }
 }
 

@@ -23,7 +23,7 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$em,$repository;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
@@ -55,7 +55,6 @@ use Exception;
 		$this->response = new CASHResponse();
 		if ($this->db_required) {
 			$this->connectDB();
-			$this->em = CASHDBAL::entityManager();
 		}
 	}
 

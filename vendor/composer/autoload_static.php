@@ -286,6 +286,13 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
     );
 
     public static $prefixesPsr0 = array (
+        'V' => 
+        array (
+            'Viocon' => 
+            array (
+                0 => __DIR__ . '/..' . '/usmanhalalit/viocon/src',
+            ),
+        ),
         'S' => 
         array (
             'SecurityLib' => 
@@ -309,6 +316,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
             'ProxyManager\\' => 
             array (
                 0 => __DIR__ . '/..' . '/ocramius/proxy-manager/src',
+            ),
+            'Pixie' => 
+            array (
+                0 => __DIR__ . '/..' . '/usmanhalalit/pixie/src',
             ),
             'Pimple' => 
             array (

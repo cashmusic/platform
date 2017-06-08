@@ -112,7 +112,7 @@
 				"direct"
 			]
 		},
-		"getassetfromunlockcode": {
+			"getassetfromunlockcode": {
 			"description": "Get asset by unlock code.",
 			"plantfunction": "getAssetFromUnlockCode",
 			"security": [

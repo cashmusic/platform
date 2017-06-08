@@ -25,9 +25,11 @@ use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
 use CASHMusic\Entities\Asset;
 use CASHMusic\Entities\People;
+use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Seeds\S3Seed;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Pixie\Exception;
 
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
@@ -83,6 +85,7 @@ class AssetPlant extends PlantBase {
 
 		// test that getInfo returned results
 		if ($asset_details) {
+			$asset_details = $asset_details->toArray();
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
 			} elseif ($asset_details['type'] == 'release') {
@@ -95,15 +98,8 @@ class AssetPlant extends PlantBase {
 						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
 							if (is_array($fulfillment_id)) $fulfillment_id = array_pop($fulfillment_id);
 
-							$fulfillment_request = new CASHRequest(
-								array(
-									'cash_request_type' => 'asset',
-									'cash_action' => 'getasset',
-									'id' => $fulfillment_id
-								)
-							);
-							if ($fulfillment_request->response['payload']) {
-								$final_assets[] = $fulfillment_request->response['payload'];
+							if ($fulfillment_asset = $this->getAssetInfo($fulfillment_id)) {
+								$final_assets[] = $fulfillment_asset;
 							}
 						}
 						if (count($final_assets)) {
@@ -120,6 +116,8 @@ class AssetPlant extends PlantBase {
 			// if we've got a good result, unlock all the assets for download
 			// (user is either admin or allowed by element...)
 			foreach ($result as $asset) {
+
+				if (is_object($asset)) $asset = $asset->toArray();
 				$this->unlockAsset($asset['id'],$session_id);
 			}
 		}
@@ -128,19 +126,15 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getAssetsForConnection($connection_id) {
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			array(
-				"connection_id" => array(
-					"condition" => "=",
-					"value" => $connection_id
-				)
-			),
-			false,
-			'location'
-		);
-		return $result;
+
+		$assets = Asset::findWhere(['connection_id'=>$connection_id]);
+
+		if ($assets) {
+			return $assets->toArray();
+		}
+
+        return false;
+
 	}
 
 	protected function getAssetsForUser($user_id,$type=false,$parent_id=false) {
@@ -181,6 +175,7 @@ class AssetPlant extends PlantBase {
 		// this is a hack to get test emails working
 		if (!is_numeric($scope_table_id) && strlen($scope_table_id) > 64) {
             $asset_id = substr($scope_table_id, 64);
+            $asset_details = $this->getAssetInfo($asset_id);
 		} else {
             $asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
             $asset_id = $asset['asset_id'];
@@ -193,15 +188,12 @@ class AssetPlant extends PlantBase {
 
 				return [
 					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
-					'name'=>$asset_details['title']
+					'name'=>$asset_details->title
 				];
 				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);
 			} else {
 				return false;
 			}
-
-
-
 		} else {
 			return false;
 		}
@@ -242,7 +234,7 @@ class AssetPlant extends PlantBase {
 				}
 			}
 
-			if (!is_array($id)) {
+			if (is_array($id)) {
 				return $result[0];
 			} else {
 				return $result;
@@ -267,27 +259,26 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
-		$result = $this->db->setData(
-			'assets',
-			array(
-				'title' => $title,
-				'description' => $description,
-				'location' => $location,
-				'user_id' => $user_id,
-				'connection_id' => $connection_id,
-				'parent_id' => $parent_id,
-				'public_status' => $public_status,
-				'hash' => $hash,
-				'size' => $size,
-				'type' => $type,
-				'public_url' => $public_url='',
-				'metadata' => json_encode($metadata)
-			)
-		);
+
+	 	$result = Asset::create([
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+            'user_id' => $user_id,
+            'connection_id' => $connection_id,
+            'parent_id' => $parent_id,
+            'public_status' => $public_status,
+            'hash' => $hash,
+            'size' => $size,
+            'type' => $type,
+            'public_url' => $public_url='',
+            'metadata' => $metadata
+		]);
+
 		if ($result) {
-			$this->setAllMetaData('assets',$result,$user_id,$tags,false);
+			$this->setAllMetaData('assets',$result->id,$user_id,$tags,false);
 		}
-		return $result;
+		return $result->id;
 	}
 
 	protected function deleteAsset($id,$user_id=false, $connection_id=false) {

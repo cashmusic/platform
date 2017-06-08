@@ -17,7 +17,8 @@
         "swiftmailer/swiftmailer": "^5.4",
         "slim/slim": "^3.0",
         "doctrine/orm": "^2.5",
-        "doctrine/migrations": "^1.5"
+        "doctrine/migrations": "^1.5",
+        "usmanhalalit/pixie": "^2.0"
     },
     "autoload": {
         "psr-4": {
