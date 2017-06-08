@@ -22,14 +22,13 @@ use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
-use CASHMusic\Entities\People;
 use CASHMusic\Seeds\S3Seed;
 
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
         $this->getRoutingTable();
-
+		
 		$this->plantPrep($request_type,$request);
 	}
 
@@ -140,7 +139,7 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getAssetsForUser($user_id,$type=false,$parent_id=false) {
-/*		$options_array = array(
+		$options_array = array(
 			"user_id" => array(
 				"condition" => "=",
 				"value" => $user_id
@@ -157,12 +156,23 @@ class AssetPlant extends PlantBase {
 				"condition" => "=",
 				"value" => $parent_id
 			);
-		}*/
+		}
 
-		$user = People::find($user_id);
-		error_log("anything");
+		$result = $this->db->getData(
+			'assets',
+			'*',
+			$options_array
+		);
+		if ($result) {
+			if (is_array($result)) {
+				foreach ($result as &$asset) {
+					$asset['tags'] = $this->getAllMetaData('assets',$asset['id'],'tag');
+					$asset['metadata'] = json_decode($asset['metadata'],true);
+				}
+			}
+		}
 
-		return true;
+		return $result;
 	}
 
 	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {
