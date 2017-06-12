@@ -139,6 +139,7 @@ if ($asset) {
 
 // Metadata shizz:
 if (isset($cash_admin->page_data['metadata'])) {
+
 	if (is_array($cash_admin->page_data['metadata'])) {
 		foreach ($cash_admin->page_data['metadata'] as $key => $value) {
 			$cash_admin->page_data['metadata_' . $key] = $value;
@@ -193,6 +194,9 @@ if ($cash_admin->page_data['type'] == 'file') {
             'asset_details' => $request_parameters[0]
         )
     );
+
+	CASHSystem::errorLog($fulfillment_request);
+
     if ($fulfillment_request->response['payload']) {
         $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
     }

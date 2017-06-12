@@ -48,7 +48,6 @@ if (isset($_POST['doassetadd'])) {
                     $new_metadata = $asset_response['payload']->metadata;
                 }
 
-				CASHSystem::errorLog(gettype($new_metadata));
 				if ($_POST['metadata_command'] == 'setmetadata') {
 					$new_metadata[$_POST['metadata_name']] = $add_response['payload'];
 				} else if ($_POST['metadata_command'] == 'addtometadata') {

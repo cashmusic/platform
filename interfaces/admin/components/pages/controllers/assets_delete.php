@@ -13,13 +13,15 @@ if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/assets/');
 }
 
+CASHSystem::errorLog($request_parameters);
+
 if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 	$delete_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'deleteasset',
 			'id' => $request_parameters[0],
-            'connection_id' => $request_parameters[1],
+            'connection_id' => isset($request_parameters[1]) ? $request_parameters[1] : false,
             'user_id' => $admin_helper->getPersistentData('cash_effective_user')
 		)
 	);

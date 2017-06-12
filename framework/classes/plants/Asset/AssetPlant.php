@@ -57,22 +57,32 @@ class AssetPlant extends PlantBase {
 
 		// test that getInfo returned results
 		if ($asset_details) {
-			if ($asset_details->type == 'file') {
-				$result = array($asset_details);
-			} elseif ($asset_details->type == 'release') {
 
-				if (!empty($asset_details->metadata[$type])) {
+			//vestigial mess
+			if (!is_array($asset_details)) {
+                $asset_details = $asset_details->toArray();
+			}
+
+			if ($asset_details['type'] == 'file') {
+				$result = array($asset_details);
+			} elseif ($asset_details['type'] == 'release') {
+
+				if (!empty($asset_details['metadata'][$type])) {
 					// check isset first, in case the asset is newly set
-					if (count($asset_details->metadata[$type])) {
+					if (count($asset_details['metadata'][$type])) {
 						$final_assets = array();
 
-						foreach ($asset_details->metadata[$type] as $fulfillment_id) {
+						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
+
+
 							if (is_array($fulfillment_id)) $fulfillment_id = array_pop($fulfillment_id);
 
+
 							if ($fulfillment_asset = $this->getAssetInfo($fulfillment_id)) {
-								$final_assets[] = $fulfillment_asset;
+								$final_assets[] = $fulfillment_asset->toArray();
 							}
 						}
+
 						if (count($final_assets)) {
 							$result = $final_assets;
 						} else {
@@ -87,7 +97,7 @@ class AssetPlant extends PlantBase {
 			// if we've got a good result, unlock all the assets for download
 			// (user is either admin or allowed by element...)
 			foreach ($result as $asset) {
-				$this->unlockAsset($asset->id,$session_id);
+				$this->unlockAsset($asset['id'],$session_id);
 			}
 		}
 
@@ -185,7 +195,6 @@ class AssetPlant extends PlantBase {
 		}
 
 		$result = Asset::findWhere($conditions);
-
 		if ($result) {
 			/*foreach ($result as &$asset_info) {
 				$asset_info = $asset_info->toArray();
