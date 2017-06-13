@@ -1371,6 +1371,8 @@ abstract class CASHSystem  {
 
     public static function isJson($string) {
 
+    	if(is_array($string) || is_object($string)) return false;
+
     	try {
             json_decode($string);
 		} catch (\Exception $e) {

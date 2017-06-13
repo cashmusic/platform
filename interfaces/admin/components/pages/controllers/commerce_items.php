@@ -32,10 +32,11 @@ $cash_admin->page_data['assets_options'] = $admin_helper->echoFormOptions('asset
 if (is_array($items_response['payload'])) {
 	// IF there is an attached asset and IF it's a release then say so
 	foreach ($items_response['payload'] as &$item) {
+
 		$item['release_asset'] = false;
 		if (is_array($releases_response['payload'])) {
 			foreach ($releases_response['payload'] as $release) {
-				if ($item['fulfillment_asset'] == $release['id']) {
+				if ($item['fulfillment_asset'] == $release->id) {
 					$item['release_asset'] = true;
 					break;
 				}

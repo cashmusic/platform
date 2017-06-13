@@ -558,14 +558,14 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
 	 */
-	protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+	protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
 			$final_asset_location = $this->getFinalAssetLocation(
-				$asset['connection_id'],
-				$asset['user_id'],
-				$asset['location']
+				$asset->connection_id,
+				$asset->user_id,
+				$asset->location
 			);
 
 			if ($final_asset_location !== false) {

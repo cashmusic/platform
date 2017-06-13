@@ -355,8 +355,8 @@ class ElementPlant extends PlantBase {
 			}
 
 			if ($result) {
-				$new_total = $current_result[0]['total'] +1;
-				$data      = json_decode($current_result[0]['data'],true);
+				$new_total = $result[0]['total'] +1;
+				$data      = json_decode($result[0]['data'],true);
 				if (isset($data['locations'][$location])) {
 					$data['locations'][$location] = $data['locations'][$location] + 1;
 				} else {

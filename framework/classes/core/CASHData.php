@@ -576,8 +576,6 @@ abstract class CASHData {
 
             $metadata = $query->get();
 
-            CASHSystem::errorLog($metadata);
-
 		} catch (\Exception $e) {
         	if (CASH_DEBUG) {
         		CASHSystem::errorLog("Missing a metadata relationship on this entity model class.");
@@ -589,10 +587,10 @@ abstract class CASHData {
 			$return_array = array();
 			foreach ($metadata as $row) {
 				if ($data_key == 'tag' && $ignore_or_match == 'match') {
-					$return_array[] = $row['value'];
+					$return_array[] = $row->value;
 				} else {
-					if ($row['type'] !== 'tag') {
-						$return_array[$row['type']] = $row['value'];
+					if ($row->type !== 'tag') {
+						$return_array[$row->type] = $row->value;
 					}
 				}
 			}
