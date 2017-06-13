@@ -163,7 +163,7 @@ if (is_array($elements_for_campaign)) {
 	$elements_for_campaign = array_reverse($elements_for_campaign);
 	foreach ($elements_for_campaign as &$element) {
 
-		$element = $element->toArray();
+		if (is_object($element)) $element = $element->toArray();
 		if ($element['modification_date'] == 0) {
 			$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
 		} else {

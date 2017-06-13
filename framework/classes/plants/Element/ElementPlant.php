@@ -745,16 +745,22 @@ class ElementPlant extends PlantBase {
 	protected function addElementToCampaign($element_id,$campaign_id) {
 		$campaign = $this->getCampaign($campaign_id);
 
-		$campaign = $campaign->toArray();
-		if (is_array($campaign['elements'])) {
-            if(($key = array_search($element_id, $campaign['elements'])) === false) {
+		if ($campaign) {
+            $campaign = $campaign->toArray();
+            if (is_array($campaign['elements'])) {
+                if(($key = array_search($element_id, $campaign['elements'])) === false) {
+                    $campaign['elements'][] = $element_id;
+                }
+            } else {
                 $campaign['elements'][] = $element_id;
             }
-		} else {
-            $campaign['elements'][] = $element_id;
+
+            return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
+
+        } else {
+			return false;
 		}
 
-		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
 	}
 
 	protected function removeElementFromCampaign($element_id,$campaign_id) {
