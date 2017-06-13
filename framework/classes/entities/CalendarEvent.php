@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="calendar_events", indexes={@Index(name="calendar_events_user_id", columns={"user_id"})})
  * @Entity
  */
-class CalendarEvents extends EntityBase
+class CalendarEvent extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['date', 'user_id', 'venue_id', 'published', 'cancelled', 'purchase_url', 'comments'];
     /**
      * @var integer
      *
@@ -26,14 +26,14 @@ class CalendarEvents extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
      *
      * @Column(name="venue_id", type="string", length=255, nullable=true)
      */
-    protected $venueId;
+    protected $venue_id;
 
     /**
      * @var boolean
@@ -54,7 +54,7 @@ class CalendarEvents extends EntityBase
      *
      * @Column(name="purchase_url", type="string", length=255, nullable=true)
      */
-    protected $purchaseUrl;
+    protected $purchase_url;
 
     /**
      * @var string
@@ -68,14 +68,14 @@ class CalendarEvents extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

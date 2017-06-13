@@ -60,11 +60,11 @@ if (is_array($current_event)) {
 
 	$venue_details = $venue_response['payload'];
 	if ($venue_details) {
-		$display_string = $venue_details['name'];
-		if (strtolower($venue_details['country']) == 'usa' || strtolower($venue_details['country']) == 'canada') {
-			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['region'];
+		$display_string = $venue_details->name;
+		if (strtolower($venue_details->country) == 'usa' || strtolower($venue_details->country) == 'canada') {
+			$display_string .= ' / ' . $venue_details->city . ', ' . $venue_details->region;
 		} else {
-			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['country'];
+			$display_string .= ' / ' . $venue_details->city . ', ' . $venue_details->country;
 		}
 		$cash_admin->page_data['venue_display_string'] = $display_string;
 	} else {

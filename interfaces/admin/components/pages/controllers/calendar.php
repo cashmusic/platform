@@ -33,7 +33,7 @@ function formatEventOutput(&$response) {
 $thisweek_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
-		'cash_action' => 'geteventsnostatus',
+		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'cutoff_date_low' => strtotime("monday this week"),
 		'cutoff_date_high' => strtotime("sunday this week 11:59PM")
@@ -58,7 +58,7 @@ $event = "";
 $allpast_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
-		'cash_action' => 'geteventsnostatus',
+		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'visible_event_types' => 'archive'
 	)
@@ -74,7 +74,7 @@ if (is_array($allpast_response['payload'])) {
 $allfuture_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
-		'cash_action' => 'geteventsnostatus',
+		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'visible_event_types' => 'upcoming'
 	)

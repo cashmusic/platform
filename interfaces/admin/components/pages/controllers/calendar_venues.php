@@ -9,6 +9,8 @@ use CASHMusic\Admin\AdminHelper;
 
 function formatVenueOutput(&$response) {
 	foreach ($response['payload'] as &$venue) {
+
+	    $venue = $venue->toArray();
 		// format location
 		if (strtolower($venue['country']) == 'usa' || strtolower($venue['country']) == 'canada') {
 			$venue['formatted_location'] = $venue['city'] . ', ' . $venue['region'];

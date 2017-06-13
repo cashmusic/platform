@@ -22,9 +22,12 @@ namespace CASHMusic\Plants\Calendar;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\CalendarEvent;
+use CASHMusic\Entities\CalendarVenue;
 use CASHMusic\Seeds\PaypalSeed;
 use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
+use Pixie\Exception;
 
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
@@ -43,23 +46,16 @@ class CalendarPlant extends PlantBase {
 		$fuzzy_query = '%' . $query . '%';
 
 
-		$result = $this->db->getData(
-			'CalendarPlant_findVenues',
-			false,
-			array(
-				"query" => array(
-					"condition" => "=",
-					"value" => $fuzzy_query
-				),
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                )
-			),
-			$limit
-		);
-
-
+		$result = $this->qb->table('calendar_venues')
+			->where(function($q) use ($user_id, $fuzzy_query)
+			{
+                $q->where('user_id', $user_id);
+                $q->where('name', 'LIKE', $fuzzy_query);
+			})->orWhere(function($q) use ($user_id, $fuzzy_query)
+            {
+                $q->where('user_id', $user_id);
+                $q->orWhere('city', 'LIKE', $fuzzy_query);
+			})->limit($limit)->get();
 
 		$query_sanitized = preg_replace("/[^a-zA-Z0-9]+/", "", $query);
 		$query_uri = urlencode($query);
@@ -94,22 +90,21 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='', $user_id) {
-		$result = $this->db->setData(
-			'venues',
-			array(
-				'name' => $name,
-				'address1' => $address1,
-				'address2' => $address2,
-				'city' => $city,
-				'region' => $region,
-				'country' => $country,
-				'postalcode' => $postalcode,
-				'url' => $url,
-				'phone' => $phone,
-                'user_id' => $user_id
-			)
-		);
-		return $result;
+
+		$result = CalendarVenue::create([
+            'name' => $name,
+            'address1' => $address1,
+            'address2' => $address2,
+            'city' => $city,
+            'region' => $region,
+            'country' => $country,
+            'postalcode' => $postalcode,
+            'url' => $url,
+            'phone' => $phone,
+            'user_id' => $user_id
+		]);
+
+		return $result->id;
 	}
 
 	protected function editVenue($venue_id,$name=false,$address1=false,$address2=false,$city=false,$region=false,$country=false,$postalcode=false,$url=false,$phone=false) {
@@ -129,73 +124,61 @@ class CalendarPlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		$result = $this->db->setData(
-			'venues',
-			$final_edits,
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $venue_id
-				)
-			)
-		);
-		return $result;
+		$venue = CalendarVenue::find($venue_id);
+
+		if ($result = $venue->update($final_edits)) {
+            return $result;
+		} else {
+			return false;
+		}
 	}
 
 	protected function deleteVenue($venue_id) {
-		$result = $this->db->deleteData(
-			'venues',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $venue_id
-				)
-			)
-		);
-		return $result;
+        $venue = CalendarVenue::find($venue_id);
+
+        if ($result = $venue->delete()) {
+            return $result;
+        } else {
+            return false;
+        }
 	}
 
 	protected function deleteEvent($event_id) {
-		$result = $this->db->deleteData(
-			'events',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $event_id
-				)
-			)
-		);
+        $event = CalendarEvent::find($event_id);
+
+        if ($result = $event->delete()) {
+            return $result;
+        } else {
+            return false;
+        }
 	}
 
 	protected function addEvent($date,$user_id,$venue_id,$purchase_url='',$comment='',$published=0,$cancelled=0) {
-		$result = $this->db->setData(
-			'events',
-			array(
-				'date' => $date,
-				'user_id' => $user_id,
-				'venue_id' => $venue_id,
-				'published' => $published,
-				'cancelled' => $cancelled,
-				'purchase_url' => $purchase_url,
-				'comments' => $comment
-			)
-		);
-		return $result;
+
+		if ($result = CalendarEvent::create([
+            'date' => $date,
+            'user_id' => $user_id,
+            'venue_id' => $venue_id,
+            'published' => $published,
+            'cancelled' => $cancelled,
+            'purchase_url' => $purchase_url,
+            'comments' => $comment
+		])) {
+            return $result->id;
+		} else {
+			return false;
+		}
 	}
 
 	protected function editEvent($event_id,$date=false,$venue_id=false,$purchase_url=false,$comment=false,$published=false,$cancelled=false,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $event_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
+        $conditions = array(
+            "id" => $event_id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
 		$final_edits = array_filter(
 			array(
 				'date' => $date,
@@ -209,29 +192,28 @@ class CalendarPlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		$result = $this->db->setData(
-			'events',
-			$final_edits,
-			$condition
-		);
-		return $result;
+
+        $event = CalendarEvent::find($event_id);
+
+        if ($result = $event->update($final_edits)) {
+            return $result;
+        } else {
+            return false;
+        }
 	}
 
 	protected function getEvent($event_id) {
 
-		$result = $this->db->getData(
-			'events',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $event_id
-				)
-			)
-		);
+        try {
+            $event = CalendarEvent::find($event_id);
+            $venue = $this->getVenue($event->venue_id);
+            $results = array_merge($event->toArray(), $venue->toArray());
+		} catch (Exception $e) {
+        	CASHSystem::errorLog($e->getMessage());
+        	return false;
+		}
 
-		$venue = $this->getVenue($result[0]['venue_id']);
-		$results = array_merge($result[0], $venue);
+		CASHSystem::errorLog($results);
 
 		return $results;
 	}
@@ -265,34 +247,13 @@ class CalendarPlant extends PlantBase {
 			$cutoff_date_high = time() + $offset;
 		}
 
-        $conditions = array(
-            "user_id" => array(
-                "condition" => "=",
-                "value" => $user_id
-            ),
-            "cutoff_date_low" => array(
-                "condition" => ">",
-                "value" => $cutoff_date_low
-            ),
-            "cutoff_date_high" => array(
-                "condition" => "<",
-                "value" => $cutoff_date_high
-            ),
-            "cancelled_status" => array(
-                "condition" => "=",
-                "value" => $cancelled_status
-            ),
-			"published_status" => array(
-				"condition" => "=",
-				"value" => $published_status
-			)
-        );
-
-		$result = $this->db->getData(
-			'CalendarPlant_getDatesBetween',
-			false,
-			$conditions
-		);
+		$result = $this->qb->table('calendar_events')
+			->where("date", ">", $cutoff_date_low)
+			->where("date", "<", $cutoff_date_high)
+			->where("user_id", $user_id)
+			->where("published", $published_status)
+			->where("cancelled", $cancelled_status)
+			->orderBy("date")->get();
 
 		if (!is_array($result)) {
 			return false;
@@ -302,8 +263,14 @@ class CalendarPlant extends PlantBase {
 
 		if (is_array($result)) {
 			foreach ($result as $event) {
+
+				if (is_object($event)) $event = (array) $event;
+
+				$event['event_id'] = $event['id'];
 				// if we get a venue result, merge the arrays
 				if ($venue = $this->getVenue($event['venue_id'])) {
+
+					if (is_object($venue)) $venue = $venue->toArray();
 					// remap to venue_
 					$venue = array_combine(
 						array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
@@ -314,79 +281,10 @@ class CalendarPlant extends PlantBase {
 				} else {
 					$events_with_venues[] = $event;
 				}
-
-			}
-		}
-
-
-		return $events_with_venues;
-	}
-
-	protected function getEventsNoStatus($user_id, $visible_event_types="upcoming", $cutoff_date_low=false, $cutoff_date_high=false) {
-		if (!$cutoff_date_low) {
-			switch ($visible_event_types) {
-				case 'upcoming':
-					$cutoff_date_low = strtotime('today -1 day');
-					$cutoff_date_high = 2051244000;
-					break;
-				case 'archive':
-					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-					$cutoff_date_high = strtotime('today');
-					break;
-				case 'both':
-					$cutoff_date_low = 229305600;
-					$cutoff_date_high = 2051244000;
-					break;
-			}
-		}
-
-		$conditions = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			),
-			"cutoff_date_low" => array(
-				"condition" => ">",
-				"value" => $cutoff_date_low
-			),
-			"cutoff_date_high" => array(
-				"condition" => "<",
-				"value" => $cutoff_date_high
-			)
-		);
-
-		$result = $this->db->getData(
-			'CalendarPlant_getDatesBetweenNoStatus',
-			false,
-			$conditions
-		);
-
-		if (!is_array($result)) {
-			return false;
-		}
-
-		$events_with_venues = array();
-
-		if (is_array($result)) {
-			foreach ($result as $event) {
-				// if we get a venue result, merge the arrays
-				if ($venue = $this->getVenue($event['venue_id'])) {
-					// remap to venue_
-					$venue = array_combine(
-						array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
-						$venue
-					);
-
-					$events_with_venues[] = array_merge($event, $venue);
-				} else {
-					$events_with_venues[] = $event;
-				}
-
 			}
 		}
 
 		return $events_with_venues;
-
 	}
 
 	protected function getVenue($venue_id) {
@@ -403,18 +301,7 @@ class CalendarPlant extends PlantBase {
 			}
 		} else {
 			// numeric id, so load the normal way
-			$result = $this->db->getData(
-				'venues',
-				'*',
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => (int) $venue_id
-					)
-				)
-			);
-
-			$venue = $result[0];
+			$venue = CalendarVenue::find($venue_id);
 		}
 
 		if ($venue) {
@@ -425,26 +312,11 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function getAllVenues($user_id, $visible_event_types) {
-
-        $conditions = [
-            'user_id' => [
-                'condition' => '=',
-                'value' => $user_id
-            ]/*,
-            'status' => [
-                'condition' => '=',
-                'value' => 'processed'
-            ]*/
-        ];
-
-		$result = $this->db->getData(
-			'venues',
-			'*',
-			$conditions,
-			false,
-			'name ASC'
-		);
-		return $result;
+        if ($venues = CalendarVenue::findWhere(['user_id'=>$user_id])) {
+            return $venues;
+        } else {
+            return false;
+        }
 	}
 
 } // END class

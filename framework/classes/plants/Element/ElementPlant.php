@@ -684,17 +684,6 @@ class ElementPlant extends PlantBase {
 		$campaign = $this->getCampaign($id);
 
 		if (count($campaign->elements)) {
-            /*$result = $this->db->getData(
-                'elements',
-                '*',
-                array(
-                    "id" => array(
-                        "condition" => "IN",
-                        "value" => $campaign['elements']
-                    )
-                )
-            );*/
-
             $elements = Element::findWhere(['id'=>$campaign->elements]);
 
             return $elements;

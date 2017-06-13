@@ -10,10 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="calendar_venues")
  * @Entity
  */
-class CalendarVenues extends EntityBase
+class CalendarVenue extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['name', 'address1', 'address2', 'city', 'region', 'country', 'postalcode', 'latitude', 'longitude', 'url', 'phone', 'user_id'];
+
     /**
      * @var string
      *
@@ -96,21 +97,21 @@ class CalendarVenues extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId = '-1';
+    protected $user_id = '-1';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
