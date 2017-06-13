@@ -139,9 +139,10 @@ if ($current_element) {
 				'id' => $current_element['id']
 			)
 		);
+
 		if ($campaign_response['payload']) {
-			$cash_admin->page_data['campaign_id'] = $campaign_response['payload']['id'];
-			$cash_admin->page_data['campaign_title'] = $campaign_response['payload']['title'];
+			$cash_admin->page_data['campaign_id'] = $campaign_response['payload']->id;
+			$cash_admin->page_data['campaign_title'] = $campaign_response['payload']->title;
 		}
 	} else {
 		AdminHelper::controllerRedirect('/elements/');

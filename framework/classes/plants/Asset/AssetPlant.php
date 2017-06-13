@@ -485,12 +485,6 @@ class AssetPlant extends PlantBase {
 		switch (strtolower($analtyics_type)) {
 			case 'mostaccessed':
 
-                $query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
-                    . "FROM assets_analytics aa JOIN assets a ON aa.asset_id = a.id "
-                    . "WHERE a.user_id = :user_id AND a.parent_id = 0 "
-                    . "GROUP BY aa.asset_id "
-                    . "ORDER BY count DESC";
-
                 $query = $this->qb->table('assets_analytics')
 					->select("assets_analytics.asset_id as 'id', COUNT(assets_analytics.id) as 'count', assets.title as 'title', assets.description as 'description'")
                     ->join('assets', 'assets.id', '=', 'assets_analytics.asset_id')

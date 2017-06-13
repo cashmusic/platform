@@ -26,7 +26,9 @@ use CASHMusic\Core\CASHSystem;
 use CASHMusic\Entities\Element;
 use CASHMusic\Entities\ElementAnalytic;
 use CASHMusic\Entities\ElementAnalyticBasic;
+use CASHMusic\Entities\ElementsCampaign;
 use CASHMusic\Entities\People;
+use Pixie\Exception;
 
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
@@ -410,24 +412,16 @@ class ElementPlant extends PlantBase {
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
 
-				$query = CASHDBAL::queryBuilder();
+                $query = $this->qb->table('elements_analytics')
+                    ->select("COUNT(elements_analytics.id) as 'total', elements.name as 'name'")
+                    ->join('elements', 'elements.id', '=', 'elements_analytics.element_id')
+                    ->where('elements.user_id', $user_id)
+					->where('elements_analytics.access_time', ">", (time() - 1209600))
+                    ->groupBy('elements_analytics.element_id')
+                    ->orderBy('total', 'DESC');
 
-					$query->select(
-						["analytics",
-							"count(analytics.id) as total",
-						    "elements.name as name"]
-					)
-					->from("CASHMusic:ElementAnalytic", "analytics")
-					->join("CASHMusic:Element", "elements", "WITH", 'analytics.element_id = elements.id')
-                ->where('elements.user_id = :user_id')
-				->andWhere($query->expr()->gte('analytics.access_time', ':two_weeks'))
-				->setParameter("user_id", $user_id)
-				->setParameter("two_weeks", (time() - 1209600))
-					->groupBy("analytics.element_id")
-					->orderBy("total", "DESC");
+                $result = $query->get();
 
-				$query = $query->getQuery();
-				$result = $query->getScalarResult();
 
 				return $result;
 				break;
@@ -526,23 +520,20 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function deleteElement($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
+		$conditions = array(
+			"id" => $id
 		);
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->deleteData(
-			'elements',
-			$condition
-		);
-		return $result;
+
+		$element = Element::findWhere($conditions);
+
+		if ($element->delete()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -589,132 +580,111 @@ class ElementPlant extends PlantBase {
 	 *
 	 */
 
-	protected function addCampaign($title,$description,$user_id,$elements='[]',$metadata='{}') {
-		$final_options = array(
-			'title' => $title,
-			'description' => $description,
-			'elements' => $elements,
-			'metadata' => $metadata,
-			'user_id' => $user_id
-		);
-		if (is_array($metadata)) {
-			$final_options['metadata'] = json_encode($metadata);
+	protected function addCampaign($title,$description,$user_id,$elements=false,$metadata=false) {
+
+		$campaign = ElementsCampaign::create([
+            'title' => $title,
+            'description' => $description,
+            'elements' => $elements,
+            'metadata' => $metadata,
+            'user_id' => $user_id
+			]);
+
+		if ($campaign) {
+			return $campaign->id;
+		} else {
+			return false;
 		}
-		if (is_array($elements)) {
-			// array_values ensures a non-associative array. which we want.
-			$final_options['elements'] = json_encode(array_values($elements));
-		}
-		$result = $this->db->setData(
-			'elements_campaigns',
-			$final_options
-		);
-		return $result;
 	}
 
 	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false,$template_id=false) {
+
 		$final_edits = array_filter(
 			array(
 				'title' => $title,
 				'description' => $description,
-				'template_id' => $template_id
+				'template_id' => $template_id,
+				'elements' => (is_array($elements)) ? array_values($elements) : false,
+				'metadata' => $metadata
 			),
             function($value) {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		if (is_array($metadata)) {
-			$final_edits['metadata'] = json_encode($metadata);
-		}
-		if (is_array($elements)) {
-			// array_values ensures a non-associative array. which we want.
-			$final_edits['elements'] = json_encode(array_values($elements));
-		}
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
+
+		$conditions = array(
+			"id" => $id
 		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->setData(
-			'elements_campaigns',
-			$final_edits,
-			$condition
-		);
-		return $result;
+
+		$campaign = ElementsCampaign::findWhere($conditions);
+
+		if ($campaign->update($final_edits)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	protected function deleteCampaign($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->deleteData(
-			'elements_campaigns',
-			$condition
-		);
-		return $result;
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $campaign = ElementsCampaign::findWhere($conditions);
+
+        if ($campaign->delete()) {
+            return true;
+        } else {
+            return false;
+        }
 	}
 
 	protected function getCampaign($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->getData(
-			'elements_campaigns',
-			'*',
-			$condition
-		);
-		if ($result) {
-			$result[0]['metadata'] = json_decode($result[0]['metadata'],true);
-			$result[0]['elements'] = json_decode($result[0]['elements'],true);
-			return $result[0];
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $campaign = ElementsCampaign::findWhere($conditions);
+
+		if ($campaign) {
+			if (is_array($campaign)) {
+				return $campaign[0];
+			}
+			return $campaign;
 		} else {
 			return false;
 		}
 	}
 
 	protected function getCampaignsForUser($user_id) {
-		$result = $this->db->getData(
-			'elements_campaigns',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
+
+        $campaigns = ElementsCampaign::findWhere(['user_id'=>$user_id]);
+
+        if ($campaigns) {
+
+            return $campaigns;
+        } else {
+            return false;
+        }
 	}
 
 	protected function getElementsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
 
-		if (count($campaign['elements'])) {
-            $result = $this->db->getData(
+		if (count($campaign->elements)) {
+            /*$result = $this->db->getData(
                 'elements',
                 '*',
                 array(
@@ -723,11 +693,11 @@ class ElementPlant extends PlantBase {
                         "value" => $campaign['elements']
                     )
                 )
-            );
-            foreach ($result as $key => &$val) {
-                $val['options'] = json_decode($val['options'],true);
-            }
-            return $result;
+            );*/
+
+            $elements = Element::findWhere(['id'=>$campaign->elements]);
+
+            return $elements;
 		} else {
 			return false;
 		}
@@ -736,59 +706,40 @@ class ElementPlant extends PlantBase {
 
 	protected function getAnalyticsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
-		$result = $this->db->getData(
-			'elements_analytics_basic',
-			'MAX(total)',
-			array(
-				"element_id" => array(
-					"condition" => "IN",
-					"value" => $campaign['elements']
-				)
-			)
-		);
+
+		$result = $this->qb->table('elements_analytics_basic')
+			->select("MAX(total) as 'total'")
+			->whereIn('element_id', $campaign->elements)
+			->get();
+
 		$returnarray = array(
 			'total_views' => 0
 		);
+
 		if ($result) {
-			$returnarray['total_views'] = $result[0]['MAX(total)'];
+			$returnarray['total_views'] = $result[0]['total'];
 			return $returnarray;
 		} else {
 			return false;
 		}
-		return $result;
 	}
 
 	protected function getCampaignForElement($id) {
-		$result = $this->db->getData(
-			'ElementPlant_getCampaignForElement',
-			false,
-			array(
-				"elements1" => array(
-					"condition" => "LIKE",
-					"value" => '["'.$id.'",%'
-				),
-				"elements2" => array(
-					"condition" => "LIKE",
-					"value" => '%,"'.$id.'",%'
-				),
-				"elements3" => array(
-					"condition" => "LIKE",
-					"value" => '%,"'.$id.'"]'
-				),
-				"elements4" => array(
-					"condition" => "LIKE",
-					"value" => '['.$id.',%'
-				),
-				"elements5" => array(
-					"condition" => "LIKE",
-					"value" => '%,'.$id.',%'
-				),
-				"elements6" => array(
-					"condition" => "LIKE",
-					"value" => '%,'.$id.']'
-				)
-			)
-		);
+
+        try {
+            $result = $this->qb->table('elements_campaigns')
+                ->where("elements", 'LIKE', '["'.$id.'",%')
+                ->orWhere("elements", 'LIKE', '%,"'.$id.'",%')
+                ->orWhere("elements", 'LIKE', '%,"'.$id.'"]')
+                ->orWhere("elements", 'LIKE', '['.$id.',%')
+                ->orWhere("elements", 'LIKE', '%,'.$id.',%')
+                ->orWhere("elements", 'LIKE', '%,'.$id.']')
+                ->get();
+
+        } catch (Exception $e) {
+        	CASHSystem::errorLog($e->getMessage());
+		}
+
 		// 6 conditions is overkill, but wanted to make sure this would work if PHP treats the
 		// json_encode variables as strings OR ints (have only seen string handling)
 		//
@@ -805,6 +756,7 @@ class ElementPlant extends PlantBase {
 	protected function addElementToCampaign($element_id,$campaign_id) {
 		$campaign = $this->getCampaign($campaign_id);
 
+		$campaign = $campaign->toArray();
 		if (is_array($campaign['elements'])) {
             if(($key = array_search($element_id, $campaign['elements'])) === false) {
                 $campaign['elements'][] = $element_id;

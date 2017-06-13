@@ -10,23 +10,23 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="elements_campaigns")
  * @Entity
  */
-class ElementsCampaigns extends EntityBase
+class ElementsCampaign extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'template_id', 'title', 'description', 'elements', 'metadata'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="template_id", type="integer", nullable=true)
      */
-    protected $templateId = '0';
+    protected $template_id = '0';
 
     /**
      * @var string
@@ -45,14 +45,14 @@ class ElementsCampaigns extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="elements", type="text", length=65535, nullable=true)
+     * @Column(name="elements", type="json_array", length=65535, nullable=true)
      */
     protected $elements;
 
     /**
      * @var string
      *
-     * @Column(name="metadata", type="text", length=65535, nullable=true)
+     * @Column(name="metadata", type="json_array", length=65535, nullable=true)
      */
     protected $metadata;
 
@@ -61,14 +61,14 @@ class ElementsCampaigns extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

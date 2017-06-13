@@ -35,7 +35,6 @@ class EntityBase
      */
     public static function find($id)
     {
-        // if it's an array of ids we can try to get multiples
         try {
             $db = CASHDBAL::entityManager();
             $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
