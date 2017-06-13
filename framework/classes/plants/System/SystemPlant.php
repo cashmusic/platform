@@ -22,6 +22,8 @@ namespace CASHMusic\Plants\System;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\CASHRequest;
+use CASHMusic\Entities\People;
+use CASHMusic\Entities\PeopleAnalyticsBasic;
 
 
 class SystemPlant extends PlantBase {
@@ -188,20 +190,12 @@ class SystemPlant extends PlantBase {
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$condition = array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			);
-			$current_result = $this->db->getData(
-				'people_analytics_basic',
-				'*',
-				$condition
-			);
-			if (is_array($current_result)) {
-				$last_login = $current_result[0]['modification_date'];
-				$new_total = $current_result[0]['total'] +1;
+
+			$people_analytics_basic = PeopleAnalyticsBasic::findWhere(['user_id'=>$user_id]);
+
+			if ($people_analytics_basic) {
+				$last_login = $people_analytics_basic->modification_date;
+				$new_total = $people_analytics_basic->total +1;
 			} else {
 				$last_login = time();
 				$new_total = 1;
@@ -209,23 +203,14 @@ class SystemPlant extends PlantBase {
 			}
 			// store the "last_login" time
 			if ($login_method == 'internal') {
-				new CASHRequest(
-					array(
-						'cash_request_type' => 'people',
-						'cash_action' => 'storeuserdata',
-						'user_id' => $user_id,
-						'key' => 'last_login',
-						'value' => $last_login
-					)
-				);
-				$result = $this->db->setData(
-					'people_analytics_basic',
-					array(
-						'user_id' => $user_id,
-						'total' => $new_total
-					),
-					$condition
-				);
+
+				$user = People::find($user_id);
+
+				$user->data['last_login'] = $last_login;
+				$user->save();
+
+                $people_analytics_basic->total = $new_total;
+                $people_analytics_basic->save();
 			}
 		}
 

@@ -21,6 +21,7 @@ use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Seeds\MailchimpSeed;
+use CASHMusic\Entities\People;
 
 class PeoplePlant extends PlantBase {
 
@@ -32,38 +33,10 @@ class PeoplePlant extends PlantBase {
 	}
 
 	/**
-	 * Store keyed data in a user's data field
-	 *
-	 * @return bool
-	 */protected function storeUserData($user_id,$key,$value) {
-		$user = $this->getUser($user_id);
-		if (!is_array($user)) { return false; }
-		$userdata = $user['data'];
-		if (!is_array($userdata)) {
-			$userdata = array();
-		}
-		$userdata[$key] = $value;
-		$userdataJSON = json_encode($userdata);
-		$result = $this->db->setData(
-			'users',
-			array(
-				'data' => $userdataJSON
-			),
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
-	}
-
-	/**
 	 * Get recent activity for a given user. (list joins and orders) —
 	 * if since_date isn't set it will default to two weeks from now.
 	 *
-	 * @return bool
+	 * @return array|bool
 	 */protected function getRecentActivity($user_id,$since_date=0) {
 		if ($since_date == 0) {
 			$since_date = time() - 60480;
@@ -82,20 +55,16 @@ class PeoplePlant extends PlantBase {
 		$return_array['orders'] = $order_request->response['payload'];
 
 		// get list activity (new joins)
-		$result = $this->db->getData(
-			'PeoplePlant_getRecentActivity',
-			false,
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				),
-				"since_date" => array(
-					"condition" => ">",
-					"value" => $since_date
-				)
-			)
-		);
+
+		$result = $this->qb->table('people_lists_members')
+			->selectDistinct('people_lists_members.list_id')
+            ->select([$this->qb->raw("COUNT(people_lists_members.list_id) AS total"), "people_lists.name"])
+			->join('people_lists', 'people_lists_members.list_id', '=', 'people_lists.id')
+			->where('people_lists.user_id', $user_id)
+		    ->where('people_lists_members.active', 1)
+			->where('people_lists_members.creation_date', '>', $since_date)
+			->groupBy('people_lists_members.list_id')->get();
+
 		$return_array['lists'] = $result;
 
 		return $return_array;
@@ -658,23 +627,12 @@ class PeoplePlant extends PlantBase {
 	/**
 	 * Gets details for an individual user
 	 *
-	 */protected function getUser($user_id) {
-		$result = $this->db->getData(
-			'users',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		if ($result) {
-			$return = $result[0];
-			$return['data'] = json_decode($return['data'],true);
-			return $return;
+	 */
+	protected function getUser($user_id) {
+	 	if ($user = People::find($user_id)) {
+	 		return $user->toArray();
 		} else {
-			return false;
+	 		return false;
 		}
 	}
 

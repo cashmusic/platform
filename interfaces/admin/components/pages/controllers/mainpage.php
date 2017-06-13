@@ -28,6 +28,8 @@ $user_response = $cash_admin->requestAndStore(
 	)
 );
 
+$cash_admin->page_data['last_login'] = 0;
+
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
@@ -43,6 +45,9 @@ if (is_array($user_response['payload'])) {
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
+
+	if (!isset($current_username)) $current_username = false;
+
 	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/');
 	$cash_admin->page_data['user_page_uri'] = str_replace('://','://' . $current_username . '.',$cash_admin->page_data['user_page_uri']);
 } else {
@@ -79,6 +84,9 @@ $activity_request = new CASHRequest(
 		'since_date' => $cash_admin->page_data['last_login']
 	)
 );
+
+CASHSystem::errorLog($activity_request);
+
 $activity = $activity_request->response['payload'];
 
 // PARSE ACTIVITY FOR LISTS

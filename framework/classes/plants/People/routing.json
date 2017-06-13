@@ -282,13 +282,6 @@
 				"api_key"
 			]
 		},
-		"storeuserdata": {
-			"description": "Store user data.",
-			"plantfunction": "storeUserData",
-			"security": [
-				"direct"
-			]
-		},
 		"verifyaddress": {
 			"description": "Verify address for list.",
 			"plantfunction": "doAddressVerification",

@@ -407,8 +407,6 @@ class ElementPlant extends PlantBase {
 	 */
 	protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
 
-
-
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
 
