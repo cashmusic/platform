@@ -719,6 +719,11 @@ class AdminHelper  {
 
 	public function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
 		$formatted = false;
+
+		CASHSystem::errorLog($name);
+        CASHSystem::errorLog($type);
+        CASHSystem::errorLog($value);
+        CASHSystem::errorLog("----");
 		if ($type == 'boolean') {
 			if ($value) {
 				$formatted = 1;
@@ -802,7 +807,6 @@ class AdminHelper  {
 	public function handleElementFormPOST($post_data) {
 
 		if (AdminHelper::elementFormSubmitted($post_data)) {
-
 			// first create the options array
 			$options_array = array();
 			// now populate it from the POST data, fixing booleans
@@ -815,6 +819,7 @@ class AdminHelper  {
 						// check for element_id, set to false if not known
 						$element_id = isset($post_data['element_id']) ? $post_data['element_id'] : false;
 						// we handle things a little differently for options
+						$value = false;
 						if ($values['type'] == 'options') {
 							$value = $post_data;
 							$allvalues = $values['values'];
@@ -828,6 +833,8 @@ class AdminHelper  {
 				}
 				$scalars = $this->processScalarData($post_data,$app_json);
 				$options_array = array_merge($options_array,$scalars);
+
+				//agree_checkbox
 			}
 
 			if (isset($post_data['doelementadd'])) {
