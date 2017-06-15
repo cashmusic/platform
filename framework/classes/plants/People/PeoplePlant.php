@@ -244,6 +244,8 @@ class PeoplePlant extends PlantBase {
 
 	protected function getConnectionAPI($list_id) {
 		$list_info     = $this->getList($list_id);
+
+		$list_info = $list_info->toArray();
 		// settings are called connections now
 		$connection_id = $list_info['connection_id'];
 		$user_id       = $list_info['user_id'];
@@ -417,7 +419,11 @@ class PeoplePlant extends PlantBase {
 			case 'listmembership':
 
                 $result = $this->qb->table('people_lists_members')
-					->select(['COUNT(*) AS total', 'COUNT(CASE WHEN active = 1 THEN 1 END) AS active', 'COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive', 'COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week'])
+					->select([
+						$this->qb->raw('COUNT(*) AS total'),
+						$this->qb->raw('COUNT(CASE WHEN active = 1 THEN 1 END) AS active'),
+						$this->qb->raw('COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive'),
+						$this->qb->raw('COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week')])
 					->where("list_id", $list_id)->get();
 
 				if ($result) {
@@ -574,6 +580,8 @@ class PeoplePlant extends PlantBase {
 				'creation_date' => time()
 			];
 		}
+
+		CASHSystem::errorLog($address_insert);
 
 		// bulk create users
 		$create_users = $this->qb->table('people')->insert($address_insert);
