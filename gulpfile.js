@@ -3,6 +3,7 @@ var closure = require('gulp-closure-compiler-service');
 var jsonlint = require("gulp-jsonlint");
 var shell = require('gulp-shell');
 var argv = require('yargs').argv;
+var uglify = require('gulp-uglify');
 
 var js_source = './interfaces/public/cashmusicjs/source/';
 var paths = {
@@ -18,6 +19,7 @@ var paths = {
 };
 
 gulp.task('compile', function() {
+
     return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
         .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
