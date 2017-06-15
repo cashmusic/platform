@@ -19,14 +19,15 @@ var paths = {
 };
 
 gulp.task('compile', function() {
+
     return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
-        .pipe(uglify())
+        .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
 });
 
 gulp.task('compile-admin', function() {
     return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
-        .pipe(uglify())
+        .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
 });
 
