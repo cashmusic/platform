@@ -10,37 +10,37 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="people_contacts")
  * @Entity
  */
-class PeopleContacts extends EntityBase
+class PeopleContact extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['email_address', 'user_id', 'first_name', 'last_name', 'organization', 'address_line1', 'address_line2', 'address_city', 'address_region', 'address_postalcode', 'address_country', 'phone', 'notes', 'links'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
      *
      * @Column(name="email_address", type="string", length=255, nullable=false)
      */
-    protected $emailAddress;
+    protected $email_address;
 
     /**
      * @var string
      *
      * @Column(name="first_name", type="string", length=255, nullable=true)
      */
-    protected $firstName;
+    protected $first_name;
 
     /**
      * @var string
      *
      * @Column(name="last_name", type="string", length=255, nullable=true)
      */
-    protected $lastName;
+    protected $last_name;
 
     /**
      * @var string
@@ -54,42 +54,42 @@ class PeopleContacts extends EntityBase
      *
      * @Column(name="address_line1", type="string", length=255, nullable=true)
      */
-    protected $addressLine1;
+    protected $address_line1;
 
     /**
      * @var string
      *
      * @Column(name="address_line2", type="string", length=255, nullable=true)
      */
-    protected $addressLine2;
+    protected $address_line2;
 
     /**
      * @var string
      *
      * @Column(name="address_city", type="string", length=255, nullable=true)
      */
-    protected $addressCity;
+    protected $address_city;
 
     /**
      * @var string
      *
      * @Column(name="address_region", type="string", length=255, nullable=true)
      */
-    protected $addressRegion;
+    protected $address_region;
 
     /**
      * @var string
      *
      * @Column(name="address_postalcode", type="string", length=255, nullable=true)
      */
-    protected $addressPostalcode;
+    protected $address_postalcode;
 
     /**
      * @var string
      *
      * @Column(name="address_country", type="string", length=255, nullable=true)
      */
-    protected $addressCountry;
+    protected $address_country;
 
     /**
      * @var string
@@ -101,14 +101,14 @@ class PeopleContacts extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="notes", type="text", length=65535, nullable=true)
+     * @Column(name="notes", type="json_array", length=65535, nullable=true)
      */
     protected $notes;
 
     /**
      * @var string
      *
-     * @Column(name="links", type="text", length=65535, nullable=true)
+     * @Column(name="links", type="json_array", length=65535, nullable=true)
      */
     protected $links;
 
@@ -117,14 +117,14 @@ class PeopleContacts extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

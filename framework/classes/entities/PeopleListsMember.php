@@ -10,30 +10,31 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="people_lists_members", indexes={@Index(name="people_lists_members_user_id", columns={"user_id"}), @Index(name="people_lists_members_list_id", columns={"list_id"})})
  * @Entity
  */
-class PeopleListsMembers extends EntityBase
+class PeopleListsMember extends EntityBase
 {
-
-    protected $fillable;
+    protected $fillable = [
+        'user_id', 'list_id', 'verification_code', 'verified', 'active', 'initial_comment', 'additional_data'
+    ];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="list_id", type="integer", nullable=false)
      */
-    protected $listId;
+    protected $list_id;
 
     /**
      * @var string
      *
      * @Column(name="verification_code", type="text", length=65535, nullable=true)
      */
-    protected $verificationCode;
+    protected $verification_code;
 
     /**
      * @var boolean
@@ -54,28 +55,28 @@ class PeopleListsMembers extends EntityBase
      *
      * @Column(name="initial_comment", type="text", length=65535, nullable=true)
      */
-    protected $initialComment;
+    protected $initial_comment;
 
     /**
      * @var string
      *
      * @Column(name="additional_data", type="text", length=65535, nullable=true)
      */
-    protected $additionalData;
+    protected $additional_data;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

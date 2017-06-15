@@ -10,16 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="people_mailings_analytics")
  * @Entity
  */
-class PeopleMailingsAnalytics extends EntityBase
+class PeopleMailingsAnalytic extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['mailing_id','sends','opens_total','opens_unique','opens_mobile','opens_country','opens_ids','clicks','clicks_urls','failures'];
     /**
      * @var integer
      *
      * @Column(name="mailing_id", type="integer", nullable=false)
      */
-    protected $mailingId = '0';
+    protected $mailing_id = '0';
 
     /**
      * @var integer
@@ -33,35 +33,35 @@ class PeopleMailingsAnalytics extends EntityBase
      *
      * @Column(name="opens_total", type="integer", nullable=true)
      */
-    protected $opensTotal = '0';
+    protected $opens_total = '0';
 
     /**
      * @var integer
      *
      * @Column(name="opens_unique", type="integer", nullable=true)
      */
-    protected $opensUnique = '0';
+    protected $opens_unique = '0';
 
     /**
      * @var integer
      *
      * @Column(name="opens_mobile", type="integer", nullable=true)
      */
-    protected $opensMobile = '0';
+    protected $opens_mobile = '0';
 
     /**
      * @var string
      *
      * @Column(name="opens_country", type="text", length=16777215, nullable=true)
      */
-    protected $opensCountry;
+    protected $opens_country;
 
     /**
      * @var string
      *
      * @Column(name="opens_ids", type="text", length=16777215, nullable=true)
      */
-    protected $opensIds;
+    protected $opens_ids;
 
     /**
      * @var integer
@@ -75,7 +75,7 @@ class PeopleMailingsAnalytics extends EntityBase
      *
      * @Column(name="clicks_urls", type="text", length=65535, nullable=true)
      */
-    protected $clicksUrls;
+    protected $clicks_urls;
 
     /**
      * @var integer
@@ -89,14 +89,14 @@ class PeopleMailingsAnalytics extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true)
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true)
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
