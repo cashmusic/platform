@@ -24,6 +24,7 @@ use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Entities\People;
 use CASHMusic\Entities\PeopleAnalyticsBasic;
+use Pixie\Exception;
 
 
 class SystemPlant extends PlantBase {
@@ -116,42 +117,23 @@ class SystemPlant extends PlantBase {
 			return false; // seriously no password? lame.
 		}
 
-/*		if (!$verified_address) {
-			$address = CASHSystem::getBrowserIdStatus($browserid_assertion);
-			if (!$address) {
-				return false;
-			} else {
-				$verified_address = true;
-				$login_method = 'browserid';
-			}
-		}*/
+		$user_result = People::findWhere(['email_address'=>$address]);
 
-		$result = $this->db->getData(
-			'users',
-			'id,password,is_admin',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
-
-		if ($result) {
+		if ($user_result) {
 			$ciphers = $this->getCryptConstants();
-			$parts = explode('$', $result[0]['password']);
+			$parts = explode('$', $user_result->password);
 			if ($ciphers || count($parts) > 2) {
-				$password_hash = crypt(md5($password . $this->salt), $result[0]['password']);
+				$password_hash = crypt(md5($password . $this->salt), $user_result->password);
 			} else {
 				$key = $parts[0];
 				$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $this->salt), $key);
 			}
 		}
 
-		if ($result && ($result[0]['password'] == $password_hash || $verified_address)) {
-			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
-				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
-				return $result[0]['id'];
+		if ($user_result && ($user_result->password == $password_hash || $verified_address)) {
+			if (($require_admin && $user_result->is_admin) || !$require_admin) {
+				$this->recordLoginAnalytics($user_result->id,$element_id,$login_method);
+				return $user_result->id;
 			} else {
 				return false;
 			}
@@ -164,7 +146,8 @@ class SystemPlant extends PlantBase {
 	 * Records the basic login data to the people analytics table
 	 *
 	 * @return boolean
-	 */protected function recordLoginAnalytics($user_id,$element_id=null,$login_method='internal') {
+	 */
+	protected function recordLoginAnalytics($user_id,$element_id=null,$login_method='internal') {
 		$result = false;
 
 		// check settings first as they're already loaded in the environment
@@ -190,28 +173,38 @@ class SystemPlant extends PlantBase {
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
+                if ($people_analytics_basic = PeopleAnalyticsBasic::findWhere(['user_id' => $user_id])) {
+                    $last_login = $people_analytics_basic->modification_date;
+                    $new_total = $people_analytics_basic->total + 1;
+                } else {
+                    $last_login = time();
+                    $new_total = 1;
+                }
+                // store the "last_login" time
+                if ($login_method == 'internal') {
 
-			$people_analytics_basic = PeopleAnalyticsBasic::findWhere(['user_id'=>$user_id]);
+                	try {
 
-			if ($people_analytics_basic) {
-				$last_login = $people_analytics_basic->modification_date;
-				$new_total = $people_analytics_basic->total +1;
-			} else {
-				$last_login = time();
-				$new_total = 1;
-				$condition = false;
-			}
-			// store the "last_login" time
-			if ($login_method == 'internal') {
+                        $user = People::find($user_id);
+						$data_array = $user->data;
+						$data_array['last_login'] = $last_login;
+                        $user->data = $data_array;
+                        $user->save();
 
-				$user = People::find($user_id);
+					} catch (Exception $e) {
+                		CASHSystem::errorLog($e);
+					}
 
-				$user->data['last_login'] = $last_login;
-				$user->save();
-
-                $people_analytics_basic->total = $new_total;
-                $people_analytics_basic->save();
-			}
+                    if (!$people_analytics_basic) {
+                    	$analytic = PeopleAnalyticsBasic::create([
+                    		'total'=>$new_total,
+							'user_id'=>$user_id
+						]);
+					} else {
+                        $people_analytics_basic->total = $new_total;
+                        $people_analytics_basic->save();
+					}
+                }
 		}
 
 		return $result;

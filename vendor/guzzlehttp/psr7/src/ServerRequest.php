@@ -188,25 +188,37 @@ class ServerRequest extends Request implements ServerRequestInterface
     public static function getUriFromGlobals() {
         $uri = new Uri('');
 
-        if (isset($_SERVER['HTTPS'])) {
-            $uri = $uri->withScheme($_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
-        }
+        $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
 
+        $hasPort = false;
         if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $uri->withHost($_SERVER['HTTP_HOST']);
+            $hostHeaderParts = explode(':', $_SERVER['HTTP_HOST']);
+            $uri = $uri->withHost($hostHeaderParts[0]);
+            if (isset($hostHeaderParts[1])) {
+                $hasPort = true;
+                $uri = $uri->withPort($hostHeaderParts[1]);
+            }
         } elseif (isset($_SERVER['SERVER_NAME'])) {
             $uri = $uri->withHost($_SERVER['SERVER_NAME']);
+        } elseif (isset($_SERVER['SERVER_ADDR'])) {
+            $uri = $uri->withHost($_SERVER['SERVER_ADDR']);
         }
 
-        if (isset($_SERVER['SERVER_PORT'])) {
+        if (!$hasPort && isset($_SERVER['SERVER_PORT'])) {
             $uri = $uri->withPort($_SERVER['SERVER_PORT']);
         }
 
+        $hasQuery = false;
         if (isset($_SERVER['REQUEST_URI'])) {
-            $uri = $uri->withPath(current(explode('?', $_SERVER['REQUEST_URI'])));
+            $requestUriParts = explode('?', $_SERVER['REQUEST_URI']);
+            $uri = $uri->withPath($requestUriParts[0]);
+            if (isset($requestUriParts[1])) {
+                $hasQuery = true;
+                $uri = $uri->withQuery($requestUriParts[1]);
+            }
         }
 
-        if (isset($_SERVER['QUERY_STRING'])) {
+        if (!$hasQuery && isset($_SERVER['QUERY_STRING'])) {
             $uri = $uri->withQuery($_SERVER['QUERY_STRING']);
         }
 

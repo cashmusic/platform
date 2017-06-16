@@ -23,13 +23,13 @@ trait CacheTrait
      * Gets the cached value if it is present in the cache when that is
      * available.
      */
-    private function getCachedValue()
+    private function getCachedValue($k)
     {
         if (is_null($this->cache)) {
             return;
         }
 
-        $key = $this->getFullCacheKey();
+        $key = $this->getFullCacheKey($k);
         if (is_null($key)) {
             return;
         }
@@ -41,13 +41,13 @@ trait CacheTrait
     /**
      * Saves the value in the cache when that is available.
      */
-    private function setCachedValue($v)
+    private function setCachedValue($k, $v)
     {
         if (is_null($this->cache)) {
             return;
         }
 
-        $key = $this->getFullCacheKey();
+        $key = $this->getFullCacheKey($k);
         if (is_null($key)) {
             return;
         }
@@ -58,21 +58,15 @@ trait CacheTrait
         return $this->cache->save($cacheItem);
     }
 
-    private function getFullCacheKey()
+    private function getFullCacheKey($key)
     {
-        if (isset($this->fetcher)) {
-            $fetcherKey = $this->fetcher->getCacheKey();
-        } else {
-            $fetcherKey = $this->getCacheKey();
-        }
-
-        if (is_null($fetcherKey)) {
+        if (is_null($key)) {
             return;
         }
 
-        $key = $this->cacheConfig['prefix'] . $fetcherKey;
+        $key = $this->cacheConfig['prefix'] . $key;
 
         // ensure we do not have illegal characters
-        return str_replace(['{', '}', '(', ')', '/', '\\', '@', ':'], '-', $key);
+        return preg_replace('|[^a-zA-Z0-9_\.!]|', '', $key);
     }
 }

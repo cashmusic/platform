@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## 1.4.2 - 2017-03-20
+
+* Reverted BC break to `Uri::resolve` and `Uri::removeDotSegments` by removing 
+  calls to `trigger_error` when deprecated methods are invoked.
+
+## 1.4.1 - 2017-02-27
+
+* Reverted BC break by reintroducing behavior to automagically fix a URI with a
+  relative path and an authority by adding a leading slash to the path. It's only
+  deprecated now.
+* Added triggering of silenced deprecation warnings.
+
+## 1.4.0 - 2017-02-21
+
+* Fix `Stream::read` when length parameter <= 0.
+* `copy_to_stream` reads bytes in chunks instead of `maxLen` into memory.
+* Fix `ServerRequest::getUriFromGlobals` when `Host` header contains port.
+* Ensure `ServerRequest::getUriFromGlobals` returns a URI in absolute form.
+* Allow `parse_response` to parse a response without delimiting space and reason.
+* Ensure each URI modification results in a valid URI according to PSR-7 discussions.
+  Invalid modifications will throw an exception instead of returning a wrong URI or
+  doing some magic.
+  - `(new Uri)->withPath('foo')->withHost('example.com')` will throw an exception
+    because the path of a URI with an authority must start with a slash "/" or be empty
+  - `(new Uri())->withScheme('http')` will return `'http://localhost'`
+* Fix compatibility of URIs with `file` scheme and empty host.
+* Added common URI utility methods based on RFC 3986 (see documentation in the readme):
+  - `Uri::isDefaultPort`
+  - `Uri::isAbsolute`
+  - `Uri::isNetworkPathReference`
+  - `Uri::isAbsolutePathReference`
+  - `Uri::isRelativePathReference`
+  - `Uri::isSameDocumentReference`
+  - `Uri::composeComponents`
+  - `UriNormalizer::normalize`
+  - `UriNormalizer::isEquivalent`
+  - `UriResolver::relativize`
+* Deprecated `Uri::resolve` in favor of `UriResolver::resolve`
+* Deprecated `Uri::removeDotSegments` in favor of `UriResolver::removeDotSegments`
+
 ## 1.3.1 - 2016-06-25
 
 * Fix `Uri::__toString` for network path references, e.g. `//example.org`.

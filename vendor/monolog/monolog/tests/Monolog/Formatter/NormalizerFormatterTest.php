@@ -85,6 +85,33 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         ), $formatted);
     }
 
+    public function testFormatSoapFaultException()
+    {
+        if (!class_exists('SoapFault')) {
+            $this->markTestSkipped('Requires the soap extension');
+        }
+
+        $formatter = new NormalizerFormatter('Y-m-d');
+        $e = new \SoapFault('foo', 'bar', 'hello', 'world');
+        $formatted = $formatter->format(array(
+            'exception' => $e,
+        ));
+
+        unset($formatted['exception']['trace']);
+
+        $this->assertEquals(array(
+            'exception' => array(
+                'class' => 'SoapFault',
+                'message' => 'bar',
+                'code' => 0,
+                'file' => $e->getFile().':'.$e->getLine(),
+                'faultcode' => 'foo',
+                'faultactor' => 'hello',
+                'detail' => 'world',
+            ),
+        ), $formatted);
+    }
+
     public function testFormatToStringExceptionHandle()
     {
         $formatter = new NormalizerFormatter('Y-m-d');
@@ -188,6 +215,24 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         restore_error_handler();
 
         $this->assertEquals(@json_encode(array($resource)), $res);
+    }
+
+    public function testNormalizeHandleLargeArrays()
+    {
+        $formatter = new NormalizerFormatter();
+        $largeArray = range(1, 2000);
+
+        $res = $formatter->format(array(
+            'level_name' => 'CRITICAL',
+            'channel' => 'test',
+            'message' => 'bar',
+            'context' => array($largeArray),
+            'datetime' => new \DateTime,
+            'extra' => array(),
+        ));
+
+        $this->assertCount(1000, $res['context'][0]);
+        $this->assertEquals('Over 1000 items (2000 total), aborting normalization', $res['context'][0]['...']);
     }
 
     /**

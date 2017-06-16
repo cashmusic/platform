@@ -1,6 +1,6 @@
 <?php
 
-class ParsedownTest extends PHPUnit_Framework_TestCase
+class ParsedownTest extends \PHPUnit\Framework\TestCase
 {
     final function __construct($name = null, array $data = array(), $dataName = '')
     {
@@ -139,7 +139,7 @@ EXPECTED_HTML;
 
     public function testLateStaticBinding()
     {
-        include 'test/TestParsedown.php';
+        include __DIR__ . '/TestParsedown.php';
 
         $parsedown = Parsedown::instance();
         $this->assertInstanceOf('Parsedown', $parsedown);

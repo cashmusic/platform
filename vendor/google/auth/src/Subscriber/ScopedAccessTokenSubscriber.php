@@ -162,14 +162,15 @@ class ScopedAccessTokenSubscriber implements SubscriberInterface
      */
     private function fetchToken()
     {
-        $cached = $this->getCachedValue();
+        $cacheKey = $this->getCacheKey();
+        $cached = $this->getCachedValue($cacheKey);
 
         if (!empty($cached)) {
             return $cached;
         }
 
         $token = call_user_func($this->tokenFunc, $this->scopes);
-        $this->setCachedValue($token);
+        $this->setCachedValue($cacheKey, $token);
 
         return $token;
     }

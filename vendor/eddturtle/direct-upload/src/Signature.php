@@ -52,6 +52,14 @@ class Signature
         // with a AccessDenied 403 is this condition is not met.
         'content_type' => '',
 
+        // Sets whether AWS server side encryption should be applied to the uploaded files,
+        // so that files will be encrypted with AES256 when at rest.
+        'encryption' => false,
+
+        // Allow S3 compatible solutions by specifying the domain it should POST to. Must be
+        // a valid url (inc. http/https) otherwise will throw InvalidOptionException.
+        'custom_url' => null,
+
         // Any additional inputs to add to the form. This is an array of name => value
         // pairs e.g. ['Content-Disposition' => 'attachment']
         'additional_inputs' => []
@@ -135,6 +143,28 @@ class Signature
      */
     public function getFormUrl()
     {
+        if (!is_null($this->options['custom_url'])) {
+            return $this->buildCustomUrl();
+        } else {
+            return $this->buildAmazonUrl();
+        }
+    }
+
+    private function buildCustomUrl()
+    {
+        $url = trim($this->options['custom_url']);
+
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            throw new InvalidOptionException("The custom_url option you have specified is invalid");
+        }
+
+        $separator = (substr($url, -1) === "/" ? "" : "/");
+
+        return $url . $separator . urlencode($this->bucket);
+    }
+
+    private function buildAmazonUrl()
+    {
         $region = (string)$this->region;
 
         // Only the us-east-1 region is exempt from needing the region in the url.
@@ -210,6 +240,10 @@ class Signature
             'X-amz-date' => $this->getFullDateFormat(),
             'X-amz-signature' => $this->signature
         ];
+
+        if ($this->options['encryption']) {
+            $inputs['X-amz-server-side-encryption'] = 'AES256';
+        }
 
         $inputs = array_merge($inputs, $this->options['additional_inputs']);
 

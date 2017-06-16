@@ -124,6 +124,7 @@ $list_response = $cash_admin->requestAndStore(
 );
 if (is_array($list_response['payload'])) {
 	foreach ($list_response['payload'] as &$list) {
+		$list = $list->toArray();
 		$list_analytics = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'people',
@@ -133,11 +134,14 @@ if (is_array($list_response['payload'])) {
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
-		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
-		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
-		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+
+        $list_analytics = json_decode(json_encode($list_analytics['payload']), true);
+
+		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['active']);
+		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['inactive']);
+		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['last_week']);
 	}
-	$cash_admin->page_data['all_lists'] = $list_response['payload'];
+	$cash_admin->page_data['all_lists'] = $list_response;
 }
 
 // FIND UNFULFILLED ORDERS

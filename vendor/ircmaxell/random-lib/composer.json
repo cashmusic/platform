@@ -5,7 +5,6 @@
     "keywords": ["random", "random-numbers", "random-strings", "cryptography"],
     "homepage": "https://github.com/ircmaxell/RandomLib",
     "license": "MIT",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Anthony Ferrara",
@@ -14,11 +13,12 @@
         }
     ],
     "require-dev": {
-        "mikey179/vfsStream": "1.1.*",
-        "phpunit/phpunit": "3.7.*"
+        "mikey179/vfsStream": "^1.6",
+        "friendsofphp/php-cs-fixer": "^1.11",
+        "phpunit/phpunit": "^4.8|^5.0"
     },
     "require": {
-        "ircmaxell/security-lib": "1.0.*@dev",
+        "ircmaxell/security-lib": "^1.1",
         "php": ">=5.3.2"
     },
     "autoload": {
@@ -28,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master":  "1.0.x-dev"
+            "dev-master":  "1.1.x-dev"
         }
     }
 }

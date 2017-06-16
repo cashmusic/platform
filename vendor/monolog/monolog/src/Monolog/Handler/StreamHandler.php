@@ -76,12 +76,22 @@ class StreamHandler extends AbstractProcessingHandler
     }
 
     /**
+     * Return the stream URL if it was configured with a URL and not an active resource
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function write(array $record)
     {
         if (!is_resource($this->stream)) {
-            if (!$this->url) {
+            if (null === $this->url || '' === $this->url) {
                 throw new \LogicException('Missing stream url, the stream can not be opened. This may be caused by a premature call to close().');
             }
             $this->createDir();
@@ -103,11 +113,21 @@ class StreamHandler extends AbstractProcessingHandler
             flock($this->stream, LOCK_EX);
         }
 
-        fwrite($this->stream, (string) $record['formatted']);
+        $this->streamWrite($this->stream, $record);
 
         if ($this->useLocking) {
             flock($this->stream, LOCK_UN);
         }
+    }
+
+    /**
+     * Write to stream
+     * @param resource $stream
+     * @param array $record
+     */
+    protected function streamWrite($stream, array $record)
+    {
+        fwrite($stream, (string) $record['formatted']);
     }
 
     private function customErrorHandler($code, $msg)

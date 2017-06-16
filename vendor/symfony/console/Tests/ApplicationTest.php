@@ -27,8 +27,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ApplicationTest extends TestCase
@@ -212,16 +214,22 @@ class ApplicationTest extends TestCase
         $this->assertEquals('foo', $application->findNamespace('foo'), '->findNamespace() returns commands even if the commands are only contained in subnamespaces');
     }
 
-    /**
-     * @expectedException        \Symfony\Component\Console\Exception\CommandNotFoundException
-     * @expectedExceptionMessage The namespace "f" is ambiguous (foo, foo1).
-     */
     public function testFindAmbiguousNamespace()
     {
         $application = new Application();
         $application->add(new \BarBucCommand());
         $application->add(new \FooCommand());
         $application->add(new \Foo2Command());
+
+        $expectedMsg = "The namespace \"f\" is ambiguous.\nDid you mean one of these?\n    foo\n    foo1";
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(CommandNotFoundException::class);
+            $this->expectExceptionMessage($expectedMsg);
+        } else {
+            $this->setExpectedException(CommandNotFoundException::class, $expectedMsg);
+        }
+
         $application->findNamespace('f');
     }
 
@@ -285,8 +293,20 @@ class ApplicationTest extends TestCase
     {
         return array(
             array('f', 'Command "f" is not defined.'),
-            array('a', 'Command "a" is ambiguous (afoobar, afoobar1 and 1 more).'),
-            array('foo:b', 'Command "foo:b" is ambiguous (foo:bar, foo:bar1 and 1 more).'),
+            array(
+                'a',
+                "Command \"a\" is ambiguous.\nDid you mean one of these?\n".
+                "    afoobar  The foo:bar command\n".
+                "    afoobar1 The foo:bar1 command\n".
+                '    afoobar2 The foo1:bar command',
+            ),
+            array(
+                'foo:b',
+                "Command \"foo:b\" is ambiguous.\nDid you mean one of these?\n".
+                "    foo:bar  The foo:bar command\n".
+                "    foo:bar1 The foo:bar1 command\n".
+                '    foo1:bar The foo1:bar command',
+            ),
         );
     }
 
@@ -455,6 +475,36 @@ class ApplicationTest extends TestCase
             $this->assertRegExp('/foo/', $e->getMessage(), '->find() throws a CommandNotFoundException if namespace does not exist, with alternative : "foo"');
             $this->assertRegExp('/foo1/', $e->getMessage(), '->find() throws a CommandNotFoundException if namespace does not exist, with alternative : "foo1"');
             $this->assertRegExp('/foo3/', $e->getMessage(), '->find() throws a CommandNotFoundException if namespace does not exist, with alternative : "foo3"');
+        }
+    }
+
+    public function testFindAlternativesOutput()
+    {
+        $application = new Application();
+
+        $application->add(new \FooCommand());
+        $application->add(new \Foo1Command());
+        $application->add(new \Foo2Command());
+        $application->add(new \Foo3Command());
+
+        $expectedAlternatives = array(
+            'afoobar',
+            'afoobar1',
+            'afoobar2',
+            'foo1:bar',
+            'foo3:bar',
+            'foo:bar',
+            'foo:bar1',
+        );
+
+        try {
+            $application->find('foo');
+            $this->fail('->find() throws a CommandNotFoundException if command is not defined');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('Symfony\Component\Console\Exception\CommandNotFoundException', $e, '->find() throws a CommandNotFoundException if command is not defined');
+            $this->assertSame($expectedAlternatives, $e->getAlternatives());
+
+            $this->assertRegExp('/Command "foo" is not defined\..*Did you mean one of these\?.*/Ums', $e->getMessage());
         }
     }
 
@@ -935,7 +985,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @expectedException        \LogicException
-     * @expectedExceptionMessage caught
+     * @expectedExceptionMessage error
      */
     public function testRunWithExceptionAndDispatcher()
     {
@@ -966,7 +1016,7 @@ class ApplicationTest extends TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'foo'));
-        $this->assertContains('before.foo.caught.after.', $tester->getDisplay());
+        $this->assertContains('before.foo.error.after.', $tester->getDisplay());
     }
 
     public function testRunDispatchesAllEventsWithExceptionInListener()
@@ -986,7 +1036,7 @@ class ApplicationTest extends TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'foo'));
-        $this->assertContains('before.caught.after.', $tester->getDisplay());
+        $this->assertContains('before.error.after.', $tester->getDisplay());
     }
 
     public function testRunWithError()
@@ -1011,9 +1061,106 @@ class ApplicationTest extends TestCase
         }
     }
 
+    public function testRunAllowsErrorListenersToSilenceTheException()
+    {
+        $dispatcher = $this->getDispatcher();
+        $dispatcher->addListener('console.error', function (ConsoleErrorEvent $event) {
+            $event->getOutput()->write('silenced.');
+
+            $event->setExitCode(0);
+        });
+
+        $dispatcher->addListener('console.command', function () {
+            throw new \RuntimeException('foo');
+        });
+
+        $application = new Application();
+        $application->setDispatcher($dispatcher);
+        $application->setAutoExit(false);
+
+        $application->register('foo')->setCode(function (InputInterface $input, OutputInterface $output) {
+            $output->write('foo.');
+        });
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'foo'));
+        $this->assertContains('before.error.silenced.after.', $tester->getDisplay());
+        $this->assertEquals(ConsoleCommandEvent::RETURN_CODE_DISABLED, $tester->getStatusCode());
+    }
+
+    public function testConsoleErrorEventIsTriggeredOnCommandNotFound()
+    {
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener('console.error', function (ConsoleErrorEvent $event) {
+            $this->assertNull($event->getCommand());
+            $this->assertInstanceOf(CommandNotFoundException::class, $event->getError());
+            $event->getOutput()->write('silenced command not found');
+        });
+
+        $application = new Application();
+        $application->setDispatcher($dispatcher);
+        $application->setAutoExit(false);
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'unknown'));
+        $this->assertContains('silenced command not found', $tester->getDisplay());
+        $this->assertEquals(1, $tester->getStatusCode());
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation The "ConsoleEvents::EXCEPTION" event is deprecated since Symfony 3.3 and will be removed in 4.0. Listen to the "ConsoleEvents::ERROR" event instead.
+     */
+    public function testLegacyExceptionListenersAreStillTriggered()
+    {
+        $dispatcher = $this->getDispatcher();
+        $dispatcher->addListener('console.exception', function (ConsoleExceptionEvent $event) {
+            $event->getOutput()->write('caught.');
+
+            $event->setException(new \RuntimeException('replaced in caught.'));
+        });
+
+        $application = new Application();
+        $application->setDispatcher($dispatcher);
+        $application->setAutoExit(false);
+
+        $application->register('foo')->setCode(function (InputInterface $input, OutputInterface $output) {
+            throw new \RuntimeException('foo');
+        });
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'foo'));
+        $this->assertContains('before.caught.error.after.', $tester->getDisplay());
+        $this->assertContains('replaced in caught.', $tester->getDisplay());
+    }
+
+    /**
+     * @requires PHP 7
+     */
+    public function testErrorIsRethrownIfNotHandledByConsoleErrorEvent()
+    {
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->setCatchExceptions(false);
+        $application->setDispatcher(new EventDispatcher());
+
+        $application->register('dym')->setCode(function (InputInterface $input, OutputInterface $output) {
+            new \UnknownClass();
+        });
+
+        $tester = new ApplicationTester($application);
+
+        try {
+            $tester->run(array('command' => 'dym'));
+            $this->fail('->run() should rethrow PHP errors if not handled via ConsoleErrorEvent.');
+        } catch (\Error $e) {
+            $this->assertSame($e->getMessage(), 'Class \'UnknownClass\' not found');
+        }
+    }
+
     /**
      * @expectedException        \LogicException
-     * @expectedExceptionMessage caught
+     * @expectedExceptionMessage error
      */
     public function testRunWithErrorAndDispatcher()
     {
@@ -1030,7 +1177,7 @@ class ApplicationTest extends TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'dym'));
-        $this->assertContains('before.dym.caught.after.', $tester->getDisplay(), 'The PHP Error did not dispached events');
+        $this->assertContains('before.dym.error.after.', $tester->getDisplay(), 'The PHP Error did not dispached events');
     }
 
     public function testRunDispatchesAllEventsWithError()
@@ -1047,7 +1194,7 @@ class ApplicationTest extends TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'dym'));
-        $this->assertContains('before.dym.caught.after.', $tester->getDisplay(), 'The PHP Error did not dispached events');
+        $this->assertContains('before.dym.error.after.', $tester->getDisplay(), 'The PHP Error did not dispached events');
     }
 
     public function testRunWithErrorFailingStatusCode()
@@ -1232,13 +1379,36 @@ class ApplicationTest extends TestCase
                 $event->setExitCode(ConsoleCommandEvent::RETURN_CODE_DISABLED);
             }
         });
-        $dispatcher->addListener('console.exception', function (ConsoleExceptionEvent $event) {
-            $event->getOutput()->write('caught.');
+        $dispatcher->addListener('console.error', function (ConsoleErrorEvent $event) {
+            $event->getOutput()->write('error.');
 
-            $event->setException(new \LogicException('caught.', $event->getExitCode(), $event->getException()));
+            $event->setError(new \LogicException('error.', $event->getExitCode(), $event->getError()));
         });
 
         return $dispatcher;
+    }
+
+    /**
+     * @requires PHP 7
+     */
+    public function testErrorIsRethrownIfNotHandledByConsoleErrorEventWithCatchingEnabled()
+    {
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->setDispatcher(new EventDispatcher());
+
+        $application->register('dym')->setCode(function (InputInterface $input, OutputInterface $output) {
+            new \UnknownClass();
+        });
+
+        $tester = new ApplicationTester($application);
+
+        try {
+            $tester->run(array('command' => 'dym'));
+            $this->fail('->run() should rethrow PHP errors if not handled via ConsoleErrorEvent.');
+        } catch (\Error $e) {
+            $this->assertSame($e->getMessage(), 'Class \'UnknownClass\' not found');
+        }
     }
 }
 

@@ -581,14 +581,14 @@ class PeoplePlant extends PlantBase {
 			];
 		}
 
-		CASHSystem::errorLog($address_insert);
-
 		// bulk create users
 		$create_users = $this->qb->table('people')->insert($address_insert);
-
+		CASHSystem::errorLog(count($create_users));
         if ($create_users) {
             // query users with "bulk_import" as data field.
 			$get_created_users = People::findWhere(['data' => 'bulk_import']);
+
+            CASHSystem::errorLog($get_created_users);
 
             $created_user_ids = [];
             $created_user_emails = [];

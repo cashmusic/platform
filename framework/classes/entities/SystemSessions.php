@@ -52,14 +52,14 @@ class SystemSessions extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
      */
     protected $creationDate;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
      */
     protected $modificationDate;
 

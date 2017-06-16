@@ -58,7 +58,7 @@ $result = $MailChimp->get('lists');
 print_r($result);
 ```
 
-Subscribe someone to a list (with a `post` to the `list/{listID}/members` method):
+Subscribe someone to a list (with a `post` to the `lists/{listID}/members` method):
 
 ```php
 $list_id = 'b1234346';
@@ -160,6 +160,8 @@ When your batch is finished, you can download the results from the URL given in 
 
 Webhooks
 --------
+
+**Note:** Use of the Webhooks functionality requires at least PHP 5.4.
 
 MailChimp [webhooks](http://kb.mailchimp.com/integrations/other-integrations/how-to-set-up-webhooks) enable your code to be notified of changes to lists and campaigns.
 

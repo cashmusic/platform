@@ -18,7 +18,6 @@
 namespace Google\Auth\Middleware;
 
 use Google\Auth\CacheTrait;
-use Google\Auth\FetchAuthTokenInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -44,16 +43,6 @@ class ScopedAccessTokenMiddleware
      * @var CacheItemPoolInterface
      */
     private $cache;
-
-    /**
-     * @var callback
-     */
-    private $httpHandler;
-
-    /**
-     * @var FetchAuthTokenInterface
-     */
-    private $fetcher;
 
     /**
      * @var array configuration
@@ -171,14 +160,15 @@ class ScopedAccessTokenMiddleware
      */
     private function fetchToken()
     {
-        $cached = $this->getCachedValue();
+        $cacheKey = $this->getCacheKey();
+        $cached = $this->getCachedValue($cacheKey);
 
         if (!empty($cached)) {
             return $cached;
         }
 
         $token = call_user_func($this->tokenFunc, $this->scopes);
-        $this->setCachedValue($token);
+        $this->setCachedValue($cacheKey, $token);
 
         return $token;
     }

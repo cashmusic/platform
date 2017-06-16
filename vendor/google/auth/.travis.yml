@@ -13,15 +13,19 @@ php:
   - hhvm
 
 env:
-  matrix:
-    - COMPOSER_CMD="composer install" RUN_CS_FIXER=true
-    - COMPOSER_CMD="composer update --prefer-lowest"
+  - COMPOSER_CMD="composer install"
+  - COMPOSER_CMD="composer update --prefer-lowest"
+matrix:
+  include:
+    - php: "7.0"
+      env: RUN_CS_FIXER=true COMPOSER_CMD="composer install"
 
 before_script:
   - $(echo $COMPOSER_CMD)
 
 script:
-  - vendor/bin/phpunit
   - if [ "${RUN_CS_FIXER}" = "true" ]; then
       vendor/bin/php-cs-fixer fix --dry-run --diff --config-file=.php_cs .;
+    else
+      vendor/bin/phpunit;
     fi

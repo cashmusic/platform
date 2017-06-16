@@ -21,17 +21,17 @@ class InlineTest extends TestCase
     /**
      * @dataProvider getTestsForParse
      */
-    public function testParse($yaml, $value)
+    public function testParse($yaml, $value, $flags = 0)
     {
-        $this->assertSame($value, Inline::parse($yaml), sprintf('::parse() converts an inline YAML to a PHP structure (%s)', $yaml));
+        $this->assertSame($value, Inline::parse($yaml, $flags), sprintf('::parse() converts an inline YAML to a PHP structure (%s)', $yaml));
     }
 
     /**
      * @dataProvider getTestsForParseWithMapObjects
      */
-    public function testParseWithMapObjects($yaml, $value)
+    public function testParseWithMapObjects($yaml, $value, $flags = Yaml::PARSE_OBJECT_FOR_MAP)
     {
-        $actual = Inline::parse($yaml, Yaml::PARSE_OBJECT_FOR_MAP);
+        $actual = Inline::parse($yaml, $flags);
 
         $this->assertSame(serialize($value), serialize($actual));
     }
@@ -88,11 +88,11 @@ class InlineTest extends TestCase
     /**
      * @dataProvider getTestsForDump
      */
-    public function testDump($yaml, $value)
+    public function testDump($yaml, $value, $parseFlags = 0)
     {
         $this->assertEquals($yaml, Inline::dump($value), sprintf('::dump() converts a PHP structure to an inline YAML (%s)', $yaml));
 
-        $this->assertSame($value, Inline::parse(Inline::dump($value)), 'check consistency');
+        $this->assertSame($value, Inline::parse(Inline::dump($value), $parseFlags), 'check consistency');
     }
 
     public function testDumpNumericValueWithLocale()
@@ -168,7 +168,7 @@ class InlineTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Using a colon that is not followed by an indication character (i.e. " ", ",", "[", "]", "{", "}" is deprecated since version 3.2 and will throw a ParseException in 4.0.
+     * @expectedDeprecation Using a colon after an unquoted mapping key that is not followed by an indication character (i.e. " ", ",", "[", "]", "{", "}") is deprecated since version 3.2 and will throw a ParseException in 4.0.
      * throws \Symfony\Component\Yaml\Exception\ParseException in 4.0
      */
     public function testParseMappingKeyWithColonNotFollowedBySpace()
@@ -385,12 +385,14 @@ class InlineTest extends TestCase
             array('[\'foo,bar\', \'foo bar\']', array('foo,bar', 'foo bar')),
 
             // mappings
-            array('{foo: bar,bar: foo,false: false,null: null,integer: 12}', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12)),
-            array('{ foo  : bar, bar : foo,  false  :   false,  null  :   null,  integer :  12  }', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12)),
+            array('{foo: bar,bar: foo,false: false,null: null,integer: 12}', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12), Yaml::PARSE_KEYS_AS_STRINGS),
+            array('{ foo  : bar, bar : foo,  false  :   false,  null  :   null,  integer :  12  }', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12), Yaml::PARSE_KEYS_AS_STRINGS),
             array('{foo: \'bar\', bar: \'foo: bar\'}', array('foo' => 'bar', 'bar' => 'foo: bar')),
             array('{\'foo\': \'bar\', "bar": \'foo: bar\'}', array('foo' => 'bar', 'bar' => 'foo: bar')),
             array('{\'foo\'\'\': \'bar\', "bar\"": \'foo: bar\'}', array('foo\'' => 'bar', 'bar"' => 'foo: bar')),
             array('{\'foo: \': \'bar\', "bar: ": \'foo: bar\'}', array('foo: ' => 'bar', 'bar: ' => 'foo: bar')),
+            array('{"foo:bar": "baz"}', array('foo:bar' => 'baz')),
+            array('{"foo":"bar"}', array('foo' => 'bar')),
 
             // nested sequences and mappings
             array('[foo, [bar, foo]]', array('foo', array('bar', 'foo'))),
@@ -454,12 +456,14 @@ class InlineTest extends TestCase
             array('[\'foo,bar\', \'foo bar\']', array('foo,bar', 'foo bar')),
 
             // mappings
-            array('{foo: bar,bar: foo,false: false,null: null,integer: 12}', (object) array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12)),
-            array('{ foo  : bar, bar : foo,  false  :   false,  null  :   null,  integer :  12  }', (object) array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12)),
+            array('{foo: bar,bar: foo,false: false,null: null,integer: 12}', (object) array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12), Yaml::PARSE_OBJECT_FOR_MAP | Yaml::PARSE_KEYS_AS_STRINGS),
+            array('{ foo  : bar, bar : foo,  false  :   false,  null  :   null,  integer :  12  }', (object) array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12), Yaml::PARSE_OBJECT_FOR_MAP | Yaml::PARSE_KEYS_AS_STRINGS),
             array('{foo: \'bar\', bar: \'foo: bar\'}', (object) array('foo' => 'bar', 'bar' => 'foo: bar')),
             array('{\'foo\': \'bar\', "bar": \'foo: bar\'}', (object) array('foo' => 'bar', 'bar' => 'foo: bar')),
             array('{\'foo\'\'\': \'bar\', "bar\"": \'foo: bar\'}', (object) array('foo\'' => 'bar', 'bar"' => 'foo: bar')),
             array('{\'foo: \': \'bar\', "bar: ": \'foo: bar\'}', (object) array('foo: ' => 'bar', 'bar: ' => 'foo: bar')),
+            array('{"foo:bar": "baz"}', (object) array('foo:bar' => 'baz')),
+            array('{"foo":"bar"}', (object) array('foo' => 'bar')),
 
             // nested sequences and mappings
             array('[foo, [bar, foo]]', array('foo', array('bar', 'foo'))),
@@ -534,7 +538,7 @@ class InlineTest extends TestCase
             array('[\'foo,bar\', \'foo bar\']', array('foo,bar', 'foo bar')),
 
             // mappings
-            array('{ foo: bar, bar: foo, \'false\': false, \'null\': null, integer: 12 }', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12)),
+            array('{ foo: bar, bar: foo, \'false\': false, \'null\': null, integer: 12 }', array('foo' => 'bar', 'bar' => 'foo', 'false' => false, 'null' => null, 'integer' => 12), Yaml::PARSE_KEYS_AS_STRINGS),
             array('{ foo: bar, bar: \'foo: bar\' }', array('foo' => 'bar', 'bar' => 'foo: bar')),
 
             // nested sequences and mappings
@@ -550,7 +554,7 @@ class InlineTest extends TestCase
 
             array('[foo, \'@foo.baz\', { \'%foo%\': \'foo is %foo%\', bar: \'%foo%\' }, true, \'@service_container\']', array('foo', '@foo.baz', array('%foo%' => 'foo is %foo%', 'bar' => '%foo%'), true, '@service_container')),
 
-            array('{ foo: { bar: { 1: 2, baz: 3 } } }', array('foo' => array('bar' => array(1 => 2, 'baz' => 3)))),
+            array('{ foo: { bar: { 1: 2, baz: 3 } } }', array('foo' => array('bar' => array(1 => 2, 'baz' => 3))), Yaml::PARSE_KEYS_AS_STRINGS),
         );
     }
 
@@ -571,7 +575,7 @@ class InlineTest extends TestCase
         $expected->setTimeZone(new \DateTimeZone('UTC'));
         $expected->setDate($year, $month, $day);
 
-        if (PHP_VERSION_ID >= 70100) {
+        if (\PHP_VERSION_ID >= 70100) {
             $expected->setTime($hour, $minute, $second, 1000000 * ($second - (int) $second));
         } else {
             $expected->setTime($hour, $minute, $second);
@@ -600,7 +604,7 @@ class InlineTest extends TestCase
         $expected = new \DateTime($yaml);
         $expected->setTimeZone(new \DateTimeZone('UTC'));
         $expected->setDate($year, $month, $day);
-        if (PHP_VERSION_ID >= 70100) {
+        if (\PHP_VERSION_ID >= 70100) {
             $expected->setTime($hour, $minute, $second, 1000000 * ($second - (int) $second));
         } else {
             $expected->setTime($hour, $minute, $second);
@@ -694,19 +698,61 @@ class InlineTest extends TestCase
         $this->assertEquals($longStringWithQuotes, $arrayFromYaml['longStringWithQuotes']);
     }
 
+    /**
+     * @group legacy
+     * @expectedDeprecation Omitting the key of a mapping is deprecated and will throw a ParseException in 4.0.
+     */
     public function testOmittedMappingKeyIsParsedAsColon()
     {
         $this->assertSame(array(':' => 'foo'), Inline::parse('{: foo}'));
     }
 
-    public function testBooleanMappingKeysAreConvertedToStrings()
+    /**
+     * @dataProvider getTestsForNullValues
+     */
+    public function testParseMissingMappingValueAsNull($yaml, $expected)
     {
-        $this->assertSame(array('false' => 'foo'), Inline::parse('{false: foo}'));
-        $this->assertSame(array('true' => 'foo'), Inline::parse('{true: foo}'));
+        $this->assertSame($expected, Inline::parse($yaml));
+    }
+
+    public function getTestsForNullValues()
+    {
+        return array(
+            'null before closing curly brace' => array('{foo:}', array('foo' => null)),
+            'null before comma' => array('{foo:, bar: baz}', array('foo' => null, 'bar' => 'baz')),
+        );
     }
 
     public function testTheEmptyStringIsAValidMappingKey()
     {
         $this->assertSame(array('' => 'foo'), Inline::parse('{ "": foo }'));
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Implicit casting of incompatible mapping keys to strings is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0. Pass the PARSE_KEYS_AS_STRING flag to explicitly enable the type casts.
+     * @dataProvider getNotPhpCompatibleMappingKeyData
+     */
+    public function testImplicitStringCastingOfMappingKeysIsDeprecated($yaml, $expected)
+    {
+        $this->assertSame($expected, Inline::parse($yaml));
+    }
+
+    /**
+     * @dataProvider getNotPhpCompatibleMappingKeyData
+     */
+    public function testExplicitStringCastingOfMappingKeys($yaml, $expected)
+    {
+        $this->assertSame($expected, Inline::parse($yaml, Yaml::PARSE_KEYS_AS_STRINGS));
+    }
+
+    public function getNotPhpCompatibleMappingKeyData()
+    {
+        return array(
+            'boolean-true' => array('{true: "foo"}', array('true' => 'foo')),
+            'boolean-false' => array('{false: "foo"}', array('false' => 'foo')),
+            'null' => array('{null: "foo"}', array('null' => 'foo')),
+            'float' => array('{0.25: "foo"}', array('0.25' => 'foo')),
+        );
     }
 }

@@ -17,7 +17,7 @@ namespace Stripe;
  * @property string $customer
  * @property mixed $description
  * @property mixed $destination
- * @property mixed $dispute
+ * @property string|null $dispute
  * @property mixed $failure_code
  * @property mixed $failure_message
  * @property mixed $fraud_details
@@ -41,7 +41,8 @@ namespace Stripe;
 class Charge extends ApiResource
 {
     /**
-     * @param string $id The ID of the charge to retrieve.
+     * @param array|string $id The ID of the charge to retrieve, or an options
+     *     array containing an `id` key.
      * @param array|string|null $options
      *
      * @return Charge

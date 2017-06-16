@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Tag\TaggedValue;
 
 class ParserTest extends TestCase
 {
@@ -34,7 +35,7 @@ class ParserTest extends TestCase
     /**
      * @dataProvider getDataFormSpecifications
      */
-    public function testSpecifications($file, $expected, $yaml, $comment, $deprecated)
+    public function testSpecifications($expected, $yaml, $comment, $deprecated)
     {
         $deprecations = array();
 
@@ -66,32 +67,34 @@ class ParserTest extends TestCase
 
     public function getDataFormSpecifications()
     {
-        $parser = new Parser();
-        $path = __DIR__.'/Fixtures';
+        return $this->loadTestsFromFixtureFiles('index.yml');
+    }
 
-        $tests = array();
-        $files = $parser->parse(file_get_contents($path.'/index.yml'));
-        foreach ($files as $file) {
-            $yamls = file_get_contents($path.'/'.$file.'.yml');
+    /**
+     * @dataProvider getNonStringMappingKeysData
+     */
+    public function testNonStringMappingKeys($expected, $yaml, $comment)
+    {
+        $this->assertSame($expected, var_export($this->parser->parse($yaml, Yaml::PARSE_KEYS_AS_STRINGS), true), $comment);
+    }
 
-            // split YAMLs documents
-            foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
-                if (!$yaml) {
-                    continue;
-                }
+    public function getNonStringMappingKeysData()
+    {
+        return $this->loadTestsFromFixtureFiles('nonStringKeys.yml');
+    }
 
-                $test = $parser->parse($yaml);
-                if (isset($test['todo']) && $test['todo']) {
-                    // TODO
-                } else {
-                    eval('$expected = '.trim($test['php']).';');
+    /**
+     * @group legacy
+     * @dataProvider getLegacyNonStringMappingKeysData
+     */
+    public function testLegacyNonStringMappingKeys($expected, $yaml, $comment)
+    {
+        $this->assertSame($expected, var_export($this->parser->parse($yaml), true), $comment);
+    }
 
-                    $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test'], isset($test['deprecated']) ? $test['deprecated'] : false);
-                }
-            }
-        }
-
-        return $tests;
+    public function getLegacyNonStringMappingKeysData()
+    {
+        return $this->loadTestsFromFixtureFiles('legacyNonStringKeys.yml');
     }
 
     public function testTabsInYaml()
@@ -507,9 +510,15 @@ EOF;
     /**
      * @dataProvider getObjectForMapTests
      */
-    public function testObjectForMap($yaml, $expected)
+    public function testObjectForMap($yaml, $expected, $explicitlyParseKeysAsStrings = false)
     {
-        $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_OBJECT_FOR_MAP));
+        $flags = Yaml::PARSE_OBJECT_FOR_MAP;
+
+        if ($explicitlyParseKeysAsStrings) {
+            $flags |= Yaml::PARSE_KEYS_AS_STRINGS;
+        }
+
+        $this->assertEquals($expected, $this->parser->parse($yaml, $flags));
     }
 
     /**
@@ -568,7 +577,7 @@ YAML;
         $expected->map = new \stdClass();
         $expected->map->{1} = 'one';
         $expected->map->{2} = 'two';
-        $tests['numeric-keys'] = array($yaml, $expected);
+        $tests['numeric-keys'] = array($yaml, $expected, true);
 
         $yaml = <<<'YAML'
 map:
@@ -579,7 +588,7 @@ YAML;
         $expected->map = new \stdClass();
         $expected->map->{0} = 'one';
         $expected->map->{1} = 'two';
-        $tests['zero-indexed-numeric-keys'] = array($yaml, $expected);
+        $tests['zero-indexed-numeric-keys'] = array($yaml, $expected, true);
 
         return $tests;
     }
@@ -591,6 +600,17 @@ YAML;
     public function testObjectsSupportDisabledWithExceptions($yaml)
     {
         $this->parser->parse($yaml, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+    }
+
+    public function testCanParseContentWithTrailingSpaces()
+    {
+        $yaml = "items:  \n  foo: bar";
+
+        $expected = array(
+            'items' => array('foo' => 'bar'),
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
     /**
@@ -1059,6 +1079,10 @@ EOF;
         $this->assertEquals(array('foo' => 1, 'bar' => 2), $this->parser->parse($yaml));
     }
 
+    /**
+     * @group legacy
+     * @expectedDeprecation Implicit casting of numeric key to string on line 1 is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0. Pass the PARSE_KEYS_AS_STRING flag to explicitly enable the type casts.
+     */
     public function testFloatKeys()
     {
         $yaml = <<<'EOF'
@@ -1075,6 +1099,58 @@ EOF;
         );
 
         $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Implicit casting of incompatible key type to string on line 1 is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0. Pass the PARSE_KEYS_AS_STRING flag to explicitly enable the type casts.
+     */
+    public function testBooleanKeys()
+    {
+        $yaml = <<<'EOF'
+true: foo
+false: bar
+EOF;
+
+        $expected = array(
+            1 => 'foo',
+            0 => 'bar',
+        );
+
+        $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    public function testExplicitStringCastingOfFloatKeys()
+    {
+        $yaml = <<<'EOF'
+foo:
+    1.2: "bar"
+    1.3: "baz"
+EOF;
+
+        $expected = array(
+            'foo' => array(
+                '1.2' => 'bar',
+                '1.3' => 'baz',
+            ),
+        );
+
+        $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_KEYS_AS_STRINGS));
+    }
+
+    public function testExplicitStringCastingOfBooleanKeys()
+    {
+        $yaml = <<<'EOF'
+true: foo
+false: bar
+EOF;
+
+        $expected = array(
+            'true' => 'foo',
+            'false' => 'bar',
+        );
+
+        $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_KEYS_AS_STRINGS));
     }
 
     /**
@@ -1480,6 +1556,238 @@ EOT;
         $this->assertSame(array('foo' => 'bar baz foobar foo', 'bar' => 'baz'), $this->parser->parse($yaml));
     }
 
+    public function testParseMultiLineString()
+    {
+        $this->assertEquals("foo bar\nbaz", $this->parser->parse("foo\nbar\n\nbaz"));
+    }
+
+    /**
+     * @dataProvider multiLineDataProvider
+     */
+    public function testParseMultiLineMappingValue($yaml, $expected, $parseError)
+    {
+        $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    public function multiLineDataProvider()
+    {
+        $tests = array();
+
+        $yaml = <<<'EOF'
+foo:
+- bar:
+    one
+
+    two
+    three
+EOF;
+        $expected = array(
+            'foo' => array(
+                array(
+                    'bar' => "one\ntwo three",
+                ),
+            ),
+        );
+
+        $tests[] = array($yaml, $expected, false);
+
+        $yaml = <<<'EOF'
+bar
+"foo"
+EOF;
+        $expected = 'bar "foo"';
+
+        $tests[] = array($yaml, $expected, false);
+
+        $yaml = <<<'EOF'
+bar
+"foo
+EOF;
+        $expected = 'bar "foo';
+
+        $tests[] = array($yaml, $expected, false);
+
+        $yaml = <<<'EOF'
+bar
+
+'foo'
+EOF;
+        $expected = "bar\n'foo'";
+
+        $tests[] = array($yaml, $expected, false);
+
+        $yaml = <<<'EOF'
+bar
+
+foo'
+EOF;
+        $expected = "bar\nfoo'";
+
+        $tests[] = array($yaml, $expected, false);
+
+        return $tests;
+    }
+
+    public function testTaggedInlineMapping()
+    {
+        $this->assertEquals(new TaggedValue('foo', array('foo' => 'bar')), $this->parser->parse('!foo {foo: bar}', Yaml::PARSE_CUSTOM_TAGS));
+    }
+
+    /**
+     * @dataProvider taggedValuesProvider
+     */
+    public function testCustomTagSupport($expected, $yaml)
+    {
+        $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_CUSTOM_TAGS));
+    }
+
+    public function taggedValuesProvider()
+    {
+        return array(
+            'sequences' => array(
+                array(new TaggedValue('foo', array('yaml')), new TaggedValue('quz', array('bar'))),
+                <<<YAML
+- !foo
+    - yaml
+- !quz [bar]
+YAML
+            ),
+            'mappings' => array(
+                new TaggedValue('foo', array('foo' => new TaggedValue('quz', array('bar')), 'quz' => new TaggedValue('foo', array('quz' => 'bar')))),
+                <<<YAML
+!foo
+foo: !quz [bar]
+quz: !foo
+   quz: bar
+YAML
+            ),
+            'inline' => array(
+                array(new TaggedValue('foo', array('foo', 'bar')), new TaggedValue('quz', array('foo' => 'bar', 'quz' => new TaggedValue('bar', array('one' => 'bar'))))),
+                <<<YAML
+- !foo [foo, bar]
+- !quz {foo: bar, quz: !bar {one: bar}}
+YAML
+            ),
+        );
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage Tags support is not enabled. Enable the `Yaml::PARSE_CUSTOM_TAGS` flag to use "!iterator" at line 1 (near "!iterator [foo]").
+     */
+    public function testCustomTagsDisabled()
+    {
+        $this->parser->parse('!iterator [foo]');
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Using the unquoted scalar value "!iterator foo" is deprecated since version 3.3 and will be considered as a tagged value in 4.0. You must quote it.
+     */
+    public function testUnsupportedTagWithScalar()
+    {
+        $this->assertEquals('!iterator foo', $this->parser->parse('!iterator foo'));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage The built-in tag "!!foo" is not implemented.
+     */
+    public function testExceptionWhenUsingUnsuportedBuiltInTags()
+    {
+        $this->parser->parse('!!foo');
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Starting an unquoted string with a question mark followed by a space is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0.
+     */
+    public function testComplexMappingThrowsParseException()
+    {
+        $yaml = <<<YAML
+? "1"
+:
+  name: végétalien
+YAML;
+
+        $this->parser->parse($yaml);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Starting an unquoted string with a question mark followed by a space is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0.
+     */
+    public function testComplexMappingNestedInMappingThrowsParseException()
+    {
+        $yaml = <<<YAML
+diet:
+  ? "1"
+  :
+    name: végétalien
+YAML;
+
+        $this->parser->parse($yaml);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Starting an unquoted string with a question mark followed by a space is deprecated since version 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0.
+     */
+    public function testComplexMappingNestedInSequenceThrowsParseException()
+    {
+        $yaml = <<<YAML
+- ? "1"
+  :
+    name: végétalien
+YAML;
+
+        $this->parser->parse($yaml);
+    }
+
+    /**
+     * @expectedException        \Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage Unable to parse at line 1 (near "[parameters]").
+     */
+    public function testParsingIniThrowsException()
+    {
+        $ini = <<<INI
+[parameters]
+  foo = bar
+  bar = %foo%
+INI;
+
+        $this->parser->parse($ini);
+    }
+
+    private function loadTestsFromFixtureFiles($testsFile)
+    {
+        $parser = new Parser();
+
+        $tests = array();
+        $files = $parser->parse(file_get_contents(__DIR__.'/Fixtures/'.$testsFile));
+        foreach ($files as $file) {
+            $yamls = file_get_contents(__DIR__.'/Fixtures/'.$file.'.yml');
+
+            // split YAMLs documents
+            foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
+                if (!$yaml) {
+                    continue;
+                }
+
+                $test = $parser->parse($yaml);
+                if (isset($test['todo']) && $test['todo']) {
+                    // TODO
+                } else {
+                    eval('$expected = '.trim($test['php']).';');
+
+                    $tests[] = array(var_export($expected, true), $test['yaml'], $test['test'], isset($test['deprecated']) ? $test['deprecated'] : false);
+                }
+            }
+        }
+
+        return $tests;
+    }
+
     public function testCanParseVeryLongValue()
     {
         $longStringWithSpaces = str_repeat('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ', 20000);
@@ -1511,9 +1819,59 @@ bar:
 YAML;
         $this->parser->parse($yaml);
     }
+
+    public function testPhpConstantTagMappingKey()
+    {
+        $yaml = <<<YAML
+transitions:
+    !php/const:Symfony\Component\Yaml\Tests\B::FOO:
+        from:
+            - !php/const:Symfony\Component\Yaml\Tests\B::BAR
+        to: !php/const:Symfony\Component\Yaml\Tests\B::BAZ
+YAML;
+        $expected = array(
+            'transitions' => array(
+                'foo' => array(
+                    'from' => array(
+                        'bar',
+                    ),
+                    'to' => 'baz',
+                ),
+            ),
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml, Yaml::PARSE_CONSTANT));
+    }
+
+    public function testPhpConstantTagMappingKeyWithKeysCastToStrings()
+    {
+        $yaml = <<<YAML
+transitions:
+    !php/const:Symfony\Component\Yaml\Tests\B::FOO:
+        from:
+            - !php/const:Symfony\Component\Yaml\Tests\B::BAR
+        to: !php/const:Symfony\Component\Yaml\Tests\B::BAZ
+YAML;
+        $expected = array(
+            'transitions' => array(
+                'foo' => array(
+                    'from' => array(
+                        'bar',
+                    ),
+                    'to' => 'baz',
+                ),
+            ),
+        );
+
+        $this->assertSame($expected, $this->parser->parse($yaml, Yaml::PARSE_CONSTANT | Yaml::PARSE_KEYS_AS_STRINGS));
+    }
 }
 
 class B
 {
     public $b = 'foo';
+
+    const FOO = 'foo';
+    const BAR = 'bar';
+    const BAZ = 'baz';
 }

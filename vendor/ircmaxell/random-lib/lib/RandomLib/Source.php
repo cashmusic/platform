@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
 /**
  * The Random Number Source interface.
  *
@@ -8,12 +18,13 @@
  *
  * @category   PHPPasswordLib
  * @package    Random
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ *
  * @version    Build @@version@@
  */
-
 namespace RandomLib;
 
 /**
@@ -23,17 +34,27 @@ namespace RandomLib;
  *
  * @category   PHPPasswordLib
  * @package    Random
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-interface Source {
+interface Source
+{
 
     /**
      * Return an instance of Strength indicating the strength of the source
      *
-     * @return Strength An instance of one of the strength classes
+     * @return \SecurityLib\Strength An instance of one of the strength classes
      */
     public static function getStrength();
+
+    /**
+     * If the source is currently available.
+     * Reasons might be because the library is not installed
+     *
+     * @return bool
+     */
+    public static function isSupported();
 
     /**
      * Generate a random string of the specified size
@@ -46,5 +67,4 @@ interface Source {
      * @return string A string of the requested size
      */
     public function generate($size);
-
 }

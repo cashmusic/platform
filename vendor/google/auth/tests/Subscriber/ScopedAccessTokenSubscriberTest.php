@@ -118,7 +118,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
 
     public function testGetsCachedAuthTokenUsingCachePrefix()
     {
-        $prefix = 'test_prefix-';
+        $prefix = 'test_prefix_';
         $cachedValue = '2/abcdef1234567890';
         $fakeAuthFunc = function ($unused_scopes) {
             return '';
@@ -184,7 +184,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
     public function testShouldSaveValueInCacheWithCacheOptions()
     {
         $token = '2/abcdef1234567890';
-        $prefix = 'test_prefix-';
+        $prefix = 'test_prefix_';
         $lifetime = '70707';
         $fakeAuthFunc = function ($unused_scopes) {
             return '2/abcdef1234567890';
