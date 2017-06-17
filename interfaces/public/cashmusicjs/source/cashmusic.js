@@ -150,7 +150,7 @@
 					// seconds before declaring the script ready.
 					var l = 0;
 					var i = setInterval(function() {
-						if ((l < 50) && (!cm.geo || (!cm.sessionid && cm.options.indexOf('standalone') === -1))) {
+						if ((l < 15) && (!cm.geo || (!cm.sessionid && cm.options.indexOf('standalone') === -1))) {
 							l++;
 						} else {
 							if (cm.sessionid) {
