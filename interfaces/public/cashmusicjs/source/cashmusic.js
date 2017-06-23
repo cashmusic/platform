@@ -150,7 +150,8 @@
 					// seconds before declaring the script ready.
 					var l = 0;
 					var i = setInterval(function() {
-						if ((l < 15) && (!cm.geo || (!cm.sessionid && cm.options.indexOf('standalone') === -1))) {
+
+						if ((l < 50) && (!cm.geo || (!cm.sessionid && cm.options.indexOf('standalone') === -1))) {
 							l++;
 						} else {
 							if (cm.sessionid) {
@@ -998,7 +999,8 @@
 							function(r) {
 								if (r) {
 									var rp = JSON.parse(r);
-									cm.session.setid(rp.payload);
+									var session_data = JSON.parse(rp.payload);
+									cm.session.setid(session_data);
 									cm.events.fire(cm,'sessionstarted',rp.payload);
 								}
 							},
