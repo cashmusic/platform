@@ -360,9 +360,9 @@ class Store extends ElementBase {
 				$this->setTemplate('cart');
 			}
 			if ($_REQUEST['state'] == 'success') {
-				if ($this->unlocked) {
-					$this->lock();
 
+				//if ($this->unlocked) {
+					//$this->lock();
 					$request = new CASHRequest();
 					$order_details = $request->sessionGet('commerce-'.$this->element_id);
 
@@ -416,7 +416,7 @@ class Store extends ElementBase {
 						$this->element_data['order_contents'] = $order_contents;
 						$this->setTemplate('success');
 					}
-				}
+				//}
 			}
 		}
 		return $this->element_data;
