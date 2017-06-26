@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PeopleListsMembers
  *
  * @Table(name="people_lists_members", indexes={@Index(name="people_lists_members_user_id", columns={"user_id"}), @Index(name="people_lists_members_list_id", columns={"list_id"})})
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class PeopleListsMember extends EntityBase
 {
     protected $fillable = [

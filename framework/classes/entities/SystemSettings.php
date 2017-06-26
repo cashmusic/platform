@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemSettings
  *
  * @Table(name="system_settings")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemSettings extends EntityBase
 {
 

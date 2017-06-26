@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CommerceExternalFulfillmentOrders
  *
  * @Table(name="commerce_external_fulfillment_orders")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CommerceExternalFulfillmentOrders extends EntityBase
 {
 

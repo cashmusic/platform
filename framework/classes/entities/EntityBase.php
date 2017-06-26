@@ -205,6 +205,19 @@ class EntityBase
 
     }
 
+    /** @PrePersist */
+    public function doOnPrePersist()
+    {
+        $this->creation_date = time();
+        $this->modification_date = time();
+    }
+
+    /** @PreUpdate */
+    public function doOnPreUpdate()
+    {
+        $this->modification_date = time();
+    }
+
     /**
      * Magic getter method with custom override available in extender class, via get{PropertyName}Attribute
      * @param $property

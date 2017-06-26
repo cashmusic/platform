@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CommerceSubscriptionsMembers
  *
  * @Table(name="commerce_subscriptions_members", indexes={@Index(name="people_subscr_user_id", columns={"user_id"}), @Index(name="people_subscr_id", columns={"subscription_id"})})
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CommerceSubscriptionsMembers extends EntityBase
 {
 

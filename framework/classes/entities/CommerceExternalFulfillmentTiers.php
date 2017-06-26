@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CommerceExternalFulfillmentTiers
  *
  * @Table(name="commerce_external_fulfillment_tiers")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CommerceExternalFulfillmentTiers extends EntityBase
 {
 

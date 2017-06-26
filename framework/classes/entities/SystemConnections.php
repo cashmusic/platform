@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemConnections
  *
  * @Table(name="system_connections")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemConnections extends EntityBase
 {
 

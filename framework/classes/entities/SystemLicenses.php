@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemLicenses
  *
  * @Table(name="system_licenses")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemLicenses extends EntityBase
 {
 

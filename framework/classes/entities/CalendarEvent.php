@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CalendarEvents
  *
  * @Table(name="calendar_events", indexes={@Index(name="calendar_events_user_id", columns={"user_id"})})
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CalendarEvent extends EntityBase
 {
 

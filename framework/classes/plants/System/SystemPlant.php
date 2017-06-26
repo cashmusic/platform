@@ -102,7 +102,6 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
-
 	 	$address = trim($address);
 	 	$password = trim($password);
 
@@ -407,12 +406,14 @@ class SystemPlant extends PlantBase {
             // reset the data field for subscriptions
             $credentials['data'] = "{}";
 
-            if ($user) {
-                $user->update($credentials);
-			} else {
-            	$user = People::create($credentials);
-			}
+            $user = People::find($user_id);
+            $user->update($credentials);
 
+            if ($user) {
+				return true;
+            } else {
+				return false;
+            }
 		} else {
 			return false;
 		}
@@ -425,16 +426,6 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return key(md5 hash)|false
 	 */protected function setResetFlag($address) {
-		$user_id = $this->db->getData(
-			'users',
-			'id',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
 
 		$user = People::findWhere(['email_address'=>$address]);
 

@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PeopleMailingsAnalytics
  *
  * @Table(name="people_mailings_analytics")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class PeopleMailingsAnalytic extends EntityBase
 {
 

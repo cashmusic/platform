@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PeopleResetPassword
  *
  * @Table(name="people_resetpassword")
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class PeopleResetPassword extends EntityBase
 {
@@ -17,7 +17,7 @@ class PeopleResetPassword extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="key", type="string", length=255, nullable=false)
+     * @Column(name="`key`", type="string", length=255, nullable=false)
      */
     protected $key;
 
@@ -44,5 +44,6 @@ class PeopleResetPassword extends EntityBase
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
 }
 

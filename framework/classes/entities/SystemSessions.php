@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemSessions
  *
  * @Table(name="system_sessions", indexes={@Index(name="system_sessions_session_id", columns={"session_id"}), @Index(name="system_sessions_expiration_date", columns={"expiration_date"})})
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemSessions extends EntityBase
 {
 

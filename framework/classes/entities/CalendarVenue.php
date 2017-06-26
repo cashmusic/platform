@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CalendarVenues
  *
  * @Table(name="calendar_venues")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CalendarVenue extends EntityBase
 {
 

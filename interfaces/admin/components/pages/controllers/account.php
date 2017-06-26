@@ -62,6 +62,8 @@ if (isset($_POST['doaccountchange'])) {
 			}
 		}
 		$change_response = $cash_admin->requestAndStore($changes);
+        CASHSystem::errorLog($changes);
+		CASHSystem::errorLog($change_response);
 		if ($change_response['payload'] !== false) {
 			if (isset($changes['address'])) {
 				$admin_primary_cash_request->sessionSet('cash_effective_user_email',$changes['address']);
