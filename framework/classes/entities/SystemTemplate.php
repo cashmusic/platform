@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="system_templates")
  * @Entity
  */
-class SystemTemplates extends EntityBase
+class SystemTemplate extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['type', 'name', 'user_id', 'template'];
     /**
      * @var string
      *
@@ -33,7 +33,7 @@ class SystemTemplates extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
@@ -45,16 +45,16 @@ class SystemTemplates extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

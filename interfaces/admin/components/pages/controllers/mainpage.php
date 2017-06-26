@@ -85,22 +85,19 @@ $activity_request = new CASHRequest(
 	)
 );
 
-CASHSystem::errorLog($activity_request);
-
 $activity = $activity_request->response['payload'];
 
 // PARSE ACTIVITY FOR LISTS
 $cash_admin->page_data['delta_lists'] = false;
 if (is_array($activity['lists'])) {
 	foreach ($activity['lists'] as &$list_stats) {
-		if ($list_stats['total'] == 1) {
-			$list_stats['singular'] = true;
+		if ($list_stats->total == 1) {
+			$list_stats->singular = true;
 		} else {
-			$list_stats['singular'] = false;
+			$list_stats->singular = false;
 		}
 	}
 	$cash_admin->page_data['delta_lists'] = $activity['lists'];
-	error_log(json_encode($cash_admin->page_data['delta_lists']));
 }
 
 // PARSE ACTIVITY FOR ORDERS

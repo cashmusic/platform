@@ -70,10 +70,10 @@ class People extends EntityBase {
     /** @Column(type="string", nullable=true) **/
     protected $api_secret;
 
-    /** @Column(type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()}) **/
+    /** @Column(type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"}) **/
     protected $creation_date;
 
-    /** @Column(type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()}) **/
+    /** @Column(type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"}) **/
     protected $modification_date;
 
     public function setPasswordAttribute($value) {

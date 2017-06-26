@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="system_lock_codes", indexes={@Index(name="system_lock_codes_uid", columns={"uid"}), @Index(name="system_lock_codes_user_id", columns={"user_id"})})
  * @Entity
  */
-class SystemLockCodes extends EntityBase
+class SystemLockCode extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['uid', 'scope_table_alias', 'scope_table_id', 'user_id', 'claim_date'];
     /**
      * @var string
      *
@@ -26,42 +26,42 @@ class SystemLockCodes extends EntityBase
      *
      * @Column(name="scope_table_alias", type="string", length=255, nullable=true)
      */
-    protected $scopeTableAlias = 'elements';
+    protected $scope_table_alias = 'elements';
 
     /**
      * @var integer
      *
      * @Column(name="scope_table_id", type="integer", nullable=true)
      */
-    protected $scopeTableId;
+    protected $scope_table_id;
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="claim_date", type="integer", nullable=true)
      */
-    protected $claimDate;
+    protected $claim_date;
 
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate = '0';
+    protected $creation_date = '0';
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true, options={"default": UNIX_TIMESTAMP()})
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

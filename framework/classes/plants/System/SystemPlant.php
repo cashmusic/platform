@@ -24,6 +24,10 @@ use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Entities\People;
 use CASHMusic\Entities\PeopleAnalyticsBasic;
+use CASHMusic\Entities\PeopleResetPassword;
+use CASHMusic\Entities\SystemLockCode;
+use CASHMusic\Entities\SystemSettings;
+use CASHMusic\Entities\SystemTemplate;
 use Pixie\Exception;
 
 
@@ -216,7 +220,8 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='') {
+	 */
+	protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='') {
 		$id_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'people',
@@ -229,20 +234,13 @@ class SystemPlant extends PlantBase {
 			// if we're adding an admin login and the user isn't currently an admin, edit:
 			if ($is_admin && !$id_request->response['payload']['is_admin']) {
 				// add admin status:
-				$result = $this->db->setData(
-					'users',
-					array(
-						'is_admin' => $is_admin
-					),
-					array(
-						"id" => array(
-							"condition" => "=",
-							"value" => $id_request->response['payload']['id']
-						)
-					)
-				);
+
+				$user = People::find($id_request->response['payload']['id']);
+				$user->is_admin = $is_admin;
+				$user->save();
+
 				// return false on error
-				if (!$result) {
+				if (!$user) {
 					return false;
 				}
 				if (!trim($id_request->response['payload']['api_key'])) {
@@ -266,25 +264,23 @@ class SystemPlant extends PlantBase {
 			$password_hash = '';
 		}
 
-		$result = $this->db->setData(
-			'users',
-			array(
-				'email_address' => $address,
-				'password' => $password_hash,
-				'username' => strtolower($username),
-				'display_name' => $display_name,
-				'first_name' => $first_name,
-				'last_name' => $last_name,
-				'organization' => $organization,
-				'address_country' => $address_country,
-				'is_admin' => $is_admin,
-				'data' => json_encode($data)
-			)
-		);
-		if ($result && $is_admin) {
-			$this->setAPICredentials($result);
+		$user = People::create([
+            'email_address' => $address,
+            'password' => $password_hash,
+            'username' => strtolower($username),
+            'display_name' => $display_name,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'organization' => $organization,
+            'address_country' => $address_country,
+            'is_admin' => $is_admin,
+            'data' => $data
+		]);
+
+		if ($user && $is_admin) {
+			$this->setAPICredentials($user->id);
 		}
-		return $result;
+		return $user->id;
 	}
 
 	/**
@@ -292,38 +288,19 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {string} $address -  the email address in question
 	 * @return bool
-	 */protected function deleteLogin($address) {
+	 */
+	protected function deleteLogin($address) {
 		// doing this via address not only follows conventions established in handling people,
 		// but guarantees we're getting the right user id. no passing in the wrong id and watching
 		// the script choke...
-		$user_id = $this->db->getData(
-			'users',
-			'id',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
-		if ($user_id) {
-			$user_id = $user_id[0]['id'];
-			$condition = array(
-				'user_id' => array(
-					'condition' => '=',
-					'value' => $user_id
-				)
-			);
+		$user = People::findWhere(['email_address'=>$address]);
+
+		if ($user) {
 			// mass delete all the mass deletable stuff
-			$tables = array(
-				'assets','events','items','offers','elements','elements_campaigns','contacts',
-				'mailings','connections','lock_codes','metadata','settings','templates'
-			);
+			$tables = ['assets','calendar_events','commerce_items','elements','elements_campaigns','people_contacts','people_mailings','system_connections','system_lock_codes','system_metadata','system_settings','system_templates'];
+
 			foreach ($tables as $table) {
-				$result = $this->db->deleteData(
-					$table,
-					$condition
-				);
+                $this->qb->table($table)->where('user_id', $user->id)->delete();
 			}
 
 			// get all lists via PeoplePlant and delete them properly. this means we'll
@@ -332,7 +309,7 @@ class SystemPlant extends PlantBase {
 				array(
 					'cash_request_type' => 'people',
 					'cash_action' => 'getlistsforuser',
-					'user_id' => $user_id
+					'user_id' => $user->id
 				)
 			);
 			if ($lists_request->response['payload']) {
@@ -341,28 +318,14 @@ class SystemPlant extends PlantBase {
 						array(
 							'cash_request_type' => 'people',
 							'cash_action' => 'deletelist',
-							'list_id' => $list['id']
+							'list_id' => $list->id
 						)
 					);
 				}
 			}
 
 			// wipe yourself off, man. you dead. http://www.youtube.com/watch?v=XpF2EH3_T1w
-			$result = $this->db->setData(
-				'users',
-				array(
-					'is_admin' => 0,
-					'username' => '',
-					'api_key' => '',
-					'api_secret' => ''
-				),
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					)
-				)
-			);
+			$result = $user->delete();
 
 			return $result;
 
@@ -423,37 +386,18 @@ class SystemPlant extends PlantBase {
 				// check for the username — if it doesn't exist we're good. if it DOES exist then we
 				// have a little work. check for admin status, erase the old name if not an admin then
 				// mark the change as okay and move on.
-				$user = $this->db->getData(
-					'users',
-					'*',
-					array(
-						"id" => array(
-							"condition" => "=",
-							"value" => $id_request->response['payload']
-						)
-					)
-				);
+
+				$user = People::find($id_request->response['payload']);
+
 				if ($user) {
 					// we've found someone with this username already
-					if (!$user[0]['is_admin']) {
+					if (!$user->is_admin) {
 						// okay so the jerk with this username isn't an admin (the account is deleted)
 						// so let's try to unset the username
-						$result = $this->db->setData(
-							'users',
-							array(
-								'username' => ''
-							),
-							array(
-								"id" => array(
-									"condition" => "=",
-									"value" => $id_request->response['payload']
-								)
-							)
-						);
-						if ($result) {
-							// it worked. so now we add the username to changes for the current user
-							$credentials['username'] = $username;
-						}
+						$user->username = "";
+						$user->save();
+
+                        $credentials['username'] = $username;
 					}
 				}
 			}
@@ -463,20 +407,17 @@ class SystemPlant extends PlantBase {
             // reset the data field for subscriptions
             $credentials['data'] = "{}";
 
-			$result = $this->db->setData(
-				'users',
-				$credentials,
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					)
-				)
-			);
+            if ($user) {
+                $user->update($credentials);
+			} else {
+            	$user = People::create($credentials);
+			}
+
 		} else {
-			$result = false;
+			return false;
 		}
-		return $result;
+
+		return $user->id;
 	}
 
 	/**
@@ -494,27 +435,22 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($user_id) {
-			$user_id = $user_id[0]['id'];
+
+		$user = People::findWhere(['email_address'=>$address]);
+
+		if ($user) {
+			$user_id = $user->id;
 			// first remove any password resets for the same user
-			$this->db->deleteData(
-				'people_resetpassword',
-				array(
-					'user_id' => array(
-						'condition' => '=',
-						'value' => $user_id
-					)
-				)
-			);
+			$this->qb->table("people_resetpassword")->where('id', $user_id)->delete();
+
 			$key = md5($user_id . rand(976654,1234567267));
-			$result = $this->db->setData(
-				'people_resetpassword',
-				array(
-					'user_id' => $user_id,
-					'key' => $key
-				)
-			);
-			if ($result) {
+
+			$reset = PeopleResetPassword::create([
+				'user_id'=>$user_id,
+				'key'=>$key
+			]);
+
+			if ($reset) {
 				return $key;
 			} else {
 				return false;
@@ -528,46 +464,27 @@ class SystemPlant extends PlantBase {
 	 * Verifies that the password reset is valid
 	 *
 	 * @return bool
-	 */protected function validateResetFlag($address,$key) {
-		$user_id = $this->db->getData(
-			'users',
-			'id',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
-		if ($user_id) {
-			$user_id = $user_id[0]['id'];
-			$result = $this->db->getData(
-				'people_resetpassword',
-				'creation_date',
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					),
-					"key" => array(
-						"condition" => "=",
-						"value" => $key
-					)
-				)
-			);
-			if ($result) {
-				if (($result[0]['creation_date'] + 86400) > time()) {
-					return true;
-				} else {
-					// request expired. boo.
-					return false;
-				}
-			} else {
-				return false;
+	 */
+	protected function validateResetFlag($address,$key) {
+
+	 	$user = People::findWhere(['email_address'=>$address]);
+
+		if ($user) {
+			$reset = PeopleResetPassword::findWhere(['user_id'=>$user->id, 'key'=>$key]);
+
+			// in case we get multiple results back, just get the latest reset request.
+			if (is_array($reset)) {
+				$reset = array_pop($reset);
 			}
-		} else {
-			return false;
+
+			if ($reset) {
+				if (($reset->creation_date + 86400) > time()) {
+					return true;
+				}
+			}
 		}
+
+        return false;
 	}
 
 	/**
@@ -583,17 +500,11 @@ class SystemPlant extends PlantBase {
 			'api_key' => $api_key,
 			'api_secret' => $api_secret
 		);
-		$result = $this->db->setData(
-			'users',
-			$credentials,
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		if ($result) {
+
+		$user = People::find($user_id);
+		$user->update($credentials);
+
+		if ($user) {
 			return $credentials;
 		} else {
 			return false;
@@ -605,21 +516,15 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */protected function getAPICredentials($user_id) {
-		$user = $this->db->getData(
-			'users',
-			'api_key,api_secret',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
+	 */
+	protected function getAPICredentials($user_id) {
+
+		$user = People::find($user_id);
+
 		if ($user) {
 			return array(
-				'api_key' => $user[0]['api_key'],
-				'api_secret' => $user[0]['api_secret']
+				'api_key' => $user->api_key,
+				'api_secret' => $user->api_secret
 			);
 		} else {
 			return false;
@@ -631,45 +536,21 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */protected function validateAPICredentials($api_key,$api_secret=false) {
-		$user_id = false;
+	 */
+	protected function validateAPICredentials($api_key,$api_secret=false) {
 		$auth_type = 'none';
 		if (!$api_secret) {
 			$auth_type = 'api_key';
-			$user = $this->db->getData(
-				'users',
-				'id',
-				array(
-					"api_key" => array(
-						"condition" => "=",
-						"value" => $api_key
-					)
-				)
-			);
+			$user = People::findWhere(['api_key'=>$api_key]);
 		} else {
 			$auth_type = 'api_fullauth';
-			$user = $this->db->getData(
-				'users',
-				'id',
-				array(
-					"api_key" => array(
-						"condition" => "=",
-						"value" => $api_key
-					),
-					"api_secret" => array(
-						"condition" => "=",
-						"value" => $api_secret
-					),
-				)
-			);
+            $user = People::findWhere(['api_key'=>$api_key, 'api_secret'=>$api_secret]);
 		}
+
 		if ($user) {
-			$user_id = $user[0]['id'];
-		}
-		if ($user_id) {
 			return array(
 				'auth_type' => $auth_type,
-				'user_id' => $user_id
+				'user_id' => $user->id
 			);
 		} else {
 			return false;
@@ -683,20 +564,15 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function deleteSettings($user_id,$type) {
-		$result = $this->db->deleteData(
-			'settings',
-			array(
-				"type" => array(
-					"condition" => "=",
-					"value" => $type
-				),
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
+
+		$settings = SystemSettings::findWhere(['type'=>$type, 'user_id'=>$user_id]);
+
+		if ($settings) {
+			$settings->delete();
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -720,11 +596,14 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result) {
+
+		$setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
+
+		if ($setting) {
 			if ($return_json) {
-				return $result[0];
+				return json_encode($setting->toArray());
 			} else {
-				return json_decode($result[0]['value'],true);
+				return $setting->value;
 			}
 		} else {
 			return false;
@@ -738,79 +617,17 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function setSettings($user_id,$type,$value) {
-		$go = true;
-		$condition = false;
-		// first check to see if the user/key combo exists.
-		// a little inelegant, but necessary for a key/value store
-		$exists = $this->db->getData(
-			'settings',
-			'id,value',
-			array(
-				"type" => array(
-					"condition" => "=",
-					"value" => $type
-				),
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		if ($exists) {
-			// the key/user exists, so first compare value
-			if ($exists[0]['value'] === json_encode($value)) {
-				// equal to what's there already? do nothing, return true
-				$go = false;
-			} else {
-				// different? set conditions to perform an update
-				$condition = array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $exists[0]['id']
-					)
-				);
-			}
-		}
-		if ($go) {
-			// insert/update
-			$result = $this->db->setData(
-				'settings',
-				array(
-					'user_id' => $user_id,
-					'type' => $type,
-					'value' => json_encode($value)
-				),
-				$condition
-			);
-			return $result;
-		} else {
-			// we're already up to date...do nothing but signal 'okay'
+
+        $setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
+
+		if ($setting) {
+			$setting->value = $value;
+			$setting->save();
+
 			return true;
 		}
-	}
 
-
-	protected function getLanguage($user_id) {
-		$result = $this->db->getData(
-			'contacts',
-			'data',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-
-		if (!$result) {
-			return false;
-		}
-
-		error_log(
-			print_r($result, true)
-		);
-
-		return $result;
+		return false;
 	}
 
 	/**
@@ -819,23 +636,19 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function deleteTemplate($template_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $template_id
-			)
-		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$template = SystemTemplate::findWhere(['user_id'=>$user_id,'id'=>$template_id]);
+		} else {
+			$template = SystemTemplate::find($template_id);
 		}
-		$result = $this->db->deleteData(
-			'templates',
-			$condition
-		);
-		return $result;
+
+		if ($template) {
+			$template->delete();
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -844,28 +657,18 @@ class SystemPlant extends PlantBase {
 	 * @return string|false
 	 */
 	protected function getTemplate($template_id,$user_id=false,$all_details=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $template_id
-			)
-		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$template = SystemTemplate::findWhere(['id'=>$template_id,'user_id'=>$user_id]);
+		} else {
+			$template = SystemTemplate::find($template_id);
 		}
-		$result = $this->db->getData(
-			'templates',
-			'*',
-			$condition
-		);
-		if ($result) {
+
+		if ($template) {
 			if (!$all_details) {
-				return $result[0]['template'];
+				return $template->template;
 			} else {
-				return $result[0];
+				return $template->toArray();
 			}
 		} else {
 			return false;
@@ -879,23 +682,16 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getTemplatesForUser($user_id,$type=false) {
 		$condition = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			)
+			"user_id" => $user_id
 		);
+
 		if ($type) {
-			$condition['type'] = array(
-				"condition" => "=",
-				"value" => $type
-			);
+			$condition['type'] = $type;
 		}
-		$result = $this->db->getData(
-			'templates',
-			'*',
-			$condition
-		);
-		return $result;
+
+		$templates = SystemTemplate::findWhere($condition);
+
+		return $templates;
 	}
 
 	/**
@@ -904,28 +700,18 @@ class SystemPlant extends PlantBase {
 	 * @return string|false
 	 */
 	protected function getNewestTemplate($user_id,$type='page',$all_details=false) {
-		$condition = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			),
-			"type" => array(
-				"condition" => "=",
-				"value" => $type
-			)
-		);
-		$result = $this->db->getData(
-			'templates',
-			'*',
-			$condition,
-			1,
-			'creation_date DESC'
-		);
-		if ($result) {
+
+		$template = $this->qb->table('system_templates')
+			->where('user_id', $user_id)
+			->where('type', $type)
+			->orderBy("creation_date", "DESC")
+			->limit(1)->get();
+
+		if ($template) {
 			if (!$all_details) {
-				return $result[0]['template'];
+				return $template->template;
 			} else {
-				return $result[0];
+				return $template;
 			}
 		} else {
 			return false;
@@ -949,56 +735,50 @@ class SystemPlant extends PlantBase {
                return CASHSystem::notExplicitFalse($value);
 			}
 		);
-		$condition = false;
+
 		if ($template_id) {
-			$condition = array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $template_id
-				),
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			);
+			$template = SystemTemplate::findWhere(['id'=>$template_id,'user_id'=>$user_id]);
+			$template->update($final_edits);
 		} else {
 			// if no template id we're doing an add, so make sure the type has been set
 			// correctly by checking for false and adding a default
 			if (!$type) {
 				$final_edits['type'] = 'page';
 			}
+            $template = SystemTemplate::create($final_edits);
 		}
-		// insert/update
-		$result = $this->db->setData(
-			'templates',
-			$final_edits,
-			$condition
-		);
-		return $result;
+
+		if ($template) {
+            return $template->id;
+		}
+
+		return false;
 	}
-
-
-
-
 
 	/**
 	 * Retrieves the last known UID or if none are found creates and returns a
 	 * random UID as a starting point
 	 *
 	 * @return string
-	 */protected function getLastLockCode() {
-		$result = $this->db->getData(
-			'lock_codes',
-			'uid',
-			false,
-			1,
-			'id DESC'
-		);
-		if ($result) {
-			$code = $result[0]['uid'];
+	 */
+	protected function getLastLockCode() {
+
+	 	$lock_codes = $this->qb->table('system_lock_codes')
+			->select('uid')->orderBy('id', 'DESC')
+			->limit(1)->get();
+
+		if ($lock_codes) {
+
+			if (is_array($lock_codes)) {
+                $code = $lock_codes[0]->code;
+			} else {
+                $code = $lock_codes->code;
+			}
+
 		} else {
 			$code = false;
 		}
+
 		return $code;
 	}
 
@@ -1014,16 +794,14 @@ class SystemPlant extends PlantBase {
 			$this->getLastLockCode()
 		);
 
-		$result = $this->db->setData(
-			'lock_codes',
-			array(
-				'uid' => $code,
-				'scope_table_alias' => $scope_table_alias,
-				'scope_table_id' => $scope_table_id,
-				'user_id' => $user_id
-			)
-		);
-		if ($result) {
+		$lock_code = SystemLockCode::create([
+            'uid' => $code,
+            'scope_table_alias' => $scope_table_alias,
+            'scope_table_id' => $scope_table_id,
+            'user_id' => $user_id
+		]);
+
+		if ($lock_code) {
 			return $code;
 		} else {
 			return false;
@@ -1047,29 +825,16 @@ class SystemPlant extends PlantBase {
 		if (count($codes) < 50001) {
 
             foreach ($codes as $code) {
-                $code_insert[] =
-                    "(" .
-                    implode(",",['"'.$code.'"', '"'.$scope_table_alias.'"', '"'.$scope_table_id.'"', $user_id])
-                    .")";
+                $code_insert[] = [
+                	'uid'=>$code,
+					'scope_table_alias'=>$scope_table_alias,
+					'scope_table_id'=>$scope_table_id,
+					'user_id'=>$user_id
+				];
             }
 
-            $code_insert = implode(",", $code_insert);
-
-            // bulk create codes for users
-            $create_codes = $this->db->setData(
-                'lock_codes',
-                [
-                    'fields' => array(
-                        'uid',
-                        'scope_table_alias',
-                        'scope_table_id',
-                        'user_id'
-                    ),
-                    'data' => $code_insert
-                ],
-                false,
-                true // insert ignore
-            );
+			// bulk create codes
+            $create_codes = $this->qb->table('system_lock_codes')->insertIgnore($code_insert);
 
 		} else {
 			// we actually don't need this for the foreseeable future. can't think of a single instance where we'd be doing more than 50k codes at once
@@ -1096,44 +861,36 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */
 	protected function redeemLockCode($code,$scope_table_alias=false,$scope_table_id=false,$user_id=false) {
-		$code_details = $this->getLockCode($code);
-		if ($code_details) {
+		$lock_code = $this->getLockCode($code);
+		if ($lock_code) {
 			// check against optional arguments — if they're found then make sure they match
 			// the data stored with the code...if not invalidate the request and return false
 			$proceed = true;
-			if ($scope_table_alias && ($scope_table_alias != $code_details['scope_table_alias'])) {
+			if ($scope_table_alias && ($scope_table_alias != $lock_code->scope_table_alias)) {
 				$proceed = false;
 			}
-			if ($scope_table_id && ($scope_table_id != $code_details['scope_table_id'])) {
+			if ($scope_table_id && ($scope_table_id != $lock_code->scope_table_id)) {
 				$proceed = false;
 			}
-			if ($user_id && ($user_id != $code_details['user_id'])) {
+			if ($user_id && ($user_id != $lock_code->user_id)) {
 				$proceed = false;
 			}
 			if ($proceed) {
 				// details found
-				if (!$code_details['claim_date']) {
-					$result = $this->db->setData(
-						'lock_codes',
-						array(
-							'claim_date' => time()
-						),
-						array(
-							"id" => array(
-								"condition" => "=",
-								"value" => $code_details['id']
-							)
-						)
-					);
-					if ($result) {
-						return $code_details;
+				if (!$lock_code->claim_date) {
+
+					$lock_code->claim_date = time();
+					$lock_code->save();
+
+					if ($lock_code) {
+						return $lock_code->id;
 					} else {
 						return false;
 					}
 				} else {
 					// allow retries for four hours after claim
-					if (($code_details['claim_date'] + 14400) > time()) {
-						return $code_details;
+					if (($lock_code->claim_date + 14400) > time()) {
+						return $lock_code->id;
 					} else {
 						return false;
 					}
@@ -1151,19 +908,15 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */
 	protected function getLockCode($code) {
-		$result = $this->db->getData(
-			'lock_codes',
-			'*',
-			array(
-				"uid" => array(
-					"condition" => "=",
-					"value" => $code
-				)
-			),
-			1
-		);
-		if ($result) {
-			return $result[0];
+
+		$lock_code = SystemLockCode::findWhere(['uid'=>$code]);
+
+		if ($lock_code) {
+			if (is_array($lock_code)) {
+				return $lock_code[0];
+			} else {
+				return $lock_code;
+			}
 		} else {
 			return false;
 		}
@@ -1175,28 +928,22 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */
 	protected function getLockCodes($scope_table_alias,$scope_table_id,$user_id=false) {
-		$condition = array(
-			"scope_table_alias" => array(
-				"condition" => "=",
-				"value" => $scope_table_alias
-			),
-			"scope_table_id" => array(
-				"condition" => "=",
-				"value" => $scope_table_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->getData(
-			'lock_codes',
-			'*',
-			$condition
-		);
-		return $result;
+        $condition = array(
+            "scope_table_alias" => $scope_table_alias,
+            "scope_table_id" => $scope_table_id
+        );
+
+        if ($user_id) {
+            $condition['user_id'] = $user_id;
+        }
+
+        $lock_codes = SystemLockCode::findWhere($condition);
+
+        if ($lock_codes) {
+            return $lock_codes;
+        }
+
+        return false;
 	}
 
 	protected function consistentShuffle(&$items, $seed=false) {
