@@ -150,7 +150,7 @@ if ($action == "do_mailing") {
                 }
             }
 
-            /*CASHSystem::sendMassEmail(
+            CASHSystem::sendMassEmail(
                 $user_id,
                 $subject,
                 $recipients,
@@ -161,7 +161,7 @@ if ($action == "do_mailing") {
                 false,
                 true,
                 false,
-                false);*/
+                false);
         }
 
         $external_fulfillment
