@@ -233,6 +233,9 @@ class ExternalFulfillmentSeed extends SeedBase
                     $this->mappable_fields,
                     $csv_to_array['unique_fields']
                 );
+
+                CASHSystem::errorLog($this->mappable_fields);
+
                 return $this;
             } else {
 
@@ -450,7 +453,6 @@ class ExternalFulfillmentSeed extends SeedBase
         $order_mapped = [];
 
         foreach ($this->mapped_fields as $destination_field => $source_field) {
-
             // we can deal with the minimum expected fields first, and go from there
             if (!empty($order[$source_field])) {
                 $source = empty($order[$source_field]) ? '' : $order[$source_field];
@@ -470,6 +472,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // either way this is now mapped correctly
             $order_mapped[$destination_field] = $source;
+            CASHSystem::errorLog($destination_field . " => " . $source);
         }
 
         // hack the system
