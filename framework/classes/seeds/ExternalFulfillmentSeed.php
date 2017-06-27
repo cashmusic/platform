@@ -36,18 +36,17 @@ class ExternalFulfillmentSeed extends SeedBase
 
         // dumbshit
         $this->mapped_fields = [
-            'name' => 'First Name',
-            'email' => 'E Mail',
-            //'price' => 'Pledge Amount',
+            'name' => 'Backer Name',
+            'email' => 'Email',
+            'price' => 'Pledge Amount',
             'notes' => 'Notes',
-            'shipping_address_1' => 'Address 1',
-            'shipping_address_2' => 'Address 2',
-            'shipping_city' => 'City',
-            'shipping_province' => 'State/Province',
-            'shipping_postal' => 'ZIP/Postal Code',
-            'shipping_country' => 'Country'
+            'shipping_address_1' => 'Shipping Address 1',
+            'shipping_address_2' => 'Shipping Address 2',
+            'shipping_city' => 'Shipping City',
+            'shipping_province' => 'Shipping State',
+            'shipping_postal' => 'Shipping Postal Code',
+            'shipping_country' => 'Shipping Country Code'
         ];
-
 
         $this->minimum_field_requirements = [
             'name' => false,
@@ -850,6 +849,8 @@ class ExternalFulfillmentSeed extends SeedBase
                 'value' => $fulfillment_job_id
             ]
         ];
+
+
 
         if (!$backers = $this->db->getData(
             'CommercePlant_getExternalFulfillmentBackersByJob', false, $conditions
