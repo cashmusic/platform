@@ -44,6 +44,15 @@
 					"required":true,
 					"displaysize":"large"
 				},
+				"show_message":{
+					"label":{
+						"en":"Show landing message on element embed"
+					},
+					"type":"boolean",
+					"default":true,
+					"displaysize":"large"
+				},
+
 				"message_success":{
 					"label":{
 						"en":"Success message"

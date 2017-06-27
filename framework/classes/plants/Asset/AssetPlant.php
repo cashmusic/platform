@@ -649,6 +649,7 @@ class AssetPlant extends PlantBase {
 	 * @return string
 	 */
 	protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+		$return_only=false;
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
@@ -676,7 +677,6 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		} else {
-
 			if (!$return_only) {
                 // fail back to the default embed with an error string
                 CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);

@@ -160,8 +160,9 @@ if ($action == "do_mailing") {
                 $global_merge_vars,
                 $merge_vars,
                 false,
-                true);
-
+                true,
+                false,
+                false);
         }
 
         $external_fulfillment
