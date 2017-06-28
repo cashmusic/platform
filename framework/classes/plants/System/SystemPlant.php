@@ -573,20 +573,6 @@ class SystemPlant extends PlantBase {
 	 * @return string|array|false
 	 */
 	protected function getSettings($user_id,$type,$return_json=false) {
-		$result = $this->db->getData(
-			'settings',
-			'*',
-			array(
-				"type" => array(
-					"condition" => "=",
-					"value" => $type
-				),
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
 
 		$setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
 
@@ -672,15 +658,16 @@ class SystemPlant extends PlantBase {
 	 * @return string|false
 	 */
 	protected function getTemplatesForUser($user_id,$type=false) {
-		$condition = array(
+
+		$conditions = array(
 			"user_id" => $user_id
 		);
 
 		if ($type) {
-			$condition['type'] = $type;
+			$conditions['type'] = $type;
 		}
 
-		$templates = SystemTemplate::findWhere($condition);
+		$templates = SystemTemplate::findWhere($conditions);
 
 		return $templates;
 	}
@@ -919,16 +906,16 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */
 	protected function getLockCodes($scope_table_alias,$scope_table_id,$user_id=false) {
-        $condition = array(
+        $conditions = array(
             "scope_table_alias" => $scope_table_alias,
             "scope_table_id" => $scope_table_id
         );
 
         if ($user_id) {
-            $condition['user_id'] = $user_id;
+            $conditions['user_id'] = $user_id;
         }
 
-        $lock_codes = SystemLockCode::findWhere($condition);
+        $lock_codes = SystemLockCode::findWhere($conditions);
 
         if ($lock_codes) {
             return $lock_codes;
