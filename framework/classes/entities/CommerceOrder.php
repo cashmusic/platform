@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_orders")
  * @Entity @HasLifecycleCallbacks */
-class CommerceOrders extends EntityBase
+class CommerceOrder extends EntityBase
 {
 
     protected $fillable;
@@ -18,28 +18,28 @@ class CommerceOrders extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="customer_user_id", type="integer", nullable=false)
      */
-    protected $customerUserId;
+    protected $customer_user_id;
 
     /**
      * @var integer
      *
      * @Column(name="transaction_id", type="integer", nullable=false)
      */
-    protected $transactionId;
+    protected $transaction_id;
 
     /**
      * @var string
      *
      * @Column(name="order_contents", type="text", length=65535, nullable=false)
      */
-    protected $orderContents;
+    protected $order_contents;
 
     /**
      * @var boolean
@@ -81,7 +81,7 @@ class CommerceOrders extends EntityBase
      *
      * @Column(name="country_code", type="string", length=255, nullable=true)
      */
-    protected $countryCode;
+    protected $country_code;
 
     /**
      * @var string
@@ -95,19 +95,19 @@ class CommerceOrders extends EntityBase
      *
      * @Column(name="element_id", type="integer", nullable=true)
      */
-    protected $elementId;
+    protected $element_id;
 
     /**
      * @var string
      *
      * @Column(name="cash_session_id", type="string", length=255, nullable=true)
      */
-    protected $cashSessionId;
+    protected $cash_session_id;
 
     /**
      * @var string
      *
-     * @Column(name="data", type="text", length=65535, nullable=false)
+     * @Column(name="data", type="json_array", length=65535, nullable=false)
      */
     protected $data;
 
@@ -116,17 +116,20 @@ class CommerceOrders extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
+    public function user($conditions=false) {
+        return $this->belongsTo("People", "user_id", "id");
+    }
 }
 

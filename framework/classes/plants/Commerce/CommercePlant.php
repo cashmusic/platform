@@ -23,6 +23,7 @@ use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Entities\CommerceItem;
 use CASHMusic\Entities\CommerceItemVariant;
+use CASHMusic\Entities\CommerceOrder;
 use CASHMusic\Entities\CommerceSubscriptionMember;
 use CASHMusic\Seeds\PaypalSeed;
 use CASHMusic\Seeds\StripeSeed;
@@ -776,14 +777,12 @@ class CommercePlant extends PlantBase {
                 in the event an item changes or is deleted. we want accurate
                 history so folks don't get all crazy bananas about teh $$s
             */
-            $final_order_contents = json_encode($order_contents);
-            $result = $this->db->setData(
-                'orders',
-                array(
+            try {
+                $order = CommerceOrder::create([
                     'user_id' => $user_id,
                     'customer_user_id' => $customer_user_id,
                     'transaction_id' => $transaction_id,
-                    'order_contents' => $final_order_contents,
+                    'order_contents' => $order_contents,
                     'fulfilled' => $fulfilled,
                     'canceled' => $canceled,
                     'physical' => $physical,
@@ -793,10 +792,14 @@ class CommercePlant extends PlantBase {
                     'currency' => $currency,
                     'element_id' => $element_id,
                     'cash_session_id' => $cash_session_id,
-                    'data' => json_encode($data)
-                )
-            );
-            return $result;
+                    'data' => $data
+                ]);
+            } catch (Exception $e) {
+                CASHSystem::errorLog($e->getMessage());
+                return false;
+            }
+
+            return $order->id;
         } else {
             return false;
         }
