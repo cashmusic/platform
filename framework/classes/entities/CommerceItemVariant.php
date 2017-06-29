@@ -9,28 +9,28 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_item_variants")
  * @Entity @HasLifecycleCallbacks */
-class CommerceItemVariants extends EntityBase
+class CommerceItemVariant extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['item_id', 'user_id', 'attributes', 'quantity'];
     /**
      * @var integer
      *
      * @Column(name="item_id", type="integer", nullable=false)
      */
-    protected $itemId;
+    protected $item_id;
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
      *
-     * @Column(name="attributes", type="string", length=255, nullable=false)
+     * @Column(name="attributes", type="json_array", length=255, nullable=false)
      */
     protected $attributes;
 
@@ -46,14 +46,14 @@ class CommerceItemVariants extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate = '0';
+    protected $creation_date = '0';
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

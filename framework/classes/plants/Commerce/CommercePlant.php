@@ -21,9 +21,13 @@ namespace CASHMusic\Plants\Commerce;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\CommerceItem;
+use CASHMusic\Entities\CommerceItemVariant;
+use CASHMusic\Entities\CommerceSubscriptionMember;
 use CASHMusic\Seeds\PaypalSeed;
 use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
+use Pixie\Exception;
 
 class CommercePlant extends PlantBase {
     protected $subscription_active_status, $request_type, $routing_table;
@@ -46,18 +50,21 @@ class CommercePlant extends PlantBase {
      */
     public function createSubscriptionMember($subscriber_user_id, $plan_id, $data)
     {
-        $subscription_member_id = $this->db->setData(
-            'subscriptions_members',
-            array(
+
+        try {
+            $member = CommerceSubscriptionMember::create([
                 'user_id' => $subscriber_user_id,
                 'subscription_id' => $plan_id,
                 'status' => 'created',
                 'start_date' => strtotime('today'),
                 'total_paid_to_date' => 0, // do we need a second field for pledged amount?
-                'data' => json_encode($data)
-            )
-        );
-        return $subscription_member_id;
+                'data' => $data
+            ]);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $member->id;
     }
 
     protected function addItem(
@@ -102,15 +109,15 @@ class CommercePlant extends PlantBase {
                 }
             }
         }
-        $result = $this->db->setData(
-            'items',
-            array(
+
+        try {
+            $item = CommerceItem::create([
                 'user_id' => $user_id,
                 'name' => $name,
                 'description' => $description,
                 'sku' => $sku,
                 'price' => $price,
-                'shipping' => json_encode($shipping),
+                'shipping' => $shipping,
                 'flexible_price' => (int)$flexible_price,
                 'available_units' => $available_units,
                 'digital_fulfillment' => (int)$digital_fulfillment,
@@ -122,9 +129,12 @@ class CommercePlant extends PlantBase {
                 'variable_pricing' => (int)$variable_pricing,
                 'fulfillment_asset' => $fulfillment_asset,
                 'descriptive_asset' => $descriptive_asset
-            )
-        );
-        return $result;
+            ]);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $item->id;
     }
 
     protected function addItemVariants(
@@ -138,21 +148,22 @@ class CommercePlant extends PlantBase {
 
             foreach ($variants as $attributes => $quantity) {
 
-                $result = $this->db->setData(
-                    'item_variants',
-                    array(
-                        'item_id' 		=> $item_id,
-                        'user_id'		=> $item_details['user_id'],
-                        'attributes' 	=> $attributes,
-                        'quantity' 		=> $quantity,
-                    )
-                );
-
-                if (!$result) {
+                try {
+                    $variant = CommerceItemVariant::create([
+                        'item_id' => $item_id,
+                        'user_id' => $item_details['user_id'],
+                        'attributes' => $attributes,
+                        'quantity' => $quantity
+                    ]);
+                } catch (Exception $e) {
                     return false;
                 }
 
-                $variant_ids[$attributes] = $result;
+                if (!$variant) {
+                    return false;
+                }
+
+                $variant_ids[$attributes] = $variant->id;
             }
 
             $this->updateItemQuantity($item_id);
@@ -164,32 +175,20 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getItem($id,$user_id=false,$with_variants=true) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'items',
-            '*',
-            $condition
-        );
 
-        if ($result) {
-            $item = $result[0];
+        if ($user_id) {
+            $item = CommerceItem::findWhere(['id'=>$id, 'user_id'=>$user_id]);
+        } else {
+            $item = CommerceItem::find($id);
+        }
+
+        if ($item) {
+
+            $item = $item->toArray();
 
             if ($with_variants) {
                 $item['variants'] = $this->getItemVariants($id, $user_id);
             }
-
-            $item['shipping'] = json_decode($item['shipping'],true);
 
             return $item;
         } else {
@@ -198,36 +197,30 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getItemVariants($item_id, $exclude_empties=false, $user_id=false) {
-        $condition = array(
-            "item_id" => array(
-                "condition" => "=",
-                "value" => $item_id
-            )
+        $conditions = array(
+            "item_id" => $item_id
         );
+
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
-        $result = $this->db->getData(
-            'item_variants',
-            '*',
-            $condition
-        );
-        if ($result) {
+
+        $item_variants = CommerceItemVariant::findWhere($conditions);
+
+        if ($item_variants) {
             $variants = array(
                 'attributes' => array(),
                 'quantities' => array(),
             );
+
             $attributes = array();
-            foreach ($result as $item) {
+            foreach ($item_variants as $item) {
                 // first try json_decode
-                $attribute_array = json_decode($item['attributes'],true);
-                if (!$attribute_array) {
+                $attribute_array = $item->attributes;
+                if (!is_array($attribute_array)) {
                     // old style keys, so format them to match JSON
                     $attribute_array = array();
-                    $attribute_keys = explode('+', $item['attributes']);
+                    $attribute_keys = explode('+', $item->attributes);
                     foreach ($attribute_keys as $part) {
                         list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
                         // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
@@ -239,14 +232,14 @@ class CommercePlant extends PlantBase {
                     if (!isset($attributes[$key][$type])) {
                         $attributes[$key][$type] = 0;
                     }
-                    $attributes[$key][$type] += $item['quantity'];
+                    $attributes[$key][$type] += $item->quantity;
                 }
-                if (!($item['quantity'] < 1 && $exclude_empties)) {
+                if (!($item->quantity < 1 && $exclude_empties)) {
                     $variants['quantities'][] = array(
-                        'id' => $item['id'],
-                        'key' => $item['attributes'],
-                        'formatted_name' => $this->formatVariantName($item['attributes']),
-                        'value' => $item['quantity']
+                        'id' => $item->id,
+                        'key' => json_encode($item->attributes),
+                        'formatted_name' => $this->formatVariantName($item->attributes),
+                        'value' => $item->quantity
                     );
                 }
             }
@@ -271,7 +264,7 @@ class CommercePlant extends PlantBase {
 
     protected function formatVariantName ($name) {
         $final_name = '';
-        $name_decoded = json_decode($name,true);
+        $name_decoded = $name;
         if ($name_decoded) {
             foreach ($name_decoded as $var => $val) {
                 $final_name .= $var . ': ' . $val . ', ';
@@ -346,152 +339,124 @@ class CommercePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
         );
-        if (isset($final_edits['shipping'])) {
-            $final_edits['shipping'] = json_encode($shipping);
-        }
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
+
+        $conditions = array(
+            "id" => $id
         );
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
-        $result = $this->db->setData(
-            'items',
-            $final_edits,
-            $condition
-        );
-        return $result;
+
+        $item = CommerceItem::findWhere($conditions);
+
+        try {
+            $item->update($final_edits);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function editItemVariant($id, $quantity, $item_id, $user_id=false) {
 
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id,
-            )
+        $conditions = array(
+            "id" => $id
         );
 
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
 
         $updates = array(
             'quantity' => $quantity
         );
 
-        $result = $this->db->setData(
-            'item_variants',
-            $updates,
-            $condition
-        );
+        $item_variant = CommerceItemVariant::findWhere($conditions);
 
-        if ($result) {
+        if ($item_variant->update($updates)) {
             $this->updateItemQuantity($item_id);
+
+            return true;
         }
 
-        return $result;
+        return false;
     }
 
     protected function deleteItem($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->deleteData(
-            'items',
-            $condition
+        $conditions = array(
+            "id" => $id
         );
 
-        if (!$result) {
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $item = CommerceItem::findWhere($conditions);
+        $item->delete();
+
+        if (!$item->delete()) {
             return false;
         }
+
         $this->deleteItemVariants($id, $user_id);
-        return $result;
+        return true;
     }
 
     protected function deleteItemVariant($id, $user_id=false) {
 
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
+        $conditions = array(
+            "id" => $id
         );
 
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
 
-        $result = $this->db->deleteData(
-            'item_variants',
-            $condition
-        );
-        return $result;
+        $item_variant = CommerceItemVariant::findWhere($conditions);
+
+        if ($item_variant->delete()) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function deleteItemVariants($item_id, $user_id=false) {
 
-        $condition = array(
-            "item_id" => array(
-                "condition" => "=",
-                "value" => $item_id
-            )
+        $conditions = array(
+            "item_id" => $item_id
         );
 
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
 
-        $result = $this->db->deleteData(
-            'item_variants',
-            $condition
-        );
+        if ($this->qb->table('commerce_item_variants')->where($conditions)->delete()) {
+            return true;
+        }
 
-        return $result;
+        return false;
     }
 
     protected function getItemsForUser($user_id,$with_variants=true) {
-      $result = $this->db->getData(
-          'CommercePlant_getItemsForUser',
-          false,
-          array(
-               "user_id" => array(
-                   "condition" => "=",
-                   "value" => $user_id
-               )
-          )
-      );
+        $items = $this->qb->table("commerce_items")
+          ->select("commerce_items.*")
+          ->select("assets.location as image_url")
+          ->leftJoin('assets', 'assets.id', '=', 'commerce_items.descriptive_asset')
+          ->where('commerce_items.user_id', '=', $user_id)->get();
+
+        $result = [];
 
         if ($with_variants) {
-            $length = count($result);
-
-            for ($index = 0; $index < $length; $index++) {
-                $result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
-                $result[$index]['shipping'] = json_decode($result[$index]['shipping'],true);
+            foreach($items as $key=>$item) {
+                $result[$key] = json_decode(json_encode($item), true);
+                $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);
+                $result[$key]['shipping'] = json_decode($item->shipping,true);
+            }
+        } else {
+            foreach($items as $key=>$item) {
+                $result[$key] = json_decode(json_encode($item), true);
             }
         }
 

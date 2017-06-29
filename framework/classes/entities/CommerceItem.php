@@ -9,16 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_items")
  * @Entity @HasLifecycleCallbacks */
-class CommerceItems extends EntityBase
+class CommerceItem extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'name', 'description', 'sku', 'price', 'shipping', 'flexible_price', 'digital_fulfillment', 'physical_fulfillment', 'physical_weight', 'physical_width', 'physical_height', 'physical_depth', 'available_units', 'variable_pricing', 'fulfillment_asset', 'descriptive_asset'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
@@ -51,7 +51,7 @@ class CommerceItems extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="shipping", type="string", length=255, nullable=true)
+     * @Column(name="shipping", type="json_array", length=255, nullable=true)
      */
     protected $shipping;
 
@@ -60,91 +60,91 @@ class CommerceItems extends EntityBase
      *
      * @Column(name="flexible_price", type="boolean", nullable=true)
      */
-    protected $flexiblePrice = '0';
+    protected $flexible_price = '0';
 
     /**
      * @var boolean
      *
      * @Column(name="digital_fulfillment", type="boolean", nullable=true)
      */
-    protected $digitalFulfillment = '0';
+    protected $digital_fulfillment = '0';
 
     /**
      * @var boolean
      *
      * @Column(name="physical_fulfillment", type="boolean", nullable=true)
      */
-    protected $physicalFulfillment = '0';
+    protected $physical_fulfillment = '0';
 
     /**
      * @var integer
      *
      * @Column(name="physical_weight", type="integer", nullable=false)
      */
-    protected $physicalWeight;
+    protected $physical_weight;
 
     /**
      * @var integer
      *
      * @Column(name="physical_width", type="integer", nullable=false)
      */
-    protected $physicalWidth;
+    protected $physical_width;
 
     /**
      * @var integer
      *
      * @Column(name="physical_height", type="integer", nullable=false)
      */
-    protected $physicalHeight;
+    protected $physical_height;
 
     /**
      * @var integer
      *
      * @Column(name="physical_depth", type="integer", nullable=false)
      */
-    protected $physicalDepth;
+    protected $physical_depth;
 
     /**
      * @var integer
      *
      * @Column(name="available_units", type="integer", nullable=false)
      */
-    protected $availableUnits = '0';
+    protected $available_units = '0';
 
     /**
      * @var boolean
      *
      * @Column(name="variable_pricing", type="boolean", nullable=true)
      */
-    protected $variablePricing = '0';
+    protected $variable_pricing = '0';
 
     /**
      * @var integer
      *
      * @Column(name="fulfillment_asset", type="integer", nullable=false)
      */
-    protected $fulfillmentAsset = '0';
+    protected $fulfillment_asset = '0';
 
     /**
      * @var integer
      *
      * @Column(name="descriptive_asset", type="integer", nullable=false)
      */
-    protected $descriptiveAsset = '0';
+    protected $descriptive_asset = '0';
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate = '0';
+    protected $creation_date = '0';
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

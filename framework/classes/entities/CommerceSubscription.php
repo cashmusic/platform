@@ -9,16 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_subscriptions")
  * @Entity @HasLifecycleCallbacks */
-class CommerceSubscriptions extends EntityBase
+class CommerceSubscription extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'name', 'description', 'sku', 'price', 'flexible_price', 'recurring_payment', 'recurring_interval', 'interval', 'interval_count', 'physical', 'suggested_price'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
@@ -53,21 +53,21 @@ class CommerceSubscriptions extends EntityBase
      *
      * @Column(name="flexible_price", type="boolean", nullable=true)
      */
-    protected $flexiblePrice = '0';
+    protected $flexible_price = '0';
 
     /**
      * @var boolean
      *
      * @Column(name="recurring_payment", type="boolean", nullable=true)
      */
-    protected $recurringPayment = '0';
+    protected $recurring_payment = '0';
 
     /**
      * @var integer
      *
      * @Column(name="recurring_interval", type="integer", nullable=false)
      */
-    protected $recurringInterval = '0';
+    protected $recurring_interval = '0';
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class CommerceSubscriptions extends EntityBase
      *
      * @Column(name="interval_count", type="integer", nullable=false)
      */
-    protected $intervalCount = '1';
+    protected $interval_count = '1';
 
     /**
      * @var boolean
@@ -95,24 +95,29 @@ class CommerceSubscriptions extends EntityBase
      *
      * @Column(name="suggested_price", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $suggestedPrice = '0.00';
+    protected $suggested_price = '0.00';
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate = '0';
+    protected $creation_date = '0';
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+    /* relationships */
+    public function members($conditions=false) {
+        return $this->hasMany("CommerceSubscriptionMember", "id", "subscription_id");
+    }
 
 }
 

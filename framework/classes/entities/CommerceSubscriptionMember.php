@@ -9,30 +9,30 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_subscriptions_members", indexes={@Index(name="people_subscr_user_id", columns={"user_id"}), @Index(name="people_subscr_id", columns={"subscription_id"})})
  * @Entity @HasLifecycleCallbacks */
-class CommerceSubscriptionsMembers extends EntityBase
+class CommerceSubscriptionMember extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'subscription_id', 'payment_identifier', 'status', 'start_date', 'end_date', 'total_paid_to_date', 'data'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=true)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="subscription_id", type="integer", nullable=true)
      */
-    protected $subscriptionId;
+    protected $subscription_id;
 
     /**
      * @var string
      *
      * @Column(name="payment_identifier", type="string", length=255, nullable=true)
      */
-    protected $paymentIdentifier;
+    protected $payment_identifier;
 
     /**
      * @var string
@@ -46,21 +46,21 @@ class CommerceSubscriptionsMembers extends EntityBase
      *
      * @Column(name="start_date", type="integer", nullable=true)
      */
-    protected $startDate;
+    protected $start_date;
 
     /**
      * @var integer
      *
      * @Column(name="end_date", type="integer", nullable=true)
      */
-    protected $endDate;
+    protected $end_date;
 
     /**
      * @var string
      *
      * @Column(name="total_paid_to_date", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $totalPaidToDate;
+    protected $total_paid_to_date;
 
     /**
      * @var string
@@ -74,16 +74,20 @@ class CommerceSubscriptionsMembers extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+    public function subscription($conditions=false) {
+        return $this->belongsTo("CommerceSubscription", "subscription_id", "id");
+    }
 }
 
