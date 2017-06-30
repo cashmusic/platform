@@ -108,7 +108,7 @@ if ($action == "do_mailing") {
         //TODO: this should probably all be in a method
 
         $backers = $external_fulfillment->getBackersForJob($_REQUEST['fulfillment_job_id']);
-
+        CASHSystem::errorLog($backers);
         // remove trailing slash from URLs
         $email_url = rtrim($_REQUEST['email_url'], "/");
 
