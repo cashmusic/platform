@@ -14,6 +14,7 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
  *
  ******************************************************************************/
 $effective_user = $cash_admin->effective_user_id;
+
 if ($request_parameters) {
 	/****************************************************************************
 	 *
@@ -91,7 +92,6 @@ if ($request_parameters) {
 		)
 	);
 	$order_all_details = $order_details_response['payload'];
-
 	if ($order_all_details['user_id'] == $effective_user) {
 		// format all the details into easy mustache variables
 		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
@@ -103,7 +103,7 @@ if ($request_parameters) {
 		$order_all_details['order_connection_details'] = $admin_helper->getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
 
-		$order_contents = json_decode($order_all_details['order_contents'],true);
+		$order_contents = $order_all_details['order_contents'];
 
 		$item_price = 0;
 		foreach ($order_contents as $key => $item) {

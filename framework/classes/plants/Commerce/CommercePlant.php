@@ -806,74 +806,62 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrder($id,$deep=false,$user_id=false) {
-        if ($deep) {
-            $result = $this->db->getData(
-                'CommercePlant_getOrder_deep',
-                false,
-                array(
-                    "id" => array(
-                        "condition" => "=",
-                        "value" => $id
-                    )
-                )
-            );
 
-            if ($result) {
-                if ($user_id) {
-                    if ($result[0]['user_id'] != $user_id) {
-                        return false;
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        if($order = CommerceOrder::findWhere($conditions)) {
+            // cast a spell of summoning if this is an array. it never should be but
+            if (is_array($order)) {
+                $order = $order[0];
+            }
+
+            $transaction = $order->transaction();
+            $order = $order->toArray();
+
+            if ($deep) {
+                if ($order) {
+
+                    $order['order_totals'] = $this->getOrderTotals($order['order_contents']);
+                    $order['order_description'] = $order['order_totals']['description'];
+
+                    // currently there will only be one transaction for orders
+                    if ($transaction) {
+                        $transaction_data = $this->parseTransactionData($transaction->data_returned, $transaction->data_sent);
+
+                        $transaction_array = $transaction->toArray();
+
+                        if (is_array($transaction_array)) {
+                            $order = array_merge($order,$transaction_array);
+                        }
                     }
+
+                    if (is_array($transaction_data)) {
+                        $order = array_merge($order,$transaction_data);
+                    }
+
+                    $user_request = new CASHRequest(
+                        array(
+                            'cash_request_type' => 'people',
+                            'cash_action' => 'getuser',
+                            'user_id' => $order['customer_user_id']
+                        )
+                    );
+                    $order['customer_details'] = $user_request->response['payload'];
                 }
-
-                if (!empty($result[0]['data'])) {
-                    $result[0]['data'] = json_decode($result[0]['data']);
-                }
-                $result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
-                $result[0]['order_description'] = $result[0]['order_totals']['description'];
-                $transaction_data = $this->parseTransactionData($result[0]['data_returned'],$result[0]['data_sent']);
-
-                if (is_array($transaction_data)) {
-                    $result[0] = array_merge($result[0],$transaction_data);
-                }
-
-                $user_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'people',
-                        'cash_action' => 'getuser',
-                        'user_id' => $result[0]['customer_user_id']
-                    )
-                );
-                $result[0]['customer_details'] = $user_request->response['payload'];
             }
-        } else {
-            $condition = array(
-                "id" => array(
-                    "condition" => "=",
-                    "value" => $id
-                )
-            );
-            if ($user_id) {
-                $condition['user_id'] = array(
-                    "condition" => "=",
-                    "value" => $user_id
-                );
-            }
-            $result = $this->db->getData(
-                'orders',
-                '*',
-                $condition
-            );
 
-            if (!empty($result[0]['data'])) {
-                $result[0]['data'] = json_decode($result[0]['data']);
-            }
+            return $order;
         }
 
-        if ($result) {
-            return $result[0];
-        } else {
-            return false;
-        }
+        return false;
+
+
     }
 
     protected function editOrder(
@@ -907,30 +895,22 @@ class CommercePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
         );
-        if (isset($final_edits['order_contents'])) {
-            $final_edits['order_contents'] = json_encode($order_contents);
-        }
-        if (isset($final_edits['data'])) {
-            $final_edits['data'] = json_encode($data);
-        }
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
+
+        $conditions = array(
+            "id" => $id
         );
+
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
-        $result = $this->db->setData(
-            'orders',
-            $final_edits,
-            $condition
-        );
-        return $result;
+
+        $order = CommerceOrder::findWhere($conditions);
+
+        if ($order->update($final_edits)) {
+            return $order->toArray();
+        } else {
+            return false;
+        }
     }
 
     protected function parseTransactionData($data_returned,$data_sent) {
@@ -1021,80 +1001,75 @@ class CommercePlant extends PlantBase {
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
         if ($max_returned) {
-            $limit = $skip . ', ' . $max_returned;
+            $limit = $max_returned;
         } else {
             $limit = false;
         }
+
+        // gets multiple orders with all information
+        $query = $this->qb->table('commerce_orders')
+            ->select('commerce_orders.*');
+
         if ($deep) {
-            $result = $this->db->getData(
-                'CommercePlant_getOrders_deep',
-                false,
-                array(
-                    "user_id" => array(
-                        "condition" => "=",
-                        "value" => $user_id
-                    ),
-                    "unfulfilled_only" => array(
-                        "condition" => "=",
-                        "value" => $unfulfilled_only
-                    ),
-                    "since_date" => array(
-                        "condition" => ">",
-                        "value" => $since_date
-                    )
-                ),
-                $limit
-            );
+            $query = $query->select('commerce_transactions.*');
+            $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
+        }
+
+        $query = $query->where('commerce_orders.user_id', '=', $user_id)
+            ->where('commerce_transactions.successful', '=', 1);
+
+        if ($since_date) {
+            $query = $query->where('commerce_orders.creation_date', ">", $since_date);
+        }
+
+        if ($include_abandoned) {
+            $query = $query->where('commerce_orders.modification_date', ">", 0);
+        }
+
+        if (isset($unfulfilled_only)) {
+            if ($unfulfilled_only == 1) {
+                $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
+            } else {
+                $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+            }
+        }
+
+        if ($limit) $query = $query->limit($limit)->offset($skip);
+
+        $result = $query->get();
+
+        if ($deep) {
             if ($result) {
                 // loop through and parse all transactions
                 if (is_array($result)) {
                     foreach ($result as &$order) {
+                        $order = json_decode(json_encode($order), true); // cast array wizard spell
+
                         $transaction_data = $this->parseTransactionData($order['data_returned'],$order['data_sent']);
+
                         if (is_array($transaction_data)) {
                             $order = array_merge($order,$transaction_data);
                         }
-                        $order_totals = $this->getOrderTotals($order['order_contents']);
 
+                        $order_totals = $this->getOrderTotals($order['order_contents']);
                         $order['order_description'] = $order_totals['description'];
                     }
                 }
             }
         } else {
-            $conditions = array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "creation_date" => array(
-                    "condition" => ">",
-                    "value" => $since_date
-                ),
-                "customer_user_id" => array(
-                    "condition" => ">",
-                    "value" => 0
-                )
-            );
-            if ($unfulfilled_only) {
-                $conditions['fulfilled'] = array(
-                    "condition" => "=",
-                    "value" => 0
-                );
+            if (is_array($result)) {
+                foreach ($result as &$order) {
+                    $order = json_decode(json_encode($order), true); // cast array wizard spell
+                }
             }
-            if (!$include_abandoned) {
-                $conditions['modification_date'] = array(
-                    "condition" => ">",
-                    "value" => 0
-                );
-            }
-            $result = $this->db->getData(
-                'orders',
-                '*',
-                $conditions,
-                $limit,
-                'id DESC'
-            );
         }
-        return $result;
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+
     }
 
     protected function getOrdersByCustomer($user_id,$customer_email) {
@@ -1106,6 +1081,12 @@ class CommercePlant extends PlantBase {
             )
         );
         $customer_id = $user_request->response['payload'];
+
+        try {
+            $orders = CommerceOrder::findWhere(['user_id'=>$user_id]);
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e);
+        }
 
         $result = $this->db->getData(
             'orders',
@@ -1637,8 +1618,10 @@ class CommercePlant extends PlantBase {
 
     }
 
-    protected function getOrderTotals($order_contents) {
-        $contents = json_decode($order_contents,true);
+    protected function getOrderTotals($contents) {
+
+        if (!is_array($contents)) { $contents = json_decode($contents, true); }
+
         $return_array = array(
             'price' => 0,
             'description' => ''

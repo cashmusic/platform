@@ -155,6 +155,7 @@ $settings_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
 if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
 	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];

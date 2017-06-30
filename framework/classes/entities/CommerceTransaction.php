@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_transactions")
  * @Entity @HasLifecycleCallbacks */
-class CommerceTransactions extends EntityBase
+class CommerceTransaction extends EntityBase
 {
 
     protected $fillable;
@@ -18,49 +18,49 @@ class CommerceTransactions extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="connection_id", type="integer", nullable=false)
      */
-    protected $connectionId;
+    protected $connection_id;
 
     /**
      * @var string
      *
      * @Column(name="connection_type", type="string", length=255, nullable=false)
      */
-    protected $connectionType;
+    protected $connection_type;
 
     /**
      * @var string
      *
      * @Column(name="service_timestamp", type="string", length=255, nullable=false)
      */
-    protected $serviceTimestamp;
+    protected $service_timestamp;
 
     /**
      * @var string
      *
      * @Column(name="service_transaction_id", type="string", length=255, nullable=false)
      */
-    protected $serviceTransactionId = '';
+    protected $service_transaction_id = '';
 
     /**
      * @var string
      *
-     * @Column(name="data_sent", type="text", length=65535, nullable=false)
+     * @Column(name="data_sent", type="json_array", length=65535, nullable=false)
      */
-    protected $dataSent;
+    protected $data_sent;
 
     /**
      * @var string
      *
-     * @Column(name="data_returned", type="text", length=65535, nullable=false)
+     * @Column(name="data_returned", type="json_array", length=65535, nullable=false)
      */
-    protected $dataReturned;
+    protected $data_returned;
 
     /**
      * @var boolean
@@ -74,14 +74,14 @@ class CommerceTransactions extends EntityBase
      *
      * @Column(name="gross_price", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $grossPrice;
+    protected $gross_price;
 
     /**
      * @var string
      *
      * @Column(name="service_fee", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $serviceFee;
+    protected $service_fee;
 
     /**
      * @var string
@@ -109,21 +109,21 @@ class CommerceTransactions extends EntityBase
      *
      * @Column(name="parent_id", type="integer", nullable=false)
      */
-    protected $parentId = '0';
+    protected $parent_id = '0';
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate = '0';
+    protected $creation_date = '0';
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

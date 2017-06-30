@@ -16,6 +16,9 @@ class EntityBase
     protected $fillable = [];
     protected $query = null;
 
+    /**
+     * EntityBase constructor. Loads entity manager for Doctrine ORM.
+     */
     public function __construct()
     {
         $this->db = CASHDBAL::entityManager();
@@ -39,7 +42,9 @@ class EntityBase
             $db = CASHDBAL::entityManager();
             $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            CASHSystem::errorLog("Entity ".get_called_class()." Exception: ".$e->getMessage());
+            CASHSystem::errorLog("Details_____");
+            CASHSystem::errorLog($e->getTrace());
         }
 
         if ($object) return $object;
@@ -70,16 +75,21 @@ class EntityBase
 
             // if it's an array of ids we can try to get multiples
             if (is_array($values)) {
-                $object = $db->getRepository(get_called_class())->findBy($values);
+                $object = $db->getRepository(get_called_class())->findBy($values, $limit, $order_by, $offset);
             } else {
                 $object = self::find($values);
             }
 
-            if (is_array($object) && count($object) == 1) return $object[0];
+            if (is_array($object)) {
+                if(count($object) == 1) return $object[0];
+                if(count($object) < 1) return false;
+            }
 
-            if ($object) return $object;
+            return $object;
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            CASHSystem::errorLog("Entity ".get_called_class()." Exception: ".$e->getMessage());
+            CASHSystem::errorLog("Details_____");
+            CASHSystem::errorLog($e->getTrace());
         }
 
         return false;

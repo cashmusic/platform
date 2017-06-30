@@ -853,8 +853,6 @@ class ExternalFulfillmentSeed extends SeedBase
             ]
         ];
 
-        CASHSystem::errorLog($conditions);
-
         if (!$backers = $this->db->getData(
             'CommercePlant_getExternalFulfillmentBackersByJob', false, $conditions
         )

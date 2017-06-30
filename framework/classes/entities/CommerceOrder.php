@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CommerceOrder extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'customer_user_id', 'transaction_id', 'order_contents', 'fulfilled', 'canceled', 'physical', 'digital', 'notes', 'country_code', 'currency', 'element_id', 'cash_session_id', 'data'];
     /**
      * @var integer
      *
@@ -130,6 +130,10 @@ class CommerceOrder extends EntityBase
 
     public function user($conditions=false) {
         return $this->belongsTo("People", "user_id", "id");
+    }
+
+    public function transaction($conditions=false) {
+        return $this->hasOne("CommerceTransaction", "transaction_id", "id");
     }
 }
 
