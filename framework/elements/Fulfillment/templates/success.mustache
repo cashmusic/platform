@@ -1,12 +1,13 @@
 <div class="cm-fulfillment cm-success {{element_type}}">
 		<p class="cm-dwld-instructions">
-		{{message_success}}
+		{{{message_success}}}
 		</p>
 			<ul class="cm-dwld-items">
 		{{#fulfillment_assets}}
-		<li class="cm-dwld-item">
+		<li class="cm-item">
 			<div class="cm-description">{{description}}</div>
-			<a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="download">{{title}}</a>
+
+            <a class="button" target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="download">Download {{title}}</a>
 		</li>
 		{{/fulfillment_assets}}
 		<ul><!--cm-dwld-items-->

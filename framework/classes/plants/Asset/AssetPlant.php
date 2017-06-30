@@ -41,6 +41,36 @@ class AssetPlant extends PlantBase {
 		$this->plantPrep($request_type,$request);
 	}
 
+	protected function findAssets($query,$user_id,$page=1,$max_returned=10) {
+		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;
+		$fuzzy_query = '%' . $query . '%';
+
+		$result = $this->db->getData(
+			'AssetPlant_findAssets',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"query" => array(
+					"condition" => "=",
+					"value" => $fuzzy_query
+				),
+				"exact_query" => array(
+					"condition" => "=",
+					"value" => $query
+				),
+				"starts_with_query" => array(
+					"condition" => "=",
+					"value" => $query.'%'
+				)
+			),
+			$limit
+		);
+		return $result;
+	}
+
 	protected function getStoredAssets($asset_details,$type='fulfillment',$session_id=false) {
 		$result = false; // default return
 
@@ -552,7 +582,7 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
 	 */
-	protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
+    protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
@@ -580,7 +610,6 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		} else {
-
 			if (!$return_only) {
                 // fail back to the default embed with an error string
                 CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);

@@ -272,7 +272,7 @@ class SinglePurchase extends ElementBase {
 
 		if (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'success') {
-				if ($this->unlocked) {
+				//if ($this->unlocked) {
 					if ($item['fulfillment_asset'] != 0) {
 						$fulfillment_request = new CASHRequest(
 							array(
@@ -288,8 +288,8 @@ class SinglePurchase extends ElementBase {
 					}
 
 					$this->setTemplate('success');
-					$this->lock();
-				}
+					//$this->lock();
+				//}
 			}
 		}
 

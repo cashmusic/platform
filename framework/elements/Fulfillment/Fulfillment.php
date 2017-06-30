@@ -14,6 +14,7 @@
 
 namespace CASHMusic\Elements\Fulfillment;
 
+use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
 use ArrayIterator;
@@ -25,6 +26,7 @@ class Fulfillment extends ElementBase {
 	public function getData() {
 		$this->element_data['element_id'] = $this->element_id;
 		$this->element_data['public_url'] = CASH_PUBLIC_URL;
+        $this->element_data['show_message'] = ($this->element_data['show_message'] == 1) ? true : false;
 
 		// handle any rename stuff
 		if (isset($_REQUEST['setlocation'])) {

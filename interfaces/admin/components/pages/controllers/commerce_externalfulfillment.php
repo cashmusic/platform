@@ -54,7 +54,7 @@ if ($action == "soundscan") {
 
 if ($action == "do_create") {
     // create the fulfillment job
-    
+
     $external_fulfillment->createOrContinueJob();
 
     // set the view to show upload dialog
@@ -84,9 +84,9 @@ if ($action == "do_process" || $action == "process") {
 
     $update = false;
 
-/*    if (!empty($_REQUEST['item_fulfillment_asset'])) {
-        $update = ['asset_id' => $_REQUEST['item_fulfillment_asset']];
-    }*/
+    /*    if (!empty($_REQUEST['item_fulfillment_asset'])) {
+            $update = ['asset_id' => $_REQUEST['item_fulfillment_asset']];
+        }*/
 
     $external_fulfillment
         ->createOrContinueJob("created")    // only grab the job if it's status 'process'
@@ -104,11 +104,11 @@ if ($action == "do_mailing") {
         !empty($_REQUEST['email_subject']) &&
         !empty($_REQUEST['email_message']) &&
         !empty($_REQUEST['email_url'])
-        ) {
+    ) {
         //TODO: this should probably all be in a method
 
         $backers = $external_fulfillment->getBackersForJob($_REQUEST['fulfillment_job_id']);
-
+        CASHSystem::errorLog($backers);
         // remove trailing slash from URLs
         $email_url = rtrim($_REQUEST['email_url'], "/");
 
@@ -119,15 +119,47 @@ if ($action == "do_mailing") {
             ]
         ];
 
-        // let's break this up into 1000 at a time to make sure we don't overload the mandrill API
-        $chunked_backers = array_chunk($backers, 1000);
 
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
         $html_message .= "\n\n" . '<p><b><a href="*|URL|*?code=*|CODE|*&handlequery=1">Download</a></b></p>';
 
         $subject = trim($_REQUEST['email_subject']);
 
-        foreach ($chunked_backers as $backers) {
+        if (count($backers) > 999) {
+            // let's break this up into 1000 at a time to make sure we don't overload the mandrill API
+            $chunked_backers = array_chunk($backers, 1000);
+
+
+
+            $subject = trim($_REQUEST['email_subject']);
+
+            foreach ($chunked_backers as $backers) {
+                $recipients = [];
+                $merge_vars = [];
+
+                foreach ($backers as $backer) {
+
+                    if ($backer['email'] != "") {
+                        $recipients[] = [
+                            'email' => $backer['email'],
+                            'name' => $backer['name']
+                        ];
+
+                        $merge_vars[] = [
+                            'rcpt' => $backer['email'],
+                            'vars' => [
+                                [
+                                    'name' => 'code',
+                                    'content' => $backer['lockcode']
+                                ]
+                            ]
+                        ];
+                    }
+                }
+
+            }
+
+        } else {
             $recipients = [];
             $merge_vars = [];
 
@@ -151,22 +183,23 @@ if ($action == "do_mailing") {
                 }
             }
 
-            CASHSystem::sendMassEmail(
-                $user_id,
-                $subject,
-                $recipients,
-                $html_message,
-                $subject,
-                $global_merge_vars,
-                $merge_vars,
-                false,
-                true);
-
         }
+
+        CASHSystem::sendMassEmail(
+            $user_id,
+            $subject,
+            $recipients,
+            $html_message,
+            $subject,
+            $global_merge_vars,
+            $merge_vars,
+            false,
+            true);
 
         $external_fulfillment
             ->createOrContinueJob(["pending", "sent"])
             ->updateFulfillmentJobStatus("sent");
+
     }
 
     $action = "show_index";
@@ -231,43 +264,43 @@ if ($action == "show_index") {
 
     // If no mass mailing connection found prompt add connection
     if (!$cash_admin->page_data['mass_connection']) {
-    
+
         $page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
-    		$settings_types_data = $page_data_object->getConnectionTypes('mass_email');
+        $settings_types_data = $page_data_object->getConnectionTypes('mass_email');
 
         $all_services = array();
         $typecount = 1;
         foreach ($settings_types_data as $key => $data) {
-        	if ($typecount % 2 == 0) {
-        		$alternating_type = true;
-        	} else {
-        		$alternating_type = false;
-        	}
-        	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
-        		$service_has_image = true;
-        	} else {
-        		$service_has_image = false;
-        	}
-        	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
-        		$all_services[] = array(
-        			'key' => $key,
-        			'name' => $data['name'],
-        			'description' => $data['description'],
-        			'link' => $data['link'],
-        			'alternating_type' => $alternating_type,
-        			'service_has_image' => $service_has_image
-        		);
-        		$typecount++;
-        	}
+            if ($typecount % 2 == 0) {
+                $alternating_type = true;
+            } else {
+                $alternating_type = false;
+            }
+            if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+                $service_has_image = true;
+            } else {
+                $service_has_image = false;
+            }
+            if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+                $all_services[] = array(
+                    'key' => $key,
+                    'name' => $data['name'],
+                    'description' => $data['description'],
+                    'link' => $data['link'],
+                    'alternating_type' => $alternating_type,
+                    'service_has_image' => $service_has_image
+                );
+                $typecount++;
+            }
         }
         $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
-    } 
+    }
 
     // If mass mailing connection found show existing jobs, and a create new job button    
     else {
-    $cash_admin->page_data['user_jobs'] = $external_fulfillment->getUserJobs();
+        $cash_admin->page_data['user_jobs'] = $external_fulfillment->getUserJobs();
     }
-  
+
     // set index view
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_index');
 }
@@ -327,11 +360,11 @@ if ($action == "show_detail" || $action == "detail") {
         $cash_admin->page_data['order_count'] = $external_fulfillment->getOrderCountByJob($fulfillment_job_id);
         $cash_admin->page_data['completed_orders'] =
             $external_fulfillment->getOrderCountByJob($fulfillment_job_id,
-                    [
-                        'name' => 'complete',
-                        'value' => true
-                    ]
-                );
+                [
+                    'name' => 'complete',
+                    'value' => true
+                ]
+            );
 
         $cash_admin->page_data['imcomplete_orders'] =
             $external_fulfillment->getOrderCountByJob($fulfillment_job_id,

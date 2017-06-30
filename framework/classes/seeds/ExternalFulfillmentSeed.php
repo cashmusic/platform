@@ -36,18 +36,17 @@ class ExternalFulfillmentSeed extends SeedBase
 
         // dumbshit
         $this->mapped_fields = [
-            'name' => 'First Name',
-            'email' => 'E Mail',
-            //'price' => 'Pledge Amount',
+            'name' => 'Backer Name',
+            'email' => 'Email',
+            'price' => 'Pledge Amount',
             'notes' => 'Notes',
-            'shipping_address_1' => 'Address 1',
-            'shipping_address_2' => 'Address 2',
-            'shipping_city' => 'City',
-            'shipping_province' => 'State/Province',
-            'shipping_postal' => 'ZIP/Postal Code',
-            'shipping_country' => 'Country'
+            'shipping_address_1' => 'Shipping Address 1',
+            'shipping_address_2' => 'Shipping Address 2',
+            'shipping_city' => 'Shipping City',
+            'shipping_province' => 'Shipping State',
+            'shipping_postal' => 'Shipping Postal Code',
+            'shipping_country' => 'Shipping Country Code'
         ];
-
 
         $this->minimum_field_requirements = [
             'name' => false,
@@ -234,6 +233,9 @@ class ExternalFulfillmentSeed extends SeedBase
                     $this->mappable_fields,
                     $csv_to_array['unique_fields']
                 );
+
+                CASHSystem::errorLog($this->mappable_fields);
+
                 return $this;
             } else {
 
@@ -451,7 +453,6 @@ class ExternalFulfillmentSeed extends SeedBase
         $order_mapped = [];
 
         foreach ($this->mapped_fields as $destination_field => $source_field) {
-
             // we can deal with the minimum expected fields first, and go from there
             if (!empty($order[$source_field])) {
                 $source = empty($order[$source_field]) ? '' : $order[$source_field];
@@ -471,6 +472,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // either way this is now mapped correctly
             $order_mapped[$destination_field] = $source;
+            CASHSystem::errorLog($destination_field . " => " . $source);
         }
 
         // hack the system
@@ -850,6 +852,8 @@ class ExternalFulfillmentSeed extends SeedBase
                 'value' => $fulfillment_job_id
             ]
         ];
+
+        CASHSystem::errorLog($conditions);
 
         if (!$backers = $this->db->getData(
             'CommercePlant_getExternalFulfillmentBackersByJob', false, $conditions
