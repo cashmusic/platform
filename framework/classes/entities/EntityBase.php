@@ -278,6 +278,7 @@ class EntityBase
      * @return array
      */
     public function hasOne($entity, $key=false, $foreign_key=false, $conditions=false) {
+        CASHSystem::errorLog([$entity, $key, $foreign_key, $conditions]);
         return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
     }
 
@@ -345,23 +346,39 @@ class EntityBase
             }
 
 
-            $query = CASHDBAL::queryBuilder();
-            $query = $query->select($tableName)->from($class_fqdn, $tableName);
+
 
             // if this is non polymorphic
             if (!$scope) {
-                $query = $query->where(
-                    $query->expr()->eq($tableName . '.' . $foreign_key, ':key')
-                )->setParameter(':key', $key);
+                if (class_exists($class_fqdn)) {
+                    $result = $class_fqdn::findWhere([$foreign_key => $key]);
+                } else {
+                    throw new \Exception("Entity class $class_fqdn does not exist.");
+                }
+
             } else {
+
+                if (class_exists($class_fqdn)) {
+                    $result = $class_fqdn::findWhere(
+                        ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
+                    );
+                } else {
+                    throw new \Exception("Entity class $class_fqdn does not exist.");
+                }
+
+                /*$query = CASHDBAL::queryBuilder();
+                $query = $query->select($tableName)->from($class_fqdn, $tableName);
+
                 $query = $query->where(
                     $query->expr()->eq($tableName . '.scope_table_id', ':key')
                 )->andWhere(
                     $query->expr()->eq($tableName . '.scope_table_alias', ':scope')
                 )->setParameter(':key', $key)->setParameter(':scope', $scope);
+
+                $result = $query->getQuery()->getResult(5);*/
             }
 
-            $result = $query->getQuery()->getResult(5);
+
         } catch (\Exception $e) {
             error_log($e->getMessage());
             return false;

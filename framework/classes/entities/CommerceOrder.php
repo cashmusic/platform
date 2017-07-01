@@ -128,8 +128,8 @@ class CommerceOrder extends EntityBase
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
-    public function user($conditions=false) {
-        return $this->belongsTo("People", "user_id", "id");
+    public function customer($conditions=false) {
+        return $this->belongsTo("People", "customer_user_id", "id");
     }
 
     public function transaction($conditions=false) {

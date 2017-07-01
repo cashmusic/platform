@@ -821,39 +821,36 @@ class CommercePlant extends PlantBase {
                 $order = $order[0];
             }
 
-            $transaction = $order->transaction();
-            $order = $order->toArray();
-
             if ($deep) {
-                if ($order) {
+                $transaction = $order->transaction();
+                CASHSystem::errorLog($transaction);
+                $order = $order->toArray();
+                $order['order_totals'] = $this->getOrderTotals($order['order_contents']);
+                $order['order_description'] = $order['order_totals']['description'];
+                // currently there will only be one transaction for orders
+                if ($transaction) {
 
-                    $order['order_totals'] = $this->getOrderTotals($order['order_contents']);
-                    $order['order_description'] = $order['order_totals']['description'];
+                    $transaction_data = $this->parseTransactionData($transaction->data_returned, $transaction->data_sent);
 
-                    // currently there will only be one transaction for orders
-                    if ($transaction) {
-                        $transaction_data = $this->parseTransactionData($transaction->data_returned, $transaction->data_sent);
+                    $transaction_array = $transaction->toArray();
 
-                        $transaction_array = $transaction->toArray();
-
-                        if (is_array($transaction_array)) {
-                            $order = array_merge($order,$transaction_array);
-                        }
+                    if (is_array($transaction_array)) {
+                        $order = array_merge($transaction_array, $order);
                     }
-
-                    if (is_array($transaction_data)) {
-                        $order = array_merge($order,$transaction_data);
-                    }
-
-                    $user_request = new CASHRequest(
-                        array(
-                            'cash_request_type' => 'people',
-                            'cash_action' => 'getuser',
-                            'user_id' => $order['customer_user_id']
-                        )
-                    );
-                    $order['customer_details'] = $user_request->response['payload'];
                 }
+
+                if (is_array($transaction_data)) {
+                    $order = array_merge($order,$transaction_data);
+                }
+
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuser',
+                        'user_id' => $order['customer_user_id']
+                    )
+                );
+                $order['customer_details'] = $user_request->response['payload'];
             }
 
             return $order;
@@ -1011,7 +1008,22 @@ class CommercePlant extends PlantBase {
             ->select('commerce_orders.*');
 
         if ($deep) {
-            $query = $query->select('commerce_transactions.*');
+            $query = $query->select(
+                [
+                    'commerce_transactions.data_returned',
+                    'commerce_transactions.data_sent',
+                    'commerce_transactions.successful',
+                    'commerce_transactions.gross_price',
+                    'commerce_transactions.service_fee',
+                    'commerce_transactions.currency',
+                    'commerce_transactions.status',
+                    'commerce_transactions.service_transaction_id',
+                    'commerce_transactions.service_timestamp',
+                    'commerce_transactions.connection_type',
+                    'commerce_transactions.connection_id'
+                ]
+            );
+
             $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
         }
 
