@@ -25,7 +25,7 @@ class SystemProcesses extends EntityBase
      *
      * @Column(name="job_id", type="integer", nullable=false)
      */
-    protected $jobId;
+    protected $job_id;
 
     /**
      * @var string
@@ -39,14 +39,14 @@ class SystemProcesses extends EntityBase
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

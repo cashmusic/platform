@@ -22,7 +22,7 @@ class AssetAnalyticsBasic extends EntityBase
      *
      * @Column(name="asset_id", type="integer", nullable=false)
      */
-    protected $assetId = '0';
+    protected $asset_id = '0';
 
     /**
      * @var integer
@@ -36,14 +36,14 @@ class AssetAnalyticsBasic extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
 }
 

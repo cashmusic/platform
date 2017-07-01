@@ -18,7 +18,7 @@ class SystemSessions extends EntityBase
      *
      * @Column(name="session_id", type="string", length=255, nullable=false)
      */
-    protected $sessionId;
+    protected $session_id;
 
     /**
      * @var string
@@ -32,14 +32,14 @@ class SystemSessions extends EntityBase
      *
      * @Column(name="client_ip", type="string", length=255, nullable=true)
      */
-    protected $clientIp;
+    protected $client_ip;
 
     /**
      * @var string
      *
      * @Column(name="client_proxy", type="string", length=255, nullable=true)
      */
-    protected $clientProxy;
+    protected $client_proxy;
 
     /**
      * @var integer
@@ -53,14 +53,14 @@ class SystemSessions extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

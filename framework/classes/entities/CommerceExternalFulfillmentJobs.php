@@ -18,14 +18,14 @@ class CommerceExternalFulfillmentJobs extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
      * @Column(name="asset_id", type="integer", nullable=false)
      */
-    protected $assetId = '0';
+    protected $asset_id = '0';
 
     /**
      * @var string
@@ -53,28 +53,28 @@ class CommerceExternalFulfillmentJobs extends EntityBase
      *
      * @Column(name="mappable_fields", type="text", length=16777215, nullable=false)
      */
-    protected $mappableFields;
+    protected $mappable_fields;
 
     /**
      * @var integer
      *
      * @Column(name="has_minimum_mappable_fields", type="integer", nullable=false)
      */
-    protected $hasMinimumMappableFields = '0';
+    protected $has_minimum_mappable_fields = '0';
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

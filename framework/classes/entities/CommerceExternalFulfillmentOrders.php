@@ -32,42 +32,42 @@ class CommerceExternalFulfillmentOrders extends EntityBase
      *
      * @Column(name="shipping_address_1", type="string", length=255, nullable=true)
      */
-    protected $shippingAddress1;
+    protected $shipping_address_1;
 
     /**
      * @var string
      *
      * @Column(name="shipping_address_2", type="string", length=255, nullable=true)
      */
-    protected $shippingAddress2;
+    protected $shipping_address_2;
 
     /**
      * @var string
      *
      * @Column(name="shipping_city", type="string", length=255, nullable=true)
      */
-    protected $shippingCity;
+    protected $shipping_city;
 
     /**
      * @var string
      *
      * @Column(name="shipping_province", type="string", length=255, nullable=true)
      */
-    protected $shippingProvince;
+    protected $shipping_province;
 
     /**
      * @var string
      *
      * @Column(name="shipping_postal", type="string", length=255, nullable=true)
      */
-    protected $shippingPostal;
+    protected $shipping_postal;
 
     /**
      * @var string
      *
      * @Column(name="shipping_country", type="string", length=255, nullable=true)
      */
-    protected $shippingCountry;
+    protected $shipping_country;
 
     /**
      * @var integer
@@ -95,14 +95,14 @@ class CommerceExternalFulfillmentOrders extends EntityBase
      *
      * @Column(name="tier_id", type="integer", nullable=false)
      */
-    protected $tierId;
+    protected $tier_id;
 
     /**
      * @var string
      *
      * @Column(name="order_data", type="text", length=16777215, nullable=true)
      */
-    protected $orderData;
+    protected $order_data;
 
     /**
      * @var string
@@ -116,14 +116,14 @@ class CommerceExternalFulfillmentOrders extends EntityBase
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

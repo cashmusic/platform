@@ -18,14 +18,14 @@ class PeopleAnalytic extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId = '0';
+    protected $user_id = '0';
 
     /**
      * @var integer
      *
      * @Column(name="element_id", type="integer", nullable=true)
      */
-    protected $elementId;
+    protected $element_id;
 
     /**
      * @var integer
@@ -39,14 +39,14 @@ class PeopleAnalytic extends EntityBase
      *
      * @Column(name="client_ip", type="string", length=255, nullable=false)
      */
-    protected $clientIp;
+    protected $client_ip;
 
     /**
      * @var string
      *
      * @Column(name="client_proxy", type="string", length=255, nullable=false)
      */
-    protected $clientProxy;
+    protected $client_proxy;
 
     /**
      * @var string
@@ -60,14 +60,14 @@ class PeopleAnalytic extends EntityBase
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date = '0';
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

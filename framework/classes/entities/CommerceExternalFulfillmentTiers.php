@@ -18,28 +18,28 @@ class CommerceExternalFulfillmentTiers extends EntityBase
      *
      * @Column(name="system_job_id", type="integer", nullable=false)
      */
-    protected $systemJobId;
+    protected $system_job_id;
 
     /**
      * @var integer
      *
      * @Column(name="fulfillment_job_id", type="integer", nullable=false)
      */
-    protected $fulfillmentJobId;
+    protected $fulfillment_job_id;
 
     /**
      * @var integer
      *
      * @Column(name="process_id", type="integer", nullable=false)
      */
-    protected $processId;
+    protected $process_id;
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
@@ -88,14 +88,14 @@ class CommerceExternalFulfillmentTiers extends EntityBase
      *
      * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
