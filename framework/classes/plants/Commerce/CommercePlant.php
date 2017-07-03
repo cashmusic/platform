@@ -2655,24 +2655,13 @@ class CommercePlant extends PlantBase {
 
     public function deleteSubscription($id, $subscription_id) {
 
-        $results = $this->db->deleteData(
-            'subscriptions_members',
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                ),
-                'subscription_id' => array(
-                    'condition' => '=',
-                    'value' => $subscription_id
-                )
-            )
+        if ($member = CommerceSubscriptionMember::findWhere(['id'=>$id, 'subscription_id'=>$subscription_id])) {
+            if ($member->delete()) {
+                return true;
+            }
+        }
 
-        );
-
-        if (!$results) return false;
-
-        return true;
+        return false;
     }
 
     public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address) {
@@ -2779,56 +2768,53 @@ class CommercePlant extends PlantBase {
      */
     public function validateSubscription($user_id, $plans) {
 
-        $conditions = [
-            'user_id' => array(
-                "condition" => "=",
-                "value" => $user_id
-            ),
-            'subscription_id' => array(
-                "condition" => "IN",
-                "value" => $plans
-            )
-        ];
-
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $conditions
-        );
-
-        if (!$result) return false;
-
-        if (isset($result[0]['status']) && in_array($result[0]['status'], ['active', 'comped'])) {
-            return $result[0]['subscription_id'];
-        } else {
-            return false;
+        if ($member = CommerceSubscriptionMember::findWhere(['user_id'=>$user_id, 'subscription_id'=>$plans])) {
+            if (in_array($member->status, ['active', 'comped'])) {
+                return $member->subscription_id;
+            }
         }
+
+        return false;
     }
 
     public function getSubscriptionStats($plan_id) {
 
-        $result = $this->db->getData(
-            'CommercePlant_getActiveSubscriberTotal',
-            false,
-            [
-                'plan_id' => ['condition' => '=', 'value' => $plan_id]
-            ]
-        );
+        if ($result = $this->qb->table('commerce_transactions')
+            ->select('SUM(commerce_transactions.gross_price) as total_active')
+            ->join('commerce_subscriptions_members', function($table)
+            {
+                $table->on('commerce_subscriptions_members.id', '=', 'commerce_transactions.parent_id');
+                $table->on('commerce_transactions.parent', '=', 'sub');
+                $table->on('commerce_transactions.status', '=', 'success');
+            })
+            ->where('commerce_subscriptions_members.status', '=', 'active')
+            ->where('commerce_subscriptions_members.subscription_id', '=', $plan_id)->get()) {
 
-        return $result;
+            if (is_array($result)) {
+                return $result[0]->total_active;
+            }
+
+            return $result->total_active;
+        }
+
+        return false;
     }
 
     public function getSubscriberCount($plan_id) {
 
-        $result = $this->db->getData(
-            'CommercePlant_getActiveSubscriberCount',
-            false,
-            [
-                'plan_id' => ['condition' => '=', 'value' => $plan_id]
-            ]
-        );
+        if ($result = $this->qb->table('commerce_subscriptions_members')
+            ->select('COUNT(*) as active_subscribers')
+            ->where('status', '=', 'active')
+            ->where('subscription_id' , '=', $plan_id)->get()) {
 
-        return $result;
+            if (is_array($result)) {
+                return $result[0]->active_subscribers;
+            } else {
+                return $result->active_subscribers;
+            }
+        }
+
+        return false;
     }
 
     public function getElementData($element_id, $user_id) {
