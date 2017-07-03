@@ -578,7 +578,7 @@ class SystemPlant extends PlantBase {
 				)
 			);
 			if ($result) {
-				if (($result[0]['creation_date'] + 86400) > time()) {
+				if (($result[0]['creation_date'] + 259200) > time()) {
 					return true;
 				} else {
 					// request expired. boo.
