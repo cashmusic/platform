@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CommerceTransaction extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'connection_id', 'connection_type', 'service_timestamp', 'service_transaction_id', 'data_sent', 'data_returned', 'successful', 'gross_price', 'service_fee', 'currency', 'status', 'parent', 'parent_id'];
     /**
      * @var integer
      *

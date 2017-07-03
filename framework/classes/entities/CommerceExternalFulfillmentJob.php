@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_external_fulfillment_jobs")
  * @Entity @HasLifecycleCallbacks */
-class CommerceExternalFulfillmentJobs extends EntityBase
+class CommerceExternalFulfillmentJob extends EntityBase
 {
 
     protected $fillable;

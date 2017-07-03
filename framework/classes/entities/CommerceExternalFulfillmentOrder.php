@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_external_fulfillment_orders")
  * @Entity @HasLifecycleCallbacks */
-class CommerceExternalFulfillmentOrders extends EntityBase
+class CommerceExternalFulfillmentOrder extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['name', 'email', 'shipping_address_1', 'shipping_address_2', 'shipping_city', 'shipping_province', 'shipping_postal', 'shipping_country', 'complete', 'fulfilled', 'price', 'tier_id', 'order_data', 'notes'];
     /**
      * @var string
      *
@@ -100,7 +100,7 @@ class CommerceExternalFulfillmentOrders extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="order_data", type="text", length=16777215, nullable=true)
+     * @Column(name="order_data", type="json_array", length=16777215, nullable=true)
      */
     protected $order_data;
 

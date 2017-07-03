@@ -278,7 +278,6 @@ class EntityBase
      * @return array
      */
     public function hasOne($entity, $key=false, $foreign_key=false, $conditions=false) {
-        CASHSystem::errorLog([$entity, $key, $foreign_key, $conditions]);
         return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
     }
 
@@ -344,9 +343,6 @@ class EntityBase
                     throw new \Exception("Needs a foreign key name.");
                 }
             }
-
-
-
 
             // if this is non polymorphic
             if (!$scope) {

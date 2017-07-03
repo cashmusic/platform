@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="commerce_external_fulfillment_tiers")
  * @Entity @HasLifecycleCallbacks */
-class CommerceExternalFulfillmentTiers extends EntityBase
+class CommerceExternalFulfillmentTier extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['system_job_id', 'fulfillment_job_id', 'process_id', 'user_id', '', 'name', 'upc', 'metadata', 'status', 'physical', 'shipped'];
     /**
      * @var integer
      *
@@ -58,7 +58,7 @@ class CommerceExternalFulfillmentTiers extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="metadata", type="text", length=16777215, nullable=true)
+     * @Column(name="metadata", type="json_array", length=16777215, nullable=true)
      */
     protected $metadata;
 
@@ -100,5 +100,8 @@ class CommerceExternalFulfillmentTiers extends EntityBase
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
+    public function job($conditions=false) {
+        return $this->hasOne("CommerceExternalFulfillmentJob", "fulfillment_job_id", "id");
+    }
 }
 

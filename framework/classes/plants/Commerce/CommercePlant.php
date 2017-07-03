@@ -21,10 +21,13 @@ namespace CASHMusic\Plants\Commerce;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\CommerceExternalFulfillmentOrder;
+use CASHMusic\Entities\CommerceExternalFulfillmentTier;
 use CASHMusic\Entities\CommerceItem;
 use CASHMusic\Entities\CommerceItemVariant;
 use CASHMusic\Entities\CommerceOrder;
 use CASHMusic\Entities\CommerceSubscriptionMember;
+use CASHMusic\Entities\CommerceTransaction;
 use CASHMusic\Seeds\PaypalSeed;
 use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
@@ -823,7 +826,6 @@ class CommercePlant extends PlantBase {
 
             if ($deep) {
                 $transaction = $order->transaction();
-                CASHSystem::errorLog($transaction);
                 $order = $order->toArray();
                 $order['order_totals'] = $this->getOrderTotals($order['order_contents']);
                 $order['order_description'] = $order['order_totals']['description'];
@@ -1095,53 +1097,69 @@ class CommercePlant extends PlantBase {
         $customer_id = $user_request->response['payload'];
 
         try {
-            $orders = CommerceOrder::findWhere(['user_id'=>$user_id]);
+            $orders = CommerceOrder::findWhere(['user_id'=>$user_id, 'customer_user_id'=>$customer_id]);
         } catch (Exception $e) {
             CASHSystem::errorLog($e);
         }
 
-        $result = $this->db->getData(
-            'orders',
-            '*',
-            array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "customer_user_id" => array(
-                    "condition" => "=",
-                    "value" => $customer_id
-                ),
-                "modification_date" => array(
-                    "condition" => ">",
-                    "value" => 0
-                )
-            )
-        );
-        return $result;
+        if ($orders) {
+            return $orders;
+        } else {
+            return false;
+        }
     }
 
-    protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0) {
+    protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0,$since_date=false) {
+
         if ($max_returned) {
-            $limit = $skip . ', ' . $max_returned;
+            $limit = $max_returned;
         } else {
             $limit = false;
         }
-        $result = $this->db->getData(
-            'CommercePlant_getOrders_deep',
-            false,
-            array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "contains_item" => array(
-                    "condition" => "=",
-                    "value" => '%"id":"' . $item_id . '"%'
-                )
-            ),
-            $limit
-        );
+
+        // gets multiple orders with all information
+        $query = $this->qb->table('commerce_orders')
+            ->select('commerce_orders.*');
+
+            $query = $query->select(
+                [
+                    'commerce_transactions.data_returned',
+                    'commerce_transactions.data_sent',
+                    'commerce_transactions.successful',
+                    'commerce_transactions.gross_price',
+                    'commerce_transactions.service_fee',
+                    'commerce_transactions.currency',
+                    'commerce_transactions.status',
+                    'commerce_transactions.service_transaction_id',
+                    'commerce_transactions.service_timestamp',
+                    'commerce_transactions.connection_type',
+                    'commerce_transactions.connection_id'
+                ]
+            );
+
+            $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
+
+        $query = $query->where('commerce_orders.user_id', '=', $user_id)
+            ->where('commerce_transactions.successful', '=', 1);
+
+        if ($since_date) {
+            $query = $query->where('commerce_orders.creation_date', ">", $since_date);
+        }
+
+        if (isset($unfulfilled_only)) {
+            if ($unfulfilled_only == 1) {
+                $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
+            } else {
+                $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+            }
+        }
+
+        $query = $query->where('commerce_orders.order_contents', 'LIKE', '%"id":"' . $item_id . '"%');
+
+        if ($limit) $query = $query->limit($limit)->offset($skip);
+
+        $result = $query->get();
+
         if ($result) {
             // loop through and parse all transactions
             if (is_array($result)) {
@@ -1174,9 +1192,9 @@ class CommercePlant extends PlantBase {
         $parent='order',
         $parent_id='0'
     ) {
-        $result = $this->db->setData(
-            'transactions',
-            array(
+
+        try {
+            $transaction = CommerceTransaction::create([
                 'user_id' => $user_id,
                 'connection_id' => $connection_id,
                 'connection_type' => $connection_type,
@@ -1191,38 +1209,31 @@ class CommercePlant extends PlantBase {
                 'status' => $status,
                 'parent' => $parent,
                 'parent_id' => $parent_id
-            )
-        );
-        return $result;
+            ]);
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+            return false;
+        }
+
+        if ($transaction) {
+            return $transaction;
+        } else {
+            return false;
+        }
     }
 
     protected function getTransaction($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
+        $conditions = array(
+            "id" => $id
         );
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
-        $result = $this->db->getData(
-            'transactions',
-            '*',
-            $condition
-        );
 
-         if ($result) {
-            if (!empty($result[0]['data_sent'])) {
-               $result[0]['data_sent'] = json_decode($result[0]['data_sent'], true);
-            }
-            if (!empty($result[0]['data_returned'])) {
-               $result[0]['data_returned'] = json_decode($result[0]['data_returned'], true);
-            }
-            return $result[0];
+        $transaction = CommerceTransaction::findWhere($conditions);
+
+         if ($transaction) {
+            return $transaction;
         } else {
             return false;
         }
@@ -1254,64 +1265,37 @@ class CommercePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
         );
-        if (isset($final_edits['data_sent'])) {
-            $final_edits['data_sent'] = json_encode($data_sent);
-        }
-        if (isset($final_edits['data_returned'])) {
-            $final_edits['data_returned'] = json_encode($data_returned);
-        }
 
-        $result = $this->db->setData(
-            'transactions',
-            $final_edits,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
-        );
+        $transaction = CommerceTransaction::find($id);
 
-        return $result;
+        if ($transaction->update($final_edits)) {
+            return $transaction;
+        } else {
+            return false;
+        }
     }
 
     protected function updateItemQuantity(
         $id
     ) {
 
-        $result = $this->db->getData(
-            'CommercePlant_getTotalItemVariantsQuantity',
-            false,
-            array(
-                "item_id" => array(
-                    "condition" => "=",
-                    "value" => $id
-                )
-            )
-        );
+        $result = $this->qb->table('commerce_item_variants')
+            ->select('SUM(quantity) as total_quantity')
+            ->where('item_id', '=', $id)->get();
 
         if (!$result) {
             return false;
         }
 
-        $updates = array(
-            'available_units' => $result[0]['total_quantity']
-        );
+        $item = CommerceItem::find($id);
 
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-
-        $result = $this->db->setData(
-            'items',
-            $updates,
-            $condition
-        );
-
-        return $result;
+        if ($item->update([
+            'available_units' => $result[0]->total_quantity
+        ])) {
+            return $item;
+        } else {
+            return false;
+        }
     }
 
     /** initiateCheckout
@@ -1458,7 +1442,8 @@ class CommercePlant extends PlantBase {
             $currency = $this->getCurrencyForUser($user_id);
 
             // merge all this stuff into $data for storage
-            $shipping_info = json_decode($shipping_info, true);
+            if (!is_array($shipping_info)) $shipping_info = json_decode($shipping_info, true);
+
             $data = array("geo" => $geo);
 
             if ($shipping_info) {
@@ -1703,10 +1688,13 @@ class CommercePlant extends PlantBase {
      * @return array or bool
      */
     protected function getOrderProperties($order_contents) {
-        $contents = json_decode($order_contents, true);
 
-        if (!empty($contents[0])) {
-            return $contents[0];
+        if (!is_array($order_contents)) {
+            $order_contents = json_decode($order_contents, true);
+        }
+
+        if (!empty($order_contents[0])) {
+            return $order_contents[0];
         } else {
             return false;
         }
@@ -1857,9 +1845,7 @@ class CommercePlant extends PlantBase {
             $this->setErrorMessage("Error in CommercePlant::finalizePayment. There was an issue with this payment.");
             return false;
         }
-
     }
-
 
     /**
      * Find a user's id by their email, or create one
@@ -2162,6 +2148,13 @@ class CommercePlant extends PlantBase {
                )
            )
        );
+
+     $result = $this->qb->table('commerce_transactions')
+         ->select(['SUM(gross_price as total_gross', 'COUNT(id) AS total_transactions'])
+         ->where('user_id', '=', $user_id)
+         ->where('successful', '=', 1)
+         ->whereBetween('creation_date', $date_low, $date_high)->get();
+
        if ($result) {
            return $result[0];
        } else {
@@ -2246,77 +2239,49 @@ class CommercePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
         );
-        if (isset($final_edits['order_data'])) {
-            $final_edits['order_data'] = json_encode($data_sent);
+
+        $fulfillment_order = CommerceExternalFulfillmentOrder::find($id);
+
+        if ($fulfillment_order->update($final_edits)) {
+            return $fulfillment_order;
+        } else {
+            return false;
         }
-
-        $result = $this->db->setData(
-            'external_fulfillment_orders',
-            $final_edits,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
-        );
-
-        return $result;
     }
 
     protected function getFulfillmentOrder($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'external_fulfillment_orders',
-            '*',
-            $condition
+
+        $conditions = array(
+            "id" => $id
         );
 
-        if ($result) {
-            return $result[0];
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        if ($fulfillment_order = CommerceExternalFulfillmentOrder::findWhere($conditions)) {
+            if (is_array($fulfillment_order)) {
+                return $fulfillment_order[0];
+            } else {
+                return $fulfillment_order;
+            }
         } else {
             return false;
         }
     }
 
     protected function getFulfillmentJobByTier($tier_id) {
-         $result = $this->db->getData(
-              'external_fulfillment_tiers',
-              '*',
-              array(
-                  "id" => array(
-                      "condition" => "=",
-                      "value" => $tier_id
-                  )
-              )
-         );
-         if ($result) {
-            $tier = $result[0];
-            $new_result = $this->db->getData(
-                 'external_fulfillment_jobs',
-                 '*',
-                 array(
-                     "id" => array(
-                         "condition" => "=",
-                         "value" => $tier['fulfillment_job_id']
-                     )
-                 )
-            );
-            if ($new_result) {
-               return $new_result[0];
+
+         if ($tier = CommerceExternalFulfillmentTier::find($tier_id)) {
+            if ($job = $tier->job()) {
+                if (is_array($job)) {
+                    return $job[0];
+                }
+                return $job;
             }
+            return false;
          }
+         return false;
     }
 
     /* Subscription specific stuff */
