@@ -598,9 +598,7 @@ class SystemPlant extends PlantBase {
         $setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
 
 		if ($setting) {
-			$setting->value = $value;
-			$setting->save();
-
+			$setting->update(['value'=>$value]);
 			return true;
 		}
 

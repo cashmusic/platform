@@ -107,10 +107,10 @@ class CommercePlant extends PlantBase {
                 // we've got the request, we need to make sure the properties actually exist
 
                 $fulfillment_asset_data = $request->response['payload'];
-                if (is_array($fulfillment_asset_data['metadata'])
-                    && isset($fulfillment_asset_data['metadata']['cover'])
+                if (is_array($fulfillment_asset_data->metadata)
+                    && isset($fulfillment_asset_data->metadata['cover'])
                 ) {
-                    $descriptive_asset = $fulfillment_asset_data['metadata']['cover'];
+                    $descriptive_asset = $fulfillment_asset_data->metadata['cover'];
                 }
             }
         }
@@ -136,6 +136,7 @@ class CommercePlant extends PlantBase {
                 'descriptive_asset' => $descriptive_asset
             ]);
         } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
             return false;
         }
 
@@ -445,23 +446,35 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getItemsForUser($user_id,$with_variants=true) {
-        $items = $this->qb->table("commerce_items")
-          ->select("commerce_items.*")
-          ->select("assets.location as image_url")
-          ->leftJoin('assets', 'assets.id', '=', 'commerce_items.descriptive_asset')
-          ->where('commerce_items.user_id', '=', $user_id)->get();
+
+        $items = CommerceItem::findWhere(['user_id'=>$user_id]);
 
         $result = [];
 
         if ($with_variants) {
             foreach($items as $key=>$item) {
-                $result[$key] = json_decode(json_encode($item), true);
+
+                $result[$key] = $item->toArray();
+
+                if ($descriptive_asset = $item->descriptiveAsset()) {
+                    if (isset($descriptive_asset->location)) {
+                        $result[$key]['image_url'] = $descriptive_asset->location;
+                    }
+                }
+
                 $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);
-                $result[$key]['shipping'] = json_decode($item->shipping,true);
+                $result[$key]['shipping'] = $item->shipping;
             }
         } else {
             foreach($items as $key=>$item) {
-                $result[$key] = json_decode(json_encode($item), true);
+
+                $result[$key] = $item->toArray();
+
+                if ($descriptive_asset = $item->descriptiveAsset()) {
+                    if (isset($descriptive_asset->location)) {
+                        $result[$key]['image_url'] = $descriptive_asset->location;
+                    }
+                }
             }
         }
 

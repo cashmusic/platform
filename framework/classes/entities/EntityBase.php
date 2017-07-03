@@ -433,4 +433,9 @@ class EntityBase
             error_log($e->getMessage());
         }
     }
+
+    public function __isset($name){
+        return isset($this->$name);
+    }
+
 }

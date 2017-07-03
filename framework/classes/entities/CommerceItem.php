@@ -149,5 +149,9 @@ class CommerceItem extends EntityBase
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
+    public function descriptiveAsset($conditions=false) {
+        return $this->hasOne("Asset", "descriptive_asset", "id");
+    }
+
 }
 

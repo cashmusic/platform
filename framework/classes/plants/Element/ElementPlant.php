@@ -430,9 +430,9 @@ class ElementPlant extends PlantBase {
 				if ($result) {
 
                     if (is_array($result)) {
-                        $result = $result[0]->toArray();
+                        $result = $result[0];
                     } else {
-                        $result = $result->toArray();
+                        $result = $result;
                     }
 
                     $data = $result['data'];
