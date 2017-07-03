@@ -26,6 +26,7 @@ use CASHMusic\Entities\CommerceExternalFulfillmentTier;
 use CASHMusic\Entities\CommerceItem;
 use CASHMusic\Entities\CommerceItemVariant;
 use CASHMusic\Entities\CommerceOrder;
+use CASHMusic\Entities\CommerceSubscription;
 use CASHMusic\Entities\CommerceSubscriptionMember;
 use CASHMusic\Entities\CommerceTransaction;
 use CASHMusic\Seeds\PaypalSeed;
@@ -2300,73 +2301,61 @@ class CommercePlant extends PlantBase {
 
         if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
 
-            $result = $this->db->setData(
-                'subscriptions',
-                array(
-                    'user_id' => $user_id,
-                    'name' => $plan_name,
-                    'description' => $description,
-                    'sku' => $sku,
-                    'price' => $amount, // as cents
-                    'flexible_price' => $flexible_price,
-                    'recurring_payment' => $recurring,
-                    'physical' => $physical,
-                    'interval' => $interval,
-                    'interval_count' => $interval_count,
-                    'suggested_price' => $suggested_price
-                )
-            );
+            $plan = CommerceSubscription::create([
+                'user_id' => $user_id,
+                'name' => $plan_name,
+                'description' => $description,
+                'sku' => $sku,
+                'price' => $amount, // as cents
+                'flexible_price' => $flexible_price,
+                'recurring_payment' => $recurring,
+                'physical' => $physical,
+                'interval' => $interval,
+                'interval_count' => $interval_count,
+                'suggested_price' => $suggested_price
+            ]);
 
-            if (!$result) return false;
+            if (!$plan) return false;
 
-            return ['id'=>$sku, 'numeric_id'=>$result];
+            return ['id'=>$sku, 'numeric_id'=>$plan->id];
         }
 
         return false;
     }
 
     public function getAllSubscriptionPlans($user_id, $limit=false) {
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            [
-                'user_id' => ['condition' => '=', 'value' => $user_id]
-            ]
-        );
 
-        return $result;
+        if ($plans = CommerceSubscription::findWhere(['user_id'=>$user_id])) {
+            return $plans;
+        }
+
+        return false;
     }
 
     public function getSubscriptionPlan($id, $user_id=false) {
 
         $conditions = [
-            'id' => ['condition' => '=', 'value' => $id]
+            'id' => $id
         ];
 
         if ($user_id) {
-            $conditions['user_id'] = ['condition' => '=', 'value' => $user_id];
+            $conditions['user_id'] = $user_id;
         }
 
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            $conditions
-        );
+        if ($plan = CommerceSubscription::findWhere($conditions)) {
+            return $plan;
+        }
 
-        return $result;
+        return false;
     }
 
     public function getSubscriptionPlanBySku($sku) {
 
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            [
-                'sku'      => ['condition' => '=', 'value' => $sku]
-            ]
-        );
+        if ($plan = CommerceSubscription::findWhere(['sku'=>$sku])) {
+            return $plan;
+        }
 
-        return $result;
+        return false;
     }
 
     public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $flexible_price=false, $suggested_price=false, $physical=false) {
@@ -2376,134 +2365,71 @@ class CommercePlant extends PlantBase {
 
         if ($payment_seed->updateSubscriptionPlan($sku, $name)) {
 
-            $result = $this->db->setData(
-                'subscriptions',
-                array(
+            if ($plan = CommerceSubscription::findWhere(['user_id'=>$user_id,'id'=>$id])) {
+                if ($plan->update([
                     'name' => $name,
                     'description' => $description,
                     'flexible_price' => $flexible_price,
                     'physical' => $physical,
                     'suggested_price' => $suggested_price
-                ),
-                [
-                    'user_id' => ['condition' => '=', 'value' => $user_id],
-                    'id'      => ['condition' => '=', 'value' => $id]
-                ]
-            );
+                ])) {
+                    return $plan;
+                }
+            }
+        }
+        return false;
+    }
 
-            if (!$result) return false;
-
-            return $result;
+    public function getAllSubscriptionsByPlan($id, $limit=false) {
+        if ($members = CommerceSubscriptionMember::findWhere(['subscription_id'=>$id])) {
+            return $members;
         }
 
         return false;
     }
 
-    public function getAllSubscriptionsByPlan($id, $limit=false) {
-        $result = $this->db->getData(
-            'CommercePlant_getSubscribersByPlan',
-            false,
-            [
-                'subscription_id' => ['condition' => '=', 'value' => $id]
-            ]
-        );
-
-        return $result;
-    }
-
     public function deleteSubscriptionPlan($user_id, $id) {
 
-        $results = $this->db->deleteData(
-            'subscriptions',
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                ),
-                'user_id' => array(
-                    'condition' => '=',
-                    'value' => $user_id
-                )
-            )
+        if ($plan = CommerceSubscription::findWhere(['user_id'=>$user_id, 'id'=>$id])) {
+            if ($plan->delete()) {
+                return true;
+            }
+        }
 
-        );
-
-        if (!$results) return false;
-
-        return true;
-
+        return false;
     }
 
     public function getSubscriptionDetails($id) {
-
         // we can handle this as id or by customer payment token
         if (is_numeric($id)) {
-            $condition = [
-                'id' => ['condition' => '=', 'value' => $id]
-            ];
+            $member = CommerceSubscriptionMember::find($id);
         } else {
-            $condition = [
-                'payment_identifier' => ['condition' => '=', 'value' => $id]
-            ];
+            $member = CommerceSubscriptionMember::findWhere(['payment_identifier'=>$id]);
         }
 
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $condition
-        );
+        if ($member) {
+            return $member;
+        }
 
-        if (!$result) return false;
-
-        return $result;
+        return false;
     }
 
     public function subscriptionExists($user_id, $subscription_id) {
-        // we can handle this as id or by customer payment token
-        $conditions = [
-            'user_id' => ['condition' => '=', 'value' => $user_id]
-        ];
 
-        // this enables us to look up one or multiples
-        if (is_array($subscription_id)) {
-            $conditions['subscription_id'] = ['condition' => 'IN', 'value' => $subscription_id];
-        } else {
-            $conditions['subscription_id'] = ['condition' => '=', 'value' => $subscription_id];
+        if ($subscription = CommerceSubscriptionMember::findWhere(['user_id'=>$user_id, 'subscription_id'=>$subscription_id])) {
+            return $subscription;
         }
 
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $conditions
-        );
-
-        if (!$result) {
-            error_log("subscriptionExists false");
-            return false;
-        } else {
-            error_log("subscriptionExists true");
-            return $result;
-        }
+        return false;
     }
 
     public function getSubscriptionTransactions($id) {
 
-        $condition = [
-            'parent_id' => ['condition' => '=', 'value' => $id],
-            'parent' => ['condition' => '=', 'value' => 'sub']
-        ];
+        if ($transactions = CommerceTransaction::findWhere(['parent_id' => $id, 'parent' => 'sub'], null, ['service_timestamp' => 'DESC'])) {
+            return $transactions;
+        }
 
-        $result = $this->db->getData(
-            'transactions',
-            '*',
-            $condition,
-            false,
-            'service_timestamp DESC'
-        );
-
-        if (!$result) return false;
-
-        return $result;
+        return false;
     }
 
     public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
@@ -2541,7 +2467,9 @@ class CommercePlant extends PlantBase {
 
                 if ($shipping_info) {
 
-                    $shipping_info = json_decode($shipping_info, true);
+                    if (!is_array($shipping_info)) {
+                        $shipping_info = json_decode($shipping_info, true);
+                    }
 
                     $shipping_info = [
                         'customer_shipping_name' => $shipping_info['name'],
@@ -2642,21 +2570,11 @@ class CommercePlant extends PlantBase {
                 // create actual subscription on stripe
                 if ($subscription = $payment_seed->createSubscription($token, $subscription_plan[0]['sku'], $email_address, $quantity)) {
                     // we need to add in the customer token so we can actually corollate with the webhooks
-                    $add_customer_token_result = $this->db->setData(
-                        'subscriptions_members',
-                        array(
-                            'payment_identifier' => $subscription->id
-                        ),
-                        array(
-                            "id" => array(
-                                "condition" => "=",
-                                "value" => $subscription_member_id
-                            )
-                        )
-                    );
 
-                    ###ERROR: error creating subscription payment
-                    if (!$add_customer_token_result) return "406";
+                    $member = CommerceSubscriptionMember::find($subscription_member_id);
+
+                    if (!$member->update(['payment_identifier'=>$subscription->id])) return "406";
+
                 } else {
                     return "406";
                 }
@@ -2707,21 +2625,13 @@ class CommercePlant extends PlantBase {
 
         if (count($values) < 1) return false;
 
-        $results = $this->db->setData(
-            'subscriptions_members',
-            $values,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
+        if ($member = CommerceSubscriptionMember::find($id)) {
+            if ($member->update($values)) {
+                return true;
+            }
+        }
 
-        );
-
-        if (!$results) return false;
-
-        return true;
+        return false;
     }
 
     public function cancelSubscription($user_id, $connection_id, $id) {

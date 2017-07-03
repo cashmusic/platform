@@ -65,7 +65,7 @@ class CommerceSubscriptionMember extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="data", type="text", length=65535, nullable=true)
+     * @Column(name="data", type="json_array", length=65535, nullable=true)
      */
     protected $data;
 
