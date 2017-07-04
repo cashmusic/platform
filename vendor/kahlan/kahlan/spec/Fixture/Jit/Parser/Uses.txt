@@ -1,0 +1,16 @@
+#1      [       open        ] #1 > #2         |<?php
+#2      [                   ] #2 > #2         |
+#3      [        use        ] #3 > #3         |use Kahlan\A;
+#4      [        use        ] #4 > #4         |use Kahlan\B, Kahlan\C;
+#5      [        use        ] #5 > #5         |use Kahlan\E as F;
+#6      [        use        ] #6 > #6         |use Kahlan\E as G;
+#7      [        use        ] #7 > #7         |use stdClass as StandardClass;
+#8      [        use        ] #8 > #8         |use Foo\Bar\Baz\{ ClassA, ClassB, Fuz\ClassC as ClassD };
+#9      [        use        ] #9 > #9         |use function My\Name\Space\functionName1;
+#10     [        use        ] #10 > #10       |use function My\Name\Space\functionName2 as func;
+#11     [        use        ] #11 > #11       |use const My\Name\Space\CONSTANT;
+#12     [                   ] #12 > #12       |
+#13     [    c,function     ] #13 > #15       |$fct = function () use ($a, $b) {
+#14    *[         c         ] #14 > #14       |    return $a + $b;
+#15     [                   ] #15 > #15       |}
+#16     [                   ] #16 > #16       |

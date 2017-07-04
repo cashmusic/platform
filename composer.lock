@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31bf94da3c1c97dd0d5026e0081a5658",
-    "content-hash": "da9bb9e27099a1a4071417ed63e22c77",
+    "hash": "1843eac4bf11eaf5640fe66182f995e3",
+    "content-hash": "e04275599e6cf8d96809b5e5d7c24ede",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -3014,7 +3014,62 @@
             "time": "2016-12-19 21:47:12"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "kahlan/kahlan",
+            "version": "3.1.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kahlan/kahlan.git",
+                "reference": "6ba171f65bbf95600563911ce6fb083382958869"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/6ba171f65bbf95600563911ce6fb083382958869",
+                "reference": "6ba171f65bbf95600563911ce6fb083382958869",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "bin": [
+                "bin/kahlan"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kahlan\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CrysaLEAD"
+                }
+            ],
+            "description": "The PHP Test Framework for Freedom, Truth and Justice.",
+            "keywords": [
+                "BDD",
+                "Behavior-Driven Development",
+                "Monkey Patching",
+                "TDD",
+                "mock",
+                "stub",
+                "testing",
+                "unit test"
+            ],
+            "time": "2017-06-21 22:17:23"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

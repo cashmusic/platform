@@ -64,7 +64,8 @@ final class Versions
   'usmanhalalit/viocon' => '1.0.1@0878afee16f15355971fb95bf3c6d297aceff35d',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-dba-to-doctrine@84bcc30b287551a57b50118f4b44c764a4995647',
+  'kahlan/kahlan' => '3.1.16@6ba171f65bbf95600563911ce6fb083382958869',
+  'cashmusic/platform' => 'dev-dba-to-doctrine@701669f7b37ba9bd5ec5847535da79de864933bb',
 );
 
     private function __construct()

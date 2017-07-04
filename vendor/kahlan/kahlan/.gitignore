@@ -1,0 +1,7 @@
+.idea
+composer.lock
+composer.phar
+vendor
+codeclimate.json
+coveralls.json
+clover.xml

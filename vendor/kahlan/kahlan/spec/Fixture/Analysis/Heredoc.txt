@@ -1,0 +1,6 @@
+#1      [       open        ] #1 > #2         |<?php
+#2     *[       c,s,c       ] #2 > #2         |$message = 'Hello World';
+#3      [        c,s        ] #3 > #5         |$variable = <<<EOT
+#4      [         s         ] #4 > #5         |    echo "{$message}";
+#5      [         s         ] #5 > #5         |EOT;
+#6      [                   ] #6 > #6         |

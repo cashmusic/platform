@@ -1,0 +1,36 @@
+{
+    "name": "kahlan/kahlan",
+    "description": "The PHP Test Framework for Freedom, Truth and Justice.",
+    "keywords": ["Testing", "Unit Test", "Behavior-Driven Development", "TDD", "BDD", "Monkey Patching", "Stub", "Mock"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CrysaLEAD"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kahlan\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kahlan\\Spec\\": "spec/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "Kahlan\\Cli\\Kahlan::composerPostUpdate"
+        ]
+    },
+    "bin": ["bin/kahlan"]
+}

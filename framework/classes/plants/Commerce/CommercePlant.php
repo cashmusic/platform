@@ -149,6 +149,7 @@ class CommercePlant extends PlantBase {
     ) {
 
         $item_details = $this->getItem($item_id);
+
         if ($item_details) {
             $variant_ids = array();
 
@@ -181,7 +182,6 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getItem($id,$user_id=false,$with_variants=true) {
-
         if ($user_id) {
             $item = CommerceItem::findWhere(['id'=>$id, 'user_id'=>$user_id]);
         } else {
@@ -262,6 +262,7 @@ class CommercePlant extends PlantBase {
                     'items' => $items
                 );
             }
+
             return $variants;
         } else {
             return false;
@@ -270,7 +271,13 @@ class CommercePlant extends PlantBase {
 
     protected function formatVariantName ($name) {
         $final_name = '';
-        $name_decoded = $name;
+
+        if (!is_array($name)) {
+            $name_decoded = json_decode($name, true);
+        } else {
+            $name_decoded = $name;
+        }
+
         if ($name_decoded) {
             foreach ($name_decoded as $var => $val) {
                 $final_name .= $var . ': ' . $val . ', ';

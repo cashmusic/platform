@@ -1,0 +1,16 @@
+#1      [       open        ] #1 > #2         |<?php
+#2      [     namespace     ] #2 > #15        |namespace spec\fixture\interceptor;
+#3      [                   ] #3 > #3         |
+#4      [       class       ] #4 > #15        |class StaticClassKeyword
+#5      [       class       ] #5 > #15        |{
+#6      [    a,function     ] #6 > #9         |    public function name()
+#7      [     function      ] #7 > #9         |    {
+#8     *[         c         ] #8 > #8         |        return static::class;
+#9      [                   ] #9 > #9         |    }
+#10     [                   ] #10 > #10       |
+#11     [    a,function     ] #11 > #14       |    public function alternativeSyntax()
+#12     [     function      ] #12 > #14       |    {
+#13    *[         c         ] #13 > #13       |        return StaticClassKeyword::class;
+#14     [                   ] #14 > #14       |    }
+#15     [                   ] #15 > #15       |}
+#16     [                   ] #16 > #16       |

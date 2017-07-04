@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="kahlan">
+
+    <description>The Kahlan coding standard.</description>
+    <arg name="tab-width" value="4"/>
+    <arg value="s"/>
+
+    <rule ref="PSR2">
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma"/>
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
+        <exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose"/>
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+        <exclude name="PSR2.Namespaces.UseDeclaration.UseAfterNamespace"/>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+      <properties>
+        <property name="ignoreBlankLines" value="false"/>
+      </properties>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile">
+        <severity>10</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile">
+        <severity>10</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
+        <severity>10</severity>
+    </rule>
+
+    <file>src</file>
+    <file>spec</file>
+
+    <exclude-pattern>spec/Fixture/*</exclude-pattern>
+
+</ruleset>

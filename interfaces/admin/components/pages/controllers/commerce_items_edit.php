@@ -243,7 +243,11 @@ if (is_array($item_response['payload'])) {
 	}
 	$cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
 
+
 	if ($item_response['payload']['physical_fulfillment']) {
+
+
+
 		$item_variant_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'commerce',
@@ -251,6 +255,7 @@ if (is_array($item_response['payload'])) {
 				'item_id' => $request_parameters[0]
 			)
 		);
+
 		if ($item_variant_response['payload']) {
 			$cash_admin->page_data['has_variants'] = true;
 			$cash_admin->page_data['variants_quantities'] = new ArrayIterator($item_variant_response['payload']['quantities']);

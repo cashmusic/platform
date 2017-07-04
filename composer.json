@@ -30,8 +30,8 @@
             "CASHMusic\\Framework\\":"framework",
             "CASHMusic\\Admin\\": "interfaces/admin",
             "CASHMusic\\API\\": "interfaces/api/classes",
-            "CASHMusic\\PublicInterface\\": "interfaces"
-        }
+            "CASHMusic\\PublicInterface\\": "interfaces",
+            "CASHMusic\\Tests\\": "tests"        }
     },
 
     "license": "AGPL license",
@@ -40,5 +40,8 @@
             "name": "CASH Music",
             "email": "info@cashmusic.org"
         }
-    ]
+    ],
+    "require-dev": {
+        "kahlan/kahlan": "^3.1"
+    }
 }

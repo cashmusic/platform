@@ -1,0 +1,9 @@
+#1      [       open        ] #1 > #2         |<?php
+#2      [                   ] #2 > #2         |
+#3      [     namespace     ] #3 > #8         |namespace App;
+#4      [                   ] #4 > #4         |
+#5      [     interface     ] #5 > #8         |interface DependencyInterface
+#6      [     interface     ] #6 > #8         |{
+#7      [    a,signature    ] #7 > #7         |    public function process($param);
+#8      [                   ] #8 > #8         |}
+#9      [                   ] #9 > #9         |

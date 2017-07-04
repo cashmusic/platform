@@ -1,0 +1,10 @@
+#1      [       open        ] #1 > #2         |<?php
+#2      [                   ] #2 > #2         |
+#3      [      c,class      ] #3 > #9         |$logger = new class
+#4      [       class       ] #4 > #9         |{
+#5      [    a,function     ] #5 > #8         |    public function log(string $log)
+#6      [     function      ] #6 > #8         |    {
+#7     *[         c         ] #7 > #7         |        echo $log;
+#8      [                   ] #8 > #8         |    }
+#9      [                   ] #9 > #9         |}
+#10     [                   ] #10 > #10       |

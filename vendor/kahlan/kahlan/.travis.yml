@@ -1,0 +1,35 @@
+sudo: required
+dist: trusty
+group: edge
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - hhvm
+
+matrix:
+  fast_finish: true
+
+before_script:
+  - if [[ $TRAVIS_SECURE_ENV_VARS = "true" ]]; then composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH; fi
+  - composer self-update
+  - composer install --no-interaction
+  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'hhvm.php7.all = 1' >> /etc/hhvm/php.ini; fi
+
+script:
+  - vendor/bin/phpcs
+  - bin/kahlan --config=kahlan-config.travis.php --clover=clover.xml
+
+after_success:
+  - "if [ $(phpenv version-name) = '7.0' ]; then curl -X POST -d @codeclimate.json -H 'Content-Type:application/json' https://codeclimate.com/test_reports --verbose; fi"
+  - "if [ $(phpenv version-name) = '7.0' ]; then curl -F 'json_file=@coveralls.json' https://coveralls.io/api/v1/jobs --verbose; fi"
+  - "if [ $(phpenv version-name) = '7.0' ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
+  - "if [ $(phpenv version-name) = '7.0' ]; then php ocular.phar code-coverage:upload --format=php-clover 'clover.xml'; fi"
+
+env:
+  global:
+    - secure: fVmkQtwKToCYD9tRhhtdB2NT9gKUJzOOHKBuZyDvEBf5uHMKNfvylBxtjUgAjMUdLxs0WTR8LeVFfzMVlQS6rrl/jBvWw/dPB5gTNa9Smoyux47/6kWDDaFe14NytxbayaWrMKBp9f/ts0+8WS9Jd1p6WQj/MCC1PhqmSlG+ifY=
