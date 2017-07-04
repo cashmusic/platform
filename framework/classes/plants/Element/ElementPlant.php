@@ -410,7 +410,7 @@ class ElementPlant extends PlantBase {
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
 
-                $query = $this->qb->table('elements_analytics')
+                $query = $this->db->table('elements_analytics')
                     ->select("COUNT(elements_analytics.id) as 'total', elements.name as 'name'")
                     ->join('elements', 'elements.id', '=', 'elements_analytics.element_id')
                     ->where('elements.user_id', $user_id)
@@ -694,7 +694,7 @@ class ElementPlant extends PlantBase {
 	protected function getAnalyticsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
 
-		$result = $this->qb->table('elements_analytics_basic')
+		$result = $this->db->table('elements_analytics_basic')
 			->select("MAX(total) as 'total'")
 			->whereIn('element_id', $campaign->elements)
 			->get();
@@ -714,7 +714,7 @@ class ElementPlant extends PlantBase {
 	protected function getCampaignForElement($id) {
 
         try {
-            $result = $this->qb->table('elements_campaigns')
+            $result = $this->db->table('elements_campaigns')
                 ->where("elements", 'LIKE', '["'.$id.'",%')
                 ->orWhere("elements", 'LIKE', '%,"'.$id.'",%')
                 ->orWhere("elements", 'LIKE', '%,"'.$id.'"]')

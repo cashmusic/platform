@@ -61,9 +61,9 @@ class PeoplePlant extends PlantBase {
 
 		// get list activity (new joins)
 
-		$result = $this->qb->table('people_lists_members')
+		$result = $this->db->table('people_lists_members')
 			->selectDistinct('people_lists_members.list_id')
-            ->select([$this->qb->raw("COUNT(people_lists_members.list_id) AS total"), "people_lists.name"])
+            ->select([$this->db->raw("COUNT(people_lists_members.list_id) AS total"), "people_lists.name"])
 			->join('people_lists', 'people_lists_members.list_id', '=', 'people_lists.id')
 			->where('people_lists.user_id', $user_id)
 		    ->where('people_lists_members.active', 1)
@@ -232,7 +232,7 @@ class PeoplePlant extends PlantBase {
 			// check and make sure that the list has addresses associated
 			if ($this->getUsersForList($list_id)) {
 				// it does? delete them
-                $result = $this->qb->table('people_lists_members')->where('list_id', $list_id)->delete();
+                $result = $this->db->table('people_lists_members')->where('list_id', $list_id)->delete();
 			}
 
 			return true;
@@ -366,7 +366,7 @@ class PeoplePlant extends PlantBase {
 			$query_limit = "$start,$limit";
 		}
 
-    	$result = $this->qb->table('people')
+    	$result = $this->db->table('people')
 			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'members.initial_comment', 'members.additional_data', 'members.active', 'members.verified', 'members.creation_date'])
 			->join('people_lists_members as members', 'members.user_id', '=', 'people.id', 'LEFT OUTER')
 			->where('members.list_id', $list_id)
@@ -418,12 +418,12 @@ class PeoplePlant extends PlantBase {
 		switch (strtolower($analtyics_type)) {
 			case 'listmembership':
 
-                $result = $this->qb->table('people_lists_members')
+                $result = $this->db->table('people_lists_members')
 					->select([
-						$this->qb->raw('COUNT(*) AS total'),
-						$this->qb->raw('COUNT(CASE WHEN active = 1 THEN 1 END) AS active'),
-						$this->qb->raw('COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive'),
-						$this->qb->raw('COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week')])
+						$this->db->raw('COUNT(*) AS total'),
+						$this->db->raw('COUNT(CASE WHEN active = 1 THEN 1 END) AS active'),
+						$this->db->raw('COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive'),
+						$this->db->raw('COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week')])
 					->where("list_id", $list_id)->get();
 
 				if ($result) {
@@ -582,7 +582,7 @@ class PeoplePlant extends PlantBase {
 		}
 
 		// bulk create users
-		$create_users = $this->qb->table('people')->insertIgnore($address_insert);
+		$create_users = $this->db->table('people')->insertIgnore($address_insert);
 
         if ($create_users) {
             // query users with "bulk_import" as data field.
@@ -605,7 +605,7 @@ class PeoplePlant extends PlantBase {
                 $remaining_emails = filter_var_array($remaining_emails,FILTER_VALIDATE_EMAIL);
 
                 if (count($remaining_emails) > 0) {
-                	$get_existing_users = $this->qb->table('people')
+                	$get_existing_users = $this->db->table('people')
 						->select('id')
 						->whereIn('email_address', $remaining_emails)
 						->get();
@@ -638,10 +638,10 @@ class PeoplePlant extends PlantBase {
 				];
             }
 
-            $create_list_members = $this->qb->table('people_list_members')->insert($list_members);
+            $create_list_members = $this->db->table('people_list_members')->insert($list_members);
         }
 
-        $remove_tag = $this->qb->table('people')
+        $remove_tag = $this->db->table('people')
 			->where('list_id', $list_id)
 			->where('data', 'bulk_import')
 			->update(['data'=>'']);

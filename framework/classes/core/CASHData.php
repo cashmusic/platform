@@ -29,7 +29,6 @@ use CASHMusic\Entities\SystemSession;
  */
 abstract class CASHData {
 	protected $db = false,
-			  $qb = false,
 			  $orm = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
@@ -62,10 +61,10 @@ abstract class CASHData {
 		);
 
 		$connection = new \Pixie\Connection('mysql', $config);
-		$this->qb = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+		$this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
 
 		// piggyback the PDO to Doctrine so we're using the same connection
-		$this->orm = new CASHEntity($this->qb->pdo());
+		$this->orm = new CASHEntity($this->db->pdo());
 	}
 
 	/**
@@ -466,7 +465,7 @@ abstract class CASHData {
 		// set table / id up front. if no user is specified it will remove ALL
 		// metadata for a given table+id — used primarily when deleting the parent item
 
-        $query = $this->qb->table('system_metadata')
+        $query = $this->db->table('system_metadata')
             ->where('scope_table_alias', $scope_table_alias)
             ->where('scope_table_id', $scope_table_id);
 
@@ -502,7 +501,7 @@ abstract class CASHData {
 		// to get an array of all tag rows for a single table+id
 
         try {
-            $query = $this->qb->table('system_metadata')
+            $query = $this->db->table('system_metadata')
 				->where('scope_table_alias', $scope_table_alias)
                 ->where('scope_table_id', $scope_table_id);
 

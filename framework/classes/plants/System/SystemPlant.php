@@ -300,7 +300,7 @@ class SystemPlant extends PlantBase {
 			$tables = ['assets','calendar_events','commerce_items','elements','elements_campaigns','people_contacts','people_mailings','system_connections','system_lock_codes','system_metadata','system_settings','system_templates'];
 
 			foreach ($tables as $table) {
-                $this->qb->table($table)->where('user_id', $user->id)->delete();
+                $this->db->table($table)->where('user_id', $user->id)->delete();
 			}
 
 			// get all lists via PeoplePlant and delete them properly. this means we'll
@@ -430,7 +430,7 @@ class SystemPlant extends PlantBase {
 		if ($user) {
 			$user_id = $user->id;
 			// first remove any password resets for the same user
-			$this->qb->table("people_resetpassword")->where('id', $user_id)->delete();
+			$this->db->table("people_resetpassword")->where('id', $user_id)->delete();
 
 			$key = md5($user_id . rand(976654,1234567267));
 
@@ -675,7 +675,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getNewestTemplate($user_id,$type='page',$all_details=false) {
 
-		$template = $this->qb->table('system_templates')
+		$template = $this->db->table('system_templates')
 			->where('user_id', $user_id)
 			->where('type', $type)
 			->orderBy("creation_date", "DESC")
@@ -737,7 +737,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getLastLockCode() {
 
-	 	$lock_codes = $this->qb->table('system_lock_codes')
+	 	$lock_codes = $this->db->table('system_lock_codes')
 			->select('uid')->orderBy('id', 'DESC')
 			->limit(1)->get();
 
@@ -808,7 +808,7 @@ class SystemPlant extends PlantBase {
             }
 
 			// bulk create codes
-            $create_codes = $this->qb->table('system_lock_codes')->insertIgnore($code_insert);
+            $create_codes = $this->db->table('system_lock_codes')->insertIgnore($code_insert);
 
 		} else {
 			// we actually don't need this for the foreseeable future. can't think of a single instance where we'd be doing more than 50k codes at once

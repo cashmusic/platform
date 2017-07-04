@@ -436,7 +436,7 @@ class CommercePlant extends PlantBase {
 
     protected function deleteItemVariants($item_id, $user_id=false) {
 
-        $query = $this->qb->table('commerce_item_variants')
+        $query = $this->db->table('commerce_item_variants')
             ->where('item_id', '=', $item_id);
 
         if ($user_id) {
@@ -1025,7 +1025,7 @@ class CommercePlant extends PlantBase {
         }
 
         // gets multiple orders with all information
-        $query = $this->qb->table('commerce_orders')
+        $query = $this->db->table('commerce_orders')
             ->select('commerce_orders.*');
 
         if ($deep) {
@@ -1137,7 +1137,7 @@ class CommercePlant extends PlantBase {
         }
 
         // gets multiple orders with all information
-        $query = $this->qb->table('commerce_orders')
+        $query = $this->db->table('commerce_orders')
             ->select('commerce_orders.*');
 
             $query = $query->select(
@@ -1298,7 +1298,7 @@ class CommercePlant extends PlantBase {
         $id
     ) {
 
-        $result = $this->qb->table('commerce_item_variants')
+        $result = $this->db->table('commerce_item_variants')
             ->select('SUM(quantity) as total_quantity')
             ->where('item_id', '=', $id)->get();
 
@@ -2168,7 +2168,7 @@ class CommercePlant extends PlantBase {
            )
        );
 
-     $result = $this->qb->table('commerce_transactions')
+     $result = $this->db->table('commerce_transactions')
          ->select(['SUM(gross_price as total_gross', 'COUNT(id) AS total_transactions'])
          ->where('user_id', '=', $user_id)
          ->where('successful', '=', 1)
@@ -2808,7 +2808,7 @@ class CommercePlant extends PlantBase {
 
     public function getSubscriptionStats($plan_id) {
 
-        if ($result = $this->qb->table('commerce_transactions')
+        if ($result = $this->db->table('commerce_transactions')
             ->select('SUM(commerce_transactions.gross_price) as total_active')
             ->join('commerce_subscriptions_members', function($table)
             {
@@ -2831,7 +2831,7 @@ class CommercePlant extends PlantBase {
 
     public function getSubscriberCount($plan_id) {
 
-        if ($result = $this->qb->table('commerce_subscriptions_members')
+        if ($result = $this->db->table('commerce_subscriptions_members')
             ->select('COUNT(*) as active_subscribers')
             ->where('status', '=', 'active')
             ->where('subscription_id' , '=', $plan_id)->get()) {

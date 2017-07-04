@@ -46,7 +46,7 @@ class CalendarPlant extends PlantBase {
 		$fuzzy_query = '%' . $query . '%';
 
 
-		$result = $this->qb->table('calendar_venues')
+		$result = $this->db->table('calendar_venues')
 			->where(function($q) use ($user_id, $fuzzy_query)
 			{
                 $q->where('user_id', $user_id);
@@ -247,7 +247,7 @@ class CalendarPlant extends PlantBase {
 			$cutoff_date_high = time() + $offset;
 		}
 
-		$result = $this->qb->table('calendar_events')
+		$result = $this->db->table('calendar_events')
 			->where("date", ">", $cutoff_date_low)
 			->where("date", "<", $cutoff_date_high)
 			->where("user_id", $user_id)

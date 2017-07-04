@@ -515,7 +515,7 @@ class AssetPlant extends PlantBase {
 		switch (strtolower($analtyics_type)) {
 			case 'mostaccessed':
 
-                $query = $this->qb->table('assets_analytics')
+                $query = $this->db->table('assets_analytics')
 					->select("assets_analytics.asset_id as 'id', COUNT(assets_analytics.id) as 'count', assets.title as 'title', assets.description as 'description'")
                     ->join('assets', 'assets.id', '=', 'assets_analytics.asset_id')
 					->where('assets.user_id', $user_id)
@@ -529,7 +529,7 @@ class AssetPlant extends PlantBase {
 				break;
 			case 'recentlyadded':
 
-				$query = $this->qb->table('assets')
+				$query = $this->db->table('assets')
 					->where('user_id', $user_id)
 					->orderBy('creation_date', 'DESC');
 
