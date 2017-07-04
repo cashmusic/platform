@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="system_sessions", indexes={@Index(name="system_sessions_session_id", columns={"session_id"}), @Index(name="system_sessions_expiration_date", columns={"expiration_date"})})
  * @Entity @HasLifecycleCallbacks */
-class SystemSessions extends EntityBase
+class SystemSession extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['session_id', 'data', 'client_ip', 'client_proxy', 'expiration_date'];
     /**
      * @var string
      *
@@ -23,7 +23,7 @@ class SystemSessions extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="data", type="text", length=65535, nullable=false)
+     * @Column(name="data", type="json_array", length=65535, nullable=false)
      */
     protected $data;
 
@@ -46,7 +46,7 @@ class SystemSessions extends EntityBase
      *
      * @Column(name="expiration_date", type="integer", nullable=true)
      */
-    protected $expirationDate;
+    protected $expiration_date;
 
     /**
      * @var integer
@@ -64,6 +64,10 @@ class SystemSessions extends EntityBase
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+/*    public static function findWhere($values, $force_array=false, $limit=null, $order_by=null, $offset=null) {
+        $result = parent::findWhere($values, $force_array, $limit, $order_by, $offset);
+    }*/
 
 }
 

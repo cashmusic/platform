@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PeopleAnalytic extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'element_id', 'access_time', 'client_ip', 'client_proxy', 'login_method'];
     /**
      * @var integer
      *
@@ -32,7 +32,7 @@ class PeopleAnalytic extends EntityBase
      *
      * @Column(name="access_time", type="integer", nullable=false)
      */
-    protected $accessTime;
+    protected $access_time;
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class PeopleAnalytic extends EntityBase
      *
      * @Column(name="login_method", type="string", length=255, nullable=true)
      */
-    protected $loginMethod;
+    protected $login_method;
 
     /**
      * @var integer

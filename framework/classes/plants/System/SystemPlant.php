@@ -23,6 +23,7 @@ use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Entities\People;
+use CASHMusic\Entities\PeopleAnalytic;
 use CASHMusic\Entities\PeopleAnalyticsBasic;
 use CASHMusic\Entities\PeopleResetPassword;
 use CASHMusic\Entities\SystemLockCode;
@@ -162,17 +163,16 @@ class SystemPlant extends PlantBase {
 		// first the big record if needed
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
-			$result = $this->db->setData(
-				'people_analytics',
-				array(
-					'user_id' => $user_id,
-					'element_id' => $element_id,
-					'access_time' => time(),
-					'client_ip' => $ip_and_proxy['ip'],
-					'client_proxy' => $ip_and_proxy['proxy'],
-					'login_method' => $login_method
-				)
-			);
+
+			$result = PeopleAnalytic::create(array(
+                'user_id' => $user_id,
+                'element_id' => $element_id,
+                'access_time' => time(),
+                'client_ip' => $ip_and_proxy['ip'],
+                'client_proxy' => $ip_and_proxy['proxy'],
+                'login_method' => $login_method
+            ));
+
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
@@ -199,7 +199,7 @@ class SystemPlant extends PlantBase {
 					}
 
                     if (!$people_analytics_basic) {
-                    	$analytic = PeopleAnalyticsBasic::create([
+                    	$result = PeopleAnalyticsBasic::create([
                     		'total'=>$new_total,
 							'user_id'=>$user_id
 						]);

@@ -6,10 +6,11 @@ use CASHMusic\Core\CASHSystem;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use CASHMusic\Core\CASHData;
 
 use CASHMusic\Core\CASHDBAL;
 
-class EntityBase
+class EntityBase extends CASHData
 {
 
     protected $db;
@@ -19,28 +20,25 @@ class EntityBase
     /**
      * EntityBase constructor. Loads entity manager for Doctrine ORM.
      */
+
     public function __construct()
     {
-        $this->db = CASHDBAL::entityManager();
+        if (!$this->orm) $this->connectDB();
     }
 
     /**
-     * EntityBase constructor. Loads entity manager for Doctrine ORM.
-     */
-
-    /**
      * Static method shortcut to search by id.
+     * @param $em
      * @param $id
      * @param $limit
      * @param $order_by
      * @param $offset
      * @return object|bool
      */
-    public static function find($id)
+    public static function find($em, $id)
     {
         try {
-            $db = CASHDBAL::entityManager();
-            $object = $db->getRepository(get_called_class())->findOneBy(['id'=>$id]);
+            $object = $em->getRepository(get_called_class())->findOneBy(['id'=>$id]);
         } catch (\Exception $e) {
             CASHSystem::errorLog("Entity ".get_called_class()." Exception: ".$e->getMessage());
             CASHSystem::errorLog("Details_____");
@@ -60,24 +58,22 @@ class EntityBase
      * 'email_address' => "dev@cashmusic.org",
      * 'is_admin' => "1"
      * ]
-     *
+     * @param $em
      * @param $values
      * @param $limit
      * @param $order_by
      * @param $offset
      * @return object|bool
      */
-    public static function findWhere($values, $force_array=false, $limit=null, $order_by=null, $offset=null)
+    public static function findWhere($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null)
     {
 
         try {
-            $db = CASHDBAL::entityManager();
-
             // if it's an array of ids we can try to get multiples
             if (is_array($values)) {
-                $object = $db->getRepository(get_called_class())->findBy($values, $limit, $order_by, $offset);
+                $object = $em->getRepository(get_called_class())->findBy($values, $order_by, $limit, $offset);
             } else {
-                $object = self::find($values);
+                $object = self::find($em, $values);
             }
 
             if (is_array($object)) {
@@ -102,19 +98,17 @@ class EntityBase
 
     /**
      * Static method shortcut to get all model results.
+     * @param $em
      * @param $limit
      * @param $order_by
      * @param $offset
      * @return object|bool
      */
-    public static function all($limit=null, $order_by=null, $offset=null)
+    public static function all($em, $limit=null, $order_by=null, $offset=null)
     {
 
         try {
-
-
-            $db = CASHDBAL::entityManager();
-            $object = $db->getRepository(get_called_class())->findAll();
+            $object = $em->getRepository(get_called_class())->findAll();
 
             if ($object) return $object;
         } catch (\Exception $e) {
@@ -127,11 +121,12 @@ class EntityBase
 
     /**
      * Static method shortcut to map an array of values to a model and save it.
+     * @param $em
      * @param $values
      * @return EntityBase
      * @throws \Exception
      */
-    public static function create($values)
+    public static function create($em, $values)
     {
         $entity_class = get_called_class();
         $new_object = new $entity_class();
@@ -143,9 +138,8 @@ class EntityBase
             }
 
             try {
-                $db = CASHDBAL::entityManager();
-                $db->persist($new_object);
-                $db->flush();
+                $em->persist($new_object);
+                $em->flush();
             } catch (\Exception $e) {
                 error_log($e->getMessage());
             }
@@ -163,9 +157,9 @@ class EntityBase
     public function save()
     {
         try {
-            if (!$this->db) $this->db = CASHDBAL::entityManager();
-            $this->db->merge($this);
-            $this->db->flush();
+            if (!$this->orm) $this->connectDB();
+            $this->orm->merge($this);
+            $this->orm->flush();
         } catch (\Exception $e) {
             if (CASH_DEBUG) {
                 CASHSystem::errorLog($e->getMessage());
@@ -204,11 +198,11 @@ class EntityBase
     public function delete() {
 
         try {
-            if (!$this->db) $this->db = CASHDBAL::entityManager();
+            if (!$this->orm) $this->connectDB();
 
-            $entity = $this->db->merge($this);
-            $this->db->remove($entity);
-            $this->db->flush();
+            $entity = $this->orm->merge($this);
+            $this->orm->remove($entity);
+            $this->orm->flush();
 
             return true;
 
@@ -331,8 +325,8 @@ class EntityBase
 
         try {
             $class_fqdn = "\\CASHMusic\\Entities\\$entity";
-            $db = CASHDBAL::entityManager();
-            $tableName = $db->getClassMetadata($class_fqdn)->getTableName();
+            if (!$this->orm) $this->connectDB();
+            $tableName = $this->orm->getClassMetadata($class_fqdn)->getTableName();
 
             if (!$key) {
                 $key = $this->id;
@@ -351,7 +345,7 @@ class EntityBase
             // if this is non polymorphic
             if (!$scope) {
                 if (class_exists($class_fqdn)) {
-                    $result = $class_fqdn::findWhere([$foreign_key => $key]);
+                    $result = $class_fqdn::findWhere($this->orm, [$foreign_key => $key]);
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
                 }
@@ -360,7 +354,7 @@ class EntityBase
 
                 if (class_exists($class_fqdn)) {
                     $result = $class_fqdn::findWhere(
-                        ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
+                        $this->orm, ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
                     );
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
@@ -425,7 +419,8 @@ class EntityBase
     public function getFieldType($field) {
 
         try {
-            $metadata = CASHDBAL::entityManager()->getClassMetadata(get_called_class());
+            if (!$this->orm) $this->connectDB();
+            $metadata = $this->orm->getClassMetadata(get_called_class());
 
             if (isset($metadata->fieldMappings[$field])) {
                 $nameMetadata = $metadata->fieldMappings[$field];

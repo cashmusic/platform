@@ -1383,7 +1383,6 @@ abstract class CASHSystem  {
     }
 
     public static function arrayWrap($object) {
-        // this is dumb but better than always having findWhere returning an array
         if (gettype($object) == "object") {
             $object = [$object];
         }

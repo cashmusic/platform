@@ -4,6 +4,9 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHDBA;
+use CASHMusic\Entities\SystemMetadata;
+use CASHMusic\Entities\SystemSession;
+
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
  * data handling, provides a CASHDBA object as $this->db, and provides functions
@@ -26,6 +29,7 @@ use CASHMusic\Core\CASHDBA;
 abstract class CASHData {
 	protected $db = false,
 			  $qb = false,
+			  $orm = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
 			  $cash_session_id = null,
@@ -48,14 +52,6 @@ abstract class CASHData {
 	protected function connectDB() {
 		$cash_db_settings = CASHSystem::getSystemSettings();
 
-		$this->db = new CASHDBA(
-			$cash_db_settings['hostname'],
-			$cash_db_settings['username'],
-			$cash_db_settings['password'],
-			$cash_db_settings['database'],
-			$cash_db_settings['driver']
-		);
-
 		//TODO: once we integrate ORM and Pixie QB above connection needs to go
 		$config = array(
 			'driver'    => $cash_db_settings['driver'], // Db driver
@@ -67,7 +63,7 @@ abstract class CASHData {
 
 		$connection = new \Pixie\Connection('mysql', $config);
 		$this->qb = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
-
+		$this->orm = new CASHEntity($this->qb->pdo());
 	}
 
 	/**
@@ -88,20 +84,16 @@ abstract class CASHData {
 	 */protected function resetSession() {
 		if ($this->sessionGet('session_id','script')) {
 			$session_id = $this->sessionGet('session_id','script');
-			if (!$this->db) $this->connectDB();
-			$this->db->setData(
-				'sessions',
-				array(
-					'data' => json_encode(array()),
-					'expiration_date' => time() + $this->cash_session_timeout
-				),
-				array(
-					'session_id' => array(
-						'condition' => '=',
-						'value' => $session_id
-					)
-				)
-			);
+			if (!$this->orm) $this->connectDB();
+			
+			$session = $this->orm->findWhere(SystemSession::class, 
+				['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+			$session->update(array(
+                'data' => [],
+                'expiration_date' => time() + $this->cash_session_timeout
+            ));
+
 			$GLOBALS['cashmusic_script_store'] = array();
 			$this->sessionSet('session_id',$session_id,'script');
 		} else {
@@ -120,7 +112,7 @@ abstract class CASHData {
 		$expiration = false;
 		$generate_key = false;
 		$previous_session = false;
-		if (!$this->db) $this->connectDB();
+		if (!$this->orm) $this->connectDB();
 		if ($force_session_id) {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
@@ -142,16 +134,10 @@ abstract class CASHData {
 				$session_id = $this->getSessionID();
 			}
 			if ($session_id) {
-				$session_exists = $this->db->getData(
-					'sessions',
-					'id',
-					array(
-						"session_id" => array(
-							"condition" => "=",
-							"value" => $session_id
-						)
-					)
-				);
+
+                $session_exists = $this->orm->findWhere(SystemSession::class,
+                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
 				if ($session_exists) {
 					// if there is an existing session that's not expired, use it
 					$previous_session = array(
@@ -175,20 +161,16 @@ abstract class CASHData {
 			);
 			if (!$current_session['persistent']) {
 				// no existing session, set up empty data
-				$session_data['data'] = json_encode(array(
-					'created' => time()
-				));
+				$session_data['data'] = array(
+                    'created' => time()
+                );
 			}
 			// set the session info
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
 
 			// set the database session data
-			$this->db->setData(
-				'sessions',
-				$session_data,
-				$previous_session
-			);
+            $session = $this->orm->create(SystemSession::class, $session_data);
 
 			if (!$sandbox && !$force_session_id) {
 				// set the client-side cookie
@@ -226,20 +208,14 @@ abstract class CASHData {
 		}
 		$session_id = $this->getSessionID();
 		if ($session_id) {
-			if (!$this->db) $this->connectDB();
-			$result = $this->db->getData(
-				'sessions',
-				'data,expiration_date',
-				array(
-					"session_id" => array(
-						"condition" => "=",
-						"value" => $session_id
-					)
-				)
-			);
-			if ($result) {
-				$return_array['persistent'] = json_decode($result[0]['data'],true);
-				$return_array['expiration_date'] = $result[0]['expiration_date'];
+			if (!$this->orm) $this->connectDB();
+
+            $session = $this->orm->findWhere(SystemSession::class,
+                ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+			if ($session) {
+				$return_array['persistent'] = $session->date;
+				$return_array['expiration_date'] = $session->expiration_date;
 			}
 		}
 		return $return_array;
@@ -302,20 +278,17 @@ abstract class CASHData {
 				}
 				$session_data['persistent'][(string)$key] = $value;
 				$expiration = time() + $this->cash_session_timeout;
-				if (!$this->db) $this->connectDB();
-				$this->db->setData(
-					'sessions',
-					array(
-						'expiration_date' => $expiration,
-						'data' => json_encode($session_data['persistent'])
-					),
-					array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
-					)
-				);
+				if (!$this->orm) $this->connectDB();
+
+                $session = $this->orm->findWhere(SystemSession::class,
+                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+                $session->update(array(
+                    'expiration_date' => $expiration,
+                    'data' => $session_data['persistent']
+                ));
+
+
 				return true;
 				// ERROR LOGGING
 				// error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
@@ -377,19 +350,12 @@ abstract class CASHData {
 				unset($session_data['persistent'][(string)$key]);
 				$session_id = $this->getSessionID();
 				$expiration = time() + $this->cash_session_timeout;
-				$this->db->setData(
-					'sessions',
-					array(
-						'expiration_date' => $expiration,
-						'data' => json_encode($session_data['persistent'])
-					),
-					array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
-					)
-				);
+
+                $session = $this->orm->findWhere(SystemSession::class,
+                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+                $session->update(['expiration_date'=>$expiration, 'data'=>$session_data['persistent']]);
+
 			}
 		} else {
 			if (isset($GLOBALS['cashmusic_script_store'][(string)$key])) {
@@ -429,16 +395,17 @@ abstract class CASHData {
 			$data_key_exists = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key);
 			if ($data_key == 'tag' || !$data_key_exists) {
 				// no matching tag or key, so we can just create a new one
-				$result = $this->db->setData(
-					'metadata',
-					array(
-						'scope_table_alias' => $scope_table_alias,
-						'scope_table_id' => $scope_table_id,
-						'type' => $data_key,
-						'value' => $data_value,
-						'user_id' => $user_id
-					)
-				);
+
+                $result = $this->orm->create(SystemMetadata::class,
+                    array(
+                        'scope_table_alias' => $scope_table_alias,
+                        'scope_table_id' => $scope_table_id,
+                        'type' => $data_key,
+                        'value' => $data_value,
+                        'user_id' => $user_id
+                    	)
+					);
+
 			} else {
 				// key already exists and isn't a tag, so we need to edit the value
 				$result = $this->db->setData(

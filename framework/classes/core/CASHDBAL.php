@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 
 class CASHDBAL {
 
-    public static function entityManager()
+    public static function entityManager($pdo)
     {
         $paths = array(CASH_PLATFORM_ROOT."/classes/entities");
         $isDevMode = true;
