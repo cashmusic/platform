@@ -62,6 +62,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionConfigService(array $args = [])
  * @method \Aws\CostandUsageReportService\CostandUsageReportServiceClient createCostandUsageReportService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionCostandUsageReportService(array $args = [])
+ * @method \Aws\DAX\DAXClient createDAX(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionDAX(array $args = [])
  * @method \Aws\DataPipeline\DataPipelineClient createDataPipeline(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionDataPipeline(array $args = [])
  * @method \Aws\DatabaseMigrationService\DatabaseMigrationServiceClient createDatabaseMigrationService(array $args = [])
@@ -205,7 +207,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.29.7';
+    const VERSION = '3.31.0';
 
     /** @var array Arguments for creating clients */
     private $args;

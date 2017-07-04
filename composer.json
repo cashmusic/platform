@@ -31,7 +31,8 @@
             "CASHMusic\\Admin\\": "interfaces/admin",
             "CASHMusic\\API\\": "interfaces/api/classes",
             "CASHMusic\\PublicInterface\\": "interfaces",
-            "CASHMusic\\Tests\\": "tests"        }
+            "CASHMusic\\Tests\\": "tests"
+        }
     },
 
     "license": "AGPL license",
@@ -42,6 +43,5 @@
         }
     ],
     "require-dev": {
-        "kahlan/kahlan": "^3.1"
     }
 }

@@ -16,7 +16,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
-        '337663d83d8353cc8c7847676b3b0937' => __DIR__ . '/..' . '/kahlan/kahlan/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -57,10 +56,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'L' => 
         array (
             'League\\OAuth2\\Client\\' => 21,
-        ),
-        'K' => 
-        array (
-            'Kahlan\\' => 7,
         ),
         'J' => 
         array (
@@ -185,10 +180,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-google/src',
             1 => __DIR__ . '/..' . '/league/oauth2-client/src',
-        ),
-        'Kahlan\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kahlan/kahlan/src',
         ),
         'JmesPath\\' => 
         array (

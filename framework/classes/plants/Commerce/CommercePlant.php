@@ -405,15 +405,14 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $item = CommerceItem::findWhere($conditions);
-        $item->delete();
-
-        if (!$item->delete()) {
-            return false;
+        if ($item = CommerceItem::findWhere($conditions)) {
+            if($item->delete()) {
+                $this->deleteItemVariants($id, $user_id);
+                return true;
+            }
         }
 
-        $this->deleteItemVariants($id, $user_id);
-        return true;
+        return false;
     }
 
     protected function deleteItemVariant($id, $user_id=false) {
@@ -437,15 +436,14 @@ class CommercePlant extends PlantBase {
 
     protected function deleteItemVariants($item_id, $user_id=false) {
 
-        $conditions = array(
-            "item_id" => $item_id
-        );
+        $query = $this->qb->table('commerce_item_variants')
+            ->where('item_id', '=', $item_id);
 
         if ($user_id) {
-            $conditions['user_id'] = $user_id;
+           $query = $query->where('user_id', '=', $user_id);
         }
 
-        if ($this->qb->table('commerce_item_variants')->where($conditions)->delete()) {
+        if ($query->delete()) {
             return true;
         }
 
