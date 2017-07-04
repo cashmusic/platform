@@ -22,7 +22,6 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 
-	CASHSystem::errorLog($item_delete_response);
 	if ($item_delete_response['status_uid'] == 'commerce_deleteitem_200') {
 		$admin_helper->formSuccess('Success. Deleted.','/commerce/items/');
 	}

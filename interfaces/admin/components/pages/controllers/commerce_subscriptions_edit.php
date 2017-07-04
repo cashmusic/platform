@@ -75,7 +75,7 @@ if (empty($_POST['action'])) {
     );
 
     if ($plan_request->response['payload']) {
-        $cash_admin->page_data['plan'] = $plan_request->response['payload'][0];
+        $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
     }
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_edit');

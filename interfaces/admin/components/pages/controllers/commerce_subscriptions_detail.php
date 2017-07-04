@@ -71,7 +71,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
     if ($plan_request->response['payload']) {
 
-        $cash_admin->page_data['plan'] = $plan_request->response['payload'][0];
+        $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
     }
 
     $subscription_request = new CASHRequest(
@@ -85,10 +85,11 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     if ($subscription_request->response['payload']) {
 
         foreach ($subscription_request->response['payload'] as $subscription) {
+            //$subscription = $subscription->toArray();
             $subscription['start_date'] = date('m/d/Y', $subscription['start_date']);
             $subscription['end_date'] = (!empty($subscription['end_date'])) ? date('m/d/Y', $subscription['end_date']) : "recurring";
 
-            $data = json_decode($subscription['data'], true);
+            $data = $subscription['data'];
 
             if (isset($data['customer'])) {
                 $subscription['subscriber_name'] = $data['customer']['customer_name'];
@@ -106,6 +107,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         )
     );
 
+    $cash_admin->page_data['gross_active'] = 0.00;
     if ($stats_request->response['payload']) {
         $cash_admin->page_data['gross_active'] = $stats_request->response['payload'][0]['total_active'];
     }
@@ -118,6 +120,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         )
     );
 
+    $cash_admin->page_data['active_subscribers'] = 0;
     if ($stats_request->response['payload']) {
         $cash_admin->page_data['active_subscribers'] = $stats_request->response['payload'][0]['active_subscribers'];
     }

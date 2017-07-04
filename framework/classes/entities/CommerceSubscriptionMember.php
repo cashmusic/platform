@@ -89,5 +89,9 @@ class CommerceSubscriptionMember extends EntityBase
     public function subscription($conditions=false) {
         return $this->belongsTo("CommerceSubscription", "subscription_id", "id");
     }
+
+    public function customer($conditions=false) {
+        return $this->belongsTo("People", "user_id", "id");
+    }
 }
 

@@ -67,7 +67,7 @@ class EntityBase
      * @param $offset
      * @return object|bool
      */
-    public static function findWhere($values, $limit=null, $order_by=null, $offset=null)
+    public static function findWhere($values, $force_array=false, $limit=null, $order_by=null, $offset=null)
     {
 
         try {
@@ -81,7 +81,11 @@ class EntityBase
             }
 
             if (is_array($object)) {
-                if(count($object) == 1) return $object[0];
+
+                if (!$force_array) {
+                    if (count($object) == 1) return $object[0];
+                }
+
                 if(count($object) < 1) return false;
             }
 

@@ -1381,5 +1381,14 @@ abstract class CASHSystem  {
 
         return (json_last_error() == JSON_ERROR_NONE);
     }
+
+    public static function arrayWrap($object) {
+        // this is dumb but better than always having findWhere returning an array
+        if (gettype($object) == "object") {
+            $object = [$object];
+        }
+
+        return $object;
+    }
 } // END class
 ?>

@@ -452,7 +452,7 @@ class CommercePlant extends PlantBase {
 
     protected function getItemsForUser($user_id,$with_variants=true) {
 
-        $items = CommerceItem::findWhere(['user_id'=>$user_id]);
+        $items = CommerceItem::findWhere(['user_id'=>$user_id], true);
 
         $result = [];
 
@@ -2343,7 +2343,7 @@ class CommercePlant extends PlantBase {
 
     public function getAllSubscriptionPlans($user_id, $limit=false) {
 
-        if ($plans = CommerceSubscription::findWhere(['user_id'=>$user_id])) {
+        if ($plans = CommerceSubscription::findWhere(['user_id'=>$user_id], true)) {
             return $plans;
         }
 
@@ -2399,8 +2399,19 @@ class CommercePlant extends PlantBase {
     }
 
     public function getAllSubscriptionsByPlan($id, $limit=false) {
-        if ($members = CommerceSubscriptionMember::findWhere(['subscription_id'=>$id])) {
-            return $members;
+        if ($members = CommerceSubscriptionMember::findWhere(['subscription_id'=>$id], true)) {
+
+            $subscribers = [];
+            foreach ($members as $key=>$member) {
+
+                $subscribers[$key] = $member->toArray();
+
+                if ($user = $member->customer()) {
+                    $subscribers[$key]['email_address'] = $user->email_address;
+                }
+            }
+
+            return $subscribers;
         }
 
         return false;
@@ -2443,7 +2454,7 @@ class CommercePlant extends PlantBase {
 
     public function getSubscriptionTransactions($id) {
 
-        if ($transactions = CommerceTransaction::findWhere(['parent_id' => $id, 'parent' => 'sub'], null, ['service_timestamp' => 'DESC'])) {
+        if ($transactions = CommerceTransaction::findWhere(['parent_id' => $id, 'parent' => 'sub'], true)) {//, null, ['service_timestamp' => 'DESC']
             return $transactions;
         }
 
@@ -2824,7 +2835,6 @@ class CommercePlant extends PlantBase {
             ->select('COUNT(*) as active_subscribers')
             ->where('status', '=', 'active')
             ->where('subscription_id' , '=', $plan_id)->get()) {
-
             if (is_array($result)) {
                 return $result[0]->active_subscribers;
             } else {
