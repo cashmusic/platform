@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="system_connections")
  * @Entity @HasLifecycleCallbacks */
-class SystemConnections extends EntityBase
+class SystemConnection extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['name', 'type', 'data', 'user_id'];
     /**
      * @var string
      *
@@ -30,7 +30,7 @@ class SystemConnections extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="data", type="text", length=65535, nullable=false)
+     * @Column(name="data", type="json_array", length=65535, nullable=false)
      */
     protected $data;
 

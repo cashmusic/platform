@@ -14,6 +14,7 @@ class EntityBase extends CASHData
 {
 
     protected $db;
+    protected $orm;
     protected $fillable = [];
     protected $query = null;
 
@@ -158,8 +159,8 @@ class EntityBase extends CASHData
     {
         try {
             if (!$this->orm) $this->connectDB();
-            $this->orm->merge($this);
-            $this->orm->flush();
+            $this->orm->em->merge($this);
+            $this->orm->em->flush();
         } catch (\Exception $e) {
             if (CASH_DEBUG) {
                 CASHSystem::errorLog($e->getMessage());
@@ -200,9 +201,9 @@ class EntityBase extends CASHData
         try {
             if (!$this->orm) $this->connectDB();
 
-            $entity = $this->orm->merge($this);
-            $this->orm->remove($entity);
-            $this->orm->flush();
+            $entity = $this->orm->em->merge($this);
+            $this->orm->em->remove($entity);
+            $this->orm->em->flush();
 
             return true;
 
@@ -326,7 +327,7 @@ class EntityBase extends CASHData
         try {
             $class_fqdn = "\\CASHMusic\\Entities\\$entity";
             if (!$this->orm) $this->connectDB();
-            $tableName = $this->orm->getClassMetadata($class_fqdn)->getTableName();
+            $tableName = $this->orm->em->getClassMetadata($class_fqdn)->getTableName();
 
             if (!$key) {
                 $key = $this->id;
@@ -345,7 +346,7 @@ class EntityBase extends CASHData
             // if this is non polymorphic
             if (!$scope) {
                 if (class_exists($class_fqdn)) {
-                    $result = $class_fqdn::findWhere($this->orm, [$foreign_key => $key]);
+                    $result = $class_fqdn::findWhere($this->orm->em, [$foreign_key => $key]);
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
                 }
@@ -354,7 +355,7 @@ class EntityBase extends CASHData
 
                 if (class_exists($class_fqdn)) {
                     $result = $class_fqdn::findWhere(
-                        $this->orm, ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
+                        $this->orm->em, ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
                     );
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
@@ -420,7 +421,7 @@ class EntityBase extends CASHData
 
         try {
             if (!$this->orm) $this->connectDB();
-            $metadata = $this->orm->getClassMetadata(get_called_class());
+            $metadata = $this->orm->em->getClassMetadata(get_called_class());
 
             if (isset($metadata->fieldMappings[$field])) {
                 $nameMetadata = $metadata->fieldMappings[$field];

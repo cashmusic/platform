@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHDBA;
+use CASHMusic\Entities\SystemConnection;
 use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Entities\SystemSession;
 
@@ -52,7 +53,6 @@ abstract class CASHData {
 	protected function connectDB() {
 		$cash_db_settings = CASHSystem::getSystemSettings();
 
-		//TODO: once we integrate ORM and Pixie QB above connection needs to go
 		$config = array(
 			'driver'    => $cash_db_settings['driver'], // Db driver
 			'host'      => $cash_db_settings['hostname'],
@@ -63,6 +63,8 @@ abstract class CASHData {
 
 		$connection = new \Pixie\Connection('mysql', $config);
 		$this->qb = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+
+		// piggyback the PDO to Doctrine so we're using the same connection
 		$this->orm = new CASHEntity($this->qb->pdo());
 	}
 
@@ -408,18 +410,13 @@ abstract class CASHData {
 
 			} else {
 				// key already exists and isn't a tag, so we need to edit the value
-				$result = $this->db->setData(
-					'metadata',
-					array(
-						'value' => $data_value
-					),
-					array(
-						'id' => array(
-							'condition' => '=',
-							'value' => $data_key_exists[0]['id']
-						)
-					)
-				);
+
+				if (is_array($data_key_exists)) {
+					$data_key_exists = $data_key_exists[0];
+				}
+
+				$result = $data_key_exists->update(['value'=>$data_value]);
+
 			}
 			return $result;
 		} else {
@@ -431,44 +428,27 @@ abstract class CASHData {
 	public function getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value=false) {
 		// set up options for the query. leave off $data_value to widen the results
 		// by default
-		$options_array = array(
-			"scope_table_alias" => array(
-				"condition" => "=",
-				"value" => $scope_table_alias
-			),
-			"scope_table_id" => array(
-				"condition" => "=",
-				"value" => $scope_table_id
-			),
-			"type" => array(
-				"condition" => "=",
-				"value" => $data_key
-			),
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			)
+		$conditions = array(
+			"scope_table_alias" => $scope_table_alias,
+			"scope_table_id" => $scope_table_id,
+			"type" => $data_key,
+			"user_id" => $user_id
 		);
 		// if $data_value is set, add it to the options for refined search (tags)
 		if ($data_value) {
-			$options_array['value'] = array(
-				"condition" => "=",
-				"value" => $data_value
-			);
+			$conditions['value'] = $data_value;
 		}
-		// do the query
-		$result = $this->db->getData(
-			'metadata',
-			'*',
-			$options_array
-		);
-		if ($result) {
+
+        $metadata = $this->orm->findWhere(SystemMetadata::class,
+            $conditions, true);
+
+		if ($metadata) {
 			if ($data_value && $data_key != 'tag') {
 				// $data_value means a unique set, give direct access to array
-				return $result[0];
+				return $metadata[0];
 			} else {
 				// without $data_value set there could be multiple results (tags only)
-				return $result;
+				return $metadata;
 			}
 		} else {
 			return false;
@@ -476,15 +456,9 @@ abstract class CASHData {
 	}
 
 	public function removeMetaData($metadata_id) {
-		$result = $this->db->deleteData(
-			'metadata',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $metadata_id
-				)
-			)
-		);
+
+		$result = $this->orm->delete(SystemMetadata::class, ['id'=>$metadata_id]);
+
 		return $result;
 	}
 
@@ -744,22 +718,14 @@ abstract class CASHData {
 	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
-	 */public function getConnectionDetails($connection_id) {
-		$result = $this->db->getData(
-			'connections',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $connection_id
-				)
-			)
-		);
-		if ($result) {
-			return $result[0];
-		} else {
-			return false;
+	 */
+	public function getConnectionDetails($connection_id) {
+
+	 	if ($connection = $this->orm->find(SystemConnection::class, $connection_id)) {
+	 		return $connection;
 		}
+
+		return false;
 	}
 
 	/**
@@ -769,10 +735,9 @@ abstract class CASHData {
 	 */protected function getConnectionType($connection_id) {
 		$result = $this->getConnectionDetails($connection_id);
 		if ($result) {
-			return $result['type'];
-		} else {
-			return false;
+			return $result->type;
 		}
+    	return false;
 	}
 
 

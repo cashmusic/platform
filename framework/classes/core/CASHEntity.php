@@ -26,8 +26,14 @@ class CASHEntity
             'pdo' => $pdo
         );
 
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-        $config->addEntityNamespace("CASHMusic", "CASHMusic\\Entities\\");
+        try {
+
+            $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+            $config->addEntityNamespace("CASHMusic", "CASHMusic\\Entities\\");
+        } catch (\Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+            return false;
+        }
 
         return EntityManager::create($dbParams, $config);
     }
@@ -46,6 +52,26 @@ class CASHEntity
 
     public function create($entity, $values) {
         return $entity::create($this->em, $values);
+    }
+
+    public function delete($entity, $values) {
+
+        try {
+            $object = $entity::findWhere($this->em, $values, false);
+
+            if (is_array($object)) {
+                foreach ($object as $o) {
+                    $o->delete();
+                }
+            } else {
+                $object->delete();
+            }
+        } catch (\Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+            return false;
+        }
+
+        return true;
     }
 
 }

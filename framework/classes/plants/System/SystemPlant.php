@@ -121,7 +121,7 @@ class SystemPlant extends PlantBase {
 			return false; // seriously no password? lame.
 		}
 
-		$user_result = People::findWhere(['email_address'=>$address]);
+		$user_result = $this->orm->findWhere(People::class, ['email_address'=>$address]);
 
 		if ($user_result) {
 			$ciphers = $this->getCryptConstants();
@@ -163,20 +163,20 @@ class SystemPlant extends PlantBase {
 		// first the big record if needed
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
-
-			$result = PeopleAnalytic::create(array(
+			$result = $this->orm->create(PeopleAnalytic::class, [
                 'user_id' => $user_id,
                 'element_id' => $element_id,
                 'access_time' => time(),
                 'client_ip' => $ip_and_proxy['ip'],
                 'client_proxy' => $ip_and_proxy['proxy'],
                 'login_method' => $login_method
-            ));
+			]);
 
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-                if ($people_analytics_basic = PeopleAnalyticsBasic::findWhere(['user_id' => $user_id])) {
+                if ($people_analytics_basic = $this->orm->findWhere(PeopleAnalyticsBasic::class,
+					['user_id' => $user_id])) {
                     $last_login = $people_analytics_basic->modification_date;
                     $new_total = $people_analytics_basic->total + 1;
                 } else {
@@ -188,7 +188,7 @@ class SystemPlant extends PlantBase {
 
                 	try {
 
-                        $user = People::find($user_id);
+                        $user = $this->orm->find(People::class, $user_id);
 						$data_array = $user->data;
 						$data_array['last_login'] = $last_login;
                         $user->data = $data_array;
@@ -199,10 +199,11 @@ class SystemPlant extends PlantBase {
 					}
 
                     if (!$people_analytics_basic) {
-                    	$result = PeopleAnalyticsBasic::create([
-                    		'total'=>$new_total,
-							'user_id'=>$user_id
-						]);
+                		$result = $this->orm->create(PeopleAnalyticsBasic::class, [
+                            'total'=>$new_total,
+                            'user_id'=>$user_id
+                        ]);
+
 					} else {
                         $people_analytics_basic->total = $new_total;
                         $people_analytics_basic->save();
@@ -234,7 +235,7 @@ class SystemPlant extends PlantBase {
 			if ($is_admin && !$id_request->response['payload']['is_admin']) {
 				// add admin status:
 
-				$user = People::find($id_request->response['payload']['id']);
+				$user = $this->orm->find(People::class, $id_request->response['payload']['id']);
 				$user->is_admin = $is_admin;
 				$user->save();
 
@@ -263,7 +264,7 @@ class SystemPlant extends PlantBase {
 			$password_hash = '';
 		}
 
-		$user = People::create([
+		$user = $this->orm->create([
             'email_address' => $address,
             'password' => $password_hash,
             'username' => strtolower($username),
@@ -274,7 +275,7 @@ class SystemPlant extends PlantBase {
             'address_country' => $address_country,
             'is_admin' => $is_admin,
             'data' => $data
-		]);
+        ]);
 
 		if ($user && $is_admin) {
 			$this->setAPICredentials($user->id);
@@ -292,7 +293,7 @@ class SystemPlant extends PlantBase {
 		// doing this via address not only follows conventions established in handling people,
 		// but guarantees we're getting the right user id. no passing in the wrong id and watching
 		// the script choke...
-		$user = People::findWhere(['email_address'=>$address]);
+		$user = $this->orm->findWhere(People::class, ['email_address'=>$address] );
 
 		if ($user) {
 			// mass delete all the mass deletable stuff
@@ -386,7 +387,7 @@ class SystemPlant extends PlantBase {
 				// have a little work. check for admin status, erase the old name if not an admin then
 				// mark the change as okay and move on.
 
-				$user = People::find($id_request->response['payload']);
+				$user = $this->orm->find(People::class, $id_request->response['payload']);
 
 				if ($user) {
 					// we've found someone with this username already
@@ -406,19 +407,16 @@ class SystemPlant extends PlantBase {
             // reset the data field for subscriptions
             $credentials['data'] = "{}";
 
-            $user = People::find($user_id);
+            $user = $this->orm->find(People::class, $user_id);
             $user->update($credentials);
 
             if ($user) {
-				return true;
-            } else {
-				return false;
+                return $user->id;
             }
-		} else {
-			return false;
 		}
 
-		return $user->id;
+		return false;
+
 	}
 
 	/**
@@ -427,7 +425,7 @@ class SystemPlant extends PlantBase {
 	 * @return key(md5 hash)|false
 	 */protected function setResetFlag($address) {
 
-		$user = People::findWhere(['email_address'=>$address]);
+		$user = $this->orm->findWhere(People::class, ['email_address'=>$address] );
 
 		if ($user) {
 			$user_id = $user->id;
@@ -436,10 +434,10 @@ class SystemPlant extends PlantBase {
 
 			$key = md5($user_id . rand(976654,1234567267));
 
-			$reset = PeopleResetPassword::create([
-				'user_id'=>$user_id,
-				'key'=>$key
-			]);
+			$reset = $this->orm->create(PeopleResetPassword::class, [
+                'user_id'=>$user_id,
+                'key'=>$key
+            ]);
 
 			if ($reset) {
 				return $key;
@@ -458,10 +456,10 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function validateResetFlag($address,$key) {
 
-	 	$user = People::findWhere(['email_address'=>$address]);
+	 	$user = $this->orm->findWhere(People::class, ['email_address'=>$address] );
 
 		if ($user) {
-			$reset = PeopleResetPassword::findWhere(['user_id'=>$user->id, 'key'=>$key]);
+			$reset = $this->orm->findWhere(PeopleResetPassword::class, ['user_id'=>$user->id, 'key'=>$key] );
 
 			// in case we get multiple results back, just get the latest reset request.
 			if (is_array($reset)) {
@@ -492,7 +490,7 @@ class SystemPlant extends PlantBase {
 			'api_secret' => $api_secret
 		);
 
-		$user = People::find($user_id);
+		$user = $this->orm->find(People::class, $user_id);
 		$user->update($credentials);
 
 		if ($user) {
@@ -510,16 +508,16 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getAPICredentials($user_id) {
 
-		$user = People::find($user_id);
+		$user = $this->orm->find(People::class, $user_id);
 
 		if ($user) {
 			return array(
 				'api_key' => $user->api_key,
 				'api_secret' => $user->api_secret
 			);
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -532,10 +530,10 @@ class SystemPlant extends PlantBase {
 		$auth_type = 'none';
 		if (!$api_secret) {
 			$auth_type = 'api_key';
-			$user = People::findWhere(['api_key'=>$api_key]);
+			$user = $this->orm->findWhere(People::class, ['api_key'=>$api_key] );
 		} else {
 			$auth_type = 'api_fullauth';
-            $user = People::findWhere(['api_key'=>$api_key, 'api_secret'=>$api_secret]);
+            $user = $this->orm->findWhere(People::class, ['api_key'=>$api_key, 'api_secret'=>$api_secret] );
 		}
 
 		if ($user) {
@@ -543,9 +541,9 @@ class SystemPlant extends PlantBase {
 				'auth_type' => $auth_type,
 				'user_id' => $user->id
 			);
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -556,10 +554,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function deleteSettings($user_id,$type) {
 
-		$settings = SystemSettings::findWhere(['type'=>$type, 'user_id'=>$user_id]);
-
-		if ($settings) {
-			$settings->delete();
+		if ($this->orm->delete(SystemSettings::class, ['type'=>$type, 'user_id'=>$user_id])) {
 			return true;
 		}
 
@@ -574,7 +569,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getSettings($user_id,$type,$return_json=false) {
 
-		$setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
+		$setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
 			if ($return_json) {
@@ -595,7 +590,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function setSettings($user_id,$type,$value) {
 
-        $setting = SystemSettings::findWhere(['type'=>$type,'user_id'=>$user_id]);
+        $setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
 			$setting->update(['value'=>$value]);
@@ -613,13 +608,12 @@ class SystemPlant extends PlantBase {
 	protected function deleteTemplate($template_id,$user_id=false) {
 
 		if ($user_id) {
-			$template = SystemTemplate::findWhere(['user_id'=>$user_id,'id'=>$template_id]);
+			$template = $this->orm->delete(SystemTemplate::class, ['user_id'=>$user_id,'id'=>$template_id] );
 		} else {
-			$template = SystemTemplate::find($template_id);
+			$template = $this->orm->delete(SystemTemplate::class, ['id'=>$template_id]);
 		}
 
 		if ($template) {
-			$template->delete();
 			return true;
 		}
 
@@ -633,11 +627,15 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getTemplate($template_id,$user_id=false,$all_details=false) {
 
-		if ($user_id) {
-			$template = SystemTemplate::findWhere(['id'=>$template_id,'user_id'=>$user_id]);
-		} else {
-			$template = SystemTemplate::find($template_id);
-		}
+        $conditions = array(
+            "id" => $template_id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $template = $this->orm->findWhere(SystemTemplate::class, $conditions);
 
 		if ($template) {
 			if (!$all_details) {
@@ -665,7 +663,7 @@ class SystemPlant extends PlantBase {
 			$conditions['type'] = $type;
 		}
 
-		$templates = SystemTemplate::findWhere($conditions);
+		$templates = $this->orm->findWhere(SystemTemplate::class, $conditions);
 
 		return $templates;
 	}
@@ -713,7 +711,7 @@ class SystemPlant extends PlantBase {
 		);
 
 		if ($template_id) {
-			$template = SystemTemplate::findWhere(['id'=>$template_id,'user_id'=>$user_id]);
+			$template = $this->orm->findWhere(SystemTemplate::class, ['id'=>$template_id,'user_id'=>$user_id] );
 			$template->update($final_edits);
 		} else {
 			// if no template id we're doing an add, so make sure the type has been set
@@ -721,7 +719,7 @@ class SystemPlant extends PlantBase {
 			if (!$type) {
 				$final_edits['type'] = 'page';
 			}
-            $template = SystemTemplate::create($final_edits);
+            $template = $this->orm->create(SystemTemplate::class, $final_edits);
 		}
 
 		if ($template) {
@@ -770,12 +768,12 @@ class SystemPlant extends PlantBase {
 			$this->getLastLockCode()
 		);
 
-		$lock_code = SystemLockCode::create([
+		$lock_code = $this->orm->create(SystemLockCode::class, [
             'uid' => $code,
             'scope_table_alias' => $scope_table_alias,
             'scope_table_id' => $scope_table_id,
             'user_id' => $user_id
-		]);
+        ]);
 
 		if ($lock_code) {
 			return $code;
@@ -885,7 +883,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function getLockCode($code) {
 
-		$lock_code = SystemLockCode::findWhere(['uid'=>$code]);
+		$lock_code = $this->orm->findWhere(SystemLockCode::class, ['uid'=>$code] );
 
 		if ($lock_code) {
 			if (is_array($lock_code)) {
@@ -913,7 +911,7 @@ class SystemPlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $lock_codes = SystemLockCode::findWhere($conditions);
+        $lock_codes = $this->orm->findWhere(SystemLockCode::class, $conditions);
 
         if ($lock_codes) {
             return $lock_codes;

@@ -169,6 +169,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 					'key' => $_GET['key']
 				)
 			);
+
 			if ($valid_key) {
 				$id_response = $cash_admin->requestAndStore(
 					array(
