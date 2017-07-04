@@ -155,9 +155,9 @@ class ElementPlant extends PlantBase {
 	protected function getElement($id,$user_id=false) {
 
 		if ($user_id) {
-            $element = Element::findWhere(['id'=>$id, 'user_id'=>$user_id]);
+            $element = $this->orm->findWhere(Element::class, ['id'=>$id, 'user_id'=>$user_id] );
 		} else {
-			$element = Element::find($id);
+			$element = $this->orm->find(Element::class, $id );
 		}
 
 		if ($element) {
@@ -250,9 +250,9 @@ class ElementPlant extends PlantBase {
 
         try {
             if ($user_id) {
-                $element = Element::findWhere(['id'=>$element_id, 'user_id'=>$user_id]);
+                $element = $this->orm->findWhere(Element::class, ['id'=>$element_id, 'user_id'=>$user_id] );
             } else {
-                $element = Element::find($element_id);
+                $element = $this->orm->find(Element::class, $element_id );
             }
 
             $element->template_id = $template_id;
@@ -270,7 +270,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementsForUser($user_id) {
         try {
-            $elements = Element::findWhere(['user_id'=>$user_id]);
+            $elements = $this->orm->findWhere(Element::class, ['user_id'=>$user_id] );
         } catch (\Exception $e) {
             if (CASH_DEBUG) {
                 CASHSystem::errorLog($e->getMessage());
@@ -347,7 +347,7 @@ class ElementPlant extends PlantBase {
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$result = ElementAnalyticBasic::findWhere(['element_id'=>$id]);
+			$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id'=>$id] );
 
 			$short_geo = false;
 			if (is_array($access_data)) {
@@ -425,7 +425,7 @@ class ElementPlant extends PlantBase {
 				break;
 			case 'elementbasics':
 
-				$result = ElementAnalyticBasic::findWhere(['element_id' => $element_id]);
+				$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $element_id] );
 
 				if ($result) {
 
@@ -444,7 +444,7 @@ class ElementPlant extends PlantBase {
 				break;
 			case 'recentlyadded':
 
-				$result = People::find($user_id)->elements(false, false, "creation_date DESC");
+				$result = $this->orm->find(People::class, $user_id)->elements(false, false, "creation_date DESC" );
 
 				return $result;
 				break;
@@ -505,10 +505,9 @@ class ElementPlant extends PlantBase {
 
 		if ($user_id) {
 			$conditions['user_id'] = $user_id;
-            $element = Element::findWhere($conditions);
-		} else {
-            $element = Element::find($id);
 		}
+
+        $element = $this->orm->findWhere(Element::class, $conditions);
 
         $element->name = $name;
         $element->options = $options_data;
@@ -525,7 +524,7 @@ class ElementPlant extends PlantBase {
 			$conditions['user_id'] = $user_id;
 		}
 
-		$element = Element::findWhere($conditions);
+		$element = $this->orm->findWhere(Element::class, $conditions);
 
 		if ($element->delete()) {
 			return true;
@@ -618,7 +617,7 @@ class ElementPlant extends PlantBase {
 			$conditions['user_id'] = $user_id;
 		}
 
-		$campaign = ElementsCampaign::findWhere($conditions);
+		$campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
 
 		if ($campaign->update($final_edits)) {
 			return true;
@@ -636,7 +635,7 @@ class ElementPlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $campaign = ElementsCampaign::findWhere($conditions);
+        $campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
 
         if ($campaign->delete()) {
             return true;
@@ -668,7 +667,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getCampaignsForUser($user_id) {
 
-        $campaigns = ElementsCampaign::findWhere(['user_id'=>$user_id]);
+        $campaigns = $this->orm->findWhere(ElementsCampaign::class, ['user_id'=>$user_id] );
 
         if ($campaigns) {
 
@@ -682,7 +681,7 @@ class ElementPlant extends PlantBase {
 		$campaign = $this->getCampaign($id);
 
 		if (count($campaign->elements)) {
-            $elements = Element::findWhere(['id'=>$campaign->elements]);
+            $elements = $this->orm->findWhere(Element::class, ['id'=>$campaign->elements] );
 
             return $elements;
 		} else {

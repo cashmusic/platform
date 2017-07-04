@@ -136,7 +136,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getAssetsForConnection($connection_id) {
 
-		$assets = Asset::findWhere(['connection_id'=>$connection_id]);
+		$assets = $this->orm->findWhere(Asset::class, ['connection_id'=>$connection_id] );
 
 		if ($assets) {
 			return $assets->toArray();
@@ -224,7 +224,7 @@ class AssetPlant extends PlantBase {
 			$conditions['user_id'] = $user_id;
 		}
 
-		$result = Asset::findWhere($conditions);
+		$result = $this->orm->findWhere(Asset::class, $conditions);
 		if ($result) {
 			/*foreach ($result as &$asset_info) {
 				$asset_info = $asset_info->toArray();
@@ -254,7 +254,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getAssetsForParent($parent_id) {
 
-	 	$assets = Asset::findWhere(['parent_id'=>$parent_id]);
+	 	$assets = $this->orm->findWhere(Asset::class, ['parent_id'=>$parent_id] );
 
 		return $assets;
 	}
@@ -373,7 +373,7 @@ class AssetPlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-		$asset = Asset::findWhere($conditions);
+		$asset = $this->orm->findWhere(Asset::class, $conditions);
 
         $result = $asset->update($final_edits);
 
@@ -391,7 +391,7 @@ class AssetPlant extends PlantBase {
 	 */
 	protected function getPublicStatus($id) {
 
-	 	$asset = Asset::find($id);
+	 	$asset = $this->orm->find(Asset::class, $id );
 
 		if (!empty($asset->public_url)) {
 			return true;
@@ -491,7 +491,7 @@ class AssetPlant extends PlantBase {
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
 
-			$basic_analytics = AssetAnalyticsBasic::findWhere(['asset_id'=>$id]);
+			$basic_analytics = $this->orm->findWhere(AssetAnalyticsBasic::class, ['asset_id'=>$id] );
 
 			if (!empty($basic_analytics->total)) {
 				$new_total = $basic_analytics->total +1;

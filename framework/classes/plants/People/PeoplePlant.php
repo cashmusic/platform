@@ -94,7 +94,7 @@ class PeoplePlant extends PlantBase {
 		}
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			if ($element_id) {
-				$element = Element::find($element_id);
+				$element = $this->orm->find(Element::class, $element_id );
 				$do_not_verify = (bool) $element->options['do_not_verify'];
 			} else {
 				$do_not_verify = false;
@@ -177,9 +177,9 @@ class PeoplePlant extends PlantBase {
 
         try {
             if ($user_id) {
-                $list = PeopleList::findWhere(['id'=>$list_id, 'user_id'=>$user_id]);
+                $list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
             } else {
-                $list = PeopleList::find($list_id);
+                $list = $this->orm->find(PeopleList::class, $list_id );
             }
 
             if ($list) {
@@ -211,9 +211,9 @@ class PeoplePlant extends PlantBase {
 
 		try {
 			if ($user_id) {
-				$list = PeopleList::findWhere(['id'=>$list_id, 'user_id'=>$user_id]);
+				$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
 			} else {
-				$list = PeopleList::find($list_id);
+				$list = $this->orm->find(PeopleList::class, $list_id );
 			}
 
 			if ($list) {
@@ -384,7 +384,7 @@ class PeoplePlant extends PlantBase {
 	 * @return array|false
 	 */protected function getListsForUser($user_id) {
 
-		$result = PeopleList::findWhere(['user_id'=>$user_id]);
+		$result = $this->orm->findWhere(PeopleList::class, ['user_id'=>$user_id] );
 
 		return $result;
 	}
@@ -398,9 +398,9 @@ class PeoplePlant extends PlantBase {
 	protected function getList($list_id,$user_id=false) {
 
 		if ($user_id) {
-			$list = PeopleList::findWhere(['id'=>$list_id, 'user_id'=>$user_id]);
+			$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
 		} else {
-			$list = PeopleList::find($list_id);
+			$list = $this->orm->find(PeopleList::class, $list_id );
 		}
 
 		if ($list) {
@@ -586,7 +586,7 @@ class PeoplePlant extends PlantBase {
 
         if ($create_users) {
             // query users with "bulk_import" as data field.
-			$get_created_users = People::findWhere(['data' => 'bulk_import']);
+			$get_created_users = $this->orm->findWhere(People::class, ['data' => 'bulk_import'] );
 
             $created_user_ids = [];
             $created_user_emails = [];
@@ -666,7 +666,7 @@ class PeoplePlant extends PlantBase {
 		if ($membership_info) {
 			if ($membership_info['active']) {
 
-				$list_member = PeopleListsMember::find($membership_info['id']);
+				$list_member = $this->orm->find(PeopleListsMember::class, $membership_info['id'] );
 				$list_member->active = 0;
 				$list_member->save();
 
@@ -941,9 +941,9 @@ class PeoplePlant extends PlantBase {
 	protected function editMailing($mailing_id,$send_date=false,$subject=false,$html_content=false,$text_content=false,$user_id=false,$from_name=false) {
 
 		if ($user_id) {
-            $mailing = PeopleMailing::findWhere(['id'=>$mailing_id, 'user_id'=>$user_id]);
+            $mailing = $this->orm->findWhere(PeopleMailing::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
         } else {
-            $mailing = PeopleMailing::find($mailing_id);
+            $mailing = $this->orm->find(PeopleMailing::class, $mailing_id );
         }
 
 		$final_edits = array_filter(
@@ -969,9 +969,9 @@ class PeoplePlant extends PlantBase {
 	protected function getMailing($mailing_id,$user_id=false) {
 
         if ($user_id) {
-            $mailing = PeopleMailing::findWhere(['id'=>$mailing_id, 'user_id'=>$user_id]);
+            $mailing = $this->orm->findWhere(PeopleMailing::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
         } else {
-            $mailing = PeopleMailing::find($mailing_id);
+            $mailing = $this->orm->find(PeopleMailing::class, $mailing_id );
         }
 
 		if ($mailing) {
@@ -1188,9 +1188,9 @@ class PeoplePlant extends PlantBase {
 
         try {
             if ($user_id) {
-                $analytic = PeopleMailingsAnalytic::findWhere(['id'=>$mailing_id, 'user_id'=>$user_id]);
+                $analytic = $this->orm->findWhere(PeopleMailingsAnalytic::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
             } else {
-                $analytic = PeopleMailingsAnalytic::find($mailing_id);
+                $analytic = $this->orm->find(PeopleMailingsAnalytic::class, $mailing_id );
             }
 
         } catch (\Exception $e) {
@@ -1273,7 +1273,7 @@ class PeoplePlant extends PlantBase {
 				$analytics['clicks_urls'] = json_encode($current_clicks_urls);
 			}
 
-			$analytic = PeopleMailingsAnalytic::find($analytics['id']);
+			$analytic = $this->orm->find(PeopleMailingsAnalytic::class, $analytics['id'] );
 
 			$analytic->update([
                 'sends' => $analytics['sends'],

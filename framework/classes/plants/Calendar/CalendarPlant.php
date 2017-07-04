@@ -124,7 +124,7 @@ class CalendarPlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		$venue = CalendarVenue::find($venue_id);
+		$venue = $this->orm->find(CalendarVenue::class, $venue_id );
 
 		if ($result = $venue->update($final_edits)) {
             return $result;
@@ -134,7 +134,7 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function deleteVenue($venue_id) {
-        $venue = CalendarVenue::find($venue_id);
+        $venue = $this->orm->find(CalendarVenue::class, $venue_id );
 
         if ($result = $venue->delete()) {
             return $result;
@@ -144,7 +144,7 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function deleteEvent($event_id) {
-        $event = CalendarEvent::find($event_id);
+        $event = $this->orm->find(CalendarEvent::class, $event_id );
 
         if ($result = $event->delete()) {
             return $result;
@@ -193,7 +193,7 @@ class CalendarPlant extends PlantBase {
             }
 		);
 
-        $event = CalendarEvent::find($event_id);
+        $event = $this->orm->find(CalendarEvent::class, $event_id );
 
         if ($result = $event->update($final_edits)) {
             return $result;
@@ -205,7 +205,7 @@ class CalendarPlant extends PlantBase {
 	protected function getEvent($event_id) {
 
         try {
-            $event = CalendarEvent::find($event_id);
+            $event = $this->orm->find(CalendarEvent::class, $event_id );
             $venue = $this->getVenue($event->venue_id);
             $results = array_merge($event->toArray(), $venue->toArray());
 		} catch (Exception $e) {
@@ -301,7 +301,7 @@ class CalendarPlant extends PlantBase {
 			}
 		} else {
 			// numeric id, so load the normal way
-			$venue = CalendarVenue::find($venue_id);
+			$venue = $this->orm->find(CalendarVenue::class, $venue_id );
 		}
 
 		if ($venue) {

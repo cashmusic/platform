@@ -135,9 +135,14 @@ abstract class CASHData {
 				$session_id = $this->getSessionID();
 			}
 			if ($session_id) {
-
-                $session_exists = $this->orm->findWhere(SystemSession::class,
-                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+                $session_exists = $this->orm->findWhere(
+                    SystemSession::class,        // ORM entity class
+                    ['session_id'=>$session_id], // where params
+                    false,                       // force an array returned if one result
+                    ['id'=>'DESC'],              // order by
+                    1,                           // limit
+                    0                            // offset
+                );
 
 				if ($session_exists) {
 					// if there is an existing session that's not expired, use it

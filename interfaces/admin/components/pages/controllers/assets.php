@@ -8,13 +8,9 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
-use CASHMusic\Entities\Element;
 
 
 $user_id = $cash_admin->effective_user_id;
-
-$asset = Element::find(4);
-
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 

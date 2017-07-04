@@ -183,9 +183,9 @@ class CommercePlant extends PlantBase {
 
     protected function getItem($id,$user_id=false,$with_variants=true) {
         if ($user_id) {
-            $item = CommerceItem::findWhere(['id'=>$id, 'user_id'=>$user_id]);
+            $item = $this->orm->findWhere(CommerceItem::class, ['id'=>$id, 'user_id'=>$user_id] );
         } else {
-            $item = CommerceItem::find($id);
+            $item = $this->orm->find(CommerceItem::class, $id );
         }
 
         if ($item) {
@@ -211,7 +211,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $item_variants = CommerceItemVariant::findWhere($conditions);
+        $item_variants = $this->orm->findWhere(CommerceItemVariant::class, $conditions);
 
         if ($item_variants) {
             $variants = array(
@@ -360,7 +360,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $item = CommerceItem::findWhere($conditions);
+        $item = $this->orm->findWhere(CommerceItem::class, $conditions);
 
         try {
             $item->update($final_edits);
@@ -385,7 +385,7 @@ class CommercePlant extends PlantBase {
             'quantity' => $quantity
         );
 
-        $item_variant = CommerceItemVariant::findWhere($conditions);
+        $item_variant = $this->orm->findWhere(CommerceItemVariant::class, $conditions);
 
         if ($item_variant->update($updates)) {
             $this->updateItemQuantity($item_id);
@@ -425,7 +425,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $item_variant = CommerceItemVariant::findWhere($conditions);
+        $item_variant = $this->orm->findWhere(CommerceItemVariant::class, $conditions);
 
         if ($item_variant->delete()) {
             return true;
@@ -922,7 +922,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $order = CommerceOrder::findWhere($conditions);
+        $order = $this->orm->findWhere(CommerceOrder::class, $conditions);
 
         if ($order->update($final_edits)) {
             return $order->toArray();
@@ -1116,7 +1116,7 @@ class CommercePlant extends PlantBase {
         $customer_id = $user_request->response['payload'];
 
         try {
-            $orders = CommerceOrder::findWhere(['user_id'=>$user_id, 'customer_user_id'=>$customer_id]);
+            $orders = $this->orm->findWhere(CommerceOrder::class, ['user_id'=>$user_id, 'customer_user_id'=>$customer_id] );
         } catch (Exception $e) {
             CASHSystem::errorLog($e);
         }
@@ -1249,7 +1249,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $transaction = CommerceTransaction::findWhere($conditions);
+        $transaction = $this->orm->findWhere(CommerceTransaction::class, $conditions);
 
          if ($transaction) {
             return $transaction;
@@ -1285,7 +1285,7 @@ class CommercePlant extends PlantBase {
             }
         );
 
-        $transaction = CommerceTransaction::find($id);
+        $transaction = $this->orm->find(CommerceTransaction::class, $id );
 
         if ($transaction->update($final_edits)) {
             return $transaction;
@@ -1306,7 +1306,7 @@ class CommercePlant extends PlantBase {
             return false;
         }
 
-        $item = CommerceItem::find($id);
+        $item = $this->orm->find(CommerceItem::class, $id );
 
         if ($item->update([
             'available_units' => $result[0]->total_quantity
@@ -2259,7 +2259,7 @@ class CommercePlant extends PlantBase {
             }
         );
 
-        $fulfillment_order = CommerceExternalFulfillmentOrder::find($id);
+        $fulfillment_order = $this->orm->find(CommerceExternalFulfillmentOrder::class, $id );
 
         if ($fulfillment_order->update($final_edits)) {
             return $fulfillment_order;
@@ -2431,9 +2431,9 @@ class CommercePlant extends PlantBase {
     public function getSubscriptionDetails($id) {
         // we can handle this as id or by customer payment token
         if (is_numeric($id)) {
-            $member = CommerceSubscriptionMember::find($id);
+            $member = $this->orm->find(CommerceSubscriptionMember::class, $id );
         } else {
-            $member = CommerceSubscriptionMember::findWhere(['payment_identifier'=>$id]);
+            $member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['payment_identifier'=>$id] );
         }
 
         if ($member) {
@@ -2600,7 +2600,7 @@ class CommercePlant extends PlantBase {
                 if ($subscription = $payment_seed->createSubscription($token, $subscription_plan[0]['sku'], $email_address, $quantity)) {
                     // we need to add in the customer token so we can actually corollate with the webhooks
 
-                    $member = CommerceSubscriptionMember::find($subscription_member_id);
+                    $member = $this->orm->find(CommerceSubscriptionMember::class, $subscription_member_id );
 
                     if (!$member->update(['payment_identifier'=>$subscription->id])) return "406";
 
