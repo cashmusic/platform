@@ -452,7 +452,7 @@ class CommercePlant extends PlantBase {
 
     protected function getItemsForUser($user_id,$with_variants=true) {
 
-        $items = CommerceItem::findWhere(['user_id'=>$user_id], true);
+        $items = $this->orm->findWhere(CommerceItem::class, ['user_id'=>$user_id], true);
 
         $result = [];
 
