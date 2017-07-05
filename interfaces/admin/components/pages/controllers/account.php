@@ -105,6 +105,8 @@ $user_response = $cash_admin->requestAndStore(
 	)
 );
 
+CASHSystem::errorLog($user_response);
+
 
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
