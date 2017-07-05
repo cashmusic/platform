@@ -88,7 +88,6 @@ class AdminController {
         }
 
         if (!$logged_in) {
-
             // check for signup
             $cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 
@@ -99,6 +98,7 @@ class AdminController {
             $cash_admin->page_data['login_message'] = 'OK';
             if (isset($_POST['login'])) {
                 $login_details = $admin_helper->doLogin($_POST['address'],$_POST['password'],true,false);
+
                 if ($login_details !== false) {
                     $admin_primary_cash_request->startSession();
                     $admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);

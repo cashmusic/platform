@@ -162,7 +162,7 @@ class AssetPlant extends PlantBase {
         try {
 
 			// this should actually be from People but i need to build out conditions for relationships
-            $assets = Asset::findWhere($options);
+            $assets = $this->orm->findWhere(Asset::class, $options);
 
 		} catch (\Exception $e) {
         	CASHSystem::errorLog($e->getMessage());

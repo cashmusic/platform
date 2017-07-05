@@ -57,6 +57,8 @@ class CASHEntity
      * @return mixed
      */
     public function findWhere($entity, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
+        CASHSystem::errorLog("em");
+
         return $entity::findWhere($this->em, $values, $force_array, $order_by, $limit, $offset);
     }
 

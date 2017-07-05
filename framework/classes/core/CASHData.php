@@ -120,6 +120,7 @@ abstract class CASHData {
 		if (!$this->sessionGet('start_time','script') || $force_session_id) {
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
+
 			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
 				// found session data, check expiration
 				if ($current_session['expiration_date'] < time()) {
@@ -134,6 +135,7 @@ abstract class CASHData {
 			} else {
 				$session_id = $this->getSessionID();
 			}
+
 			if ($session_id) {
                 $session_exists = $this->orm->findWhere(
                     SystemSession::class,        // ORM entity class
@@ -147,10 +149,7 @@ abstract class CASHData {
 				if ($session_exists) {
 					// if there is an existing session that's not expired, use it
 					$previous_session = array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
+						'session_id' => $session_id
 					);
 				}
 			} else {
@@ -176,7 +175,12 @@ abstract class CASHData {
 			$this->sessionSet('start_time',time(),'script');
 
 			// set the database session data
-            $session = $this->orm->create(SystemSession::class, $session_data);
+			if (!$previous_session) {
+                $session = $this->orm->create(SystemSession::class, $session_data);
+			} else {
+				$session = $this->orm->findWhere(SystemSession::class, $previous_session);
+				$session->update($session_data);
+			}
 
 			if (!$sandbox && !$force_session_id) {
 				// set the client-side cookie
@@ -220,7 +224,7 @@ abstract class CASHData {
                 ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
 
 			if ($session) {
-				$return_array['persistent'] = $session->date;
+				$return_array['persistent'] = $session->data;
 				$return_array['expiration_date'] = $session->expiration_date;
 			}
 		}
@@ -278,6 +282,7 @@ abstract class CASHData {
 			$session_id = $this->getSessionID();
 			if ($session_id) {
 				$session_data = $this->getAllSessionData();
+
 				if (!$session_data['persistent']) {
 					$this->resetSession();
 					$session_data['persistent'] = array();
@@ -318,6 +323,7 @@ abstract class CASHData {
 	 */public function sessionGet($key,$scope='persistent') {
 		if ($scope == 'persistent') {
 			$session_data = $this->getAllSessionData();
+
 			if (isset($session_data['persistent'][(string)$key])) {
 
 				// ERROR LOGGING

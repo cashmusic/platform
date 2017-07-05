@@ -219,12 +219,20 @@ class EntityBase extends CASHData
     {
         $this->creation_date = time();
         $this->modification_date = time();
+
+        /*if (property_exists($this, "data")) {
+            if (!isset($this->data)) $this->data = [];
+        }*/
     }
 
     /** @PreUpdate */
     public function doOnPreUpdate()
     {
         $this->modification_date = time();
+
+        /*if (property_exists($this, "data")) {
+            if (!isset($this->data)) $this->data = [];
+        }*/
     }
 
     /**
@@ -360,17 +368,6 @@ class EntityBase extends CASHData
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
                 }
-
-                /*$query = CASHDBAL::queryBuilder();
-                $query = $query->select($tableName)->from($class_fqdn, $tableName);
-
-                $query = $query->where(
-                    $query->expr()->eq($tableName . '.scope_table_id', ':key')
-                )->andWhere(
-                    $query->expr()->eq($tableName . '.scope_table_alias', ':scope')
-                )->setParameter(':key', $key)->setParameter(':scope', $scope);
-
-                $result = $query->getQuery()->getResult(5);*/
             }
 
 

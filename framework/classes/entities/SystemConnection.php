@@ -30,7 +30,7 @@ class SystemConnection extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="data", type="json_array", length=65535, nullable=false)
+     * @Column(name="data", type="string", length=65535, nullable=false)
      */
     protected $data;
 

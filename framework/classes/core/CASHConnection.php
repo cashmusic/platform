@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Entities\SystemConnection;
 
 /**
  * CASHConnection stores and retrieves 3rd party API connection settings from the
@@ -95,20 +96,10 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	 * @return array
 	 */public function getAllConnectionsforUser() {
 		if ($this->user_id) {
-			$result = $this->db->getData(
-				'connections',
-				'*',
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
-				)
-			);
-			return $result;
-		} else {
-			return false;
+			return $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id]);
 		}
+
+		return false;
 	}
 
 	/**
@@ -130,31 +121,18 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 			$connection_id = $id_override;
 		}
 		if ($connection_id) {
-			$result = $this->db->getData(
-				'connections',
-				'name,data,creation_date',
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $connection_id
-					),
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
-				)
-			);
-			if ($result) {
-				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])),true);
-				$this->connection_name = $result[0]['name'];
-				$this->creation_date = $result[0]['creation_date'];;
+
+			$connection = $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id, 'id'=>$connection_id]);
+
+			if ($connection) {
+				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($connection->data)),true);
+				$this->connection_name = $connection->name;
+				$this->creation_date = $connection->creation_date;
 				return $this->settings;
-			} else {
-				return false;
 			}
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -181,7 +159,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	/**
 	 * Returns the decoded JSON for the specified connection scope
 	 *
-	 * @return settings obj
+	 * @return array|bool
 	 */public function getConnectionsByScope($scope) {
 		$connection_types_data = $this->getConnectionTypes($scope);
 		$applicable_settings_array = false;
@@ -191,7 +169,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 		if (is_array($all_connections)) {
 			foreach ($all_connections as $key => $data) {
 				if (is_array($connection_types_data)) {
-					if (array_key_exists($data['type'],$connection_types_data)) {
+					if (array_key_exists($data->type,$connection_types_data)) {
 						$filtered_connections[] = $data;
 					}
 				}
@@ -200,12 +178,15 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 
 		if (count($filtered_connections)) {
 			foreach ($filtered_connections as &$connection) {
+
+				$connection = $connection->toArray();
 				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])),true);
 			}
+
 			return $filtered_connections;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**

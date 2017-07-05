@@ -69,5 +69,14 @@ class SystemSession extends EntityBase
         $result = parent::findWhere($values, $force_array, $limit, $order_by, $offset);
     }*/
 
+    protected function setDataAttribute($value) {
+        // make sure the data value is never actually empty-empty
+        if (empty($value)) {
+            $value = [];
+        }
+
+        $this->data = $value;
+    }
+
 }
 
