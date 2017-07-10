@@ -602,7 +602,7 @@ class CASHDBA {
 				. "WHERE user_id = :user_id ORDER BY last_name";
 				break;
 			case 'PeoplePlant_getUsersForList':
-				$query = "SELECT u.id,u.email_address,u.display_name,u.first_name,u.last_name,"
+				$query = "SELECT u.id,u.email_address,u.display_name,u.first_name,u.last_name,u.address_postalcode,"
 				. "l.initial_comment,l.additional_data,l.active,l.verified,l.creation_date "
 				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "
 				. "WHERE l.list_id = :list_id AND l.active = 1";
