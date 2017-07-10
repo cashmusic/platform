@@ -240,6 +240,8 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 	$settings_for_user = $page_data_object->getAllConnectionsforUser();
 	if (is_array($settings_for_user)) {
 		foreach ($settings_for_user as $key => $data) {
+
+			if (is_object($data)) $data = $data->toArray();
 			$cash_admin->page_data['state_markup'] .= '<div class="callout">'
 				. '<h6>' . $data['name'] . '</h6>';
 

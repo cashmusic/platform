@@ -1,2 +1,0 @@
-#!/bin/bash
-./vendor/bin/kahlan --spec="framework/classes/tests"

@@ -18,7 +18,8 @@
         "slim/slim": "^3.0",
         "doctrine/orm": "^2.5",
         "doctrine/migrations": "^1.5",
-        "usmanhalalit/pixie": "^2.0"
+        "usmanhalalit/pixie": "^2.0",
+        "codeception/codeception": "*"
     },
     "autoload": {
         "psr-4": {

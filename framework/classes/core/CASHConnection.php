@@ -200,30 +200,37 @@ use CASHMusic\Entities\SystemConnection;
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
-	 */public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
-		$settings_data = json_encode($settings_data);
-		if ($connection_id) {
-			$settings_condition = array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $connection_id
-				)
+	 */
+	public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
+	 	$settings_data = json_encode($settings_data);
+
+	 	if ($connection_id) {
+			$settings = $this->orm->find(SystemConnection::class, $connection_id);
+
+			$settings->update(
+                array(
+                    'name' => $settings_name,
+                    'type' => $settings_type,
+                    'user_id' => $this->user_id,
+                    'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+                )
 			);
 		} else {
-			$settings_condition = false;
+			$settings = $this->orm->create(SystemConnection::class,
+                array(
+                    'name' => $settings_name,
+                    'type' => $settings_type,
+                    'user_id' => $this->user_id,
+                    'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+                )
+			);
 		}
 
-		$result = $this->db->setData(
-			'connections',
-			array(
-				'name' => $settings_name,
-				'type' => $settings_type,
-				'user_id' => $this->user_id,
-				'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
-			),
-			$settings_condition
-		);
-		return $result;
+		if (isset($settings->id)) {
+	 		return $settings->id;
+		}
+
+		return false;
 	}
 
 	/**
@@ -254,17 +261,14 @@ use CASHMusic\Entities\SystemConnection;
 	 *
 	 * @param {int} connection_id
 	 * @return boolean
-	 */public function deleteSettings($connection_id) {
-		$result = $this->db->deleteData(
-			'connections',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $connection_id
-				)
-			)
-		);
-		return $result;
+	 */
+	public function deleteSettings($connection_id) {
+
+		if ($this->orm->delete(SystemConnection::class, ['id'=>$connection_id])) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -272,29 +276,17 @@ use CASHMusic\Entities\SystemConnection;
 	 *
 	 * @return boolean
 	 */private function checkUniqueName($settings_name,$settings_type) {
-		$result = $this->db->getData(
-			'connections',
-			'name',
-			array(
-				'type' => array(
-					'condition' => '=',
-					'value' => $settings_type
-				),
-				'name' => array(
-					'condition' => '=',
-					'value' => $settings_name
-				),
-				'user_id' => array(
-					'condition' => '=',
-					'value' => $this->user_id
-				)
-			)
-		);
-		if ($result) {
+
+		if ($this->orm->findWhere(SystemConnection::class, [
+            'type' => $settings_type,
+            'name' => $settings_name,
+            'user_id' => $this->user_id
+			]
+		)) {
 			return false;
-		} else {
-			return true;
 		}
+
+		return true;
 	}
 } // END class
 ?>
