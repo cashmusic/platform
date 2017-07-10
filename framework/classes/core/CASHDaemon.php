@@ -70,19 +70,11 @@ class CASHDaemon extends CASHData {
 	}
 
 	private function cleanTempData($table,$conditional_column,$timestamp) {
-		$this->db->deleteData(
-			$table,
-			array(
-				$conditional_column => array(
-					'condition' => '<',
-					'value' => $timestamp
-				)
-			)
-		);
+		$this->db->table($table)->where($conditional_column, "<", $timestamp)->delete();
 	}
 
 	private function clearExpiredSessions() {
-		$this->cleanTempData('sessions','expiration_date',time());
+		$this->cleanTempData('system_sessions','expiration_date',time());
 	}
 
 	private function clearOldTokens() {

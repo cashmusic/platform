@@ -312,58 +312,63 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
+
         if ($max_returned) {
             $limit = $max_returned;
         } else {
             $limit = false;
         }
 
-        // gets multiple orders with all information
-        $query = $this->db->table('commerce_orders')
-            ->select('commerce_orders.*');
+        try {
+            // gets multiple orders with all information
+            $query = $this->db->table('commerce_orders')
+                ->select('commerce_orders.*');
 
-        if ($deep) {
-            $query = $query->select(
-                [
-                    'commerce_transactions.data_returned',
-                    'commerce_transactions.data_sent',
-                    'commerce_transactions.successful',
-                    'commerce_transactions.gross_price',
-                    'commerce_transactions.service_fee',
-                    'commerce_transactions.currency',
-                    'commerce_transactions.status',
-                    'commerce_transactions.service_transaction_id',
-                    'commerce_transactions.service_timestamp',
-                    'commerce_transactions.connection_type',
-                    'commerce_transactions.connection_id'
-                ]
-            );
+            if ($deep) {
+                $query = $query->select(
+                    [
+                        'commerce_transactions.data_returned',
+                        'commerce_transactions.data_sent',
+                        'commerce_transactions.successful',
+                        'commerce_transactions.gross_price',
+                        'commerce_transactions.service_fee',
+                        'commerce_transactions.currency',
+                        'commerce_transactions.status',
+                        'commerce_transactions.service_transaction_id',
+                        'commerce_transactions.service_timestamp',
+                        'commerce_transactions.connection_type',
+                        'commerce_transactions.connection_id'
+                    ]
+                );
 
-            $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
-        }
-
-        $query = $query->where('commerce_orders.user_id', '=', $user_id)
-            ->where('commerce_transactions.successful', '=', 1);
-
-        if ($since_date) {
-            $query = $query->where('commerce_orders.creation_date', ">", $since_date);
-        }
-
-        if ($include_abandoned) {
-            $query = $query->where('commerce_orders.modification_date', ">", 0);
-        }
-
-        if (isset($unfulfilled_only)) {
-            if ($unfulfilled_only == 1) {
-                $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
-            } else {
-                $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+                $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
             }
+
+            $query = $query->where('commerce_orders.user_id', '=', $user_id)
+                ->where('commerce_transactions.successful', '=', 1);
+
+            if ($since_date) {
+                $query = $query->where('commerce_orders.creation_date', ">", $since_date);
+            }
+
+            if ($include_abandoned) {
+                $query = $query->where('commerce_orders.modification_date', ">", 0);
+            }
+
+            if (isset($unfulfilled_only)) {
+                if ($unfulfilled_only == 1) {
+                    $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
+                } else {
+                    $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+                }
+            }
+
+            if ($limit) $query = $query->limit($limit)->offset($skip);
+
+            $result = $query->get();
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
         }
-
-        if ($limit) $query = $query->limit($limit)->offset($skip);
-
-        $result = $query->get();
 
         if ($deep) {
             if ($result) {
@@ -372,10 +377,10 @@ class CommercePlant extends PlantBase {
                     foreach ($result as &$order) {
                         $order = json_decode(json_encode($order), true); // cast array wizard spell
 
-                        $transaction_data = $this->parseTransactionData($order['data_returned'],$order['data_sent']);
+                        $transaction_data = $this->parseTransactionData($order['data_returned'], $order['data_sent']);
 
                         if (is_array($transaction_data)) {
-                            $order = array_merge($order,$transaction_data);
+                            $order = array_merge($order, $transaction_data);
                         }
 
                         $order_totals = $this->getOrderTotals($order['order_contents']);
