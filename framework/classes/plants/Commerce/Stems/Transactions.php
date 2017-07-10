@@ -6,6 +6,8 @@ use CASHMusic\Entities\CommerceTransaction;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+use Exception;
+
 trait Transactions {
 
     protected function addTransaction(
@@ -26,7 +28,7 @@ trait Transactions {
     ) {
 
         try {
-            $transaction = CommerceTransaction::create([
+            $transaction = $this->orm->create(CommerceTransaction::class, [
                 'user_id' => $user_id,
                 'connection_id' => $connection_id,
                 'connection_type' => $connection_type,

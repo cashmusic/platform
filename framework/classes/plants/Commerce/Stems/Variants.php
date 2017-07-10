@@ -7,6 +7,8 @@ use CASHMusic\Entities\CommerceItemVariant;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+use Exception;
+
 trait Variants {
     protected function addItemVariants(
         $item_id,
@@ -21,7 +23,7 @@ trait Variants {
             foreach ($variants as $attributes => $quantity) {
 
                 try {
-                    $variant = CommerceItemVariant::create([
+                    $variant = $this->orm->create(CommerceItemVariant::class, [
                         'item_id' => $item_id,
                         'user_id' => $item_details['user_id'],
                         'attributes' => $attributes,

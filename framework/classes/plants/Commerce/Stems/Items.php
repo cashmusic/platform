@@ -6,6 +6,8 @@ use CASHMusic\Entities\CommerceItem;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+use Exception;
+
 trait Items {
     protected function addItem(
         $user_id,
@@ -51,7 +53,7 @@ trait Items {
         }
 
         try {
-            $item = CommerceItem::create([
+            $item = $this->orm->create(CommerceItem::class, [
                 'user_id' => $user_id,
                 'name' => $name,
                 'description' => $description,
@@ -176,7 +178,7 @@ trait Items {
             $conditions['user_id'] = $user_id;
         }
 
-        if ($item = CommerceItem::findWhere($conditions)) {
+        if ($item = $this->orm->findWhere(CommerceItem::class, $conditions)) {
             if($item->delete()) {
                 $this->deleteItemVariants($id, $user_id);
                 return true;
@@ -360,8 +362,6 @@ trait Items {
                                     $global_merge_vars[0]['content'],
                                     $recipient_message
                                 );
-
-
 
                                 // replace unlock code
                                 $recipient_message = str_replace

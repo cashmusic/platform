@@ -68,7 +68,7 @@ trait Fulfillment {
             $conditions['user_id'] = $user_id;
         }
 
-        if ($fulfillment_order = CommerceExternalFulfillmentOrder::findWhere($conditions)) {
+        if ($fulfillment_order = $this->orm->findWhere(CommerceExternalFulfillmentOrder::class, $conditions)) {
             if (is_array($fulfillment_order)) {
                 return $fulfillment_order[0];
             } else {
@@ -81,7 +81,7 @@ trait Fulfillment {
 
     protected function getFulfillmentJobByTier($tier_id) {
 
-        if ($tier = CommerceExternalFulfillmentTier::find($tier_id)) {
+        if ($tier = $this->orm->find(CommerceExternalFulfillmentTier::class, $tier_id)) {
             if ($job = $tier->job()) {
                 if (is_array($job)) {
                     return $job[0];
