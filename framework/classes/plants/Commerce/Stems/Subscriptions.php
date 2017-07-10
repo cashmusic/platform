@@ -93,6 +93,7 @@ trait Subscriptions {
         if ($payment_seed->updateSubscriptionPlan($sku, $name)) {
 
             if ($plan = $this->orm->findWhere(CommerceSubscription::class, ['user_id'=>$user_id,'id'=>$id])) {
+
                 if ($plan->update([
                     'name' => $name,
                     'description' => $description,
@@ -379,8 +380,8 @@ trait Subscriptions {
 
         $subscription = $this->getSubscriptionDetails($id);
 
-        if(!empty($subscription[0]['payment_identifier'])) {
-            if ($payment_seed->cancelSubscription($subscription[0]['payment_identifier'])) {
+        if(isset($subscription->payment_identifier)) {
+            if ($payment_seed->cancelSubscription($subscription->payment_identifier)) {
                 return true;
             }
         } else {
@@ -448,7 +449,6 @@ trait Subscriptions {
             $email_address,
             "https://family.cashmusic.org/",
             "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
-            error_log("email failed");
             return false;
         }
 

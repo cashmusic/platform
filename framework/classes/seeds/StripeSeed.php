@@ -295,9 +295,7 @@ class StripeSeed extends SeedBase
     protected function setErrorMessage($msg)
     {
         $this->error_message = $msg;
-        if (CASH_DEBUG) {
-          error_log($this->error_message);
-       }
+        CASHSystem::errorLog($msg);
     }
 
     /**
@@ -528,11 +526,7 @@ class StripeSeed extends SeedBase
             }
 
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -551,11 +545,7 @@ class StripeSeed extends SeedBase
             Stripe::setApiKey($this->access_token);
             $plan = Plan::retrieve($plan_id);
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -584,12 +574,7 @@ class StripeSeed extends SeedBase
                     "id" => $sku)
             );
         } catch(Exception $e) {
-                if (CASH_DEBUG) {
-                    error_log(
-                        "StripeSeed->createSubscriptionPlan error: \n".
-                        $e->getMessage()
-                    );
-                }
+            CASHSystem::errorLog($e->getMessage());
 
             //TODO: if plan exists we should return it maybe
 
@@ -627,11 +612,7 @@ class StripeSeed extends SeedBase
         try {
             $plan->save();
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -653,11 +634,7 @@ class StripeSeed extends SeedBase
         try {
             $plan->delete();
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -674,11 +651,7 @@ class StripeSeed extends SeedBase
             ]);
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -695,14 +668,13 @@ class StripeSeed extends SeedBase
 
         try {
             Stripe::setApiKey($this->access_token);
-            $subscription = Subscription::retrieve($subscription_id);
+
+            if(!$subscription = Subscription::retrieve($subscription_id)) {
+                return false;
+            }
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -742,6 +714,7 @@ class StripeSeed extends SeedBase
                 "source" => $token
             ));
         } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
             return false;
         }
 
@@ -771,9 +744,7 @@ class StripeSeed extends SeedBase
 
         } catch (Exception $e) {
             //if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
+            CASHSystem::errorLog($e->getMessage());
             //}
 
             return false;
@@ -804,11 +775,7 @@ class StripeSeed extends SeedBase
             $subscription->save();
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -823,8 +790,6 @@ class StripeSeed extends SeedBase
     public function cancelSubscription($subscription_id) {
         // first we need to retrieve the subscription by id
         if (!$subscription = $this->getSubscription($subscription_id)) {
-
-            error_log("not getting anything back");
             return false;
         }
 
@@ -833,11 +798,7 @@ class StripeSeed extends SeedBase
             $subscription->cancel();
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
