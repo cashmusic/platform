@@ -278,7 +278,8 @@ class PeoplePlant extends PlantBase {
 	/**
 	 * Adds an email address to an existing list — optionally tie to a specific element for analytics
 	 */
-	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false,$first_name='',$last_name='',$additional_data='') {
+	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false,$first_name='',$last_name='',$additional_data='', $postal_code='') {
+
 		if ($user_id) {
 			$ownership = $this->verifyListOwner($user_id,$list_id);
 			if (!$ownership) {
@@ -298,7 +299,22 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$do_not_verify = false;
 			}
-			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name,false,false,true,'&element_id='.$element_id,$first_name,$last_name,$additional_data);
+			$result = $this->addAddress(
+					$address,
+					$list_id,
+					$do_not_verify,
+					$comment,
+					$additional_data,
+					$name,
+					false,
+					false,
+					true,
+					'&element_id='.$element_id,
+					$element_id,
+					$first_name,
+					$last_name,
+					$postal_code);
+
 			return $result;
 		} else {
 			return false;
@@ -690,7 +706,24 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
 	 */
-	protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
+	protected function addAddress($address,
+								  $list_id,
+								  $do_not_verify=false,
+								  $initial_comment='',
+								  $additional_data='',
+								  $name='Anonymous',
+								  $force_verification_url=false,
+								  $request_from_service=false,
+								  $service_opt_in=true,
+								  $extra_querystring='',
+								  $element_id=false,
+								  $first_name='',
+								  $last_name='',
+								  $postal_code='') {
+
+        CASHSystem::errorLog(func_get_args());
+		CASHSystem::errorLog(get_defined_vars());
+
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;
@@ -724,7 +757,8 @@ class PeoplePlant extends PlantBase {
 							'password' => md5(rand(23456,9876541)),
 							'display_name' => $name,
 							'first_name' => $first_name,
-							'last_name' => $last_name
+							'last_name' => $last_name,
+							'address_postalcode' => $postal_code
 						)
 					);
 					if ($addlogin_request->response['status_code'] == 200) {
@@ -1698,6 +1732,7 @@ class PeoplePlant extends PlantBase {
 						$user_name = $mailchimp_details['merges']['FNAME'] . ' ' . $mailchimp_details['merges']['LNAME'];
 					}
 					$mailchimp_details['source'] = 'com.mailchimp';
+
 					$result = $this->addAddress(
 						$mailchimp_details['email'],
 						$list_id,
@@ -1708,6 +1743,7 @@ class PeoplePlant extends PlantBase {
 						false, // don't need to verify
 						true // tell the function that the add came from the service, no verification needed
 					);
+
 					return $result;
 				} else if ($mailchimp_type == 'unsubscribe' || $mailchimp_type == 'cleaned') {
 					// move user from active to inactive
