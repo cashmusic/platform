@@ -238,7 +238,8 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='') {
+	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='',$address_postalcode='') {
+
 		$id_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'people',
@@ -300,6 +301,7 @@ class SystemPlant extends PlantBase {
 				'organization' => $organization,
 				'address_country' => $address_country,
 				'is_admin' => $is_admin,
+				'address_postalcode' => $address_postalcode,
 				'data' => json_encode($data)
 			)
 		);

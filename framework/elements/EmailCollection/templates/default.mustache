@@ -2,7 +2,63 @@
 {{#redirecterror}}<div class="cash_error cash_{{element_type}}_error">{{copy_redirecterror}}</div>{{/redirecterror}}
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}} {{#agree_checkbox}}cm-has-checkbox{{/agree_checkbox}}" method="post" action="">
 	<input type="hidden" name="session_id" value="{{session_id}}" />
-	<input type="email" name="address" value="" placeholder="{{placeholder_text}}" class="cash_input cash_input_address" /><input type="hidden" name="cash_request_type" value="people" /><input type="hidden" name="cash_action" value="signup" /><input type="hidden" name="element_id" value="{{element_id}}" /><input type="hidden" name="list_id" value="{{email_list_id}}" /><input type="submit" value="{{#button_text}}{{button_text}}{{/button_text}}{{^button_text}}{{copy_signup}}{{/button_text}}" class="button" /><div class="cash_emailcollection_extras" style="display:none;"><div class="cash_first_name" style="display:none;"><input type="text" name="first_name" value="" /></div><div class="cash_last_name" style="display:none;"><input type="text" name="last_name" value="" /></div><input type="hidden" name="additional_data" class="cm-additional-data" value='{{#geo}}{"geo":{{{geo}}}}{{/geo}}' /><div class="cash_comment" style="display:none;"><input type="text" name="comment" value='' /></div></div>
+
+        {{#collect_name}}
+                <input type="email" name="address" value="" placeholder="{{placeholder_text}}" required class="cash_input" />
+
+                    <div style="width:49%;margin-right:1%;float:left;">
+                    <input type="text" name="first_name" value="" placeholder="First name" required class="cash_input">
+                    </div>
+
+                <div style="width:50%;float:left;">
+                    <input type="text" name="last_name" value="" placeholder="Last name" required class="cash_input">
+                </div>
+            <div style="clear:both; margin-bottom: 2px;"></div>
+        {{/collect_name}}
+
+        {{^collect_name}}
+            {{^collect_postal}}
+                <div style="width: 66%; float: left">
+                    <input type="email" name="address" value="" placeholder="{{placeholder_text}}" required class="cash_input" />
+                </div>
+            {{/collect_postal}}
+        {{/collect_name}}
+
+        {{#collect_postal}}
+            {{^collect_name}}
+            <input type="email" name="address" value="" placeholder="{{placeholder_text}}" required class="cash_input" />
+            {{/collect_name}}
+            <div style="width: 66%; float: left">
+                <input type="text" name="postal_code" value="" placeholder="ZIP or postal code" required class="cash_input">
+            </div>
+        {{/collect_postal}}
+
+
+<input type="hidden" name="cash_request_type" value="people" />
+    <input type="hidden" name="cash_action" value="signup" />
+    <input type="hidden" name="element_id" value="{{element_id}}" />
+    <input type="hidden" name="list_id" value="{{email_list_id}}" />
+    <input type="submit" value="{{#button_text}}{{button_text}}{{/button_text}}{{^button_text}}{{copy_signup}}{{/button_text}}" class="button" />
+
+    <div style="clear:both;"></div>
+
+<div class="cash_emailcollection_extras" style="display:none;">
+    {{^collect_name}}
+    <div class="cash_first_name" style="display:none;">
+        <input type="text" name="first_name" value="" />
+    </div>
+    <div class="cash_last_name" style="display:none;">
+        <input type="text" name="last_name" value="" />
+    </div>
+    {{/collect_name}}
+
+{{^collect_postal}}
+<!--        <div class="cash_last_name" style="display:none;">
+            <input type="text" name="postal_code" value="" />
+        </div>-->
+{{/collect_postal}}
+
+        <input type="hidden" name="additional_data" class="cm-additional-data" value='{{#geo}}{"geo":{{{geo}}}}{{/geo}}' /><div class="cash_comment" style="display:none;"><input type="text" name="comment" value='' /></div></div>
 </form>
 <div class="cash_notation">
 	{{message_privacy}}
