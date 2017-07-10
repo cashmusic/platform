@@ -270,23 +270,5 @@ use CASHMusic\Entities\SystemConnection;
 
 		return false;
 	}
-
-	/**
-	 * Ensures that the specified name / type combination is unique per user
-	 *
-	 * @return boolean
-	 */private function checkUniqueName($settings_name,$settings_type) {
-
-		if ($this->orm->findWhere(SystemConnection::class, [
-            'type' => $settings_type,
-            'name' => $settings_name,
-            'user_id' => $this->user_id
-			]
-		)) {
-			return false;
-		}
-
-		return true;
-	}
 } // END class
 ?>
