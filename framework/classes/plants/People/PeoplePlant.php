@@ -721,9 +721,6 @@ class PeoplePlant extends PlantBase {
 								  $last_name='',
 								  $postal_code='') {
 
-        CASHSystem::errorLog(func_get_args());
-		CASHSystem::errorLog(get_defined_vars());
-
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;
@@ -783,6 +780,25 @@ class PeoplePlant extends PlantBase {
 					} else {
 						$result = true;
 					}
+
+					// update this data cuz yeah
+					if (isset($first_name) || isset($last_name) || isset($postal_code)) {
+                        $result = $this->db->setData(
+                            'users',
+                            array(
+                                'first_name' => $first_name,
+                                'last_name' => $last_name,
+                                'address_postalcode' => $postal_code
+                            ),
+                            array(
+                                'id' => array(
+                                    'condition' => '=',
+                                    'value' => $user_id
+                                )
+                            )
+                        );
+                    }
+
 					if ($result && !$request_from_service) {
 						if ($do_not_verify) {
 							$api_connection = $this->getConnectionAPI($list_id);
