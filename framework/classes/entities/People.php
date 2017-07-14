@@ -82,10 +82,10 @@ class People extends EntityBase {
         $this->password = md5($value);
     }
 
-    public function getDataAttribute() {
+/*    public function getDataAttribute() {
             if (empty($this->data) || gettype($this->data) == "string") return array();
             return $this->data;
-    }
+    }*/
 
     /* relationships */
     public function assets($where=false, $limit=false, $order_by=false) {
