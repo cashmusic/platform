@@ -138,12 +138,12 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
 	 */protected function addList($name,$user_id,$description='',$connection_id=0) {
-		$result = PeopleList::create([
+		$result = $this->orm->create(PeopleList::class, [
             'name' => $name,
             'description' => $description,
             'user_id' => $user_id,
             'connection_id' => $connection_id
-		]);
+        ]);
 
 		if ($result) {
 			$this->manageWebhooks($result->id,'add');
@@ -512,14 +512,14 @@ class PeoplePlant extends PlantBase {
 				if ($user_id) {
 					if ($take_action != 'onlyemail') {
 
-						$result = PeopleListsMember::create([
+						$result = $this->orm->create(PeopleListsMember::class, [
                             'user_id' => $user_id,
                             'list_id' => $list_id,
                             'initial_comment' => $initial_comment,
                             'additional_data' => $additional_data,
                             'verified' => 0,
                             'active' => 1
-						]);
+                        ]);
 
 					} else {
 						$result = true;
@@ -717,10 +717,10 @@ class PeoplePlant extends PlantBase {
 		$user_id = $this->getUserIDForAddress($address);
 		if ($user_id) {
 
-            $list_member = PeopleListsMember::findWhere([
-            	'user_id'=>$user_id,
-				'list_id'=>$list_id
-			]);
+            $list_member = $this->orm->findWhere(PeopleListsMember::class, [
+                'user_id'=>$user_id,
+                'list_id'=>$list_id
+            ]);
 
             $list_member->verification_code = $verification_code;
             $list_member->save();
@@ -741,7 +741,7 @@ class PeoplePlant extends PlantBase {
 				return $address_info['id'];
 			} else {
 
-                $list_member = PeopleListsMember::findWhere([
+                $list_member = $this->orm->findWhere(PeopleListsMember::class, [
                     'user_id'=>$user_id,
                     'list_id'=>$list_id,
                     'verification_code'=>$verification_code
@@ -782,10 +782,10 @@ class PeoplePlant extends PlantBase {
 	 */protected function getAddressListInfo($address,$list_id) {
 		$user_id = $this->getUserIDForAddress($address);
 		if ($user_id) {
-			$member = PeopleListsMember::findWhere([
-				'user_id' => $user_id,
-				'list_id' => $list_id
-			]);
+			$member = $this->orm->findWhere(PeopleListsMember::class, [
+                'user_id' => $user_id,
+                'list_id' => $list_id
+            ]);
 
 			if ($member) {
 				$return_array = $member->toArray();
@@ -807,9 +807,7 @@ class PeoplePlant extends PlantBase {
 	 */
 	protected function getUserIDForAddress($address,$with_security_credentials=false) {
 
-	 	$user = People::findWhere([
-	 		'email_address' => $address
-		]);
+	 	$user = $this->orm->findWhere(People::class, ['email_address' => trim($address)]);
 
 		if ($user) {
 			if ($with_security_credentials) {
@@ -829,9 +827,7 @@ class PeoplePlant extends PlantBase {
 	 * @return id|false
 	 */protected function getUserIDForUsername($username) {
 
-	 	$user = People::findWhere([
-	 		'username' => trim(strtolower($username))
-		]);
+    	$user = $this->orm->findWhere(People::class, ['username' => trim(strtolower($username))]);
 
 		if ($user) {
 			return $user->id;
@@ -902,7 +898,7 @@ class PeoplePlant extends PlantBase {
 	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='',$asset=false) {
 		// insert
 
-		$mailing = PeopleMailing::create([
+		$mailing = $this->orm->create(PeopleMailing::class, [
             'user_id' => $user_id,
             'list_id' => $list_id,
             'connection_id' => $connection_id,
@@ -921,7 +917,7 @@ class PeoplePlant extends PlantBase {
 
 		if ($mailing) {
 			// setup analytics for this mailing
-			$analytics = PeopleMailingsAnalytic::create([
+			$analytics = $this->orm->create(PeopleMailingsAnalytic::class, [
                 'mailing_id' => $mailing->id,
                 'sends' => 0,
                 'opens_total' => 0,
@@ -932,7 +928,7 @@ class PeoplePlant extends PlantBase {
                 'clicks' => 0,
                 'clicks_urls' => '{}',
                 'failures' => 0
-			]);
+            ]);
 		}
 
 		return $mailing->id;

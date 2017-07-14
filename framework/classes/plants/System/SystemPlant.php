@@ -172,6 +172,8 @@ class SystemPlant extends PlantBase {
                 'login_method' => $login_method
 			]);
 
+			error_log('create people analytic');
+
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
@@ -183,30 +185,39 @@ class SystemPlant extends PlantBase {
                     $last_login = time();
                     $new_total = 1;
                 }
+
                 // store the "last_login" time
                 if ($login_method == 'internal') {
-
                 	try {
-
                         $user = $this->orm->find(People::class, $user_id);
-						$data_array = $user->data;
-						$data_array['last_login'] = $last_login;
-                        $user->data = $data_array;
+                        $user->data = array_merge($user->data, ['last_login'=>$last_login]);
                         $user->save();
 
 					} catch (Exception $e) {
-                		CASHSystem::errorLog($e);
+                		CASHSystem::errorLog($e->getMessage());
 					}
 
+                    error_log('update last login');
+
                     if (!$people_analytics_basic) {
+
+                        try {
                 		$result = $this->orm->create(PeopleAnalyticsBasic::class, [
                             'total'=>$new_total,
                             'user_id'=>$user_id
                         ]);
+                        } catch (Exception $e) {
+                            CASHSystem::errorLog($e->getMessage());
+                        }
 
 					} else {
-                        $people_analytics_basic->total = $new_total;
-                        $people_analytics_basic->save();
+
+                		try {
+							$people_analytics_basic->total = $new_total;
+							$people_analytics_basic->save();
+                        } catch (Exception $e) {
+                            CASHSystem::errorLog($e->getMessage());
+                        }
 					}
                 }
 		}

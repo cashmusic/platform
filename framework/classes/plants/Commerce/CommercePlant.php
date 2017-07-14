@@ -312,7 +312,6 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
-
         if ($max_returned) {
             $limit = $max_returned;
         } else {
@@ -321,12 +320,11 @@ class CommercePlant extends PlantBase {
 
         try {
             // gets multiple orders with all information
-            $query = $this->db->table('commerce_orders')
-                ->select('commerce_orders.*');
-
-            if ($deep) {
-                $query = $query->select(
-                    [
+            if (!$deep) {
+                $query = $this->db->table('commerce_orders')->select('commerce_orders.*');
+            } else if ($deep) {
+                $query = $this->db->table('commerce_orders')->select([
+                        'commerce_orders.*',
                         'commerce_transactions.data_returned',
                         'commerce_transactions.data_sent',
                         'commerce_transactions.successful',
@@ -338,10 +336,7 @@ class CommercePlant extends PlantBase {
                         'commerce_transactions.service_timestamp',
                         'commerce_transactions.connection_type',
                         'commerce_transactions.connection_id'
-                    ]
-                );
-
-                $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
+                    ])->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
             }
 
             $query = $query->where('commerce_orders.user_id', '=', $user_id)

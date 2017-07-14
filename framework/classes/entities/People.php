@@ -7,7 +7,7 @@ use CASHMusic\Core\CASHDBAL;
 /**
  * @Entity(repositoryClass="CASHMusic\Entities\CASHRepository")
  * @Table(name="people")
- */
+ * @Entity @HasLifecycleCallbacks */
 
 class People extends EntityBase {
 
@@ -37,7 +37,9 @@ class People extends EntityBase {
     /** @Column(type="string") **/
     protected $password;
 
-    /** @Column(type="json_array", nullable=true) **/
+    /** @var array
+     *
+     * @Column(type="json_array", nullable=true) **/
     protected $data;
 
     /** @Column(type="string", nullable=true) **/
@@ -78,6 +80,11 @@ class People extends EntityBase {
 
     public function setPasswordAttribute($value) {
         $this->password = md5($value);
+    }
+
+    public function getDataAttribute() {
+            if (empty($this->data) || gettype($this->data) == "string") return array();
+            return $this->data;
     }
 
     /* relationships */
