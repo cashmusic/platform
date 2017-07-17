@@ -59,6 +59,7 @@ class AdminHelper  {
 		// if we're not trying to change things, let's just get the setting or fall back to americuhn
 		if (!$set_language) {
 			$session_language = $this->cash_request->sessionGet('session_language');
+
 			if (!ctype_alnum($session_language)) $session_language = "en";
 			if (empty($session_language)) {
 
@@ -101,6 +102,9 @@ class AdminHelper  {
 
 			if (!$language_change_response['payload']) {
 				// danger will robinson
+
+
+                CASHSystem::errorLog("there was an error changing language");
 			}
 		}
 

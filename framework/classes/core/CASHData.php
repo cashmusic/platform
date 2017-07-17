@@ -61,10 +61,10 @@ abstract class CASHData {
 		);
 
 		$connection = new \Pixie\Connection('mysql', $config);
-		$this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+		if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
 
 		// piggyback the PDO to Doctrine so we're using the same connection
-		$this->orm = new CASHEntity($this->db->pdo());
+		if (empty($this->orm)) $this->orm = new CASHEntity($this->db->pdo());
 	}
 
 	/**

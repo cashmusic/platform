@@ -105,8 +105,6 @@ $user_response = $cash_admin->requestAndStore(
 	)
 );
 
-CASHSystem::errorLog($user_response);
-
 
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
@@ -119,11 +117,17 @@ $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions
 	$cash_admin->page_data['language']
 );
 
-if (!empty($current_userdata['payload'])) {
+CASHSystem::errorLog("language ".$cash_admin->page_data['language']);
+CASHSystem::errorLog($user_response);
+if (!empty($user_response['payload'])) {
+	CASHSystem::errorLog("payload");
 	if (isset($_POST['dolanguagechange'])) {
+		CASHSystem::errorLog("do language change");
 		if (isset($cash_admin->page_data['language'])) {
+			CASHSystem::errorLog("success");
 			$admin_helper->formSuccess('Success. Language changed.');
 		} else {
+			CASHSystem::errorLog("failure");
             $admin_helper->formFailure('Error. We had a problem resetting your language. Please try again.');
 		}
 	}
