@@ -115,12 +115,12 @@ class PeoplePlant extends PlantBase {
 		if ($result) {
 			$list_details = $this->getList($list_id);
 			if ($user_id) {
-				if ($list_details['user_id'] != $user_id) {
+				if ($list_details->user_id != $user_id) {
 					return false;
 				}
 			}
 			$payload_data = array(
-				'details' => $list_details,
+				'details' => $list_details->toArray(),
 				'members' => $result
 			);
 			return $payload_data;
@@ -211,13 +211,9 @@ class PeoplePlant extends PlantBase {
 
 		try {
 			if ($user_id) {
-				$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
+				$list = $this->orm->delete(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
 			} else {
-				$list = $this->orm->find(PeopleList::class, $list_id );
-			}
-
-			if ($list) {
-				$list->delete();
+				$list = $this->orm->delete(PeopleList::class, ['id'=>$list_id] );
 			}
 
 		} catch (\Exception $e) {
@@ -243,33 +239,31 @@ class PeoplePlant extends PlantBase {
 	}
 
 	protected function getConnectionAPI($list_id) {
-		$list_info     = $this->getList($list_id);
+		if ($list_info = $this->getList($list_id)) {
+			$list_info = $list_info->toArray();
+			// settings are called connections now
+			$connection_id = $list_info['connection_id'];
+			$user_id       = $list_info['user_id'];
 
-		$list_info = $list_info->toArray();
-		// settings are called connections now
-		$connection_id = $list_info['connection_id'];
-		$user_id       = $list_info['user_id'];
+			// if there is an external connection
+			if ($connection_id) {
+				$connection_type = $this->getConnectionType($connection_id);
+				switch($connection_type) {
+					case 'com.mailchimp':
+						//
+						//
+						//
 
-		// if there is an external connection
-		if ($connection_id) {
-			$connection_type = $this->getConnectionType($connection_id);
-			switch($connection_type) {
-				case 'com.mailchimp':
-					//
-					//
-					//
-
-					$mc = new MailchimpSeed($user_id, $connection_id);
-					return array('connection_type' => $connection_type, 'api' => $mc);
-					break;
-				default:
-					// unknown type
-					return false;
+						$mc = new MailchimpSeed($user_id, $connection_id);
+						return array('connection_type' => $connection_type, 'api' => $mc);
+						break;
+					default:
+						// unknown type
+						return false;
+				}
 			}
-		} else {
-			// no connection, return false
-			return false;
 		}
+
 	}
 
 	protected function manageWebhooks($list_id,$action='add') {
@@ -366,13 +360,20 @@ class PeoplePlant extends PlantBase {
 			$query_limit = "$start,$limit";
 		}
 
-    	$result = $this->db->table('people')
-			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'members.initial_comment', 'members.additional_data', 'members.active', 'members.verified', 'members.creation_date'])
-			->join('people_lists_members as members', 'members.user_id', '=', 'people.id', 'LEFT OUTER')
-			->where('members.list_id', $list_id)
-			->where('members.active', 1)
-			->orderBy("members.creation_date", "DESC")
-			->limit($query_limit)->get();
+		try {
+    	$query = $this->db->table('people')
+			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'people_lists_members.initial_comment', 'people_lists_members.additional_data', 'people_lists_members.active', 'people_lists_members.verified', 'people_lists_members.creation_date'])
+			->join('people_lists_members', 'people_lists_members.user_id', '=', 'people.id', 'LEFT OUTER')
+			->where('people_lists_members.list_id', $list_id)
+			->where('people_lists_members.active', 1)
+			->orderBy("people_lists_members.creation_date", "DESC");
+
+    		if ($query_limit) $query = $query->limit($query_limit);
+
+			$result = $query->get();
+		} catch (\Exception $e) {
+			CASHSystem::errorLog($e->getMessage());
+		}
 
 		return $result;
 	}
@@ -384,7 +385,7 @@ class PeoplePlant extends PlantBase {
 	 * @return array|false
 	 */protected function getListsForUser($user_id) {
 
-		$result = $this->orm->findWhere(PeopleList::class, ['user_id'=>$user_id] );
+		$result = $this->orm->findWhere(PeopleList::class, ['user_id'=>$user_id], true);
 
 		return $result;
 	}
@@ -398,9 +399,9 @@ class PeoplePlant extends PlantBase {
 	protected function getList($list_id,$user_id=false) {
 
 		if ($user_id) {
-			$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
+			$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id]);
 		} else {
-			$list = $this->orm->find(PeopleList::class, $list_id );
+            $list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id]);
 		}
 
 		if ($list) {
@@ -484,6 +485,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$take_action = 'addandemail';
 			}
+
 			if ($take_action) {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
@@ -504,6 +506,7 @@ class PeoplePlant extends PlantBase {
 							'last_name' => $last_name
 						)
 					);
+
 					if ($addlogin_request->response['status_code'] == 200) {
 						$user_id = $addlogin_request->response['payload'];
 					} else {

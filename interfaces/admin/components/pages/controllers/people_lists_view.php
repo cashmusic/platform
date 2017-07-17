@@ -24,7 +24,6 @@ if ($request_parameters) {
         $list = $current_response['payload']->toArray();
     }
 
-
 	if ($list) {
 		$cash_admin->page_data['ui_title'] = '' . $list['name'] . '';
 		$cash_admin->page_data['list_description'] = $list['description'];
@@ -39,6 +38,8 @@ if ($request_parameters) {
 		);
 		if (is_array($list_members['payload']['members'])) {
 			foreach ($list_members['payload']['members'] as &$entry) {
+            // array stuff
+            $entry = json_decode(json_encode($entry), true);
 			$entry['formatted_date'] = date('M j, Y',$entry['creation_date']);
 		}
 		$cash_admin->page_data['list_members'] = new ArrayIterator($list_members['payload']['members']);

@@ -275,7 +275,7 @@ class SystemPlant extends PlantBase {
 			$password_hash = '';
 		}
 
-		$user = $this->orm->create([
+		$user = $this->orm->create(People::class, [
             'email_address' => $address,
             'password' => $password_hash,
             'username' => strtolower($username),

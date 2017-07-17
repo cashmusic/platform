@@ -46,6 +46,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
                     'list_id' => $request_parameters[0]
                 )
             );
+
             if ($add_response['payload']) {
                 $total_added++;
             }
