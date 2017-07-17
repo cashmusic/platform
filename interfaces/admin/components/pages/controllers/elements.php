@@ -110,15 +110,19 @@ $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','h
 
 $campaign_elements = array();
 $elements_for_campaign = array();
+
 if (is_array($campaigns_response['payload'])) {
 	$cash_admin->page_data['campaigns_as_options'] = '';
 	$elements_response = false;
 	foreach ($campaigns_response['payload'] as &$campaign) {
+
 		// pull out element details
 		//$campaign['elements'] = json_decode($campaign['elements'],true);
 		if (is_array($campaign->elements)) {
+
 			$campaign_elements = array_merge($campaign->elements,$campaign_elements);
 			if ($campaign->id == $current_campaign) {
+
 				$elements_response = $cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'element',
@@ -149,6 +153,7 @@ if ($current_campaign == -1) {
 
 	if ($extra_elements > 0) {
 		$elements_for_campaign = array();
+
 		foreach ($all_elements_response['payload'] as $element) {
 			$element = $element->toArray();
 			if (!in_array($element['id'], $campaign_elements)) {

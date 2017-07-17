@@ -249,7 +249,16 @@ class EntityBase extends CASHData
         } else if (property_exists($this, $property)) {
             // this should hopefully take care of empty json_array field issue
             if ($this->getFieldType($property) == "json_array") {
-                if (gettype($this->$property) == "string" || empty($this->$property)) return array();
+
+                if (gettype($this->$property) == "string") {
+                    if ($value = json_decode($this->$property, true)) {
+                        return $value;
+                    }
+
+                    return array();
+                }
+
+                if (empty($this->$property)) return array();
             }
             return $this->$property;
         }

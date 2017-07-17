@@ -22,6 +22,8 @@ if (isset($_POST['docampaignadd'])) {
 			'user_id' => $effective_user
 		)
 	);
+
+	CASHSystem::errorLog($add_response);
 	if ($add_response['payload']) {
 		// make the new campaign selected
 		$admin_primary_cash_request->sessionSet('current_campaign',$add_response['payload']);

@@ -447,6 +447,7 @@ class PeoplePlant extends PlantBase {
 	 *
 	 */
 	protected function getUser($user_id) {
+
 	 	if ($user = $this->orm->find(People::class, $user_id)) {
 	 		return $user->toArray();
 		} else {

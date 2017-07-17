@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHDBA;
+use PDO;
 use CASHMusic\Entities\SystemConnection;
 use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Entities\SystemSession;
@@ -57,7 +58,10 @@ abstract class CASHData {
 			'host'      => $cash_db_settings['hostname'],
 			'database'  => $cash_db_settings['database'],
 			'username'  => $cash_db_settings['username'],
-			'password'  => $cash_db_settings['password']
+			'password'  => $cash_db_settings['password'],
+			'options' => [
+                PDO::ATTR_PERSISTENT => true
+			]
 		);
 
 		$connection = new \Pixie\Connection('mysql', $config);
@@ -749,7 +753,5 @@ abstract class CASHData {
 		}
     	return false;
 	}
-
-
 } // END class
 ?>

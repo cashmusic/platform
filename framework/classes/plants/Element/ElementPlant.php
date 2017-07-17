@@ -333,7 +333,7 @@ class ElementPlant extends PlantBase {
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
 
-			$result = ElementAnalytic::create([
+			$result = $this->orm->create(ElementAnalytic::class, [
                 'element_id' => $id,
                 'access_method' => $access_method,
                 'access_location' => $location,
@@ -432,12 +432,15 @@ class ElementPlant extends PlantBase {
                     if (is_array($result)) {
                         $result = $result[0];
                     } else {
-                        $result = $result;
+                        $result = $result->toArray();
                     }
 
-                    $data = $result['data'];
-                    $data['total'] = $result['total'];
+                    $data = [];
+                    if (is_array($result->data)) $data = $result->data;
+
+                    $data['total'] = $result->total;
                     return $data;
+
 				} else {
 					return false;
 				}
@@ -485,7 +488,7 @@ class ElementPlant extends PlantBase {
 
 	protected function addElement($name,$type,$options_data,$user_id) {
 		// if this worked we can cast to an array
-		if($result = Element::create([
+		if($result = $this->orm->create(Element::class, [
             'name' => $name,
             'type' => $type,
             'options' => $options_data,
@@ -579,13 +582,13 @@ class ElementPlant extends PlantBase {
 
 	protected function addCampaign($title,$description,$user_id,$elements=false,$metadata=false) {
 
-		$campaign = ElementsCampaign::create([
+		$campaign = $this->orm->create(ElementsCampaign::class, [
             'title' => $title,
             'description' => $description,
             'elements' => $elements,
             'metadata' => $metadata,
             'user_id' => $user_id
-			]);
+        ]);
 
 		if ($campaign) {
 			return $campaign->id;
@@ -653,8 +656,7 @@ class ElementPlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $campaign = ElementsCampaign::findWhere($conditions);
-
+        $campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
 		if ($campaign) {
 			if (is_array($campaign)) {
 				return $campaign[0];
@@ -681,7 +683,7 @@ class ElementPlant extends PlantBase {
 		$campaign = $this->getCampaign($id);
 
 		if (count($campaign->elements)) {
-            $elements = $this->orm->findWhere(Element::class, ['id'=>$campaign->elements] );
+            $elements = $this->orm->findWhere(Element::class, ['id'=>$campaign->elements], true);
 
             return $elements;
 		} else {
