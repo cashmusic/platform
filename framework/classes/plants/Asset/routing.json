@@ -33,6 +33,13 @@
 				"direct"
 			]
 		},
+		"addbulklockcodes": {
+			"description": "Add bulk lock codes.",
+			"plantfunction": "addBulkLockCodes",
+			"security": [
+				"direct"
+			]
+		},
 		"addlockcode": {
 			"description": "Creates a lock code for asset redemption.",
 			"plantfunction": "addLockCode",

@@ -23,7 +23,6 @@ if (isset($_POST['docampaignadd'])) {
 		)
 	);
 
-	CASHSystem::errorLog($add_response);
 	if ($add_response['payload']) {
 		// make the new campaign selected
 		$admin_primary_cash_request->sessionSet('current_campaign',$add_response['payload']);

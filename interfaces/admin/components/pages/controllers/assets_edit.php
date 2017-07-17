@@ -17,18 +17,20 @@ $user_id = $cash_admin->effective_user_id;
 if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 	if ($_REQUEST['add_codes_qty'] > 0) {
 		$total_added = 0;
-		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
-			$addcode_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'addlockcode',
-					'asset_id' => $request_parameters[0]
-				)
-			);
-			if ($addcode_response['payload']) {
-				$total_added++;
-			}
-		}
+
+        $addcode_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'asset',
+                'cash_action' => 'addbulklockcodes',
+                'asset_id' => $request_parameters[0],
+                'code_count' => $_POST['add_codes_qty']
+            )
+        );
+
+        if ($addcode_response['payload']) {
+            $total_added = $_POST['add_codes_qty'];
+        }
+
 		$cash_admin->page_data['page_message'] = 'Added ' . $total_added . ' new download codes';
 	}
 }
@@ -50,10 +52,10 @@ if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
 	if ($asset_codes) {
 		echo '"code","creation date","claim date"' . "\n";
 		foreach ($asset_codes as $code) {
-		    echo '"' . $code['uid'] . '"';
-			echo ',"' . date('M j, Y h:iA T',$code['creation_date']) . '"';
-			if ($code['claim_date']) {
-				echo ',"' . date('M j, Y h:iA T',$code['claim_date']) . '"';
+		    echo '"' . $code->uid . '"';
+			echo ',"' . date('M j, Y h:iA T',$code->creation_date) . '"';
+			if ($code->claim_date) {
+				echo ',"' . date('M j, Y h:iA T',$code->claim_date) . '"';
 			} else {
 				echo ',"not claimed"';
 			}

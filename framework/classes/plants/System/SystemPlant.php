@@ -749,15 +749,15 @@ class SystemPlant extends PlantBase {
 	protected function getLastLockCode() {
 
 	 	$lock_codes = $this->db->table('system_lock_codes')
-			->select('uid')->orderBy('id', 'DESC')
+			->select(['uid'])->orderBy('id', 'DESC')
 			->limit(1)->get();
 
 		if ($lock_codes) {
 
 			if (is_array($lock_codes)) {
-                $code = $lock_codes[0]->code;
+                $code = $lock_codes[0]->uid;
 			} else {
-                $code = $lock_codes->code;
+                $code = $lock_codes->uid;
 			}
 
 		} else {

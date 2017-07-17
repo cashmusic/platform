@@ -261,7 +261,7 @@ class AssetPlant extends PlantBase {
 
 	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
 
-	 	$result = Asset::create([
+	 	$result = $this->orm->create(Asset::class, [
             'title' => $title,
             'description' => $description,
             'location' => $location,
@@ -274,7 +274,7 @@ class AssetPlant extends PlantBase {
             'type' => $type,
             'public_url' => $public_url='',
             'metadata' => $metadata
-		]);
+        ]);
 
 		if ($result) {
 			$this->setAllMetaData('assets',$result->id,$user_id,$tags,false);
@@ -478,14 +478,14 @@ class AssetPlant extends PlantBase {
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
 
-			$result = AssetAnalytic::create([
-				'asset_id' => $id,
-				'element_id' => $element_id,
-				'access_time' => time(),
-				'client_ip' => $ip_and_proxy['ip'],
-				'client_proxy' => $ip_and_proxy['proxy'],
-				'cash_session_id' => $this->getSessionID()
-			]);
+			$result = $this->orm->create(AssetAnalytic::class, [
+                'asset_id' => $id,
+                'element_id' => $element_id,
+                'access_time' => time(),
+                'client_ip' => $ip_and_proxy['ip'],
+                'client_proxy' => $ip_and_proxy['proxy'],
+                'cash_session_id' => $this->getSessionID()
+            ]);
 
 		}
 		// basic logging happens for full or basic
@@ -622,15 +622,17 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
-		$connection = $this->getConnectionDetails($connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
-		if (is_array($connection_type)) {
-			$seed_type = '\CASHMusic\Seeds\\'. $connection_type['seed'];
-			$seed = new $seed_type($user_id,$connection_id);
-			return $seed->getUploadParameters($acl);
-		} else {
-			return false;
-		}
+		if ($connection = $this->getConnectionDetails($connection_id)) {
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
+
+            if (is_array($connection_type)) {
+                $seed_type = '\CASHMusic\Seeds\\' . $connection_type['seed'];
+                $seed = new $seed_type($user_id, $connection_id);
+                return $seed->getUploadParameters($acl);
+            }
+        }
+
+        throw new \Exception("didn't work");
 	}
 
 	protected function finalizeUpload($connection_id,$filename) {
@@ -682,7 +684,8 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return string|false
-	 */protected function addLockCode($asset_id){
+	 */
+	protected function addLockCode($asset_id){
 		$asset = $this->getAssetInfo($asset_id);
 		if ($asset) {
 			$user_id = $asset->user_id;
@@ -700,6 +703,29 @@ class AssetPlant extends PlantBase {
 		}
 		return false;
 	}
+
+    protected function addBulkLockCodes($asset_id, $code_count){
+        $asset = $this->getAssetInfo($asset_id);
+        if ($asset) {
+            $user_id = $asset->user_id;
+
+            $add_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'addbulklockcodes',
+                    'scope_table_alias' => 'assets',
+                    'scope_table_id' => $asset_id,
+                    'user_id' => $user_id,
+					'count' => $code_count
+                )
+            );
+
+            return $add_request->response['payload'];
+        }
+        return false;
+    }
+
+
 
 	/**
 	 * Wrapper for system lock code call
