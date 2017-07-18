@@ -24,7 +24,7 @@ if (is_array($list_details)) {
 			echo ',"' . str_replace ('"','""',$entry['additional_data']) . '"';
 			echo ',"' . str_replace ('"','""',$entry['verified']) . '"';
 			echo ',"' . str_replace ('"','""',$entry['active']) . '"';
-			echo ',"' . date('M j, Y h:iA T',$entry['creation_date']) . '"';
+			echo ',"' . date('m/d/Y',$entry['creation_date']) . '"';
 			echo "\n";
 		}
 	} else {
