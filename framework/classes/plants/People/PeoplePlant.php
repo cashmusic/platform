@@ -580,7 +580,7 @@ class PeoplePlant extends PlantBase {
 				'email_address' => trim($address),
 				'username' => trim($address),
 				'password'=> md5(rand(23456,9876541)),
-				'data' => 'bulk_import',
+				'organization' => 'bulk_import',
 				'creation_date' => time()
 			];
 		}
@@ -590,7 +590,7 @@ class PeoplePlant extends PlantBase {
 
         if ($create_users) {
             // query users with "bulk_import" as data field.
-			$get_created_users = $this->orm->findWhere(People::class, ['data' => 'bulk_import'] );
+			$get_created_users = $this->orm->findWhere(People::class, ['organization' => 'bulk_import'] );
 
             $created_user_ids = [];
             $created_user_emails = [];
@@ -647,8 +647,8 @@ class PeoplePlant extends PlantBase {
 
         $remove_tag = $this->db->table('people')
 			->where('list_id', $list_id)
-			->where('data', 'bulk_import')
-			->update(['data'=>'']);
+			->where('organization', 'bulk_import')
+			->update(['organization'=>'']);
 
         if ($create_list_members) {
             return true;
@@ -1120,6 +1120,8 @@ class PeoplePlant extends PlantBase {
 
                     } else {
                         foreach ($list_details['members'] as $subscriber) {
+
+                            $subscriber = json_decode(json_encode($subscriber), true);
                             if ($subscriber['active']) {
                                 if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
                                     $subscriber['display_name'] = $subscriber['email_address'];

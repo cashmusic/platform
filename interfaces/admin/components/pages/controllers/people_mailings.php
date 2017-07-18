@@ -207,9 +207,9 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
         )
     );
 
-    if ($metadata_result) {
+    if ($metadata_result['payload']) {
         //TODO:eventually might want this to be smarter, for extended metadata
-        $asset_id = $metadata_result['payload'][0]['value'];
+        $asset_id = $metadata_result['payload'][0]->value;
     } else {
         $asset_id = $persisted_values['asset_id'];
     }

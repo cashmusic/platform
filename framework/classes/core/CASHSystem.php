@@ -1273,8 +1273,8 @@ abstract class CASHSystem  {
         $connection_id = false;
 
         // if a viable connection, set connection id with user connection
-        if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-            $connection_id = $mandrill[0]['id'];
+        if (is_array($mandrill) && !empty($mandrill->id)) {
+            $connection_id = $mandrill->id;
         }
 
         $system_connections = CASHSystem::getSystemSettings('system_connections');
