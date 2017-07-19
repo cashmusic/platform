@@ -656,7 +656,7 @@ class AssetPlant extends PlantBase {
 			}
 		}
 		$connection = $this->getConnectionDetails($asset->connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 		if (is_array($connection_type)) {
 
 			$seed_type = '\CASHMusic\Seeds\\'.$connection_type['seed'];

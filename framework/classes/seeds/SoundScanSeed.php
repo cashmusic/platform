@@ -213,14 +213,14 @@ class SoundScanSeed extends SeedBase
     }
 
     private function formatDigitalOrders() {
-
+        $orders_formatted = [];
         foreach ($this->orders as $order) {
             // album(A) or single(S), ISRC/UPC, zip (no +4. first 5 digits only), price (4 digits in pennies)
             $orders_formatted[] = [
                 'A',
-                $order['upc'],
-                $order['postal'],
-                $order['price']
+                $order->upc,
+                $order->postal,
+                $order->price
             ];
         }
 
@@ -228,7 +228,15 @@ class SoundScanSeed extends SeedBase
     }
 
     private function stripPostalCode($postal) {
-        // USA USA USA USA USA USA!!!!
-        return substr($postal, 0, 5);
+
+        $postal = trim($postal);
+
+        if (preg_match("/([A-Z])\w+/", $postal)) {
+            // CANADA CANADA CANADA
+            return substr($postal, 0, 7);
+        } else {
+            // USA USA USA USA USA USA!!!!
+            return substr($postal, 0, 5);
+        }
     }
 }

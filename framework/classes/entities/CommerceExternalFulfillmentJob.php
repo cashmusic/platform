@@ -51,14 +51,14 @@ class CommerceExternalFulfillmentJob extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="mappable_fields", type="text", length=16777215, nullable=false)
+     * @Column(name="mappable_fields", type="json_array", length=16777215, nullable=false)
      */
     protected $mappable_fields;
 
     /**
      * @var integer
      *
-     * @Column(name="has_minimum_mappable_fields", type="integer", nullable=false)
+     * @Column(name="has_minimum_mappable_fields", type="boolean", nullable=false)
      */
     protected $has_minimum_mappable_fields = '0';
 

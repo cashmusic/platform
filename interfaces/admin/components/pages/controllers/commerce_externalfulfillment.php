@@ -79,6 +79,36 @@ if ($action == "do_process" || $action == "process") {
     $action = "show_asset";
 }
 
+/**
+ * @param $backers
+ * @param $recipients
+ * @param $merge_vars
+ * @return array
+ */
+ function buildBackerEmailValues($backers)
+{
+    foreach ($backers as $backer) {
+
+        if ($backer->email != "") {
+            $recipients[] = [
+                'email' => $backer->email,
+                'name' => $backer->name
+            ];
+
+            $merge_vars[] = [
+                'rcpt' => $backer->email,
+                'vars' => [
+                    [
+                        'name' => 'code',
+                        'content' => $backer->lockcode
+                    ]
+                ]
+            ];
+        }
+    }
+    return array($recipients, $merge_vars);
+}
+
 if ($action == "do_mailing") {
 
     if (!empty($_REQUEST['fulfillment_job_id']) &&
@@ -118,25 +148,7 @@ if ($action == "do_mailing") {
                 $recipients = [];
                 $merge_vars = [];
 
-                foreach ($backers as $backer) {
-
-                    if ($backer['email'] != "") {
-                        $recipients[] = [
-                            'email' => $backer['email'],
-                            'name' => $backer['name']
-                        ];
-
-                        $merge_vars[] = [
-                            'rcpt' => $backer['email'],
-                            'vars' => [
-                                [
-                                    'name' => 'code',
-                                    'content' => $backer['lockcode']
-                                ]
-                            ]
-                        ];
-                    }
-                }
+                list($recipients, $merge_vars) = buildBackerEmailValues($backers);
 
             }
 
@@ -144,25 +156,7 @@ if ($action == "do_mailing") {
             $recipients = [];
             $merge_vars = [];
 
-            foreach ($backers as $backer) {
-
-                if ($backer['email'] != "") {
-                    $recipients[] = [
-                        'email' => $backer['email'],
-                        'name' => $backer['name']
-                    ];
-
-                    $merge_vars[] = [
-                        'rcpt' => $backer['email'],
-                        'vars' => [
-                            [
-                                'name' => 'code',
-                                'content' => $backer['lockcode']
-                            ]
-                        ]
-                    ];
-                }
-            }
+            list($recipients, $merge_vars) = buildBackerEmailValues($backers);
 
         }
 

@@ -180,7 +180,7 @@ class CommercePlant extends PlantBase {
                 history so folks don't get all crazy bananas about teh $$s
             */
             try {
-                $order = CommerceOrder::create([
+                $order = $this->orm->create(CommerceOrder::class, [
                     'user_id' => $user_id,
                     'customer_user_id' => $customer_user_id,
                     'transaction_id' => $transaction_id,
@@ -196,6 +196,7 @@ class CommercePlant extends PlantBase {
                     'cash_session_id' => $cash_session_id,
                     'data' => $data
                 ]);
+
             } catch (Exception $e) {
                 CASHSystem::errorLog($e->getMessage());
                 return false;
