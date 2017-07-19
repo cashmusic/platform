@@ -17,6 +17,7 @@ $settings_request = new CASHRequest(
         'user_id' => $cash_admin->effective_user_id
     )
 );
+
 if (is_array($settings_request->response['payload'])) {
     $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
 }
@@ -41,6 +42,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
         )
     );
 
+
     if ($subscription_request->response['payload']) {
 
         $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
@@ -61,6 +63,8 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
             $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
         }
 
+    } else {
+        $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
     }
 }
 

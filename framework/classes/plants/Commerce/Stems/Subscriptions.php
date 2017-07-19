@@ -117,6 +117,7 @@ trait Subscriptions {
                 $subscribers[$key] = $member->toArray();
 
                 if ($user = $member->customer()) {
+                    CASHSystem::errorLog($user->toArray());
                     $subscribers[$key]['email_address'] = $user->email_address;
                 }
             }

@@ -297,8 +297,15 @@ class EntityBase extends CASHData
      * @param bool $foreign_key
      * @return array
      */
-    public function hasOne($entity, $key=false, $foreign_key=false, $conditions=false) {
-        return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
+    public function hasOne($entity, $key=false, $foreign_key=false, $conditions=[]) {
+
+        list($where, $limit, $order_by) = $this->mapRelationshipConditions($conditions);
+
+        return $this->getRelationship($entity, $key, $foreign_key, false, [
+            'where'=>$where,
+            'limit'=>$limit,
+            'order_by'=>$order_by
+        ]);
     }
 
     /**
@@ -310,7 +317,10 @@ class EntityBase extends CASHData
      * @param bool $order_by
      * @return array
      */
-    public function hasMany($entity, $key=false, $foreign_key=false, $where=false, $limit=false, $order_by=false) {
+    public function hasMany($entity, $key=false, $foreign_key=false, $conditions=[]) {
+
+        list($where, $limit, $order_by) = $this->mapRelationshipConditions($conditions);
+
         return $this->getRelationship($entity, $key, $foreign_key, false, [
             'where'=>$where,
             'limit'=>$limit,
@@ -318,7 +328,10 @@ class EntityBase extends CASHData
         ]);
     }
 
-    public function hasManyPolymorphic($entity, $key, $scope_alias, $where=false, $limit=false, $order_by=false) {
+    public function hasManyPolymorphic($entity, $key, $scope_alias, $conditions=[]) {
+
+        list($where, $limit, $order_by) = $this->mapRelationshipConditions($conditions);
+
         return $this->getRelationship($entity, $key, "polymorphic", $scope_alias, [
             'where'=>$where,
             'limit'=>$limit,
@@ -332,7 +345,7 @@ class EntityBase extends CASHData
      * @param bool $foreign_key
      * @return array
      */
-    public function belongsTo($entity, $key=false, $foreign_key=false, $conditions=false) {
+    public function belongsTo($entity, $key=false, $foreign_key=false, $conditions=[]) {
         return $this->getRelationship($entity, $key, $foreign_key, false, $conditions);
     }
 
@@ -343,7 +356,7 @@ class EntityBase extends CASHData
      * @return array
      * @throws \Exception
      */
-    public function getRelationship($entity, $key=false, $foreign_key=false, $scope=false, $conditions=false) {
+    public function getRelationship($entity, $key=false, $foreign_key=false, $scope=false, $conditions=[]) {
 
         try {
             $class_fqdn = "\\CASHMusic\\Entities\\$entity";
@@ -367,7 +380,10 @@ class EntityBase extends CASHData
             // if this is non polymorphic
             if (!$scope) {
                 if (class_exists($class_fqdn)) {
-                    $result = $class_fqdn::findWhere($this->orm->em, [$foreign_key => $key]);
+                    // relationship conditions will ALWAYS override any redundant conditions passed
+                    $where_conditions = $this->parseWhereConditions($conditions['where'], [$foreign_key => $key]);
+
+                    $result = $class_fqdn::findWhere($this->orm->em, $where_conditions, true, $conditions['order_by'], $conditions['limit']);
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
                 }
@@ -375,9 +391,10 @@ class EntityBase extends CASHData
             } else {
 
                 if (class_exists($class_fqdn)) {
-                    $result = $class_fqdn::findWhere(
-                        $this->orm->em, ['scope_table_id' => $key, 'scope_table_alias'=>$scope]
-                    );
+                    // relationship conditions will ALWAYS override any redundant conditions passed
+                    $where_conditions = $this->parseWhereConditions($conditions['where'], ['scope_table_id' => $key, 'scope_table_alias'=>$scope]);
+
+                    $result = $class_fqdn::findWhere($this->orm->em, $where_conditions, true, $conditions['order_by'], $conditions['limit']);
                 } else {
                     throw new \Exception("Entity class $class_fqdn does not exist.");
                 }
@@ -390,6 +407,18 @@ class EntityBase extends CASHData
         }
 
         return $result;
+    }
+
+    public function mapRelationshipConditions($conditions) {
+        $where = null;
+        $limit = null;
+        $order_by = null;
+
+        if (isset($conditions['where'])) $where = $conditions['where'];
+        if (isset($conditions['limit'])) $limit = $conditions['limit'];
+        if (isset($conditions['order_by'])) $order_by = $conditions['order_by'];
+
+        return [$where, $limit, $order_by];
     }
 
     /**
@@ -446,6 +475,21 @@ class EntityBase extends CASHData
 
     public function __isset($name){
         return isset($this->$name);
+    }
+
+    /**
+     * @param $key
+     * @param $foreign_key
+     * @param $conditions
+     * @return array
+     */
+    public function parseWhereConditions($where, $foreign_constraints)
+    {
+        if ($where) {
+            return array_merge($where, $foreign_constraints);
+        } else {
+            return $foreign_constraints;
+        }
     }
 
 }

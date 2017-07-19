@@ -117,13 +117,14 @@ if (is_array($settings_request->response['payload'])) {
             'id' => $request_parameters[0]
         )
     );
-
+    CASHSystem::errorLog($subscriber_request);
     if ($subscriber_request->response['payload']) {
 
         // get subscription details
         $subscription_details = $subscriber_request->response['payload']->toArray();
 
         $data = $subscription_details['data'];
+        CASHSystem::errorLog($subscription_details);
         $cash_admin->page_data['subscriber'] = $subscription_details;
 
         $cash_admin->page_data['subscription_id'] = $subscription_details['subscription_id'];

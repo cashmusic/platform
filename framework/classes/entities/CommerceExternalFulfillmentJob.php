@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CommerceExternalFulfillmentJob extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'asset_id', 'name', 'description', 'status', 'mappable_fields', 'has_minimum_mappable_fields'];
     /**
      * @var integer
      *

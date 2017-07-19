@@ -75,19 +75,19 @@ if (isset($_POST['doitemadd'])) {
 
 		// wonky: let's check if this user has a mandrill connection. if not we need to system default in-seed.
 		$cash_request = new CASHConnection($cash_admin->effective_user_id);
-		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+        /*	$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
 
-		$connection_id = "system";
-		
-		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-			$connection_id = $mandrill[0]['id'];
-		}
+    $connection_id = "system";
+
+        if (is_array($mandrill) && !empty($mandrill->id)) {
+            $connection_id = $mandrill->id;
+        }*/
 
 		$email_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'commerce',
 				'cash_action' => 'emailbuyersbyitem',
-				'connection_id' => $connection_id,
+				'connection_id' => "system",
 				'user_id' => $cash_admin->effective_user_id,
 				'item_id' => $request_parameters[0],
 				'subject' => $_POST['email_subject'],
@@ -95,12 +95,6 @@ if (isset($_POST['doitemadd'])) {
 				'include_download' => $include_download
 			)
 		);
-
-		if (CASH_DEBUG) {
-			error_log( 'Commerce Item Edit: Results of CommercePlant emailbuyersbyitem'
-				.print_r($email_response, true)
-			);
-		}
 
 		if ($email_response['payload']) {
 			$admin_helper->formSuccess('Success. Email sent.');

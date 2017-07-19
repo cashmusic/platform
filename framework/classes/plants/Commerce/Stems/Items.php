@@ -226,20 +226,7 @@ trait Items {
 
     protected function emailBuyersByItem($user_id,$connection_id,$item_id,$subject,$message,$include_download=false) {
 
-        if (CASH_DEBUG) {
-            CASHSystem::errorLog(
-                'Requested CommercePlant->emailBuyersByItem with: '
-                .'$user_id='. (string)$user_id
-                .',$item_id='. (string)$item_id
-                .',$connection_id='. (string)$connection_id
-                .',$subject='. (string)$subject
-                .',$message='. (string)$message
-                .',$include_download='. (string)$include_download
-            );
-        }
-
         $item_details = $this->getItem($item_id);
-
         if ($item_details['user_id'] == $user_id) {
             $merge_vars = null;
             $global_merge_vars = array(
@@ -260,7 +247,7 @@ trait Items {
             $all_orders = $this->getOrdersByItem($user_id,$item_id);
 
             // if there are no orders, let's cheese it
-            //TODO: no error being displayed
+            //TODO: we need better responses
             if (empty($all_orders)) {
                 return false;
             }
@@ -288,6 +275,7 @@ trait Items {
                             'id' => $item_details['fulfillment_asset']
                         )
                     );
+
                     if ($asset_request->response['payload']) {
                         $unlock_suffix = 1;
                         $all_assets = array();
@@ -386,7 +374,6 @@ trait Items {
                         }
                     }
                 }
-
                 // by the power of grayskull
                 $success = CASHSystem::sendMassEmail(
                     $user_id,
@@ -399,8 +386,6 @@ trait Items {
                     false,
                     true
                 );
-
-                CASHSystem::errorLog($success);
 
                 if (!$success) return false;
 

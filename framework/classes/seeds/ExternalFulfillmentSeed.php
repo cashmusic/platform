@@ -6,6 +6,9 @@ use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHQueue;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\SeedBase;
+use CASHMusic\Entities\CommerceExternalFulfillmentJob;
+use CASHMusic\Entities\CommerceExternalFulfillmentOrder;
+use CASHMusic\Entities\CommerceExternalFulfillmentTier;
 
 class ExternalFulfillmentSeed extends SeedBase
 {
@@ -71,9 +74,7 @@ class ExternalFulfillmentSeed extends SeedBase
             ]*/
         ];
 
-        if (!$fulfillment_job = $this->db->getData(
-            'external_fulfillment_jobs', '*', $conditions, false, 'id DESC'
-        )
+        if (!$fulfillment_job = $this->orm->findWhere(CommerceExternalFulfillmentJob::class, $conditions, true, ['id'=>'DESC'])
         ) {
             return false;
         } else {
@@ -82,14 +83,13 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // loop through each job found
             foreach ($fulfillment_job as $job) {
-                $tiers = $this->getTiersByJobCount($job['id']);
+                $tiers = $this->getTiersByJobCount($job->id);
 
                 if ($tiers < 1) {
                     $tiers = false;
                 }
-                $job['tiers_count'] = $tiers;
 
-                $user_jobs[] = $job;
+                $user_jobs[] = array_merge($job->toArray(), ['tiers_count'=>$tiers]);
             }
 
             return $user_jobs;
@@ -109,30 +109,24 @@ class ExternalFulfillmentSeed extends SeedBase
             ]
         ];
 
-        if (!$fulfillment_job = $this->db->getData(
-            'external_fulfillment_jobs', '*', $conditions
-        )
+        if (!$fulfillment_job = $this->orm->findWhere(CommerceExternalFulfillmentJob::class, $conditions)
         ) {
             return false;
         } else {
 
-            $user_jobs = [];
+            /*$tiers = $this->getTiersByJob($job->id);
 
-            // loop through each job found
-            foreach ($fulfillment_job as $job) {
-                $tiers = $this->getTiersByJob($job['id']);
-
-                if ($tiers < 1) {
-                    $tiers = false;
-                }
-
-                $job['tiers'] = $tiers;
-                $job['tiers_count'] = count($tiers);
-
-                $user_jobs[] = $job;
+            if ($tiers < 1) {
+                $tiers = false;
             }
 
-            return $user_jobs;
+            $user_jobs[] = [
+                'tiers' => $tiers,
+                'tiers_count' => count($tiers)
+            ];*/
+
+
+            return $fulfillment_job;
         }
     }
 
@@ -149,10 +143,7 @@ class ExternalFulfillmentSeed extends SeedBase
             ]
         ];
 
-        if (!$tiers = $this->db->getData(
-            'CommercePlant_getExternalFulfillmentTiersAndOrderCount', false, $conditions
-        )
-        ) {
+        if (!$tiers = $this->orm->findWhere(CommerceExternalFulfillmentTier::class, $conditions, true)) {
             return false;
         } else {
             return $tiers;
@@ -162,34 +153,39 @@ class ExternalFulfillmentSeed extends SeedBase
     public function getOrderCountByJob($job_id = false, $filter = false)
     {
 
+        $job_id = ($job_id) ? $job_id : $this->fulfillment_job;
         $conditions = [
-            'user_id' => [
-                'condition' => '=',
-                'value' => $this->user_id
-            ],
-            'fulfillment_job_id' => [
-                'condition' => '=',
-                'value' => ($job_id) ? $job_id : $this->fulfillment_job
-            ]
+            'user_id' => $this->user_id,
+            'fulfillment_job_id' => $job_id
         ];
 
         // filter by some such thing (really, just complete, but left it open)
+
+        $filters = [];
+
         if (is_array($filter)) {
-            $conditions = array_merge([
-                $filter['name'] => [
-                    'condition' => '=',
-                    'value' => ($filter['value']) ? 1 : 0
-                ]
-            ], $conditions);
+            $filters[$filter['name']] = ($filter['value']) ? 1 : 0;
         }
 
-        if (!$order_count = $this->db->getData(
-            'CommercePlant_getOrderCountByJob', false, $conditions
-        )
-        ) {
-            return false;
+        $order_count = 0;
+        if ($tiers = $this->orm->findWhere(CommerceExternalFulfillmentTier::class, $conditions, true)) {
+            foreach ($tiers as $tier) {
+                $orders = $tier->orders(['where'=>$filters]);
+                $order_count += ($orders) ? count($tier->orders(['where'=>$filters])) : 0;
+            }
+        }
+
+        /*$order_count = $this->db->table('commerce_external_fulfillment_orders')
+            ->select($this->db->raw('count(commerce_external_fulfillment_orders.id) AS total_orders'))
+            ->join('commerce_external_fulfillment_tiers', function($table) use ($job_id, $user_id) {
+                $table->on('commerce_external_fulfillment_tiers.fulfillment_job_id', '=', $job_id);
+                $table->on('commerce_external_fulfillment_tiers.id', '=', 'commerce_external_fulfillment_orders.tier_id');
+                $table->on('commerce_external_fulfillment_tiers.user_id', '=', $user_id);
+            })->first();*/
+        if (!$order_count) {
+            return 0;
         } else {
-            return $order_count[0]['total_orders'];
+            return $order_count;
         }
     }
 
@@ -206,13 +202,11 @@ class ExternalFulfillmentSeed extends SeedBase
             ]
         ];
 
-        if (!$tiers = $this->db->getData(
-            'external_fulfillment_tiers', 'count(*) as total_tiers', $conditions
-        )
+        if (!$tiers = $this->orm->findWhere(CommerceExternalFulfillmentTier::class, $conditions, true)
         ) {
             return false;
         } else {
-            return $tiers[0]['total_tiers'];
+            return count($tiers);
         }
     }
 

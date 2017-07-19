@@ -33,25 +33,6 @@ if (!empty($request_parameters[0])) {
 $user_id = $cash_admin->effective_user_id;
 $external_fulfillment = new ExternalFulfillmentSeed($user_id);
 
-
-if ($action == "soundscan") {
-    // translates to the previous thursday
-    $report_end = strtotime("Yesterday 8:59PM America/Los_Angeles");
-    $report_start = ($report_end-604800);
-
-    $external_fulfillment = new ExternalFulfillmentSeed(false);
-    $orders = $external_fulfillment->getOrders($report_start, $report_end, false);
-
-    $soundscan = new SoundScanSeed(
-        $orders, // upc, zip
-        date("ymd", $report_end),    // 12345
-        "digital"
-    );
-
-    $soundscan->createReport()
-        ->sendReport();
-}
-
 if ($action == "do_create") {
     // create the fulfillment job
 
@@ -108,7 +89,7 @@ if ($action == "do_mailing") {
         //TODO: this should probably all be in a method
 
         $backers = $external_fulfillment->getBackersForJob($_REQUEST['fulfillment_job_id']);
-        CASHSystem::errorLog($backers);
+
         // remove trailing slash from URLs
         $email_url = rtrim($_REQUEST['email_url'], "/");
 
@@ -354,10 +335,12 @@ if ($action == "show_detail" || $action == "detail") {
     if (!empty($request_parameters[1])) {
         $fulfillment_job_id = $request_parameters[1];
         $fulfillment_job = $external_fulfillment->getUserJobById($fulfillment_job_id);
-        $cash_admin->page_data['job'] = $fulfillment_job[0];//print_r($fulfillment_job, true);
-        $cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$fulfillment_job[0]['asset_id'],$cash_admin->getAllFavoriteAssets(),true);
+        $cash_admin->page_data['job'] = $fulfillment_job->toArray();//print_r($fulfillment_job, true);
+        $cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$fulfillment_job->asset_id,$cash_admin->getAllFavoriteAssets(),true);
 
         $cash_admin->page_data['order_count'] = $external_fulfillment->getOrderCountByJob($fulfillment_job_id);
+
+
         $cash_admin->page_data['completed_orders'] =
             $external_fulfillment->getOrderCountByJob($fulfillment_job_id,
                 [

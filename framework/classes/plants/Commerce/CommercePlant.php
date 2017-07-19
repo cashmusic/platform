@@ -217,7 +217,7 @@ class CommercePlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        if($order = CommerceOrder::findWhere($conditions)) {
+        if($order = $this->orm->findWhere(CommerceOrder::class, $conditions)) {
             // cast a spell of summoning if this is an array. it never should be but
             if (is_array($order)) {
                 $order = $order[0];
