@@ -434,6 +434,7 @@ class EntityBase extends CASHData
                 $property = json_decode($property, true);
             }
         }
+        unset($properties['orm']);
 
         unset($properties['fillable']);
         unset($properties['db']);

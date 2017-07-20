@@ -3,6 +3,8 @@
 namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Entities\SystemJob;
+use CASHMusic\Entities\SystemProcess;
 
 class CASHQueue extends CASHData
 {
@@ -34,137 +36,74 @@ class CASHQueue extends CASHData
     public function createSystemJob() {
 
         // create a job and set the id to this instance, or die trying
-        if (!$this->job_id = $this->db->setData(
-            'jobs',
-            array(
-                'user_id' 		=> $this->user_id,
-                'table_id'      => $this->table_id,
-                'type'		    => $this->type
-            )
-        )) {
+        if ($system_job = $this->orm->create(SystemJob::class, [
+            'user_id' 		=> $this->user_id,
+            'table_id'      => $this->table_id,
+            'type'		    => $this->type
+        ])) {
+            $this->job_id = $system_job->id;
 
-            if (CASH_DEBUG) {
-                error_log("CASHQueue->createJob failed " . $this->job_id);
-            }
-            return false;
+            return true;
         }
 
-        if(CASH_DEBUG) {
-            error_log(
-                'CASHQueue->createSystemJob called'
-            );
-        }
+        return false;
     }
 
     public function getSystemJob() {
 
         //TODO: maybe get highest ID in case there are multiples
-        $condition = [
-            'user_id' => [
-                'condition' => '=',
-                'value' => $this->user_id
-            ],
-            'table_id' => [
-                'condition' => '=',
-                'value' => $this->table_id
-            ],
-            'type' => [
-                'condition' => '=',
-                'value' => $this->type
-            ]
+        $conditions = [
+            'user_id' => $this->user_id,
+            'table_id' => $this->table_id,
+            'type' => $this->type
         ];
 
-        if (!$system_job = $this->db->getData(
-            'jobs', '*', $condition
-        )) {
-            return false;
-        } else {
+       if ($system_job = $this->orm->findWhere(SystemJob::class, $conditions, ['id' => 'DESC'], 1)) {
+           $this->job_id = $system_job->id;
+           return true;
+       }
 
-            $this->job_id = $system_job[0]['id'];
-
-            if(CASH_DEBUG) {
-                error_log(
-                    'CASHQueue->getSystemJob called'
-                );
-            }
-
-            return true;
-        }
+       return false;
     }
 
     public function createSystemProcess($data, $name) {
 
-        if (!$process_id = $this->db->setData(
-            'processes',
-            array(
-                'job_id'        => $this->job_id,
-                'data' 		    => json_encode($data),
-                'name'		    => $name
-            )
-        )) {
-            return false;
+        if ($system_process = $this->orm->create(SystemProcess::class, [
+            'job_id'        => $this->job_id,
+            'data' 		    => $data,
+            'name'		    => $name
+        ])) {
+            return $system_process->id;
         }
 
-        return $process_id;
+        return false;
     }
 
     public function getSystemProcessesByJob() {
-        $condition = [
-            'job_id' => [
-                'condition' => '=',
-                'value' => $this->job_id
-            ]
-        ];
 
-        if (!$system_processes = $this->db->getData(
-            'processes', '*', $condition
-        )) {
-            return false;
-        } else {
+        if ($system_processes = $this->orm->findWhere(SystemProcess::class, ['job_id' => $this->job_id])) {
             return $system_processes;
         }
+
+        return false;
     }
 
     public function deleteSystemProcess($process_id, $job_id) {
-        $conditions = [
-            'id' => [
-                'condition' => '=',
-                'value' => $process_id
-            ],
-            'job_id' => [
-                'condition' => '=',
-                'value' => $job_id
-            ]
-        ];
 
-        if (!$this->db->deleteData(
-            'processes', $conditions
-        )) {
-            return false;
+        if ($this->db->table('system_processes')->where(['id'=>$process_id, 'job_id'=>$job_id])->delete()) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public function deleteSystemJob() {
-        $conditions = [
-            'id' => [
-                'condition' => '=',
-                'value' => $this->job_id
-            ],
-            'user_id' => [
-                'condition' => '=',
-                'value' => $this->user_id
-            ]
-        ];
 
-        if (!$this->db->deleteData(
-            'jobs', $conditions
-        )) {
-            return false;
+        if ($this->db->table('system_jobs')->where(['id'=>$this->job_id, 'user_id'=>$this->user_id])->delete()) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 }

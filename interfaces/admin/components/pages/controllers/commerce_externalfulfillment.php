@@ -329,8 +329,9 @@ if ($action == "show_detail" || $action == "detail") {
     if (!empty($request_parameters[1])) {
         $fulfillment_job_id = $request_parameters[1];
         $fulfillment_job = $external_fulfillment->getUserJobById($fulfillment_job_id);
-        $cash_admin->page_data['job'] = $fulfillment_job->toArray();//print_r($fulfillment_job, true);
-        $cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$fulfillment_job->asset_id,$cash_admin->getAllFavoriteAssets(),true);
+        $cash_admin->page_data['job'] = $fulfillment_job;//print_r($fulfillment_job, true);
+
+        $cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$fulfillment_job['asset_id'],$cash_admin->getAllFavoriteAssets(),true);
 
         $cash_admin->page_data['order_count'] = $external_fulfillment->getOrderCountByJob($fulfillment_job_id);
 
@@ -356,8 +357,6 @@ if ($action == "show_detail" || $action == "detail") {
     } else {
         // error
     }
-
-
 }
 
 if ($action == "send") {

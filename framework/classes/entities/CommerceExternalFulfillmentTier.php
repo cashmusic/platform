@@ -105,7 +105,6 @@ class CommerceExternalFulfillmentTier extends EntityBase
     }
 
     public function orders($conditions=false) {
-
         return $this->hasMany("CommerceExternalFulfillmentOrder", "id", "tier_id", $conditions);
     }
 }

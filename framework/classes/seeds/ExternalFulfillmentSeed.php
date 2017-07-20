@@ -99,14 +99,8 @@ class ExternalFulfillmentSeed extends SeedBase
     public function getUserJobById($id)
     {
         $conditions = [
-            'user_id' => [
-                'condition' => '=',
-                'value' => $this->user_id
-            ],
-            'id' => [
-                'condition' => '=',
-                'value' => $id
-            ]
+            'user_id' => $this->user_id,
+            'id' => $id
         ];
 
         if (!$fulfillment_job = $this->orm->findWhere(CommerceExternalFulfillmentJob::class, $conditions)
@@ -114,19 +108,22 @@ class ExternalFulfillmentSeed extends SeedBase
             return false;
         } else {
 
-            /*$tiers = $this->getTiersByJob($job->id);
+            $tiers = $fulfillment_job->tiers();
 
             if ($tiers < 1) {
                 $tiers = false;
             }
 
-            $user_jobs[] = [
-                'tiers' => $tiers,
-                'tiers_count' => count($tiers)
-            ];*/
+            // arrays ruin everything around me
+            foreach ($tiers as &$tier) {
+                $tier = $tier->toArray();
+            }
 
+            $job = $fulfillment_job->toArray();
+            $job['tiers'] = $tiers;
+            $job['tiers_count'] = count($tiers);
 
-            return $fulfillment_job;
+            return $job;
         }
     }
 
@@ -642,15 +639,15 @@ class ExternalFulfillmentSeed extends SeedBase
         if ($tiers = $this->getTiersByJob($job_id)) {
             // loop through tiers and delete orders
             foreach ($tiers as $tier) {
-                $this->db->table('commerce_external_fulfillment_orders')->where(['tier_id'=>$tier->id])->delete();
+                $this->db->table('commerce_external_fulfillment_orders')->where('tier_id', '=', $tier->id)->delete();
             }
         }
 
         // delete tiers
-        $this->db->table('commerce_external_fulfillment_tiers')->where(['fulfillment_job_id'=>$job_id])->delete();
+        $this->db->table('commerce_external_fulfillment_tiers')->where('fulfillment_job_id', '=', $job_id)->delete();
 
         // delete job
-        $this->db->table('commerce_external_fulfillment_jobs')->where(['id'=>$job_id])->delete();
+        $this->db->table('commerce_external_fulfillment_jobs')->where('id', '=', $job_id)->delete();
     }
 
     /**

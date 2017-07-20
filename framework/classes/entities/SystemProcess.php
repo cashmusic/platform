@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="system_processes")
  * @Entity @HasLifecycleCallbacks */
-class SystemProcesses extends EntityBase
+class SystemProcess extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['data', 'job_id', 'name'];
     /**
      * @var string
      *

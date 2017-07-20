@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @Table(name="system_jobs")
  * @Entity @HasLifecycleCallbacks */
-class SystemJobs extends EntityBase
+class SystemJob extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'type', 'table_id'];
     /**
      * @var integer
      *

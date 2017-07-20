@@ -79,5 +79,9 @@ class CommerceExternalFulfillmentJob extends EntityBase
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
+    public function tiers($conditions=false) {
+        return $this->hasMany("CommerceExternalFulfillmentTier", "id", "fulfillment_job_id", $conditions);
+    }
+
 }
 
