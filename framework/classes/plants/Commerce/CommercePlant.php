@@ -337,11 +337,11 @@ class CommercePlant extends PlantBase {
                         'commerce_transactions.service_timestamp',
                         'commerce_transactions.connection_type',
                         'commerce_transactions.connection_id'
-                    ])->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
+                    ])->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id')
+                    ->where('commerce_transactions.successful', '=', 1);
             }
 
-            $query = $query->where('commerce_orders.user_id', '=', $user_id)
-                ->where('commerce_transactions.successful', '=', 1);
+            $query = $query->where('commerce_orders.user_id', '=', $user_id);
 
             if ($since_date) {
                 $query = $query->where('commerce_orders.creation_date', ">", $since_date);

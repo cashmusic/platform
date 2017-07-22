@@ -6,6 +6,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Seeds\ExternalFulfillmentSeed;
 
 /*******************************************************************************
  *
@@ -19,7 +20,6 @@ use CASHMusic\Admin\AdminHelper;
  ******************************************************************************/
 
 // get username and any user data
-
 $user_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people',

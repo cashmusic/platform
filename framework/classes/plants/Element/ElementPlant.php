@@ -347,55 +347,57 @@ class ElementPlant extends PlantBase {
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id'=>$id] );
+            $result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $id]);
 
-			$short_geo = false;
-			if (is_array($access_data)) {
-				if (isset($access_data['geo'])) {
-					$short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
-				}
-			}
+            $short_geo = false;
+            if (is_array($access_data)) {
+                if (isset($access_data['geo'])) {
+                    $short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
+                }
+            }
 
-			if ($result) {
-				$new_total = $result[0]['total'] +1;
-				$data      = json_decode($result[0]['data'],true);
-				if (isset($data['locations'][$location])) {
-					$data['locations'][$location] = $data['locations'][$location] + 1;
-				} else {
-					$data['locations'][$location] = 1;
-				}
-				if (isset($data['methods'][$access_method])) {
-					$data['methods'][$access_method] = $data['methods'][$access_method] + 1;
-				} else {
-					$data['methods'][$access_method] = 1;
-				}
-				if (isset($data['geo'][$short_geo])) {
-					$data['geo'][$short_geo] = $data['geo'][$short_geo] + 1;
-				} else {
-					$data['geo'][$short_geo] = 1;
-				}
-			} else {
-				$new_total = 1;
-				$data      = array(
-					'locations'  => array(
-						$location => 1
-					),
-					'methods'    => array(
-						$access_method => 1
-					),
-					'geo'        => array(
-						$short_geo => 1
-					)
-				);
-				$condition = false;
-			}
+            if ($result) {
+                $new_total = $result->total + 1;
+                $data = json_decode($result->data, true);
+                if (isset($data['locations'][$location])) {
+                    $data['locations'][$location] = $data['locations'][$location] + 1;
+                } else {
+                    $data['locations'][$location] = 1;
+                }
+                if (isset($data['methods'][$access_method])) {
+                    $data['methods'][$access_method] = $data['methods'][$access_method] + 1;
+                } else {
+                    $data['methods'][$access_method] = 1;
+                }
+                if (isset($data['geo'][$short_geo])) {
+                    $data['geo'][$short_geo] = $data['geo'][$short_geo] + 1;
+                } else {
+                    $data['geo'][$short_geo] = 1;
+                }
+            } else {
+                $new_total = 1;
+                $data = array(
+                    'locations' => array(
+                        $location => 1
+                    ),
+                    'methods' => array(
+                        $access_method => 1
+                    ),
+                    'geo' => array(
+                        $short_geo => 1
+                    )
+                );
+            }
+            if ($result) {
+                $result->total = $new_total;
+                $result->data = $data;
+                $result->save();
 
-			$result->total = $new_total;
-			$result->data = $data;
-			$result->save();
+                return $result->toArray();
+            }
 
-            return $result->toArray();
-		}
+            return false;
+        }
 
 
 	}
@@ -705,7 +707,7 @@ class ElementPlant extends PlantBase {
 		);
 
 		if ($result) {
-			$returnarray['total_views'] = $result[0]['total'];
+			$returnarray['total_views'] = $result[0]->total;
 			return $returnarray;
 		} else {
 			return false;

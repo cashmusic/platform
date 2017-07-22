@@ -46,33 +46,33 @@ class CommerceSubscription extends EntityBase
      *
      * @Column(name="price", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $price;
+    protected $price = 0.00;
 
     /**
      * @var boolean
      *
      * @Column(name="flexible_price", type="boolean", nullable=true)
      */
-    protected $flexible_price = '0';
+    protected $flexible_price = 0;
 
     /**
      * @var boolean
      *
      * @Column(name="recurring_payment", type="boolean", nullable=true)
      */
-    protected $recurring_payment = '0';
+    protected $recurring_payment = 0;
 
     /**
      * @var integer
      *
      * @Column(name="recurring_interval", type="integer", nullable=false)
      */
-    protected $recurring_interval = '0';
+    protected $recurring_interval = 0;
 
     /**
      * @var string
      *
-     * @Column(name="interval", type="string", length=255, nullable=false)
+     * @Column(name="`interval`", type="string", length=255, nullable=false)
      */
     protected $interval = 'month';
 
@@ -81,28 +81,28 @@ class CommerceSubscription extends EntityBase
      *
      * @Column(name="interval_count", type="integer", nullable=false)
      */
-    protected $interval_count = '1';
+    protected $interval_count = 1;
 
     /**
      * @var boolean
      *
      * @Column(name="physical", type="boolean", nullable=true)
      */
-    protected $physical = '0';
+    protected $physical = 0;
 
     /**
      * @var string
      *
      * @Column(name="suggested_price", type="decimal", precision=9, scale=2, nullable=true)
      */
-    protected $suggested_price = '0.00';
+    protected $suggested_price = 0.00;
 
     /**
      * @var integer
      *
      * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creation_date = '0';
+    protected $creation_date = 0;
 
     /**
      * @var integer

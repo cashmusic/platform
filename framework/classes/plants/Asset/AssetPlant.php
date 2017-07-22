@@ -162,18 +162,17 @@ class AssetPlant extends PlantBase {
         try {
 
 			// this should actually be from People but i need to build out conditions for relationships
-            $assets = $this->orm->findWhere(Asset::class, $options);
+            $assets = $this->orm->findWhere(Asset::class, $options, true);
 
 		} catch (\Exception $e) {
         	CASHSystem::errorLog($e->getMessage());
 		}
 
-		if (is_object($assets)) {
-            return $assets->toArray();
-		} else {
-			return $assets;
+		if ($assets) {
+            return $assets;
 		}
 
+		return false;
 	}
 
 	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {

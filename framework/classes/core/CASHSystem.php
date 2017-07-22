@@ -994,7 +994,13 @@ abstract class CASHSystem  {
 			case "array":
 			case "object":
 			case "resource":
-                error_log("### errorLog (".gettype($data).") -> " . ($json) ? json_encode($data) : print_r($data, true));
+
+				if ($json) {
+                    error_log("### errorLog (".gettype($data).") -> " . json_encode($data, JSON_PRETTY_PRINT));
+				} else {
+                    error_log("### errorLog (".gettype($data).") -> " . print_r($data, true));
+
+                }
 				return true;
 			break;
 

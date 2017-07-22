@@ -274,9 +274,11 @@ class EntityBase extends CASHData
      */
     public function __set($property, $value)
     {
-
-        // never let a property be set unless it's in $fillable array
-        if (!in_array($property, $this->fillable)) return false;
+        // is fillable even set?
+        if (is_array($this->fillable)) {
+            // never let a property be set unless it's in $fillable array
+            if (!in_array($property, $this->fillable)) return false;
+        }
 
         $custom_method = "set" . ucwords($property) . "Attribute";
 

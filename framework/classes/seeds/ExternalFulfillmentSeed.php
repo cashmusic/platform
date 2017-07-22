@@ -664,9 +664,9 @@ class ExternalFulfillmentSeed extends SeedBase
         // we're only getting stuff newer than $timestamp, and also where tier upc IS NOT NULL
         $orders = $data_connection->db->table('commerce_external_fulfillment_orders')
             ->select([
-                'commerce_external_fulfillment_orders.shipping_postal as postal',
-                'commerce_external_fulfillment_tiers.upc as upc',
-                'commerce_external_fulfillment_orders.price as price'])
+                'commerce_external_fulfillment_orders.shipping_postal', //postal
+                'commerce_external_fulfillment_tiers.upc', //upc
+                'commerce_external_fulfillment_orders.price']) //price
             ->join('commerce_external_fulfillment_tiers', 'commerce_external_fulfillment_orders.tier_id', '=', 'commerce_external_fulfillment_tiers.id')
             ->whereBetween('commerce_external_fulfillment_orders.complete', $start_date, $end_date)
             ->whereNot('commerce_external_fulfillment_tiers.upc', '=', '')

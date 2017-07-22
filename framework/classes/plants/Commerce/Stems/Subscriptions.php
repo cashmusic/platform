@@ -27,7 +27,20 @@ trait Subscriptions {
         }
 
         if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
-
+            CASHSystem::errorLog([
+                'user_id' => $user_id,
+                'name' => $plan_name,
+                'description' => $description,
+                'sku' => $sku,
+                'price' => $amount, // as cents
+                'flexible_price' => $flexible_price,
+                'recurring_payment' => $recurring,
+                'recurring_interval' => 0,
+                'physical' => $physical,
+                'interval' => $interval,
+                'interval_count' => $interval_count,
+                'suggested_price' => $suggested_price
+            ], false);
             $plan = $this->orm->create(CommerceSubscription::class, [
                 'user_id' => $user_id,
                 'name' => $plan_name,
@@ -36,6 +49,7 @@ trait Subscriptions {
                 'price' => $amount, // as cents
                 'flexible_price' => $flexible_price,
                 'recurring_payment' => $recurring,
+                'recurring_interval' => 0,
                 'physical' => $physical,
                 'interval' => $interval,
                 'interval_count' => $interval_count,
@@ -180,14 +194,14 @@ trait Subscriptions {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
-            if (empty($subscription_plan[0])) return "404";
+            if (empty($subscription_plan)) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
-            if ($subscription_plan[0]['flexible_price'] == 1) {
+            if ($subscription_plan->flexible_price == 1) {
 
                 // make sure price is equal or greater than minimum
                 ###ERROR: price is less than minimum
-                if ($price < $subscription_plan[0]['price']) return "402";
+                if ($price < $subscription_plan->price) return "402";
 
                 $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
             }
@@ -248,7 +262,7 @@ trait Subscriptions {
 
                     if (!$subscription_member_id = $this->createSubscriptionMember(
                         $subscriber_user_id,
-                        $subscription_plan[0]['id'],
+                        $subscription_plan->id,
                         $data)
                     ) {
                         ###ERROR: error creating membership
@@ -269,7 +283,7 @@ trait Subscriptions {
                         }
 
                         // if there's a match on passed plan, then we check if it's an active subscription
-                        if ($subscription['subscription_id'] == $subscription_plan[0]['id']) {
+                        if ($subscription['subscription_id'] == $subscription_plan->id) {
                             // if subscription exists we need to allow them to subscribe if their status is
                             // 'canceled'. this raises some questions and problems with race conditions and
                             // double subscriptions but hey
@@ -303,12 +317,12 @@ trait Subscriptions {
 
                         }
 
-                        $this->updateSubscription($subscription_member_id, "created", false, false, $subscription_plan[0]['id']);
+                        $this->updateSubscription($subscription_member_id, "created", false, false, $subscription_plan->id);
                     }
                 }
 
                 // create actual subscription on stripe
-                if ($subscription = $payment_seed->createSubscription($token, $subscription_plan[0]['sku'], $email_address, $quantity)) {
+                if ($subscription = $payment_seed->createSubscription($token, $subscription_plan->sku, $email_address, $quantity)) {
                     // we need to add in the customer token so we can actually corollate with the webhooks
 
                     $member = $this->orm->find(CommerceSubscriptionMember::class, $subscription_member_id );
