@@ -91,7 +91,7 @@ class CalendarPlant extends PlantBase {
 
 	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='', $user_id) {
 
-		$result = CalendarVenue::create([
+		$result = $this->orm->create(CalendarVenue::class, [
             'name' => $name,
             'address1' => $address1,
             'address2' => $address2,
@@ -155,7 +155,7 @@ class CalendarPlant extends PlantBase {
 
 	protected function addEvent($date,$user_id,$venue_id,$purchase_url='',$comment='',$published=0,$cancelled=0) {
 
-		if ($result = CalendarEvent::create([
+		if ($result = $this->orm->create(CalendarEvent::class, [
             'date' => $date,
             'user_id' => $user_id,
             'venue_id' => $venue_id,
@@ -207,13 +207,13 @@ class CalendarPlant extends PlantBase {
         try {
             $event = $this->orm->find(CalendarEvent::class, $event_id );
             $venue = $this->getVenue($event->venue_id);
-            $results = array_merge($event->toArray(), $venue->toArray());
+
+            $results = array_merge($event->toArray(), $venue);
 		} catch (Exception $e) {
         	CASHSystem::errorLog($e->getMessage());
         	return false;
 		}
 
-		CASHSystem::errorLog($results);
 
 		return $results;
 	}
@@ -289,6 +289,7 @@ class CalendarPlant extends PlantBase {
 
 	protected function getVenue($venue_id) {
 		$namespace = "venues.cashmusic.org";
+		$venue = false;
 		// check the id for venues.cashmusic.org namespacing, get from API if exists
 		if (strpos($venue_id, $namespace) !== false) {
 			$venue_id_array = explode(":", $venue_id);
@@ -305,14 +306,18 @@ class CalendarPlant extends PlantBase {
 		}
 
 		if ($venue) {
-			return $venue;
+			if (is_array($venue)) {
+				return $venue;
+			} else if (is_object($venue)) {
+                return $venue->toArray();
+			}
 		} else {
 			return false;
 		}
 	}
 
 	protected function getAllVenues($user_id, $visible_event_types) {
-        if ($venues = CalendarVenue::findWhere(['user_id'=>$user_id])) {
+        if ($venues = $this->orm->findWhere(CalendarVenue::class, ['user_id'=>$user_id])) {
             return $venues;
         } else {
             return false;
