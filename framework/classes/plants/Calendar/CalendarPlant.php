@@ -20,16 +20,15 @@
 namespace CASHMusic\Plants\Calendar;
 
 use CASHMusic\Core\PlantBase;
-use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Entities\CalendarEvent;
 use CASHMusic\Entities\CalendarVenue;
-use CASHMusic\Seeds\PaypalSeed;
-use CASHMusic\Seeds\StripeSeed;
-use CASHMusic\Admin\AdminHelper;
 use Pixie\Exception;
 
 class CalendarPlant extends PlantBase {
+
+    protected $venues_api;
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'calendar';
 		$this->venues_api = CASH_VENUES_API;
@@ -311,12 +310,13 @@ class CalendarPlant extends PlantBase {
 			} else if (is_object($venue)) {
                 return $venue->toArray();
 			}
-		} else {
-			return false;
 		}
+
+        return false;
 	}
 
-	protected function getAllVenues($user_id, $visible_event_types) {
+	protected function getAllVenues($user_id, $visible_event_types=false) {
+
         if ($venues = $this->orm->findWhere(CalendarVenue::class, ['user_id'=>$user_id])) {
             return $venues;
         } else {
