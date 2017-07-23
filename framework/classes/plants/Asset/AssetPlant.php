@@ -84,7 +84,7 @@ class AssetPlant extends PlantBase {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
-
+		CASHSystem::errorLog($asset_details);
 		// test that getInfo returned results
 		if ($asset_details) {
 
@@ -223,8 +223,7 @@ class AssetPlant extends PlantBase {
 			$conditions['user_id'] = $user_id;
 		}
 
-		$result = $this->orm->findWhere(Asset::class, $conditions);
-		if ($result) {
+		if ($asset = $this->orm->findWhere(Asset::class, $conditions)) {
 			/*foreach ($result as &$asset_info) {
 				$asset_info = $asset_info->toArray();
 				$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
@@ -241,11 +240,7 @@ class AssetPlant extends PlantBase {
 				}
 			}*/
 
-			if (is_array($id)) {
-				return $result[0];
-			} else {
-				return $result;
-			}
+            return $asset;
 		} else {
 			return false;
 		}
