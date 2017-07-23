@@ -76,7 +76,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			$requested_plant = strtolower(trim($this->request['cash_request_type']));
 			unset($this->request['cash_request_type']);
 			if ($requested_plant != '' && count($this->request) > 0) {
-				$this->buildPlantArray();
+				$this->plant_array = self::buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
 					//$filename = substr_replace($this->plant_array[$requested_plant], '', -4);
 					$directory = str_replace("Plant", "", $this->plant_array[$requested_plant]).'\\';
@@ -130,18 +130,23 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * stored as $this->plant_array and used to initialize the appropriate class
 	 * based on the cash_request_type
 	 *
-	 * @return void
-	 */protected function buildPlantArray() {
-
+	 * @return array|boolean;
+	 */
+	public static function buildPlantArray() {
+		$plant_array = [];
 		if ($plant_dir = opendir(CASH_PLATFORM_ROOT.'/classes/plants/')) {
 			while (false !== ($file = readdir($plant_dir))) {
 				if (strpos($file, ".") === false) {
 					$tmpKey = strtolower($file);
-					$this->plant_array["$tmpKey"] = $file."Plant";
+					$plant_array["$tmpKey"] = $file."Plant";
 				}
 			}
 			closedir($plant_dir);
+
+			return $plant_array;
 		}
+
+		return false;
 	}
 } // END class
 ?>
