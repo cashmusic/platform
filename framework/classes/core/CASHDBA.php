@@ -26,7 +26,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
  **/
 class CASHDBA {
 	public    $error = 'Relax. Everything is okay.';
-	protected $db;
+	public $db;
 	private   $hostname,
 			  $username,
 			  $password,

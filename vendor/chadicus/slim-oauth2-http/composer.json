@@ -1,0 +1,34 @@
+{
+    "name": "chadicus/slim-oauth2-http",
+    "description": "Bridge components for PSR-7 and bshaffer's OAuth2 Server http messages.",
+    "keywords": ["slim", "oauth2", "http", "message", "psr7", "request", "response", "bridge"],
+    "authors": [
+        {
+            "name": "Chad Gray",
+            "email": "chadwickgray@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "bshaffer/oauth2-server-php": "^1.8",
+        "zendframework/zend-diactoros": "^1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5",
+        "chadicus/coding-standard": "^1.2",
+        "satooshi/php-coveralls": "^1.0",
+        "humbug/humbug": "1.0.0-alpha2"
+    },
+    "autoload": {
+        "psr-4": {"Chadicus\\Slim\\OAuth2\\Http\\" : "src"}
+    },
+    "autoload-dev": {
+        "psr-4": {"ChadicusTest\\Slim\\OAuth2\\Http\\" : "tests"}
+    },
+    "suggest": {
+        "chadicus/slim-oauth2-routes": "Offers standard OAuth2 routes for slim applications",
+        "chadicus/slim-oauth2-middleware": "Adds OAuth2 middleware for API requests."
+    }
+}

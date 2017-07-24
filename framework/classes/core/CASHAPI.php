@@ -8,9 +8,18 @@
 
 namespace CASHMusic\Core;
 
+use CASHMusic\Core\API\RoutingMiddleware;
 use Slim\App as Slim;
+use Chadicus\Slim\OAuth2\Routes;
+use Chadicus\Slim\OAuth2\Middleware;
+use Slim\Http;
+use OAuth2\Server;
+use Slim\Views\PhpRenderer;
+use OAuth2\Storage;
+use OAuth2\GrantType;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
 
 class CASHAPI
 {
@@ -19,37 +28,51 @@ class CASHAPI
 
     public function __construct()
     {
-        CASHSystem::startUp();
+        CASHSystem::startUp(false);
 
-        $this->app = new Slim();
-        // the verb is
-        $api = $this;
-        $this->app->get('/{plant}/{noun}', function ($request, $response, $args) use ($api) {
-            $plants = CASHRequest::buildPlantArray();
+        $cash_db_settings = CASHSystem::getSystemSettings();
 
-            if (array_key_exists($request->getAttribute('plant'), $plants)) {
-                $plant = $plants[$request->getAttribute('plant')];
-                $noun = $request->getAttribute('noun');
-                $method = $request->getMethod();
+        $cashdba = new CASHDBA(
+            $cash_db_settings['hostname'],
+            $cash_db_settings['username'],
+            $cash_db_settings['password'],
+            $cash_db_settings['database'],
+            $cash_db_settings['driver']
+        );
 
-                if ($response = $api->validateRequestedRoute($plant, $noun, $method, false)) {
-                    // parse response
-                    echo "wee";
-                }
+        $cashdba->connect();
 
-                // r
-                return false;
-                $namespace = '\CASHMusic\Plants\\';
+        $storage = new Storage\Pdo($cashdba->db);
 
-                //$class_name = $namespace.$directory.$plant;
+        $server = new \OAuth2\Server(
+            $storage,
+            [
+                'access_lifetime' => 3600,
+            ],
+            [
+                new GrantType\ClientCredentials($storage),
+                new GrantType\AuthorizationCode($storage),
+            ]
+        );
+
+        $this->app = new Slim([
+            'settings' => [
+                'determineRouteBeforeAppMiddleware' => true,
+            ]
+        ]);
+        $renderer = new PhpRenderer( __DIR__ . '/vendor/chadicus/slim-oauth2-routes/templates');
+
+        $authorization = new Middleware\Authorization($server, $this->app->getContainer());
+        CASHSystem::errorLog($authorization, false);
+        $this->app->map(['GET', 'POST'], Routes\Authorize::ROUTE, new Routes\Authorize($server, $renderer))->setName('authorize');
+        $this->app->post(Routes\Token::ROUTE, new Routes\Token($server))->setName('token');
+        $this->app->map(['GET', 'POST'], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($renderer))->setName('receive-code');
+
+        $this->app->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
 
 
-                /*$this->plant = new $class_name($this->request_method,$this->request);
-                $this->response = $this->plant->processRequest('api');*/
-            }
 
-
-        });
+        })->add($authorization);
 
         $this->app->run();
     }
@@ -62,7 +85,7 @@ class CASHAPI
          return CASH_PLATFORM_ROOT."/classes/plants/".str_replace("Plant", "", $plant)."/";
     }
 
-    public function getRoutingTables($plant) {
+    public static function getRoutingTables($plant) {
         try {
 
             $routing_table = CASHSystem::getFileContents(
@@ -80,43 +103,42 @@ class CASHAPI
         }
     }
 
-    public function validateRequestedRoute($plant, $noun, $method, $auth=false) {
-        list($restful_routes, $soap_routes) = $this->getRoutingTables($plant);
+    public static function validateRequestedRoute($plant, $noun, $method, $auth=false) {
+        list($restful_routes, $soap_routes) = self::getRoutingTables($plant);
 
         if ($restful_route = (isset($restful_routes[$noun])) ? $restful_routes[$noun] : false) {
             // check method + ACL + $auth
-
             if (isset($restful_route['verbs'][$method])) {
                 $verb = $restful_route['verbs'][$method];
+                CASHSystem::errorLog("REST");
 
-                if ($verb['authrequired']) {
-                    if ($auth) {
-                        // do request
-                    } else {
-                        // return 403 response
-                    }
+                if (isset($verb['authrequired'], $verb['plantfunction'], $verb['description'])) {
+                    return $verb;
                 } else {
-                    // do request
+                    return false;
                 }
             }
 
-            return true;
+            return false;
         }
 
         if ($soap_route = (isset($soap_routes[$noun])) ? $soap_routes[$noun] : false) {
             // check method ACL + $auth
-            if (in_array("api_public", $soap_route['security'])) {
+            if (in_array('api_public', $soap_route['security']) ||
+                in_array('api_key', $soap_route['security'])) {
+                CASHSystem::errorLog("SOAP");
                 // do request
-                CASHSystem::errorLog("yay");
-            } elseif (in_array("api_private", $soap_route['security'])) {
-                if ($auth) {
-                    // do request
-                } else {
-                    // return 403 response
-                }
-            }
+                return [
+                    'description' => $soap_route['description'],
+                    'plantfunction' => $soap_route['plantfunction'],
+                    'authrequired' => (in_array('api_public', $soap_route['security'])) ? true : false
+                ];
 
-            return true;
+            } else {
+                return false;
+            }
         }
+
+        return false;
     }
 }

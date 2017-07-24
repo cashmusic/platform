@@ -13,7 +13,13 @@ final class Versions
     const VERSIONS = array (
   'adam-paterson/oauth2-stripe' => '1.1.1@bdefdc131dccfc0e9fc7934cb2f43f3c90010670',
   'aws/aws-sdk-php' => '3.22.5@081d565ba5c20af78fcde6dcf7fdbfc48739f39f',
+  'bshaffer/oauth2-server-php' => 'v1.9.0@8856aed1a98d6da596ae3f9b8095b5c7a1581697',
   'cfreear/oauth2-mailchimp' => '1.0.0@070dd46a82cc38f51e737f4513f81db86764fd80',
+  'chadicus/psr-middleware' => 'v1.0.0@8a5a9b409bebba6a8feaddeea4766f7a0eca9214',
+  'chadicus/slim-oauth2' => 'v3.1.2@ac649e409d5cf0528deebebe50f61d806e74a540',
+  'chadicus/slim-oauth2-http' => 'v3.1.3@31f9c3da26c40080da29421be2138f9ad0dc0d77',
+  'chadicus/slim-oauth2-middleware' => 'v3.2.0@a57f5e3e4914b3ae13ad96bd12eec6bdeb1876db',
+  'chadicus/slim-oauth2-routes' => 'v3.1.3@2928cd083822bf80cd139eb09a3054e6caf39a84',
   'container-interop/container-interop' => '1.2.0@79cbf1341c22ec75643d841642dd5d6acd83bdb8',
   'doctrine/annotations' => 'v1.4.0@54cacc9b81758b14e3ce750f205a393d52339e97',
   'doctrine/cache' => 'v1.6.1@b6f544a20f4807e81f7044d31e679ccbb1866dc3',
@@ -26,6 +32,7 @@ final class Versions
   'doctrine/migrations' => 'v1.5.0@c81147c0f2938a6566594455367e095150547f72',
   'doctrine/orm' => 'v2.5.6@e6c434196c8ef058239aaa0724b4aadb0107940b',
   'drewm/mailchimp-api' => 'v2.2.2@6ebcfd131fd6f3cac69be9fccb6c3f8102736952',
+  'dyorg/slim-token-authentication' => '0.3.3@08847d3ce38e47c422d46389886d0bd8bf4a9cb2',
   'eddturtle/direct-upload' => 'v1.6.1@2da0ef9c599dc029df3d9fd1441ea5f1c81c2f8e',
   'erusev/parsedown' => '1.6.0@3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7',
   'filp/whoops' => '2.1.6@92bdc6800ac6e233c9e161a1768e082389a73530',
@@ -53,6 +60,7 @@ final class Versions
   'psr/container' => '1.0.0@b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
   'psr/http-message' => '1.0@85d63699f0dbedb190bbd4b0d2b9dc707ea4c298',
   'psr/log' => '1.0.0@fe0936ee26643249e916849d48e3a51d5f5e278b',
+  'slim/php-view' => '2.2.0@122ed121a8d9cf91a94020814d2a3ee6c836754f',
   'slim/slim' => '3.8.1@5385302707530b2bccee1769613ad769859b826d',
   'stripe/stripe-php' => 'v4.1.1@a3c940bd90f0ca1bad07c93ff31900ca4b99af64',
   'swiftmailer/swiftmailer' => 'v5.4.8@9a06dc570a0367850280eefd3f1dc2da45aef517',
@@ -61,8 +69,9 @@ final class Versions
   'symfony/polyfill-mbstring' => 'v1.3.0@e79d363049d1c2128f133a2667e4f4190904f7f4',
   'symfony/yaml' => 'v3.2.8@acec26fcf7f3031e094e910b94b002fa53d4e4d6',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
+  'zendframework/zend-diactoros' => '1.4.0@b03f285a333f51e58c95cce54109a4a9ed691436',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-dba-to-doctrine@986586f5c226c701806466830cca7bffdc23ca23',
+  'cashmusic/platform' => 'dev-api-v2@5340fafb188c34587e6a2a4994461992c61e26bc',
 );
 
     private function __construct()

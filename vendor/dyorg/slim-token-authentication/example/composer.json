@@ -1,0 +1,12 @@
+{
+    "require": {
+        "php": "^5.4",
+        "slim/slim": "^3.4",
+        "dyorg/slim-token-authentication": "^0.2.0"
+    },
+    "autoload": {
+        "classmap": [
+          "app"
+        ]
+    }
+}
