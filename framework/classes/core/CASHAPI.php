@@ -83,11 +83,15 @@ class CASHAPI
                     $request->getMethod());
 
                 if ($cash_request) {
-                    return $response->withStatus($cash_request->response['status_code'])->withJson(
+                    /*return $response->withStatus($cash_request->response['status_code'])->withJson(
                         self::APIResponse($cash_request)
-                    );
+                    );*/
 
-                    //$json_response->getBody()->write();
+                    return $response->withHeader('Content-type', 'application/json')
+                        ->withStatus($cash_request->response['status_code'])
+                        ->write(
+                            self::APIResponse($cash_request)
+                        );
                 }
 
             }
@@ -109,13 +113,13 @@ class CASHAPI
 
         if ($response) {
             if ($response->response['payload']) {
-                return [
+                $response = [
                     'data' => $response->response['payload'],
                     'status' => $response->response['status_code'],
                     'status_uid' => $response->response['status_uid']
                 ];
             } else {
-                return [
+                $response = [
                     'status' => $response->response['status_code'],
                     'status_uid' => $response->response['status_uid'],
                     'status_message' => $response->response['status_message'],
@@ -124,7 +128,7 @@ class CASHAPI
                 ];
             }
         } else {
-            return [
+            $response = [
                 'status' => 500,
                 'status_uid' => "general_500",
                 'status_message' => "Server error",
@@ -132,5 +136,7 @@ class CASHAPI
                 'error_message' => "The request failed."
             ];
         }
+
+        return json_encode($response);
     }
 }
