@@ -199,7 +199,6 @@ use Exception;
 			try {
 
 				$target_method = $restful_routes[$this->action]['verbs'][$http_method]['plantfunction'];
-				CASHSystem::errorLog($target_method);
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
 

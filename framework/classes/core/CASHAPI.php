@@ -65,12 +65,11 @@ class CASHAPI
                     // else set authed true
                     $logged_in = true;
                 }
-                // BUILD THAT CASH REQUEST
+
                 $params = [
                     'cash_request_type' => $args['plant'],
                     'cash_action' => $args['noun']
                 ];
-
 
                 if ($logged_in) $params['user_id'] = 1;
 

@@ -84,7 +84,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			if ($requested_plant != '' && count($this->request) > 0) {
 				$this->plant_array = self::buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
-					//$filename = substr_replace($this->plant_array[$requested_plant], '', -4);
 					$directory = str_replace("Plant", "", $this->plant_array[$requested_plant]).'\\';
 
 					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
