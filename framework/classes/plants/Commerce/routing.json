@@ -1,6 +1,6 @@
 {
 	"restfulnouns":{
-		"items":{
+		"item":{
 			"verbs":{
 				"POST":{
 					"description":"Add a new item.",

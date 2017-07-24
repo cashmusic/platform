@@ -12,7 +12,6 @@ return array(
     'ProxyManager\\' => array($vendorDir . '/ocramius/proxy-manager/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
-    'OAuth2' => array($vendorDir . '/bshaffer/oauth2-server-php/src'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Mandrill' => array($vendorDir . '/mandrill/mandrill/src'),
     'Google_Service_' => array($vendorDir . '/google/apiclient-services'),

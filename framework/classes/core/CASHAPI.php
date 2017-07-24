@@ -10,13 +10,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\API\RoutingMiddleware;
 use Slim\App as Slim;
-use Chadicus\Slim\OAuth2\Routes;
-use Chadicus\Slim\OAuth2\Middleware;
 use Slim\Http;
-use OAuth2\Server;
-use Slim\Views\PhpRenderer;
-use OAuth2\Storage;
-use OAuth2\GrantType;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -24,13 +18,11 @@ use Slim\Http\Request;
 class CASHAPI
 {
 
-    protected $api;
-
     public function __construct()
     {
         CASHSystem::startUp(false);
 
-        $cash_db_settings = CASHSystem::getSystemSettings();
+/*        $cash_db_settings = CASHSystem::getSystemSettings();
 
         $cashdba = new CASHDBA(
             $cash_db_settings['hostname'],
@@ -53,92 +45,93 @@ class CASHAPI
                 new GrantType\ClientCredentials($storage),
                 new GrantType\AuthorizationCode($storage),
             ]
-        );
+        );*/
 
-        $this->app = new Slim([
+        $api = new Slim([
             'settings' => [
                 'determineRouteBeforeAppMiddleware' => true,
             ]
         ]);
-        $renderer = new PhpRenderer( __DIR__ . '/vendor/chadicus/slim-oauth2-routes/templates');
 
-        $authorization = new Middleware\Authorization($server, $this->app->getContainer());
-        CASHSystem::errorLog($authorization, false);
-        $this->app->map(['GET', 'POST'], Routes\Authorize::ROUTE, new Routes\Authorize($server, $renderer))->setName('authorize');
-        $this->app->post(Routes\Token::ROUTE, new Routes\Token($server))->setName('token');
-        $this->app->map(['GET', 'POST'], Routes\ReceiveCode::ROUTE, new Routes\ReceiveCode($renderer))->setName('receive-code');
+        $api->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
+            if ($route = $request->getAttribute('route_settings')) {
+                $request_params = $request->getQueryParams();
+                if (isset($request_params['p'])) unset($request_params['p']);
 
-        $this->app->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
+                $logged_in = false;
+                if ($request->getAttribute('auth_required')) {
+                    // if !authed return 403
 
-
-
-        })->add($authorization);
-
-        $this->app->run();
-    }
-
-    /**
-     * @param $plant
-     */
-    public static function getPlantDirectory($plant)
-    {
-         return CASH_PLATFORM_ROOT."/classes/plants/".str_replace("Plant", "", $plant)."/";
-    }
-
-    public static function getRoutingTables($plant) {
-        try {
-
-            $routing_table = CASHSystem::getFileContents(
-                self::getPlantDirectory($plant) ."routing.json", true
-            );
-
-            $routing_to_array = json_decode($routing_table, true);
-            $restful_routes = $routing_to_array['restfulnouns'];
-            $soap_routes = $routing_to_array['requestactions'];
-
-            return [$restful_routes, $soap_routes];
-        } catch (\Exception $e) {
-            CASHSystem::errorLog($e->getMessage());
-            return false;
-        }
-    }
-
-    public static function validateRequestedRoute($plant, $noun, $method, $auth=false) {
-        list($restful_routes, $soap_routes) = self::getRoutingTables($plant);
-
-        if ($restful_route = (isset($restful_routes[$noun])) ? $restful_routes[$noun] : false) {
-            // check method + ACL + $auth
-            if (isset($restful_route['verbs'][$method])) {
-                $verb = $restful_route['verbs'][$method];
-                CASHSystem::errorLog("REST");
-
-                if (isset($verb['authrequired'], $verb['plantfunction'], $verb['description'])) {
-                    return $verb;
-                } else {
-                    return false;
+                    // else set authed true
+                    $logged_in = true;
                 }
-            }
-
-            return false;
-        }
-
-        if ($soap_route = (isset($soap_routes[$noun])) ? $soap_routes[$noun] : false) {
-            // check method ACL + $auth
-            if (in_array('api_public', $soap_route['security']) ||
-                in_array('api_key', $soap_route['security'])) {
-                CASHSystem::errorLog("SOAP");
-                // do request
-                return [
-                    'description' => $soap_route['description'],
-                    'plantfunction' => $soap_route['plantfunction'],
-                    'authrequired' => (in_array('api_public', $soap_route['security'])) ? true : false
+                // BUILD THAT CASH REQUEST
+                $params = [
+                    'cash_request_type' => $args['plant'],
+                    'cash_action' => $args['noun']
                 ];
 
-            } else {
-                return false;
-            }
-        }
 
-        return false;
+                if ($logged_in) $params['user_id'] = 1;
+
+                if (is_array($request_params)) $params = array_merge($request_params, $params);
+
+                $cash_request = new CASHRequest(
+                    $params,
+                    'direct',
+                    1,
+                    true,
+                    $request->getMethod());
+
+                if ($cash_request) {
+                    return $response->withStatus($cash_request->response['status_code'])->withJson(
+                        self::APIResponse($cash_request)
+                    );
+
+                    //$json_response->getBody()->write();
+                }
+
+            }
+
+            if (empty($json_response)) {
+                return $response->withStatus(500)->withJson(
+                    self::APIResponse(false)
+                );
+            }
+
+            return $json_response;
+            // if we get here return 404
+        })->add(new RoutingMiddleware());
+
+        $api->run();
+    }
+
+    public static function APIResponse($response) {
+
+        if ($response) {
+            if ($response->response['payload']) {
+                return [
+                    'data' => $response->response['payload'],
+                    'status' => $response->response['status_code'],
+                    'status_uid' => $response->response['status_uid']
+                ];
+            } else {
+                return [
+                    'status' => $response->response['status_code'],
+                    'status_uid' => $response->response['status_uid'],
+                    'status_message' => $response->response['status_message'],
+                    'error_name' => $response->response['contextual_name'],
+                    'error_message' => $response->response['contextual_message']
+                ];
+            }
+        } else {
+            return [
+                'status' => 500,
+                'status_uid' => "general_500",
+                'status_message' => "Server error",
+                'error_name' => "There was an error while getting a response",
+                'error_message' => "The request failed."
+            ];
+        }
     }
 }

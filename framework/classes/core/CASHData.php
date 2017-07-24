@@ -27,9 +27,9 @@ abstract class CASHData {
 			  $cash_session_data = null,
 			  $cash_session_id = null,
 			  $cache_enabled = false,
+				$db = false,
 			  $cache_dir = null;
 
-	public $db = false;
 
 	/**
 	 *

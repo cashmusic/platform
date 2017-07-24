@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Core;
 
+use CASHMusic\Core\API\RoutingMiddleware;
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHResponse as CASHResponse;
 use ReflectionMethod;
@@ -23,18 +24,19 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$api;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
 	 *
-	 */public function processRequest($api=false) {
+	 */public function processRequest($api=false,$http_method=false) {
+
 		if ($this->action) {
 
 		    if (!$api) {
                 return $this->routeBasicRequest();
             } else {
-		        return $this->routeAPIRequest();
+		        return $this->routeAPIRequest($http_method);
             }
 
 		} else {
@@ -51,13 +53,16 @@ use Exception;
 	 *
 	 * @param {string} $request_method - 'get'/'post'/'direct'/'commandline'
 	 * @param {array} $request - an associative array containing all request parameters
+     * @param $api boolean
 	 * @return void
 	 */protected function plantPrep($request_method,$request) {
 		$this->request_method = $request_method;
 		$this->request = $request;
+
 		if (isset($this->request['cash_action'])) {
 			$this->action = strtolower($this->request['cash_action']);
 		}
+
 		$this->response = new CASHResponse();
 		if ($this->db_required) {
 			$this->connectDB();
@@ -184,18 +189,17 @@ use Exception;
 		return $this->routing_table;
 	}
 
-	public function routeBasicRequest() {
-		if (isset($this->routing_table[$this->action])) {
-			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
-				return $this->response->pushResponse(
-					403, $this->request_type, $this->action,
-					false,
-					"please try another request method, '{$this->request_method}' is not allowed"
-				);
-			}
-			try {
-				$target_method = $this->routing_table[$this->action]['plantfunction'];
+	public function routeAPIRequest($http_method) {
 
+        $class = new \ReflectionClass($this);
+
+        list($restful_routes, $soap_routes) = RoutingMiddleware::getRoutingTables($class->getShortName());
+
+		if (isset($restful_routes[$this->action]['verbs'][$http_method])) {
+			try {
+
+				$target_method = $restful_routes[$this->action]['verbs'][$http_method]['plantfunction'];
+				CASHSystem::errorLog($target_method);
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
 
@@ -249,7 +253,7 @@ use Exception;
 		}
 	}
 
-    public function routeAPIRequest() {
+    public function routeBasicRequest() {
         if (isset($this->routing_table[$this->action])) {
             if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
                 return $this->response->pushResponse(

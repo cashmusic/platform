@@ -9,13 +9,13 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
     public static $files = array (
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -26,7 +26,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'Z' => 
         array (
             'Zend\\EventManager\\' => 18,
-            'Zend\\Diactoros\\' => 15,
             'Zend\\Code\\' => 10,
         ),
         'W' => 
@@ -40,8 +39,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Stripe\\' => 7,
-            'Slim\\Views\\' => 11,
-            'Slim\\Middleware\\' => 16,
             'Slim\\' => 5,
         ),
         'P' => 
@@ -94,10 +91,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         ),
         'C' => 
         array (
-            'Chadicus\\Slim\\OAuth2\\Routes\\' => 28,
-            'Chadicus\\Slim\\OAuth2\\Middleware\\' => 32,
-            'Chadicus\\Slim\\OAuth2\\Http\\' => 26,
-            'Chadicus\\Psr\\Middleware\\' => 24,
             'CFreear\\OAuth2\\Client\\' => 22,
             'CASHMusic\\Seeds\\' => 16,
             'CASHMusic\\PublicInterface\\' => 26,
@@ -124,10 +117,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'Zend\\EventManager\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-eventmanager/src',
-        ),
-        'Zend\\Diactoros\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
         ),
         'Zend\\Code\\' => 
         array (
@@ -156,14 +145,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
-        ),
-        'Slim\\Views\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/slim/php-view/src',
-        ),
-        'Slim\\Middleware\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dyorg/slim-token-authentication/src',
         ),
         'Slim\\' => 
         array (
@@ -254,22 +235,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
-        'Chadicus\\Slim\\OAuth2\\Routes\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/chadicus/slim-oauth2-routes/src',
-        ),
-        'Chadicus\\Slim\\OAuth2\\Middleware\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/chadicus/slim-oauth2-middleware/src',
-        ),
-        'Chadicus\\Slim\\OAuth2\\Http\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/chadicus/slim-oauth2-http/src',
-        ),
-        'Chadicus\\Psr\\Middleware\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/chadicus/psr-middleware/src',
-        ),
         'CFreear\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/cfreear/oauth2-mailchimp/src',
@@ -352,13 +317,6 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
             'Parsedown' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown',
-            ),
-        ),
-        'O' => 
-        array (
-            'OAuth2' => 
-            array (
-                0 => __DIR__ . '/..' . '/bshaffer/oauth2-server-php/src',
             ),
         ),
         'M' => 

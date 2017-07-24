@@ -17,10 +17,7 @@
         "swiftmailer/swiftmailer": "^5.4",
         "slim/slim": "^3.0",
         "doctrine/orm": "^2.5",
-        "doctrine/migrations": "^1.5",
-        "dyorg/slim-token-authentication": "^0.3.3",
-        "chadicus/slim-oauth2": "^3.1",
-        "slim/php-view": "^2.2"
+        "doctrine/migrations": "^1.5"
     },
     "autoload": {
         "psr-4": {
