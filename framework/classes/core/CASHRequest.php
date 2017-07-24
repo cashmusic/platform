@@ -29,7 +29,8 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			  $plant_array=array(),
 			  $total_requests = 0,
 			  $plant,
-			  $user;
+			  $user,
+              $api = false;
 	public $request = false,
 		   $response;
 
@@ -37,14 +38,20 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * Sets object parameters, calls detectRequest(), and attempts to initialize
 	 * the proper Plant
 	 *
-	 * @param {boolean} $direct_request [default: false] - can only be set when
+	 * @param $direct_request boolean [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
-	 */public function __construct($direct_request=false,$method='direct',$authorized_user=false) {
+	 * @param $method string
+	 * @param $authorized_user boolean
+	 * @param $api boolean
+	 */
+	public function __construct($direct_request=false,$method='direct',$authorized_user=false,$api=false,$http_method=false) {
+		error_log("cash request");
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
 			$this->request_method = $method;
 			$this->user = $authorized_user;
+			$this->api = $api;
 		} else {
 			if ($direct_request !== null) {
 				// use an environment variable so we only run the detected request once
@@ -55,7 +62,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			}
 		}
 		if ($this->request) {
-			$this->processRequest($this->request,$this->request_method);
+			$this->processRequest($this->request,$this->request_method,$http_method);
 		}
 		// garbage collection daemon. 1.5% chance of running.
 		if (rand(10,1000) <= 15) {			
@@ -67,7 +74,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 		return self::$version;
 	}
 
-	public function processRequest($request,$method='direct') {
+	public function processRequest($request,$method='direct',$http_method=false) {
         $namespace = '\CASHMusic\Plants\\';
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
@@ -76,15 +83,14 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			$requested_plant = strtolower(trim($this->request['cash_request_type']));
 			unset($this->request['cash_request_type']);
 			if ($requested_plant != '' && count($this->request) > 0) {
-				$this->buildPlantArray();
+				$this->plant_array = self::buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
-					//$filename = substr_replace($this->plant_array[$requested_plant], '', -4);
 					$directory = str_replace("Plant", "", $this->plant_array[$requested_plant]).'\\';
 
 					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
 					$this->plant = new $class_name($this->request_method,$this->request);
 
-					$this->response = $this->plant->processRequest();
+					$this->response = $this->plant->processRequest($this->api, $http_method);
 				}
 			}
 		}
@@ -130,18 +136,23 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * stored as $this->plant_array and used to initialize the appropriate class
 	 * based on the cash_request_type
 	 *
-	 * @return void
-	 */protected function buildPlantArray() {
-
+	 * @return array|boolean;
+	 */
+	public static function buildPlantArray() {
+		$plant_array = [];
 		if ($plant_dir = opendir(CASH_PLATFORM_ROOT.'/classes/plants/')) {
 			while (false !== ($file = readdir($plant_dir))) {
 				if (strpos($file, ".") === false) {
 					$tmpKey = strtolower($file);
-					$this->plant_array["$tmpKey"] = $file."Plant";
+					$plant_array["$tmpKey"] = $file."Plant";
 				}
 			}
 			closedir($plant_dir);
+
+			return $plant_array;
 		}
+
+		return false;
 	}
 } // END class
 ?>

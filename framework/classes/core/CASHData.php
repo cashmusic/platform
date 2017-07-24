@@ -23,12 +23,13 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
  *
  */
 abstract class CASHData {
-	protected $db = false,
-			  $cash_session_timeout = 10800,
+	protected $cash_session_timeout = 10800,
 			  $cash_session_data = null,
 			  $cash_session_id = null,
 			  $cache_enabled = false,
+				$db = false,
 			  $cache_dir = null;
+
 
 	/**
 	 *
@@ -42,7 +43,7 @@ abstract class CASHData {
 	 * opens the appropriate connection
 	 *
 	 * @return void
-	 */protected function connectDB() {
+	 */public function connectDB() {
 		$cash_db_settings = CASHSystem::getSystemSettings();
 		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
 		$this->db = new CASHDBA(
