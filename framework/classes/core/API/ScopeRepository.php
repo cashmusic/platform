@@ -30,7 +30,7 @@ class ScopeRepository implements ScopeRepositoryInterface
             return;
         }
         $scope = new ScopeEntity();
-        $scope->setIdentifier($scopeIdentifier);
+        $scope->setIdentifier(['all']);
         return $scope;
     }
     /**
@@ -45,7 +45,7 @@ class ScopeRepository implements ScopeRepositoryInterface
         // Example of programatically modifying the final scope of the access token
         if ((int) $userIdentifier === 1) {
             $scope = new ScopeEntity();
-            $scope->setIdentifier('email');
+            $scope->setIdentifier('all');
             $scopes[] = $scope;
         }
         return $scopes;
