@@ -33,25 +33,11 @@ class CASHAPI
         );
 
         $cashdba->connect();
+*/
 
-        $storage = new Storage\Pdo($cashdba->db);
-
-        $server = new \OAuth2\Server(
-            $storage,
-            [
-                'access_lifetime' => 3600,
-            ],
-            [
-                new GrantType\ClientCredentials($storage),
-                new GrantType\AuthorizationCode($storage),
-            ]
-        );*/
-
-        $api = new Slim([
-            'settings' => [
-                'determineRouteBeforeAppMiddleware' => true,
-            ]
-        ]);
+        $api = new Slim(['settings' => [
+            'addContentLengthHeader' => false,
+        ]]);
 
         $api->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
             if ($route = $request->getAttribute('route_settings')) {
@@ -83,26 +69,14 @@ class CASHAPI
                     $request->getMethod());
 
                 if ($cash_request) {
-                    /*return $response->withStatus($cash_request->response['status_code'])->withJson(
+                    return $response->withStatus($cash_request->response['status_code'])->withJson(
                         self::APIResponse($cash_request)
-                    );*/
-
-                    return $response->withHeader('Content-type', 'application/json')
-                        ->withStatus($cash_request->response['status_code'])
-                        ->write(
-                            self::APIResponse($cash_request)
-                        );
+                    );
                 }
-
             }
 
-            if (empty($json_response)) {
-                return $response->withStatus(500)->withJson(
-                    self::APIResponse(false)
-                );
-            }
+            return $response->withStatus(404)->withJson(self::APIResponse(false));
 
-            return $json_response;
             // if we get here return 404
         })->add(new RoutingMiddleware());
 
@@ -129,14 +103,14 @@ class CASHAPI
             }
         } else {
             $response = [
-                'status' => 500,
-                'status_uid' => "general_500",
-                'status_message' => "Server error",
+                'status' => 404,
+                'status_uid' => "general_404",
+                'status_message' => "Route not found, or server error",
                 'error_name' => "There was an error while getting a response",
                 'error_message' => "The request failed."
             ];
         }
 
-        return json_encode($response);
+        return ($response);
     }
 }

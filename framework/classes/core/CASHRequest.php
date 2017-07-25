@@ -148,7 +148,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 				}
 			}
 			closedir($plant_dir);
-
 			return $plant_array;
 		}
 
