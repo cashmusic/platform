@@ -17,7 +17,8 @@
         "swiftmailer/swiftmailer": "^5.4",
         "slim/slim": "^3.0",
         "doctrine/orm": "^2.5",
-        "doctrine/migrations": "^1.5"
+        "doctrine/migrations": "^1.5",
+        "league/oauth2-server": "^6.0"
     },
     "autoload": {
         "psr-4": {

@@ -15,6 +15,7 @@ final class Versions
   'aws/aws-sdk-php' => '3.22.5@081d565ba5c20af78fcde6dcf7fdbfc48739f39f',
   'cfreear/oauth2-mailchimp' => '1.0.0@070dd46a82cc38f51e737f4513f81db86764fd80',
   'container-interop/container-interop' => '1.2.0@79cbf1341c22ec75643d841642dd5d6acd83bdb8',
+  'defuse/php-encryption' => 'v2.1.0@5176f5abb38d3ea8a6e3ac6cd3bbb54d8185a689',
   'doctrine/annotations' => 'v1.4.0@54cacc9b81758b14e3ce750f205a393d52339e97',
   'doctrine/cache' => 'v1.6.1@b6f544a20f4807e81f7044d31e679ccbb1866dc3',
   'doctrine/collections' => 'v1.4.0@1a4fb7e902202c33cce8c55989b945612943c2ba',
@@ -38,8 +39,11 @@ final class Versions
   'guzzlehttp/psr7' => '1.3.1@5c6447c9df362e8f8093bda8f5d8873fe5c7f65b',
   'ircmaxell/random-lib' => 'v1.1.0@13efa4368bb2ac88bb3b1459b487d907de4dbf7c',
   'ircmaxell/security-lib' => '1.0.0@80934de3c482dcafb46b5756e59ebece082b6dc7',
+  'lcobucci/jwt' => '3.2.1@ddce703826f9c5229781933b1a39069e38e6a0f3',
+  'league/event' => '2.1.2@e4bfc88dbcb60c8d8a2939a71f9813e141bbe4cd',
   'league/oauth2-client' => '1.4.1@f145fded7d61a5388e76ed720c5dce185c1d36fe',
   'league/oauth2-google' => '1.0.1@4788fcef5cf0fdb65e0322c3f4d4632d8f1f3e82',
+  'league/oauth2-server' => '6.0.1@a1b8d87b473e9b956b80e7e20b31ae20dc670d30',
   'mandrill/mandrill' => '1.0.55@da3adc10042eafac2e53de141b358a52b8e53596',
   'monolog/monolog' => '1.19.0@5f56ed5212dc509c8dc8caeba2715732abb32dbf',
   'mtdowling/jmespath.php' => '2.3.0@192f93e43c2c97acde7694993ab171b3de284093',
@@ -47,6 +51,7 @@ final class Versions
   'nikic/fast-route' => 'v1.2.0@b5f95749071c82a8e0f58586987627054400cdf6',
   'ocramius/package-versions' => '1.1.2@51e867c70f0799790b3e82276875414ce13daaca',
   'ocramius/proxy-manager' => '2.0.4@a55d08229f4f614bf335759ed0cf63378feeb2e6',
+  'paragonie/random_compat' => 'v2.0.10@634bae8e911eefa89c1abfbf1b66da679ac8f54d',
   'phpseclib/phpseclib' => '2.0.2@3d265f7c079f5b37d33475f996d7a383c5fc8aeb',
   'pimple/pimple' => 'v3.0.2@a30f7d6e57565a2e1a316e1baf2a483f788b258a',
   'psr/cache' => '1.0.0@9e66031f41fbbdda45ee11e93c45d480ccba3eb3',
@@ -62,7 +67,7 @@ final class Versions
   'symfony/yaml' => 'v3.2.8@acec26fcf7f3031e094e910b94b002fa53d4e4d6',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-api-v2@732924d560bfff1a19ecaf3f4612244bbdc23121',
+  'cashmusic/platform' => 'dev-api-v2@4e2ade0b2afb4e10b46704a60ec35322a26bea12',
 );
 
     private function __construct()

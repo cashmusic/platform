@@ -39,6 +39,7 @@ class RoutingMiddleware
 
                 if ($route_response['authrequired']) {
                     // auth check
+                    CASHSystem::errorLog("really required though");
                     $auth_required = true;
                 }
 
