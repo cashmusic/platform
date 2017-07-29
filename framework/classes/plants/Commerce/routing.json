@@ -10,7 +10,7 @@
 				"GET":{
 					"description":"Get item by id.",
 					"plantfunction":"getItem",
-					"authrequired":false
+					"authrequired":true
 				},
 				"PATCH":{
 					"description":"Modify an existing item.",

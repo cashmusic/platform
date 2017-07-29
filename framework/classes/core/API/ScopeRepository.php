@@ -26,9 +26,9 @@ class ScopeRepository implements ScopeRepositoryInterface
                 'description' => 'Your email address',
             ],
         ];
-        if (array_key_exists($scopeIdentifier, $scopes) === false) {
+/*        if (array_key_exists($scopeIdentifier, $scopes) === false) {
             return;
-        }
+        }*/
         $scope = new ScopeEntity();
         $scope->setIdentifier(['all']);
         return $scope;

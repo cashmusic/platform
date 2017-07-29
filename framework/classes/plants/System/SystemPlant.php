@@ -671,6 +671,7 @@ class SystemPlant extends PlantBase {
 				)
 			);
 		} else {
+
 			$auth_type = 'api_fullauth';
 			$user = $this->db->getData(
 				'users',
