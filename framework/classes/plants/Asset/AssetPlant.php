@@ -192,11 +192,36 @@ class AssetPlant extends PlantBase {
 			if ($this->unlockAsset($asset_id,$session_id)) {
 
                 $asset_details = $this->getAssetInfo($asset_id);
+				$metadata = $asset_details['metadata'];
+                $assets = [];
 
-				return [
-					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
-					'name'=>$asset_details['title']
-				];
+                if (is_array($metadata) && isset($metadata['fulfillment'])) {
+
+                	if (count($metadata['fulfillment']) > 0) {
+
+                        foreach($metadata['fulfillment'] as $asset) {
+							$fulfillment_asset = $this->getAssetInfo($asset);
+
+							$assets[] = [
+                                'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$fulfillment_asset['id']."&element_id=&session_id=".$session_id,
+                                'name'=>$fulfillment_asset['title']
+							];
+                        }
+					}
+
+				}
+
+				if (count($assets) > 0) {
+                	return $assets;
+				} else {
+                    return [
+                        [
+                            'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
+                            'name'=>$asset_details['title']
+						]
+                    ];
+				}
+
 				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);
 			} else {
 				return false;
@@ -651,6 +676,7 @@ class AssetPlant extends PlantBase {
 	protected function redirectToAsset($id,$element_id=0,$session_id=false) {
 		$return_only=false;
 		if ($this->getUnlockedStatus($id,$session_id)) {
+
 			$asset = $this->getAssetInfo($id);
 
 			$final_asset_location = $this->getFinalAssetLocation(
