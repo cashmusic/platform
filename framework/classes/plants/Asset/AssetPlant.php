@@ -201,6 +201,7 @@ class AssetPlant extends PlantBase {
 
                         foreach($metadata['fulfillment'] as $asset) {
 							$fulfillment_asset = $this->getAssetInfo($asset);
+                            $this->unlockAsset($fulfillment_asset['id'],$session_id);
 
 							$assets[] = [
                                 'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$fulfillment_asset['id']."&element_id=&session_id=".$session_id,
