@@ -39,7 +39,7 @@ class CASHAPI
     {
         CASHSystem::startUp(false);
 
-        list($accessTokenRepository, $server) = $this->getAuthorizationServer();
+        list($accessTokenRepository, $server, $resourceServer) = $this->getAuthorizationServer();
 
         $api = new Slim(['settings' => [
             'addContentLengthHeader' => false,
@@ -49,12 +49,10 @@ class CASHAPI
         $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
 
             try {
-
                 $server->enableGrantType(
                     new ClientCredentialsGrant(),
                     new \DateInterval('PT1H') // access tokens will expire after 1 hour
                 );
-
 
                 // Try to respond to the request
                 return $server->respondToAccessTokenRequest($request, $response);
@@ -75,7 +73,10 @@ class CASHAPI
         });
 
 
-        $api->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
+
+        $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
+
+            $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
 
             if ($route = $request->getAttribute('route_settings')) {
                 $request_params = $request->getQueryParams();
@@ -86,7 +87,15 @@ class CASHAPI
                     'cash_action' => $args['noun']
                 ];
 
-                if (1==1) $params['user_id'] = 1;
+                if (isset($args['origin'], $args['type'])) {
+                    $params['origin'] = $args['origin'];
+                    $params['type'] = $args['type'];
+                }
+
+                if (isset($serverRequest)) {
+                    $user_id = $serverRequest->getAttribute('oauth_client_id');
+                    if (!empty($user_id)) $params['user_id'] = $user_id;
+                }
 
                 if (is_array($request_params)) $params = array_merge($request_params, $params);
 
@@ -152,6 +161,11 @@ class CASHAPI
         $scopeRepository = new ScopeRepository(); // instance of ScopeRepositoryInterface
         $accessTokenRepository = new AccessTokenRepository(); // instance of AccessTokenRepositoryInterface
 
+        $resourceServer = new \League\OAuth2\Server\ResourceServer(
+            $accessTokenRepository,
+            CASH_PLATFORM_ROOT . "/settings/keys/public.key"
+        );
+
         $privateKey = CASH_PLATFORM_ROOT . "/settings/keys/private.key";
         $encryptionKey = 'X7jv9J1UcOE00EgRGzcJJ6boPXFASE3idhwPUoWsw5k=';
 
@@ -164,6 +178,6 @@ class CASHAPI
             $encryptionKey
         );
 
-        return array($accessTokenRepository, $server);
+        return array($accessTokenRepository, $server, $resourceServer);
     }
 }

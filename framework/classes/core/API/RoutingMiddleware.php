@@ -39,7 +39,6 @@ class RoutingMiddleware
 
                 if ($route_response['authrequired']) {
                     // auth check
-                    CASHSystem::errorLog("really required though");
                     $auth_required = true;
                 }
 
@@ -88,7 +87,6 @@ class RoutingMiddleware
             // check method + ACL + $auth
             if (isset($restful_route['verbs'][$method])) {
                 $verb = $restful_route['verbs'][$method];
-                CASHSystem::errorLog("REST");
 
                 if (isset($verb['authrequired'], $verb['plantfunction'], $verb['description'])) {
                     return $verb;
@@ -104,7 +102,6 @@ class RoutingMiddleware
             // check method ACL + $auth
             if (in_array('api_public', $soap_route['security']) ||
                 in_array('api_key', $soap_route['security'])) {
-                CASHSystem::errorLog("SOAP");
                 // do request
                 return [
                     'description' => $soap_route['description'],
