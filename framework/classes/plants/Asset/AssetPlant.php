@@ -535,21 +535,24 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
-		$connection = $this->getConnectionDetails($connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
+		if ($connection = $this->getConnectionDetails($connection_id)) {
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 
-		if (is_array($connection_type)) {
-			$seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
-			$seed = new $seed_type($user_id,$connection_id);
+            if (is_array($connection_type)) {
+                $seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
+                $seed = new $seed_type($user_id,$connection_id);
 
-			return $seed->getExpiryURL($asset_location);
-		} else {
-			if ($asset_location) {
-				return $asset_location;
-			} else {
-				return false;
-			}
+                return $seed->getExpiryURL($asset_location);
+            } else {
+                if ($asset_location) {
+                    return $asset_location;
+                } else {
+                    return false;
+                }
+            }
 		}
+
+		return false;
 	}
 
 	protected function getPublicURL($id,$user_id=false) {

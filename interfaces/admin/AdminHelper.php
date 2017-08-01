@@ -724,10 +724,6 @@ class AdminHelper  {
 	public function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
 		$formatted = false;
 
-		CASHSystem::errorLog($name);
-        CASHSystem::errorLog($type);
-        CASHSystem::errorLog($value);
-        CASHSystem::errorLog("----");
 		if ($type == 'boolean') {
 			if ($value) {
 				$formatted = 1;

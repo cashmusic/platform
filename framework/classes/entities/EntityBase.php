@@ -303,11 +303,18 @@ class EntityBase extends CASHData
 
         list($where, $limit, $order_by) = $this->mapRelationshipConditions($conditions);
 
-        return $this->getRelationship($entity, $key, $foreign_key, false, [
+        $result = $this->getRelationship($entity, $key, $foreign_key, false, [
             'where'=>$where,
             'limit'=>$limit,
             'order_by'=>$order_by
         ]);
+
+        // there should only ever be one result but
+        if (is_array($result) && count($result) == 1) {
+            return $result[0];
+        }
+
+        return $result;
     }
 
     /**

@@ -368,7 +368,7 @@ class Store extends ElementBase {
 
 					if ($order_details) {
 						$this->element_data['order_id'] = $order_details['id'];
-						$order_contents = json_decode($order_details['order_contents'],true);
+						$order_contents = $order_details['order_contents'];
 						$this->element_data['has_physical'] = false;
 						$this->element_data['item_subtotal'] = 0;
 						foreach ($order_contents as &$i) {
