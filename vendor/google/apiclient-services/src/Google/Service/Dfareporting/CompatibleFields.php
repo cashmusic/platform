@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Dfareporting_CompatibleFields extends Google_Model
   protected $reportCompatibleFieldsType = 'Google_Service_Dfareporting_ReportCompatibleFields';
   protected $reportCompatibleFieldsDataType = '';
 
+  /**
+   * @param Google_Service_Dfareporting_CrossDimensionReachReportCompatibleFields
+   */
   public function setCrossDimensionReachReportCompatibleFields(Google_Service_Dfareporting_CrossDimensionReachReportCompatibleFields $crossDimensionReachReportCompatibleFields)
   {
     $this->crossDimensionReachReportCompatibleFields = $crossDimensionReachReportCompatibleFields;
   }
+  /**
+   * @return Google_Service_Dfareporting_CrossDimensionReachReportCompatibleFields
+   */
   public function getCrossDimensionReachReportCompatibleFields()
   {
     return $this->crossDimensionReachReportCompatibleFields;
   }
+  /**
+   * @param Google_Service_Dfareporting_FloodlightReportCompatibleFields
+   */
   public function setFloodlightReportCompatibleFields(Google_Service_Dfareporting_FloodlightReportCompatibleFields $floodlightReportCompatibleFields)
   {
     $this->floodlightReportCompatibleFields = $floodlightReportCompatibleFields;
   }
+  /**
+   * @return Google_Service_Dfareporting_FloodlightReportCompatibleFields
+   */
   public function getFloodlightReportCompatibleFields()
   {
     return $this->floodlightReportCompatibleFields;
@@ -53,26 +65,44 @@ class Google_Service_Dfareporting_CompatibleFields extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_PathToConversionReportCompatibleFields
+   */
   public function setPathToConversionReportCompatibleFields(Google_Service_Dfareporting_PathToConversionReportCompatibleFields $pathToConversionReportCompatibleFields)
   {
     $this->pathToConversionReportCompatibleFields = $pathToConversionReportCompatibleFields;
   }
+  /**
+   * @return Google_Service_Dfareporting_PathToConversionReportCompatibleFields
+   */
   public function getPathToConversionReportCompatibleFields()
   {
     return $this->pathToConversionReportCompatibleFields;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReachReportCompatibleFields
+   */
   public function setReachReportCompatibleFields(Google_Service_Dfareporting_ReachReportCompatibleFields $reachReportCompatibleFields)
   {
     $this->reachReportCompatibleFields = $reachReportCompatibleFields;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReachReportCompatibleFields
+   */
   public function getReachReportCompatibleFields()
   {
     return $this->reachReportCompatibleFields;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportCompatibleFields
+   */
   public function setReportCompatibleFields(Google_Service_Dfareporting_ReportCompatibleFields $reportCompatibleFields)
   {
     $this->reportCompatibleFields = $reportCompatibleFields;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportCompatibleFields
+   */
   public function getReportCompatibleFields()
   {
     return $this->reportCompatibleFields;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_YouTube_VideoMonetizationDetails extends Google_Model
   protected $accessType = 'Google_Service_YouTube_AccessPolicy';
   protected $accessDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_AccessPolicy
+   */
   public function setAccess(Google_Service_YouTube_AccessPolicy $access)
   {
     $this->access = $access;
   }
+  /**
+   * @return Google_Service_YouTube_AccessPolicy
+   */
   public function getAccess()
   {
     return $this->access;

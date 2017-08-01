@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -40,26 +40,44 @@ class Google_Service_AdSense_AdUnit extends Google_Model
   {
     return $this->code;
   }
+  /**
+   * @param Google_Service_AdSense_AdUnitContentAdsSettings
+   */
   public function setContentAdsSettings(Google_Service_AdSense_AdUnitContentAdsSettings $contentAdsSettings)
   {
     $this->contentAdsSettings = $contentAdsSettings;
   }
+  /**
+   * @return Google_Service_AdSense_AdUnitContentAdsSettings
+   */
   public function getContentAdsSettings()
   {
     return $this->contentAdsSettings;
   }
+  /**
+   * @param Google_Service_AdSense_AdStyle
+   */
   public function setCustomStyle(Google_Service_AdSense_AdStyle $customStyle)
   {
     $this->customStyle = $customStyle;
   }
+  /**
+   * @return Google_Service_AdSense_AdStyle
+   */
   public function getCustomStyle()
   {
     return $this->customStyle;
   }
+  /**
+   * @param Google_Service_AdSense_AdUnitFeedAdsSettings
+   */
   public function setFeedAdsSettings(Google_Service_AdSense_AdUnitFeedAdsSettings $feedAdsSettings)
   {
     $this->feedAdsSettings = $feedAdsSettings;
   }
+  /**
+   * @return Google_Service_AdSense_AdUnitFeedAdsSettings
+   */
   public function getFeedAdsSettings()
   {
     return $this->feedAdsSettings;
@@ -80,10 +98,16 @@ class Google_Service_AdSense_AdUnit extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_AdSense_AdUnitMobileContentAdsSettings
+   */
   public function setMobileContentAdsSettings(Google_Service_AdSense_AdUnitMobileContentAdsSettings $mobileContentAdsSettings)
   {
     $this->mobileContentAdsSettings = $mobileContentAdsSettings;
   }
+  /**
+   * @return Google_Service_AdSense_AdUnitMobileContentAdsSettings
+   */
   public function getMobileContentAdsSettings()
   {
     return $this->mobileContentAdsSettings;

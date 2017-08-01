@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_ServiceControl_AllocateQuotaResponse extends Google_Collect
   protected $quotaMetricsDataType = 'array';
   public $serviceConfigId;
 
+  /**
+   * @param Google_Service_ServiceControl_QuotaError
+   */
   public function setAllocateErrors($allocateErrors)
   {
     $this->allocateErrors = $allocateErrors;
   }
+  /**
+   * @return Google_Service_ServiceControl_QuotaError
+   */
   public function getAllocateErrors()
   {
     return $this->allocateErrors;
@@ -41,10 +47,16 @@ class Google_Service_ServiceControl_AllocateQuotaResponse extends Google_Collect
   {
     return $this->operationId;
   }
+  /**
+   * @param Google_Service_ServiceControl_MetricValueSet
+   */
   public function setQuotaMetrics($quotaMetrics)
   {
     $this->quotaMetrics = $quotaMetrics;
   }
+  /**
+   * @return Google_Service_ServiceControl_MetricValueSet
+   */
   public function getQuotaMetrics()
   {
     return $this->quotaMetrics;

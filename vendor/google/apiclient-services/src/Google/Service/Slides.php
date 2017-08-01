@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -118,6 +118,29 @@ class Google_Service_Slides extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+              ),
+            ),'getThumbnail' => array(
+              'path' => 'v1/presentations/{presentationId}/pages/{pageObjectId}/thumbnail',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'presentationId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'pageObjectId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'thumbnailProperties.thumbnailSize' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'thumbnailProperties.mimeType' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
               ),
             ),

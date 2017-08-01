@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -109,13 +109,13 @@ class Google_Service_Genomics_Resource_Datasets extends Google_Service_Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string pageToken The continuation token, which is used to page
-   * through large result sets. To get the next page of results, set this
-   * parameter to the value of `nextPageToken` from the previous response.
    * @opt_param int pageSize The maximum number of results to return in a single
    * page. If unspecified, defaults to 50. The maximum value is 1024.
    * @opt_param string projectId Required. The Google Cloud project ID to list
    * datasets for.
+   * @opt_param string pageToken The continuation token, which is used to page
+   * through large result sets. To get the next page of results, set this
+   * parameter to the value of `nextPageToken` from the previous response.
    * @return Google_Service_Genomics_ListDatasetsResponse
    */
   public function listDatasets($optParams = array())

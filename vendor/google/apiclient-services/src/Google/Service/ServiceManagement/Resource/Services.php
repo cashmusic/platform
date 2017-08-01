@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -145,9 +145,9 @@ class Google_Service_ServiceManagement_Resource_Services extends Google_Service_
    * `example.googleapis.com`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string configId The id of the service configuration resource.
    * @opt_param string view Specifies which parts of the Service Config should be
    * returned in the response.
+   * @opt_param string configId The id of the service configuration resource.
    * @return Google_Service_ServiceManagement_Service
    */
   public function getConfig($serviceName, $optParams = array())

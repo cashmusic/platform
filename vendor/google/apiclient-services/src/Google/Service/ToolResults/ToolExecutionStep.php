@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_ToolResults_ToolExecutionStep extends Google_Model
   protected $toolExecutionType = 'Google_Service_ToolResults_ToolExecution';
   protected $toolExecutionDataType = '';
 
+  /**
+   * @param Google_Service_ToolResults_ToolExecution
+   */
   public function setToolExecution(Google_Service_ToolResults_ToolExecution $toolExecution)
   {
     $this->toolExecution = $toolExecution;
   }
+  /**
+   * @return Google_Service_ToolResults_ToolExecution
+   */
   public function getToolExecution()
   {
     return $this->toolExecution;

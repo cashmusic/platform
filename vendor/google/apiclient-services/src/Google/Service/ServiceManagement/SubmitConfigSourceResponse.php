@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_ServiceManagement_SubmitConfigSourceResponse extends Google
   protected $serviceConfigType = 'Google_Service_ServiceManagement_Service';
   protected $serviceConfigDataType = '';
 
+  /**
+   * @param Google_Service_ServiceManagement_Service
+   */
   public function setServiceConfig(Google_Service_ServiceManagement_Service $serviceConfig)
   {
     $this->serviceConfig = $serviceConfig;
   }
+  /**
+   * @return Google_Service_ServiceManagement_Service
+   */
   public function getServiceConfig()
   {
     return $this->serviceConfig;

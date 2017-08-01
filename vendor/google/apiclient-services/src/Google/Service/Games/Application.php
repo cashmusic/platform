@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,10 +47,16 @@ class Google_Service_Games_Application extends Google_Collection
   {
     return $this->achievementCount;
   }
+  /**
+   * @param Google_Service_Games_ImageAsset
+   */
   public function setAssets($assets)
   {
     $this->assets = $assets;
   }
+  /**
+   * @return Google_Service_Games_ImageAsset
+   */
   public function getAssets()
   {
     return $this->assets;
@@ -63,10 +69,16 @@ class Google_Service_Games_Application extends Google_Collection
   {
     return $this->author;
   }
+  /**
+   * @param Google_Service_Games_ApplicationCategory
+   */
   public function setCategory(Google_Service_Games_ApplicationCategory $category)
   {
     $this->category = $category;
   }
+  /**
+   * @return Google_Service_Games_ApplicationCategory
+   */
   public function getCategory()
   {
     return $this->category;
@@ -95,10 +107,16 @@ class Google_Service_Games_Application extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Games_Instance
+   */
   public function setInstances($instances)
   {
     $this->instances = $instances;
   }
+  /**
+   * @return Google_Service_Games_Instance
+   */
   public function getInstances()
   {
     return $this->instances;

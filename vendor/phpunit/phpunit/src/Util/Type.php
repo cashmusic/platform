@@ -8,12 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Util;
-
 /**
  * Utility class for textual type (and value) representation.
  */
-class Type
+class PHPUnit_Util_Type
 {
     /**
      * @param string $type
@@ -22,7 +20,7 @@ class Type
      */
     public static function isType($type)
     {
-        return \in_array(
+        return in_array(
             $type,
             [
                 'numeric',

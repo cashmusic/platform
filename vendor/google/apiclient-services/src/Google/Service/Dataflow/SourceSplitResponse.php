@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,10 +24,16 @@ class Google_Service_Dataflow_SourceSplitResponse extends Google_Collection
   protected $shardsType = 'Google_Service_Dataflow_SourceSplitShard';
   protected $shardsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dataflow_DerivedSource
+   */
   public function setBundles($bundles)
   {
     $this->bundles = $bundles;
   }
+  /**
+   * @return Google_Service_Dataflow_DerivedSource
+   */
   public function getBundles()
   {
     return $this->bundles;
@@ -40,10 +46,16 @@ class Google_Service_Dataflow_SourceSplitResponse extends Google_Collection
   {
     return $this->outcome;
   }
+  /**
+   * @param Google_Service_Dataflow_SourceSplitShard
+   */
   public function setShards($shards)
   {
     $this->shards = $shards;
   }
+  /**
+   * @return Google_Service_Dataflow_SourceSplitShard
+   */
   public function getShards()
   {
     return $this->shards;

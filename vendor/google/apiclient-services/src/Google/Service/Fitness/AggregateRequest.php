@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,42 +32,72 @@ class Google_Service_Fitness_AggregateRequest extends Google_Collection
   public $filteredDataQualityStandard;
   public $startTimeMillis;
 
+  /**
+   * @param Google_Service_Fitness_AggregateBy
+   */
   public function setAggregateBy($aggregateBy)
   {
     $this->aggregateBy = $aggregateBy;
   }
+  /**
+   * @return Google_Service_Fitness_AggregateBy
+   */
   public function getAggregateBy()
   {
     return $this->aggregateBy;
   }
+  /**
+   * @param Google_Service_Fitness_BucketByActivity
+   */
   public function setBucketByActivitySegment(Google_Service_Fitness_BucketByActivity $bucketByActivitySegment)
   {
     $this->bucketByActivitySegment = $bucketByActivitySegment;
   }
+  /**
+   * @return Google_Service_Fitness_BucketByActivity
+   */
   public function getBucketByActivitySegment()
   {
     return $this->bucketByActivitySegment;
   }
+  /**
+   * @param Google_Service_Fitness_BucketByActivity
+   */
   public function setBucketByActivityType(Google_Service_Fitness_BucketByActivity $bucketByActivityType)
   {
     $this->bucketByActivityType = $bucketByActivityType;
   }
+  /**
+   * @return Google_Service_Fitness_BucketByActivity
+   */
   public function getBucketByActivityType()
   {
     return $this->bucketByActivityType;
   }
+  /**
+   * @param Google_Service_Fitness_BucketBySession
+   */
   public function setBucketBySession(Google_Service_Fitness_BucketBySession $bucketBySession)
   {
     $this->bucketBySession = $bucketBySession;
   }
+  /**
+   * @return Google_Service_Fitness_BucketBySession
+   */
   public function getBucketBySession()
   {
     return $this->bucketBySession;
   }
+  /**
+   * @param Google_Service_Fitness_BucketByTime
+   */
   public function setBucketByTime(Google_Service_Fitness_BucketByTime $bucketByTime)
   {
     $this->bucketByTime = $bucketByTime;
   }
+  /**
+   * @return Google_Service_Fitness_BucketByTime
+   */
   public function getBucketByTime()
   {
     return $this->bucketByTime;

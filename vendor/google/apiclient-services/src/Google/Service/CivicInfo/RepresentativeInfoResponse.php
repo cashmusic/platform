@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,10 +28,16 @@ class Google_Service_CivicInfo_RepresentativeInfoResponse extends Google_Collect
   protected $officialsType = 'Google_Service_CivicInfo_Official';
   protected $officialsDataType = 'array';
 
+  /**
+   * @param Google_Service_CivicInfo_GeographicDivision
+   */
   public function setDivisions($divisions)
   {
     $this->divisions = $divisions;
   }
+  /**
+   * @return Google_Service_CivicInfo_GeographicDivision
+   */
   public function getDivisions()
   {
     return $this->divisions;
@@ -44,26 +50,44 @@ class Google_Service_CivicInfo_RepresentativeInfoResponse extends Google_Collect
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_CivicInfo_SimpleAddressType
+   */
   public function setNormalizedInput(Google_Service_CivicInfo_SimpleAddressType $normalizedInput)
   {
     $this->normalizedInput = $normalizedInput;
   }
+  /**
+   * @return Google_Service_CivicInfo_SimpleAddressType
+   */
   public function getNormalizedInput()
   {
     return $this->normalizedInput;
   }
+  /**
+   * @param Google_Service_CivicInfo_Office
+   */
   public function setOffices($offices)
   {
     $this->offices = $offices;
   }
+  /**
+   * @return Google_Service_CivicInfo_Office
+   */
   public function getOffices()
   {
     return $this->offices;
   }
+  /**
+   * @param Google_Service_CivicInfo_Official
+   */
   public function setOfficials($officials)
   {
     $this->officials = $officials;
   }
+  /**
+   * @return Google_Service_CivicInfo_Official
+   */
   public function getOfficials()
   {
     return $this->officials;

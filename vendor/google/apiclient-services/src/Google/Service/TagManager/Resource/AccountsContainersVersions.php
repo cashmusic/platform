@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,126 +26,100 @@
 class Google_Service_TagManager_Resource_AccountsContainersVersions extends Google_Service_Resource
 {
   /**
-   * Creates a Container Version. (versions.create)
-   *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param Google_Service_TagManager_CreateContainerVersionRequestVersionOptions $postBody
-   * @param array $optParams Optional parameters.
-   * @return Google_Service_TagManager_CreateContainerVersionResponse
-   */
-  public function create($accountId, $containerId, Google_Service_TagManager_CreateContainerVersionRequestVersionOptions $postBody, $optParams = array())
-  {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'postBody' => $postBody);
-    $params = array_merge($params, $optParams);
-    return $this->call('create', array($params), "Google_Service_TagManager_CreateContainerVersionResponse");
-  }
-  /**
    * Deletes a Container Version. (versions.delete)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param array $optParams Optional parameters.
    */
-  public function delete($accountId, $containerId, $containerVersionId, $optParams = array())
+  public function delete($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('delete', array($params));
   }
   /**
    * Gets a Container Version. (versions.get)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID. Specify
-   * published to retrieve the currently published version.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string containerVersionId The GTM ContainerVersion ID. Specify
+   * published to retrieve the currently published version.
    * @return Google_Service_TagManager_ContainerVersion
    */
-  public function get($accountId, $containerId, $containerVersionId, $optParams = array())
+  public function get($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_TagManager_ContainerVersion");
   }
   /**
-   * Lists all Container Versions of a GTM Container.
-   * (versions.listAccountsContainersVersions)
+   * Gets the live (i.e. published) container version (versions.live)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
+   * @param string $parent GTM Container's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param bool headers Retrieve headers only when true.
-   * @opt_param bool includeDeleted Also retrieve deleted (archived) versions when
-   * true.
-   * @return Google_Service_TagManager_ListContainerVersionsResponse
+   * @return Google_Service_TagManager_ContainerVersion
    */
-  public function listAccountsContainersVersions($accountId, $containerId, $optParams = array())
+  public function live($parent, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId);
+    $params = array('parent' => $parent);
     $params = array_merge($params, $optParams);
-    return $this->call('list', array($params), "Google_Service_TagManager_ListContainerVersionsResponse");
+    return $this->call('live', array($params), "Google_Service_TagManager_ContainerVersion");
   }
   /**
    * Publishes a Container Version. (versions.publish)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param array $optParams Optional parameters.
    *
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the container version in storage.
    * @return Google_Service_TagManager_PublishContainerVersionResponse
    */
-  public function publish($accountId, $containerId, $containerVersionId, $optParams = array())
+  public function publish($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('publish', array($params), "Google_Service_TagManager_PublishContainerVersionResponse");
   }
   /**
-   * Restores a Container Version. This will overwrite the container's current
-   * configuration (including its variables, triggers and tags). The operation
-   * will not have any effect on the version that is being served (i.e. the
-   * published version). (versions.restore)
+   * Sets the latest version used for synchronization of workspaces when detecting
+   * conflicts and errors. (versions.set_latest)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param array $optParams Optional parameters.
    * @return Google_Service_TagManager_ContainerVersion
    */
-  public function restore($accountId, $containerId, $containerVersionId, $optParams = array())
+  public function set_latest($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
-    return $this->call('restore', array($params), "Google_Service_TagManager_ContainerVersion");
+    return $this->call('set_latest', array($params), "Google_Service_TagManager_ContainerVersion");
   }
   /**
    * Undeletes a Container Version. (versions.undelete)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param array $optParams Optional parameters.
    * @return Google_Service_TagManager_ContainerVersion
    */
-  public function undelete($accountId, $containerId, $containerVersionId, $optParams = array())
+  public function undelete($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('undelete', array($params), "Google_Service_TagManager_ContainerVersion");
   }
   /**
    * Updates a Container Version. (versions.update)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $containerVersionId The GTM Container Version ID.
+   * @param string $path GTM ContainerVersion's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/versions/{version_id}
    * @param Google_Service_TagManager_ContainerVersion $postBody
    * @param array $optParams Optional parameters.
    *
@@ -153,9 +127,9 @@ class Google_Service_TagManager_Resource_AccountsContainersVersions extends Goog
    * fingerprint of the container version in storage.
    * @return Google_Service_TagManager_ContainerVersion
    */
-  public function update($accountId, $containerId, $containerVersionId, Google_Service_TagManager_ContainerVersion $postBody, $optParams = array())
+  public function update($path, Google_Service_TagManager_ContainerVersion $postBody, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'containerVersionId' => $containerVersionId, 'postBody' => $postBody);
+    $params = array('path' => $path, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('update', array($params), "Google_Service_TagManager_ContainerVersion");
   }

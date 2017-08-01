@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_PlusDomains_Place extends Google_Model
   protected $positionType = 'Google_Service_PlusDomains_PlacePosition';
   protected $positionDataType = '';
 
+  /**
+   * @param Google_Service_PlusDomains_PlaceAddress
+   */
   public function setAddress(Google_Service_PlusDomains_PlaceAddress $address)
   {
     $this->address = $address;
   }
+  /**
+   * @return Google_Service_PlusDomains_PlaceAddress
+   */
   public function getAddress()
   {
     return $this->address;
@@ -57,10 +63,16 @@ class Google_Service_PlusDomains_Place extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_PlusDomains_PlacePosition
+   */
   public function setPosition(Google_Service_PlusDomains_PlacePosition $position)
   {
     $this->position = $position;
   }
+  /**
+   * @return Google_Service_PlusDomains_PlacePosition
+   */
   public function getPosition()
   {
     return $this->position;

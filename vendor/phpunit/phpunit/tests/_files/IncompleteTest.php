@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class IncompleteTest extends TestCase
+class IncompleteTest extends PHPUnit_Framework_TestCase
 {
     public function testIncomplete()
     {

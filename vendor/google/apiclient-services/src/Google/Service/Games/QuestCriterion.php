@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,18 +26,30 @@ class Google_Service_Games_QuestCriterion extends Google_Model
   protected $initialPlayerProgressDataType = '';
   public $kind;
 
+  /**
+   * @param Google_Service_Games_QuestContribution
+   */
   public function setCompletionContribution(Google_Service_Games_QuestContribution $completionContribution)
   {
     $this->completionContribution = $completionContribution;
   }
+  /**
+   * @return Google_Service_Games_QuestContribution
+   */
   public function getCompletionContribution()
   {
     return $this->completionContribution;
   }
+  /**
+   * @param Google_Service_Games_QuestContribution
+   */
   public function setCurrentContribution(Google_Service_Games_QuestContribution $currentContribution)
   {
     $this->currentContribution = $currentContribution;
   }
+  /**
+   * @return Google_Service_Games_QuestContribution
+   */
   public function getCurrentContribution()
   {
     return $this->currentContribution;
@@ -50,10 +62,16 @@ class Google_Service_Games_QuestCriterion extends Google_Model
   {
     return $this->eventId;
   }
+  /**
+   * @param Google_Service_Games_QuestContribution
+   */
   public function setInitialPlayerProgress(Google_Service_Games_QuestContribution $initialPlayerProgress)
   {
     $this->initialPlayerProgress = $initialPlayerProgress;
   }
+  /**
+   * @return Google_Service_Games_QuestContribution
+   */
   public function getInitialPlayerProgress()
   {
     return $this->initialPlayerProgress;

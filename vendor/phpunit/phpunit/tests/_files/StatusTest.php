@@ -1,10 +1,5 @@
 <?php
-namespace vendor\project;
-
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Warning;
-
-class StatusTest extends TestCase
+class StatusTest extends \PHPUnit\Framework\TestCase
 {
     public function testSuccess()
     {
@@ -18,7 +13,7 @@ class StatusTest extends TestCase
 
     public function testError()
     {
-        throw new \RuntimeException;
+        throw new \Exception;
     }
 
     public function testIncomplete()
@@ -37,6 +32,6 @@ class StatusTest extends TestCase
 
     public function testWarning()
     {
-        throw new Warning;
+        throw new PHPUnit_Framework_Warning;
     }
 }

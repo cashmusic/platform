@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,18 +19,24 @@
  * Service definition for Translate (v2).
  *
  * <p>
- * Translates text from one language to another.</p>
+ * The Google Cloud Translation API lets websites and programs integrate with
+ * Google Translate programmatically.</p>
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/translate/v2/using_rest" target="_blank">Documentation</a>
+ * <a href="https://code.google.com/apis/language/translate/v2/getting_started.html" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
  */
 class Google_Service_Translate extends Google_Service
 {
-
+  /** View and manage your data across Google Cloud Platform services. */
+  const CLOUD_PLATFORM =
+      "https://www.googleapis.com/auth/cloud-platform";
+  /** Translate text from one language to another using Google Translate. */
+  const CLOUD_TRANSLATION =
+      "https://www.googleapis.com/auth/cloud-translation";
 
   public $detections;
   public $languages;
@@ -44,7 +50,7 @@ class Google_Service_Translate extends Google_Service
   public function __construct(Google_Client $client)
   {
     parent::__construct($client);
-    $this->rootUrl = 'https://www.googleapis.com/';
+    $this->rootUrl = 'https://translation.googleapis.com/';
     $this->servicePath = 'language/translate/';
     $this->version = 'v2';
     $this->serviceName = 'translate';
@@ -55,7 +61,11 @@ class Google_Service_Translate extends Google_Service
         'detections',
         array(
           'methods' => array(
-            'list' => array(
+            'detect' => array(
+              'path' => 'v2/detect',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
+            ),'list' => array(
               'path' => 'v2/detect',
               'httpMethod' => 'GET',
               'parameters' => array(
@@ -81,6 +91,10 @@ class Google_Service_Translate extends Google_Service
               'httpMethod' => 'GET',
               'parameters' => array(
                 'target' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'model' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -110,6 +124,14 @@ class Google_Service_Translate extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'model' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'source' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'cid' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -119,11 +141,11 @@ class Google_Service_Translate extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'source' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
               ),
+            ),'translate' => array(
+              'path' => 'v2',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
             ),
           )
         )

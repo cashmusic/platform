@@ -8,7 +8,7 @@ $_SERVER['argv'][3] = 'FailureTest';
 $_SERVER['argv'][4] = __DIR__ . '/../_files/FailureTest.php';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -19,7 +19,7 @@ Time: %s, Memory: %s
 There were 13 failures:
 
 1) FailureTest::testAssertStringMatchesFormatFile
-Failed asserting that string matches format description.
+Failed asserting that format description matches text.
 --- Expected
 +++ Actual
 @@ @@
@@ -53,8 +53,8 @@ Failed asserting that two strings are identical.
 --- Expected
 +++ Actual
 @@ @@
--'foo'
-+'bar'
+-foo
++bar
 
 %s:%d
 
@@ -66,7 +66,7 @@ Failed asserting that 2 matches expected 1.
 
 7) FailureTest::testAssertStringMatchesFormat
 message
-Failed asserting that string matches format description.
+Failed asserting that format description matches text.
 --- Expected
 +++ Actual
 @@ @@
@@ -81,9 +81,9 @@ Failed asserting that two strings are equal.
 --- Expected
 +++ Actual
 @@ @@
- 'foo\n
--bar\n
-+baz\n
+ 'foo
+-bar
++baz
  '
 
 %s:%d
@@ -116,7 +116,7 @@ Failed asserting that two objects are equal.
 +    'bar' => 'foo'
  )
 
-%s:%d
+%s:22
 
 12) FailureTest::testAssertIntegerEqualsInteger
 message

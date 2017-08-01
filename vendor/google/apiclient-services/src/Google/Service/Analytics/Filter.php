@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -48,10 +48,16 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_Analytics_FilterAdvancedDetails
+   */
   public function setAdvancedDetails(Google_Service_Analytics_FilterAdvancedDetails $advancedDetails)
   {
     $this->advancedDetails = $advancedDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterAdvancedDetails
+   */
   public function getAdvancedDetails()
   {
     return $this->advancedDetails;
@@ -64,10 +70,16 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->created;
   }
+  /**
+   * @param Google_Service_Analytics_FilterExpression
+   */
   public function setExcludeDetails(Google_Service_Analytics_FilterExpression $excludeDetails)
   {
     $this->excludeDetails = $excludeDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterExpression
+   */
   public function getExcludeDetails()
   {
     return $this->excludeDetails;
@@ -80,10 +92,16 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Analytics_FilterExpression
+   */
   public function setIncludeDetails(Google_Service_Analytics_FilterExpression $includeDetails)
   {
     $this->includeDetails = $includeDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterExpression
+   */
   public function getIncludeDetails()
   {
     return $this->includeDetails;
@@ -96,10 +114,16 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Analytics_FilterLowercaseDetails
+   */
   public function setLowercaseDetails(Google_Service_Analytics_FilterLowercaseDetails $lowercaseDetails)
   {
     $this->lowercaseDetails = $lowercaseDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterLowercaseDetails
+   */
   public function getLowercaseDetails()
   {
     return $this->lowercaseDetails;
@@ -112,18 +136,30 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Analytics_FilterParentLink
+   */
   public function setParentLink(Google_Service_Analytics_FilterParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
+  /**
+   * @return Google_Service_Analytics_FilterParentLink
+   */
   public function getParentLink()
   {
     return $this->parentLink;
   }
+  /**
+   * @param Google_Service_Analytics_FilterSearchAndReplaceDetails
+   */
   public function setSearchAndReplaceDetails(Google_Service_Analytics_FilterSearchAndReplaceDetails $searchAndReplaceDetails)
   {
     $this->searchAndReplaceDetails = $searchAndReplaceDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterSearchAndReplaceDetails
+   */
   public function getSearchAndReplaceDetails()
   {
     return $this->searchAndReplaceDetails;
@@ -152,10 +188,16 @@ class Google_Service_Analytics_Filter extends Google_Model
   {
     return $this->updated;
   }
+  /**
+   * @param Google_Service_Analytics_FilterUppercaseDetails
+   */
   public function setUppercaseDetails(Google_Service_Analytics_FilterUppercaseDetails $uppercaseDetails)
   {
     $this->uppercaseDetails = $uppercaseDetails;
   }
+  /**
+   * @return Google_Service_Analytics_FilterUppercaseDetails
+   */
   public function getUppercaseDetails()
   {
     return $this->uppercaseDetails;

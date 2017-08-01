@@ -7,14 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
 /**
  * Constraint that checks if the file/dir(name) that it is evaluated for is readable.
  *
  * The file path to check is passed as $other in evaluate().
  */
-class IsReadable extends Constraint
+class PHPUnit_Framework_Constraint_IsReadable extends PHPUnit_Framework_Constraint
 {
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -26,7 +25,7 @@ class IsReadable extends Constraint
      */
     protected function matches($other)
     {
-        return \is_readable($other);
+        return is_readable($other);
     }
 
     /**
@@ -41,7 +40,7 @@ class IsReadable extends Constraint
      */
     protected function failureDescription($other)
     {
-        return \sprintf(
+        return sprintf(
             '"%s" is readable',
             $other
         );

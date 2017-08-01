@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_AndroidPublisher_ApksListResponse extends Google_Collection
   protected $apksDataType = 'array';
   public $kind;
 
+  /**
+   * @param Google_Service_AndroidPublisher_Apk
+   */
   public function setApks($apks)
   {
     $this->apks = $apks;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_Apk
+   */
   public function getApks()
   {
     return $this->apks;

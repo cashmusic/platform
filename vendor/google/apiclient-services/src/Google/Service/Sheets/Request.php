@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -79,6 +79,8 @@ class Google_Service_Sheets_Request extends Google_Model
   protected $moveDimensionDataType = '';
   protected $pasteDataType = 'Google_Service_Sheets_PasteDataRequest';
   protected $pasteDataDataType = '';
+  protected $randomizeRangeType = 'Google_Service_Sheets_RandomizeRangeRequest';
+  protected $randomizeRangeDataType = '';
   protected $repeatCellType = 'Google_Service_Sheets_RepeatCellRequest';
   protected $repeatCellDataType = '';
   protected $setBasicFilterType = 'Google_Service_Sheets_SetBasicFilterRequest';
@@ -116,394 +118,702 @@ class Google_Service_Sheets_Request extends Google_Model
   protected $updateSpreadsheetPropertiesType = 'Google_Service_Sheets_UpdateSpreadsheetPropertiesRequest';
   protected $updateSpreadsheetPropertiesDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_AddBandingRequest
+   */
   public function setAddBanding(Google_Service_Sheets_AddBandingRequest $addBanding)
   {
     $this->addBanding = $addBanding;
   }
+  /**
+   * @return Google_Service_Sheets_AddBandingRequest
+   */
   public function getAddBanding()
   {
     return $this->addBanding;
   }
+  /**
+   * @param Google_Service_Sheets_AddChartRequest
+   */
   public function setAddChart(Google_Service_Sheets_AddChartRequest $addChart)
   {
     $this->addChart = $addChart;
   }
+  /**
+   * @return Google_Service_Sheets_AddChartRequest
+   */
   public function getAddChart()
   {
     return $this->addChart;
   }
+  /**
+   * @param Google_Service_Sheets_AddConditionalFormatRuleRequest
+   */
   public function setAddConditionalFormatRule(Google_Service_Sheets_AddConditionalFormatRuleRequest $addConditionalFormatRule)
   {
     $this->addConditionalFormatRule = $addConditionalFormatRule;
   }
+  /**
+   * @return Google_Service_Sheets_AddConditionalFormatRuleRequest
+   */
   public function getAddConditionalFormatRule()
   {
     return $this->addConditionalFormatRule;
   }
+  /**
+   * @param Google_Service_Sheets_AddFilterViewRequest
+   */
   public function setAddFilterView(Google_Service_Sheets_AddFilterViewRequest $addFilterView)
   {
     $this->addFilterView = $addFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_AddFilterViewRequest
+   */
   public function getAddFilterView()
   {
     return $this->addFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_AddNamedRangeRequest
+   */
   public function setAddNamedRange(Google_Service_Sheets_AddNamedRangeRequest $addNamedRange)
   {
     $this->addNamedRange = $addNamedRange;
   }
+  /**
+   * @return Google_Service_Sheets_AddNamedRangeRequest
+   */
   public function getAddNamedRange()
   {
     return $this->addNamedRange;
   }
+  /**
+   * @param Google_Service_Sheets_AddProtectedRangeRequest
+   */
   public function setAddProtectedRange(Google_Service_Sheets_AddProtectedRangeRequest $addProtectedRange)
   {
     $this->addProtectedRange = $addProtectedRange;
   }
+  /**
+   * @return Google_Service_Sheets_AddProtectedRangeRequest
+   */
   public function getAddProtectedRange()
   {
     return $this->addProtectedRange;
   }
+  /**
+   * @param Google_Service_Sheets_AddSheetRequest
+   */
   public function setAddSheet(Google_Service_Sheets_AddSheetRequest $addSheet)
   {
     $this->addSheet = $addSheet;
   }
+  /**
+   * @return Google_Service_Sheets_AddSheetRequest
+   */
   public function getAddSheet()
   {
     return $this->addSheet;
   }
+  /**
+   * @param Google_Service_Sheets_AppendCellsRequest
+   */
   public function setAppendCells(Google_Service_Sheets_AppendCellsRequest $appendCells)
   {
     $this->appendCells = $appendCells;
   }
+  /**
+   * @return Google_Service_Sheets_AppendCellsRequest
+   */
   public function getAppendCells()
   {
     return $this->appendCells;
   }
+  /**
+   * @param Google_Service_Sheets_AppendDimensionRequest
+   */
   public function setAppendDimension(Google_Service_Sheets_AppendDimensionRequest $appendDimension)
   {
     $this->appendDimension = $appendDimension;
   }
+  /**
+   * @return Google_Service_Sheets_AppendDimensionRequest
+   */
   public function getAppendDimension()
   {
     return $this->appendDimension;
   }
+  /**
+   * @param Google_Service_Sheets_AutoFillRequest
+   */
   public function setAutoFill(Google_Service_Sheets_AutoFillRequest $autoFill)
   {
     $this->autoFill = $autoFill;
   }
+  /**
+   * @return Google_Service_Sheets_AutoFillRequest
+   */
   public function getAutoFill()
   {
     return $this->autoFill;
   }
+  /**
+   * @param Google_Service_Sheets_AutoResizeDimensionsRequest
+   */
   public function setAutoResizeDimensions(Google_Service_Sheets_AutoResizeDimensionsRequest $autoResizeDimensions)
   {
     $this->autoResizeDimensions = $autoResizeDimensions;
   }
+  /**
+   * @return Google_Service_Sheets_AutoResizeDimensionsRequest
+   */
   public function getAutoResizeDimensions()
   {
     return $this->autoResizeDimensions;
   }
+  /**
+   * @param Google_Service_Sheets_ClearBasicFilterRequest
+   */
   public function setClearBasicFilter(Google_Service_Sheets_ClearBasicFilterRequest $clearBasicFilter)
   {
     $this->clearBasicFilter = $clearBasicFilter;
   }
+  /**
+   * @return Google_Service_Sheets_ClearBasicFilterRequest
+   */
   public function getClearBasicFilter()
   {
     return $this->clearBasicFilter;
   }
+  /**
+   * @param Google_Service_Sheets_CopyPasteRequest
+   */
   public function setCopyPaste(Google_Service_Sheets_CopyPasteRequest $copyPaste)
   {
     $this->copyPaste = $copyPaste;
   }
+  /**
+   * @return Google_Service_Sheets_CopyPasteRequest
+   */
   public function getCopyPaste()
   {
     return $this->copyPaste;
   }
+  /**
+   * @param Google_Service_Sheets_CutPasteRequest
+   */
   public function setCutPaste(Google_Service_Sheets_CutPasteRequest $cutPaste)
   {
     $this->cutPaste = $cutPaste;
   }
+  /**
+   * @return Google_Service_Sheets_CutPasteRequest
+   */
   public function getCutPaste()
   {
     return $this->cutPaste;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteBandingRequest
+   */
   public function setDeleteBanding(Google_Service_Sheets_DeleteBandingRequest $deleteBanding)
   {
     $this->deleteBanding = $deleteBanding;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteBandingRequest
+   */
   public function getDeleteBanding()
   {
     return $this->deleteBanding;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteConditionalFormatRuleRequest
+   */
   public function setDeleteConditionalFormatRule(Google_Service_Sheets_DeleteConditionalFormatRuleRequest $deleteConditionalFormatRule)
   {
     $this->deleteConditionalFormatRule = $deleteConditionalFormatRule;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteConditionalFormatRuleRequest
+   */
   public function getDeleteConditionalFormatRule()
   {
     return $this->deleteConditionalFormatRule;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteDimensionRequest
+   */
   public function setDeleteDimension(Google_Service_Sheets_DeleteDimensionRequest $deleteDimension)
   {
     $this->deleteDimension = $deleteDimension;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteDimensionRequest
+   */
   public function getDeleteDimension()
   {
     return $this->deleteDimension;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteEmbeddedObjectRequest
+   */
   public function setDeleteEmbeddedObject(Google_Service_Sheets_DeleteEmbeddedObjectRequest $deleteEmbeddedObject)
   {
     $this->deleteEmbeddedObject = $deleteEmbeddedObject;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteEmbeddedObjectRequest
+   */
   public function getDeleteEmbeddedObject()
   {
     return $this->deleteEmbeddedObject;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteFilterViewRequest
+   */
   public function setDeleteFilterView(Google_Service_Sheets_DeleteFilterViewRequest $deleteFilterView)
   {
     $this->deleteFilterView = $deleteFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteFilterViewRequest
+   */
   public function getDeleteFilterView()
   {
     return $this->deleteFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteNamedRangeRequest
+   */
   public function setDeleteNamedRange(Google_Service_Sheets_DeleteNamedRangeRequest $deleteNamedRange)
   {
     $this->deleteNamedRange = $deleteNamedRange;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteNamedRangeRequest
+   */
   public function getDeleteNamedRange()
   {
     return $this->deleteNamedRange;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteProtectedRangeRequest
+   */
   public function setDeleteProtectedRange(Google_Service_Sheets_DeleteProtectedRangeRequest $deleteProtectedRange)
   {
     $this->deleteProtectedRange = $deleteProtectedRange;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteProtectedRangeRequest
+   */
   public function getDeleteProtectedRange()
   {
     return $this->deleteProtectedRange;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteRangeRequest
+   */
   public function setDeleteRange(Google_Service_Sheets_DeleteRangeRequest $deleteRange)
   {
     $this->deleteRange = $deleteRange;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteRangeRequest
+   */
   public function getDeleteRange()
   {
     return $this->deleteRange;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteSheetRequest
+   */
   public function setDeleteSheet(Google_Service_Sheets_DeleteSheetRequest $deleteSheet)
   {
     $this->deleteSheet = $deleteSheet;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteSheetRequest
+   */
   public function getDeleteSheet()
   {
     return $this->deleteSheet;
   }
+  /**
+   * @param Google_Service_Sheets_DuplicateFilterViewRequest
+   */
   public function setDuplicateFilterView(Google_Service_Sheets_DuplicateFilterViewRequest $duplicateFilterView)
   {
     $this->duplicateFilterView = $duplicateFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_DuplicateFilterViewRequest
+   */
   public function getDuplicateFilterView()
   {
     return $this->duplicateFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_DuplicateSheetRequest
+   */
   public function setDuplicateSheet(Google_Service_Sheets_DuplicateSheetRequest $duplicateSheet)
   {
     $this->duplicateSheet = $duplicateSheet;
   }
+  /**
+   * @return Google_Service_Sheets_DuplicateSheetRequest
+   */
   public function getDuplicateSheet()
   {
     return $this->duplicateSheet;
   }
+  /**
+   * @param Google_Service_Sheets_FindReplaceRequest
+   */
   public function setFindReplace(Google_Service_Sheets_FindReplaceRequest $findReplace)
   {
     $this->findReplace = $findReplace;
   }
+  /**
+   * @return Google_Service_Sheets_FindReplaceRequest
+   */
   public function getFindReplace()
   {
     return $this->findReplace;
   }
+  /**
+   * @param Google_Service_Sheets_InsertDimensionRequest
+   */
   public function setInsertDimension(Google_Service_Sheets_InsertDimensionRequest $insertDimension)
   {
     $this->insertDimension = $insertDimension;
   }
+  /**
+   * @return Google_Service_Sheets_InsertDimensionRequest
+   */
   public function getInsertDimension()
   {
     return $this->insertDimension;
   }
+  /**
+   * @param Google_Service_Sheets_InsertRangeRequest
+   */
   public function setInsertRange(Google_Service_Sheets_InsertRangeRequest $insertRange)
   {
     $this->insertRange = $insertRange;
   }
+  /**
+   * @return Google_Service_Sheets_InsertRangeRequest
+   */
   public function getInsertRange()
   {
     return $this->insertRange;
   }
+  /**
+   * @param Google_Service_Sheets_MergeCellsRequest
+   */
   public function setMergeCells(Google_Service_Sheets_MergeCellsRequest $mergeCells)
   {
     $this->mergeCells = $mergeCells;
   }
+  /**
+   * @return Google_Service_Sheets_MergeCellsRequest
+   */
   public function getMergeCells()
   {
     return $this->mergeCells;
   }
+  /**
+   * @param Google_Service_Sheets_MoveDimensionRequest
+   */
   public function setMoveDimension(Google_Service_Sheets_MoveDimensionRequest $moveDimension)
   {
     $this->moveDimension = $moveDimension;
   }
+  /**
+   * @return Google_Service_Sheets_MoveDimensionRequest
+   */
   public function getMoveDimension()
   {
     return $this->moveDimension;
   }
+  /**
+   * @param Google_Service_Sheets_PasteDataRequest
+   */
   public function setPasteData(Google_Service_Sheets_PasteDataRequest $pasteData)
   {
     $this->pasteData = $pasteData;
   }
+  /**
+   * @return Google_Service_Sheets_PasteDataRequest
+   */
   public function getPasteData()
   {
     return $this->pasteData;
   }
+  /**
+   * @param Google_Service_Sheets_RandomizeRangeRequest
+   */
+  public function setRandomizeRange(Google_Service_Sheets_RandomizeRangeRequest $randomizeRange)
+  {
+    $this->randomizeRange = $randomizeRange;
+  }
+  /**
+   * @return Google_Service_Sheets_RandomizeRangeRequest
+   */
+  public function getRandomizeRange()
+  {
+    return $this->randomizeRange;
+  }
+  /**
+   * @param Google_Service_Sheets_RepeatCellRequest
+   */
   public function setRepeatCell(Google_Service_Sheets_RepeatCellRequest $repeatCell)
   {
     $this->repeatCell = $repeatCell;
   }
+  /**
+   * @return Google_Service_Sheets_RepeatCellRequest
+   */
   public function getRepeatCell()
   {
     return $this->repeatCell;
   }
+  /**
+   * @param Google_Service_Sheets_SetBasicFilterRequest
+   */
   public function setSetBasicFilter(Google_Service_Sheets_SetBasicFilterRequest $setBasicFilter)
   {
     $this->setBasicFilter = $setBasicFilter;
   }
+  /**
+   * @return Google_Service_Sheets_SetBasicFilterRequest
+   */
   public function getSetBasicFilter()
   {
     return $this->setBasicFilter;
   }
+  /**
+   * @param Google_Service_Sheets_SetDataValidationRequest
+   */
   public function setSetDataValidation(Google_Service_Sheets_SetDataValidationRequest $setDataValidation)
   {
     $this->setDataValidation = $setDataValidation;
   }
+  /**
+   * @return Google_Service_Sheets_SetDataValidationRequest
+   */
   public function getSetDataValidation()
   {
     return $this->setDataValidation;
   }
+  /**
+   * @param Google_Service_Sheets_SortRangeRequest
+   */
   public function setSortRange(Google_Service_Sheets_SortRangeRequest $sortRange)
   {
     $this->sortRange = $sortRange;
   }
+  /**
+   * @return Google_Service_Sheets_SortRangeRequest
+   */
   public function getSortRange()
   {
     return $this->sortRange;
   }
+  /**
+   * @param Google_Service_Sheets_TextToColumnsRequest
+   */
   public function setTextToColumns(Google_Service_Sheets_TextToColumnsRequest $textToColumns)
   {
     $this->textToColumns = $textToColumns;
   }
+  /**
+   * @return Google_Service_Sheets_TextToColumnsRequest
+   */
   public function getTextToColumns()
   {
     return $this->textToColumns;
   }
+  /**
+   * @param Google_Service_Sheets_UnmergeCellsRequest
+   */
   public function setUnmergeCells(Google_Service_Sheets_UnmergeCellsRequest $unmergeCells)
   {
     $this->unmergeCells = $unmergeCells;
   }
+  /**
+   * @return Google_Service_Sheets_UnmergeCellsRequest
+   */
   public function getUnmergeCells()
   {
     return $this->unmergeCells;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateBandingRequest
+   */
   public function setUpdateBanding(Google_Service_Sheets_UpdateBandingRequest $updateBanding)
   {
     $this->updateBanding = $updateBanding;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateBandingRequest
+   */
   public function getUpdateBanding()
   {
     return $this->updateBanding;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateBordersRequest
+   */
   public function setUpdateBorders(Google_Service_Sheets_UpdateBordersRequest $updateBorders)
   {
     $this->updateBorders = $updateBorders;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateBordersRequest
+   */
   public function getUpdateBorders()
   {
     return $this->updateBorders;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateCellsRequest
+   */
   public function setUpdateCells(Google_Service_Sheets_UpdateCellsRequest $updateCells)
   {
     $this->updateCells = $updateCells;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateCellsRequest
+   */
   public function getUpdateCells()
   {
     return $this->updateCells;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateChartSpecRequest
+   */
   public function setUpdateChartSpec(Google_Service_Sheets_UpdateChartSpecRequest $updateChartSpec)
   {
     $this->updateChartSpec = $updateChartSpec;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateChartSpecRequest
+   */
   public function getUpdateChartSpec()
   {
     return $this->updateChartSpec;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateConditionalFormatRuleRequest
+   */
   public function setUpdateConditionalFormatRule(Google_Service_Sheets_UpdateConditionalFormatRuleRequest $updateConditionalFormatRule)
   {
     $this->updateConditionalFormatRule = $updateConditionalFormatRule;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateConditionalFormatRuleRequest
+   */
   public function getUpdateConditionalFormatRule()
   {
     return $this->updateConditionalFormatRule;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateDimensionPropertiesRequest
+   */
   public function setUpdateDimensionProperties(Google_Service_Sheets_UpdateDimensionPropertiesRequest $updateDimensionProperties)
   {
     $this->updateDimensionProperties = $updateDimensionProperties;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateDimensionPropertiesRequest
+   */
   public function getUpdateDimensionProperties()
   {
     return $this->updateDimensionProperties;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateEmbeddedObjectPositionRequest
+   */
   public function setUpdateEmbeddedObjectPosition(Google_Service_Sheets_UpdateEmbeddedObjectPositionRequest $updateEmbeddedObjectPosition)
   {
     $this->updateEmbeddedObjectPosition = $updateEmbeddedObjectPosition;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateEmbeddedObjectPositionRequest
+   */
   public function getUpdateEmbeddedObjectPosition()
   {
     return $this->updateEmbeddedObjectPosition;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateFilterViewRequest
+   */
   public function setUpdateFilterView(Google_Service_Sheets_UpdateFilterViewRequest $updateFilterView)
   {
     $this->updateFilterView = $updateFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateFilterViewRequest
+   */
   public function getUpdateFilterView()
   {
     return $this->updateFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateNamedRangeRequest
+   */
   public function setUpdateNamedRange(Google_Service_Sheets_UpdateNamedRangeRequest $updateNamedRange)
   {
     $this->updateNamedRange = $updateNamedRange;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateNamedRangeRequest
+   */
   public function getUpdateNamedRange()
   {
     return $this->updateNamedRange;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateProtectedRangeRequest
+   */
   public function setUpdateProtectedRange(Google_Service_Sheets_UpdateProtectedRangeRequest $updateProtectedRange)
   {
     $this->updateProtectedRange = $updateProtectedRange;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateProtectedRangeRequest
+   */
   public function getUpdateProtectedRange()
   {
     return $this->updateProtectedRange;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateSheetPropertiesRequest
+   */
   public function setUpdateSheetProperties(Google_Service_Sheets_UpdateSheetPropertiesRequest $updateSheetProperties)
   {
     $this->updateSheetProperties = $updateSheetProperties;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateSheetPropertiesRequest
+   */
   public function getUpdateSheetProperties()
   {
     return $this->updateSheetProperties;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateSpreadsheetPropertiesRequest
+   */
   public function setUpdateSpreadsheetProperties(Google_Service_Sheets_UpdateSpreadsheetPropertiesRequest $updateSpreadsheetProperties)
   {
     $this->updateSpreadsheetProperties = $updateSpreadsheetProperties;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateSpreadsheetPropertiesRequest
+   */
   public function getUpdateSpreadsheetProperties()
   {
     return $this->updateSpreadsheetProperties;

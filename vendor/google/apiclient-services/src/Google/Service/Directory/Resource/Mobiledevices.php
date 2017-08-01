@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,8 +28,8 @@ class Google_Service_Directory_Resource_Mobiledevices extends Google_Service_Res
   /**
    * Take action on Mobile Device (mobiledevices.action)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $resourceId Immutable id of Mobile Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $resourceId Immutable ID of Mobile Device
    * @param Google_Service_Directory_MobileDeviceAction $postBody
    * @param array $optParams Optional parameters.
    */
@@ -42,8 +42,8 @@ class Google_Service_Directory_Resource_Mobiledevices extends Google_Service_Res
   /**
    * Delete Mobile Device (mobiledevices.delete)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $resourceId Immutable id of Mobile Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $resourceId Immutable ID of Mobile Device
    * @param array $optParams Optional parameters.
    */
   public function delete($customerId, $resourceId, $optParams = array())
@@ -55,8 +55,8 @@ class Google_Service_Directory_Resource_Mobiledevices extends Google_Service_Res
   /**
    * Retrieve Mobile Device (mobiledevices.get)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $resourceId Immutable id of Mobile Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $resourceId Immutable ID of Mobile Device
    * @param array $optParams Optional parameters.
    *
    * @opt_param string projection Restrict information returned to a set of
@@ -73,7 +73,7 @@ class Google_Service_Directory_Resource_Mobiledevices extends Google_Service_Res
    * Retrieve all Mobile Devices of a customer (paginated)
    * (mobiledevices.listMobiledevices)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param array $optParams Optional parameters.
    *
    * @opt_param int maxResults Maximum number of results to return. Default is 100

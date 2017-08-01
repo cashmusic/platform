@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,16 +17,31 @@
 
 class Google_Service_TagManager_ListTriggersResponse extends Google_Collection
 {
-  protected $collection_key = 'triggers';
-  protected $triggersType = 'Google_Service_TagManager_Trigger';
-  protected $triggersDataType = 'array';
+  protected $collection_key = 'trigger';
+  public $nextPageToken;
+  protected $triggerType = 'Google_Service_TagManager_Trigger';
+  protected $triggerDataType = 'array';
 
-  public function setTriggers($triggers)
+  public function setNextPageToken($nextPageToken)
   {
-    $this->triggers = $triggers;
+    $this->nextPageToken = $nextPageToken;
   }
-  public function getTriggers()
+  public function getNextPageToken()
   {
-    return $this->triggers;
+    return $this->nextPageToken;
+  }
+  /**
+   * @param Google_Service_TagManager_Trigger
+   */
+  public function setTrigger($trigger)
+  {
+    $this->trigger = $trigger;
+  }
+  /**
+   * @return Google_Service_TagManager_Trigger
+   */
+  public function getTrigger()
+  {
+    return $this->trigger;
   }
 }

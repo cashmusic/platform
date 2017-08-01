@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Classroom_SharedDriveFile extends Google_Model
   protected $driveFileDataType = '';
   public $shareMode;
 
+  /**
+   * @param Google_Service_Classroom_DriveFile
+   */
   public function setDriveFile(Google_Service_Classroom_DriveFile $driveFile)
   {
     $this->driveFile = $driveFile;
   }
+  /**
+   * @return Google_Service_Classroom_DriveFile
+   */
   public function getDriveFile()
   {
     return $this->driveFile;

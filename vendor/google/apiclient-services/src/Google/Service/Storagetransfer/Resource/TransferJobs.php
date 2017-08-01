@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,8 +44,8 @@ class Google_Service_Storagetransfer_Resource_TransferJobs extends Google_Servic
    * @param string $jobName The job to get. Required.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string projectId The ID of the Google Developers Console project
-   * that owns the job. Required.
+   * @opt_param string projectId The ID of the Google Cloud Platform Console
+   * project that owns the job. Required.
    * @return Google_Service_Storagetransfer_TransferJob
    */
   public function get($jobName, $optParams = array())
@@ -60,15 +60,15 @@ class Google_Service_Storagetransfer_Resource_TransferJobs extends Google_Servic
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter A list of query parameters specified as JSON text in
-   * the form of {"`project_id`":"my_project_id",
-   * "`job_names`":["jobid1","jobid2",...],
-   * "`job_statuses`":["status1","status2",...]}. Since `job_names` and
+   * the form of {"project_id":"my_project_id",
+   * "job_names":["jobid1","jobid2",...],
+   * "job_statuses":["status1","status2",...]}. Since `job_names` and
    * `job_statuses` support multiple values, their values must be specified with
    * array notation. `project_id` is required. `job_names` and `job_statuses` are
-   * optional. The valid values for `job_statuses` are case-insensitive:
+   * optional.  The valid values for `job_statuses` are case-insensitive:
    * `ENABLED`, `DISABLED`, and `DELETED`.
-   * @opt_param int pageSize The list page size. The max allowed value is 256.
    * @opt_param string pageToken The list page token.
+   * @opt_param int pageSize The list page size. The max allowed value is 256.
    * @return Google_Service_Storagetransfer_ListTransferJobsResponse
    */
   public function listTransferJobs($optParams = array())

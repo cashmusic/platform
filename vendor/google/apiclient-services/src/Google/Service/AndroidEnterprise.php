@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -224,6 +224,16 @@ class Google_Service_AndroidEnterprise extends Google_Service
                   'required' => true,
                 ),
               ),
+            ),'getAndroidDevicePolicyConfig' => array(
+              'path' => 'enterprises/{enterpriseId}/androidDevicePolicyConfig',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'enterpriseId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
             ),'getServiceAccount' => array(
               'path' => 'enterprises/{enterpriseId}/serviceAccount',
               'httpMethod' => 'GET',
@@ -289,6 +299,16 @@ class Google_Service_AndroidEnterprise extends Google_Service
               ),
             ),'setAccount' => array(
               'path' => 'enterprises/{enterpriseId}/account',
+              'httpMethod' => 'PUT',
+              'parameters' => array(
+                'enterpriseId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'setAndroidDevicePolicyConfig' => array(
+              'path' => 'enterprises/{enterpriseId}/androidDevicePolicyConfig',
               'httpMethod' => 'PUT',
               'parameters' => array(
                 'enterpriseId' => array(

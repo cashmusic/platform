@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,26 +24,44 @@ class Google_Service_Analytics_EntityUserLinkEntity extends Google_Model
   protected $webPropertyRefType = 'Google_Service_Analytics_WebPropertyRef';
   protected $webPropertyRefDataType = '';
 
+  /**
+   * @param Google_Service_Analytics_AccountRef
+   */
   public function setAccountRef(Google_Service_Analytics_AccountRef $accountRef)
   {
     $this->accountRef = $accountRef;
   }
+  /**
+   * @return Google_Service_Analytics_AccountRef
+   */
   public function getAccountRef()
   {
     return $this->accountRef;
   }
+  /**
+   * @param Google_Service_Analytics_ProfileRef
+   */
   public function setProfileRef(Google_Service_Analytics_ProfileRef $profileRef)
   {
     $this->profileRef = $profileRef;
   }
+  /**
+   * @return Google_Service_Analytics_ProfileRef
+   */
   public function getProfileRef()
   {
     return $this->profileRef;
   }
+  /**
+   * @param Google_Service_Analytics_WebPropertyRef
+   */
   public function setWebPropertyRef(Google_Service_Analytics_WebPropertyRef $webPropertyRef)
   {
     $this->webPropertyRef = $webPropertyRef;
   }
+  /**
+   * @return Google_Service_Analytics_WebPropertyRef
+   */
   public function getWebPropertyRef()
   {
     return $this->webPropertyRef;

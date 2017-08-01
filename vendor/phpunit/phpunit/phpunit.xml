@@ -2,10 +2,12 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="phpunit.xsd"
          bootstrap="tests/bootstrap.php"
+         backupGlobals="false"
          verbose="true">
     <testsuites>
         <testsuite name="small">
             <directory suffix="Test.php">tests/Framework</directory>
+            <directory suffix="Test.php">tests/Extensions</directory>
             <directory suffix="Test.php">tests/Runner</directory>
             <directory suffix="Test.php">tests/Util</directory>
         </testsuite>

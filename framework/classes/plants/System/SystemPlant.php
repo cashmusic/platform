@@ -546,6 +546,7 @@ class SystemPlant extends PlantBase {
 			$auth_type = 'api_key';
 			$user = $this->orm->findWhere(People::class, ['api_key'=>$api_key] );
 		} else {
+
 			$auth_type = 'api_fullauth';
             $user = $this->orm->findWhere(People::class, ['api_key'=>$api_key, 'api_secret'=>$api_secret] );
 		}

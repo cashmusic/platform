@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Vision_LatLongRect extends Google_Model
   protected $minLatLngType = 'Google_Service_Vision_LatLng';
   protected $minLatLngDataType = '';
 
+  /**
+   * @param Google_Service_Vision_LatLng
+   */
   public function setMaxLatLng(Google_Service_Vision_LatLng $maxLatLng)
   {
     $this->maxLatLng = $maxLatLng;
   }
+  /**
+   * @return Google_Service_Vision_LatLng
+   */
   public function getMaxLatLng()
   {
     return $this->maxLatLng;
   }
+  /**
+   * @param Google_Service_Vision_LatLng
+   */
   public function setMinLatLng(Google_Service_Vision_LatLng $minLatLng)
   {
     $this->minLatLng = $minLatLng;
   }
+  /**
+   * @return Google_Service_Vision_LatLng
+   */
   public function getMinLatLng()
   {
     return $this->minLatLng;

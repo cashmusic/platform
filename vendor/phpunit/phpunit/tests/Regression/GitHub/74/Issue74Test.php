@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue74Test extends TestCase
+class Issue74Test extends PHPUnit_Framework_TestCase
 {
     public function testCreateAndThrowNewExceptionInProcessIsolation()
     {

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Books_DiscoveryclustersClusters extends Google_Collection
   protected $volumesType = 'Google_Service_Books_Volume';
   protected $volumesDataType = 'array';
 
+  /**
+   * @param Google_Service_Books_DiscoveryclustersClustersBannerWithContentContainer
+   */
   public function setBannerWithContentContainer(Google_Service_Books_DiscoveryclustersClustersBannerWithContentContainer $bannerWithContentContainer)
   {
     $this->bannerWithContentContainer = $bannerWithContentContainer;
   }
+  /**
+   * @return Google_Service_Books_DiscoveryclustersClustersBannerWithContentContainer
+   */
   public function getBannerWithContentContainer()
   {
     return $this->bannerWithContentContainer;
@@ -70,10 +76,16 @@ class Google_Service_Books_DiscoveryclustersClusters extends Google_Collection
   {
     return $this->uid;
   }
+  /**
+   * @param Google_Service_Books_Volume
+   */
   public function setVolumes($volumes)
   {
     $this->volumes = $volumes;
   }
+  /**
+   * @return Google_Service_Books_Volume
+   */
   public function getVolumes()
   {
     return $this->volumes;

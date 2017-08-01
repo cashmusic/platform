@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,18 +32,30 @@ class Google_Service_ShoppingContent_ShippingSettings extends Google_Collection
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_ShoppingContent_PostalCodeGroup
+   */
   public function setPostalCodeGroups($postalCodeGroups)
   {
     $this->postalCodeGroups = $postalCodeGroups;
   }
+  /**
+   * @return Google_Service_ShoppingContent_PostalCodeGroup
+   */
   public function getPostalCodeGroups()
   {
     return $this->postalCodeGroups;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Service
+   */
   public function setServices($services)
   {
     $this->services = $services;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Service
+   */
   public function getServices()
   {
     return $this->services;

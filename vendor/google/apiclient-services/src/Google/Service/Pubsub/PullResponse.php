@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Pubsub_PullResponse extends Google_Collection
   protected $receivedMessagesType = 'Google_Service_Pubsub_ReceivedMessage';
   protected $receivedMessagesDataType = 'array';
 
+  /**
+   * @param Google_Service_Pubsub_ReceivedMessage
+   */
   public function setReceivedMessages($receivedMessages)
   {
     $this->receivedMessages = $receivedMessages;
   }
+  /**
+   * @return Google_Service_Pubsub_ReceivedMessage
+   */
   public function getReceivedMessages()
   {
     return $this->receivedMessages;

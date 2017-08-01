@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_Sheets_UpdateConditionalFormatRuleResponse extends Google_M
   {
     return $this->newIndex;
   }
+  /**
+   * @param Google_Service_Sheets_ConditionalFormatRule
+   */
   public function setNewRule(Google_Service_Sheets_ConditionalFormatRule $newRule)
   {
     $this->newRule = $newRule;
   }
+  /**
+   * @return Google_Service_Sheets_ConditionalFormatRule
+   */
   public function getNewRule()
   {
     return $this->newRule;
@@ -48,10 +54,16 @@ class Google_Service_Sheets_UpdateConditionalFormatRuleResponse extends Google_M
   {
     return $this->oldIndex;
   }
+  /**
+   * @param Google_Service_Sheets_ConditionalFormatRule
+   */
   public function setOldRule(Google_Service_Sheets_ConditionalFormatRule $oldRule)
   {
     $this->oldRule = $oldRule;
   }
+  /**
+   * @return Google_Service_Sheets_ConditionalFormatRule
+   */
   public function getOldRule()
   {
     return $this->oldRule;

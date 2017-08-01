@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_FirebaseDynamicLinks_DynamicLinkInfo extends Google_Model
   protected $socialMetaTagInfoType = 'Google_Service_FirebaseDynamicLinks_SocialMetaTagInfo';
   protected $socialMetaTagInfoDataType = '';
 
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_AnalyticsInfo
+   */
   public function setAnalyticsInfo(Google_Service_FirebaseDynamicLinks_AnalyticsInfo $analyticsInfo)
   {
     $this->analyticsInfo = $analyticsInfo;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_AnalyticsInfo
+   */
   public function getAnalyticsInfo()
   {
     return $this->analyticsInfo;
   }
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_AndroidInfo
+   */
   public function setAndroidInfo(Google_Service_FirebaseDynamicLinks_AndroidInfo $androidInfo)
   {
     $this->androidInfo = $androidInfo;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_AndroidInfo
+   */
   public function getAndroidInfo()
   {
     return $this->androidInfo;
@@ -54,10 +66,16 @@ class Google_Service_FirebaseDynamicLinks_DynamicLinkInfo extends Google_Model
   {
     return $this->dynamicLinkDomain;
   }
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_IosInfo
+   */
   public function setIosInfo(Google_Service_FirebaseDynamicLinks_IosInfo $iosInfo)
   {
     $this->iosInfo = $iosInfo;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_IosInfo
+   */
   public function getIosInfo()
   {
     return $this->iosInfo;
@@ -70,18 +88,30 @@ class Google_Service_FirebaseDynamicLinks_DynamicLinkInfo extends Google_Model
   {
     return $this->link;
   }
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_NavigationInfo
+   */
   public function setNavigationInfo(Google_Service_FirebaseDynamicLinks_NavigationInfo $navigationInfo)
   {
     $this->navigationInfo = $navigationInfo;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_NavigationInfo
+   */
   public function getNavigationInfo()
   {
     return $this->navigationInfo;
   }
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_SocialMetaTagInfo
+   */
   public function setSocialMetaTagInfo(Google_Service_FirebaseDynamicLinks_SocialMetaTagInfo $socialMetaTagInfo)
   {
     $this->socialMetaTagInfo = $socialMetaTagInfo;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_SocialMetaTagInfo
+   */
   public function getSocialMetaTagInfo()
   {
     return $this->socialMetaTagInfo;

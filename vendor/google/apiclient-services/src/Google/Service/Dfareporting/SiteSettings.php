@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,9 +18,9 @@
 class Google_Service_Dfareporting_SiteSettings extends Google_Model
 {
   public $activeViewOptOut;
+  public $adBlockingOptOut;
   protected $creativeSettingsType = 'Google_Service_Dfareporting_CreativeSettings';
   protected $creativeSettingsDataType = '';
-  public $disableBrandSafeAds;
   public $disableNewCookie;
   protected $lookbackConfigurationType = 'Google_Service_Dfareporting_LookbackConfiguration';
   protected $lookbackConfigurationDataType = '';
@@ -37,21 +37,27 @@ class Google_Service_Dfareporting_SiteSettings extends Google_Model
   {
     return $this->activeViewOptOut;
   }
+  public function setAdBlockingOptOut($adBlockingOptOut)
+  {
+    $this->adBlockingOptOut = $adBlockingOptOut;
+  }
+  public function getAdBlockingOptOut()
+  {
+    return $this->adBlockingOptOut;
+  }
+  /**
+   * @param Google_Service_Dfareporting_CreativeSettings
+   */
   public function setCreativeSettings(Google_Service_Dfareporting_CreativeSettings $creativeSettings)
   {
     $this->creativeSettings = $creativeSettings;
   }
+  /**
+   * @return Google_Service_Dfareporting_CreativeSettings
+   */
   public function getCreativeSettings()
   {
     return $this->creativeSettings;
-  }
-  public function setDisableBrandSafeAds($disableBrandSafeAds)
-  {
-    $this->disableBrandSafeAds = $disableBrandSafeAds;
-  }
-  public function getDisableBrandSafeAds()
-  {
-    return $this->disableBrandSafeAds;
   }
   public function setDisableNewCookie($disableNewCookie)
   {
@@ -61,18 +67,30 @@ class Google_Service_Dfareporting_SiteSettings extends Google_Model
   {
     return $this->disableNewCookie;
   }
+  /**
+   * @param Google_Service_Dfareporting_LookbackConfiguration
+   */
   public function setLookbackConfiguration(Google_Service_Dfareporting_LookbackConfiguration $lookbackConfiguration)
   {
     $this->lookbackConfiguration = $lookbackConfiguration;
   }
+  /**
+   * @return Google_Service_Dfareporting_LookbackConfiguration
+   */
   public function getLookbackConfiguration()
   {
     return $this->lookbackConfiguration;
   }
+  /**
+   * @param Google_Service_Dfareporting_TagSetting
+   */
   public function setTagSetting(Google_Service_Dfareporting_TagSetting $tagSetting)
   {
     $this->tagSetting = $tagSetting;
   }
+  /**
+   * @return Google_Service_Dfareporting_TagSetting
+   */
   public function getTagSetting()
   {
     return $this->tagSetting;

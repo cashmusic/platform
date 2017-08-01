@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,16 +17,31 @@
 
 class Google_Service_TagManager_ListTagsResponse extends Google_Collection
 {
-  protected $collection_key = 'tags';
-  protected $tagsType = 'Google_Service_TagManager_Tag';
-  protected $tagsDataType = 'array';
+  protected $collection_key = 'tag';
+  public $nextPageToken;
+  protected $tagType = 'Google_Service_TagManager_Tag';
+  protected $tagDataType = 'array';
 
-  public function setTags($tags)
+  public function setNextPageToken($nextPageToken)
   {
-    $this->tags = $tags;
+    $this->nextPageToken = $nextPageToken;
   }
-  public function getTags()
+  public function getNextPageToken()
   {
-    return $this->tags;
+    return $this->nextPageToken;
+  }
+  /**
+   * @param Google_Service_TagManager_Tag
+   */
+  public function setTag($tag)
+  {
+    $this->tag = $tag;
+  }
+  /**
+   * @return Google_Service_TagManager_Tag
+   */
+  public function getTag()
+  {
+    return $this->tag;
   }
 }

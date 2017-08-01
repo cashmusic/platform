@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_YouTube_LiveChatMessage extends Google_Model
   protected $snippetType = 'Google_Service_YouTube_LiveChatMessageSnippet';
   protected $snippetDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_LiveChatMessageAuthorDetails
+   */
   public function setAuthorDetails(Google_Service_YouTube_LiveChatMessageAuthorDetails $authorDetails)
   {
     $this->authorDetails = $authorDetails;
   }
+  /**
+   * @return Google_Service_YouTube_LiveChatMessageAuthorDetails
+   */
   public function getAuthorDetails()
   {
     return $this->authorDetails;
@@ -57,10 +63,16 @@ class Google_Service_YouTube_LiveChatMessage extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_LiveChatMessageSnippet
+   */
   public function setSnippet(Google_Service_YouTube_LiveChatMessageSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_LiveChatMessageSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;

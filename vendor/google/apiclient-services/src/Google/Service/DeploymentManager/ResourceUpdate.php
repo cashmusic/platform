@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_DeploymentManager_ResourceUpdate extends Google_Collection
   protected $warningsType = 'Google_Service_DeploymentManager_ResourceUpdateWarnings';
   protected $warningsDataType = 'array';
 
+  /**
+   * @param Google_Service_DeploymentManager_ResourceAccessControl
+   */
   public function setAccessControl(Google_Service_DeploymentManager_ResourceAccessControl $accessControl)
   {
     $this->accessControl = $accessControl;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ResourceAccessControl
+   */
   public function getAccessControl()
   {
     return $this->accessControl;
   }
+  /**
+   * @param Google_Service_DeploymentManager_ResourceUpdateError
+   */
   public function setError(Google_Service_DeploymentManager_ResourceUpdateError $error)
   {
     $this->error = $error;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ResourceUpdateError
+   */
   public function getError()
   {
     return $this->error;
@@ -86,10 +98,16 @@ class Google_Service_DeploymentManager_ResourceUpdate extends Google_Collection
   {
     return $this->state;
   }
+  /**
+   * @param Google_Service_DeploymentManager_ResourceUpdateWarnings
+   */
   public function setWarnings($warnings)
   {
     $this->warnings = $warnings;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ResourceUpdateWarnings
+   */
   public function getWarnings()
   {
     return $this->warnings;

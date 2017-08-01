@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Webmasters_ApiDimensionFilterGroup extends Google_Collectio
   protected $filtersDataType = 'array';
   public $groupType;
 
+  /**
+   * @param Google_Service_Webmasters_ApiDimensionFilter
+   */
   public function setFilters($filters)
   {
     $this->filters = $filters;
   }
+  /**
+   * @return Google_Service_Webmasters_ApiDimensionFilter
+   */
   public function getFilters()
   {
     return $this->filters;

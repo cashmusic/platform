@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,34 +26,58 @@ class Google_Service_Dataflow_StreamLocation extends Google_Model
   protected $streamingStageLocationType = 'Google_Service_Dataflow_StreamingStageLocation';
   protected $streamingStageLocationDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_CustomSourceLocation
+   */
   public function setCustomSourceLocation(Google_Service_Dataflow_CustomSourceLocation $customSourceLocation)
   {
     $this->customSourceLocation = $customSourceLocation;
   }
+  /**
+   * @return Google_Service_Dataflow_CustomSourceLocation
+   */
   public function getCustomSourceLocation()
   {
     return $this->customSourceLocation;
   }
+  /**
+   * @param Google_Service_Dataflow_PubsubLocation
+   */
   public function setPubsubLocation(Google_Service_Dataflow_PubsubLocation $pubsubLocation)
   {
     $this->pubsubLocation = $pubsubLocation;
   }
+  /**
+   * @return Google_Service_Dataflow_PubsubLocation
+   */
   public function getPubsubLocation()
   {
     return $this->pubsubLocation;
   }
+  /**
+   * @param Google_Service_Dataflow_StreamingSideInputLocation
+   */
   public function setSideInputLocation(Google_Service_Dataflow_StreamingSideInputLocation $sideInputLocation)
   {
     $this->sideInputLocation = $sideInputLocation;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamingSideInputLocation
+   */
   public function getSideInputLocation()
   {
     return $this->sideInputLocation;
   }
+  /**
+   * @param Google_Service_Dataflow_StreamingStageLocation
+   */
   public function setStreamingStageLocation(Google_Service_Dataflow_StreamingStageLocation $streamingStageLocation)
   {
     $this->streamingStageLocation = $streamingStageLocation;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamingStageLocation
+   */
   public function getStreamingStageLocation()
   {
     return $this->streamingStageLocation;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_Slides_TableColumnProperties extends Google_Model
   protected $columnWidthType = 'Google_Service_Slides_Dimension';
   protected $columnWidthDataType = '';
 
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setColumnWidth(Google_Service_Slides_Dimension $columnWidth)
   {
     $this->columnWidth = $columnWidth;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getColumnWidth()
   {
     return $this->columnWidth;

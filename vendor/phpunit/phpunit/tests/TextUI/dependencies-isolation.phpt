@@ -9,7 +9,7 @@ $_SERVER['argv'][4] = 'DependencyTestSuite';
 $_SERVER['argv'][5] = __DIR__ . '/../_files/DependencyTestSuite.php';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -39,4 +39,4 @@ This test depends on "DependencyFailureTest::testTwo" to pass.
 This test depends on "DependencyFailureTest::testOne" to pass.
 
 FAILURES!
-Tests: 7, Assertions: 4, Failures: 1, Skipped: 3.
+Tests: 7, Assertions: 0, Failures: 1, Skipped: 3.

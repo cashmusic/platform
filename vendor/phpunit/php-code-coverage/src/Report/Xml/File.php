@@ -15,33 +15,17 @@ class File
     /**
      * @var \DOMDocument
      */
-    private $dom;
+    protected $dom;
 
     /**
      * @var \DOMElement
      */
-    private $contextNode;
+    protected $contextNode;
 
     public function __construct(\DOMElement $context)
     {
         $this->dom         = $context->ownerDocument;
         $this->contextNode = $context;
-    }
-
-    /**
-     * @return \DOMElement
-     */
-    protected function getContextNode()
-    {
-        return $this->contextNode;
-    }
-
-    /**
-     * @return \DOMDocument
-     */
-    protected function getDomDocument()
-    {
-        return $this->dom;
     }
 
     public function getTotals()

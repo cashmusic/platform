@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,12 +15,14 @@
  * the License.
  */
 
-class Google_Service_Slides_ReplaceAllShapesWithSheetsChartRequest extends Google_Model
+class Google_Service_Slides_ReplaceAllShapesWithSheetsChartRequest extends Google_Collection
 {
+  protected $collection_key = 'pageObjectIds';
   public $chartId;
   protected $containsTextType = 'Google_Service_Slides_SubstringMatchCriteria';
   protected $containsTextDataType = '';
   public $linkingMode;
+  public $pageObjectIds;
   public $spreadsheetId;
 
   public function setChartId($chartId)
@@ -31,10 +33,16 @@ class Google_Service_Slides_ReplaceAllShapesWithSheetsChartRequest extends Googl
   {
     return $this->chartId;
   }
+  /**
+   * @param Google_Service_Slides_SubstringMatchCriteria
+   */
   public function setContainsText(Google_Service_Slides_SubstringMatchCriteria $containsText)
   {
     $this->containsText = $containsText;
   }
+  /**
+   * @return Google_Service_Slides_SubstringMatchCriteria
+   */
   public function getContainsText()
   {
     return $this->containsText;
@@ -46,6 +54,14 @@ class Google_Service_Slides_ReplaceAllShapesWithSheetsChartRequest extends Googl
   public function getLinkingMode()
   {
     return $this->linkingMode;
+  }
+  public function setPageObjectIds($pageObjectIds)
+  {
+    $this->pageObjectIds = $pageObjectIds;
+  }
+  public function getPageObjectIds()
+  {
+    return $this->pageObjectIds;
   }
   public function setSpreadsheetId($spreadsheetId)
   {

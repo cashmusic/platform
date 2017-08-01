@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_ConsumerSurveys_ResultsGetRequest extends Google_Model
   protected $resultMaskType = 'Google_Service_ConsumerSurveys_ResultsMask';
   protected $resultMaskDataType = '';
 
+  /**
+   * @param Google_Service_ConsumerSurveys_ResultsMask
+   */
   public function setResultMask(Google_Service_ConsumerSurveys_ResultsMask $resultMask)
   {
     $this->resultMask = $resultMask;
   }
+  /**
+   * @return Google_Service_ConsumerSurveys_ResultsMask
+   */
   public function getResultMask()
   {
     return $this->resultMask;

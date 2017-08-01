@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -51,10 +51,16 @@ class Google_Service_Books_VolumeAccessInfo extends Google_Model
   {
     return $this->country;
   }
+  /**
+   * @param Google_Service_Books_DownloadAccessRestriction
+   */
   public function setDownloadAccess(Google_Service_Books_DownloadAccessRestriction $downloadAccess)
   {
     $this->downloadAccess = $downloadAccess;
   }
+  /**
+   * @return Google_Service_Books_DownloadAccessRestriction
+   */
   public function getDownloadAccess()
   {
     return $this->downloadAccess;
@@ -75,10 +81,16 @@ class Google_Service_Books_VolumeAccessInfo extends Google_Model
   {
     return $this->embeddable;
   }
+  /**
+   * @param Google_Service_Books_VolumeAccessInfoEpub
+   */
   public function setEpub(Google_Service_Books_VolumeAccessInfoEpub $epub)
   {
     $this->epub = $epub;
   }
+  /**
+   * @return Google_Service_Books_VolumeAccessInfoEpub
+   */
   public function getEpub()
   {
     return $this->epub;
@@ -91,10 +103,16 @@ class Google_Service_Books_VolumeAccessInfo extends Google_Model
   {
     return $this->explicitOfflineLicenseManagement;
   }
+  /**
+   * @param Google_Service_Books_VolumeAccessInfoPdf
+   */
   public function setPdf(Google_Service_Books_VolumeAccessInfoPdf $pdf)
   {
     $this->pdf = $pdf;
   }
+  /**
+   * @return Google_Service_Books_VolumeAccessInfoPdf
+   */
   public function getPdf()
   {
     return $this->pdf;

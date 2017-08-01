@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -66,10 +66,16 @@ class Google_Service_DeploymentManager_Deployment extends Google_Collection
   {
     return $this->insertTime;
   }
+  /**
+   * @param Google_Service_DeploymentManager_DeploymentLabelEntry
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return Google_Service_DeploymentManager_DeploymentLabelEntry
+   */
   public function getLabels()
   {
     return $this->labels;
@@ -90,10 +96,16 @@ class Google_Service_DeploymentManager_Deployment extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_DeploymentManager_Operation
+   */
   public function setOperation(Google_Service_DeploymentManager_Operation $operation)
   {
     $this->operation = $operation;
   }
+  /**
+   * @return Google_Service_DeploymentManager_Operation
+   */
   public function getOperation()
   {
     return $this->operation;
@@ -106,18 +118,30 @@ class Google_Service_DeploymentManager_Deployment extends Google_Collection
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_DeploymentManager_TargetConfiguration
+   */
   public function setTarget(Google_Service_DeploymentManager_TargetConfiguration $target)
   {
     $this->target = $target;
   }
+  /**
+   * @return Google_Service_DeploymentManager_TargetConfiguration
+   */
   public function getTarget()
   {
     return $this->target;
   }
+  /**
+   * @param Google_Service_DeploymentManager_DeploymentUpdate
+   */
   public function setUpdate(Google_Service_DeploymentManager_DeploymentUpdate $update)
   {
     $this->update = $update;
   }
+  /**
+   * @return Google_Service_DeploymentManager_DeploymentUpdate
+   */
   public function getUpdate()
   {
     return $this->update;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_Books_DictlayerdataDictWordsSenses extends Google_Collectio
   protected $synonymsType = 'Google_Service_Books_DictlayerdataDictWordsSensesSynonyms';
   protected $synonymsDataType = 'array';
 
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSensesConjugations
+   */
   public function setConjugations($conjugations)
   {
     $this->conjugations = $conjugations;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSensesConjugations
+   */
   public function getConjugations()
   {
     return $this->conjugations;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSensesDefinitions
+   */
   public function setDefinitions($definitions)
   {
     $this->definitions = $definitions;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSensesDefinitions
+   */
   public function getDefinitions()
   {
     return $this->definitions;
@@ -71,10 +83,16 @@ class Google_Service_Books_DictlayerdataDictWordsSenses extends Google_Collectio
   {
     return $this->pronunciationUrl;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSensesSource
+   */
   public function setSource(Google_Service_Books_DictlayerdataDictWordsSensesSource $source)
   {
     $this->source = $source;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSensesSource
+   */
   public function getSource()
   {
     return $this->source;
@@ -87,10 +105,16 @@ class Google_Service_Books_DictlayerdataDictWordsSenses extends Google_Collectio
   {
     return $this->syllabification;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSensesSynonyms
+   */
   public function setSynonyms($synonyms)
   {
     $this->synonyms = $synonyms;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSensesSynonyms
+   */
   public function getSynonyms()
   {
     return $this->synonyms;

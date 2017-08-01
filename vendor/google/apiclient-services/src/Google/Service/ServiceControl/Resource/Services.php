@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,7 +31,15 @@ class Google_Service_ServiceControl_Resource_Services extends Google_Service_Res
    *
    * This method requires the `servicemanagement.services.quota` permission on the
    * specified service. For more information, see [Google Cloud
-   * IAM](https://cloud.google.com/iam). (services.allocateQuota)
+   * IAM](https://cloud.google.com/iam).
+   *
+   * **NOTE:** the client code **must** fail-open if the server returns one of the
+   * following quota errors: -   `PROJECT_STATUS_UNAVAILABLE` -
+   * `SERVICE_STATUS_UNAVAILABLE` -   `BILLING_STATUS_UNAVAILABLE` -
+   * `QUOTA_SYSTEM_UNAVAILABLE`
+   *
+   * The server may inject above errors to prohibit any hard dependency on the
+   * quota system. (services.allocateQuota)
    *
    * @param string $serviceName Name of the service as specified in the service
    * configuration. For example, `"pubsub.googleapis.com"`.
@@ -103,7 +111,15 @@ class Google_Service_ServiceControl_Resource_Services extends Google_Service_Res
    *
    * This method requires the `servicemanagement.services.quota` permission on the
    * specified service. For more information, see [Google Cloud
-   * IAM](https://cloud.google.com/iam). (services.releaseQuota)
+   * IAM](https://cloud.google.com/iam).
+   *
+   * **NOTE:** the client code **must** fail-open if the server returns one of the
+   * following quota errors: -   `PROJECT_STATUS_UNAVAILABLE` -
+   * `SERVICE_STATUS_UNAVAILABLE` -   `BILLING_STATUS_UNAVAILABLE` -
+   * `QUOTA_SYSTEM_UNAVAILABLE`
+   *
+   * The server may inject above errors to prohibit any hard dependency on the
+   * quota system. (services.releaseQuota)
    *
    * @param string $serviceName Name of the service as specified in the service
    * configuration. For example, `"pubsub.googleapis.com"`.

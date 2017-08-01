@@ -31,7 +31,7 @@ use GuzzleHttp\Event\SubscriberInterface;
  *
  * Requests will be accessed with the authorization header:
  *
- * 'Authorization' 'Bearer <value of auth_token>'
+ * 'authorization' 'Bearer <value of auth_token>'
  */
 class AuthTokenSubscriber implements SubscriberInterface
 {
@@ -107,7 +107,7 @@ class AuthTokenSubscriber implements SubscriberInterface
         // Fetch the auth token.
         $auth_tokens = $this->fetcher->fetchAuthToken($this->httpHandler);
         if (array_key_exists('access_token', $auth_tokens)) {
-            $request->setHeader('Authorization', 'Bearer ' . $auth_tokens['access_token']);
+            $request->setHeader('authorization', 'Bearer ' . $auth_tokens['access_token']);
 
             // notify the callback if applicable
             if ($this->tokenCallback) {

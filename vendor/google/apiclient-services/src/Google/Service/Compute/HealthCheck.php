@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -69,18 +69,30 @@ class Google_Service_Compute_HealthCheck extends Google_Model
   {
     return $this->healthyThreshold;
   }
+  /**
+   * @param Google_Service_Compute_HTTPHealthCheck
+   */
   public function setHttpHealthCheck(Google_Service_Compute_HTTPHealthCheck $httpHealthCheck)
   {
     $this->httpHealthCheck = $httpHealthCheck;
   }
+  /**
+   * @return Google_Service_Compute_HTTPHealthCheck
+   */
   public function getHttpHealthCheck()
   {
     return $this->httpHealthCheck;
   }
+  /**
+   * @param Google_Service_Compute_HTTPSHealthCheck
+   */
   public function setHttpsHealthCheck(Google_Service_Compute_HTTPSHealthCheck $httpsHealthCheck)
   {
     $this->httpsHealthCheck = $httpsHealthCheck;
   }
+  /**
+   * @return Google_Service_Compute_HTTPSHealthCheck
+   */
   public function getHttpsHealthCheck()
   {
     return $this->httpsHealthCheck;
@@ -117,18 +129,30 @@ class Google_Service_Compute_HealthCheck extends Google_Model
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_Compute_SSLHealthCheck
+   */
   public function setSslHealthCheck(Google_Service_Compute_SSLHealthCheck $sslHealthCheck)
   {
     $this->sslHealthCheck = $sslHealthCheck;
   }
+  /**
+   * @return Google_Service_Compute_SSLHealthCheck
+   */
   public function getSslHealthCheck()
   {
     return $this->sslHealthCheck;
   }
+  /**
+   * @param Google_Service_Compute_TCPHealthCheck
+   */
   public function setTcpHealthCheck(Google_Service_Compute_TCPHealthCheck $tcpHealthCheck)
   {
     $this->tcpHealthCheck = $tcpHealthCheck;
   }
+  /**
+   * @return Google_Service_Compute_TCPHealthCheck
+   */
   public function getTcpHealthCheck()
   {
     return $this->tcpHealthCheck;

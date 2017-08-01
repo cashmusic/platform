@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Slides_BatchUpdatePresentationRequest extends Google_Collec
   protected $writeControlType = 'Google_Service_Slides_WriteControl';
   protected $writeControlDataType = '';
 
+  /**
+   * @param Google_Service_Slides_Request
+   */
   public function setRequests($requests)
   {
     $this->requests = $requests;
   }
+  /**
+   * @return Google_Service_Slides_Request
+   */
   public function getRequests()
   {
     return $this->requests;
   }
+  /**
+   * @param Google_Service_Slides_WriteControl
+   */
   public function setWriteControl(Google_Service_Slides_WriteControl $writeControl)
   {
     $this->writeControl = $writeControl;
   }
+  /**
+   * @return Google_Service_Slides_WriteControl
+   */
   public function getWriteControl()
   {
     return $this->writeControl;

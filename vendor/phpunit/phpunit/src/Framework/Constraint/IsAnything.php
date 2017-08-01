@@ -7,14 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Constraint that accepts any input value.
  */
-class IsAnything extends Constraint
+class PHPUnit_Framework_Constraint_IsAnything extends PHPUnit_Framework_Constraint
 {
     /**
      * Evaluates the constraint for parameter $other
@@ -32,7 +29,7 @@ class IsAnything extends Constraint
      *
      * @return mixed
      *
-     * @throws ExpectationFailedException
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {

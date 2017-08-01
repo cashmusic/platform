@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_QPXExpress_SegmentPricing extends Google_Collection
   {
     return $this->fareId;
   }
+  /**
+   * @param Google_Service_QPXExpress_FreeBaggageAllowance
+   */
   public function setFreeBaggageOption($freeBaggageOption)
   {
     $this->freeBaggageOption = $freeBaggageOption;
   }
+  /**
+   * @return Google_Service_QPXExpress_FreeBaggageAllowance
+   */
   public function getFreeBaggageOption()
   {
     return $this->freeBaggageOption;

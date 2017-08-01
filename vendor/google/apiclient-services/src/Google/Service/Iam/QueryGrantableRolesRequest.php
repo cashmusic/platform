@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,9 @@
 class Google_Service_Iam_QueryGrantableRolesRequest extends Google_Model
 {
   public $fullResourceName;
+  public $pageSize;
+  public $pageToken;
+  public $view;
 
   public function setFullResourceName($fullResourceName)
   {
@@ -26,5 +29,29 @@ class Google_Service_Iam_QueryGrantableRolesRequest extends Google_Model
   public function getFullResourceName()
   {
     return $this->fullResourceName;
+  }
+  public function setPageSize($pageSize)
+  {
+    $this->pageSize = $pageSize;
+  }
+  public function getPageSize()
+  {
+    return $this->pageSize;
+  }
+  public function setPageToken($pageToken)
+  {
+    $this->pageToken = $pageToken;
+  }
+  public function getPageToken()
+  {
+    return $this->pageToken;
+  }
+  public function setView($view)
+  {
+    $this->view = $view;
+  }
+  public function getView()
+  {
+    return $this->view;
   }
 }

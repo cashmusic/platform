@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,26 +36,44 @@ class Google_Service_Sheets_CellData extends Google_Collection
   protected $userEnteredValueType = 'Google_Service_Sheets_ExtendedValue';
   protected $userEnteredValueDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_DataValidationRule
+   */
   public function setDataValidation(Google_Service_Sheets_DataValidationRule $dataValidation)
   {
     $this->dataValidation = $dataValidation;
   }
+  /**
+   * @return Google_Service_Sheets_DataValidationRule
+   */
   public function getDataValidation()
   {
     return $this->dataValidation;
   }
+  /**
+   * @param Google_Service_Sheets_CellFormat
+   */
   public function setEffectiveFormat(Google_Service_Sheets_CellFormat $effectiveFormat)
   {
     $this->effectiveFormat = $effectiveFormat;
   }
+  /**
+   * @return Google_Service_Sheets_CellFormat
+   */
   public function getEffectiveFormat()
   {
     return $this->effectiveFormat;
   }
+  /**
+   * @param Google_Service_Sheets_ExtendedValue
+   */
   public function setEffectiveValue(Google_Service_Sheets_ExtendedValue $effectiveValue)
   {
     $this->effectiveValue = $effectiveValue;
   }
+  /**
+   * @return Google_Service_Sheets_ExtendedValue
+   */
   public function getEffectiveValue()
   {
     return $this->effectiveValue;
@@ -84,34 +102,58 @@ class Google_Service_Sheets_CellData extends Google_Collection
   {
     return $this->note;
   }
+  /**
+   * @param Google_Service_Sheets_PivotTable
+   */
   public function setPivotTable(Google_Service_Sheets_PivotTable $pivotTable)
   {
     $this->pivotTable = $pivotTable;
   }
+  /**
+   * @return Google_Service_Sheets_PivotTable
+   */
   public function getPivotTable()
   {
     return $this->pivotTable;
   }
+  /**
+   * @param Google_Service_Sheets_TextFormatRun
+   */
   public function setTextFormatRuns($textFormatRuns)
   {
     $this->textFormatRuns = $textFormatRuns;
   }
+  /**
+   * @return Google_Service_Sheets_TextFormatRun
+   */
   public function getTextFormatRuns()
   {
     return $this->textFormatRuns;
   }
+  /**
+   * @param Google_Service_Sheets_CellFormat
+   */
   public function setUserEnteredFormat(Google_Service_Sheets_CellFormat $userEnteredFormat)
   {
     $this->userEnteredFormat = $userEnteredFormat;
   }
+  /**
+   * @return Google_Service_Sheets_CellFormat
+   */
   public function getUserEnteredFormat()
   {
     return $this->userEnteredFormat;
   }
+  /**
+   * @param Google_Service_Sheets_ExtendedValue
+   */
   public function setUserEnteredValue(Google_Service_Sheets_ExtendedValue $userEnteredValue)
   {
     $this->userEnteredValue = $userEnteredValue;
   }
+  /**
+   * @return Google_Service_Sheets_ExtendedValue
+   */
   public function getUserEnteredValue()
   {
     return $this->userEnteredValue;

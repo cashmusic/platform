@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,10 +36,16 @@ class Google_Service_Books_Volume extends Google_Model
   protected $volumeInfoType = 'Google_Service_Books_VolumeVolumeInfo';
   protected $volumeInfoDataType = '';
 
+  /**
+   * @param Google_Service_Books_VolumeAccessInfo
+   */
   public function setAccessInfo(Google_Service_Books_VolumeAccessInfo $accessInfo)
   {
     $this->accessInfo = $accessInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeAccessInfo
+   */
   public function getAccessInfo()
   {
     return $this->accessInfo;
@@ -68,34 +74,58 @@ class Google_Service_Books_Volume extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Books_VolumeLayerInfo
+   */
   public function setLayerInfo(Google_Service_Books_VolumeLayerInfo $layerInfo)
   {
     $this->layerInfo = $layerInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeLayerInfo
+   */
   public function getLayerInfo()
   {
     return $this->layerInfo;
   }
+  /**
+   * @param Google_Service_Books_VolumeRecommendedInfo
+   */
   public function setRecommendedInfo(Google_Service_Books_VolumeRecommendedInfo $recommendedInfo)
   {
     $this->recommendedInfo = $recommendedInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeRecommendedInfo
+   */
   public function getRecommendedInfo()
   {
     return $this->recommendedInfo;
   }
+  /**
+   * @param Google_Service_Books_VolumeSaleInfo
+   */
   public function setSaleInfo(Google_Service_Books_VolumeSaleInfo $saleInfo)
   {
     $this->saleInfo = $saleInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeSaleInfo
+   */
   public function getSaleInfo()
   {
     return $this->saleInfo;
   }
+  /**
+   * @param Google_Service_Books_VolumeSearchInfo
+   */
   public function setSearchInfo(Google_Service_Books_VolumeSearchInfo $searchInfo)
   {
     $this->searchInfo = $searchInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeSearchInfo
+   */
   public function getSearchInfo()
   {
     return $this->searchInfo;
@@ -108,18 +138,30 @@ class Google_Service_Books_Volume extends Google_Model
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_Books_VolumeUserInfo
+   */
   public function setUserInfo(Google_Service_Books_VolumeUserInfo $userInfo)
   {
     $this->userInfo = $userInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeUserInfo
+   */
   public function getUserInfo()
   {
     return $this->userInfo;
   }
+  /**
+   * @param Google_Service_Books_VolumeVolumeInfo
+   */
   public function setVolumeInfo(Google_Service_Books_VolumeVolumeInfo $volumeInfo)
   {
     $this->volumeInfo = $volumeInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeVolumeInfo
+   */
   public function getVolumeInfo()
   {
     return $this->volumeInfo;

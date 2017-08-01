@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_YouTube_PromotedItem extends Google_Model
   {
     return $this->customMessage;
   }
+  /**
+   * @param Google_Service_YouTube_PromotedItemId
+   */
   public function setId(Google_Service_YouTube_PromotedItemId $id)
   {
     $this->id = $id;
   }
+  /**
+   * @return Google_Service_YouTube_PromotedItemId
+   */
   public function getId()
   {
     return $this->id;
@@ -48,10 +54,16 @@ class Google_Service_YouTube_PromotedItem extends Google_Model
   {
     return $this->promotedByContentOwner;
   }
+  /**
+   * @param Google_Service_YouTube_InvideoTiming
+   */
   public function setTiming(Google_Service_YouTube_InvideoTiming $timing)
   {
     $this->timing = $timing;
   }
+  /**
+   * @return Google_Service_YouTube_InvideoTiming
+   */
   public function getTiming()
   {
     return $this->timing;

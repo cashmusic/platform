@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Prediction_AnalyzeDataDescriptionFeatures extends Google_Mo
   protected $textType = 'Google_Service_Prediction_AnalyzeDataDescriptionFeaturesText';
   protected $textDataType = '';
 
+  /**
+   * @param Google_Service_Prediction_AnalyzeDataDescriptionFeaturesCategorical
+   */
   public function setCategorical(Google_Service_Prediction_AnalyzeDataDescriptionFeaturesCategorical $categorical)
   {
     $this->categorical = $categorical;
   }
+  /**
+   * @return Google_Service_Prediction_AnalyzeDataDescriptionFeaturesCategorical
+   */
   public function getCategorical()
   {
     return $this->categorical;
@@ -41,18 +47,30 @@ class Google_Service_Prediction_AnalyzeDataDescriptionFeatures extends Google_Mo
   {
     return $this->index;
   }
+  /**
+   * @param Google_Service_Prediction_AnalyzeDataDescriptionFeaturesNumeric
+   */
   public function setNumeric(Google_Service_Prediction_AnalyzeDataDescriptionFeaturesNumeric $numeric)
   {
     $this->numeric = $numeric;
   }
+  /**
+   * @return Google_Service_Prediction_AnalyzeDataDescriptionFeaturesNumeric
+   */
   public function getNumeric()
   {
     return $this->numeric;
   }
+  /**
+   * @param Google_Service_Prediction_AnalyzeDataDescriptionFeaturesText
+   */
   public function setText(Google_Service_Prediction_AnalyzeDataDescriptionFeaturesText $text)
   {
     $this->text = $text;
   }
+  /**
+   * @return Google_Service_Prediction_AnalyzeDataDescriptionFeaturesText
+   */
   public function getText()
   {
     return $this->text;

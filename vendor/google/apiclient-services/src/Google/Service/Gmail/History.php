@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,42 +38,72 @@ class Google_Service_Gmail_History extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Gmail_HistoryLabelAdded
+   */
   public function setLabelsAdded($labelsAdded)
   {
     $this->labelsAdded = $labelsAdded;
   }
+  /**
+   * @return Google_Service_Gmail_HistoryLabelAdded
+   */
   public function getLabelsAdded()
   {
     return $this->labelsAdded;
   }
+  /**
+   * @param Google_Service_Gmail_HistoryLabelRemoved
+   */
   public function setLabelsRemoved($labelsRemoved)
   {
     $this->labelsRemoved = $labelsRemoved;
   }
+  /**
+   * @return Google_Service_Gmail_HistoryLabelRemoved
+   */
   public function getLabelsRemoved()
   {
     return $this->labelsRemoved;
   }
+  /**
+   * @param Google_Service_Gmail_Message
+   */
   public function setMessages($messages)
   {
     $this->messages = $messages;
   }
+  /**
+   * @return Google_Service_Gmail_Message
+   */
   public function getMessages()
   {
     return $this->messages;
   }
+  /**
+   * @param Google_Service_Gmail_HistoryMessageAdded
+   */
   public function setMessagesAdded($messagesAdded)
   {
     $this->messagesAdded = $messagesAdded;
   }
+  /**
+   * @return Google_Service_Gmail_HistoryMessageAdded
+   */
   public function getMessagesAdded()
   {
     return $this->messagesAdded;
   }
+  /**
+   * @param Google_Service_Gmail_HistoryMessageDeleted
+   */
   public function setMessagesDeleted($messagesDeleted)
   {
     $this->messagesDeleted = $messagesDeleted;
   }
+  /**
+   * @return Google_Service_Gmail_HistoryMessageDeleted
+   */
   public function getMessagesDeleted()
   {
     return $this->messagesDeleted;

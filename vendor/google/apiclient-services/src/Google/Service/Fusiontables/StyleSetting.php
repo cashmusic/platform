@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,10 +36,16 @@ class Google_Service_Fusiontables_StyleSetting extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Fusiontables_PointStyle
+   */
   public function setMarkerOptions(Google_Service_Fusiontables_PointStyle $markerOptions)
   {
     $this->markerOptions = $markerOptions;
   }
+  /**
+   * @return Google_Service_Fusiontables_PointStyle
+   */
   public function getMarkerOptions()
   {
     return $this->markerOptions;
@@ -52,18 +58,30 @@ class Google_Service_Fusiontables_StyleSetting extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Fusiontables_PolygonStyle
+   */
   public function setPolygonOptions(Google_Service_Fusiontables_PolygonStyle $polygonOptions)
   {
     $this->polygonOptions = $polygonOptions;
   }
+  /**
+   * @return Google_Service_Fusiontables_PolygonStyle
+   */
   public function getPolygonOptions()
   {
     return $this->polygonOptions;
   }
+  /**
+   * @param Google_Service_Fusiontables_LineStyle
+   */
   public function setPolylineOptions(Google_Service_Fusiontables_LineStyle $polylineOptions)
   {
     $this->polylineOptions = $polylineOptions;
   }
+  /**
+   * @return Google_Service_Fusiontables_LineStyle
+   */
   public function getPolylineOptions()
   {
     return $this->polylineOptions;

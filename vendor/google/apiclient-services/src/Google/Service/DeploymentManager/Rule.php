@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,10 +36,16 @@ class Google_Service_DeploymentManager_Rule extends Google_Collection
   {
     return $this->action;
   }
+  /**
+   * @param Google_Service_DeploymentManager_Condition
+   */
   public function setConditions($conditions)
   {
     $this->conditions = $conditions;
   }
+  /**
+   * @return Google_Service_DeploymentManager_Condition
+   */
   public function getConditions()
   {
     return $this->conditions;
@@ -60,10 +66,16 @@ class Google_Service_DeploymentManager_Rule extends Google_Collection
   {
     return $this->ins;
   }
+  /**
+   * @param Google_Service_DeploymentManager_LogConfig
+   */
   public function setLogConfigs($logConfigs)
   {
     $this->logConfigs = $logConfigs;
   }
+  /**
+   * @return Google_Service_DeploymentManager_LogConfig
+   */
   public function getLogConfigs()
   {
     return $this->logConfigs;

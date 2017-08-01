@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Dfareporting_PopupWindowProperties extends Google_Model
   public $showToolBar;
   public $title;
 
+  /**
+   * @param Google_Service_Dfareporting_Size
+   */
   public function setDimension(Google_Service_Dfareporting_Size $dimension)
   {
     $this->dimension = $dimension;
   }
+  /**
+   * @return Google_Service_Dfareporting_Size
+   */
   public function getDimension()
   {
     return $this->dimension;
   }
+  /**
+   * @param Google_Service_Dfareporting_OffsetPosition
+   */
   public function setOffset(Google_Service_Dfareporting_OffsetPosition $offset)
   {
     $this->offset = $offset;
   }
+  /**
+   * @return Google_Service_Dfareporting_OffsetPosition
+   */
   public function getOffset()
   {
     return $this->offset;

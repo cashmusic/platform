@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -50,18 +50,30 @@ class Google_Service_PlusDomains_ActivityObjectAttachments extends Google_Collec
   {
     return $this->displayName;
   }
+  /**
+   * @param Google_Service_PlusDomains_ActivityObjectAttachmentsEmbed
+   */
   public function setEmbed(Google_Service_PlusDomains_ActivityObjectAttachmentsEmbed $embed)
   {
     $this->embed = $embed;
   }
+  /**
+   * @return Google_Service_PlusDomains_ActivityObjectAttachmentsEmbed
+   */
   public function getEmbed()
   {
     return $this->embed;
   }
+  /**
+   * @param Google_Service_PlusDomains_ActivityObjectAttachmentsFullImage
+   */
   public function setFullImage(Google_Service_PlusDomains_ActivityObjectAttachmentsFullImage $fullImage)
   {
     $this->fullImage = $fullImage;
   }
+  /**
+   * @return Google_Service_PlusDomains_ActivityObjectAttachmentsFullImage
+   */
   public function getFullImage()
   {
     return $this->fullImage;
@@ -74,10 +86,16 @@ class Google_Service_PlusDomains_ActivityObjectAttachments extends Google_Collec
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_PlusDomains_ActivityObjectAttachmentsImage
+   */
   public function setImage(Google_Service_PlusDomains_ActivityObjectAttachmentsImage $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_PlusDomains_ActivityObjectAttachmentsImage
+   */
   public function getImage()
   {
     return $this->image;
@@ -90,18 +108,30 @@ class Google_Service_PlusDomains_ActivityObjectAttachments extends Google_Collec
   {
     return $this->objectType;
   }
+  /**
+   * @param Google_Service_PlusDomains_ActivityObjectAttachmentsPreviewThumbnails
+   */
   public function setPreviewThumbnails($previewThumbnails)
   {
     $this->previewThumbnails = $previewThumbnails;
   }
+  /**
+   * @return Google_Service_PlusDomains_ActivityObjectAttachmentsPreviewThumbnails
+   */
   public function getPreviewThumbnails()
   {
     return $this->previewThumbnails;
   }
+  /**
+   * @param Google_Service_PlusDomains_ActivityObjectAttachmentsThumbnails
+   */
   public function setThumbnails($thumbnails)
   {
     $this->thumbnails = $thumbnails;
   }
+  /**
+   * @return Google_Service_PlusDomains_ActivityObjectAttachmentsThumbnails
+   */
   public function getThumbnails()
   {
     return $this->thumbnails;

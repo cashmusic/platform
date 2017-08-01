@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,18 +25,30 @@ class Google_Service_Calendar_FreeBusyResponse extends Google_Model
   public $timeMax;
   public $timeMin;
 
+  /**
+   * @param Google_Service_Calendar_FreeBusyCalendar
+   */
   public function setCalendars($calendars)
   {
     $this->calendars = $calendars;
   }
+  /**
+   * @return Google_Service_Calendar_FreeBusyCalendar
+   */
   public function getCalendars()
   {
     return $this->calendars;
   }
+  /**
+   * @param Google_Service_Calendar_FreeBusyGroup
+   */
   public function setGroups($groups)
   {
     $this->groups = $groups;
   }
+  /**
+   * @return Google_Service_Calendar_FreeBusyGroup
+   */
   public function getGroups()
   {
     return $this->groups;

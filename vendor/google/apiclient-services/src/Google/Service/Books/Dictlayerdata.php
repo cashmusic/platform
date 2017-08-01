@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Books_Dictlayerdata extends Google_Model
   protected $dictDataType = '';
   public $kind;
 
+  /**
+   * @param Google_Service_Books_DictlayerdataCommon
+   */
   public function setCommon(Google_Service_Books_DictlayerdataCommon $common)
   {
     $this->common = $common;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataCommon
+   */
   public function getCommon()
   {
     return $this->common;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDict
+   */
   public function setDict(Google_Service_Books_DictlayerdataDict $dict)
   {
     $this->dict = $dict;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDict
+   */
   public function getDict()
   {
     return $this->dict;

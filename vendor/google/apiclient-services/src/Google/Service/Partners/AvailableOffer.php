@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,10 +41,16 @@ class Google_Service_Partners_AvailableOffer extends Google_Collection
   {
     return $this->available;
   }
+  /**
+   * @param Google_Service_Partners_CountryOfferInfo
+   */
   public function setCountryOfferInfos($countryOfferInfos)
   {
     $this->countryOfferInfos = $countryOfferInfos;
   }
+  /**
+   * @return Google_Service_Partners_CountryOfferInfo
+   */
   public function getCountryOfferInfos()
   {
     return $this->countryOfferInfos;
@@ -97,10 +103,16 @@ class Google_Service_Partners_AvailableOffer extends Google_Collection
   {
     return $this->offerType;
   }
+  /**
+   * @param Google_Service_Partners_OfferCustomer
+   */
   public function setQualifiedCustomer($qualifiedCustomer)
   {
     $this->qualifiedCustomer = $qualifiedCustomer;
   }
+  /**
+   * @return Google_Service_Partners_OfferCustomer
+   */
   public function getQualifiedCustomer()
   {
     return $this->qualifiedCustomer;

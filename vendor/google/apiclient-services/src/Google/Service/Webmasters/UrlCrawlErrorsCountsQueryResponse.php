@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Webmasters_UrlCrawlErrorsCountsQueryResponse extends Google
   protected $countPerTypesType = 'Google_Service_Webmasters_UrlCrawlErrorCountsPerType';
   protected $countPerTypesDataType = 'array';
 
+  /**
+   * @param Google_Service_Webmasters_UrlCrawlErrorCountsPerType
+   */
   public function setCountPerTypes($countPerTypes)
   {
     $this->countPerTypes = $countPerTypes;
   }
+  /**
+   * @return Google_Service_Webmasters_UrlCrawlErrorCountsPerType
+   */
   public function getCountPerTypes()
   {
     return $this->countPerTypes;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_ShoppingContent_ProductCustomGroup extends Google_Collectio
   protected $attributesDataType = 'array';
   public $name;
 
+  /**
+   * @param Google_Service_ShoppingContent_ProductCustomAttribute
+   */
   public function setAttributes($attributes)
   {
     $this->attributes = $attributes;
   }
+  /**
+   * @return Google_Service_ShoppingContent_ProductCustomAttribute
+   */
   public function getAttributes()
   {
     return $this->attributes;

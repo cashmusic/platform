@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,10 +28,16 @@ class Google_Service_Gmail_MessagePart extends Google_Collection
   protected $partsType = 'Google_Service_Gmail_MessagePart';
   protected $partsDataType = 'array';
 
+  /**
+   * @param Google_Service_Gmail_MessagePartBody
+   */
   public function setBody(Google_Service_Gmail_MessagePartBody $body)
   {
     $this->body = $body;
   }
+  /**
+   * @return Google_Service_Gmail_MessagePartBody
+   */
   public function getBody()
   {
     return $this->body;
@@ -44,10 +50,16 @@ class Google_Service_Gmail_MessagePart extends Google_Collection
   {
     return $this->filename;
   }
+  /**
+   * @param Google_Service_Gmail_MessagePartHeader
+   */
   public function setHeaders($headers)
   {
     $this->headers = $headers;
   }
+  /**
+   * @return Google_Service_Gmail_MessagePartHeader
+   */
   public function getHeaders()
   {
     return $this->headers;
@@ -68,10 +80,16 @@ class Google_Service_Gmail_MessagePart extends Google_Collection
   {
     return $this->partId;
   }
+  /**
+   * @param Google_Service_Gmail_MessagePart
+   */
   public function setParts($parts)
   {
     $this->parts = $parts;
   }
+  /**
+   * @return Google_Service_Gmail_MessagePart
+   */
   public function getParts()
   {
     return $this->parts;

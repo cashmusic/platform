@@ -25,7 +25,7 @@ class QueryBuilderHandler
     /**
      * @var \PDO
      */
-    public $pdo;
+    protected $pdo;
 
     /**
      * @var null|PDOStatement

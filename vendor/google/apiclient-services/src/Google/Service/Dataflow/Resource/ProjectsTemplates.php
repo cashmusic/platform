@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,6 +47,7 @@ class Google_Service_Dataflow_Resource_ProjectsTemplates extends Google_Service_
    * the job belongs to.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string location The location to which to direct the request.
    * @opt_param string view The view to retrieve. Defaults to METADATA_ONLY.
    * @opt_param string gcsPath Required. A Cloud Storage path to the template from
    * which to create the job. Must be a valid Cloud Storage URL, beginning with
@@ -67,12 +68,12 @@ class Google_Service_Dataflow_Resource_ProjectsTemplates extends Google_Service_
    * @param Google_Service_Dataflow_LaunchTemplateParameters $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool validateOnly If true, the request is validated but not
+   * actually executed. Defaults to false.
    * @opt_param string gcsPath Required. A Cloud Storage path to the template from
    * which to create the job. Must be valid Cloud Storage URL, beginning with
    * 'gs://'.
-   * @opt_param bool dryRun Whether or not the job should actually be executed
-   * after validating parameters. Defaults to false. Validation errors do not
-   * cause the HTTP request to fail if true.
+   * @opt_param string location The location to which to direct the request.
    * @return Google_Service_Dataflow_LaunchTemplateResponse
    */
   public function launch($projectId, Google_Service_Dataflow_LaunchTemplateParameters $postBody, $optParams = array())

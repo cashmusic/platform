@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -102,9 +102,9 @@ class Google_Service_Compute_Resource_RegionBackendServices extends Google_Servi
    * @param string $region Name of the region scoping this request.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Sets a filter expression for filtering listed
-   * resources, in the form filter={expression}. Your {expression} must be in the
-   * format: field_name comparison_string literal_string.
+   * @opt_param string filter Sets a filter {expression} for filtering listed
+   * resources. Your {expression} must be in the format: field_name
+   * comparison_string literal_string.
    *
    * The field_name is the name of the field you want to compare. Only atomic
    * field types are supported (string, number, boolean). The comparison_string
@@ -115,7 +115,7 @@ class Google_Service_Compute_Resource_RegionBackendServices extends Google_Servi
    * literal value must match the entire field.
    *
    * For example, to filter for instances that do not have a name of example-
-   * instance, you would use filter=name ne example-instance.
+   * instance, you would use name ne example-instance.
    *
    * You can filter on nested fields. For example, you could filter on instances
    * that have set the scheduling.automaticRestart field to true. Use filtering on
@@ -156,12 +156,12 @@ class Google_Service_Compute_Resource_RegionBackendServices extends Google_Servi
    * Updates the specified regional BackendService resource with the data included
    * in the request. There are several restrictions and guidelines to keep in mind
    * when updating a backend service. Read  Restrictions and Guidelines for more
-   * information. This method supports patch semantics.
-   * (regionBackendServices.patch)
+   * information. This method supports PATCH semantics and uses the JSON merge
+   * patch format and processing rules. (regionBackendServices.patch)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.
-   * @param string $backendService Name of the BackendService resource to update.
+   * @param string $backendService Name of the BackendService resource to patch.
    * @param Google_Service_Compute_BackendService $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Compute_Operation

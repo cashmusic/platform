@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Dataflow_IntegerList extends Google_Collection
   protected $elementsType = 'Google_Service_Dataflow_SplitInt64';
   protected $elementsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dataflow_SplitInt64
+   */
   public function setElements($elements)
   {
     $this->elements = $elements;
   }
+  /**
+   * @return Google_Service_Dataflow_SplitInt64
+   */
   public function getElements()
   {
     return $this->elements;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,10 +44,16 @@ class Google_Service_Dfareporting_DirectorySite extends Google_Collection
   {
     return $this->active;
   }
+  /**
+   * @param Google_Service_Dfareporting_DirectorySiteContactAssignment
+   */
   public function setContactAssignments($contactAssignments)
   {
     $this->contactAssignments = $contactAssignments;
   }
+  /**
+   * @return Google_Service_Dfareporting_DirectorySiteContactAssignment
+   */
   public function getContactAssignments()
   {
     return $this->contactAssignments;
@@ -84,10 +90,16 @@ class Google_Service_Dfareporting_DirectorySite extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setIdDimensionValue(Google_Service_Dfareporting_DimensionValue $idDimensionValue)
   {
     $this->idDimensionValue = $idDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getIdDimensionValue()
   {
     return $this->idDimensionValue;
@@ -132,10 +144,16 @@ class Google_Service_Dfareporting_DirectorySite extends Google_Collection
   {
     return $this->parentId;
   }
+  /**
+   * @param Google_Service_Dfareporting_DirectorySiteSettings
+   */
   public function setSettings(Google_Service_Dfareporting_DirectorySiteSettings $settings)
   {
     $this->settings = $settings;
   }
+  /**
+   * @return Google_Service_Dfareporting_DirectorySiteSettings
+   */
   public function getSettings()
   {
     return $this->settings;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -90,10 +90,16 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Reseller_SubscriptionPlan
+   */
   public function setPlan(Google_Service_Reseller_SubscriptionPlan $plan)
   {
     $this->plan = $plan;
   }
+  /**
+   * @return Google_Service_Reseller_SubscriptionPlan
+   */
   public function getPlan()
   {
     return $this->plan;
@@ -106,10 +112,16 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   {
     return $this->purchaseOrderId;
   }
+  /**
+   * @param Google_Service_Reseller_RenewalSettings
+   */
   public function setRenewalSettings(Google_Service_Reseller_RenewalSettings $renewalSettings)
   {
     $this->renewalSettings = $renewalSettings;
   }
+  /**
+   * @return Google_Service_Reseller_RenewalSettings
+   */
   public function getRenewalSettings()
   {
     return $this->renewalSettings;
@@ -122,10 +134,16 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   {
     return $this->resourceUiUrl;
   }
+  /**
+   * @param Google_Service_Reseller_Seats
+   */
   public function setSeats(Google_Service_Reseller_Seats $seats)
   {
     $this->seats = $seats;
   }
+  /**
+   * @return Google_Service_Reseller_Seats
+   */
   public function getSeats()
   {
     return $this->seats;
@@ -170,18 +188,30 @@ class Google_Service_Reseller_Subscription extends Google_Collection
   {
     return $this->suspensionReasons;
   }
+  /**
+   * @param Google_Service_Reseller_SubscriptionTransferInfo
+   */
   public function setTransferInfo(Google_Service_Reseller_SubscriptionTransferInfo $transferInfo)
   {
     $this->transferInfo = $transferInfo;
   }
+  /**
+   * @return Google_Service_Reseller_SubscriptionTransferInfo
+   */
   public function getTransferInfo()
   {
     return $this->transferInfo;
   }
+  /**
+   * @param Google_Service_Reseller_SubscriptionTrialSettings
+   */
   public function setTrialSettings(Google_Service_Reseller_SubscriptionTrialSettings $trialSettings)
   {
     $this->trialSettings = $trialSettings;
   }
+  /**
+   * @return Google_Service_Reseller_SubscriptionTrialSettings
+   */
   public function getTrialSettings()
   {
     return $this->trialSettings;

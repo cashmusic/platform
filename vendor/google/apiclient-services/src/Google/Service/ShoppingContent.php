@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,7 +36,6 @@ class Google_Service_ShoppingContent extends Google_Service
       "https://www.googleapis.com/auth/content";
 
   public $accounts;
-  public $accountshipping;
   public $accountstatuses;
   public $accounttax;
   public $datafeeds;
@@ -70,6 +69,25 @@ class Google_Service_ShoppingContent extends Google_Service
               'path' => 'accounts/authinfo',
               'httpMethod' => 'GET',
               'parameters' => array(),
+            ),'claimwebsite' => array(
+              'path' => '{merchantId}/accounts/{accountId}/claimwebsite',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'merchantId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'accountId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+                'overwrite' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
+              ),
             ),'custombatch' => array(
               'path' => 'accounts/batch',
               'httpMethod' => 'POST',
@@ -166,96 +184,6 @@ class Google_Service_ShoppingContent extends Google_Service
               ),
             ),'update' => array(
               'path' => '{merchantId}/accounts/{accountId}',
-              'httpMethod' => 'PUT',
-              'parameters' => array(
-                'merchantId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'accountId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'dryRun' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->accountshipping = new Google_Service_ShoppingContent_Resource_Accountshipping(
-        $this,
-        $this->serviceName,
-        'accountshipping',
-        array(
-          'methods' => array(
-            'custombatch' => array(
-              'path' => 'accountshipping/batch',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'dryRun' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-              ),
-            ),'get' => array(
-              'path' => '{merchantId}/accountshipping/{accountId}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'merchantId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'accountId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => '{merchantId}/accountshipping',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'merchantId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'maxResults' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-              ),
-            ),'patch' => array(
-              'path' => '{merchantId}/accountshipping/{accountId}',
-              'httpMethod' => 'PATCH',
-              'parameters' => array(
-                'merchantId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'accountId' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'dryRun' => array(
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ),
-              ),
-            ),'update' => array(
-              'path' => '{merchantId}/accountshipping/{accountId}',
               'httpMethod' => 'PUT',
               'parameters' => array(
                 'merchantId' => array(
@@ -968,7 +896,12 @@ class Google_Service_ShoppingContent extends Google_Service
             'custombatch' => array(
               'path' => 'productstatuses/batch',
               'httpMethod' => 'POST',
-              'parameters' => array(),
+              'parameters' => array(
+                'includeAttributes' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
+              ),
             ),'get' => array(
               'path' => '{merchantId}/productstatuses/{productId}',
               'httpMethod' => 'GET',
@@ -983,6 +916,10 @@ class Google_Service_ShoppingContent extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'includeAttributes' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ),
               ),
             ),'list' => array(
               'path' => '{merchantId}/productstatuses',
@@ -992,6 +929,10 @@ class Google_Service_ShoppingContent extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'includeAttributes' => array(
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ),
                 'includeInvalidInsertedItems' => array(
                   'location' => 'query',

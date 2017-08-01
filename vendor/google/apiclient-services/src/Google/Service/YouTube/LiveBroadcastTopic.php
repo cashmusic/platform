@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_YouTube_LiveBroadcastTopic extends Google_Model
   public $type;
   public $unmatched;
 
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastTopicSnippet
+   */
   public function setSnippet(Google_Service_YouTube_LiveBroadcastTopicSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastTopicSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;

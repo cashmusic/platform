@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,98 +42,170 @@ class Google_Service_Sheets_Response extends Google_Model
   protected $updateEmbeddedObjectPositionType = 'Google_Service_Sheets_UpdateEmbeddedObjectPositionResponse';
   protected $updateEmbeddedObjectPositionDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_AddBandingResponse
+   */
   public function setAddBanding(Google_Service_Sheets_AddBandingResponse $addBanding)
   {
     $this->addBanding = $addBanding;
   }
+  /**
+   * @return Google_Service_Sheets_AddBandingResponse
+   */
   public function getAddBanding()
   {
     return $this->addBanding;
   }
+  /**
+   * @param Google_Service_Sheets_AddChartResponse
+   */
   public function setAddChart(Google_Service_Sheets_AddChartResponse $addChart)
   {
     $this->addChart = $addChart;
   }
+  /**
+   * @return Google_Service_Sheets_AddChartResponse
+   */
   public function getAddChart()
   {
     return $this->addChart;
   }
+  /**
+   * @param Google_Service_Sheets_AddFilterViewResponse
+   */
   public function setAddFilterView(Google_Service_Sheets_AddFilterViewResponse $addFilterView)
   {
     $this->addFilterView = $addFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_AddFilterViewResponse
+   */
   public function getAddFilterView()
   {
     return $this->addFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_AddNamedRangeResponse
+   */
   public function setAddNamedRange(Google_Service_Sheets_AddNamedRangeResponse $addNamedRange)
   {
     $this->addNamedRange = $addNamedRange;
   }
+  /**
+   * @return Google_Service_Sheets_AddNamedRangeResponse
+   */
   public function getAddNamedRange()
   {
     return $this->addNamedRange;
   }
+  /**
+   * @param Google_Service_Sheets_AddProtectedRangeResponse
+   */
   public function setAddProtectedRange(Google_Service_Sheets_AddProtectedRangeResponse $addProtectedRange)
   {
     $this->addProtectedRange = $addProtectedRange;
   }
+  /**
+   * @return Google_Service_Sheets_AddProtectedRangeResponse
+   */
   public function getAddProtectedRange()
   {
     return $this->addProtectedRange;
   }
+  /**
+   * @param Google_Service_Sheets_AddSheetResponse
+   */
   public function setAddSheet(Google_Service_Sheets_AddSheetResponse $addSheet)
   {
     $this->addSheet = $addSheet;
   }
+  /**
+   * @return Google_Service_Sheets_AddSheetResponse
+   */
   public function getAddSheet()
   {
     return $this->addSheet;
   }
+  /**
+   * @param Google_Service_Sheets_DeleteConditionalFormatRuleResponse
+   */
   public function setDeleteConditionalFormatRule(Google_Service_Sheets_DeleteConditionalFormatRuleResponse $deleteConditionalFormatRule)
   {
     $this->deleteConditionalFormatRule = $deleteConditionalFormatRule;
   }
+  /**
+   * @return Google_Service_Sheets_DeleteConditionalFormatRuleResponse
+   */
   public function getDeleteConditionalFormatRule()
   {
     return $this->deleteConditionalFormatRule;
   }
+  /**
+   * @param Google_Service_Sheets_DuplicateFilterViewResponse
+   */
   public function setDuplicateFilterView(Google_Service_Sheets_DuplicateFilterViewResponse $duplicateFilterView)
   {
     $this->duplicateFilterView = $duplicateFilterView;
   }
+  /**
+   * @return Google_Service_Sheets_DuplicateFilterViewResponse
+   */
   public function getDuplicateFilterView()
   {
     return $this->duplicateFilterView;
   }
+  /**
+   * @param Google_Service_Sheets_DuplicateSheetResponse
+   */
   public function setDuplicateSheet(Google_Service_Sheets_DuplicateSheetResponse $duplicateSheet)
   {
     $this->duplicateSheet = $duplicateSheet;
   }
+  /**
+   * @return Google_Service_Sheets_DuplicateSheetResponse
+   */
   public function getDuplicateSheet()
   {
     return $this->duplicateSheet;
   }
+  /**
+   * @param Google_Service_Sheets_FindReplaceResponse
+   */
   public function setFindReplace(Google_Service_Sheets_FindReplaceResponse $findReplace)
   {
     $this->findReplace = $findReplace;
   }
+  /**
+   * @return Google_Service_Sheets_FindReplaceResponse
+   */
   public function getFindReplace()
   {
     return $this->findReplace;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateConditionalFormatRuleResponse
+   */
   public function setUpdateConditionalFormatRule(Google_Service_Sheets_UpdateConditionalFormatRuleResponse $updateConditionalFormatRule)
   {
     $this->updateConditionalFormatRule = $updateConditionalFormatRule;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateConditionalFormatRuleResponse
+   */
   public function getUpdateConditionalFormatRule()
   {
     return $this->updateConditionalFormatRule;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateEmbeddedObjectPositionResponse
+   */
   public function setUpdateEmbeddedObjectPosition(Google_Service_Sheets_UpdateEmbeddedObjectPositionResponse $updateEmbeddedObjectPosition)
   {
     $this->updateEmbeddedObjectPosition = $updateEmbeddedObjectPosition;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateEmbeddedObjectPositionResponse
+   */
   public function getUpdateEmbeddedObjectPosition()
   {
     return $this->updateEmbeddedObjectPosition;

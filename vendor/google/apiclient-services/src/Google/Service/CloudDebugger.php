@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -123,6 +123,10 @@ class Google_Service_CloudDebugger extends Google_Service
               'path' => 'v2/debugger/debuggees',
               'httpMethod' => 'GET',
               'parameters' => array(
+                'project' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'clientVersion' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -130,10 +134,6 @@ class Google_Service_CloudDebugger extends Google_Service
                 'includeInactive' => array(
                   'location' => 'query',
                   'type' => 'boolean',
-                ),
-                'project' => array(
-                  'location' => 'query',
-                  'type' => 'string',
                 ),
               ),
             ),
@@ -201,19 +201,19 @@ class Google_Service_CloudDebugger extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'clientVersion' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'action.value' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'includeAllUsers' => array(
+                'clientVersion' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'includeInactive' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),
-                'includeInactive' => array(
+                'includeAllUsers' => array(
                   'location' => 'query',
                   'type' => 'boolean',
                 ),

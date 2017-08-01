@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class AssertionExampleTest extends TestCase
+class AssertionExampleTest extends PHPUnit_Framework_TestCase
 {
     public function testOne()
     {

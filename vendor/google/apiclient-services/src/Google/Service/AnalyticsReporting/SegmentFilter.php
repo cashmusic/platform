@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_AnalyticsReporting_SegmentFilter extends Google_Model
   {
     return $this->not;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_SequenceSegment
+   */
   public function setSequenceSegment(Google_Service_AnalyticsReporting_SequenceSegment $sequenceSegment)
   {
     $this->sequenceSegment = $sequenceSegment;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_SequenceSegment
+   */
   public function getSequenceSegment()
   {
     return $this->sequenceSegment;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_SimpleSegment
+   */
   public function setSimpleSegment(Google_Service_AnalyticsReporting_SimpleSegment $simpleSegment)
   {
     $this->simpleSegment = $simpleSegment;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_SimpleSegment
+   */
   public function getSimpleSegment()
   {
     return $this->simpleSegment;

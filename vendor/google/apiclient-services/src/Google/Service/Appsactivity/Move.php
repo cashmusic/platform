@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Appsactivity_Move extends Google_Collection
   protected $removedParentsType = 'Google_Service_Appsactivity_AppsactivityParent';
   protected $removedParentsDataType = 'array';
 
+  /**
+   * @param Google_Service_Appsactivity_AppsactivityParent
+   */
   public function setAddedParents($addedParents)
   {
     $this->addedParents = $addedParents;
   }
+  /**
+   * @return Google_Service_Appsactivity_AppsactivityParent
+   */
   public function getAddedParents()
   {
     return $this->addedParents;
   }
+  /**
+   * @param Google_Service_Appsactivity_AppsactivityParent
+   */
   public function setRemovedParents($removedParents)
   {
     $this->removedParents = $removedParents;
   }
+  /**
+   * @return Google_Service_Appsactivity_AppsactivityParent
+   */
   public function getRemovedParents()
   {
     return $this->removedParents;

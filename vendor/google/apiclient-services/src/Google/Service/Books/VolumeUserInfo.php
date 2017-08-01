@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -59,10 +59,16 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->acquisitionType;
   }
+  /**
+   * @param Google_Service_Books_VolumeUserInfoCopy
+   */
   public function setCopy(Google_Service_Books_VolumeUserInfoCopy $copy)
   {
     $this->copy = $copy;
   }
+  /**
+   * @return Google_Service_Books_VolumeUserInfoCopy
+   */
   public function getCopy()
   {
     return $this->copy;
@@ -75,10 +81,16 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->entitlementType;
   }
+  /**
+   * @param Google_Service_Books_VolumeUserInfoFamilySharing
+   */
   public function setFamilySharing(Google_Service_Books_VolumeUserInfoFamilySharing $familySharing)
   {
     $this->familySharing = $familySharing;
   }
+  /**
+   * @return Google_Service_Books_VolumeUserInfoFamilySharing
+   */
   public function getFamilySharing()
   {
     return $this->familySharing;
@@ -147,18 +159,30 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->isUploaded;
   }
+  /**
+   * @param Google_Service_Books_ReadingPosition
+   */
   public function setReadingPosition(Google_Service_Books_ReadingPosition $readingPosition)
   {
     $this->readingPosition = $readingPosition;
   }
+  /**
+   * @return Google_Service_Books_ReadingPosition
+   */
   public function getReadingPosition()
   {
     return $this->readingPosition;
   }
+  /**
+   * @param Google_Service_Books_VolumeUserInfoRentalPeriod
+   */
   public function setRentalPeriod(Google_Service_Books_VolumeUserInfoRentalPeriod $rentalPeriod)
   {
     $this->rentalPeriod = $rentalPeriod;
   }
+  /**
+   * @return Google_Service_Books_VolumeUserInfoRentalPeriod
+   */
   public function getRentalPeriod()
   {
     return $this->rentalPeriod;
@@ -171,10 +195,16 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->rentalState;
   }
+  /**
+   * @param Google_Service_Books_Review
+   */
   public function setReview(Google_Service_Books_Review $review)
   {
     $this->review = $review;
   }
+  /**
+   * @return Google_Service_Books_Review
+   */
   public function getReview()
   {
     return $this->review;
@@ -187,10 +217,16 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
   {
     return $this->updated;
   }
+  /**
+   * @param Google_Service_Books_VolumeUserInfoUserUploadedVolumeInfo
+   */
   public function setUserUploadedVolumeInfo(Google_Service_Books_VolumeUserInfoUserUploadedVolumeInfo $userUploadedVolumeInfo)
   {
     $this->userUploadedVolumeInfo = $userUploadedVolumeInfo;
   }
+  /**
+   * @return Google_Service_Books_VolumeUserInfoUserUploadedVolumeInfo
+   */
   public function getUserUploadedVolumeInfo()
   {
     return $this->userUploadedVolumeInfo;

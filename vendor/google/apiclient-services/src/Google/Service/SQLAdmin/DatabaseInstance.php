@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -89,10 +89,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->etag;
   }
+  /**
+   * @param Google_Service_SQLAdmin_DatabaseInstanceFailoverReplica
+   */
   public function setFailoverReplica(Google_Service_SQLAdmin_DatabaseInstanceFailoverReplica $failoverReplica)
   {
     $this->failoverReplica = $failoverReplica;
   }
+  /**
+   * @return Google_Service_SQLAdmin_DatabaseInstanceFailoverReplica
+   */
   public function getFailoverReplica()
   {
     return $this->failoverReplica;
@@ -105,10 +111,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->instanceType;
   }
+  /**
+   * @param Google_Service_SQLAdmin_IpMapping
+   */
   public function setIpAddresses($ipAddresses)
   {
     $this->ipAddresses = $ipAddresses;
   }
+  /**
+   * @return Google_Service_SQLAdmin_IpMapping
+   */
   public function getIpAddresses()
   {
     return $this->ipAddresses;
@@ -153,10 +165,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_SQLAdmin_OnPremisesConfiguration
+   */
   public function setOnPremisesConfiguration(Google_Service_SQLAdmin_OnPremisesConfiguration $onPremisesConfiguration)
   {
     $this->onPremisesConfiguration = $onPremisesConfiguration;
   }
+  /**
+   * @return Google_Service_SQLAdmin_OnPremisesConfiguration
+   */
   public function getOnPremisesConfiguration()
   {
     return $this->onPremisesConfiguration;
@@ -177,10 +195,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->region;
   }
+  /**
+   * @param Google_Service_SQLAdmin_ReplicaConfiguration
+   */
   public function setReplicaConfiguration(Google_Service_SQLAdmin_ReplicaConfiguration $replicaConfiguration)
   {
     $this->replicaConfiguration = $replicaConfiguration;
   }
+  /**
+   * @return Google_Service_SQLAdmin_ReplicaConfiguration
+   */
   public function getReplicaConfiguration()
   {
     return $this->replicaConfiguration;
@@ -201,10 +225,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_SQLAdmin_SslCert
+   */
   public function setServerCaCert(Google_Service_SQLAdmin_SslCert $serverCaCert)
   {
     $this->serverCaCert = $serverCaCert;
   }
+  /**
+   * @return Google_Service_SQLAdmin_SslCert
+   */
   public function getServerCaCert()
   {
     return $this->serverCaCert;
@@ -217,10 +247,16 @@ class Google_Service_SQLAdmin_DatabaseInstance extends Google_Collection
   {
     return $this->serviceAccountEmailAddress;
   }
+  /**
+   * @param Google_Service_SQLAdmin_Settings
+   */
   public function setSettings(Google_Service_SQLAdmin_Settings $settings)
   {
     $this->settings = $settings;
   }
+  /**
+   * @return Google_Service_SQLAdmin_Settings
+   */
   public function getSettings()
   {
     return $this->settings;

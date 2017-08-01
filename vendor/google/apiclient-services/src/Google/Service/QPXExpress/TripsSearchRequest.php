@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_QPXExpress_TripsSearchRequest extends Google_Model
   protected $requestType = 'Google_Service_QPXExpress_TripOptionsRequest';
   protected $requestDataType = '';
 
+  /**
+   * @param Google_Service_QPXExpress_TripOptionsRequest
+   */
   public function setRequest(Google_Service_QPXExpress_TripOptionsRequest $request)
   {
     $this->request = $request;
   }
+  /**
+   * @return Google_Service_QPXExpress_TripOptionsRequest
+   */
   public function getRequest()
   {
     return $this->request;

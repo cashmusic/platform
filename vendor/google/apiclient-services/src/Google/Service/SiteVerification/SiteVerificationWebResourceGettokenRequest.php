@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequest
   protected $siteDataType = '';
   public $verificationMethod;
 
+  /**
+   * @param Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite
+   */
   public function setSite(Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite $site)
   {
     $this->site = $site;
   }
+  /**
+   * @return Google_Service_SiteVerification_SiteVerificationWebResourceGettokenRequestSite
+   */
   public function getSite()
   {
     return $this->site;

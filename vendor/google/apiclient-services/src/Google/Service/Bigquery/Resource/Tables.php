@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,6 +49,9 @@ class Google_Service_Bigquery_Resource_Tables extends Google_Service_Resource
    * @param string $datasetId Dataset ID of the requested table
    * @param string $tableId Table ID of the requested table
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string selectedFields List of fields to return (comma-separated).
+   * If unspecified, all fields are returned
    * @return Google_Service_Bigquery_Table
    */
   public function get($projectId, $datasetId, $tableId, $optParams = array())

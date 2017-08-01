@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -66,10 +66,16 @@ class Google_Service_Games_Player extends Google_Model
   {
     return $this->displayName;
   }
+  /**
+   * @param Google_Service_Games_PlayerExperienceInfo
+   */
   public function setExperienceInfo(Google_Service_Games_PlayerExperienceInfo $experienceInfo)
   {
     $this->experienceInfo = $experienceInfo;
   }
+  /**
+   * @return Google_Service_Games_PlayerExperienceInfo
+   */
   public function getExperienceInfo()
   {
     return $this->experienceInfo;
@@ -82,18 +88,30 @@ class Google_Service_Games_Player extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Games_Played
+   */
   public function setLastPlayedWith(Google_Service_Games_Played $lastPlayedWith)
   {
     $this->lastPlayedWith = $lastPlayedWith;
   }
+  /**
+   * @return Google_Service_Games_Played
+   */
   public function getLastPlayedWith()
   {
     return $this->lastPlayedWith;
   }
+  /**
+   * @param Google_Service_Games_PlayerName
+   */
   public function setName(Google_Service_Games_PlayerName $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_Games_PlayerName
+   */
   public function getName()
   {
     return $this->name;
@@ -114,10 +132,16 @@ class Google_Service_Games_Player extends Google_Model
   {
     return $this->playerId;
   }
+  /**
+   * @param Google_Service_Games_ProfileSettings
+   */
   public function setProfileSettings(Google_Service_Games_ProfileSettings $profileSettings)
   {
     $this->profileSettings = $profileSettings;
   }
+  /**
+   * @return Google_Service_Games_ProfileSettings
+   */
   public function getProfileSettings()
   {
     return $this->profileSettings;

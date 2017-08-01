@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -64,10 +64,6 @@ class Google_Service_AdExchangeBuyerII_Resource_AccountsCreatives extends Google
    * to list all creatives the current user has access to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string pageToken A token identifying a page of results the server
-   * should return. Typically, this is the value of
-   * ListCreativesResponse.next_page_token returned from the previous call to
-   * 'ListCreatives' method.
    * @opt_param int pageSize Requested page size. The server may return fewer
    * creatives than requested (due to timeout constraint) even if more are
    * available via another call. If unspecified, server will pick an appropriate
@@ -85,6 +81,10 @@ class Google_Service_AdExchangeBuyerII_Resource_AccountsCreatives extends Google
    *
    * Example: 'accountId=12345 AND (dealsStatus:disapproved AND
    * disapprovalReason:unacceptable_content) OR attribute:47'
+   * @opt_param string pageToken A token identifying a page of results the server
+   * should return. Typically, this is the value of
+   * ListCreativesResponse.next_page_token returned from the previous call to
+   * 'ListCreatives' method.
    * @return Google_Service_AdExchangeBuyerII_ListCreativesResponse
    */
   public function listAccountsCreatives($accountId, $optParams = array())

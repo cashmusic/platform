@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -76,8 +76,8 @@ class Google_Service_Spanner_Resource_ProjectsInstancesDatabasesSessions extends
    * Cloud Spanner limits the number of sessions that can exist at any given time;
    * thus, it is a good idea to delete idle and/or unneeded sessions. Aside from
    * explicit deletes, Cloud Spanner can delete sessions for which no operations
-   * are sent for more than an hour, or due to internal errors. If a session is
-   * deleted, requests to it return `NOT_FOUND`.
+   * are sent for more than an hour. If a session is deleted, requests to it
+   * return `NOT_FOUND`.
    *
    * Idle sessions can be kept alive by sending a trivial SQL query periodically,
    * e.g., `"SELECT 1"`. (sessions.create)

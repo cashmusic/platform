@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Fitness_ListSessionsResponse extends Google_Collection
   protected $sessionType = 'Google_Service_Fitness_Session';
   protected $sessionDataType = 'array';
 
+  /**
+   * @param Google_Service_Fitness_Session
+   */
   public function setDeletedSession($deletedSession)
   {
     $this->deletedSession = $deletedSession;
   }
+  /**
+   * @return Google_Service_Fitness_Session
+   */
   public function getDeletedSession()
   {
     return $this->deletedSession;
@@ -49,10 +55,16 @@ class Google_Service_Fitness_ListSessionsResponse extends Google_Collection
   {
     return $this->nextPageToken;
   }
+  /**
+   * @param Google_Service_Fitness_Session
+   */
   public function setSession($session)
   {
     $this->session = $session;
   }
+  /**
+   * @return Google_Service_Fitness_Session
+   */
   public function getSession()
   {
     return $this->session;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,18 +33,30 @@ class Google_Service_Blogger_Comment extends Google_Model
   public $status;
   public $updated;
 
+  /**
+   * @param Google_Service_Blogger_CommentAuthor
+   */
   public function setAuthor(Google_Service_Blogger_CommentAuthor $author)
   {
     $this->author = $author;
   }
+  /**
+   * @return Google_Service_Blogger_CommentAuthor
+   */
   public function getAuthor()
   {
     return $this->author;
   }
+  /**
+   * @param Google_Service_Blogger_CommentBlog
+   */
   public function setBlog(Google_Service_Blogger_CommentBlog $blog)
   {
     $this->blog = $blog;
   }
+  /**
+   * @return Google_Service_Blogger_CommentBlog
+   */
   public function getBlog()
   {
     return $this->blog;
@@ -65,10 +77,16 @@ class Google_Service_Blogger_Comment extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Blogger_CommentInReplyTo
+   */
   public function setInReplyTo(Google_Service_Blogger_CommentInReplyTo $inReplyTo)
   {
     $this->inReplyTo = $inReplyTo;
   }
+  /**
+   * @return Google_Service_Blogger_CommentInReplyTo
+   */
   public function getInReplyTo()
   {
     return $this->inReplyTo;
@@ -81,10 +99,16 @@ class Google_Service_Blogger_Comment extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Blogger_CommentPost
+   */
   public function setPost(Google_Service_Blogger_CommentPost $post)
   {
     $this->post = $post;
   }
+  /**
+   * @return Google_Service_Blogger_CommentPost
+   */
   public function getPost()
   {
     return $this->post;

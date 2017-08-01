@@ -10,6 +10,7 @@
 
 /**
  * An author.
+ *
  */
 class Author
 {

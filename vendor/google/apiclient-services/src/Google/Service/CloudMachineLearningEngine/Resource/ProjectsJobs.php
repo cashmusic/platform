@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,8 +29,6 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsJobs extends Go
    * Cancels a running job. (jobs.cancel)
    *
    * @param string $name Required. The name of the job to cancel.
-   *
-   * Authorization: requires `Editor` role on the parent project.
    * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1CancelJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleProtobufEmpty
@@ -45,8 +43,6 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsJobs extends Go
    * Creates a training or a batch prediction job. (jobs.create)
    *
    * @param string $parent Required. The project name.
-   *
-   * Authorization: requires `Editor` role on the specified project.
    * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Job $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Job
@@ -61,8 +57,6 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsJobs extends Go
    * Describes a job. (jobs.get)
    *
    * @param string $name Required. The name of the job to get the description of.
-   *
-   * Authorization: requires `Viewer` role on the parent project.
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Job
    */
@@ -77,8 +71,6 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsJobs extends Go
    *
    * @param string $parent Required. The name of the project for which to list
    * jobs.
-   *
-   * Authorization: requires `Viewer` role on the specified project.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Specifies the subset of jobs to retrieve.

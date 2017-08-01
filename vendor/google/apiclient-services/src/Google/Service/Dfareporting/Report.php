@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -51,26 +51,44 @@ class Google_Service_Dfareporting_Report extends Google_Model
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportCriteria
+   */
   public function setCriteria(Google_Service_Dfareporting_ReportCriteria $criteria)
   {
     $this->criteria = $criteria;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportCriteria
+   */
   public function getCriteria()
   {
     return $this->criteria;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportCrossDimensionReachCriteria
+   */
   public function setCrossDimensionReachCriteria(Google_Service_Dfareporting_ReportCrossDimensionReachCriteria $crossDimensionReachCriteria)
   {
     $this->crossDimensionReachCriteria = $crossDimensionReachCriteria;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportCrossDimensionReachCriteria
+   */
   public function getCrossDimensionReachCriteria()
   {
     return $this->crossDimensionReachCriteria;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportDelivery
+   */
   public function setDelivery(Google_Service_Dfareporting_ReportDelivery $delivery)
   {
     $this->delivery = $delivery;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportDelivery
+   */
   public function getDelivery()
   {
     return $this->delivery;
@@ -91,10 +109,16 @@ class Google_Service_Dfareporting_Report extends Google_Model
   {
     return $this->fileName;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportFloodlightCriteria
+   */
   public function setFloodlightCriteria(Google_Service_Dfareporting_ReportFloodlightCriteria $floodlightCriteria)
   {
     $this->floodlightCriteria = $floodlightCriteria;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportFloodlightCriteria
+   */
   public function getFloodlightCriteria()
   {
     return $this->floodlightCriteria;
@@ -147,26 +171,44 @@ class Google_Service_Dfareporting_Report extends Google_Model
   {
     return $this->ownerProfileId;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportPathToConversionCriteria
+   */
   public function setPathToConversionCriteria(Google_Service_Dfareporting_ReportPathToConversionCriteria $pathToConversionCriteria)
   {
     $this->pathToConversionCriteria = $pathToConversionCriteria;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportPathToConversionCriteria
+   */
   public function getPathToConversionCriteria()
   {
     return $this->pathToConversionCriteria;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportReachCriteria
+   */
   public function setReachCriteria(Google_Service_Dfareporting_ReportReachCriteria $reachCriteria)
   {
     $this->reachCriteria = $reachCriteria;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportReachCriteria
+   */
   public function getReachCriteria()
   {
     return $this->reachCriteria;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportSchedule
+   */
   public function setSchedule(Google_Service_Dfareporting_ReportSchedule $schedule)
   {
     $this->schedule = $schedule;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportSchedule
+   */
   public function getSchedule()
   {
     return $this->schedule;

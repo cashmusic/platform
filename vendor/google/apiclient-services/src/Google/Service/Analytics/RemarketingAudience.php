@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,10 +44,16 @@ class Google_Service_Analytics_RemarketingAudience extends Google_Collection
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_Analytics_RemarketingAudienceAudienceDefinition
+   */
   public function setAudienceDefinition(Google_Service_Analytics_RemarketingAudienceAudienceDefinition $audienceDefinition)
   {
     $this->audienceDefinition = $audienceDefinition;
   }
+  /**
+   * @return Google_Service_Analytics_RemarketingAudienceAudienceDefinition
+   */
   public function getAudienceDefinition()
   {
     return $this->audienceDefinition;
@@ -100,10 +106,16 @@ class Google_Service_Analytics_RemarketingAudience extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Analytics_LinkedForeignAccount
+   */
   public function setLinkedAdAccounts($linkedAdAccounts)
   {
     $this->linkedAdAccounts = $linkedAdAccounts;
   }
+  /**
+   * @return Google_Service_Analytics_LinkedForeignAccount
+   */
   public function getLinkedAdAccounts()
   {
     return $this->linkedAdAccounts;
@@ -124,10 +136,16 @@ class Google_Service_Analytics_RemarketingAudience extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinition
+   */
   public function setStateBasedAudienceDefinition(Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinition $stateBasedAudienceDefinition)
   {
     $this->stateBasedAudienceDefinition = $stateBasedAudienceDefinition;
   }
+  /**
+   * @return Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinition
+   */
   public function getStateBasedAudienceDefinition()
   {
     return $this->stateBasedAudienceDefinition;

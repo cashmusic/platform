@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_AnalyticsReporting_Report extends Google_Model
   protected $dataDataType = '';
   public $nextPageToken;
 
+  /**
+   * @param Google_Service_AnalyticsReporting_ColumnHeader
+   */
   public function setColumnHeader(Google_Service_AnalyticsReporting_ColumnHeader $columnHeader)
   {
     $this->columnHeader = $columnHeader;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_ColumnHeader
+   */
   public function getColumnHeader()
   {
     return $this->columnHeader;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_ReportData
+   */
   public function setData(Google_Service_AnalyticsReporting_ReportData $data)
   {
     $this->data = $data;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_ReportData
+   */
   public function getData()
   {
     return $this->data;

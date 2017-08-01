@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,14 +18,36 @@
 class Google_Service_Dataflow_ListJobMessagesResponse extends Google_Collection
 {
   protected $collection_key = 'jobMessages';
+  protected $autoscalingEventsType = 'Google_Service_Dataflow_AutoscalingEvent';
+  protected $autoscalingEventsDataType = 'array';
   protected $jobMessagesType = 'Google_Service_Dataflow_JobMessage';
   protected $jobMessagesDataType = 'array';
   public $nextPageToken;
 
+  /**
+   * @param Google_Service_Dataflow_AutoscalingEvent
+   */
+  public function setAutoscalingEvents($autoscalingEvents)
+  {
+    $this->autoscalingEvents = $autoscalingEvents;
+  }
+  /**
+   * @return Google_Service_Dataflow_AutoscalingEvent
+   */
+  public function getAutoscalingEvents()
+  {
+    return $this->autoscalingEvents;
+  }
+  /**
+   * @param Google_Service_Dataflow_JobMessage
+   */
   public function setJobMessages($jobMessages)
   {
     $this->jobMessages = $jobMessages;
   }
+  /**
+   * @return Google_Service_Dataflow_JobMessage
+   */
   public function getJobMessages()
   {
     return $this->jobMessages;

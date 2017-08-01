@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -58,18 +58,30 @@ class Google_Service_Bigquery_JobConfigurationQuery extends Google_Collection
   {
     return $this->createDisposition;
   }
+  /**
+   * @param Google_Service_Bigquery_DatasetReference
+   */
   public function setDefaultDataset(Google_Service_Bigquery_DatasetReference $defaultDataset)
   {
     $this->defaultDataset = $defaultDataset;
   }
+  /**
+   * @return Google_Service_Bigquery_DatasetReference
+   */
   public function getDefaultDataset()
   {
     return $this->defaultDataset;
   }
+  /**
+   * @param Google_Service_Bigquery_TableReference
+   */
   public function setDestinationTable(Google_Service_Bigquery_TableReference $destinationTable)
   {
     $this->destinationTable = $destinationTable;
   }
+  /**
+   * @return Google_Service_Bigquery_TableReference
+   */
   public function getDestinationTable()
   {
     return $this->destinationTable;
@@ -130,10 +142,16 @@ class Google_Service_Bigquery_JobConfigurationQuery extends Google_Collection
   {
     return $this->query;
   }
+  /**
+   * @param Google_Service_Bigquery_QueryParameter
+   */
   public function setQueryParameters($queryParameters)
   {
     $this->queryParameters = $queryParameters;
   }
+  /**
+   * @return Google_Service_Bigquery_QueryParameter
+   */
   public function getQueryParameters()
   {
     return $this->queryParameters;
@@ -146,10 +164,16 @@ class Google_Service_Bigquery_JobConfigurationQuery extends Google_Collection
   {
     return $this->schemaUpdateOptions;
   }
+  /**
+   * @param Google_Service_Bigquery_ExternalDataConfiguration
+   */
   public function setTableDefinitions($tableDefinitions)
   {
     $this->tableDefinitions = $tableDefinitions;
   }
+  /**
+   * @return Google_Service_Bigquery_ExternalDataConfiguration
+   */
   public function getTableDefinitions()
   {
     return $this->tableDefinitions;
@@ -170,10 +194,16 @@ class Google_Service_Bigquery_JobConfigurationQuery extends Google_Collection
   {
     return $this->useQueryCache;
   }
+  /**
+   * @param Google_Service_Bigquery_UserDefinedFunctionResource
+   */
   public function setUserDefinedFunctionResources($userDefinedFunctionResources)
   {
     $this->userDefinedFunctionResources = $userDefinedFunctionResources;
   }
+  /**
+   * @return Google_Service_Bigquery_UserDefinedFunctionResource
+   */
   public function getUserDefinedFunctionResources()
   {
     return $this->userDefinedFunctionResources;

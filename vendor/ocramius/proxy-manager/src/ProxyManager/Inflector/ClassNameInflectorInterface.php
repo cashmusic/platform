@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Inflector;
 
 /**
@@ -40,7 +38,7 @@ interface ClassNameInflectorInterface
      *
      * @return string
      */
-    public function getUserClassName(string $className) : string;
+    public function getUserClassName($className);
 
     /**
      * Retrieve the class name of the proxy for the given user-defined class name
@@ -50,7 +48,7 @@ interface ClassNameInflectorInterface
      *
      * @return string
      */
-    public function getProxyClassName(string $className, array $options = []) : string;
+    public function getProxyClassName($className, array $options = array());
 
     /**
      * Retrieve whether the provided class name is a proxy
@@ -59,5 +57,5 @@ interface ClassNameInflectorInterface
      *
      * @return bool
      */
-    public function isProxyClassName(string $className) : bool;
+    public function isProxyClassName($className);
 }

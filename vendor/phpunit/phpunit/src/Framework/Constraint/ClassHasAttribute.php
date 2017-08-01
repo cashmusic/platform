@@ -7,9 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use ReflectionClass;
 
 /**
  * Constraint that asserts that the class it is evaluated for has a given
@@ -17,7 +14,7 @@ use ReflectionClass;
  *
  * The attribute name is passed in the constructor.
  */
-class ClassHasAttribute extends Constraint
+class PHPUnit_Framework_Constraint_ClassHasAttribute extends PHPUnit_Framework_Constraint
 {
     /**
      * @var string
@@ -55,7 +52,7 @@ class ClassHasAttribute extends Constraint
      */
     public function toString()
     {
-        return \sprintf(
+        return sprintf(
             'has attribute "%s"',
             $this->attributeName
         );
@@ -73,10 +70,10 @@ class ClassHasAttribute extends Constraint
      */
     protected function failureDescription($other)
     {
-        return \sprintf(
+        return sprintf(
             '%sclass "%s" %s',
-            \is_object($other) ? 'object of ' : '',
-            \is_object($other) ? \get_class($other) : $other,
+            is_object($other) ? 'object of ' : '',
+            is_object($other) ? get_class($other) : $other,
             $this->toString()
         );
     }

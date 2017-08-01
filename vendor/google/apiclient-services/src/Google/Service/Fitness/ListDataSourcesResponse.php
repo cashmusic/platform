@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Fitness_ListDataSourcesResponse extends Google_Collection
   protected $dataSourceType = 'Google_Service_Fitness_DataSource';
   protected $dataSourceDataType = 'array';
 
+  /**
+   * @param Google_Service_Fitness_DataSource
+   */
   public function setDataSource($dataSource)
   {
     $this->dataSource = $dataSource;
   }
+  /**
+   * @return Google_Service_Fitness_DataSource
+   */
   public function getDataSource()
   {
     return $this->dataSource;

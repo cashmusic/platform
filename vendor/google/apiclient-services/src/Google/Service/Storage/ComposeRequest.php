@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,10 +24,16 @@ class Google_Service_Storage_ComposeRequest extends Google_Collection
   protected $sourceObjectsType = 'Google_Service_Storage_ComposeRequestSourceObjects';
   protected $sourceObjectsDataType = 'array';
 
+  /**
+   * @param Google_Service_Storage_StorageObject
+   */
   public function setDestination(Google_Service_Storage_StorageObject $destination)
   {
     $this->destination = $destination;
   }
+  /**
+   * @return Google_Service_Storage_StorageObject
+   */
   public function getDestination()
   {
     return $this->destination;
@@ -40,10 +46,16 @@ class Google_Service_Storage_ComposeRequest extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Storage_ComposeRequestSourceObjects
+   */
   public function setSourceObjects($sourceObjects)
   {
     $this->sourceObjects = $sourceObjects;
   }
+  /**
+   * @return Google_Service_Storage_ComposeRequestSourceObjects
+   */
   public function getSourceObjects()
   {
     return $this->sourceObjects;

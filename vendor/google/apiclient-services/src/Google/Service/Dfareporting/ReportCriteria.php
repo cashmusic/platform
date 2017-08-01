@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,42 +30,72 @@ class Google_Service_Dfareporting_ReportCriteria extends Google_Collection
   protected $dimensionsDataType = 'array';
   public $metricNames;
 
+  /**
+   * @param Google_Service_Dfareporting_Activities
+   */
   public function setActivities(Google_Service_Dfareporting_Activities $activities)
   {
     $this->activities = $activities;
   }
+  /**
+   * @return Google_Service_Dfareporting_Activities
+   */
   public function getActivities()
   {
     return $this->activities;
   }
+  /**
+   * @param Google_Service_Dfareporting_CustomRichMediaEvents
+   */
   public function setCustomRichMediaEvents(Google_Service_Dfareporting_CustomRichMediaEvents $customRichMediaEvents)
   {
     $this->customRichMediaEvents = $customRichMediaEvents;
   }
+  /**
+   * @return Google_Service_Dfareporting_CustomRichMediaEvents
+   */
   public function getCustomRichMediaEvents()
   {
     return $this->customRichMediaEvents;
   }
+  /**
+   * @param Google_Service_Dfareporting_DateRange
+   */
   public function setDateRange(Google_Service_Dfareporting_DateRange $dateRange)
   {
     $this->dateRange = $dateRange;
   }
+  /**
+   * @return Google_Service_Dfareporting_DateRange
+   */
   public function getDateRange()
   {
     return $this->dateRange;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setDimensionFilters($dimensionFilters)
   {
     $this->dimensionFilters = $dimensionFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getDimensionFilters()
   {
     return $this->dimensionFilters;
   }
+  /**
+   * @param Google_Service_Dfareporting_SortedDimension
+   */
   public function setDimensions($dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_SortedDimension
+   */
   public function getDimensions()
   {
     return $this->dimensions;

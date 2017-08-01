@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,34 +26,58 @@ class Google_Service_Partners_Analytics extends Google_Model
   protected $searchViewsType = 'Google_Service_Partners_AnalyticsDataPoint';
   protected $searchViewsDataType = '';
 
+  /**
+   * @param Google_Service_Partners_AnalyticsDataPoint
+   */
   public function setContacts(Google_Service_Partners_AnalyticsDataPoint $contacts)
   {
     $this->contacts = $contacts;
   }
+  /**
+   * @return Google_Service_Partners_AnalyticsDataPoint
+   */
   public function getContacts()
   {
     return $this->contacts;
   }
+  /**
+   * @param Google_Service_Partners_Date
+   */
   public function setEventDate(Google_Service_Partners_Date $eventDate)
   {
     $this->eventDate = $eventDate;
   }
+  /**
+   * @return Google_Service_Partners_Date
+   */
   public function getEventDate()
   {
     return $this->eventDate;
   }
+  /**
+   * @param Google_Service_Partners_AnalyticsDataPoint
+   */
   public function setProfileViews(Google_Service_Partners_AnalyticsDataPoint $profileViews)
   {
     $this->profileViews = $profileViews;
   }
+  /**
+   * @return Google_Service_Partners_AnalyticsDataPoint
+   */
   public function getProfileViews()
   {
     return $this->profileViews;
   }
+  /**
+   * @param Google_Service_Partners_AnalyticsDataPoint
+   */
   public function setSearchViews(Google_Service_Partners_AnalyticsDataPoint $searchViews)
   {
     $this->searchViews = $searchViews;
   }
+  /**
+   * @return Google_Service_Partners_AnalyticsDataPoint
+   */
   public function getSearchViews()
   {
     return $this->searchViews;

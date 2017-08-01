@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,10 +31,16 @@ class Google_Service_YouTube_LiveBroadcast extends Google_Model
   protected $topicDetailsType = 'Google_Service_YouTube_LiveBroadcastTopicDetails';
   protected $topicDetailsDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastContentDetails
+   */
   public function setContentDetails(Google_Service_YouTube_LiveBroadcastContentDetails $contentDetails)
   {
     $this->contentDetails = $contentDetails;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastContentDetails
+   */
   public function getContentDetails()
   {
     return $this->contentDetails;
@@ -63,34 +69,58 @@ class Google_Service_YouTube_LiveBroadcast extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastSnippet
+   */
   public function setSnippet(Google_Service_YouTube_LiveBroadcastSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;
   }
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastStatistics
+   */
   public function setStatistics(Google_Service_YouTube_LiveBroadcastStatistics $statistics)
   {
     $this->statistics = $statistics;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastStatistics
+   */
   public function getStatistics()
   {
     return $this->statistics;
   }
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastStatus
+   */
   public function setStatus(Google_Service_YouTube_LiveBroadcastStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastStatus
+   */
   public function getStatus()
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_YouTube_LiveBroadcastTopicDetails
+   */
   public function setTopicDetails(Google_Service_YouTube_LiveBroadcastTopicDetails $topicDetails)
   {
     $this->topicDetails = $topicDetails;
   }
+  /**
+   * @return Google_Service_YouTube_LiveBroadcastTopicDetails
+   */
   public function getTopicDetails()
   {
     return $this->topicDetails;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_CloudUserAccounts_LinuxGetLinuxAccountViewsResponse extends
   protected $resourceType = 'Google_Service_CloudUserAccounts_LinuxAccountViews';
   protected $resourceDataType = '';
 
+  /**
+   * @param Google_Service_CloudUserAccounts_LinuxAccountViews
+   */
   public function setResource(Google_Service_CloudUserAccounts_LinuxAccountViews $resource)
   {
     $this->resource = $resource;
   }
+  /**
+   * @return Google_Service_CloudUserAccounts_LinuxAccountViews
+   */
   public function getResource()
   {
     return $this->resource;

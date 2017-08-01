@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,10 +28,16 @@ class Google_Service_Sheets_SheetProperties extends Google_Model
   protected $tabColorDataType = '';
   public $title;
 
+  /**
+   * @param Google_Service_Sheets_GridProperties
+   */
   public function setGridProperties(Google_Service_Sheets_GridProperties $gridProperties)
   {
     $this->gridProperties = $gridProperties;
   }
+  /**
+   * @return Google_Service_Sheets_GridProperties
+   */
   public function getGridProperties()
   {
     return $this->gridProperties;
@@ -76,10 +82,16 @@ class Google_Service_Sheets_SheetProperties extends Google_Model
   {
     return $this->sheetType;
   }
+  /**
+   * @param Google_Service_Sheets_Color
+   */
   public function setTabColor(Google_Service_Sheets_Color $tabColor)
   {
     $this->tabColor = $tabColor;
   }
+  /**
+   * @return Google_Service_Sheets_Color
+   */
   public function getTabColor()
   {
     return $this->tabColor;

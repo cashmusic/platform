@@ -7,12 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
 
 /**
  * A skipped test case
  */
-class SkippedTestCase extends TestCase
+class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -54,7 +53,7 @@ class SkippedTestCase extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     protected function runTest()
     {

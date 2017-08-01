@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,8 +19,8 @@ class Google_Service_Dataflow_KeyRangeLocation extends Google_Model
 {
   public $dataDisk;
   public $deliveryEndpoint;
+  public $deprecatedPersistentDirectory;
   public $end;
-  public $persistentDirectory;
   public $start;
 
   public function setDataDisk($dataDisk)
@@ -39,6 +39,14 @@ class Google_Service_Dataflow_KeyRangeLocation extends Google_Model
   {
     return $this->deliveryEndpoint;
   }
+  public function setDeprecatedPersistentDirectory($deprecatedPersistentDirectory)
+  {
+    $this->deprecatedPersistentDirectory = $deprecatedPersistentDirectory;
+  }
+  public function getDeprecatedPersistentDirectory()
+  {
+    return $this->deprecatedPersistentDirectory;
+  }
   public function setEnd($end)
   {
     $this->end = $end;
@@ -46,14 +54,6 @@ class Google_Service_Dataflow_KeyRangeLocation extends Google_Model
   public function getEnd()
   {
     return $this->end;
-  }
-  public function setPersistentDirectory($persistentDirectory)
-  {
-    $this->persistentDirectory = $persistentDirectory;
-  }
-  public function getPersistentDirectory()
-  {
-    return $this->persistentDirectory;
   }
   public function setStart($start)
   {

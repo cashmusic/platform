@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,10 +47,16 @@ class Google_Service_Dataflow_WorkItemServiceState extends Google_Collection
   {
     return $this->leaseExpireTime;
   }
+  /**
+   * @param Google_Service_Dataflow_MetricShortId
+   */
   public function setMetricShortId($metricShortId)
   {
     $this->metricShortId = $metricShortId;
   }
+  /**
+   * @return Google_Service_Dataflow_MetricShortId
+   */
   public function getMetricShortId()
   {
     return $this->metricShortId;
@@ -71,26 +77,44 @@ class Google_Service_Dataflow_WorkItemServiceState extends Google_Collection
   {
     return $this->reportStatusInterval;
   }
+  /**
+   * @param Google_Service_Dataflow_ApproximateSplitRequest
+   */
   public function setSplitRequest(Google_Service_Dataflow_ApproximateSplitRequest $splitRequest)
   {
     $this->splitRequest = $splitRequest;
   }
+  /**
+   * @return Google_Service_Dataflow_ApproximateSplitRequest
+   */
   public function getSplitRequest()
   {
     return $this->splitRequest;
   }
+  /**
+   * @param Google_Service_Dataflow_ApproximateProgress
+   */
   public function setSuggestedStopPoint(Google_Service_Dataflow_ApproximateProgress $suggestedStopPoint)
   {
     $this->suggestedStopPoint = $suggestedStopPoint;
   }
+  /**
+   * @return Google_Service_Dataflow_ApproximateProgress
+   */
   public function getSuggestedStopPoint()
   {
     return $this->suggestedStopPoint;
   }
+  /**
+   * @param Google_Service_Dataflow_Position
+   */
   public function setSuggestedStopPosition(Google_Service_Dataflow_Position $suggestedStopPosition)
   {
     $this->suggestedStopPosition = $suggestedStopPosition;
   }
+  /**
+   * @return Google_Service_Dataflow_Position
+   */
   public function getSuggestedStopPosition()
   {
     return $this->suggestedStopPosition;

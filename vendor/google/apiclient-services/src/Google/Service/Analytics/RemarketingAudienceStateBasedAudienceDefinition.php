@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinition e
   protected $includeConditionsType = 'Google_Service_Analytics_IncludeConditions';
   protected $includeConditionsDataType = '';
 
+  /**
+   * @param Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinitionExcludeConditions
+   */
   public function setExcludeConditions(Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinitionExcludeConditions $excludeConditions)
   {
     $this->excludeConditions = $excludeConditions;
   }
+  /**
+   * @return Google_Service_Analytics_RemarketingAudienceStateBasedAudienceDefinitionExcludeConditions
+   */
   public function getExcludeConditions()
   {
     return $this->excludeConditions;
   }
+  /**
+   * @param Google_Service_Analytics_IncludeConditions
+   */
   public function setIncludeConditions(Google_Service_Analytics_IncludeConditions $includeConditions)
   {
     $this->includeConditions = $includeConditions;
   }
+  /**
+   * @return Google_Service_Analytics_IncludeConditions
+   */
   public function getIncludeConditions()
   {
     return $this->includeConditions;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -46,10 +46,16 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Collection
   public $supportEndDate;
   public $willAutoRenew;
 
+  /**
+   * @param Google_Service_Directory_ChromeOsDeviceActiveTimeRanges
+   */
   public function setActiveTimeRanges($activeTimeRanges)
   {
     $this->activeTimeRanges = $activeTimeRanges;
   }
+  /**
+   * @return Google_Service_Directory_ChromeOsDeviceActiveTimeRanges
+   */
   public function getActiveTimeRanges()
   {
     return $this->activeTimeRanges;
@@ -206,10 +212,16 @@ class Google_Service_Directory_ChromeOsDevice extends Google_Collection
   {
     return $this->platformVersion;
   }
+  /**
+   * @param Google_Service_Directory_ChromeOsDeviceRecentUsers
+   */
   public function setRecentUsers($recentUsers)
   {
     $this->recentUsers = $recentUsers;
   }
+  /**
+   * @return Google_Service_Directory_ChromeOsDeviceRecentUsers
+   */
   public function getRecentUsers()
   {
     return $this->recentUsers;

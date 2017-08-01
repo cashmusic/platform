@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,16 @@ class Google_Service_Logging_WriteLogEntriesRequest extends Google_Collection
   protected $resourceType = 'Google_Service_Logging_MonitoredResource';
   protected $resourceDataType = '';
 
+  /**
+   * @param Google_Service_Logging_LogEntry
+   */
   public function setEntries($entries)
   {
     $this->entries = $entries;
   }
+  /**
+   * @return Google_Service_Logging_LogEntry
+   */
   public function getEntries()
   {
     return $this->entries;
@@ -58,10 +64,16 @@ class Google_Service_Logging_WriteLogEntriesRequest extends Google_Collection
   {
     return $this->partialSuccess;
   }
+  /**
+   * @param Google_Service_Logging_MonitoredResource
+   */
   public function setResource(Google_Service_Logging_MonitoredResource $resource)
   {
     $this->resource = $resource;
   }
+  /**
+   * @return Google_Service_Logging_MonitoredResource
+   */
   public function getResource()
   {
     return $this->resource;

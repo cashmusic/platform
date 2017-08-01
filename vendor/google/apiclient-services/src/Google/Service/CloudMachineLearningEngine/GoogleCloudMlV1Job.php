@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -64,18 +64,30 @@ class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Job extends Googl
   {
     return $this->jobId;
   }
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionInput
+   */
   public function setPredictionInput(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionInput $predictionInput)
   {
     $this->predictionInput = $predictionInput;
   }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionInput
+   */
   public function getPredictionInput()
   {
     return $this->predictionInput;
   }
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionOutput
+   */
   public function setPredictionOutput(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionOutput $predictionOutput)
   {
     $this->predictionOutput = $predictionOutput;
   }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1PredictionOutput
+   */
   public function getPredictionOutput()
   {
     return $this->predictionOutput;
@@ -96,18 +108,30 @@ class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Job extends Googl
   {
     return $this->state;
   }
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingInput
+   */
   public function setTrainingInput(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingInput $trainingInput)
   {
     $this->trainingInput = $trainingInput;
   }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingInput
+   */
   public function getTrainingInput()
   {
     return $this->trainingInput;
   }
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingOutput
+   */
   public function setTrainingOutput(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingOutput $trainingOutput)
   {
     $this->trainingOutput = $trainingOutput;
   }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1TrainingOutput
+   */
   public function getTrainingOutput()
   {
     return $this->trainingOutput;

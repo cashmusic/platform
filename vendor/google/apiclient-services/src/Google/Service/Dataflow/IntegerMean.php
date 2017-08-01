@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Dataflow_IntegerMean extends Google_Model
   protected $sumType = 'Google_Service_Dataflow_SplitInt64';
   protected $sumDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_SplitInt64
+   */
   public function setCount(Google_Service_Dataflow_SplitInt64 $count)
   {
     $this->count = $count;
   }
+  /**
+   * @return Google_Service_Dataflow_SplitInt64
+   */
   public function getCount()
   {
     return $this->count;
   }
+  /**
+   * @param Google_Service_Dataflow_SplitInt64
+   */
   public function setSum(Google_Service_Dataflow_SplitInt64 $sum)
   {
     $this->sum = $sum;
   }
+  /**
+   * @return Google_Service_Dataflow_SplitInt64
+   */
   public function getSum()
   {
     return $this->sum;

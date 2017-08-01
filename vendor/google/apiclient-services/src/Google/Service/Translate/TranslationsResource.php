@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,7 @@
 class Google_Service_Translate_TranslationsResource extends Google_Model
 {
   public $detectedSourceLanguage;
+  public $model;
   public $translatedText;
 
   public function setDetectedSourceLanguage($detectedSourceLanguage)
@@ -27,6 +28,14 @@ class Google_Service_Translate_TranslationsResource extends Google_Model
   public function getDetectedSourceLanguage()
   {
     return $this->detectedSourceLanguage;
+  }
+  public function setModel($model)
+  {
+    $this->model = $model;
+  }
+  public function getModel()
+  {
+    return $this->model;
   }
   public function setTranslatedText($translatedText)
   {

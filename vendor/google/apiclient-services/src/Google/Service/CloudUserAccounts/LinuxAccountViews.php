@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,10 +24,16 @@ class Google_Service_CloudUserAccounts_LinuxAccountViews extends Google_Collecti
   protected $userViewsType = 'Google_Service_CloudUserAccounts_LinuxUserView';
   protected $userViewsDataType = 'array';
 
+  /**
+   * @param Google_Service_CloudUserAccounts_LinuxGroupView
+   */
   public function setGroupViews($groupViews)
   {
     $this->groupViews = $groupViews;
   }
+  /**
+   * @return Google_Service_CloudUserAccounts_LinuxGroupView
+   */
   public function getGroupViews()
   {
     return $this->groupViews;
@@ -40,10 +46,16 @@ class Google_Service_CloudUserAccounts_LinuxAccountViews extends Google_Collecti
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_CloudUserAccounts_LinuxUserView
+   */
   public function setUserViews($userViews)
   {
     $this->userViews = $userViews;
   }
+  /**
+   * @return Google_Service_CloudUserAccounts_LinuxUserView
+   */
   public function getUserViews()
   {
     return $this->userViews;

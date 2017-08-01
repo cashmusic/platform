@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -53,8 +53,8 @@ class Google_Service_Dataflow_Resource_ProjectsJobs extends Google_Service_Resou
    * @param string $jobId The job ID.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string location The location that contains this job.
    * @opt_param string view The level of information requested in response.
+   * @opt_param string location The location that contains this job.
    * @return Google_Service_Dataflow_Job
    */
   public function get($projectId, $jobId, $optParams = array())
@@ -70,11 +70,11 @@ class Google_Service_Dataflow_Resource_ProjectsJobs extends Google_Service_Resou
    * @param string $jobId The job to get messages for.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string location The location which contains the job specified by
+   * job_id.
    * @opt_param string startTime Return only metric data that has changed since
    * this time. Default is to return all information about all metrics for the
    * job.
-   * @opt_param string location The location which contains the job specified by
-   * job_id.
    * @return Google_Service_Dataflow_JobMetrics
    */
   public function getMetrics($projectId, $jobId, $optParams = array())

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_ShoppingContent_TestOrderLineItem extends Google_Model
   protected $unitTaxType = 'Google_Service_ShoppingContent_Price';
   protected $unitTaxDataType = '';
 
+  /**
+   * @param Google_Service_ShoppingContent_TestOrderLineItemProduct
+   */
   public function setProduct(Google_Service_ShoppingContent_TestOrderLineItemProduct $product)
   {
     $this->product = $product;
   }
+  /**
+   * @return Google_Service_ShoppingContent_TestOrderLineItemProduct
+   */
   public function getProduct()
   {
     return $this->product;
@@ -43,26 +49,44 @@ class Google_Service_ShoppingContent_TestOrderLineItem extends Google_Model
   {
     return $this->quantityOrdered;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItemReturnInfo
+   */
   public function setReturnInfo(Google_Service_ShoppingContent_OrderLineItemReturnInfo $returnInfo)
   {
     $this->returnInfo = $returnInfo;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItemReturnInfo
+   */
   public function getReturnInfo()
   {
     return $this->returnInfo;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItemShippingDetails
+   */
   public function setShippingDetails(Google_Service_ShoppingContent_OrderLineItemShippingDetails $shippingDetails)
   {
     $this->shippingDetails = $shippingDetails;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItemShippingDetails
+   */
   public function getShippingDetails()
   {
     return $this->shippingDetails;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setUnitTax(Google_Service_ShoppingContent_Price $unitTax)
   {
     $this->unitTax = $unitTax;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getUnitTax()
   {
     return $this->unitTax;

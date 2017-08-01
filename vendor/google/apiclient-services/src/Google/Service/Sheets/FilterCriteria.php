@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Sheets_FilterCriteria extends Google_Collection
   protected $conditionDataType = '';
   public $hiddenValues;
 
+  /**
+   * @param Google_Service_Sheets_BooleanCondition
+   */
   public function setCondition(Google_Service_Sheets_BooleanCondition $condition)
   {
     $this->condition = $condition;
   }
+  /**
+   * @return Google_Service_Sheets_BooleanCondition
+   */
   public function getCondition()
   {
     return $this->condition;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,26 +25,44 @@ class Google_Service_Vision_AnnotateImageRequest extends Google_Collection
   protected $imageContextType = 'Google_Service_Vision_ImageContext';
   protected $imageContextDataType = '';
 
+  /**
+   * @param Google_Service_Vision_Feature
+   */
   public function setFeatures($features)
   {
     $this->features = $features;
   }
+  /**
+   * @return Google_Service_Vision_Feature
+   */
   public function getFeatures()
   {
     return $this->features;
   }
+  /**
+   * @param Google_Service_Vision_Image
+   */
   public function setImage(Google_Service_Vision_Image $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_Vision_Image
+   */
   public function getImage()
   {
     return $this->image;
   }
+  /**
+   * @param Google_Service_Vision_ImageContext
+   */
   public function setImageContext(Google_Service_Vision_ImageContext $imageContext)
   {
     $this->imageContext = $imageContext;
   }
+  /**
+   * @return Google_Service_Vision_ImageContext
+   */
   public function getImageContext()
   {
     return $this->imageContext;

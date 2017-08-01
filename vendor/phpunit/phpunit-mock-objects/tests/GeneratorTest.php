@@ -1,15 +1,4 @@
 <?php
-/*
- * This file is part of the phpunit-mock-objects package.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-use PHPUnit\Framework\TestCase;
-
 /**
  * @covers PHPUnit_Framework_MockObject_Generator
  *
@@ -23,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @uses PHPUnit_Framework_MockObject_Stub_Return
  * @uses PHPUnit_Framework_MockObject_Matcher_InvokedCount
  */
-class Framework_MockObject_GeneratorTest extends TestCase
+class Framework_MockObject_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_Generator
@@ -114,7 +103,7 @@ class Framework_MockObject_GeneratorTest extends TestCase
 
     /**
      * @dataProvider getMockForAbstractClassExpectsInvalidArgumentExceptionDataprovider
-     * @expectedException PHPUnit\Framework\Exception
+     * @expectedException PHPUnit_Framework_Exception
      */
     public function testGetMockForAbstractClassExpectingInvalidArgumentException($className, $mockClassName)
     {

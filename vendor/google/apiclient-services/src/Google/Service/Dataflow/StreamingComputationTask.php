@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,18 +24,30 @@ class Google_Service_Dataflow_StreamingComputationTask extends Google_Collection
   protected $dataDisksDataType = 'array';
   public $taskType;
 
+  /**
+   * @param Google_Service_Dataflow_StreamingComputationRanges
+   */
   public function setComputationRanges($computationRanges)
   {
     $this->computationRanges = $computationRanges;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamingComputationRanges
+   */
   public function getComputationRanges()
   {
     return $this->computationRanges;
   }
+  /**
+   * @param Google_Service_Dataflow_MountedDataDisk
+   */
   public function setDataDisks($dataDisks)
   {
     $this->dataDisks = $dataDisks;
   }
+  /**
+   * @return Google_Service_Dataflow_MountedDataDisk
+   */
   public function getDataDisks()
   {
     return $this->dataDisks;

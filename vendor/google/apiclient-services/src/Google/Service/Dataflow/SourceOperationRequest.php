@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Dataflow_SourceOperationRequest extends Google_Model
   protected $splitType = 'Google_Service_Dataflow_SourceSplitRequest';
   protected $splitDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_SourceGetMetadataRequest
+   */
   public function setGetMetadata(Google_Service_Dataflow_SourceGetMetadataRequest $getMetadata)
   {
     $this->getMetadata = $getMetadata;
   }
+  /**
+   * @return Google_Service_Dataflow_SourceGetMetadataRequest
+   */
   public function getGetMetadata()
   {
     return $this->getMetadata;
   }
+  /**
+   * @param Google_Service_Dataflow_SourceSplitRequest
+   */
   public function setSplit(Google_Service_Dataflow_SourceSplitRequest $split)
   {
     $this->split = $split;
   }
+  /**
+   * @return Google_Service_Dataflow_SourceSplitRequest
+   */
   public function getSplit()
   {
     return $this->split;

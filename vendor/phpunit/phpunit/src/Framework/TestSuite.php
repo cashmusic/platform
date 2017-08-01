@@ -7,24 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
-
-use Iterator;
-use IteratorAggregate;
-use PHPUnit\Runner\BaseTestRunner;
-use PHPUnit\Runner\Filter\Factory;
-use PHPUnit\Runner\PhptTestCase;
-use PHPUnit\Util\Fileloader;
-use PHPUnit\Util\InvalidArgumentHelper;
-use RecursiveIteratorIterator;
-use ReflectionClass;
-use ReflectionMethod;
-use Throwable;
 
 /**
  * A TestSuite is a composite of Tests. It runs a collection of test cases.
  */
-class TestSuite implements Test, SelfDescribing, IteratorAggregate
+class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Framework_SelfDescribing, IteratorAggregate
 {
     /**
      * Last count of tests in this suite.
@@ -38,19 +25,19 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @var bool
      */
-    protected $backupGlobals;
+    protected $backupGlobals = null;
 
     /**
      * Enable or disable the backup and restoration of static attributes.
      *
      * @var bool
      */
-    protected $backupStaticAttributes;
+    protected $backupStaticAttributes = null;
 
     /**
      * @var bool
      */
-    private $beStrictAboutChangesToGlobalState;
+    private $beStrictAboutChangesToGlobalState = null;
 
     /**
      * @var bool
@@ -96,23 +83,23 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     protected $foundClasses = [];
 
     /**
-     * @var Factory
+     * @var PHPUnit_Runner_Filter_Factory
      */
-    private $iteratorFilter;
+    private $iteratorFilter = null;
 
     /**
      * Constructs a new TestSuite:
      *
-     *   - PHPUnit\Framework\TestSuite() constructs an empty TestSuite.
+     *   - PHPUnit_Framework_TestSuite() constructs an empty TestSuite.
      *
-     *   - PHPUnit\Framework\TestSuite(ReflectionClass) constructs a
+     *   - PHPUnit_Framework_TestSuite(ReflectionClass) constructs a
      *     TestSuite from the given class.
      *
-     *   - PHPUnit\Framework\TestSuite(ReflectionClass, String)
+     *   - PHPUnit_Framework_TestSuite(ReflectionClass, String)
      *     constructs a TestSuite from the given class with the given
      *     name.
      *
-     *   - PHPUnit\Framework\TestSuite(String) either constructs a
+     *   - PHPUnit_Framework_TestSuite(String) either constructs a
      *     TestSuite from the given class (if the passed string is the
      *     name of an existing class) or constructs an empty TestSuite
      *     with the given name.
@@ -120,18 +107,18 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      * @param mixed  $theClass
      * @param string $name
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function __construct($theClass = '', $name = '')
     {
         $argumentsValid = false;
 
-        if (\is_object($theClass) &&
+        if (is_object($theClass) &&
             $theClass instanceof ReflectionClass) {
             $argumentsValid = true;
-        } elseif (\is_string($theClass) &&
-            $theClass !== '' &&
-            \class_exists($theClass, false)) {
+        } elseif (is_string($theClass) &&
+                 $theClass !== '' &&
+                 class_exists($theClass, false)) {
             $argumentsValid = true;
 
             if ($name == '') {
@@ -139,19 +126,19 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             }
 
             $theClass = new ReflectionClass($theClass);
-        } elseif (\is_string($theClass)) {
+        } elseif (is_string($theClass)) {
             $this->setName($theClass);
 
             return;
         }
 
         if (!$argumentsValid) {
-            throw new Exception;
+            throw new PHPUnit_Framework_Exception;
         }
 
-        if (!$theClass->isSubclassOf(TestCase::class)) {
-            throw new Exception(
-                'Class "' . $theClass->name . '" does not extend PHPUnit\Framework\TestCase.'
+        if (!$theClass->isSubclassOf('PHPUnit_Framework_TestCase')) {
+            throw new PHPUnit_Framework_Exception(
+                'Class "' . $theClass->name . '" does not extend PHPUnit_Framework_TestCase.'
             );
         }
 
@@ -167,7 +154,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             !$constructor->isPublic()) {
             $this->addTest(
                 self::warning(
-                    \sprintf(
+                    sprintf(
                         'Class "%s" has no public constructor.',
                         $theClass->getName()
                     )
@@ -184,7 +171,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         if (empty($this->tests)) {
             $this->addTest(
                 self::warning(
-                    \sprintf(
+                    sprintf(
                         'No tests found in class "%s".',
                         $theClass->getName()
                     )
@@ -208,10 +195,10 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * Adds a test to the suite.
      *
-     * @param Test  $test
-     * @param array $groups
+     * @param PHPUnit_Framework_Test $test
+     * @param array                  $groups
      */
-    public function addTest(Test $test, $groups = [])
+    public function addTest(PHPUnit_Framework_Test $test, $groups = [])
     {
         $class = new ReflectionClass($test);
 
@@ -219,7 +206,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             $this->tests[]  = $test;
             $this->numTests = -1;
 
-            if ($test instanceof self && empty($groups)) {
+            if ($test instanceof self &&
+                empty($groups)) {
                 $groups = $test->getGroups();
             }
 
@@ -235,7 +223,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                 }
             }
 
-            if ($test instanceof TestCase) {
+            if ($test instanceof PHPUnit_Framework_TestCase) {
                 $test->setGroups($groups);
             }
         }
@@ -246,16 +234,16 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @param mixed $testClass
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function addTestSuite($testClass)
     {
-        if (\is_string($testClass) && \class_exists($testClass)) {
+        if (is_string($testClass) && class_exists($testClass)) {
             $testClass = new ReflectionClass($testClass);
         }
 
-        if (!\is_object($testClass)) {
-            throw InvalidArgumentHelper::factory(
+        if (!is_object($testClass)) {
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(
                 1,
                 'class name or object'
             );
@@ -267,9 +255,9 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             $suiteMethod = false;
 
             if (!$testClass->isAbstract()) {
-                if ($testClass->hasMethod(BaseTestRunner::SUITE_METHODNAME)) {
+                if ($testClass->hasMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
                     $method = $testClass->getMethod(
-                        BaseTestRunner::SUITE_METHODNAME
+                        PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME
                     );
 
                     if ($method->isStatic()) {
@@ -286,7 +274,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                 $this->addTest(new self($testClass));
             }
         } else {
-            throw new Exception;
+            throw new PHPUnit_Framework_Exception;
         }
     }
 
@@ -295,22 +283,22 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      * as well as the separate import statements for the user's convenience.
      *
      * If the named file cannot be read or there are no new tests that can be
-     * added, a <code>PHPUnit\Framework\WarningTestCase</code> will be created instead,
+     * added, a <code>PHPUnit_Framework_WarningTestCase</code> will be created instead,
      * leaving the current test run untouched.
      *
      * @param string $filename
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function addTestFile($filename)
     {
-        if (!\is_string($filename)) {
-            throw InvalidArgumentHelper::factory(1, 'string');
+        if (!is_string($filename)) {
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (\file_exists($filename) && \substr($filename, -5) == '.phpt') {
+        if (file_exists($filename) && substr($filename, -5) == '.phpt') {
             $this->addTest(
-                new PhptTestCase($filename)
+                new PHPUnit_Extensions_PhptTestCase($filename)
             );
 
             return;
@@ -318,9 +306,9 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
         // The given file may contain further stub classes in addition to the
         // test class itself. Figure out the actual test class.
-        $classes    = \get_declared_classes();
-        $filename   = Fileloader::checkAndLoad($filename);
-        $newClasses = \array_diff(\get_declared_classes(), $classes);
+        $classes    = get_declared_classes();
+        $filename   = PHPUnit_Util_Fileloader::checkAndLoad($filename);
+        $newClasses = array_diff(get_declared_classes(), $classes);
 
         // The diff is empty in case a parent class (with test methods) is added
         // AFTER a child class that inherited from it. To account for that case,
@@ -330,18 +318,18 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             // On the assumption that test classes are defined first in files,
             // process discovered classes in approximate LIFO order, so as to
             // avoid unnecessary reflection.
-            $this->foundClasses = \array_merge($newClasses, $this->foundClasses);
+            $this->foundClasses = array_merge($newClasses, $this->foundClasses);
         }
 
         // The test class's name must match the filename, either in full, or as
         // a PEAR/PSR-0 prefixed shortname ('NameSpace_ShortName'), or as a
         // PSR-1 local shortname ('NameSpace\ShortName'). The comparison must be
         // anchored to prevent false-positive matches (e.g., 'OtherShortName').
-        $shortname      = \basename($filename, '.php');
-        $shortnameRegEx = '/(?:^|_|\\\\)' . \preg_quote($shortname, '/') . '$/';
+        $shortname      = basename($filename, '.php');
+        $shortnameRegEx = '/(?:^|_|\\\\)' . preg_quote($shortname, '/') . '$/';
 
         foreach ($this->foundClasses as $i => $className) {
-            if (\preg_match($shortnameRegEx, $className)) {
+            if (preg_match($shortnameRegEx, $className)) {
                 $class = new ReflectionClass($className);
 
                 if ($class->getFileName() == $filename) {
@@ -356,15 +344,15 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             $class = new ReflectionClass($className);
 
             if (!$class->isAbstract()) {
-                if ($class->hasMethod(BaseTestRunner::SUITE_METHODNAME)) {
+                if ($class->hasMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
                     $method = $class->getMethod(
-                        BaseTestRunner::SUITE_METHODNAME
+                        PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME
                     );
 
                     if ($method->isStatic()) {
                         $this->addTest($method->invoke(null, $className));
                     }
-                } elseif ($class->implementsInterface(Test::class)) {
+                } elseif ($class->implementsInterface('PHPUnit_Framework_Test')) {
                     $this->addTestSuite($class);
                 }
             }
@@ -378,13 +366,13 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @param array|Iterator $filenames
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function addTestFiles($filenames)
     {
-        if (!(\is_array($filenames) ||
-            (\is_object($filenames) && $filenames instanceof Iterator))) {
-            throw InvalidArgumentHelper::factory(
+        if (!(is_array($filenames) ||
+             (is_object($filenames) && $filenames instanceof Iterator))) {
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(
                 1,
                 'array or iterator'
             );
@@ -405,16 +393,16 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     public function count($preferCache = false)
     {
         if ($preferCache && $this->cachedNumTests !== null) {
-            return $this->cachedNumTests;
+            $numTests = $this->cachedNumTests;
+        } else {
+            $numTests = 0;
+
+            foreach ($this as $test) {
+                $numTests += count($test);
+            }
+
+            $this->cachedNumTests = $numTests;
         }
-
-        $numTests = 0;
-
-        foreach ($this as $test) {
-            $numTests += \count($test);
-        }
-
-        $this->cachedNumTests = $numTests;
 
         return $numTests;
     }
@@ -423,9 +411,9 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      * @param ReflectionClass $theClass
      * @param string          $name
      *
-     * @return Test
+     * @return PHPUnit_Framework_Test
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public static function createTest(ReflectionClass $theClass, $name)
     {
@@ -433,26 +421,21 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
         if (!$theClass->isInstantiable()) {
             return self::warning(
-                \sprintf('Cannot instantiate class "%s".', $className)
+                sprintf('Cannot instantiate class "%s".', $className)
             );
         }
 
-        $backupSettings = \PHPUnit\Util\Test::getBackupSettings(
+        $backupSettings = PHPUnit_Util_Test::getBackupSettings(
             $className,
             $name
         );
 
-        $preserveGlobalState = \PHPUnit\Util\Test::getPreserveGlobalStateSettings(
+        $preserveGlobalState = PHPUnit_Util_Test::getPreserveGlobalStateSettings(
             $className,
             $name
         );
 
-        $runTestInSeparateProcess = \PHPUnit\Util\Test::getProcessIsolationSettings(
-            $className,
-            $name
-        );
-
-        $runClassInSeparateProcess = \PHPUnit\Util\Test::getClassProcessIsolationSettings(
+        $runTestInSeparateProcess = PHPUnit_Util_Test::getProcessIsolationSettings(
             $className,
             $name
         );
@@ -463,17 +446,17 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             $parameters = $constructor->getParameters();
 
             // TestCase() or TestCase($name)
-            if (\count($parameters) < 2) {
+            if (count($parameters) < 2) {
                 $test = new $className;
             } // TestCase($name, $data)
             else {
                 try {
-                    $data = \PHPUnit\Util\Test::getProvidedData(
+                    $data = PHPUnit_Util_Test::getProvidedData(
                         $className,
                         $name
                     );
-                } catch (IncompleteTestError $e) {
-                    $message = \sprintf(
+                } catch (PHPUnit_Framework_IncompleteTestError $e) {
+                    $message = sprintf(
                         'Test for %s::%s marked incomplete by data provider',
                         $className,
                         $name
@@ -486,8 +469,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                     }
 
                     $data = self::incompleteTest($className, $name, $message);
-                } catch (SkippedTestError $e) {
-                    $message = \sprintf(
+                } catch (PHPUnit_Framework_SkippedTestError $e) {
+                    $message = sprintf(
                         'Test for %s::%s skipped by data provider',
                         $className,
                         $name
@@ -507,7 +490,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                 }
 
                 if (isset($t)) {
-                    $message = \sprintf(
+                    $message = sprintf(
                         'The data provider specified for %s::%s is invalid.',
                         $className,
                         $name
@@ -524,24 +507,24 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
                 // Test method with @dataProvider.
                 if (isset($data)) {
-                    $test = new DataProviderTestSuite(
+                    $test = new PHPUnit_Framework_TestSuite_DataProvider(
                         $className . '::' . $name
                     );
 
                     if (empty($data)) {
                         $data = self::warning(
-                            \sprintf(
+                            sprintf(
                                 'No tests found in suite "%s".',
                                 $test->getName()
                             )
                         );
                     }
 
-                    $groups = \PHPUnit\Util\Test::getGroups($className, $name);
+                    $groups = PHPUnit_Util_Test::getGroups($className, $name);
 
-                    if ($data instanceof WarningTestCase ||
-                        $data instanceof SkippedTestCase ||
-                        $data instanceof IncompleteTestCase) {
+                    if ($data instanceof PHPUnit_Framework_WarningTestCase ||
+                        $data instanceof PHPUnit_Framework_SkippedTestCase ||
+                        $data instanceof PHPUnit_Framework_IncompleteTestCase) {
                         $test->addTest($data, $groups);
                     } else {
                         foreach ($data as $_dataName => $_data) {
@@ -549,14 +532,6 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
                             if ($runTestInSeparateProcess) {
                                 $_test->setRunTestInSeparateProcess(true);
-
-                                if ($preserveGlobalState !== null) {
-                                    $_test->setPreserveGlobalState($preserveGlobalState);
-                                }
-                            }
-
-                            if ($runClassInSeparateProcess) {
-                                $_test->setRunClassInSeparateProcess(true);
 
                                 if ($preserveGlobalState !== null) {
                                     $_test->setPreserveGlobalState($preserveGlobalState);
@@ -585,10 +560,10 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         }
 
         if (!isset($test)) {
-            throw new Exception('No valid test provided.');
+            throw new PHPUnit_Framework_Exception('No valid test provided.');
         }
 
-        if ($test instanceof TestCase) {
+        if ($test instanceof PHPUnit_Framework_TestCase) {
             $test->setName($name);
 
             if ($runTestInSeparateProcess) {
@@ -616,11 +591,11 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * Creates a default TestResult object.
      *
-     * @return TestResult
+     * @return PHPUnit_Framework_TestResult
      */
     protected function createResult()
     {
-        return new TestResult;
+        return new PHPUnit_Framework_TestResult;
     }
 
     /**
@@ -640,7 +615,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function getGroups()
     {
-        return \array_keys($this->groups);
+        return array_keys($this->groups);
     }
 
     public function getGroupDetails()
@@ -661,21 +636,21 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * Runs the tests and collects their result in a TestResult.
      *
-     * @param TestResult $result
+     * @param PHPUnit_Framework_TestResult $result
      *
-     * @return TestResult
+     * @return PHPUnit_Framework_TestResult
      */
-    public function run(TestResult $result = null)
+    public function run(PHPUnit_Framework_TestResult $result = null)
     {
         if ($result === null) {
             $result = $this->createResult();
         }
 
-        if (\count($this) == 0) {
+        if (count($this) == 0) {
             return $result;
         }
 
-        $hookMethods = \PHPUnit\Util\Test::getHookMethods($this->name);
+        $hookMethods = PHPUnit_Util_Test::getHookMethods($this->name);
 
         $result->startTestSuite($this);
 
@@ -684,17 +659,17 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
             foreach ($hookMethods['beforeClass'] as $beforeClassMethod) {
                 if ($this->testCase === true &&
-                    \class_exists($this->name, false) &&
-                    \method_exists($this->name, $beforeClassMethod)) {
-                    if ($missingRequirements = \PHPUnit\Util\Test::getMissingRequirements($this->name, $beforeClassMethod)) {
-                        $this->markTestSuiteSkipped(\implode(PHP_EOL, $missingRequirements));
+                    class_exists($this->name, false) &&
+                    method_exists($this->name, $beforeClassMethod)) {
+                    if ($missingRequirements = PHPUnit_Util_Test::getMissingRequirements($this->name, $beforeClassMethod)) {
+                        $this->markTestSuiteSkipped(implode(PHP_EOL, $missingRequirements));
                     }
 
-                    \call_user_func([$this->name, $beforeClassMethod]);
+                    call_user_func([$this->name, $beforeClassMethod]);
                 }
             }
-        } catch (SkippedTestSuiteError $e) {
-            $numTests = \count($this);
+        } catch (PHPUnit_Framework_SkippedTestSuiteError $e) {
+            $numTests = count($this);
 
             for ($i = 0; $i < $numTests; $i++) {
                 $result->startTest($this);
@@ -713,7 +688,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         }
 
         if (isset($t)) {
-            $numTests = \count($this);
+            $numTests = count($this);
 
             for ($i = 0; $i < $numTests; $i++) {
                 if ($result->shouldStop()) {
@@ -736,7 +711,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                 break;
             }
 
-            if ($test instanceof TestCase || $test instanceof self) {
+            if ($test instanceof PHPUnit_Framework_TestCase ||
+                $test instanceof self) {
                 $test->setbeStrictAboutChangesToGlobalState($this->beStrictAboutChangesToGlobalState);
                 $test->setBackupGlobals($this->backupGlobals);
                 $test->setBackupStaticAttributes($this->backupStaticAttributes);
@@ -747,8 +723,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         }
 
         foreach ($hookMethods['afterClass'] as $afterClassMethod) {
-            if ($this->testCase === true && \class_exists($this->name, false) && \method_exists($this->name, $afterClassMethod)) {
-                \call_user_func([$this->name, $afterClassMethod]);
+            if ($this->testCase === true && class_exists($this->name, false) && method_exists($this->name, $afterClassMethod)) {
+                call_user_func([$this->name, $afterClassMethod]);
             }
         }
 
@@ -762,14 +738,14 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * @param bool $runTestInSeparateProcess
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function setRunTestInSeparateProcess($runTestInSeparateProcess)
     {
-        if (\is_bool($runTestInSeparateProcess)) {
+        if (is_bool($runTestInSeparateProcess)) {
             $this->runTestInSeparateProcess = $runTestInSeparateProcess;
         } else {
-            throw InvalidArgumentHelper::factory(1, 'boolean');
+            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'boolean');
         }
     }
 
@@ -778,10 +754,10 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @deprecated
      *
-     * @param Test       $test
-     * @param TestResult $result
+     * @param PHPUnit_Framework_Test       $test
+     * @param PHPUnit_Framework_TestResult $result
      */
-    public function runTest(Test $test, TestResult $result)
+    public function runTest(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result)
     {
         $test->run($result);
     }
@@ -801,15 +777,15 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @param  int|false
      *
-     * @return Test
+     * @return PHPUnit_Framework_Test
      */
     public function testAt($index)
     {
         if (isset($this->tests[$index])) {
             return $this->tests[$index];
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -837,11 +813,11 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      *
      * @param string $message
      *
-     * @throws SkippedTestSuiteError
+     * @throws PHPUnit_Framework_SkippedTestSuiteError
      */
     public function markTestSuiteSkipped($message = '')
     {
-        throw new SkippedTestSuiteError($message);
+        throw new PHPUnit_Framework_SkippedTestSuiteError($message);
     }
 
     /**
@@ -859,7 +835,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         if (!$method->isPublic()) {
             $this->addTest(
                 self::warning(
-                    \sprintf(
+                    sprintf(
                         'Test method "%s" in test class "%s" is not public.',
                         $name,
                         $class->getName()
@@ -872,15 +848,16 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
         $test = self::createTest($class, $name);
 
-        if ($test instanceof TestCase || $test instanceof DataProviderTestSuite) {
+        if ($test instanceof PHPUnit_Framework_TestCase ||
+            $test instanceof PHPUnit_Framework_TestSuite_DataProvider) {
             $test->setDependencies(
-                \PHPUnit\Util\Test::getDependencies($class->getName(), $name)
+                PHPUnit_Util_Test::getDependencies($class->getName(), $name)
             );
         }
 
         $this->addTest(
             $test,
-            \PHPUnit\Util\Test::getGroups($class->getName(), $name)
+            PHPUnit_Util_Test::getGroups($class->getName(), $name)
         );
     }
 
@@ -891,7 +868,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public static function isTestMethod(ReflectionMethod $method)
     {
-        if (\strpos($method->name, 'test') === 0) {
+        if (strpos($method->name, 'test') === 0) {
             return true;
         }
 
@@ -899,18 +876,18 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         // @test     on TestCase::testMethod()
         $docComment = $method->getDocComment();
 
-        return \strpos($docComment, '@test') !== false ||
-            \strpos($docComment, '@scenario') !== false;
+        return strpos($docComment, '@test') !== false ||
+               strpos($docComment, '@scenario') !== false;
     }
 
     /**
      * @param string $message
      *
-     * @return WarningTestCase
+     * @return PHPUnit_Framework_WarningTestCase
      */
     protected static function warning($message)
     {
-        return new WarningTestCase($message);
+        return new PHPUnit_Framework_WarningTestCase($message);
     }
 
     /**
@@ -918,11 +895,11 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      * @param string $methodName
      * @param string $message
      *
-     * @return SkippedTestCase
+     * @return PHPUnit_Framework_SkippedTestCase
      */
     protected static function skipTest($class, $methodName, $message)
     {
-        return new SkippedTestCase($class, $methodName, $message);
+        return new PHPUnit_Framework_SkippedTestCase($class, $methodName, $message);
     }
 
     /**
@@ -930,11 +907,11 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      * @param string $methodName
      * @param string $message
      *
-     * @return IncompleteTestCase
+     * @return PHPUnit_Framework_IncompleteTestCase
      */
     protected static function incompleteTest($class, $methodName, $message)
     {
-        return new IncompleteTestCase($class, $methodName, $message);
+        return new PHPUnit_Framework_IncompleteTestCase($class, $methodName, $message);
     }
 
     /**
@@ -942,7 +919,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function setbeStrictAboutChangesToGlobalState($beStrictAboutChangesToGlobalState)
     {
-        if (\is_null($this->beStrictAboutChangesToGlobalState) && \is_bool($beStrictAboutChangesToGlobalState)) {
+        if (is_null($this->beStrictAboutChangesToGlobalState) && is_bool($beStrictAboutChangesToGlobalState)) {
             $this->beStrictAboutChangesToGlobalState = $beStrictAboutChangesToGlobalState;
         }
     }
@@ -952,7 +929,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function setBackupGlobals($backupGlobals)
     {
-        if (\is_null($this->backupGlobals) && \is_bool($backupGlobals)) {
+        if (is_null($this->backupGlobals) && is_bool($backupGlobals)) {
             $this->backupGlobals = $backupGlobals;
         }
     }
@@ -962,7 +939,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function setBackupStaticAttributes($backupStaticAttributes)
     {
-        if (\is_null($this->backupStaticAttributes) && \is_bool($backupStaticAttributes)) {
+        if (is_null($this->backupStaticAttributes) &&
+            is_bool($backupStaticAttributes)) {
             $this->backupStaticAttributes = $backupStaticAttributes;
         }
     }
@@ -974,7 +952,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function getIterator()
     {
-        $iterator = new TestSuiteIterator($this);
+        $iterator = new PHPUnit_Util_TestSuiteIterator($this);
 
         if ($this->iteratorFilter !== null) {
             $iterator = $this->iteratorFilter->factory($iterator, $this);
@@ -983,7 +961,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         return $iterator;
     }
 
-    public function injectFilter(Factory $filter)
+    public function injectFilter(PHPUnit_Runner_Filter_Factory $filter)
     {
         $this->iteratorFilter = $filter;
         foreach ($this as $test) {

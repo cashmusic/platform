@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,10 +45,16 @@ class Google_Service_YouTube_ImageSettings extends Google_Model
   public $trackingImageUrl;
   public $watchIconImageUrl;
 
+  /**
+   * @param Google_Service_YouTube_LocalizedProperty
+   */
   public function setBackgroundImageUrl(Google_Service_YouTube_LocalizedProperty $backgroundImageUrl)
   {
     $this->backgroundImageUrl = $backgroundImageUrl;
   }
+  /**
+   * @return Google_Service_YouTube_LocalizedProperty
+   */
   public function getBackgroundImageUrl()
   {
     return $this->backgroundImageUrl;
@@ -173,34 +179,58 @@ class Google_Service_YouTube_ImageSettings extends Google_Model
   {
     return $this->bannerTvMediumImageUrl;
   }
+  /**
+   * @param Google_Service_YouTube_LocalizedProperty
+   */
   public function setLargeBrandedBannerImageImapScript(Google_Service_YouTube_LocalizedProperty $largeBrandedBannerImageImapScript)
   {
     $this->largeBrandedBannerImageImapScript = $largeBrandedBannerImageImapScript;
   }
+  /**
+   * @return Google_Service_YouTube_LocalizedProperty
+   */
   public function getLargeBrandedBannerImageImapScript()
   {
     return $this->largeBrandedBannerImageImapScript;
   }
+  /**
+   * @param Google_Service_YouTube_LocalizedProperty
+   */
   public function setLargeBrandedBannerImageUrl(Google_Service_YouTube_LocalizedProperty $largeBrandedBannerImageUrl)
   {
     $this->largeBrandedBannerImageUrl = $largeBrandedBannerImageUrl;
   }
+  /**
+   * @return Google_Service_YouTube_LocalizedProperty
+   */
   public function getLargeBrandedBannerImageUrl()
   {
     return $this->largeBrandedBannerImageUrl;
   }
+  /**
+   * @param Google_Service_YouTube_LocalizedProperty
+   */
   public function setSmallBrandedBannerImageImapScript(Google_Service_YouTube_LocalizedProperty $smallBrandedBannerImageImapScript)
   {
     $this->smallBrandedBannerImageImapScript = $smallBrandedBannerImageImapScript;
   }
+  /**
+   * @return Google_Service_YouTube_LocalizedProperty
+   */
   public function getSmallBrandedBannerImageImapScript()
   {
     return $this->smallBrandedBannerImageImapScript;
   }
+  /**
+   * @param Google_Service_YouTube_LocalizedProperty
+   */
   public function setSmallBrandedBannerImageUrl(Google_Service_YouTube_LocalizedProperty $smallBrandedBannerImageUrl)
   {
     $this->smallBrandedBannerImageUrl = $smallBrandedBannerImageUrl;
   }
+  /**
+   * @return Google_Service_YouTube_LocalizedProperty
+   */
   public function getSmallBrandedBannerImageUrl()
   {
     return $this->smallBrandedBannerImageUrl;

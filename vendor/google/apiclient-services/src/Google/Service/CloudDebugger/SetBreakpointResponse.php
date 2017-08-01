@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_CloudDebugger_SetBreakpointResponse extends Google_Model
   protected $breakpointType = 'Google_Service_CloudDebugger_Breakpoint';
   protected $breakpointDataType = '';
 
+  /**
+   * @param Google_Service_CloudDebugger_Breakpoint
+   */
   public function setBreakpoint(Google_Service_CloudDebugger_Breakpoint $breakpoint)
   {
     $this->breakpoint = $breakpoint;
   }
+  /**
+   * @return Google_Service_CloudDebugger_Breakpoint
+   */
   public function getBreakpoint()
   {
     return $this->breakpoint;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -43,18 +43,30 @@ class Google_Service_Blogger_Post extends Google_Collection
   public $updated;
   public $url;
 
+  /**
+   * @param Google_Service_Blogger_PostAuthor
+   */
   public function setAuthor(Google_Service_Blogger_PostAuthor $author)
   {
     $this->author = $author;
   }
+  /**
+   * @return Google_Service_Blogger_PostAuthor
+   */
   public function getAuthor()
   {
     return $this->author;
   }
+  /**
+   * @param Google_Service_Blogger_PostBlog
+   */
   public function setBlog(Google_Service_Blogger_PostBlog $blog)
   {
     $this->blog = $blog;
   }
+  /**
+   * @return Google_Service_Blogger_PostBlog
+   */
   public function getBlog()
   {
     return $this->blog;
@@ -91,10 +103,16 @@ class Google_Service_Blogger_Post extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Blogger_PostImages
+   */
   public function setImages($images)
   {
     $this->images = $images;
   }
+  /**
+   * @return Google_Service_Blogger_PostImages
+   */
   public function getImages()
   {
     return $this->images;
@@ -115,10 +133,16 @@ class Google_Service_Blogger_Post extends Google_Collection
   {
     return $this->labels;
   }
+  /**
+   * @param Google_Service_Blogger_PostLocation
+   */
   public function setLocation(Google_Service_Blogger_PostLocation $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_Blogger_PostLocation
+   */
   public function getLocation()
   {
     return $this->location;
@@ -139,10 +163,16 @@ class Google_Service_Blogger_Post extends Google_Collection
   {
     return $this->readerComments;
   }
+  /**
+   * @param Google_Service_Blogger_PostReplies
+   */
   public function setReplies(Google_Service_Blogger_PostReplies $replies)
   {
     $this->replies = $replies;
   }
+  /**
+   * @return Google_Service_Blogger_PostReplies
+   */
   public function getReplies()
   {
     return $this->replies;

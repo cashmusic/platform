@@ -9,7 +9,7 @@ $_SERVER['argv'][4] = '--filter';
 $_SERVER['argv'][5] = 'BrandService';
 
 require __DIR__ . '/../../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 ?>
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.

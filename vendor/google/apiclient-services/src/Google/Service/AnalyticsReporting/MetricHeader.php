@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_AnalyticsReporting_MetricHeader extends Google_Collection
   protected $pivotHeadersType = 'Google_Service_AnalyticsReporting_PivotHeader';
   protected $pivotHeadersDataType = 'array';
 
+  /**
+   * @param Google_Service_AnalyticsReporting_MetricHeaderEntry
+   */
   public function setMetricHeaderEntries($metricHeaderEntries)
   {
     $this->metricHeaderEntries = $metricHeaderEntries;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_MetricHeaderEntry
+   */
   public function getMetricHeaderEntries()
   {
     return $this->metricHeaderEntries;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_PivotHeader
+   */
   public function setPivotHeaders($pivotHeaders)
   {
     $this->pivotHeaders = $pivotHeaders;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_PivotHeader
+   */
   public function getPivotHeaders()
   {
     return $this->pivotHeaders;

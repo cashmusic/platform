@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Compute_InstanceGroupManagersListManagedInstancesResponse e
   protected $managedInstancesType = 'Google_Service_Compute_ManagedInstance';
   protected $managedInstancesDataType = 'array';
 
+  /**
+   * @param Google_Service_Compute_ManagedInstance
+   */
   public function setManagedInstances($managedInstances)
   {
     $this->managedInstances = $managedInstances;
   }
+  /**
+   * @return Google_Service_Compute_ManagedInstance
+   */
   public function getManagedInstances()
   {
     return $this->managedInstances;

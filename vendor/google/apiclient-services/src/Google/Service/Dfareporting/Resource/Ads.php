@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -99,7 +99,7 @@ class Google_Service_Dfareporting_Resource_Ads extends Google_Service_Resource
    * ad", "ad 2015", or simply "ad".
    * @opt_param string sizeIds Select only ads with these size IDs.
    * @opt_param string sortField Field by which to sort the list.
-   * @opt_param string sortOrder Order of sorted results, default is ASCENDING.
+   * @opt_param string sortOrder Order of sorted results.
    * @opt_param bool sslCompliant Select only ads that are SSL-compliant.
    * @opt_param bool sslRequired Select only ads that require SSL.
    * @opt_param string type Select only ads with these types.

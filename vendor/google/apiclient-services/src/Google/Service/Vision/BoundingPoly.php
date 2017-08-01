@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Vision_BoundingPoly extends Google_Collection
   protected $verticesType = 'Google_Service_Vision_Vertex';
   protected $verticesDataType = 'array';
 
+  /**
+   * @param Google_Service_Vision_Vertex
+   */
   public function setVertices($vertices)
   {
     $this->vertices = $vertices;
   }
+  /**
+   * @return Google_Service_Vision_Vertex
+   */
   public function getVertices()
   {
     return $this->vertices;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_CloudNaturalLanguage_Entity extends Google_Collection
   public $salience;
   public $type;
 
+  /**
+   * @param Google_Service_CloudNaturalLanguage_EntityMention
+   */
   public function setMentions($mentions)
   {
     $this->mentions = $mentions;
   }
+  /**
+   * @return Google_Service_CloudNaturalLanguage_EntityMention
+   */
   public function getMentions()
   {
     return $this->mentions;

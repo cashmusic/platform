@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class ExceptionInTearDownTest extends TestCase
+class ExceptionInTearDownTest extends PHPUnit_Framework_TestCase
 {
     public $setUp                = false;
     public $assertPreConditions  = false;

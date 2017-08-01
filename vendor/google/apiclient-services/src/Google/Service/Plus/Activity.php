@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -43,18 +43,30 @@ class Google_Service_Plus_Activity extends Google_Model
   public $url;
   public $verb;
 
+  /**
+   * @param Google_Service_Plus_Acl
+   */
   public function setAccess(Google_Service_Plus_Acl $access)
   {
     $this->access = $access;
   }
+  /**
+   * @return Google_Service_Plus_Acl
+   */
   public function getAccess()
   {
     return $this->access;
   }
+  /**
+   * @param Google_Service_Plus_ActivityActor
+   */
   public function setActor(Google_Service_Plus_ActivityActor $actor)
   {
     $this->actor = $actor;
   }
+  /**
+   * @return Google_Service_Plus_ActivityActor
+   */
   public function getActor()
   {
     return $this->actor;
@@ -115,18 +127,30 @@ class Google_Service_Plus_Activity extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Plus_Place
+   */
   public function setLocation(Google_Service_Plus_Place $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_Plus_Place
+   */
   public function getLocation()
   {
     return $this->location;
   }
+  /**
+   * @param Google_Service_Plus_ActivityObject
+   */
   public function setObject(Google_Service_Plus_ActivityObject $object)
   {
     $this->object = $object;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObject
+   */
   public function getObject()
   {
     return $this->object;
@@ -147,10 +171,16 @@ class Google_Service_Plus_Activity extends Google_Model
   {
     return $this->placeName;
   }
+  /**
+   * @param Google_Service_Plus_ActivityProvider
+   */
   public function setProvider(Google_Service_Plus_ActivityProvider $provider)
   {
     $this->provider = $provider;
   }
+  /**
+   * @return Google_Service_Plus_ActivityProvider
+   */
   public function getProvider()
   {
     return $this->provider;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -57,10 +57,16 @@ class Google_Service_Dfareporting_RemarketingList extends Google_Model
   {
     return $this->advertiserId;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setAdvertiserIdDimensionValue(Google_Service_Dfareporting_DimensionValue $advertiserIdDimensionValue)
   {
     $this->advertiserIdDimensionValue = $advertiserIdDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getAdvertiserIdDimensionValue()
   {
     return $this->advertiserIdDimensionValue;
@@ -97,10 +103,16 @@ class Google_Service_Dfareporting_RemarketingList extends Google_Model
   {
     return $this->lifeSpan;
   }
+  /**
+   * @param Google_Service_Dfareporting_ListPopulationRule
+   */
   public function setListPopulationRule(Google_Service_Dfareporting_ListPopulationRule $listPopulationRule)
   {
     $this->listPopulationRule = $listPopulationRule;
   }
+  /**
+   * @return Google_Service_Dfareporting_ListPopulationRule
+   */
   public function getListPopulationRule()
   {
     return $this->listPopulationRule;

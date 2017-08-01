@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,24 +41,39 @@ class Google_Service_ServiceManagement_Resource_Operations extends Google_Servic
     return $this->call('get', array($params), "Google_Service_ServiceManagement_Operation");
   }
   /**
-   * Lists operations that match the specified filter in the request. If the
-   * server doesn't support this method, it returns `UNIMPLEMENTED`.
-   *
-   * NOTE: the `name` binding below allows API services to override the binding to
-   * use different resource name schemes, such as `users/operations`.
+   * Lists service operations that match the specified filter in the request.
    * (operations.listOperations)
    *
-   * @param string $name The name of the operation collection.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter The standard list filter.
    * @opt_param string pageToken The standard list page token.
-   * @opt_param int pageSize The standard list page size.
+   * @opt_param string name Not used.
+   * @opt_param int pageSize The maximum number of operations to return. If
+   * unspecified, defaults to 50. The maximum value is 100.
+   * @opt_param string filter A string for filtering Operations.   The following
+   * filter fields are supported
+   *
+   *   * serviceName Required. Only `=` operator is allowed.   * startTime The
+   * time this job was started, in ISO 8601 format.     Allowed operators are
+   * `>=`,  `>`, `<=`, and `<`.   * status Can be `done`, `in_progress`, or
+   * `failed`. Allowed     operators are `=`, and `!=`.
+   *
+   *   Filter expression supports conjunction (AND) and disjunction (OR)   logical
+   * operators. However, the serviceName restriction must be at the   top-level
+   * and can only be combined with other restrictions via the AND   logical
+   * operator.
+   *
+   *   Examples
+   *
+   *   * `serviceName={some-service}.googleapis.com`   * `serviceName={some-
+   * service}.googleapis.com AND startTime>="2017-02-01"`   * `serviceName={some-
+   * service}.googleapis.com AND status=done`   * `serviceName={some-
+   * service}.googleapis.com AND (status=done OR startTime>="2017-02-01")`
    * @return Google_Service_ServiceManagement_ListOperationsResponse
    */
-  public function listOperations($name, $optParams = array())
+  public function listOperations($optParams = array())
   {
-    $params = array('name' => $name);
+    $params = array();
     $params = array_merge($params, $optParams);
     return $this->call('list', array($params), "Google_Service_ServiceManagement_ListOperationsResponse");
   }

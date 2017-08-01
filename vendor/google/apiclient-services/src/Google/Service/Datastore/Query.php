@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,10 +33,16 @@ class Google_Service_Datastore_Query extends Google_Collection
   protected $projectionDataType = 'array';
   public $startCursor;
 
+  /**
+   * @param Google_Service_Datastore_PropertyReference
+   */
   public function setDistinctOn($distinctOn)
   {
     $this->distinctOn = $distinctOn;
   }
+  /**
+   * @return Google_Service_Datastore_PropertyReference
+   */
   public function getDistinctOn()
   {
     return $this->distinctOn;
@@ -49,18 +55,30 @@ class Google_Service_Datastore_Query extends Google_Collection
   {
     return $this->endCursor;
   }
+  /**
+   * @param Google_Service_Datastore_Filter
+   */
   public function setFilter(Google_Service_Datastore_Filter $filter)
   {
     $this->filter = $filter;
   }
+  /**
+   * @return Google_Service_Datastore_Filter
+   */
   public function getFilter()
   {
     return $this->filter;
   }
+  /**
+   * @param Google_Service_Datastore_KindExpression
+   */
   public function setKind($kind)
   {
     $this->kind = $kind;
   }
+  /**
+   * @return Google_Service_Datastore_KindExpression
+   */
   public function getKind()
   {
     return $this->kind;
@@ -81,18 +99,30 @@ class Google_Service_Datastore_Query extends Google_Collection
   {
     return $this->offset;
   }
+  /**
+   * @param Google_Service_Datastore_PropertyOrder
+   */
   public function setOrder($order)
   {
     $this->order = $order;
   }
+  /**
+   * @return Google_Service_Datastore_PropertyOrder
+   */
   public function getOrder()
   {
     return $this->order;
   }
+  /**
+   * @param Google_Service_Datastore_Projection
+   */
   public function setProjection($projection)
   {
     $this->projection = $projection;
   }
+  /**
+   * @return Google_Service_Datastore_Projection
+   */
   public function getProjection()
   {
     return $this->projection;

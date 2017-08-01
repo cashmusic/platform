@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_CivicInfo_DivisionSearchRequest extends Google_Model
   protected $contextParamsType = 'Google_Service_CivicInfo_ContextParams';
   protected $contextParamsDataType = '';
 
+  /**
+   * @param Google_Service_CivicInfo_ContextParams
+   */
   public function setContextParams(Google_Service_CivicInfo_ContextParams $contextParams)
   {
     $this->contextParams = $contextParams;
   }
+  /**
+   * @return Google_Service_CivicInfo_ContextParams
+   */
   public function getContextParams()
   {
     return $this->contextParams;

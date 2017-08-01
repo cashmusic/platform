@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,11 +30,11 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
    * cancellation, call regions/{region}/jobs.list or regions/{region}/jobs.get.
    * (jobs.cancel)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
-   * @param string $jobId Required The job ID.
+   * @param string $jobId Required. The job ID.
    * @param Google_Service_Dataproc_CancelJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dataproc_Job
@@ -49,11 +49,11 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
    * Deletes the job from the project. If the job is active, the delete fails, and
    * the response returns FAILED_PRECONDITION. (jobs.delete)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
-   * @param string $jobId Required The job ID.
+   * @param string $jobId Required. The job ID.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dataproc_DataprocEmpty
    */
@@ -66,11 +66,11 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
   /**
    * Gets the resource representation for a job in a project. (jobs.get)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
-   * @param string $jobId Required The job ID.
+   * @param string $jobId Required. The job ID.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Dataproc_Job
    */
@@ -83,27 +83,27 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
   /**
    * Lists regions/{region}/jobs in a project. (jobs.listProjectsRegionsJobs)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string pageToken Optional The page token, returned by a previous
-   * call, to request the next page of results.
-   * @opt_param int pageSize Optional The number of results to return in each
-   * response.
-   * @opt_param string clusterName Optional If set, the returned jobs list
-   * includes only jobs that were submitted to the named cluster.
-   * @opt_param string filter Optional A filter constraining the jobs to list.
+   * @opt_param string filter Optional. A filter constraining the jobs to list.
    * Filters are case-sensitive and have the following syntax:field = value AND
    * field = value ...where field is status.state or labels.[KEY], and [KEY] is a
    * label key. value can be * to match all values. status.state can be either
    * ACTIVE or INACTIVE. Only the logical AND operator is supported; space-
    * separated items are treated as having an implicit AND operator.Example
    * filter:status.state = ACTIVE AND labels.env = staging AND labels.starred = *
-   * @opt_param string jobStateMatcher Optional Specifies enumerated categories of
-   * jobs to list (default = match ALL jobs).
+   * @opt_param string jobStateMatcher Optional. Specifies enumerated categories
+   * of jobs to list (default = match ALL jobs).
+   * @opt_param string pageToken Optional. The page token, returned by a previous
+   * call, to request the next page of results.
+   * @opt_param int pageSize Optional. The number of results to return in each
+   * response.
+   * @opt_param string clusterName Optional. If set, the returned jobs list
+   * includes only jobs that were submitted to the named cluster.
    * @return Google_Service_Dataproc_ListJobsResponse
    */
   public function listProjectsRegionsJobs($projectId, $region, $optParams = array())
@@ -115,16 +115,16 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
   /**
    * Updates a job in a project. (jobs.patch)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
-   * @param string $jobId Required The job ID.
+   * @param string $jobId Required. The job ID.
    * @param Google_Service_Dataproc_Job $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Required Specifies the path, relative to Job, of
-   * the field to update. For example, to update the labels of a Job the
+   * @opt_param string updateMask Required. Specifies the path, relative to Job,
+   * of the field to update. For example, to update the labels of a Job the
    * update_mask parameter would be specified as labels, and the PATCH request
    * body would specify the new value. Note: Currently, labels is the only field
    * that can be updated.
@@ -139,9 +139,9 @@ class Google_Service_Dataproc_Resource_ProjectsRegionsJobs extends Google_Servic
   /**
    * Submits a job to a cluster. (jobs.submit)
    *
-   * @param string $projectId Required The ID of the Google Cloud Platform project
-   * that the job belongs to.
-   * @param string $region Required The Cloud Dataproc region in which to handle
+   * @param string $projectId Required. The ID of the Google Cloud Platform
+   * project that the job belongs to.
+   * @param string $region Required. The Cloud Dataproc region in which to handle
    * the request.
    * @param Google_Service_Dataproc_SubmitJobRequest $postBody
    * @param array $optParams Optional parameters.

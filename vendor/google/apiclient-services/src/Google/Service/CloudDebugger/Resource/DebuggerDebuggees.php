@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,12 +31,12 @@ class Google_Service_CloudDebugger_Resource_DebuggerDebuggees extends Google_Ser
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string project Project number of a Google Cloud project whose
+   * debuggees to list.
    * @opt_param string clientVersion The client version making the call.
    * Following: `domain/type/version` (e.g., `google.com/intellij/v1`).
    * @opt_param bool includeInactive When set to `true`, the result includes all
    * debuggees. Otherwise, the result includes only debuggees that are active.
-   * @opt_param string project Project number of a Google Cloud project whose
-   * debuggees to list.
    * @return Google_Service_CloudDebugger_ListDebuggeesResponse
    */
   public function listDebuggerDebuggees($optParams = array())

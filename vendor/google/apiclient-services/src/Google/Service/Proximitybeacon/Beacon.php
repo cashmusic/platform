@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,10 +33,16 @@ class Google_Service_Proximitybeacon_Beacon extends Google_Model
   public $provisioningKey;
   public $status;
 
+  /**
+   * @param Google_Service_Proximitybeacon_AdvertisedId
+   */
   public function setAdvertisedId(Google_Service_Proximitybeacon_AdvertisedId $advertisedId)
   {
     $this->advertisedId = $advertisedId;
   }
+  /**
+   * @return Google_Service_Proximitybeacon_AdvertisedId
+   */
   public function getAdvertisedId()
   {
     return $this->advertisedId;
@@ -57,10 +63,16 @@ class Google_Service_Proximitybeacon_Beacon extends Google_Model
   {
     return $this->description;
   }
+  /**
+   * @param Google_Service_Proximitybeacon_EphemeralIdRegistration
+   */
   public function setEphemeralIdRegistration(Google_Service_Proximitybeacon_EphemeralIdRegistration $ephemeralIdRegistration)
   {
     $this->ephemeralIdRegistration = $ephemeralIdRegistration;
   }
+  /**
+   * @return Google_Service_Proximitybeacon_EphemeralIdRegistration
+   */
   public function getEphemeralIdRegistration()
   {
     return $this->ephemeralIdRegistration;
@@ -73,18 +85,30 @@ class Google_Service_Proximitybeacon_Beacon extends Google_Model
   {
     return $this->expectedStability;
   }
+  /**
+   * @param Google_Service_Proximitybeacon_IndoorLevel
+   */
   public function setIndoorLevel(Google_Service_Proximitybeacon_IndoorLevel $indoorLevel)
   {
     $this->indoorLevel = $indoorLevel;
   }
+  /**
+   * @return Google_Service_Proximitybeacon_IndoorLevel
+   */
   public function getIndoorLevel()
   {
     return $this->indoorLevel;
   }
+  /**
+   * @param Google_Service_Proximitybeacon_LatLng
+   */
   public function setLatLng(Google_Service_Proximitybeacon_LatLng $latLng)
   {
     $this->latLng = $latLng;
   }
+  /**
+   * @return Google_Service_Proximitybeacon_LatLng
+   */
   public function getLatLng()
   {
     return $this->latLng;

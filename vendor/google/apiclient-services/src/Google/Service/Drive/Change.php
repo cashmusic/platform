@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,10 +28,16 @@ class Google_Service_Drive_Change extends Google_Model
   public $time;
   public $type;
 
+  /**
+   * @param Google_Service_Drive_DriveFile
+   */
   public function setFile(Google_Service_Drive_DriveFile $file)
   {
     $this->file = $file;
   }
+  /**
+   * @return Google_Service_Drive_DriveFile
+   */
   public function getFile()
   {
     return $this->file;
@@ -60,10 +66,16 @@ class Google_Service_Drive_Change extends Google_Model
   {
     return $this->removed;
   }
+  /**
+   * @param Google_Service_Drive_TeamDrive
+   */
   public function setTeamDrive(Google_Service_Drive_TeamDrive $teamDrive)
   {
     $this->teamDrive = $teamDrive;
   }
+  /**
+   * @return Google_Service_Drive_TeamDrive
+   */
   public function getTeamDrive()
   {
     return $this->teamDrive;

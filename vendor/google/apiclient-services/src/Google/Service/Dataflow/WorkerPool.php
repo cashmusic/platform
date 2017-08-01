@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,18 +44,30 @@ class Google_Service_Dataflow_WorkerPool extends Google_Collection
   public $workerHarnessContainerImage;
   public $zone;
 
+  /**
+   * @param Google_Service_Dataflow_AutoscalingSettings
+   */
   public function setAutoscalingSettings(Google_Service_Dataflow_AutoscalingSettings $autoscalingSettings)
   {
     $this->autoscalingSettings = $autoscalingSettings;
   }
+  /**
+   * @return Google_Service_Dataflow_AutoscalingSettings
+   */
   public function getAutoscalingSettings()
   {
     return $this->autoscalingSettings;
   }
+  /**
+   * @param Google_Service_Dataflow_Disk
+   */
   public function setDataDisks($dataDisks)
   {
     $this->dataDisks = $dataDisks;
   }
+  /**
+   * @return Google_Service_Dataflow_Disk
+   */
   public function getDataDisks()
   {
     return $this->dataDisks;
@@ -156,10 +168,16 @@ class Google_Service_Dataflow_WorkerPool extends Google_Collection
   {
     return $this->onHostMaintenance;
   }
+  /**
+   * @param Google_Service_Dataflow_Package
+   */
   public function setPackages($packages)
   {
     $this->packages = $packages;
   }
+  /**
+   * @return Google_Service_Dataflow_Package
+   */
   public function getPackages()
   {
     return $this->packages;
@@ -180,10 +198,16 @@ class Google_Service_Dataflow_WorkerPool extends Google_Collection
   {
     return $this->subnetwork;
   }
+  /**
+   * @param Google_Service_Dataflow_TaskRunnerSettings
+   */
   public function setTaskrunnerSettings(Google_Service_Dataflow_TaskRunnerSettings $taskrunnerSettings)
   {
     $this->taskrunnerSettings = $taskrunnerSettings;
   }
+  /**
+   * @return Google_Service_Dataflow_TaskRunnerSettings
+   */
   public function getTaskrunnerSettings()
   {
     return $this->taskrunnerSettings;

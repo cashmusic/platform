@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,8 +28,9 @@ class Google_Service_Proximitybeacon_Resource_Beaconinfo extends Google_Service_
   /**
    * Given one or more beacon observations, returns any beacon information and
    * attachments accessible to your application. Authorize by using the [API
-   * key](https://developers.google.com/beacons/proximity/how-
-   * tos/authorizing#APIKey) for the application. (beaconinfo.getforobserved)
+   * key](https://developers.google.com/beacons/proximity/get-
+   * started#request_a_browser_api_key) for the application.
+   * (beaconinfo.getforobserved)
    *
    * @param Google_Service_Proximitybeacon_GetInfoForObservedBeaconsRequest $postBody
    * @param array $optParams Optional parameters.

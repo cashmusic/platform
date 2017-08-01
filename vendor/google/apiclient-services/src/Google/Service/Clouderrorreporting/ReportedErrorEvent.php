@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,10 +24,16 @@ class Google_Service_Clouderrorreporting_ReportedErrorEvent extends Google_Model
   protected $serviceContextType = 'Google_Service_Clouderrorreporting_ServiceContext';
   protected $serviceContextDataType = '';
 
+  /**
+   * @param Google_Service_Clouderrorreporting_ErrorContext
+   */
   public function setContext(Google_Service_Clouderrorreporting_ErrorContext $context)
   {
     $this->context = $context;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_ErrorContext
+   */
   public function getContext()
   {
     return $this->context;
@@ -48,10 +54,16 @@ class Google_Service_Clouderrorreporting_ReportedErrorEvent extends Google_Model
   {
     return $this->message;
   }
+  /**
+   * @param Google_Service_Clouderrorreporting_ServiceContext
+   */
   public function setServiceContext(Google_Service_Clouderrorreporting_ServiceContext $serviceContext)
   {
     $this->serviceContext = $serviceContext;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_ServiceContext
+   */
   public function getServiceContext()
   {
     return $this->serviceContext;

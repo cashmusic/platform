@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_Sheets_RepeatCellRequest extends Google_Model
   protected $rangeType = 'Google_Service_Sheets_GridRange';
   protected $rangeDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_CellData
+   */
   public function setCell(Google_Service_Sheets_CellData $cell)
   {
     $this->cell = $cell;
   }
+  /**
+   * @return Google_Service_Sheets_CellData
+   */
   public function getCell()
   {
     return $this->cell;
@@ -39,10 +45,16 @@ class Google_Service_Sheets_RepeatCellRequest extends Google_Model
   {
     return $this->fields;
   }
+  /**
+   * @param Google_Service_Sheets_GridRange
+   */
   public function setRange(Google_Service_Sheets_GridRange $range)
   {
     $this->range = $range;
   }
+  /**
+   * @return Google_Service_Sheets_GridRange
+   */
   public function getRange()
   {
     return $this->range;

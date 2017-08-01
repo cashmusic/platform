@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,18 +28,30 @@ class Google_Service_Dfareporting_ReportCompatibleFields extends Google_Collecti
   protected $pivotedActivityMetricsType = 'Google_Service_Dfareporting_Metric';
   protected $pivotedActivityMetricsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setDimensionFilters($dimensionFilters)
   {
     $this->dimensionFilters = $dimensionFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getDimensionFilters()
   {
     return $this->dimensionFilters;
   }
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setDimensions($dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getDimensions()
   {
     return $this->dimensions;
@@ -52,18 +64,30 @@ class Google_Service_Dfareporting_ReportCompatibleFields extends Google_Collecti
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setPivotedActivityMetrics($pivotedActivityMetrics)
   {
     $this->pivotedActivityMetrics = $pivotedActivityMetrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getPivotedActivityMetrics()
   {
     return $this->pivotedActivityMetrics;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,10 +42,16 @@ class Google_Service_AdExchangeBuyerII_NativeContent extends Google_Model
   {
     return $this->advertiserName;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyerII_Image
+   */
   public function setAppIcon(Google_Service_AdExchangeBuyerII_Image $appIcon)
   {
     $this->appIcon = $appIcon;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyerII_Image
+   */
   public function getAppIcon()
   {
     return $this->appIcon;
@@ -90,18 +96,30 @@ class Google_Service_AdExchangeBuyerII_NativeContent extends Google_Model
   {
     return $this->headline;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyerII_Image
+   */
   public function setImage(Google_Service_AdExchangeBuyerII_Image $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyerII_Image
+   */
   public function getImage()
   {
     return $this->image;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyerII_Image
+   */
   public function setLogo(Google_Service_AdExchangeBuyerII_Image $logo)
   {
     $this->logo = $logo;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyerII_Image
+   */
   public function getLogo()
   {
     return $this->logo;

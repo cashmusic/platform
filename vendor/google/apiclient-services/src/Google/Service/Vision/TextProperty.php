@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Vision_TextProperty extends Google_Collection
   protected $detectedLanguagesType = 'Google_Service_Vision_DetectedLanguage';
   protected $detectedLanguagesDataType = 'array';
 
+  /**
+   * @param Google_Service_Vision_DetectedBreak
+   */
   public function setDetectedBreak(Google_Service_Vision_DetectedBreak $detectedBreak)
   {
     $this->detectedBreak = $detectedBreak;
   }
+  /**
+   * @return Google_Service_Vision_DetectedBreak
+   */
   public function getDetectedBreak()
   {
     return $this->detectedBreak;
   }
+  /**
+   * @param Google_Service_Vision_DetectedLanguage
+   */
   public function setDetectedLanguages($detectedLanguages)
   {
     $this->detectedLanguages = $detectedLanguages;
   }
+  /**
+   * @return Google_Service_Vision_DetectedLanguage
+   */
   public function getDetectedLanguages()
   {
     return $this->detectedLanguages;

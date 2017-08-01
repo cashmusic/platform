@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,18 +37,30 @@ class Google_Service_Pagespeedonline_PagespeedApiFormatStringV2Args extends Goog
   {
     return $this->key;
   }
+  /**
+   * @param Google_Service_Pagespeedonline_PagespeedApiFormatStringV2ArgsRects
+   */
   public function setRects($rects)
   {
     $this->rects = $rects;
   }
+  /**
+   * @return Google_Service_Pagespeedonline_PagespeedApiFormatStringV2ArgsRects
+   */
   public function getRects()
   {
     return $this->rects;
   }
+  /**
+   * @param Google_Service_Pagespeedonline_PagespeedApiFormatStringV2ArgsSecondaryRects
+   */
   public function setSecondaryRects($secondaryRects)
   {
     $this->secondaryRects = $secondaryRects;
   }
+  /**
+   * @return Google_Service_Pagespeedonline_PagespeedApiFormatStringV2ArgsSecondaryRects
+   */
   public function getSecondaryRects()
   {
     return $this->secondaryRects;

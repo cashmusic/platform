@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -57,10 +57,16 @@ class Google_Service_Dataflow_CounterUpdate extends Google_Model
   {
     return $this->cumulative;
   }
+  /**
+   * @param Google_Service_Dataflow_DistributionUpdate
+   */
   public function setDistribution(Google_Service_Dataflow_DistributionUpdate $distribution)
   {
     $this->distribution = $distribution;
   }
+  /**
+   * @return Google_Service_Dataflow_DistributionUpdate
+   */
   public function getDistribution()
   {
     return $this->distribution;
@@ -73,42 +79,72 @@ class Google_Service_Dataflow_CounterUpdate extends Google_Model
   {
     return $this->floatingPoint;
   }
+  /**
+   * @param Google_Service_Dataflow_FloatingPointList
+   */
   public function setFloatingPointList(Google_Service_Dataflow_FloatingPointList $floatingPointList)
   {
     $this->floatingPointList = $floatingPointList;
   }
+  /**
+   * @return Google_Service_Dataflow_FloatingPointList
+   */
   public function getFloatingPointList()
   {
     return $this->floatingPointList;
   }
+  /**
+   * @param Google_Service_Dataflow_FloatingPointMean
+   */
   public function setFloatingPointMean(Google_Service_Dataflow_FloatingPointMean $floatingPointMean)
   {
     $this->floatingPointMean = $floatingPointMean;
   }
+  /**
+   * @return Google_Service_Dataflow_FloatingPointMean
+   */
   public function getFloatingPointMean()
   {
     return $this->floatingPointMean;
   }
+  /**
+   * @param Google_Service_Dataflow_SplitInt64
+   */
   public function setInteger(Google_Service_Dataflow_SplitInt64 $integer)
   {
     $this->integer = $integer;
   }
+  /**
+   * @return Google_Service_Dataflow_SplitInt64
+   */
   public function getInteger()
   {
     return $this->integer;
   }
+  /**
+   * @param Google_Service_Dataflow_IntegerList
+   */
   public function setIntegerList(Google_Service_Dataflow_IntegerList $integerList)
   {
     $this->integerList = $integerList;
   }
+  /**
+   * @return Google_Service_Dataflow_IntegerList
+   */
   public function getIntegerList()
   {
     return $this->integerList;
   }
+  /**
+   * @param Google_Service_Dataflow_IntegerMean
+   */
   public function setIntegerMean(Google_Service_Dataflow_IntegerMean $integerMean)
   {
     $this->integerMean = $integerMean;
   }
+  /**
+   * @return Google_Service_Dataflow_IntegerMean
+   */
   public function getIntegerMean()
   {
     return $this->integerMean;
@@ -121,10 +157,16 @@ class Google_Service_Dataflow_CounterUpdate extends Google_Model
   {
     return $this->internal;
   }
+  /**
+   * @param Google_Service_Dataflow_NameAndKind
+   */
   public function setNameAndKind(Google_Service_Dataflow_NameAndKind $nameAndKind)
   {
     $this->nameAndKind = $nameAndKind;
   }
+  /**
+   * @return Google_Service_Dataflow_NameAndKind
+   */
   public function getNameAndKind()
   {
     return $this->nameAndKind;
@@ -137,18 +179,30 @@ class Google_Service_Dataflow_CounterUpdate extends Google_Model
   {
     return $this->shortId;
   }
+  /**
+   * @param Google_Service_Dataflow_StringList
+   */
   public function setStringList(Google_Service_Dataflow_StringList $stringList)
   {
     $this->stringList = $stringList;
   }
+  /**
+   * @return Google_Service_Dataflow_StringList
+   */
   public function getStringList()
   {
     return $this->stringList;
   }
+  /**
+   * @param Google_Service_Dataflow_CounterStructuredNameAndMetadata
+   */
   public function setStructuredNameAndMetadata(Google_Service_Dataflow_CounterStructuredNameAndMetadata $structuredNameAndMetadata)
   {
     $this->structuredNameAndMetadata = $structuredNameAndMetadata;
   }
+  /**
+   * @return Google_Service_Dataflow_CounterStructuredNameAndMetadata
+   */
   public function getStructuredNameAndMetadata()
   {
     return $this->structuredNameAndMetadata;

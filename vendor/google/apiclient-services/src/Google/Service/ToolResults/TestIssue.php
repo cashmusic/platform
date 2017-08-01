@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,10 +29,16 @@ class Google_Service_ToolResults_TestIssue extends Google_Model
   {
     return $this->errorMessage;
   }
+  /**
+   * @param Google_Service_ToolResults_StackTrace
+   */
   public function setStackTrace(Google_Service_ToolResults_StackTrace $stackTrace)
   {
     $this->stackTrace = $stackTrace;
   }
+  /**
+   * @return Google_Service_ToolResults_StackTrace
+   */
   public function getStackTrace()
   {
     return $this->stackTrace;

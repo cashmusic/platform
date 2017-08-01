@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -103,18 +103,30 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->artworkType;
   }
+  /**
+   * @param Google_Service_Dfareporting_CreativeAssetId
+   */
   public function setAssetIdentifier(Google_Service_Dfareporting_CreativeAssetId $assetIdentifier)
   {
     $this->assetIdentifier = $assetIdentifier;
   }
+  /**
+   * @return Google_Service_Dfareporting_CreativeAssetId
+   */
   public function getAssetIdentifier()
   {
     return $this->assetIdentifier;
   }
+  /**
+   * @param Google_Service_Dfareporting_CreativeCustomEvent
+   */
   public function setBackupImageExit(Google_Service_Dfareporting_CreativeCustomEvent $backupImageExit)
   {
     $this->backupImageExit = $backupImageExit;
   }
+  /**
+   * @return Google_Service_Dfareporting_CreativeCustomEvent
+   */
   public function getBackupImageExit()
   {
     return $this->backupImageExit;
@@ -135,10 +147,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->childAssetType;
   }
+  /**
+   * @param Google_Service_Dfareporting_Size
+   */
   public function setCollapsedSize(Google_Service_Dfareporting_Size $collapsedSize)
   {
     $this->collapsedSize = $collapsedSize;
   }
+  /**
+   * @return Google_Service_Dfareporting_Size
+   */
   public function getCollapsedSize()
   {
     return $this->collapsedSize;
@@ -191,10 +209,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->durationType;
   }
+  /**
+   * @param Google_Service_Dfareporting_Size
+   */
   public function setExpandedDimension(Google_Service_Dfareporting_Size $expandedDimension)
   {
     $this->expandedDimension = $expandedDimension;
   }
+  /**
+   * @return Google_Service_Dfareporting_Size
+   */
   public function getExpandedDimension()
   {
     return $this->expandedDimension;
@@ -247,10 +271,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setIdDimensionValue(Google_Service_Dfareporting_DimensionValue $idDimensionValue)
   {
     $this->idDimensionValue = $idDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getIdDimensionValue()
   {
     return $this->idDimensionValue;
@@ -263,10 +293,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->mimeType;
   }
+  /**
+   * @param Google_Service_Dfareporting_OffsetPosition
+   */
   public function setOffset(Google_Service_Dfareporting_OffsetPosition $offset)
   {
     $this->offset = $offset;
   }
+  /**
+   * @return Google_Service_Dfareporting_OffsetPosition
+   */
   public function getOffset()
   {
     return $this->offset;
@@ -279,10 +315,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->originalBackup;
   }
+  /**
+   * @param Google_Service_Dfareporting_OffsetPosition
+   */
   public function setPosition(Google_Service_Dfareporting_OffsetPosition $position)
   {
     $this->position = $position;
   }
+  /**
+   * @return Google_Service_Dfareporting_OffsetPosition
+   */
   public function getPosition()
   {
     return $this->position;
@@ -335,10 +377,16 @@ class Google_Service_Dfareporting_CreativeAsset extends Google_Collection
   {
     return $this->role;
   }
+  /**
+   * @param Google_Service_Dfareporting_Size
+   */
   public function setSize(Google_Service_Dfareporting_Size $size)
   {
     $this->size = $size;
   }
+  /**
+   * @return Google_Service_Dfareporting_Size
+   */
   public function getSize()
   {
     return $this->size;

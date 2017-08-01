@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,7 +23,7 @@
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://cloud.google.com/eap/cloud-repositories/cloud-sourcerepo-api" target="_blank">Documentation</a>
+ * <a href="https://cloud.google.com/source-repositories/docs/apis" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -33,6 +33,12 @@ class Google_Service_CloudSourceRepositories extends Google_Service
   /** View and manage your data across Google Cloud Platform services. */
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
+  /** View the contents of your source code repositories. */
+  const SOURCE_READ_ONLY =
+      "https://www.googleapis.com/auth/source.read_only";
+  /** Manage the contents of your source code repositories. */
+  const SOURCE_READ_WRITE =
+      "https://www.googleapis.com/auth/source.read_write";
 
   public $projects_repos;
   
@@ -104,6 +110,14 @@ class Google_Service_CloudSourceRepositories extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'pageToken' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'pageSize' => array(
+                  'location' => 'query',
+                  'type' => 'integer',
                 ),
               ),
             ),'setIamPolicy' => array(

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Slides_Size extends Google_Model
   protected $widthType = 'Google_Service_Slides_Dimension';
   protected $widthDataType = '';
 
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setHeight(Google_Service_Slides_Dimension $height)
   {
     $this->height = $height;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getHeight()
   {
     return $this->height;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setWidth(Google_Service_Slides_Dimension $width)
   {
     $this->width = $width;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getWidth()
   {
     return $this->width;

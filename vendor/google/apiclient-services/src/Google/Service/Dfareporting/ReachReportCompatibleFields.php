@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_Dfareporting_ReachReportCompatibleFields extends Google_Col
   protected $reachByFrequencyMetricsType = 'Google_Service_Dfareporting_Metric';
   protected $reachByFrequencyMetricsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setDimensionFilters($dimensionFilters)
   {
     $this->dimensionFilters = $dimensionFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getDimensionFilters()
   {
     return $this->dimensionFilters;
   }
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setDimensions($dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getDimensions()
   {
     return $this->dimensions;
@@ -54,26 +66,44 @@ class Google_Service_Dfareporting_ReachReportCompatibleFields extends Google_Col
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setPivotedActivityMetrics($pivotedActivityMetrics)
   {
     $this->pivotedActivityMetrics = $pivotedActivityMetrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getPivotedActivityMetrics()
   {
     return $this->pivotedActivityMetrics;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setReachByFrequencyMetrics($reachByFrequencyMetrics)
   {
     $this->reachByFrequencyMetrics = $reachByFrequencyMetrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getReachByFrequencyMetrics()
   {
     return $this->reachByFrequencyMetrics;

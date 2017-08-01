@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Safebrowsing_ListThreatListsResponse extends Google_Collect
   protected $threatListsType = 'Google_Service_Safebrowsing_ThreatListDescriptor';
   protected $threatListsDataType = 'array';
 
+  /**
+   * @param Google_Service_Safebrowsing_ThreatListDescriptor
+   */
   public function setThreatLists($threatLists)
   {
     $this->threatLists = $threatLists;
   }
+  /**
+   * @return Google_Service_Safebrowsing_ThreatListDescriptor
+   */
   public function getThreatLists()
   {
     return $this->threatLists;

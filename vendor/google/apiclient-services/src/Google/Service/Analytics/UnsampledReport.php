@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -51,10 +51,16 @@ class Google_Service_Analytics_UnsampledReport extends Google_Model
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_Analytics_UnsampledReportCloudStorageDownloadDetails
+   */
   public function setCloudStorageDownloadDetails(Google_Service_Analytics_UnsampledReportCloudStorageDownloadDetails $cloudStorageDownloadDetails)
   {
     $this->cloudStorageDownloadDetails = $cloudStorageDownloadDetails;
   }
+  /**
+   * @return Google_Service_Analytics_UnsampledReportCloudStorageDownloadDetails
+   */
   public function getCloudStorageDownloadDetails()
   {
     return $this->cloudStorageDownloadDetails;
@@ -83,10 +89,16 @@ class Google_Service_Analytics_UnsampledReport extends Google_Model
   {
     return $this->downloadType;
   }
+  /**
+   * @param Google_Service_Analytics_UnsampledReportDriveDownloadDetails
+   */
   public function setDriveDownloadDetails(Google_Service_Analytics_UnsampledReportDriveDownloadDetails $driveDownloadDetails)
   {
     $this->driveDownloadDetails = $driveDownloadDetails;
   }
+  /**
+   * @return Google_Service_Analytics_UnsampledReportDriveDownloadDetails
+   */
   public function getDriveDownloadDetails()
   {
     return $this->driveDownloadDetails;

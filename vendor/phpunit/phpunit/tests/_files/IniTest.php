@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class IniTest extends TestCase
+class IniTest extends PHPUnit_Framework_TestCase
 {
     public function testIni()
     {

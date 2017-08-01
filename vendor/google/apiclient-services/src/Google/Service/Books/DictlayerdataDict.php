@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Books_DictlayerdataDict extends Google_Collection
   protected $wordsType = 'Google_Service_Books_DictlayerdataDictWords';
   protected $wordsDataType = 'array';
 
+  /**
+   * @param Google_Service_Books_DictlayerdataDictSource
+   */
   public function setSource(Google_Service_Books_DictlayerdataDictSource $source)
   {
     $this->source = $source;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictSource
+   */
   public function getSource()
   {
     return $this->source;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWords
+   */
   public function setWords($words)
   {
     $this->words = $words;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWords
+   */
   public function getWords()
   {
     return $this->words;

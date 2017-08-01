@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_CivicInfo_AdministrationRegion extends Google_Collection
   protected $sourcesType = 'Google_Service_CivicInfo_Source';
   protected $sourcesDataType = 'array';
 
+  /**
+   * @param Google_Service_CivicInfo_AdministrativeBody
+   */
   public function setElectionAdministrationBody(Google_Service_CivicInfo_AdministrativeBody $electionAdministrationBody)
   {
     $this->electionAdministrationBody = $electionAdministrationBody;
   }
+  /**
+   * @return Google_Service_CivicInfo_AdministrativeBody
+   */
   public function getElectionAdministrationBody()
   {
     return $this->electionAdministrationBody;
@@ -46,10 +52,16 @@ class Google_Service_CivicInfo_AdministrationRegion extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_CivicInfo_AdministrationRegion
+   */
   public function setLocalJurisdiction(Google_Service_CivicInfo_AdministrationRegion $localJurisdiction)
   {
     $this->localJurisdiction = $localJurisdiction;
   }
+  /**
+   * @return Google_Service_CivicInfo_AdministrationRegion
+   */
   public function getLocalJurisdiction()
   {
     return $this->localJurisdiction;
@@ -62,10 +74,16 @@ class Google_Service_CivicInfo_AdministrationRegion extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_CivicInfo_Source
+   */
   public function setSources($sources)
   {
     $this->sources = $sources;
   }
+  /**
+   * @return Google_Service_CivicInfo_Source
+   */
   public function getSources()
   {
     return $this->sources;

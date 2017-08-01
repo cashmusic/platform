@@ -135,9 +135,7 @@ class DocBlockScanner implements ScannerInterface
             case 'DOCBLOCK_WHITESPACE':
             case 'DOCBLOCK_TEXT':
                 if ($tagIndex !== null) {
-                    $this->tags[$tagIndex]['value'] .= ($this->tags[$tagIndex]['value'] == '')
-                        ? $token[1]
-                        : ' ' . $token[1];
+                    $this->tags[$tagIndex]['value'] .= ($this->tags[$tagIndex]['value'] == '') ? $token[1] : ' ' . $token[1];
                     goto SCANNER_CONTINUE;
                 } elseif ($mode <= 2) {
                     if ($mode == 1) {
@@ -159,6 +157,7 @@ class DocBlockScanner implements ScannerInterface
 
             case 'DOCBLOCK_COMMENTEND':
                 goto SCANNER_END;
+
         }
 
         SCANNER_CONTINUE:
@@ -191,13 +190,7 @@ class DocBlockScanner implements ScannerInterface
         $currentWord = null;
         $currentLine = null;
 
-        $MACRO_STREAM_ADVANCE_CHAR = function ($positionsForward = 1) use (
-            &$stream,
-            &$streamIndex,
-            &$currentChar,
-            &$currentWord,
-            &$currentLine
-        ) {
+        $MACRO_STREAM_ADVANCE_CHAR       = function ($positionsForward = 1) use (&$stream, &$streamIndex, &$currentChar, &$currentWord, &$currentLine) {
             $positionsForward = ($positionsForward > 0) ? $positionsForward : 1;
             $streamIndex      = ($streamIndex === null) ? 0 : $streamIndex + $positionsForward;
             if (!isset($stream[$streamIndex])) {
@@ -207,15 +200,11 @@ class DocBlockScanner implements ScannerInterface
             }
             $currentChar = $stream[$streamIndex];
             $matches     = [];
-            $currentLine = (preg_match('#(.*?)\r?\n#', $stream, $matches, null, $streamIndex) === 1)
-                ? $matches[1]
-                : substr($stream, $streamIndex);
+            $currentLine = (preg_match('#(.*?)\r?\n#', $stream, $matches, null, $streamIndex) === 1) ? $matches[1] : substr($stream, $streamIndex);
             if ($currentChar === ' ') {
                 $currentWord = (preg_match('#( +)#', $currentLine, $matches) === 1) ? $matches[1] : $currentLine;
             } else {
-                $currentWord = (($matches = strpos($currentLine, ' ')) !== false)
-                    ? substr($currentLine, 0, $matches)
-                    : $currentLine;
+                $currentWord = (($matches = strpos($currentLine, ' ')) !== false) ? substr($currentLine, 0, $matches) : $currentLine;
             }
 
             return $currentChar;
@@ -275,11 +264,7 @@ class DocBlockScanner implements ScannerInterface
         }
 
         if ($currentChar === ' ' || $currentChar === "\t") {
-            $MACRO_TOKEN_SET_TYPE(
-                ($context & $CONTEXT_INSIDE_ASTERISK)
-                ? 'DOCBLOCK_WHITESPACE'
-                : 'DOCBLOCK_WHITESPACE_INDENT'
-            );
+            $MACRO_TOKEN_SET_TYPE(($context & $CONTEXT_INSIDE_ASTERISK) ? 'DOCBLOCK_WHITESPACE' : 'DOCBLOCK_WHITESPACE_INDENT');
             $MACRO_TOKEN_APPEND_WORD();
             $MACRO_TOKEN_ADVANCE();
             if ($MACRO_STREAM_ADVANCE_WORD() === false) {

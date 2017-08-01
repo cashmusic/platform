@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,18 +32,30 @@ class Google_Service_Blogger_Page extends Google_Model
   public $updated;
   public $url;
 
+  /**
+   * @param Google_Service_Blogger_PageAuthor
+   */
   public function setAuthor(Google_Service_Blogger_PageAuthor $author)
   {
     $this->author = $author;
   }
+  /**
+   * @return Google_Service_Blogger_PageAuthor
+   */
   public function getAuthor()
   {
     return $this->author;
   }
+  /**
+   * @param Google_Service_Blogger_PageBlog
+   */
   public function setBlog(Google_Service_Blogger_PageBlog $blog)
   {
     $this->blog = $blog;
   }
+  /**
+   * @return Google_Service_Blogger_PageBlog
+   */
   public function getBlog()
   {
     return $this->blog;

@@ -7,12 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
 
 /**
  * An incomplete test case
  */
-class IncompleteTestCase extends TestCase
+class PHPUnit_Framework_IncompleteTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -56,7 +55,7 @@ class IncompleteTestCase extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     protected function runTest()
     {

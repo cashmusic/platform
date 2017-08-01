@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,26 +25,44 @@ class Google_Service_Sheets_ConditionalFormatRule extends Google_Collection
   protected $rangesType = 'Google_Service_Sheets_GridRange';
   protected $rangesDataType = 'array';
 
+  /**
+   * @param Google_Service_Sheets_BooleanRule
+   */
   public function setBooleanRule(Google_Service_Sheets_BooleanRule $booleanRule)
   {
     $this->booleanRule = $booleanRule;
   }
+  /**
+   * @return Google_Service_Sheets_BooleanRule
+   */
   public function getBooleanRule()
   {
     return $this->booleanRule;
   }
+  /**
+   * @param Google_Service_Sheets_GradientRule
+   */
   public function setGradientRule(Google_Service_Sheets_GradientRule $gradientRule)
   {
     $this->gradientRule = $gradientRule;
   }
+  /**
+   * @return Google_Service_Sheets_GradientRule
+   */
   public function getGradientRule()
   {
     return $this->gradientRule;
   }
+  /**
+   * @param Google_Service_Sheets_GridRange
+   */
   public function setRanges($ranges)
   {
     $this->ranges = $ranges;
   }
+  /**
+   * @return Google_Service_Sheets_GridRange
+   */
   public function getRanges()
   {
     return $this->ranges;

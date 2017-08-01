@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_Spectrum_GeoLocationEllipse extends Google_Model
   public $semiMajorAxis;
   public $semiMinorAxis;
 
+  /**
+   * @param Google_Service_Spectrum_GeoLocationPoint
+   */
   public function setCenter(Google_Service_Spectrum_GeoLocationPoint $center)
   {
     $this->center = $center;
   }
+  /**
+   * @return Google_Service_Spectrum_GeoLocationPoint
+   */
   public function getCenter()
   {
     return $this->center;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,10 +38,16 @@ class Google_Service_Doubleclicksearch_ReportRequest extends Google_Collection
   protected $timeRangeDataType = '';
   public $verifySingleTimeZone;
 
+  /**
+   * @param Google_Service_Doubleclicksearch_ReportApiColumnSpec
+   */
   public function setColumns($columns)
   {
     $this->columns = $columns;
   }
+  /**
+   * @return Google_Service_Doubleclicksearch_ReportApiColumnSpec
+   */
   public function getColumns()
   {
     return $this->columns;
@@ -54,10 +60,16 @@ class Google_Service_Doubleclicksearch_ReportRequest extends Google_Collection
   {
     return $this->downloadFormat;
   }
+  /**
+   * @param Google_Service_Doubleclicksearch_ReportRequestFilters
+   */
   public function setFilters($filters)
   {
     $this->filters = $filters;
   }
+  /**
+   * @return Google_Service_Doubleclicksearch_ReportRequestFilters
+   */
   public function getFilters()
   {
     return $this->filters;
@@ -86,18 +98,30 @@ class Google_Service_Doubleclicksearch_ReportRequest extends Google_Collection
   {
     return $this->maxRowsPerFile;
   }
+  /**
+   * @param Google_Service_Doubleclicksearch_ReportRequestOrderBy
+   */
   public function setOrderBy($orderBy)
   {
     $this->orderBy = $orderBy;
   }
+  /**
+   * @return Google_Service_Doubleclicksearch_ReportRequestOrderBy
+   */
   public function getOrderBy()
   {
     return $this->orderBy;
   }
+  /**
+   * @param Google_Service_Doubleclicksearch_ReportRequestReportScope
+   */
   public function setReportScope(Google_Service_Doubleclicksearch_ReportRequestReportScope $reportScope)
   {
     $this->reportScope = $reportScope;
   }
+  /**
+   * @return Google_Service_Doubleclicksearch_ReportRequestReportScope
+   */
   public function getReportScope()
   {
     return $this->reportScope;
@@ -134,10 +158,16 @@ class Google_Service_Doubleclicksearch_ReportRequest extends Google_Collection
   {
     return $this->statisticsCurrency;
   }
+  /**
+   * @param Google_Service_Doubleclicksearch_ReportRequestTimeRange
+   */
   public function setTimeRange(Google_Service_Doubleclicksearch_ReportRequestTimeRange $timeRange)
   {
     $this->timeRange = $timeRange;
   }
+  /**
+   * @return Google_Service_Doubleclicksearch_ReportRequestTimeRange
+   */
   public function getTimeRange()
   {
     return $this->timeRange;

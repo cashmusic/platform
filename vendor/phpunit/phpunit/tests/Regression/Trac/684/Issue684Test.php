@@ -1,6 +1,4 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Foo_Bar_Issue684Test extends TestCase
+class Foo_Bar_Issue684Test extends PHPUnit_Framework_TestCase
 {
 }

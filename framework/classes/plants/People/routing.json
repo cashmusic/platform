@@ -207,7 +207,7 @@
 				"direct",
 				"get",
 				"post",
-				"api_key"
+				"api_public"
 			]
 		},
 		"recordmailinganalytics": {

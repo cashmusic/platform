@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue797Test extends TestCase
+class Issue797Test extends PHPUnit_Framework_TestCase
 {
     protected $preserveGlobalState = false;
 

@@ -8,12 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Framework;
-
 /**
  * Creates a synthetic failed assertion.
  */
-class SyntheticError extends AssertionFailedError
+class PHPUnit_Framework_SyntheticError extends PHPUnit_Framework_AssertionFailedError
 {
     /**
      * The synthetic file.

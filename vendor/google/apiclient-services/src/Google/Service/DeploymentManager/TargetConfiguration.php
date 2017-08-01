@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_DeploymentManager_TargetConfiguration extends Google_Collec
   protected $importsType = 'Google_Service_DeploymentManager_ImportFile';
   protected $importsDataType = 'array';
 
+  /**
+   * @param Google_Service_DeploymentManager_ConfigFile
+   */
   public function setConfig(Google_Service_DeploymentManager_ConfigFile $config)
   {
     $this->config = $config;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ConfigFile
+   */
   public function getConfig()
   {
     return $this->config;
   }
+  /**
+   * @param Google_Service_DeploymentManager_ImportFile
+   */
   public function setImports($imports)
   {
     $this->imports = $imports;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ImportFile
+   */
   public function getImports()
   {
     return $this->imports;

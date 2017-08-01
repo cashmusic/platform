@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,18 +24,30 @@ class Google_Service_Genomics_Transcript extends Google_Collection
   protected $exonsDataType = 'array';
   public $geneId;
 
+  /**
+   * @param Google_Service_Genomics_CodingSequence
+   */
   public function setCodingSequence(Google_Service_Genomics_CodingSequence $codingSequence)
   {
     $this->codingSequence = $codingSequence;
   }
+  /**
+   * @return Google_Service_Genomics_CodingSequence
+   */
   public function getCodingSequence()
   {
     return $this->codingSequence;
   }
+  /**
+   * @param Google_Service_Genomics_Exon
+   */
   public function setExons($exons)
   {
     $this->exons = $exons;
   }
+  /**
+   * @return Google_Service_Genomics_Exon
+   */
   public function getExons()
   {
     return $this->exons;

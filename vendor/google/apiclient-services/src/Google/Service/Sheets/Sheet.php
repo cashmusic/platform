@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,74 +37,128 @@ class Google_Service_Sheets_Sheet extends Google_Collection
   protected $protectedRangesType = 'Google_Service_Sheets_ProtectedRange';
   protected $protectedRangesDataType = 'array';
 
+  /**
+   * @param Google_Service_Sheets_BandedRange
+   */
   public function setBandedRanges($bandedRanges)
   {
     $this->bandedRanges = $bandedRanges;
   }
+  /**
+   * @return Google_Service_Sheets_BandedRange
+   */
   public function getBandedRanges()
   {
     return $this->bandedRanges;
   }
+  /**
+   * @param Google_Service_Sheets_BasicFilter
+   */
   public function setBasicFilter(Google_Service_Sheets_BasicFilter $basicFilter)
   {
     $this->basicFilter = $basicFilter;
   }
+  /**
+   * @return Google_Service_Sheets_BasicFilter
+   */
   public function getBasicFilter()
   {
     return $this->basicFilter;
   }
+  /**
+   * @param Google_Service_Sheets_EmbeddedChart
+   */
   public function setCharts($charts)
   {
     $this->charts = $charts;
   }
+  /**
+   * @return Google_Service_Sheets_EmbeddedChart
+   */
   public function getCharts()
   {
     return $this->charts;
   }
+  /**
+   * @param Google_Service_Sheets_ConditionalFormatRule
+   */
   public function setConditionalFormats($conditionalFormats)
   {
     $this->conditionalFormats = $conditionalFormats;
   }
+  /**
+   * @return Google_Service_Sheets_ConditionalFormatRule
+   */
   public function getConditionalFormats()
   {
     return $this->conditionalFormats;
   }
+  /**
+   * @param Google_Service_Sheets_GridData
+   */
   public function setData($data)
   {
     $this->data = $data;
   }
+  /**
+   * @return Google_Service_Sheets_GridData
+   */
   public function getData()
   {
     return $this->data;
   }
+  /**
+   * @param Google_Service_Sheets_FilterView
+   */
   public function setFilterViews($filterViews)
   {
     $this->filterViews = $filterViews;
   }
+  /**
+   * @return Google_Service_Sheets_FilterView
+   */
   public function getFilterViews()
   {
     return $this->filterViews;
   }
+  /**
+   * @param Google_Service_Sheets_GridRange
+   */
   public function setMerges($merges)
   {
     $this->merges = $merges;
   }
+  /**
+   * @return Google_Service_Sheets_GridRange
+   */
   public function getMerges()
   {
     return $this->merges;
   }
+  /**
+   * @param Google_Service_Sheets_SheetProperties
+   */
   public function setProperties(Google_Service_Sheets_SheetProperties $properties)
   {
     $this->properties = $properties;
   }
+  /**
+   * @return Google_Service_Sheets_SheetProperties
+   */
   public function getProperties()
   {
     return $this->properties;
   }
+  /**
+   * @param Google_Service_Sheets_ProtectedRange
+   */
   public function setProtectedRanges($protectedRanges)
   {
     $this->protectedRanges = $protectedRanges;
   }
+  /**
+   * @return Google_Service_Sheets_ProtectedRange
+   */
   public function getProtectedRanges()
   {
     return $this->protectedRanges;

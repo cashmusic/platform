@@ -10,12 +10,10 @@
 
 namespace SebastianBergmann\CodeCoverage;
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * @covers SebastianBergmann\CodeCoverage\Util
  */
-class UtilTest extends TestCase
+class UtilTest extends \PHPUnit_Framework_TestCase
 {
     public function testPercent()
     {

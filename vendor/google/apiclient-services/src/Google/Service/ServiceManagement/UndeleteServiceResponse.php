@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_ServiceManagement_UndeleteServiceResponse extends Google_Mo
   protected $serviceType = 'Google_Service_ServiceManagement_ManagedService';
   protected $serviceDataType = '';
 
+  /**
+   * @param Google_Service_ServiceManagement_ManagedService
+   */
   public function setService(Google_Service_ServiceManagement_ManagedService $service)
   {
     $this->service = $service;
   }
+  /**
+   * @return Google_Service_ServiceManagement_ManagedService
+   */
   public function getService()
   {
     return $this->service;

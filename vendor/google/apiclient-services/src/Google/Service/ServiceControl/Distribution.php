@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,26 +47,44 @@ class Google_Service_ServiceControl_Distribution extends Google_Collection
   {
     return $this->count;
   }
+  /**
+   * @param Google_Service_ServiceControl_ExplicitBuckets
+   */
   public function setExplicitBuckets(Google_Service_ServiceControl_ExplicitBuckets $explicitBuckets)
   {
     $this->explicitBuckets = $explicitBuckets;
   }
+  /**
+   * @return Google_Service_ServiceControl_ExplicitBuckets
+   */
   public function getExplicitBuckets()
   {
     return $this->explicitBuckets;
   }
+  /**
+   * @param Google_Service_ServiceControl_ExponentialBuckets
+   */
   public function setExponentialBuckets(Google_Service_ServiceControl_ExponentialBuckets $exponentialBuckets)
   {
     $this->exponentialBuckets = $exponentialBuckets;
   }
+  /**
+   * @return Google_Service_ServiceControl_ExponentialBuckets
+   */
   public function getExponentialBuckets()
   {
     return $this->exponentialBuckets;
   }
+  /**
+   * @param Google_Service_ServiceControl_LinearBuckets
+   */
   public function setLinearBuckets(Google_Service_ServiceControl_LinearBuckets $linearBuckets)
   {
     $this->linearBuckets = $linearBuckets;
   }
+  /**
+   * @return Google_Service_ServiceControl_LinearBuckets
+   */
   public function getLinearBuckets()
   {
     return $this->linearBuckets;

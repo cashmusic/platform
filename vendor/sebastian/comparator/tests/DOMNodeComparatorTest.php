@@ -12,12 +12,12 @@ namespace SebastianBergmann\Comparator;
 
 use DOMNode;
 use DOMDocument;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass SebastianBergmann\Comparator\DOMNodeComparator
+ *
  */
-class DOMNodeComparatorTest extends TestCase
+class DOMNodeComparatorTest extends \PHPUnit_Framework_TestCase
 {
     private $comparator;
 
@@ -29,78 +29,78 @@ class DOMNodeComparatorTest extends TestCase
     public function acceptsSucceedsProvider()
     {
         $document = new DOMDocument;
-        $node     = new DOMNode;
+        $node = new DOMNode;
 
-        return [
-          [$document, $document],
-          [$node, $node],
-          [$document, $node],
-          [$node, $document]
-        ];
+        return array(
+          array($document, $document),
+          array($node, $node),
+          array($document, $node),
+          array($node, $document)
+        );
     }
 
     public function acceptsFailsProvider()
     {
         $document = new DOMDocument;
 
-        return [
-          [$document, null],
-          [null, $document],
-          [null, null]
-        ];
+        return array(
+          array($document, null),
+          array(null, $document),
+          array(null, null)
+        );
     }
 
     public function assertEqualsSucceedsProvider()
     {
-        return [
-          [
+        return array(
+          array(
             $this->createDOMDocument('<root></root>'),
             $this->createDOMDocument('<root/>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<root attr="bar"></root>'),
             $this->createDOMDocument('<root attr="bar"/>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<root><foo attr="bar"></foo></root>'),
             $this->createDOMDocument('<root><foo attr="bar"/></root>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument("<root>\n  <child/>\n</root>"),
             $this->createDOMDocument('<root><child/></root>')
-          ],
-        ];
+          ),
+        );
     }
 
     public function assertEqualsFailsProvider()
     {
-        return [
-          [
+        return array(
+          array(
             $this->createDOMDocument('<root></root>'),
             $this->createDOMDocument('<bar/>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<foo attr1="bar"/>'),
             $this->createDOMDocument('<foo attr1="foobar"/>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<foo> bar </foo>'),
             $this->createDOMDocument('<foo />')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<foo xmlns="urn:myns:bar"/>'),
             $this->createDOMDocument('<foo xmlns="urn:notmyns:bar"/>')
-          ],
-          [
+          ),
+          array(
             $this->createDOMDocument('<foo> bar </foo>'),
             $this->createDOMDocument('<foo> bir </foo>')
-          ]
-        ];
+          )
+        );
     }
 
     private function createDOMDocument($content)
     {
-        $document                     = new DOMDocument;
+        $document = new DOMDocument;
         $document->preserveWhiteSpace = false;
         $document->loadXML($content);
 
@@ -139,7 +139,9 @@ class DOMNodeComparatorTest extends TestCase
 
         try {
             $this->comparator->assertEquals($expected, $actual);
-        } catch (ComparisonFailure $exception) {
+        }
+
+        catch (ComparisonFailure $exception) {
         }
 
         $this->assertNull($exception, 'Unexpected ComparisonFailure');
@@ -151,9 +153,10 @@ class DOMNodeComparatorTest extends TestCase
      */
     public function testAssertEqualsFails($expected, $actual)
     {
-        $this->expectException(ComparisonFailure::class);
-        $this->expectExceptionMessage('Failed asserting that two DOM');
-
+        $this->setExpectedException(
+          'SebastianBergmann\\Comparator\\ComparisonFailure',
+          'Failed asserting that two DOM'
+        );
         $this->comparator->assertEquals($expected, $actual);
     }
 }

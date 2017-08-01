@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -142,6 +142,20 @@ class Google_Service_AndroidEnterprise_Resource_Enterprises extends Google_Servi
     return $this->call('get', array($params), "Google_Service_AndroidEnterprise_Enterprise");
   }
   /**
+   * Returns the Android Device Policy config resource.
+   * (enterprises.getAndroidDevicePolicyConfig)
+   *
+   * @param string $enterpriseId The ID of the enterprise.
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig
+   */
+  public function getAndroidDevicePolicyConfig($enterpriseId, $optParams = array())
+  {
+    $params = array('enterpriseId' => $enterpriseId);
+    $params = array_merge($params, $optParams);
+    return $this->call('getAndroidDevicePolicyConfig', array($params), "Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig");
+  }
+  /**
    * Returns a service account and credentials. The service account can be bound
    * to the enterprise by calling setAccount. The service account is unique to
    * this enterprise and EMM, and will be deleted if the enterprise is unbound.
@@ -172,7 +186,7 @@ class Google_Service_AndroidEnterprise_Resource_Enterprises extends Google_Servi
   }
   /**
    * Returns the store layout for the enterprise. If the store layout has not been
-   * set, or if the store layout has no homepageId set, returns a NOT_FOUND error.
+   * set, returns "basic" as the store layout type and no homepage.
    * (enterprises.getStoreLayout)
    *
    * @param string $enterpriseId The ID of the enterprise.
@@ -283,13 +297,29 @@ class Google_Service_AndroidEnterprise_Resource_Enterprises extends Google_Servi
     return $this->call('setAccount', array($params), "Google_Service_AndroidEnterprise_EnterpriseAccount");
   }
   /**
+   * Sets the Android Device Policy config resource. EMM may use this API to
+   * enable or disable Android Device Policy support for the specified enterprise.
+   * (enterprises.setAndroidDevicePolicyConfig)
+   *
+   * @param string $enterpriseId The ID of the enterprise.
+   * @param Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig
+   */
+  public function setAndroidDevicePolicyConfig($enterpriseId, Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig $postBody, $optParams = array())
+  {
+    $params = array('enterpriseId' => $enterpriseId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('setAndroidDevicePolicyConfig', array($params), "Google_Service_AndroidEnterprise_AndroidDevicePolicyConfig");
+  }
+  /**
    * Sets the store layout for the enterprise. By default, storeLayoutType is set
    * to "basic" and the basic store layout is enabled. The basic layout only
    * contains apps approved by the admin, and that have been added to the
    * available product set for a user (using the  setAvailableProductSet call).
    * Apps on the page are sorted in order of their product ID value. If you create
-   * a custom store layout (by setting storeLayoutType = "custom"), the basic
-   * store layout is disabled. (enterprises.setStoreLayout)
+   * a custom store layout (by setting storeLayoutType = "custom" and setting a
+   * homepage), the basic store layout is disabled. (enterprises.setStoreLayout)
    *
    * @param string $enterpriseId The ID of the enterprise.
    * @param Google_Service_AndroidEnterprise_StoreLayout $postBody

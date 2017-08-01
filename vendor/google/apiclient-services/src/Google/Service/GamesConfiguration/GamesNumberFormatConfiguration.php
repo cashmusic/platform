@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,10 +47,16 @@ class Google_Service_GamesConfiguration_GamesNumberFormatConfiguration extends G
   {
     return $this->numberFormatType;
   }
+  /**
+   * @param Google_Service_GamesConfiguration_GamesNumberAffixConfiguration
+   */
   public function setSuffix(Google_Service_GamesConfiguration_GamesNumberAffixConfiguration $suffix)
   {
     $this->suffix = $suffix;
   }
+  /**
+   * @return Google_Service_GamesConfiguration_GamesNumberAffixConfiguration
+   */
   public function getSuffix()
   {
     return $this->suffix;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,26 +27,44 @@ class Google_Service_Sheets_GridData extends Google_Collection
   public $startColumn;
   public $startRow;
 
+  /**
+   * @param Google_Service_Sheets_DimensionProperties
+   */
   public function setColumnMetadata($columnMetadata)
   {
     $this->columnMetadata = $columnMetadata;
   }
+  /**
+   * @return Google_Service_Sheets_DimensionProperties
+   */
   public function getColumnMetadata()
   {
     return $this->columnMetadata;
   }
+  /**
+   * @param Google_Service_Sheets_RowData
+   */
   public function setRowData($rowData)
   {
     $this->rowData = $rowData;
   }
+  /**
+   * @return Google_Service_Sheets_RowData
+   */
   public function getRowData()
   {
     return $this->rowData;
   }
+  /**
+   * @param Google_Service_Sheets_DimensionProperties
+   */
   public function setRowMetadata($rowMetadata)
   {
     $this->rowMetadata = $rowMetadata;
   }
+  /**
+   * @return Google_Service_Sheets_DimensionProperties
+   */
   public function getRowMetadata()
   {
     return $this->rowMetadata;

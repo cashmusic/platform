@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_AdExchangeBuyer_MarketplaceDealParty extends Google_Model
   protected $sellerType = 'Google_Service_AdExchangeBuyer_Seller';
   protected $sellerDataType = '';
 
+  /**
+   * @param Google_Service_AdExchangeBuyer_Buyer
+   */
   public function setBuyer(Google_Service_AdExchangeBuyer_Buyer $buyer)
   {
     $this->buyer = $buyer;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Buyer
+   */
   public function getBuyer()
   {
     return $this->buyer;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_Seller
+   */
   public function setSeller(Google_Service_AdExchangeBuyer_Seller $seller)
   {
     $this->seller = $seller;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Seller
+   */
   public function getSeller()
   {
     return $this->seller;

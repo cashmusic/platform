@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Slides_BatchUpdatePresentationResponse extends Google_Colle
   {
     return $this->presentationId;
   }
+  /**
+   * @param Google_Service_Slides_Response
+   */
   public function setReplies($replies)
   {
     $this->replies = $replies;
   }
+  /**
+   * @return Google_Service_Slides_Response
+   */
   public function getReplies()
   {
     return $this->replies;

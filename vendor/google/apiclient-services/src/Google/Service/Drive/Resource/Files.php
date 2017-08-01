@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -112,7 +112,8 @@ class Google_Service_Drive_Resource_Files extends Google_Service_Resource
   }
   /**
    * Exports a Google Doc to the requested MIME type and returns the exported
-   * content. (files.export)
+   * content. Please note that the exported content is limited to 10MB.
+   * (files.export)
    *
    * @param string $fileId The ID of the file.
    * @param string $mimeType The MIME type of the format requested for this
@@ -183,6 +184,8 @@ class Google_Service_Drive_Resource_Files extends Google_Service_Resource
    * desc,name. Please note that there is a current limitation for users with
    * approximately one million files in which the requested sort order is ignored.
    * @opt_param int pageSize The maximum number of files to return per page.
+   * Partial or empty result pages are possible even before the end of the files
+   * list has been reached.
    * @opt_param string pageToken The token for continuing a previous list request
    * on the next page. This should be set to the value of 'nextPageToken' from the
    * previous response.

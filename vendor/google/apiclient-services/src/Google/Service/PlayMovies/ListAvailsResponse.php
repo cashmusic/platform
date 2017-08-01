@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_PlayMovies_ListAvailsResponse extends Google_Collection
   public $nextPageToken;
   public $totalSize;
 
+  /**
+   * @param Google_Service_PlayMovies_Avail
+   */
   public function setAvails($avails)
   {
     $this->avails = $avails;
   }
+  /**
+   * @return Google_Service_PlayMovies_Avail
+   */
   public function getAvails()
   {
     return $this->avails;

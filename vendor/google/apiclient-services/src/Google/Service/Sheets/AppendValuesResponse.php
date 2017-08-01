@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,10 +38,16 @@ class Google_Service_Sheets_AppendValuesResponse extends Google_Model
   {
     return $this->tableRange;
   }
+  /**
+   * @param Google_Service_Sheets_UpdateValuesResponse
+   */
   public function setUpdates(Google_Service_Sheets_UpdateValuesResponse $updates)
   {
     $this->updates = $updates;
   }
+  /**
+   * @return Google_Service_Sheets_UpdateValuesResponse
+   */
   public function getUpdates()
   {
     return $this->updates;

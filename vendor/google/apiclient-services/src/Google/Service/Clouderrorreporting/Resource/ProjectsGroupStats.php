@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,11 +35,6 @@ class Google_Service_Clouderrorreporting_Resource_ProjectsGroupStats extends Goo
    * Example: projects/my-project-123.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string timedCountDuration [Optional] The preferred duration for a
-   * single returned `TimedCount`. If not set, no timed counts are returned.
-   * @opt_param string pageToken [Optional] A `next_page_token` provided by a
-   * previous response. To view additional results, pass this token along with the
-   * identical query parameters as the first request.
    * @opt_param string timeRange.period Restricts the query to the specified time
    * range.
    * @opt_param string alignment [Optional] The alignment of the timed counts to
@@ -60,6 +55,11 @@ class Google_Service_Clouderrorreporting_Resource_ProjectsGroupStats extends Goo
    * reporting/reference/rest/v1beta1/ServiceContext#FIELDS.resource_type).
    * @opt_param string alignmentTime [Optional] Time where the timed counts shall
    * be aligned if rounded alignment is chosen. Default is 00:00 UTC.
+   * @opt_param string timedCountDuration [Optional] The preferred duration for a
+   * single returned `TimedCount`. If not set, no timed counts are returned.
+   * @opt_param string pageToken [Optional] A `next_page_token` provided by a
+   * previous response. To view additional results, pass this token along with the
+   * identical query parameters as the first request.
    * @return Google_Service_Clouderrorreporting_ListGroupStatsResponse
    */
   public function listProjectsGroupStats($projectName, $optParams = array())

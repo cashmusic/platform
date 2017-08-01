@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_PlusDomains_PersonCover extends Google_Model
   protected $coverPhotoDataType = '';
   public $layout;
 
+  /**
+   * @param Google_Service_PlusDomains_PersonCoverCoverInfo
+   */
   public function setCoverInfo(Google_Service_PlusDomains_PersonCoverCoverInfo $coverInfo)
   {
     $this->coverInfo = $coverInfo;
   }
+  /**
+   * @return Google_Service_PlusDomains_PersonCoverCoverInfo
+   */
   public function getCoverInfo()
   {
     return $this->coverInfo;
   }
+  /**
+   * @param Google_Service_PlusDomains_PersonCoverCoverPhoto
+   */
   public function setCoverPhoto(Google_Service_PlusDomains_PersonCoverCoverPhoto $coverPhoto)
   {
     $this->coverPhoto = $coverPhoto;
   }
+  /**
+   * @return Google_Service_PlusDomains_PersonCoverCoverPhoto
+   */
   public function getCoverPhoto()
   {
     return $this->coverPhoto;

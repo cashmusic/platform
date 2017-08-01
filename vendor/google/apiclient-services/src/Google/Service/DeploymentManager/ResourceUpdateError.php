@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_DeploymentManager_ResourceUpdateError extends Google_Collec
   protected $errorsType = 'Google_Service_DeploymentManager_ResourceUpdateErrorErrors';
   protected $errorsDataType = 'array';
 
+  /**
+   * @param Google_Service_DeploymentManager_ResourceUpdateErrorErrors
+   */
   public function setErrors($errors)
   {
     $this->errors = $errors;
   }
+  /**
+   * @return Google_Service_DeploymentManager_ResourceUpdateErrorErrors
+   */
   public function getErrors()
   {
     return $this->errors;

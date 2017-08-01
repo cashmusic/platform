@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,16 @@ class Google_Service_Slides_TextElement extends Google_Model
   protected $textRunType = 'Google_Service_Slides_TextRun';
   protected $textRunDataType = '';
 
+  /**
+   * @param Google_Service_Slides_AutoText
+   */
   public function setAutoText(Google_Service_Slides_AutoText $autoText)
   {
     $this->autoText = $autoText;
   }
+  /**
+   * @return Google_Service_Slides_AutoText
+   */
   public function getAutoText()
   {
     return $this->autoText;
@@ -42,10 +48,16 @@ class Google_Service_Slides_TextElement extends Google_Model
   {
     return $this->endIndex;
   }
+  /**
+   * @param Google_Service_Slides_ParagraphMarker
+   */
   public function setParagraphMarker(Google_Service_Slides_ParagraphMarker $paragraphMarker)
   {
     $this->paragraphMarker = $paragraphMarker;
   }
+  /**
+   * @return Google_Service_Slides_ParagraphMarker
+   */
   public function getParagraphMarker()
   {
     return $this->paragraphMarker;
@@ -58,10 +70,16 @@ class Google_Service_Slides_TextElement extends Google_Model
   {
     return $this->startIndex;
   }
+  /**
+   * @param Google_Service_Slides_TextRun
+   */
   public function setTextRun(Google_Service_Slides_TextRun $textRun)
   {
     $this->textRun = $textRun;
   }
+  /**
+   * @return Google_Service_Slides_TextRun
+   */
   public function getTextRun()
   {
     return $this->textRun;

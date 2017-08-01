@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_ServiceManagement_Authentication extends Google_Collection
   protected $rulesType = 'Google_Service_ServiceManagement_AuthenticationRule';
   protected $rulesDataType = 'array';
 
+  /**
+   * @param Google_Service_ServiceManagement_AuthProvider
+   */
   public function setProviders($providers)
   {
     $this->providers = $providers;
   }
+  /**
+   * @return Google_Service_ServiceManagement_AuthProvider
+   */
   public function getProviders()
   {
     return $this->providers;
   }
+  /**
+   * @param Google_Service_ServiceManagement_AuthenticationRule
+   */
   public function setRules($rules)
   {
     $this->rules = $rules;
   }
+  /**
+   * @return Google_Service_ServiceManagement_AuthenticationRule
+   */
   public function getRules()
   {
     return $this->rules;

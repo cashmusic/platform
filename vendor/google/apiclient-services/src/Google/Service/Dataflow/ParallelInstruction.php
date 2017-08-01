@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,10 +34,16 @@ class Google_Service_Dataflow_ParallelInstruction extends Google_Collection
   protected $writeType = 'Google_Service_Dataflow_WriteInstruction';
   protected $writeDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_FlattenInstruction
+   */
   public function setFlatten(Google_Service_Dataflow_FlattenInstruction $flatten)
   {
     $this->flatten = $flatten;
   }
+  /**
+   * @return Google_Service_Dataflow_FlattenInstruction
+   */
   public function getFlatten()
   {
     return $this->flatten;
@@ -58,34 +64,58 @@ class Google_Service_Dataflow_ParallelInstruction extends Google_Collection
   {
     return $this->originalName;
   }
+  /**
+   * @param Google_Service_Dataflow_InstructionOutput
+   */
   public function setOutputs($outputs)
   {
     $this->outputs = $outputs;
   }
+  /**
+   * @return Google_Service_Dataflow_InstructionOutput
+   */
   public function getOutputs()
   {
     return $this->outputs;
   }
+  /**
+   * @param Google_Service_Dataflow_ParDoInstruction
+   */
   public function setParDo(Google_Service_Dataflow_ParDoInstruction $parDo)
   {
     $this->parDo = $parDo;
   }
+  /**
+   * @return Google_Service_Dataflow_ParDoInstruction
+   */
   public function getParDo()
   {
     return $this->parDo;
   }
+  /**
+   * @param Google_Service_Dataflow_PartialGroupByKeyInstruction
+   */
   public function setPartialGroupByKey(Google_Service_Dataflow_PartialGroupByKeyInstruction $partialGroupByKey)
   {
     $this->partialGroupByKey = $partialGroupByKey;
   }
+  /**
+   * @return Google_Service_Dataflow_PartialGroupByKeyInstruction
+   */
   public function getPartialGroupByKey()
   {
     return $this->partialGroupByKey;
   }
+  /**
+   * @param Google_Service_Dataflow_ReadInstruction
+   */
   public function setRead(Google_Service_Dataflow_ReadInstruction $read)
   {
     $this->read = $read;
   }
+  /**
+   * @return Google_Service_Dataflow_ReadInstruction
+   */
   public function getRead()
   {
     return $this->read;
@@ -98,10 +128,16 @@ class Google_Service_Dataflow_ParallelInstruction extends Google_Collection
   {
     return $this->systemName;
   }
+  /**
+   * @param Google_Service_Dataflow_WriteInstruction
+   */
   public function setWrite(Google_Service_Dataflow_WriteInstruction $write)
   {
     $this->write = $write;
   }
+  /**
+   * @return Google_Service_Dataflow_WriteInstruction
+   */
   public function getWrite()
   {
     return $this->write;

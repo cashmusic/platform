@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,26 +42,44 @@ class Google_Service_Books_VolumeSaleInfoOffers extends Google_Model
   {
     return $this->giftable;
   }
+  /**
+   * @param Google_Service_Books_VolumeSaleInfoOffersListPrice
+   */
   public function setListPrice(Google_Service_Books_VolumeSaleInfoOffersListPrice $listPrice)
   {
     $this->listPrice = $listPrice;
   }
+  /**
+   * @return Google_Service_Books_VolumeSaleInfoOffersListPrice
+   */
   public function getListPrice()
   {
     return $this->listPrice;
   }
+  /**
+   * @param Google_Service_Books_VolumeSaleInfoOffersRentalDuration
+   */
   public function setRentalDuration(Google_Service_Books_VolumeSaleInfoOffersRentalDuration $rentalDuration)
   {
     $this->rentalDuration = $rentalDuration;
   }
+  /**
+   * @return Google_Service_Books_VolumeSaleInfoOffersRentalDuration
+   */
   public function getRentalDuration()
   {
     return $this->rentalDuration;
   }
+  /**
+   * @param Google_Service_Books_VolumeSaleInfoOffersRetailPrice
+   */
   public function setRetailPrice(Google_Service_Books_VolumeSaleInfoOffersRetailPrice $retailPrice)
   {
     $this->retailPrice = $retailPrice;
   }
+  /**
+   * @return Google_Service_Books_VolumeSaleInfoOffersRetailPrice
+   */
   public function getRetailPrice()
   {
     return $this->retailPrice;

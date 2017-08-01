@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,13 +32,12 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsModelsVersions 
    * version of the specified model, it will be made the default version of the
    * model. When you add a version to a model that already has one or more
    * versions, the default version does not automatically change. If you want a
-   * new version to be the default, you must call [projects.models.versions.setDef
-   * ault](/ml/reference/rest/v1/projects.models.versions/setDefault).
+   * new version to be the default, you must call
+   * [projects.models.versions.setDefault](/ml-
+   * engine/reference/rest/v1/projects.models.versions/setDefault).
    * (versions.create)
    *
    * @param string $parent Required. The name of the model.
-   *
-   * Authorization: requires `Editor` role on the parent project.
    * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Version $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleLongrunningOperation
@@ -59,10 +58,8 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsModelsVersions 
    * model unless it is the only remaining version. (versions.delete)
    *
    * @param string $name Required. The name of the version. You can get the names
-   * of all the versions of a model by calling [projects.models.versions.list](/ml
-   * /reference/rest/v1/projects.models.versions/list).
-   *
-   * Authorization: requires `Editor` role on the parent project.
+   * of all the versions of a model by calling [projects.models.versions.list
+   * ](/ml-engine/reference/rest/v1/projects.models.versions/list).
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleLongrunningOperation
    */
@@ -75,14 +72,13 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsModelsVersions 
   /**
    * Gets information about a model version.
    *
-   * Models can have multiple versions. You can call [projects.models.versions.lis
-   * t](/ml/reference/rest/v1/projects.models.versions/list) to get the same
+   * Models can have multiple versions. You can call
+   * [projects.models.versions.list](/ml-
+   * engine/reference/rest/v1/projects.models.versions/list) to get the same
    * information that this method returns for all of the versions of a model.
    * (versions.get)
    *
    * @param string $name Required. The name of the version.
-   *
-   * Authorization: requires `Viewer` role on the parent project.
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Version
    */
@@ -101,8 +97,6 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsModelsVersions 
    *
    * @param string $parent Required. The name of the model for which to list the
    * version.
-   *
-   * Authorization: requires `Viewer` role on the parent project.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string pageToken Optional. A page token to request the next page
@@ -134,11 +128,11 @@ class Google_Service_CloudMachineLearningEngine_Resource_ProjectsModelsVersions 
    * manually using this method. (versions.setDefault)
    *
    * @param string $name Required. The name of the version to make the default for
-   * the model. You can get the names of all the versions of a model by calling [p
-   * rojects.models.versions.list](/ml/reference/rest/v1/projects.models.versions/
-   * list).
+   * the model. You can get the names of all the versions of a model by calling
+   * [projects.models.versions.list](/ml-
+   * engine/reference/rest/v1/projects.models.versions/list).
    *
-   * Authorization: requires `Editor` role on the parent project.
+   * Authorization: `ml.models.update` permission is required on the parent model.
    * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1SetDefaultVersionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1Version

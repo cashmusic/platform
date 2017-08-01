@@ -7,12 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
-use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\ExpectationFailedException;
-
-class Attribute extends Composite
+class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constraint_Composite
 {
     /**
      * @var string
@@ -20,10 +16,10 @@ class Attribute extends Composite
     protected $attributeName;
 
     /**
-     * @param Constraint $constraint
-     * @param string     $attributeName
+     * @param PHPUnit_Framework_Constraint $constraint
+     * @param string                       $attributeName
      */
-    public function __construct(Constraint $constraint, $attributeName)
+    public function __construct(PHPUnit_Framework_Constraint $constraint, $attributeName)
     {
         parent::__construct($constraint);
 
@@ -46,12 +42,12 @@ class Attribute extends Composite
      *
      * @return mixed
      *
-     * @throws ExpectationFailedException
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {
         return parent::evaluate(
-            Assert::readAttribute(
+            PHPUnit_Framework_Assert::readAttribute(
                 $other,
                 $this->attributeName
             ),
@@ -68,7 +64,7 @@ class Attribute extends Composite
     public function toString()
     {
         return 'attribute "' . $this->attributeName . '" ' .
-            $this->innerConstraint->toString();
+               $this->innerConstraint->toString();
     }
 
     /**

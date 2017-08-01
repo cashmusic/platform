@@ -1,14 +1,11 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue322Test extends TestCase
+class Issue322Test extends PHPUnit_Framework_TestCase
 {
     /**
      * @group one
      */
     public function testOne()
     {
-        $this->assertTrue(true);
     }
 
     /**
@@ -16,6 +13,5 @@ class Issue322Test extends TestCase
      */
     public function testTwo()
     {
-        $this->assertTrue(true);
     }
 }

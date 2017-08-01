@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,7 +34,6 @@ class Google_Service_Customsearch_Resource_Cse extends Google_Service_Resource
    *
    * @opt_param string c2coff Turns off the translation between zh-CN and zh-TW.
    * @opt_param string cr Country restrict(s).
-   * @opt_param string cref The URL of a linked custom search engine
    * @opt_param string cx The custom search engine ID to scope this search query
    * @opt_param string dateRestrict Specifies all search results are from a time
    * period

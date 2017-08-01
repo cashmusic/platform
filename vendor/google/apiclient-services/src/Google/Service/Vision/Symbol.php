@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Vision_Symbol extends Google_Model
   protected $propertyDataType = '';
   public $text;
 
+  /**
+   * @param Google_Service_Vision_BoundingPoly
+   */
   public function setBoundingBox(Google_Service_Vision_BoundingPoly $boundingBox)
   {
     $this->boundingBox = $boundingBox;
   }
+  /**
+   * @return Google_Service_Vision_BoundingPoly
+   */
   public function getBoundingBox()
   {
     return $this->boundingBox;
   }
+  /**
+   * @param Google_Service_Vision_TextProperty
+   */
   public function setProperty(Google_Service_Vision_TextProperty $property)
   {
     $this->property = $property;
   }
+  /**
+   * @return Google_Service_Vision_TextProperty
+   */
   public function getProperty()
   {
     return $this->property;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Datastore_RunQueryResponse extends Google_Model
   protected $queryType = 'Google_Service_Datastore_Query';
   protected $queryDataType = '';
 
+  /**
+   * @param Google_Service_Datastore_QueryResultBatch
+   */
   public function setBatch(Google_Service_Datastore_QueryResultBatch $batch)
   {
     $this->batch = $batch;
   }
+  /**
+   * @return Google_Service_Datastore_QueryResultBatch
+   */
   public function getBatch()
   {
     return $this->batch;
   }
+  /**
+   * @param Google_Service_Datastore_Query
+   */
   public function setQuery(Google_Service_Datastore_Query $query)
   {
     $this->query = $query;
   }
+  /**
+   * @return Google_Service_Datastore_Query
+   */
   public function getQuery()
   {
     return $this->query;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -107,26 +107,44 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
   {
     return $this->description;
   }
+  /**
+   * @param Google_Service_Books_VolumeVolumeInfoDimensions
+   */
   public function setDimensions(Google_Service_Books_VolumeVolumeInfoDimensions $dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_Books_VolumeVolumeInfoDimensions
+   */
   public function getDimensions()
   {
     return $this->dimensions;
   }
+  /**
+   * @param Google_Service_Books_VolumeVolumeInfoImageLinks
+   */
   public function setImageLinks(Google_Service_Books_VolumeVolumeInfoImageLinks $imageLinks)
   {
     $this->imageLinks = $imageLinks;
   }
+  /**
+   * @return Google_Service_Books_VolumeVolumeInfoImageLinks
+   */
   public function getImageLinks()
   {
     return $this->imageLinks;
   }
+  /**
+   * @param Google_Service_Books_VolumeVolumeInfoIndustryIdentifiers
+   */
   public function setIndustryIdentifiers($industryIdentifiers)
   {
     $this->industryIdentifiers = $industryIdentifiers;
   }
+  /**
+   * @return Google_Service_Books_VolumeVolumeInfoIndustryIdentifiers
+   */
   public function getIndustryIdentifiers()
   {
     return $this->industryIdentifiers;
@@ -171,10 +189,16 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
   {
     return $this->pageCount;
   }
+  /**
+   * @param Google_Service_Books_VolumeVolumeInfoPanelizationSummary
+   */
   public function setPanelizationSummary(Google_Service_Books_VolumeVolumeInfoPanelizationSummary $panelizationSummary)
   {
     $this->panelizationSummary = $panelizationSummary;
   }
+  /**
+   * @return Google_Service_Books_VolumeVolumeInfoPanelizationSummary
+   */
   public function getPanelizationSummary()
   {
     return $this->panelizationSummary;
@@ -243,10 +267,16 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
   {
     return $this->samplePageCount;
   }
+  /**
+   * @param Google_Service_Books_Volumeseriesinfo
+   */
   public function setSeriesInfo(Google_Service_Books_Volumeseriesinfo $seriesInfo)
   {
     $this->seriesInfo = $seriesInfo;
   }
+  /**
+   * @return Google_Service_Books_Volumeseriesinfo
+   */
   public function getSeriesInfo()
   {
     return $this->seriesInfo;

@@ -69,6 +69,6 @@ class AuthorTag implements TagInterface
 
     public function __toString()
     {
-        return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
+        return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . PHP_EOL;
     }
 }

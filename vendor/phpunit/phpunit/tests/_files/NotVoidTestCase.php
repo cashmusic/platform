@@ -1,6 +1,4 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class NotVoidTestCase extends TestCase
+class NotVoidTestCase extends PHPUnit_Framework_TestCase
 {
 }

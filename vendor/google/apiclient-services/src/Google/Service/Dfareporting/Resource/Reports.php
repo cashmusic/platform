@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -75,10 +75,9 @@ class Google_Service_Dfareporting_Resource_Reports extends Google_Service_Resour
    * @opt_param int maxResults Maximum number of results to return.
    * @opt_param string pageToken The value of the nextToken from the previous
    * result page.
-   * @opt_param string scope The scope that defines which results are returned,
-   * default is 'MINE'.
+   * @opt_param string scope The scope that defines which results are returned.
    * @opt_param string sortField The field by which to sort the list.
-   * @opt_param string sortOrder Order of sorted results, default is 'DESCENDING'.
+   * @opt_param string sortOrder Order of sorted results.
    * @return Google_Service_Dfareporting_ReportList
    */
   public function listReports($profileId, $optParams = array())

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
   /**
    * Remove Organization Unit (orgunits.delete)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string|array $orgUnitPath Full path of the organization unit or its Id
    * @param array $optParams Optional parameters.
    */
@@ -41,7 +41,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
   /**
    * Retrieve Organization Unit (orgunits.get)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string|array $orgUnitPath Full path of the organization unit or its Id
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_OrgUnit
@@ -55,7 +55,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
   /**
    * Add Organization Unit (orgunits.insert)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param Google_Service_Directory_OrgUnit $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_OrgUnit
@@ -69,7 +69,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
   /**
    * Retrieve all Organization Units (orgunits.listOrgunits)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param array $optParams Optional parameters.
    *
    * @opt_param string orgUnitPath the URL-encoded organization unit's path or its
@@ -88,7 +88,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
    * Update Organization Unit. This method supports patch semantics.
    * (orgunits.patch)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string|array $orgUnitPath Full path of the organization unit or its Id
    * @param Google_Service_Directory_OrgUnit $postBody
    * @param array $optParams Optional parameters.
@@ -103,7 +103,7 @@ class Google_Service_Directory_Resource_Orgunits extends Google_Service_Resource
   /**
    * Update Organization Unit (orgunits.update)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string|array $orgUnitPath Full path of the organization unit or its Id
    * @param Google_Service_Directory_OrgUnit $postBody
    * @param array $optParams Optional parameters.

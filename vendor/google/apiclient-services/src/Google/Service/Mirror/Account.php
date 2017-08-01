@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Mirror_Account extends Google_Collection
   protected $userDataType = 'Google_Service_Mirror_UserData';
   protected $userDataDataType = 'array';
 
+  /**
+   * @param Google_Service_Mirror_AuthToken
+   */
   public function setAuthTokens($authTokens)
   {
     $this->authTokens = $authTokens;
   }
+  /**
+   * @return Google_Service_Mirror_AuthToken
+   */
   public function getAuthTokens()
   {
     return $this->authTokens;
@@ -49,10 +55,16 @@ class Google_Service_Mirror_Account extends Google_Collection
   {
     return $this->password;
   }
+  /**
+   * @param Google_Service_Mirror_UserData
+   */
   public function setUserData($userData)
   {
     $this->userData = $userData;
   }
+  /**
+   * @return Google_Service_Mirror_UserData
+   */
   public function getUserData()
   {
     return $this->userData;

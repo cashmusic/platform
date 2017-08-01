@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,16 +44,21 @@ class Google_Service_Appengine_Resource_AppsOperations extends Google_Service_Re
   /**
    * Lists operations that match the specified filter in the request. If the
    * server doesn't support this method, it returns UNIMPLEMENTED.NOTE: the name
-   * binding below allows API services to override the binding to use different
-   * resource name schemes, such as users/operations.
+   * binding allows API services to override the binding to use different resource
+   * name schemes, such as users/operations. To override the binding, API services
+   * can add a binding such as "/v1/{name=users}/operations" to their service
+   * configuration. For backwards compatibility, the default name includes the
+   * operations collection id, however overriding users must ensure the name
+   * binding is the parent resource, without the operations collection id.
    * (operations.listAppsOperations)
    *
-   * @param string $appsId Part of `name`. The name of the operation collection.
+   * @param string $appsId Part of `name`. The name of the operation's parent
+   * resource.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter The standard list filter.
-   * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
+   * @opt_param int pageSize The standard list page size.
    * @return Google_Service_Appengine_ListOperationsResponse
    */
   public function listAppsOperations($appsId, $optParams = array())

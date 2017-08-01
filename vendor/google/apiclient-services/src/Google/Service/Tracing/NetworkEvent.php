@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,19 +17,11 @@
 
 class Google_Service_Tracing_NetworkEvent extends Google_Model
 {
-  public $kernelTime;
   public $messageId;
   public $messageSize;
+  public $time;
   public $type;
 
-  public function setKernelTime($kernelTime)
-  {
-    $this->kernelTime = $kernelTime;
-  }
-  public function getKernelTime()
-  {
-    return $this->kernelTime;
-  }
   public function setMessageId($messageId)
   {
     $this->messageId = $messageId;
@@ -45,6 +37,14 @@ class Google_Service_Tracing_NetworkEvent extends Google_Model
   public function getMessageSize()
   {
     return $this->messageSize;
+  }
+  public function setTime($time)
+  {
+    $this->time = $time;
+  }
+  public function getTime()
+  {
+    return $this->time;
   }
   public function setType($type)
   {

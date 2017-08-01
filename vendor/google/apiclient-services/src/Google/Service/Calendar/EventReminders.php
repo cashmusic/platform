@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Calendar_EventReminders extends Google_Collection
   protected $overridesDataType = 'array';
   public $useDefault;
 
+  /**
+   * @param Google_Service_Calendar_EventReminder
+   */
   public function setOverrides($overrides)
   {
     $this->overrides = $overrides;
   }
+  /**
+   * @return Google_Service_Calendar_EventReminder
+   */
   public function getOverrides()
   {
     return $this->overrides;

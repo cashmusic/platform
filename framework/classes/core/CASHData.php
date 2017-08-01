@@ -90,8 +90,8 @@ abstract class CASHData {
 		if ($this->sessionGet('session_id','script')) {
 			$session_id = $this->sessionGet('session_id','script');
 			if (!$this->orm) $this->connectDB();
-			
-			$session = $this->orm->findWhere(SystemSession::class, 
+
+			$session = $this->orm->findWhere(SystemSession::class,
 				['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
 
 			$session->update(array(

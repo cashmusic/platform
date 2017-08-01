@@ -7,93 +7,96 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
 
 /**
  * A Listener for test progress.
  */
-interface TestListener
+interface PHPUnit_Framework_TestListener
 {
     /**
      * An error occurred.
      *
-     * @param Test       $test
-     * @param \Exception $e
-     * @param float      $time
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
      */
-    public function addError(Test $test, \Exception $e, $time);
+    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time);
 
     /**
      * A warning occurred.
      *
-     * @param Test    $test
-     * @param Warning $e
-     * @param float   $time
+     * @param PHPUnit_Framework_Test    $test
+     * @param PHPUnit_Framework_Warning $e
+     * @param float                     $time
+     *
+     * @todo  Uncomment in time for PHPUnit 6.0.0
+     *
+     * @see   https://github.com/sebastianbergmann/phpunit/pull/1840#issuecomment-162535997
      */
-    public function addWarning(Test $test, Warning $e, $time);
+//  public function addWarning(PHPUnit_Framework_Test $test, PHPUnit_Framework_Warning $e, $time);
 
     /**
      * A failure occurred.
      *
-     * @param Test                 $test
-     * @param AssertionFailedError $e
-     * @param float                $time
+     * @param PHPUnit_Framework_Test                 $test
+     * @param PHPUnit_Framework_AssertionFailedError $e
+     * @param float                                  $time
      */
-    public function addFailure(Test $test, AssertionFailedError $e, $time);
+    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time);
 
     /**
      * Incomplete test.
      *
-     * @param Test       $test
-     * @param \Exception $e
-     * @param float      $time
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
      */
-    public function addIncompleteTest(Test $test, \Exception $e, $time);
+    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
     /**
      * Risky test.
      *
-     * @param Test       $test
-     * @param \Exception $e
-     * @param float      $time
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
      */
-    public function addRiskyTest(Test $test, \Exception $e, $time);
+    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
     /**
      * Skipped test.
      *
-     * @param Test       $test
-     * @param \Exception $e
-     * @param float      $time
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
      */
-    public function addSkippedTest(Test $test, \Exception $e, $time);
+    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
     /**
      * A test suite started.
      *
-     * @param TestSuite $suite
+     * @param PHPUnit_Framework_TestSuite $suite
      */
-    public function startTestSuite(TestSuite $suite);
+    public function startTestSuite(PHPUnit_Framework_TestSuite $suite);
 
     /**
      * A test suite ended.
      *
-     * @param TestSuite $suite
+     * @param PHPUnit_Framework_TestSuite $suite
      */
-    public function endTestSuite(TestSuite $suite);
+    public function endTestSuite(PHPUnit_Framework_TestSuite $suite);
 
     /**
      * A test started.
      *
-     * @param Test $test
+     * @param PHPUnit_Framework_Test $test
      */
-    public function startTest(Test $test);
+    public function startTest(PHPUnit_Framework_Test $test);
 
     /**
      * A test ended.
      *
-     * @param Test  $test
-     * @param float $time
+     * @param PHPUnit_Framework_Test $test
+     * @param float                  $time
      */
-    public function endTest(Test $test, $time);
+    public function endTest(PHPUnit_Framework_Test $test, $time);
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,16 +17,31 @@
 
 class Google_Service_TagManager_ListVariablesResponse extends Google_Collection
 {
-  protected $collection_key = 'variables';
-  protected $variablesType = 'Google_Service_TagManager_Variable';
-  protected $variablesDataType = 'array';
+  protected $collection_key = 'variable';
+  public $nextPageToken;
+  protected $variableType = 'Google_Service_TagManager_Variable';
+  protected $variableDataType = 'array';
 
-  public function setVariables($variables)
+  public function setNextPageToken($nextPageToken)
   {
-    $this->variables = $variables;
+    $this->nextPageToken = $nextPageToken;
   }
-  public function getVariables()
+  public function getNextPageToken()
   {
-    return $this->variables;
+    return $this->nextPageToken;
+  }
+  /**
+   * @param Google_Service_TagManager_Variable
+   */
+  public function setVariable($variable)
+  {
+    $this->variable = $variable;
+  }
+  /**
+   * @return Google_Service_TagManager_Variable
+   */
+  public function getVariable()
+  {
+    return $this->variable;
   }
 }

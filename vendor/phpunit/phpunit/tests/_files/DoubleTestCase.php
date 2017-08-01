@@ -1,13 +1,9 @@
 <?php
-use PHPUnit\Framework\TestResult;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Test;
-
-class DoubleTestCase implements Test
+class DoubleTestCase implements PHPUnit_Framework_Test
 {
     protected $testCase;
 
-    public function __construct(TestCase $testCase)
+    public function __construct(PHPUnit_Framework_TestCase $testCase)
     {
         $this->testCase = $testCase;
     }
@@ -17,7 +13,7 @@ class DoubleTestCase implements Test
         return 2;
     }
 
-    public function run(TestResult $result = null)
+    public function run(PHPUnit_Framework_TestResult $result = null)
     {
         $result->startTest($this);
 

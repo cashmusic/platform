@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -55,10 +55,16 @@ class Google_Service_Books_Annotation extends Google_Collection
   {
     return $this->beforeSelectedText;
   }
+  /**
+   * @param Google_Service_Books_AnnotationClientVersionRanges
+   */
   public function setClientVersionRanges(Google_Service_Books_AnnotationClientVersionRanges $clientVersionRanges)
   {
     $this->clientVersionRanges = $clientVersionRanges;
   }
+  /**
+   * @return Google_Service_Books_AnnotationClientVersionRanges
+   */
   public function getClientVersionRanges()
   {
     return $this->clientVersionRanges;
@@ -71,10 +77,16 @@ class Google_Service_Books_Annotation extends Google_Collection
   {
     return $this->created;
   }
+  /**
+   * @param Google_Service_Books_AnnotationCurrentVersionRanges
+   */
   public function setCurrentVersionRanges(Google_Service_Books_AnnotationCurrentVersionRanges $currentVersionRanges)
   {
     $this->currentVersionRanges = $currentVersionRanges;
   }
+  /**
+   * @return Google_Service_Books_AnnotationCurrentVersionRanges
+   */
   public function getCurrentVersionRanges()
   {
     return $this->currentVersionRanges;
@@ -127,10 +139,16 @@ class Google_Service_Books_Annotation extends Google_Collection
   {
     return $this->layerId;
   }
+  /**
+   * @param Google_Service_Books_AnnotationLayerSummary
+   */
   public function setLayerSummary(Google_Service_Books_AnnotationLayerSummary $layerSummary)
   {
     $this->layerSummary = $layerSummary;
   }
+  /**
+   * @return Google_Service_Books_AnnotationLayerSummary
+   */
   public function getLayerSummary()
   {
     return $this->layerSummary;

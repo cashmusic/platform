@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class NoArgTestCaseTest extends TestCase
+class NoArgTestCaseTest extends PHPUnit_Framework_TestCase
 {
     public function testNothing()
     {

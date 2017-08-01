@@ -9,12 +9,13 @@ if (defined('HHVM_VERSION')) {
 --FILE--
 <?php
 $_SERVER['argv'][1] = '--no-configuration';
+$_SERVER['argv'][]  = '--report-useless-tests';
 $_SERVER['argv'][]  = '--process-isolation';
 $_SERVER['argv'][]  = 'Issue1348Test';
 $_SERVER['argv'][]  = __DIR__ . '/1348/Issue1348Test.php';
 
 require __DIR__ . '/../../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -27,7 +28,7 @@ Time: %s, Memory: %s
 There was 1 error:
 
 1) Issue1348Test::testSTDERR
-PHPUnit\Framework\Exception: STDERR works as usual.
+PHPUnit_Framework_Exception: STDERR works as usual.
 
 ERRORS!
 Tests: 2, Assertions: 1, Errors: 1.

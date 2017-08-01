@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -92,10 +92,16 @@ class Google_Service_Customsearch_Result extends Google_Collection
   {
     return $this->htmlTitle;
   }
+  /**
+   * @param Google_Service_Customsearch_ResultImage
+   */
   public function setImage(Google_Service_Customsearch_ResultImage $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_Customsearch_ResultImage
+   */
   public function getImage()
   {
     return $this->image;
@@ -108,10 +114,16 @@ class Google_Service_Customsearch_Result extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Customsearch_ResultLabels
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return Google_Service_Customsearch_ResultLabels
+   */
   public function getLabels()
   {
     return $this->labels;

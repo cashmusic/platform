@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,9 +19,9 @@ class Google_Service_Tracing_TimeEvent extends Google_Model
 {
   protected $annotationType = 'Google_Service_Tracing_Annotation';
   protected $annotationDataType = '';
-  public $localTime;
   protected $networkEventType = 'Google_Service_Tracing_NetworkEvent';
   protected $networkEventDataType = '';
+  public $time;
 
   public function setAnnotation(Google_Service_Tracing_Annotation $annotation)
   {
@@ -31,14 +31,6 @@ class Google_Service_Tracing_TimeEvent extends Google_Model
   {
     return $this->annotation;
   }
-  public function setLocalTime($localTime)
-  {
-    $this->localTime = $localTime;
-  }
-  public function getLocalTime()
-  {
-    return $this->localTime;
-  }
   public function setNetworkEvent(Google_Service_Tracing_NetworkEvent $networkEvent)
   {
     $this->networkEvent = $networkEvent;
@@ -46,5 +38,13 @@ class Google_Service_Tracing_TimeEvent extends Google_Model
   public function getNetworkEvent()
   {
     return $this->networkEvent;
+  }
+  public function setTime($time)
+  {
+    $this->time = $time;
+  }
+  public function getTime()
+  {
+    return $this->time;
   }
 }

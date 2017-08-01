@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,5 +38,19 @@ class Google_Service_Dfareporting_Resource_Conversions extends Google_Service_Re
     $params = array('profileId' => $profileId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('batchinsert', array($params), "Google_Service_Dfareporting_ConversionsBatchInsertResponse");
+  }
+  /**
+   * Updates existing conversions. (conversions.batchupdate)
+   *
+   * @param string $profileId User profile ID associated with this request.
+   * @param Google_Service_Dfareporting_ConversionsBatchUpdateRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Dfareporting_ConversionsBatchUpdateResponse
+   */
+  public function batchupdate($profileId, Google_Service_Dfareporting_ConversionsBatchUpdateRequest $postBody, $optParams = array())
+  {
+    $params = array('profileId' => $profileId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('batchupdate', array($params), "Google_Service_Dfareporting_ConversionsBatchUpdateResponse");
   }
 }

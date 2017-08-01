@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue581Test extends TestCase
+class Issue581Test extends PHPUnit_Framework_TestCase
 {
     public function testExportingObjectsDoesNotBreakWindowsLineFeeds()
     {

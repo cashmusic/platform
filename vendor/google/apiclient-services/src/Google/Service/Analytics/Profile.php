@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -63,10 +63,16 @@ class Google_Service_Analytics_Profile extends Google_Model
   {
     return $this->botFilteringEnabled;
   }
+  /**
+   * @param Google_Service_Analytics_ProfileChildLink
+   */
   public function setChildLink(Google_Service_Analytics_ProfileChildLink $childLink)
   {
     $this->childLink = $childLink;
   }
+  /**
+   * @return Google_Service_Analytics_ProfileChildLink
+   */
   public function getChildLink()
   {
     return $this->childLink;
@@ -151,18 +157,30 @@ class Google_Service_Analytics_Profile extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Analytics_ProfileParentLink
+   */
   public function setParentLink(Google_Service_Analytics_ProfileParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
+  /**
+   * @return Google_Service_Analytics_ProfileParentLink
+   */
   public function getParentLink()
   {
     return $this->parentLink;
   }
+  /**
+   * @param Google_Service_Analytics_ProfilePermissions
+   */
   public function setPermissions(Google_Service_Analytics_ProfilePermissions $permissions)
   {
     $this->permissions = $permissions;
   }
+  /**
+   * @return Google_Service_Analytics_ProfilePermissions
+   */
   public function getPermissions()
   {
     return $this->permissions;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,18 +24,30 @@ class Google_Service_AdExchangeBuyer_TargetingValue extends Google_Model
   public $longValue;
   public $stringValue;
 
+  /**
+   * @param Google_Service_AdExchangeBuyer_TargetingValueCreativeSize
+   */
   public function setCreativeSizeValue(Google_Service_AdExchangeBuyer_TargetingValueCreativeSize $creativeSizeValue)
   {
     $this->creativeSizeValue = $creativeSizeValue;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_TargetingValueCreativeSize
+   */
   public function getCreativeSizeValue()
   {
     return $this->creativeSizeValue;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_TargetingValueDayPartTargeting
+   */
   public function setDayPartTargetingValue(Google_Service_AdExchangeBuyer_TargetingValueDayPartTargeting $dayPartTargetingValue)
   {
     $this->dayPartTargetingValue = $dayPartTargetingValue;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_TargetingValueDayPartTargeting
+   */
   public function getDayPartTargetingValue()
   {
     return $this->dayPartTargetingValue;

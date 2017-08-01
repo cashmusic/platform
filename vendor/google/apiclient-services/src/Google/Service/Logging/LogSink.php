@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,6 +20,7 @@ class Google_Service_Logging_LogSink extends Google_Model
   public $destination;
   public $endTime;
   public $filter;
+  public $includeChildren;
   public $name;
   public $outputVersionFormat;
   public $startTime;
@@ -48,6 +49,14 @@ class Google_Service_Logging_LogSink extends Google_Model
   public function getFilter()
   {
     return $this->filter;
+  }
+  public function setIncludeChildren($includeChildren)
+  {
+    $this->includeChildren = $includeChildren;
+  }
+  public function getIncludeChildren()
+  {
+    return $this->includeChildren;
   }
   public function setName($name)
   {

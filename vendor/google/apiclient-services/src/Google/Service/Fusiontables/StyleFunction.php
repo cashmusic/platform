@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Fusiontables_StyleFunction extends Google_Collection
   protected $gradientDataType = '';
   public $kind;
 
+  /**
+   * @param Google_Service_Fusiontables_Bucket
+   */
   public function setBuckets($buckets)
   {
     $this->buckets = $buckets;
   }
+  /**
+   * @return Google_Service_Fusiontables_Bucket
+   */
   public function getBuckets()
   {
     return $this->buckets;
@@ -41,10 +47,16 @@ class Google_Service_Fusiontables_StyleFunction extends Google_Collection
   {
     return $this->columnName;
   }
+  /**
+   * @param Google_Service_Fusiontables_StyleFunctionGradient
+   */
   public function setGradient(Google_Service_Fusiontables_StyleFunctionGradient $gradient)
   {
     $this->gradient = $gradient;
   }
+  /**
+   * @return Google_Service_Fusiontables_StyleFunctionGradient
+   */
   public function getGradient()
   {
     return $this->gradient;

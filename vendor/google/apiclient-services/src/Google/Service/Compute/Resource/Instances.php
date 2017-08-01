@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -50,9 +50,9 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
    * @param string $project Project ID for this request.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Sets a filter expression for filtering listed
-   * resources, in the form filter={expression}. Your {expression} must be in the
-   * format: field_name comparison_string literal_string.
+   * @opt_param string filter Sets a filter {expression} for filtering listed
+   * resources. Your {expression} must be in the format: field_name
+   * comparison_string literal_string.
    *
    * The field_name is the name of the field you want to compare. Only atomic
    * field types are supported (string, number, boolean). The comparison_string
@@ -63,7 +63,7 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
    * literal value must match the entire field.
    *
    * For example, to filter for instances that do not have a name of example-
-   * instance, you would use filter=name ne example-instance.
+   * instance, you would use name ne example-instance.
    *
    * You can filter on nested fields. For example, you could filter on instances
    * that have set the scheduling.automaticRestart field to true. Use filtering on
@@ -101,7 +101,10 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
     return $this->call('aggregatedList', array($params), "Google_Service_Compute_InstanceAggregatedList");
   }
   /**
-   * Attaches a Disk resource to an instance. (instances.attachDisk)
+   * Attaches an existing Disk resource to an instance. You must first create the
+   * disk before you can attach it. It is not possible to create and attach a disk
+   * at the same time. For more information, read Adding a persistent disk to your
+   * instance. (instances.attachDisk)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone for this request.
@@ -229,9 +232,9 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
    * @param string $zone The name of the zone for this request.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Sets a filter expression for filtering listed
-   * resources, in the form filter={expression}. Your {expression} must be in the
-   * format: field_name comparison_string literal_string.
+   * @opt_param string filter Sets a filter {expression} for filtering listed
+   * resources. Your {expression} must be in the format: field_name
+   * comparison_string literal_string.
    *
    * The field_name is the name of the field you want to compare. Only atomic
    * field types are supported (string, number, boolean). The comparison_string
@@ -242,7 +245,7 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
    * literal value must match the entire field.
    *
    * For example, to filter for instances that do not have a name of example-
-   * instance, you would use filter=name ne example-instance.
+   * instance, you would use name ne example-instance.
    *
    * You can filter on nested fields. For example, you could filter on instances
    * that have set the scheduling.automaticRestart field to true. Use filtering on
@@ -280,7 +283,8 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
     return $this->call('list', array($params), "Google_Service_Compute_InstanceList");
   }
   /**
-   * Performs a hard reset on the instance. (instances.reset)
+   * Performs a reset on the instance. For more information, see Resetting an
+   * instance. (instances.reset)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone for this request.
@@ -312,6 +316,40 @@ class Google_Service_Compute_Resource_Instances extends Google_Service_Resource
     $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'autoDelete' => $autoDelete, 'deviceName' => $deviceName);
     $params = array_merge($params, $optParams);
     return $this->call('setDiskAutoDelete', array($params), "Google_Service_Compute_Operation");
+  }
+  /**
+   * Sets labels on an instance. To learn more about labels, read the Labeling
+   * Resources documentation. (instances.setLabels)
+   *
+   * @param string $project Project ID for this request.
+   * @param string $zone The name of the zone for this request.
+   * @param string $instance Name of the instance scoping this request.
+   * @param Google_Service_Compute_InstancesSetLabelsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Compute_Operation
+   */
+  public function setLabels($project, $zone, $instance, Google_Service_Compute_InstancesSetLabelsRequest $postBody, $optParams = array())
+  {
+    $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('setLabels', array($params), "Google_Service_Compute_Operation");
+  }
+  /**
+   * Changes the number and/or type of accelerator for a stopped instance to the
+   * values specified in the request. (instances.setMachineResources)
+   *
+   * @param string $project Project ID for this request.
+   * @param string $zone The name of the zone for this request.
+   * @param string $instance Name of the instance scoping this request.
+   * @param Google_Service_Compute_InstancesSetMachineResourcesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Compute_Operation
+   */
+  public function setMachineResources($project, $zone, $instance, Google_Service_Compute_InstancesSetMachineResourcesRequest $postBody, $optParams = array())
+  {
+    $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('setMachineResources', array($params), "Google_Service_Compute_Operation");
   }
   /**
    * Changes the machine type for a stopped instance to the machine type specified

@@ -1,6 +1,4 @@
 <?php
-use PHPUnit\TextUI\ResultPrinter;
-
-class CustomPrinter extends ResultPrinter
+class CustomPrinter extends PHPUnit_TextUI_ResultPrinter
 {
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,10 +35,16 @@ class Google_Service_Fitness_AggregateBucket extends Google_Collection
   {
     return $this->activity;
   }
+  /**
+   * @param Google_Service_Fitness_Dataset
+   */
   public function setDataset($dataset)
   {
     $this->dataset = $dataset;
   }
+  /**
+   * @return Google_Service_Fitness_Dataset
+   */
   public function getDataset()
   {
     return $this->dataset;
@@ -51,10 +57,16 @@ class Google_Service_Fitness_AggregateBucket extends Google_Collection
   {
     return $this->endTimeMillis;
   }
+  /**
+   * @param Google_Service_Fitness_Session
+   */
   public function setSession(Google_Service_Fitness_Session $session)
   {
     $this->session = $session;
   }
+  /**
+   * @return Google_Service_Fitness_Session
+   */
   public function getSession()
   {
     return $this->session;

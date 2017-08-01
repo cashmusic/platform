@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,6 +34,12 @@ class Google_Service_Spanner extends Google_Service
   /** View and manage your data across Google Cloud Platform services. */
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
+  /** Administer your Spanner databases. */
+  const SPANNER_ADMIN =
+      "https://www.googleapis.com/auth/spanner.admin";
+  /** View and manage the contents of your Spanner databases. */
+  const SPANNER_DATA =
+      "https://www.googleapis.com/auth/spanner.data";
 
   public $projects_instanceConfigs;
   public $projects_instances;

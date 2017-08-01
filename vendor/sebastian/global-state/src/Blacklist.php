@@ -1,14 +1,12 @@
 <?php
 /*
- * This file is part of sebastian/global-state.
+ * This file is part of the GlobalState package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace SebastianBergmann\GlobalState;
 
@@ -22,80 +20,108 @@ class Blacklist
     /**
      * @var array
      */
-    private $globalVariables = [];
-
-    /**
-     * @var string[]
-     */
-    private $classes = [];
-
-    /**
-     * @var string[]
-     */
-    private $classNamePrefixes = [];
-
-    /**
-     * @var string[]
-     */
-    private $parentClasses = [];
-
-    /**
-     * @var string[]
-     */
-    private $interfaces = [];
+    private $globalVariables = array();
 
     /**
      * @var array
      */
-    private $staticAttributes = [];
+    private $classes = array();
 
-    public function addGlobalVariable(string $variableName)
+    /**
+     * @var array
+     */
+    private $classNamePrefixes = array();
+
+    /**
+     * @var array
+     */
+    private $parentClasses = array();
+
+    /**
+     * @var array
+     */
+    private $interfaces = array();
+
+    /**
+     * @var array
+     */
+    private $staticAttributes = array();
+
+    /**
+     * @param string $variableName
+     */
+    public function addGlobalVariable($variableName)
     {
         $this->globalVariables[$variableName] = true;
     }
 
-    public function addClass(string $className)
+    /**
+     * @param string $className
+     */
+    public function addClass($className)
     {
         $this->classes[] = $className;
     }
 
-    public function addSubclassesOf(string $className)
+    /**
+     * @param string $className
+     */
+    public function addSubclassesOf($className)
     {
         $this->parentClasses[] = $className;
     }
 
-    public function addImplementorsOf(string $interfaceName)
+    /**
+     * @param string $interfaceName
+     */
+    public function addImplementorsOf($interfaceName)
     {
         $this->interfaces[] = $interfaceName;
     }
 
-    public function addClassNamePrefix(string $classNamePrefix)
+    /**
+     * @param string $classNamePrefix
+     */
+    public function addClassNamePrefix($classNamePrefix)
     {
         $this->classNamePrefixes[] = $classNamePrefix;
     }
 
-    public function addStaticAttribute(string $className, string $attributeName)
+    /**
+     * @param string $className
+     * @param string $attributeName
+     */
+    public function addStaticAttribute($className, $attributeName)
     {
         if (!isset($this->staticAttributes[$className])) {
-            $this->staticAttributes[$className] = [];
+            $this->staticAttributes[$className] = array();
         }
 
         $this->staticAttributes[$className][$attributeName] = true;
     }
 
-    public function isGlobalVariableBlacklisted(string $variableName): bool
+    /**
+     * @param  string $variableName
+     * @return bool
+     */
+    public function isGlobalVariableBlacklisted($variableName)
     {
         return isset($this->globalVariables[$variableName]);
     }
 
-    public function isStaticAttributeBlacklisted(string $className, string $attributeName): bool
+    /**
+     * @param  string $className
+     * @param  string $attributeName
+     * @return bool
+     */
+    public function isStaticAttributeBlacklisted($className, $attributeName)
     {
-        if (\in_array($className, $this->classes)) {
+        if (in_array($className, $this->classes)) {
             return true;
         }
 
         foreach ($this->classNamePrefixes as $prefix) {
-            if (\strpos($className, $prefix) === 0) {
+            if (strpos($className, $prefix) === 0) {
                 return true;
             }
         }

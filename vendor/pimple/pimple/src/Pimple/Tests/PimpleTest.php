@@ -392,6 +392,24 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group legacy
+     * @expectedDeprecation How Pimple behaves when extending protected closures will be fixed in Pimple 4. Are you sure "foo" should be protected?
+     */
+    public function testExtendingProtectedClosureDeprecation()
+    {
+        $pimple = new Container();
+        $pimple['foo'] = $pimple->protect(function () {
+            return 'bar';
+        });
+
+        $pimple->extend('foo', function ($value) {
+            return $value.'-baz';
+        });
+
+        $this->assertSame('bar-baz', $pimple['foo']);
+    }
+
+    /**
      * @dataProvider badServiceDefinitionProvider
      * @expectedException \Pimple\Exception\ExpectedInvokableException
      * @expectedExceptionMessage Extension service definition is not a Closure or invokable object.

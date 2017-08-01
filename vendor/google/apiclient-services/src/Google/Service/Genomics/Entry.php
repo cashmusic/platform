@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Genomics_Entry extends Google_Model
   protected $statusType = 'Google_Service_Genomics_Status';
   protected $statusDataType = '';
 
+  /**
+   * @param Google_Service_Genomics_Annotation
+   */
   public function setAnnotation(Google_Service_Genomics_Annotation $annotation)
   {
     $this->annotation = $annotation;
   }
+  /**
+   * @return Google_Service_Genomics_Annotation
+   */
   public function getAnnotation()
   {
     return $this->annotation;
   }
+  /**
+   * @param Google_Service_Genomics_Status
+   */
   public function setStatus(Google_Service_Genomics_Status $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_Genomics_Status
+   */
   public function getStatus()
   {
     return $this->status;

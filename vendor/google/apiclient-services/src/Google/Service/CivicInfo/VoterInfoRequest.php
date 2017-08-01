@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_CivicInfo_VoterInfoRequest extends Google_Model
   protected $voterInfoSegmentResultType = 'Google_Service_CivicInfo_VoterInfoSegmentResult';
   protected $voterInfoSegmentResultDataType = '';
 
+  /**
+   * @param Google_Service_CivicInfo_ContextParams
+   */
   public function setContextParams(Google_Service_CivicInfo_ContextParams $contextParams)
   {
     $this->contextParams = $contextParams;
   }
+  /**
+   * @return Google_Service_CivicInfo_ContextParams
+   */
   public function getContextParams()
   {
     return $this->contextParams;
   }
+  /**
+   * @param Google_Service_CivicInfo_VoterInfoSegmentResult
+   */
   public function setVoterInfoSegmentResult(Google_Service_CivicInfo_VoterInfoSegmentResult $voterInfoSegmentResult)
   {
     $this->voterInfoSegmentResult = $voterInfoSegmentResult;
   }
+  /**
+   * @return Google_Service_CivicInfo_VoterInfoSegmentResult
+   */
   public function getVoterInfoSegmentResult()
   {
     return $this->voterInfoSegmentResult;

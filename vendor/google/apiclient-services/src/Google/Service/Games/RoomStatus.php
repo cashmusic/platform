@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_Games_RoomStatus extends Google_Collection
   public $status;
   public $statusVersion;
 
+  /**
+   * @param Google_Service_Games_RoomAutoMatchStatus
+   */
   public function setAutoMatchingStatus(Google_Service_Games_RoomAutoMatchStatus $autoMatchingStatus)
   {
     $this->autoMatchingStatus = $autoMatchingStatus;
   }
+  /**
+   * @return Google_Service_Games_RoomAutoMatchStatus
+   */
   public function getAutoMatchingStatus()
   {
     return $this->autoMatchingStatus;
@@ -43,10 +49,16 @@ class Google_Service_Games_RoomStatus extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Games_RoomParticipant
+   */
   public function setParticipants($participants)
   {
     $this->participants = $participants;
   }
+  /**
+   * @return Google_Service_Games_RoomParticipant
+   */
   public function getParticipants()
   {
     return $this->participants;

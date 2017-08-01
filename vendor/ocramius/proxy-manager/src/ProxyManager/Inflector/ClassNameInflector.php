@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Inflector;
 
 use ProxyManager\Inflector\Util\ParameterHasher;
@@ -53,9 +51,9 @@ final class ClassNameInflector implements ClassNameInflectorInterface
     /**
      * @param string $proxyNamespace
      */
-    public function __construct(string $proxyNamespace)
+    public function __construct($proxyNamespace)
     {
-        $this->proxyNamespace    = $proxyNamespace;
+        $this->proxyNamespace    = (string) $proxyNamespace;
         $this->proxyMarker       = '\\' . static::PROXY_MARKER . '\\';
         $this->proxyMarkerLength = strlen($this->proxyMarker);
         $this->parameterHasher   = new ParameterHasher();
@@ -64,7 +62,7 @@ final class ClassNameInflector implements ClassNameInflectorInterface
     /**
      * {@inheritDoc}
      */
-    public function getUserClassName(string $className) : string
+    public function getUserClassName($className)
     {
         $className = ltrim($className, '\\');
 
@@ -82,7 +80,7 @@ final class ClassNameInflector implements ClassNameInflectorInterface
     /**
      * {@inheritDoc}
      */
-    public function getProxyClassName(string $className, array $options = []) : string
+    public function getProxyClassName($className, array $options = array())
     {
         return $this->proxyNamespace
             . $this->proxyMarker
@@ -93,7 +91,7 @@ final class ClassNameInflector implements ClassNameInflectorInterface
     /**
      * {@inheritDoc}
      */
-    public function isProxyClassName(string $className) : bool
+    public function isProxyClassName($className)
     {
         return false !== strrpos($className, $this->proxyMarker);
     }

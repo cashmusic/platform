@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,10 +35,16 @@ class Google_Service_Datastore_Value extends Google_Model
   public $stringValue;
   public $timestampValue;
 
+  /**
+   * @param Google_Service_Datastore_ArrayValue
+   */
   public function setArrayValue(Google_Service_Datastore_ArrayValue $arrayValue)
   {
     $this->arrayValue = $arrayValue;
   }
+  /**
+   * @return Google_Service_Datastore_ArrayValue
+   */
   public function getArrayValue()
   {
     return $this->arrayValue;
@@ -67,10 +73,16 @@ class Google_Service_Datastore_Value extends Google_Model
   {
     return $this->doubleValue;
   }
+  /**
+   * @param Google_Service_Datastore_Entity
+   */
   public function setEntityValue(Google_Service_Datastore_Entity $entityValue)
   {
     $this->entityValue = $entityValue;
   }
+  /**
+   * @return Google_Service_Datastore_Entity
+   */
   public function getEntityValue()
   {
     return $this->entityValue;
@@ -83,10 +95,16 @@ class Google_Service_Datastore_Value extends Google_Model
   {
     return $this->excludeFromIndexes;
   }
+  /**
+   * @param Google_Service_Datastore_LatLng
+   */
   public function setGeoPointValue(Google_Service_Datastore_LatLng $geoPointValue)
   {
     $this->geoPointValue = $geoPointValue;
   }
+  /**
+   * @return Google_Service_Datastore_LatLng
+   */
   public function getGeoPointValue()
   {
     return $this->geoPointValue;
@@ -99,10 +117,16 @@ class Google_Service_Datastore_Value extends Google_Model
   {
     return $this->integerValue;
   }
+  /**
+   * @param Google_Service_Datastore_Key
+   */
   public function setKeyValue(Google_Service_Datastore_Key $keyValue)
   {
     $this->keyValue = $keyValue;
   }
+  /**
+   * @return Google_Service_Datastore_Key
+   */
   public function getKeyValue()
   {
     return $this->keyValue;

@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class OutputTestCase extends TestCase
+class OutputTestCase extends PHPUnit_Framework_TestCase
 {
     public function testExpectOutputStringFooActualFoo()
     {

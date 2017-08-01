@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,26 +36,44 @@ class Google_Service_Compute_AutoscalingPolicy extends Google_Collection
   {
     return $this->coolDownPeriodSec;
   }
+  /**
+   * @param Google_Service_Compute_AutoscalingPolicyCpuUtilization
+   */
   public function setCpuUtilization(Google_Service_Compute_AutoscalingPolicyCpuUtilization $cpuUtilization)
   {
     $this->cpuUtilization = $cpuUtilization;
   }
+  /**
+   * @return Google_Service_Compute_AutoscalingPolicyCpuUtilization
+   */
   public function getCpuUtilization()
   {
     return $this->cpuUtilization;
   }
+  /**
+   * @param Google_Service_Compute_AutoscalingPolicyCustomMetricUtilization
+   */
   public function setCustomMetricUtilizations($customMetricUtilizations)
   {
     $this->customMetricUtilizations = $customMetricUtilizations;
   }
+  /**
+   * @return Google_Service_Compute_AutoscalingPolicyCustomMetricUtilization
+   */
   public function getCustomMetricUtilizations()
   {
     return $this->customMetricUtilizations;
   }
+  /**
+   * @param Google_Service_Compute_AutoscalingPolicyLoadBalancingUtilization
+   */
   public function setLoadBalancingUtilization(Google_Service_Compute_AutoscalingPolicyLoadBalancingUtilization $loadBalancingUtilization)
   {
     $this->loadBalancingUtilization = $loadBalancingUtilization;
   }
+  /**
+   * @return Google_Service_Compute_AutoscalingPolicyLoadBalancingUtilization
+   */
   public function getLoadBalancingUtilization()
   {
     return $this->loadBalancingUtilization;

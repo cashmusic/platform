@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,42 +49,72 @@ class Google_Service_Dataflow_WorkItemStatus extends Google_Collection
   {
     return $this->completed;
   }
+  /**
+   * @param Google_Service_Dataflow_CounterUpdate
+   */
   public function setCounterUpdates($counterUpdates)
   {
     $this->counterUpdates = $counterUpdates;
   }
+  /**
+   * @return Google_Service_Dataflow_CounterUpdate
+   */
   public function getCounterUpdates()
   {
     return $this->counterUpdates;
   }
+  /**
+   * @param Google_Service_Dataflow_DynamicSourceSplit
+   */
   public function setDynamicSourceSplit(Google_Service_Dataflow_DynamicSourceSplit $dynamicSourceSplit)
   {
     $this->dynamicSourceSplit = $dynamicSourceSplit;
   }
+  /**
+   * @return Google_Service_Dataflow_DynamicSourceSplit
+   */
   public function getDynamicSourceSplit()
   {
     return $this->dynamicSourceSplit;
   }
+  /**
+   * @param Google_Service_Dataflow_Status
+   */
   public function setErrors($errors)
   {
     $this->errors = $errors;
   }
+  /**
+   * @return Google_Service_Dataflow_Status
+   */
   public function getErrors()
   {
     return $this->errors;
   }
+  /**
+   * @param Google_Service_Dataflow_MetricUpdate
+   */
   public function setMetricUpdates($metricUpdates)
   {
     $this->metricUpdates = $metricUpdates;
   }
+  /**
+   * @return Google_Service_Dataflow_MetricUpdate
+   */
   public function getMetricUpdates()
   {
     return $this->metricUpdates;
   }
+  /**
+   * @param Google_Service_Dataflow_ApproximateProgress
+   */
   public function setProgress(Google_Service_Dataflow_ApproximateProgress $progress)
   {
     $this->progress = $progress;
   }
+  /**
+   * @return Google_Service_Dataflow_ApproximateProgress
+   */
   public function getProgress()
   {
     return $this->progress;
@@ -97,10 +127,16 @@ class Google_Service_Dataflow_WorkItemStatus extends Google_Collection
   {
     return $this->reportIndex;
   }
+  /**
+   * @param Google_Service_Dataflow_ApproximateReportedProgress
+   */
   public function setReportedProgress(Google_Service_Dataflow_ApproximateReportedProgress $reportedProgress)
   {
     $this->reportedProgress = $reportedProgress;
   }
+  /**
+   * @return Google_Service_Dataflow_ApproximateReportedProgress
+   */
   public function getReportedProgress()
   {
     return $this->reportedProgress;
@@ -113,26 +149,44 @@ class Google_Service_Dataflow_WorkItemStatus extends Google_Collection
   {
     return $this->requestedLeaseDuration;
   }
+  /**
+   * @param Google_Service_Dataflow_SourceFork
+   */
   public function setSourceFork(Google_Service_Dataflow_SourceFork $sourceFork)
   {
     $this->sourceFork = $sourceFork;
   }
+  /**
+   * @return Google_Service_Dataflow_SourceFork
+   */
   public function getSourceFork()
   {
     return $this->sourceFork;
   }
+  /**
+   * @param Google_Service_Dataflow_SourceOperationResponse
+   */
   public function setSourceOperationResponse(Google_Service_Dataflow_SourceOperationResponse $sourceOperationResponse)
   {
     $this->sourceOperationResponse = $sourceOperationResponse;
   }
+  /**
+   * @return Google_Service_Dataflow_SourceOperationResponse
+   */
   public function getSourceOperationResponse()
   {
     return $this->sourceOperationResponse;
   }
+  /**
+   * @param Google_Service_Dataflow_Position
+   */
   public function setStopPosition(Google_Service_Dataflow_Position $stopPosition)
   {
     $this->stopPosition = $stopPosition;
   }
+  /**
+   * @return Google_Service_Dataflow_Position
+   */
   public function getStopPosition()
   {
     return $this->stopPosition;

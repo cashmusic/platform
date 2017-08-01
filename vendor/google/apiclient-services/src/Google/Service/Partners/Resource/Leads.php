@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,6 +31,17 @@ class Google_Service_Partners_Resource_Leads extends Google_Service_Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string requestMetadata.experimentIds Experiment IDs the current
+   * request belongs to.
+   * @opt_param string requestMetadata.trafficSource.trafficSubId Second level
+   * identifier to indicate where the traffic comes from. An identifier has
+   * multiple letters created by a team which redirected the traffic to us.
+   * @opt_param string orderBy How to order Leads. Currently, only `create_time`
+   * and `create_time desc` are supported
+   * @opt_param string requestMetadata.userOverrides.userId Logged-in user ID to
+   * impersonate instead of the user's ID.
+   * @opt_param string requestMetadata.partnersSessionId Google Partners session
+   * ID.
    * @opt_param string pageToken A token identifying a page of results that the
    * server returns. Typically, this is the value of
    * `ListLeadsResponse.next_page_token` returned from the previous call to
@@ -44,17 +55,6 @@ class Google_Service_Partners_Resource_Leads extends Google_Service_Resource
    * request.
    * @opt_param string requestMetadata.userOverrides.ipAddress IP address to use
    * instead of the user's geo-located IP address.
-   * @opt_param string requestMetadata.experimentIds Experiment IDs the current
-   * request belongs to.
-   * @opt_param string requestMetadata.trafficSource.trafficSubId Second level
-   * identifier to indicate where the traffic comes from. An identifier has
-   * multiple letters created by a team which redirected the traffic to us.
-   * @opt_param string orderBy How to order Leads. Currently, only `create_time`
-   * and `create_time desc` are supported
-   * @opt_param string requestMetadata.partnersSessionId Google Partners session
-   * ID.
-   * @opt_param string requestMetadata.userOverrides.userId Logged-in user ID to
-   * impersonate instead of the user's ID.
    * @return Google_Service_Partners_ListLeadsResponse
    */
   public function listLeads($optParams = array())

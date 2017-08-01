@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -51,18 +51,30 @@ class Google_Service_YouTube_Video extends Google_Model
   protected $topicDetailsType = 'Google_Service_YouTube_VideoTopicDetails';
   protected $topicDetailsDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_VideoAgeGating
+   */
   public function setAgeGating(Google_Service_YouTube_VideoAgeGating $ageGating)
   {
     $this->ageGating = $ageGating;
   }
+  /**
+   * @return Google_Service_YouTube_VideoAgeGating
+   */
   public function getAgeGating()
   {
     return $this->ageGating;
   }
+  /**
+   * @param Google_Service_YouTube_VideoContentDetails
+   */
   public function setContentDetails(Google_Service_YouTube_VideoContentDetails $contentDetails)
   {
     $this->contentDetails = $contentDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoContentDetails
+   */
   public function getContentDetails()
   {
     return $this->contentDetails;
@@ -75,10 +87,16 @@ class Google_Service_YouTube_Video extends Google_Model
   {
     return $this->etag;
   }
+  /**
+   * @param Google_Service_YouTube_VideoFileDetails
+   */
   public function setFileDetails(Google_Service_YouTube_VideoFileDetails $fileDetails)
   {
     $this->fileDetails = $fileDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoFileDetails
+   */
   public function getFileDetails()
   {
     return $this->fileDetails;
@@ -99,98 +117,170 @@ class Google_Service_YouTube_Video extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_VideoLiveStreamingDetails
+   */
   public function setLiveStreamingDetails(Google_Service_YouTube_VideoLiveStreamingDetails $liveStreamingDetails)
   {
     $this->liveStreamingDetails = $liveStreamingDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoLiveStreamingDetails
+   */
   public function getLiveStreamingDetails()
   {
     return $this->liveStreamingDetails;
   }
+  /**
+   * @param Google_Service_YouTube_VideoLocalization
+   */
   public function setLocalizations($localizations)
   {
     $this->localizations = $localizations;
   }
+  /**
+   * @return Google_Service_YouTube_VideoLocalization
+   */
   public function getLocalizations()
   {
     return $this->localizations;
   }
+  /**
+   * @param Google_Service_YouTube_VideoMonetizationDetails
+   */
   public function setMonetizationDetails(Google_Service_YouTube_VideoMonetizationDetails $monetizationDetails)
   {
     $this->monetizationDetails = $monetizationDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoMonetizationDetails
+   */
   public function getMonetizationDetails()
   {
     return $this->monetizationDetails;
   }
+  /**
+   * @param Google_Service_YouTube_VideoPlayer
+   */
   public function setPlayer(Google_Service_YouTube_VideoPlayer $player)
   {
     $this->player = $player;
   }
+  /**
+   * @return Google_Service_YouTube_VideoPlayer
+   */
   public function getPlayer()
   {
     return $this->player;
   }
+  /**
+   * @param Google_Service_YouTube_VideoProcessingDetails
+   */
   public function setProcessingDetails(Google_Service_YouTube_VideoProcessingDetails $processingDetails)
   {
     $this->processingDetails = $processingDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoProcessingDetails
+   */
   public function getProcessingDetails()
   {
     return $this->processingDetails;
   }
+  /**
+   * @param Google_Service_YouTube_VideoProjectDetails
+   */
   public function setProjectDetails(Google_Service_YouTube_VideoProjectDetails $projectDetails)
   {
     $this->projectDetails = $projectDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoProjectDetails
+   */
   public function getProjectDetails()
   {
     return $this->projectDetails;
   }
+  /**
+   * @param Google_Service_YouTube_VideoRecordingDetails
+   */
   public function setRecordingDetails(Google_Service_YouTube_VideoRecordingDetails $recordingDetails)
   {
     $this->recordingDetails = $recordingDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoRecordingDetails
+   */
   public function getRecordingDetails()
   {
     return $this->recordingDetails;
   }
+  /**
+   * @param Google_Service_YouTube_VideoSnippet
+   */
   public function setSnippet(Google_Service_YouTube_VideoSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_VideoSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;
   }
+  /**
+   * @param Google_Service_YouTube_VideoStatistics
+   */
   public function setStatistics(Google_Service_YouTube_VideoStatistics $statistics)
   {
     $this->statistics = $statistics;
   }
+  /**
+   * @return Google_Service_YouTube_VideoStatistics
+   */
   public function getStatistics()
   {
     return $this->statistics;
   }
+  /**
+   * @param Google_Service_YouTube_VideoStatus
+   */
   public function setStatus(Google_Service_YouTube_VideoStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_YouTube_VideoStatus
+   */
   public function getStatus()
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_YouTube_VideoSuggestions
+   */
   public function setSuggestions(Google_Service_YouTube_VideoSuggestions $suggestions)
   {
     $this->suggestions = $suggestions;
   }
+  /**
+   * @return Google_Service_YouTube_VideoSuggestions
+   */
   public function getSuggestions()
   {
     return $this->suggestions;
   }
+  /**
+   * @param Google_Service_YouTube_VideoTopicDetails
+   */
   public function setTopicDetails(Google_Service_YouTube_VideoTopicDetails $topicDetails)
   {
     $this->topicDetails = $topicDetails;
   }
+  /**
+   * @return Google_Service_YouTube_VideoTopicDetails
+   */
   public function getTopicDetails()
   {
     return $this->topicDetails;

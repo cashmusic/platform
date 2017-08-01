@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,10 +41,16 @@ class Google_Service_ShoppingContent_CarrierRate extends Google_Model
   {
     return $this->carrierService;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setFlatAdjustment(Google_Service_ShoppingContent_Price $flatAdjustment)
   {
     $this->flatAdjustment = $flatAdjustment;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getFlatAdjustment()
   {
     return $this->flatAdjustment;

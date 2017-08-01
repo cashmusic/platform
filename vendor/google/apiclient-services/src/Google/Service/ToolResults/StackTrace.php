@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,8 +17,18 @@
 
 class Google_Service_ToolResults_StackTrace extends Google_Model
 {
+  public $clusterId;
   public $exception;
+  public $reportId;
 
+  public function setClusterId($clusterId)
+  {
+    $this->clusterId = $clusterId;
+  }
+  public function getClusterId()
+  {
+    return $this->clusterId;
+  }
   public function setException($exception)
   {
     $this->exception = $exception;
@@ -26,5 +36,13 @@ class Google_Service_ToolResults_StackTrace extends Google_Model
   public function getException()
   {
     return $this->exception;
+  }
+  public function setReportId($reportId)
+  {
+    $this->reportId = $reportId;
+  }
+  public function getReportId()
+  {
+    return $this->reportId;
   }
 }

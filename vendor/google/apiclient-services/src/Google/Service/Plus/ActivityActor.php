@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,10 +29,16 @@ class Google_Service_Plus_ActivityActor extends Google_Model
   protected $verificationType = 'Google_Service_Plus_ActivityActorVerification';
   protected $verificationDataType = '';
 
+  /**
+   * @param Google_Service_Plus_ActivityActorClientSpecificActorInfo
+   */
   public function setClientSpecificActorInfo(Google_Service_Plus_ActivityActorClientSpecificActorInfo $clientSpecificActorInfo)
   {
     $this->clientSpecificActorInfo = $clientSpecificActorInfo;
   }
+  /**
+   * @return Google_Service_Plus_ActivityActorClientSpecificActorInfo
+   */
   public function getClientSpecificActorInfo()
   {
     return $this->clientSpecificActorInfo;
@@ -53,18 +59,30 @@ class Google_Service_Plus_ActivityActor extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Plus_ActivityActorImage
+   */
   public function setImage(Google_Service_Plus_ActivityActorImage $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_Plus_ActivityActorImage
+   */
   public function getImage()
   {
     return $this->image;
   }
+  /**
+   * @param Google_Service_Plus_ActivityActorName
+   */
   public function setName(Google_Service_Plus_ActivityActorName $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_Plus_ActivityActorName
+   */
   public function getName()
   {
     return $this->name;
@@ -77,10 +95,16 @@ class Google_Service_Plus_ActivityActor extends Google_Model
   {
     return $this->url;
   }
+  /**
+   * @param Google_Service_Plus_ActivityActorVerification
+   */
   public function setVerification(Google_Service_Plus_ActivityActorVerification $verification)
   {
     $this->verification = $verification;
   }
+  /**
+   * @return Google_Service_Plus_ActivityActorVerification
+   */
   public function getVerification()
   {
     return $this->verification;

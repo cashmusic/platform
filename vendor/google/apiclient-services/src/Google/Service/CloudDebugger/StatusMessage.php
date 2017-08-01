@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_CloudDebugger_StatusMessage extends Google_Model
   public $isError;
   public $refersTo;
 
+  /**
+   * @param Google_Service_CloudDebugger_FormatMessage
+   */
   public function setDescription(Google_Service_CloudDebugger_FormatMessage $description)
   {
     $this->description = $description;
   }
+  /**
+   * @return Google_Service_CloudDebugger_FormatMessage
+   */
   public function getDescription()
   {
     return $this->description;

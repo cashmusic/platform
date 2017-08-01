@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Dfareporting_RichMediaExitOverride extends Google_Model
   public $enabled;
   public $exitId;
 
+  /**
+   * @param Google_Service_Dfareporting_ClickThroughUrl
+   */
   public function setClickThroughUrl(Google_Service_Dfareporting_ClickThroughUrl $clickThroughUrl)
   {
     $this->clickThroughUrl = $clickThroughUrl;
   }
+  /**
+   * @return Google_Service_Dfareporting_ClickThroughUrl
+   */
   public function getClickThroughUrl()
   {
     return $this->clickThroughUrl;

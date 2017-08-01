@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -56,10 +56,16 @@ class Google_Service_AdSense_CustomChannel extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_AdSense_CustomChannelTargetingInfo
+   */
   public function setTargetingInfo(Google_Service_AdSense_CustomChannelTargetingInfo $targetingInfo)
   {
     $this->targetingInfo = $targetingInfo;
   }
+  /**
+   * @return Google_Service_AdSense_CustomChannelTargetingInfo
+   */
   public function getTargetingInfo()
   {
     return $this->targetingInfo;

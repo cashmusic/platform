@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,10 +29,16 @@ class Google_Service_YouTube_ChannelSection extends Google_Model
   protected $targetingType = 'Google_Service_YouTube_ChannelSectionTargeting';
   protected $targetingDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_ChannelSectionContentDetails
+   */
   public function setContentDetails(Google_Service_YouTube_ChannelSectionContentDetails $contentDetails)
   {
     $this->contentDetails = $contentDetails;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSectionContentDetails
+   */
   public function getContentDetails()
   {
     return $this->contentDetails;
@@ -61,26 +67,44 @@ class Google_Service_YouTube_ChannelSection extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_ChannelSectionLocalization
+   */
   public function setLocalizations($localizations)
   {
     $this->localizations = $localizations;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSectionLocalization
+   */
   public function getLocalizations()
   {
     return $this->localizations;
   }
+  /**
+   * @param Google_Service_YouTube_ChannelSectionSnippet
+   */
   public function setSnippet(Google_Service_YouTube_ChannelSectionSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSectionSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;
   }
+  /**
+   * @param Google_Service_YouTube_ChannelSectionTargeting
+   */
   public function setTargeting(Google_Service_YouTube_ChannelSectionTargeting $targeting)
   {
     $this->targeting = $targeting;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSectionTargeting
+   */
   public function getTargeting()
   {
     return $this->targeting;

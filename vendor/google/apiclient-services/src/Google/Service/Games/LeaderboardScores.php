@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_Games_LeaderboardScores extends Google_Collection
   protected $playerScoreDataType = '';
   public $prevPageToken;
 
+  /**
+   * @param Google_Service_Games_LeaderboardEntry
+   */
   public function setItems($items)
   {
     $this->items = $items;
   }
+  /**
+   * @return Google_Service_Games_LeaderboardEntry
+   */
   public function getItems()
   {
     return $this->items;
@@ -59,10 +65,16 @@ class Google_Service_Games_LeaderboardScores extends Google_Collection
   {
     return $this->numScores;
   }
+  /**
+   * @param Google_Service_Games_LeaderboardEntry
+   */
   public function setPlayerScore(Google_Service_Games_LeaderboardEntry $playerScore)
   {
     $this->playerScore = $playerScore;
   }
+  /**
+   * @return Google_Service_Games_LeaderboardEntry
+   */
   public function getPlayerScore()
   {
     return $this->playerScore;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,10 +31,16 @@ class Google_Service_Storagetransfer_TransferOperation extends Google_Collection
   protected $transferSpecType = 'Google_Service_Storagetransfer_TransferSpec';
   protected $transferSpecDataType = '';
 
+  /**
+   * @param Google_Service_Storagetransfer_TransferCounters
+   */
   public function setCounters(Google_Service_Storagetransfer_TransferCounters $counters)
   {
     $this->counters = $counters;
   }
+  /**
+   * @return Google_Service_Storagetransfer_TransferCounters
+   */
   public function getCounters()
   {
     return $this->counters;
@@ -47,10 +53,16 @@ class Google_Service_Storagetransfer_TransferOperation extends Google_Collection
   {
     return $this->endTime;
   }
+  /**
+   * @param Google_Service_Storagetransfer_ErrorSummary
+   */
   public function setErrorBreakdowns($errorBreakdowns)
   {
     $this->errorBreakdowns = $errorBreakdowns;
   }
+  /**
+   * @return Google_Service_Storagetransfer_ErrorSummary
+   */
   public function getErrorBreakdowns()
   {
     return $this->errorBreakdowns;
@@ -95,10 +107,16 @@ class Google_Service_Storagetransfer_TransferOperation extends Google_Collection
   {
     return $this->transferJobName;
   }
+  /**
+   * @param Google_Service_Storagetransfer_TransferSpec
+   */
   public function setTransferSpec(Google_Service_Storagetransfer_TransferSpec $transferSpec)
   {
     $this->transferSpec = $transferSpec;
   }
+  /**
+   * @return Google_Service_Storagetransfer_TransferSpec
+   */
   public function getTransferSpec()
   {
     return $this->transferSpec;

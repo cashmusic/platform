@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,9 +26,24 @@
 class Google_Service_Translate_Resource_Detections extends Google_Service_Resource
 {
   /**
-   * Detect the language of text. (detections.listDetections)
+   * Detects the language of text within a request. (detections.detect)
    *
-   * @param string|array $q The text to detect
+   * @param Google_Service_Translate_DetectLanguageRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Translate_DetectionsListResponse
+   */
+  public function detect(Google_Service_Translate_DetectLanguageRequest $postBody, $optParams = array())
+  {
+    $params = array('postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('detect', array($params), "Google_Service_Translate_DetectionsListResponse");
+  }
+  /**
+   * Detects the language of text within a request. (detections.listDetections)
+   *
+   * @param string|array $q The input text upon which to perform language
+   * detection. Repeat this parameter to perform language detection on multiple
+   * text inputs.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Translate_DetectionsListResponse
    */

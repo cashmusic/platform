@@ -10,12 +10,10 @@
 
 namespace SebastianBergmann\Exporter;
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * @covers SebastianBergmann\Exporter\Exporter
  */
-class ExporterTest extends TestCase
+class ExporterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Exporter
@@ -53,15 +51,15 @@ class ExporterTest extends TestCase
         $storage->foo = $obj2;
 
         return array(
-            'export null' => array(null, 'null'),
-            'export boolean true' => array(true, 'true'),
-            'export boolean false' => array(false, 'false'),
-            'export int 1' => array(1, '1'),
-            'export float 1.0' => array(1.0, '1.0'),
-            'export float 1.2' => array(1.2, '1.2'),
-            'export stream' => array(fopen('php://memory', 'r'), 'resource(%d) of type (stream)'),
-            'export numeric string' => array('1', "'1'"),
-            'export multidimentional array' => array(array(array(1,2,3), array(3,4,5)),
+            array(null, 'null'),
+            array(true, 'true'),
+            array(false, 'false'),
+            array(1, '1'),
+            array(1.0, '1.0'),
+            array(1.2, '1.2'),
+            array(fopen('php://memory', 'r'), 'resource(%d) of type (stream)'),
+            array('1', "'1'"),
+            array(array(array(1,2,3), array(3,4,5)),
         <<<EOF
 Array &0 (
     0 => Array &1 (
@@ -78,23 +76,23 @@ Array &0 (
 EOF
             ),
             // \n\r and \r is converted to \n
-            'export multiline text' => array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
+            array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
             <<<EOF
-'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
 text'
 EOF
             ),
-            'export empty stdclass' => array(new \stdClass, 'stdClass Object &%x ()'),
-            'export non empty stdclass' => array($obj,
+            array(new \stdClass, 'stdClass Object &%x ()'),
+            array($obj,
             <<<EOF
 stdClass Object &%x (
     'null' => null
@@ -102,16 +100,16 @@ stdClass Object &%x (
     'integer' => 1
     'double' => 1.2
     'string' => '1'
-    'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+    'text' => 'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
 text'
     'object' => stdClass Object &%x (
         'foo' => 'bar'
@@ -124,8 +122,8 @@ text'
 )
 EOF
             ),
-            'export empty array' => array(array(), 'Array &%d ()'),
-            'export splObjectStorage' => array($storage,
+            array(array(), 'Array &%d ()'),
+            array($storage,
             <<<EOF
 SplObjectStorage Object &%x (
     'foo' => stdClass Object &%x (
@@ -138,13 +136,12 @@ SplObjectStorage Object &%x (
 )
 EOF
             ),
-            'export stdClass with numeric properties' => array($obj3,
+            array($obj3,
             <<<EOF
 stdClass Object &%x (
     0 => 1
     1 => 2
-    2 => 'Test\\r\\n
-'
+    2 => 'Test\n'
     3 => 4
     4 => 5
     5 => 6
@@ -215,16 +212,16 @@ Array &%d (
     'integer' => 1
     'double' => 1.2
     'string' => '1'
-    'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+    'text' => 'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
 text'
     'object' => stdClass Object &%x (
         'foo' => 'bar'
@@ -240,16 +237,16 @@ text'
         'integer' => 1
         'double' => 1.2
         'string' => '1'
-        'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+        'text' => 'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
 text'
         'object' => stdClass Object &%x
         'objectagain' => stdClass Object &%x
@@ -277,18 +274,18 @@ EOF;
         );
 
         return array(
-            'shortened export null' => array(null, 'null'),
-            'shortened export boolean true' => array(true, 'true'),
-            'shortened export integer 1' => array(1, '1'),
-            'shortened export float 1.0' => array(1.0, '1.0'),
-            'shortened export float 1.2' => array(1.2, '1.2'),
-            'shortened export numeric string' => array('1', "'1'"),
+            array(null, 'null'),
+            array(true, 'true'),
+            array(1, '1'),
+            array(1.0, '1.0'),
+            array(1.2, '1.2'),
+            array('1', "'1'"),
             // \n\r and \r is converted to \n
-            'shortened export multilinestring' => array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"),
-            'shortened export empty stdClass' => array(new \stdClass, 'stdClass Object ()'),
-            'shortened export not empty stdClass' => array($obj, 'stdClass Object (...)'),
-            'shortened export empty array' => array(array(), 'Array ()'),
-            'shortened export not empty array' => array($array, 'Array (...)'),
+            array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery\\nvery...g\\ntext'"),
+            array(new \stdClass, 'stdClass Object ()'),
+            array($obj, 'stdClass Object (...)'),
+            array(array(), 'Array ()'),
+            array($array, 'Array (...)'),
         );
     }
 
@@ -331,7 +328,7 @@ EOF;
     public function provideNonBinaryMultibyteStrings()
     {
         return array(
-            array(implode('', array_map('chr', range(0x09, 0x0d))), 9),
+            array(implode('', array_map('chr', range(0x09, 0x0d))), 5),
             array(implode('', array_map('chr', range(0x20, 0x7f))), 96),
             array(implode('', array_map('chr', range(0x80, 0xff))), 128),
         );

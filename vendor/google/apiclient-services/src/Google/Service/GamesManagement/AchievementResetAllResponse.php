@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_GamesManagement_AchievementResetAllResponse extends Google_
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_GamesManagement_AchievementResetResponse
+   */
   public function setResults($results)
   {
     $this->results = $results;
   }
+  /**
+   * @return Google_Service_GamesManagement_AchievementResetResponse
+   */
   public function getResults()
   {
     return $this->results;

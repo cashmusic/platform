@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -180,8 +180,11 @@ class Google_Service_Calendar_Resource_Events extends Google_Service_Resource
    * response. If there are more than the specified number of attendees, only the
    * participant is returned. Optional.
    * @opt_param int maxResults Maximum number of events returned on one result
-   * page. By default the value is 250 events. The page size can never be larger
-   * than 2500 events. Optional.
+   * page. The number of events in the resulting page may be less than this value,
+   * or none at all, even if there are more events matching the query. Incomplete
+   * pages can be detected by a non-empty nextPageToken field in the response. By
+   * default the value is 250 events. The page size can never be larger than 2500
+   * events. Optional.
    * @opt_param string orderBy The order of the events returned in the result.
    * Optional. The default is an unspecified, stable order.
    * @opt_param string pageToken Token specifying which result page to return.
@@ -226,12 +229,12 @@ class Google_Service_Calendar_Resource_Events extends Google_Service_Resource
    * to filter by. Optional. The default is not to filter by start time. Must be
    * an RFC3339 timestamp with mandatory time zone offset, e.g.,
    * 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided
-   * but will be ignored.
+   * but will be ignored. If timeMin is set, timeMax must be greater than timeMin.
    * @opt_param string timeMin Lower bound (inclusive) for an event's end time to
    * filter by. Optional. The default is not to filter by end time. Must be an
    * RFC3339 timestamp with mandatory time zone offset, e.g.,
    * 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided
-   * but will be ignored.
+   * but will be ignored. If timeMax is set, timeMin must be smaller than timeMax.
    * @opt_param string timeZone Time zone used in the response. Optional. The
    * default is the time zone of the calendar.
    * @opt_param string updatedMin Lower bound for an event's last modification
@@ -371,8 +374,11 @@ class Google_Service_Calendar_Resource_Events extends Google_Service_Resource
    * response. If there are more than the specified number of attendees, only the
    * participant is returned. Optional.
    * @opt_param int maxResults Maximum number of events returned on one result
-   * page. By default the value is 250 events. The page size can never be larger
-   * than 2500 events. Optional.
+   * page. The number of events in the resulting page may be less than this value,
+   * or none at all, even if there are more events matching the query. Incomplete
+   * pages can be detected by a non-empty nextPageToken field in the response. By
+   * default the value is 250 events. The page size can never be larger than 2500
+   * events. Optional.
    * @opt_param string orderBy The order of the events returned in the result.
    * Optional. The default is an unspecified, stable order.
    * @opt_param string pageToken Token specifying which result page to return.
@@ -417,12 +423,12 @@ class Google_Service_Calendar_Resource_Events extends Google_Service_Resource
    * to filter by. Optional. The default is not to filter by start time. Must be
    * an RFC3339 timestamp with mandatory time zone offset, e.g.,
    * 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided
-   * but will be ignored.
+   * but will be ignored. If timeMin is set, timeMax must be greater than timeMin.
    * @opt_param string timeMin Lower bound (inclusive) for an event's end time to
    * filter by. Optional. The default is not to filter by end time. Must be an
    * RFC3339 timestamp with mandatory time zone offset, e.g.,
    * 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided
-   * but will be ignored.
+   * but will be ignored. If timeMax is set, timeMin must be smaller than timeMax.
    * @opt_param string timeZone Time zone used in the response. Optional. The
    * default is the time zone of the calendar.
    * @opt_param string updatedMin Lower bound for an event's last modification

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,26 +33,44 @@ class Google_Service_CivicInfo_VoterInfoSegmentResult extends Google_Model
   {
     return $this->generatedMillis;
   }
+  /**
+   * @param Google_Service_CivicInfo_PostalAddress
+   */
   public function setPostalAddress(Google_Service_CivicInfo_PostalAddress $postalAddress)
   {
     $this->postalAddress = $postalAddress;
   }
+  /**
+   * @return Google_Service_CivicInfo_PostalAddress
+   */
   public function getPostalAddress()
   {
     return $this->postalAddress;
   }
+  /**
+   * @param Google_Service_CivicInfo_VoterInfoRequest
+   */
   public function setRequest(Google_Service_CivicInfo_VoterInfoRequest $request)
   {
     $this->request = $request;
   }
+  /**
+   * @return Google_Service_CivicInfo_VoterInfoRequest
+   */
   public function getRequest()
   {
     return $this->request;
   }
+  /**
+   * @param Google_Service_CivicInfo_VoterInfoResponse
+   */
   public function setResponse(Google_Service_CivicInfo_VoterInfoResponse $response)
   {
     $this->response = $response;
   }
+  /**
+   * @return Google_Service_CivicInfo_VoterInfoResponse
+   */
   public function getResponse()
   {
     return $this->response;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_YouTubeAnalytics_GroupListResponse extends Google_Collectio
   {
     return $this->etag;
   }
+  /**
+   * @param Google_Service_YouTubeAnalytics_Group
+   */
   public function setItems($items)
   {
     $this->items = $items;
   }
+  /**
+   * @return Google_Service_YouTubeAnalytics_Group
+   */
   public function getItems()
   {
     return $this->items;

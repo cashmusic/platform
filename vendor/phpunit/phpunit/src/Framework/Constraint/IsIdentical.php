@@ -7,10 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use PHPUnit\Framework\ExpectationFailedException;
-use SebastianBergmann;
 
 /**
  * Constraint that asserts that one value is identical to another.
@@ -23,7 +19,7 @@ use SebastianBergmann;
  *
  * The expected value is passed in the constructor.
  */
-class IsIdentical extends Constraint
+class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constraint
 {
     /**
      * @var float
@@ -60,14 +56,14 @@ class IsIdentical extends Constraint
      *
      * @return mixed
      *
-     * @throws ExpectationFailedException
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {
-        if (\is_float($this->value) && \is_float($other) &&
-            !\is_infinite($this->value) && !\is_infinite($other) &&
-            !\is_nan($this->value) && !\is_nan($other)) {
-            $success = \abs($this->value - $other) < self::EPSILON;
+        if (is_float($this->value) && is_float($other) &&
+            !is_infinite($this->value) && !is_infinite($other) &&
+            !is_nan($this->value) && !is_nan($other)) {
+            $success = abs($this->value - $other) < self::EPSILON;
         } else {
             $success = $this->value === $other;
         }
@@ -80,12 +76,12 @@ class IsIdentical extends Constraint
             $f = null;
 
             // if both values are strings, make sure a diff is generated
-            if (\is_string($this->value) && \is_string($other)) {
+            if (is_string($this->value) && is_string($other)) {
                 $f = new SebastianBergmann\Comparator\ComparisonFailure(
                     $this->value,
                     $other,
-                    \sprintf("'%s'", $this->value),
-                    \sprintf("'%s'", $other)
+                    $this->value,
+                    $other
                 );
             }
 
@@ -105,11 +101,11 @@ class IsIdentical extends Constraint
      */
     protected function failureDescription($other)
     {
-        if (\is_object($this->value) && \is_object($other)) {
+        if (is_object($this->value) && is_object($other)) {
             return 'two variables reference the same object';
         }
 
-        if (\is_string($this->value) && \is_string($other)) {
+        if (is_string($this->value) && is_string($other)) {
             return 'two strings are identical';
         }
 
@@ -123,11 +119,12 @@ class IsIdentical extends Constraint
      */
     public function toString()
     {
-        if (\is_object($this->value)) {
+        if (is_object($this->value)) {
             return 'is identical to an object of class "' .
-                \get_class($this->value) . '"';
+                   get_class($this->value) . '"';
+        } else {
+            return 'is identical to ' .
+                   $this->exporter->export($this->value);
         }
-
-        return 'is identical to ' . $this->exporter->export($this->value);
     }
 }

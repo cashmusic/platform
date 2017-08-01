@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Dfareporting_VideoSettings extends Google_Model
   protected $transcodeSettingsType = 'Google_Service_Dfareporting_TranscodeSetting';
   protected $transcodeSettingsDataType = '';
 
+  /**
+   * @param Google_Service_Dfareporting_CompanionSetting
+   */
   public function setCompanionSettings(Google_Service_Dfareporting_CompanionSetting $companionSettings)
   {
     $this->companionSettings = $companionSettings;
   }
+  /**
+   * @return Google_Service_Dfareporting_CompanionSetting
+   */
   public function getCompanionSettings()
   {
     return $this->companionSettings;
@@ -41,18 +47,30 @@ class Google_Service_Dfareporting_VideoSettings extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_SkippableSetting
+   */
   public function setSkippableSettings(Google_Service_Dfareporting_SkippableSetting $skippableSettings)
   {
     $this->skippableSettings = $skippableSettings;
   }
+  /**
+   * @return Google_Service_Dfareporting_SkippableSetting
+   */
   public function getSkippableSettings()
   {
     return $this->skippableSettings;
   }
+  /**
+   * @param Google_Service_Dfareporting_TranscodeSetting
+   */
   public function setTranscodeSettings(Google_Service_Dfareporting_TranscodeSetting $transcodeSettings)
   {
     $this->transcodeSettings = $transcodeSettings;
   }
+  /**
+   * @return Google_Service_Dfareporting_TranscodeSetting
+   */
   public function getTranscodeSettings()
   {
     return $this->transcodeSettings;

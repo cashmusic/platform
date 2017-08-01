@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -54,6 +54,8 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   protected $monitoringDataType = '';
   public $name;
   public $producerProjectId;
+  protected $quotaType = 'Google_Service_ServiceUser_Quota';
+  protected $quotaDataType = '';
   protected $sourceInfoType = 'Google_Service_ServiceUser_SourceInfo';
   protected $sourceInfoDataType = '';
   protected $systemParametersType = 'Google_Service_ServiceUser_SystemParameters';
@@ -68,26 +70,44 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   protected $visibilityType = 'Google_Service_ServiceUser_Visibility';
   protected $visibilityDataType = '';
 
+  /**
+   * @param Google_Service_ServiceUser_Api
+   */
   public function setApis($apis)
   {
     $this->apis = $apis;
   }
+  /**
+   * @return Google_Service_ServiceUser_Api
+   */
   public function getApis()
   {
     return $this->apis;
   }
+  /**
+   * @param Google_Service_ServiceUser_Authentication
+   */
   public function setAuthentication(Google_Service_ServiceUser_Authentication $authentication)
   {
     $this->authentication = $authentication;
   }
+  /**
+   * @return Google_Service_ServiceUser_Authentication
+   */
   public function getAuthentication()
   {
     return $this->authentication;
   }
+  /**
+   * @param Google_Service_ServiceUser_Backend
+   */
   public function setBackend(Google_Service_ServiceUser_Backend $backend)
   {
     $this->backend = $backend;
   }
+  /**
+   * @return Google_Service_ServiceUser_Backend
+   */
   public function getBackend()
   {
     return $this->backend;
@@ -100,66 +120,114 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   {
     return $this->configVersion;
   }
+  /**
+   * @param Google_Service_ServiceUser_Context
+   */
   public function setContext(Google_Service_ServiceUser_Context $context)
   {
     $this->context = $context;
   }
+  /**
+   * @return Google_Service_ServiceUser_Context
+   */
   public function getContext()
   {
     return $this->context;
   }
+  /**
+   * @param Google_Service_ServiceUser_Control
+   */
   public function setControl(Google_Service_ServiceUser_Control $control)
   {
     $this->control = $control;
   }
+  /**
+   * @return Google_Service_ServiceUser_Control
+   */
   public function getControl()
   {
     return $this->control;
   }
+  /**
+   * @param Google_Service_ServiceUser_CustomError
+   */
   public function setCustomError(Google_Service_ServiceUser_CustomError $customError)
   {
     $this->customError = $customError;
   }
+  /**
+   * @return Google_Service_ServiceUser_CustomError
+   */
   public function getCustomError()
   {
     return $this->customError;
   }
+  /**
+   * @param Google_Service_ServiceUser_Documentation
+   */
   public function setDocumentation(Google_Service_ServiceUser_Documentation $documentation)
   {
     $this->documentation = $documentation;
   }
+  /**
+   * @return Google_Service_ServiceUser_Documentation
+   */
   public function getDocumentation()
   {
     return $this->documentation;
   }
+  /**
+   * @param Google_Service_ServiceUser_Endpoint
+   */
   public function setEndpoints($endpoints)
   {
     $this->endpoints = $endpoints;
   }
+  /**
+   * @return Google_Service_ServiceUser_Endpoint
+   */
   public function getEndpoints()
   {
     return $this->endpoints;
   }
+  /**
+   * @param Google_Service_ServiceUser_Enum
+   */
   public function setEnums($enums)
   {
     $this->enums = $enums;
   }
+  /**
+   * @return Google_Service_ServiceUser_Enum
+   */
   public function getEnums()
   {
     return $this->enums;
   }
+  /**
+   * @param Google_Service_ServiceUser_Experimental
+   */
   public function setExperimental(Google_Service_ServiceUser_Experimental $experimental)
   {
     $this->experimental = $experimental;
   }
+  /**
+   * @return Google_Service_ServiceUser_Experimental
+   */
   public function getExperimental()
   {
     return $this->experimental;
   }
+  /**
+   * @param Google_Service_ServiceUser_Http
+   */
   public function setHttp(Google_Service_ServiceUser_Http $http)
   {
     $this->http = $http;
   }
+  /**
+   * @return Google_Service_ServiceUser_Http
+   */
   public function getHttp()
   {
     return $this->http;
@@ -172,42 +240,72 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_ServiceUser_Logging
+   */
   public function setLogging(Google_Service_ServiceUser_Logging $logging)
   {
     $this->logging = $logging;
   }
+  /**
+   * @return Google_Service_ServiceUser_Logging
+   */
   public function getLogging()
   {
     return $this->logging;
   }
+  /**
+   * @param Google_Service_ServiceUser_LogDescriptor
+   */
   public function setLogs($logs)
   {
     $this->logs = $logs;
   }
+  /**
+   * @return Google_Service_ServiceUser_LogDescriptor
+   */
   public function getLogs()
   {
     return $this->logs;
   }
+  /**
+   * @param Google_Service_ServiceUser_MetricDescriptor
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_ServiceUser_MetricDescriptor
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_ServiceUser_MonitoredResourceDescriptor
+   */
   public function setMonitoredResources($monitoredResources)
   {
     $this->monitoredResources = $monitoredResources;
   }
+  /**
+   * @return Google_Service_ServiceUser_MonitoredResourceDescriptor
+   */
   public function getMonitoredResources()
   {
     return $this->monitoredResources;
   }
+  /**
+   * @param Google_Service_ServiceUser_Monitoring
+   */
   public function setMonitoring(Google_Service_ServiceUser_Monitoring $monitoring)
   {
     $this->monitoring = $monitoring;
   }
+  /**
+   * @return Google_Service_ServiceUser_Monitoring
+   */
   public function getMonitoring()
   {
     return $this->monitoring;
@@ -228,26 +326,58 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   {
     return $this->producerProjectId;
   }
+  /**
+   * @param Google_Service_ServiceUser_Quota
+   */
+  public function setQuota(Google_Service_ServiceUser_Quota $quota)
+  {
+    $this->quota = $quota;
+  }
+  /**
+   * @return Google_Service_ServiceUser_Quota
+   */
+  public function getQuota()
+  {
+    return $this->quota;
+  }
+  /**
+   * @param Google_Service_ServiceUser_SourceInfo
+   */
   public function setSourceInfo(Google_Service_ServiceUser_SourceInfo $sourceInfo)
   {
     $this->sourceInfo = $sourceInfo;
   }
+  /**
+   * @return Google_Service_ServiceUser_SourceInfo
+   */
   public function getSourceInfo()
   {
     return $this->sourceInfo;
   }
+  /**
+   * @param Google_Service_ServiceUser_SystemParameters
+   */
   public function setSystemParameters(Google_Service_ServiceUser_SystemParameters $systemParameters)
   {
     $this->systemParameters = $systemParameters;
   }
+  /**
+   * @return Google_Service_ServiceUser_SystemParameters
+   */
   public function getSystemParameters()
   {
     return $this->systemParameters;
   }
+  /**
+   * @param Google_Service_ServiceUser_Type
+   */
   public function setSystemTypes($systemTypes)
   {
     $this->systemTypes = $systemTypes;
   }
+  /**
+   * @return Google_Service_ServiceUser_Type
+   */
   public function getSystemTypes()
   {
     return $this->systemTypes;
@@ -260,26 +390,44 @@ class Google_Service_ServiceUser_Service extends Google_Collection
   {
     return $this->title;
   }
+  /**
+   * @param Google_Service_ServiceUser_Type
+   */
   public function setTypes($types)
   {
     $this->types = $types;
   }
+  /**
+   * @return Google_Service_ServiceUser_Type
+   */
   public function getTypes()
   {
     return $this->types;
   }
+  /**
+   * @param Google_Service_ServiceUser_Usage
+   */
   public function setUsage(Google_Service_ServiceUser_Usage $usage)
   {
     $this->usage = $usage;
   }
+  /**
+   * @return Google_Service_ServiceUser_Usage
+   */
   public function getUsage()
   {
     return $this->usage;
   }
+  /**
+   * @param Google_Service_ServiceUser_Visibility
+   */
   public function setVisibility(Google_Service_ServiceUser_Visibility $visibility)
   {
     $this->visibility = $visibility;
   }
+  /**
+   * @return Google_Service_ServiceUser_Visibility
+   */
   public function getVisibility()
   {
     return $this->visibility;

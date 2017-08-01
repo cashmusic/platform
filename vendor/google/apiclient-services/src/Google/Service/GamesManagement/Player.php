@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -66,10 +66,16 @@ class Google_Service_GamesManagement_Player extends Google_Model
   {
     return $this->displayName;
   }
+  /**
+   * @param Google_Service_GamesManagement_GamesPlayerExperienceInfoResource
+   */
   public function setExperienceInfo(Google_Service_GamesManagement_GamesPlayerExperienceInfoResource $experienceInfo)
   {
     $this->experienceInfo = $experienceInfo;
   }
+  /**
+   * @return Google_Service_GamesManagement_GamesPlayerExperienceInfoResource
+   */
   public function getExperienceInfo()
   {
     return $this->experienceInfo;
@@ -82,18 +88,30 @@ class Google_Service_GamesManagement_Player extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_GamesManagement_GamesPlayedResource
+   */
   public function setLastPlayedWith(Google_Service_GamesManagement_GamesPlayedResource $lastPlayedWith)
   {
     $this->lastPlayedWith = $lastPlayedWith;
   }
+  /**
+   * @return Google_Service_GamesManagement_GamesPlayedResource
+   */
   public function getLastPlayedWith()
   {
     return $this->lastPlayedWith;
   }
+  /**
+   * @param Google_Service_GamesManagement_PlayerName
+   */
   public function setName(Google_Service_GamesManagement_PlayerName $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_GamesManagement_PlayerName
+   */
   public function getName()
   {
     return $this->name;
@@ -114,10 +132,16 @@ class Google_Service_GamesManagement_Player extends Google_Model
   {
     return $this->playerId;
   }
+  /**
+   * @param Google_Service_GamesManagement_ProfileSettings
+   */
   public function setProfileSettings(Google_Service_GamesManagement_ProfileSettings $profileSettings)
   {
     $this->profileSettings = $profileSettings;
   }
+  /**
+   * @return Google_Service_GamesManagement_ProfileSettings
+   */
   public function getProfileSettings()
   {
     return $this->profileSettings;

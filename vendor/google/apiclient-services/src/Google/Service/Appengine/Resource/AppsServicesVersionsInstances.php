@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -83,7 +83,9 @@ class Google_Service_Appengine_Resource_AppsServicesVersionsInstances extends Go
     return $this->call('get', array($params), "Google_Service_Appengine_Instance");
   }
   /**
-   * Lists the instances of a version.
+   * Lists the instances of a version.Tip: To aggregate details about instances
+   * over time, see the Stackdriver Monitoring API (https://cloud.google.com/monit
+   * oring/api/ref_v3/rest/v3/projects.timeSeries/list).
    * (instances.listAppsServicesVersionsInstances)
    *
    * @param string $appsId Part of `parent`. Name of the parent Version resource.
@@ -92,9 +94,9 @@ class Google_Service_Appengine_Resource_AppsServicesVersionsInstances extends Go
    * @param string $versionsId Part of `parent`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Maximum results to return per page.
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
+   * @opt_param int pageSize Maximum results to return per page.
    * @return Google_Service_Appengine_ListInstancesResponse
    */
   public function listAppsServicesVersionsInstances($appsId, $servicesId, $versionsId, $optParams = array())

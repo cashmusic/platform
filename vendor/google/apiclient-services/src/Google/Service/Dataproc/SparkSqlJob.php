@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,10 +35,16 @@ class Google_Service_Dataproc_SparkSqlJob extends Google_Collection
   {
     return $this->jarFileUris;
   }
+  /**
+   * @param Google_Service_Dataproc_LoggingConfig
+   */
   public function setLoggingConfig(Google_Service_Dataproc_LoggingConfig $loggingConfig)
   {
     $this->loggingConfig = $loggingConfig;
   }
+  /**
+   * @return Google_Service_Dataproc_LoggingConfig
+   */
   public function getLoggingConfig()
   {
     return $this->loggingConfig;
@@ -59,10 +65,16 @@ class Google_Service_Dataproc_SparkSqlJob extends Google_Collection
   {
     return $this->queryFileUri;
   }
+  /**
+   * @param Google_Service_Dataproc_QueryList
+   */
   public function setQueryList(Google_Service_Dataproc_QueryList $queryList)
   {
     $this->queryList = $queryList;
   }
+  /**
+   * @return Google_Service_Dataproc_QueryList
+   */
   public function getQueryList()
   {
     return $this->queryList;

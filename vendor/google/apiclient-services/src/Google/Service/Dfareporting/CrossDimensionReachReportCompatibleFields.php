@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,18 +28,30 @@ class Google_Service_Dfareporting_CrossDimensionReachReportCompatibleFields exte
   protected $overlapMetricsType = 'Google_Service_Dfareporting_Metric';
   protected $overlapMetricsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setBreakdown($breakdown)
   {
     $this->breakdown = $breakdown;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getBreakdown()
   {
     return $this->breakdown;
   }
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setDimensionFilters($dimensionFilters)
   {
     $this->dimensionFilters = $dimensionFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getDimensionFilters()
   {
     return $this->dimensionFilters;
@@ -52,18 +64,30 @@ class Google_Service_Dfareporting_CrossDimensionReachReportCompatibleFields exte
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setOverlapMetrics($overlapMetrics)
   {
     $this->overlapMetrics = $overlapMetrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getOverlapMetrics()
   {
     return $this->overlapMetrics;

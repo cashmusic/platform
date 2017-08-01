@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,7 +17,7 @@
 
 class Google_Service_SQLAdmin_Settings extends Google_Collection
 {
-  protected $collection_key = 'labels';
+  protected $collection_key = 'databaseFlags';
   public $activationPolicy;
   public $authorizedGaeApplications;
   public $availabilityType;
@@ -32,8 +32,6 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   protected $ipConfigurationType = 'Google_Service_SQLAdmin_IpConfiguration';
   protected $ipConfigurationDataType = '';
   public $kind;
-  protected $labelsType = 'Google_Service_SQLAdmin_Labels';
-  protected $labelsDataType = 'array';
   protected $locationPreferenceType = 'Google_Service_SQLAdmin_LocationPreference';
   protected $locationPreferenceDataType = '';
   protected $maintenanceWindowType = 'Google_Service_SQLAdmin_MaintenanceWindow';
@@ -44,6 +42,7 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   public $storageAutoResize;
   public $storageAutoResizeLimit;
   public $tier;
+  public $userLabels;
 
   public function setActivationPolicy($activationPolicy)
   {
@@ -69,10 +68,16 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   {
     return $this->availabilityType;
   }
+  /**
+   * @param Google_Service_SQLAdmin_BackupConfiguration
+   */
   public function setBackupConfiguration(Google_Service_SQLAdmin_BackupConfiguration $backupConfiguration)
   {
     $this->backupConfiguration = $backupConfiguration;
   }
+  /**
+   * @return Google_Service_SQLAdmin_BackupConfiguration
+   */
   public function getBackupConfiguration()
   {
     return $this->backupConfiguration;
@@ -101,10 +106,16 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   {
     return $this->dataDiskType;
   }
+  /**
+   * @param Google_Service_SQLAdmin_DatabaseFlags
+   */
   public function setDatabaseFlags($databaseFlags)
   {
     $this->databaseFlags = $databaseFlags;
   }
+  /**
+   * @return Google_Service_SQLAdmin_DatabaseFlags
+   */
   public function getDatabaseFlags()
   {
     return $this->databaseFlags;
@@ -117,10 +128,16 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   {
     return $this->databaseReplicationEnabled;
   }
+  /**
+   * @param Google_Service_SQLAdmin_IpConfiguration
+   */
   public function setIpConfiguration(Google_Service_SQLAdmin_IpConfiguration $ipConfiguration)
   {
     $this->ipConfiguration = $ipConfiguration;
   }
+  /**
+   * @return Google_Service_SQLAdmin_IpConfiguration
+   */
   public function getIpConfiguration()
   {
     return $this->ipConfiguration;
@@ -133,26 +150,30 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   {
     return $this->kind;
   }
-  public function setLabels($labels)
-  {
-    $this->labels = $labels;
-  }
-  public function getLabels()
-  {
-    return $this->labels;
-  }
+  /**
+   * @param Google_Service_SQLAdmin_LocationPreference
+   */
   public function setLocationPreference(Google_Service_SQLAdmin_LocationPreference $locationPreference)
   {
     $this->locationPreference = $locationPreference;
   }
+  /**
+   * @return Google_Service_SQLAdmin_LocationPreference
+   */
   public function getLocationPreference()
   {
     return $this->locationPreference;
   }
+  /**
+   * @param Google_Service_SQLAdmin_MaintenanceWindow
+   */
   public function setMaintenanceWindow(Google_Service_SQLAdmin_MaintenanceWindow $maintenanceWindow)
   {
     $this->maintenanceWindow = $maintenanceWindow;
   }
+  /**
+   * @return Google_Service_SQLAdmin_MaintenanceWindow
+   */
   public function getMaintenanceWindow()
   {
     return $this->maintenanceWindow;
@@ -204,5 +225,13 @@ class Google_Service_SQLAdmin_Settings extends Google_Collection
   public function getTier()
   {
     return $this->tier;
+  }
+  public function setUserLabels($userLabels)
+  {
+    $this->userLabels = $userLabels;
+  }
+  public function getUserLabels()
+  {
+    return $this->userLabels;
   }
 }

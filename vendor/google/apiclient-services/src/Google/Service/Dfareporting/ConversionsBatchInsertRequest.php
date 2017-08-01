@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,18 +24,30 @@ class Google_Service_Dfareporting_ConversionsBatchInsertRequest extends Google_C
   protected $encryptionInfoDataType = '';
   public $kind;
 
+  /**
+   * @param Google_Service_Dfareporting_Conversion
+   */
   public function setConversions($conversions)
   {
     $this->conversions = $conversions;
   }
+  /**
+   * @return Google_Service_Dfareporting_Conversion
+   */
   public function getConversions()
   {
     return $this->conversions;
   }
+  /**
+   * @param Google_Service_Dfareporting_EncryptionInfo
+   */
   public function setEncryptionInfo(Google_Service_Dfareporting_EncryptionInfo $encryptionInfo)
   {
     $this->encryptionInfo = $encryptionInfo;
   }
+  /**
+   * @return Google_Service_Dfareporting_EncryptionInfo
+   */
   public function getEncryptionInfo()
   {
     return $this->encryptionInfo;

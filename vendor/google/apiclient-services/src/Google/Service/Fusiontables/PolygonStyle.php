@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,10 +37,16 @@ class Google_Service_Fusiontables_PolygonStyle extends Google_Model
   {
     return $this->fillColor;
   }
+  /**
+   * @param Google_Service_Fusiontables_StyleFunction
+   */
   public function setFillColorStyler(Google_Service_Fusiontables_StyleFunction $fillColorStyler)
   {
     $this->fillColorStyler = $fillColorStyler;
   }
+  /**
+   * @return Google_Service_Fusiontables_StyleFunction
+   */
   public function getFillColorStyler()
   {
     return $this->fillColorStyler;
@@ -61,10 +67,16 @@ class Google_Service_Fusiontables_PolygonStyle extends Google_Model
   {
     return $this->strokeColor;
   }
+  /**
+   * @param Google_Service_Fusiontables_StyleFunction
+   */
   public function setStrokeColorStyler(Google_Service_Fusiontables_StyleFunction $strokeColorStyler)
   {
     $this->strokeColorStyler = $strokeColorStyler;
   }
+  /**
+   * @return Google_Service_Fusiontables_StyleFunction
+   */
   public function getStrokeColorStyler()
   {
     return $this->strokeColorStyler;
@@ -85,10 +97,16 @@ class Google_Service_Fusiontables_PolygonStyle extends Google_Model
   {
     return $this->strokeWeight;
   }
+  /**
+   * @param Google_Service_Fusiontables_StyleFunction
+   */
   public function setStrokeWeightStyler(Google_Service_Fusiontables_StyleFunction $strokeWeightStyler)
   {
     $this->strokeWeightStyler = $strokeWeightStyler;
   }
+  /**
+   * @return Google_Service_Fusiontables_StyleFunction
+   */
   public function getStrokeWeightStyler()
   {
     return $this->strokeWeightStyler;

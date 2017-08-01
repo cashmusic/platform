@@ -1,14 +1,10 @@
----
-title: Stability
----
-
 This is a list of supported versions, with their expected release/support time-frames:
 
-# 2.0.x
+# 0.5.x
 
- * Release date: 2016-01-30
- * Bug fixes: till 2017-01-29
- * Security fixes: till 2018-01-29
+ * Release date: 2013-12-01
+ * Bug fixes: till 2015-03-11
+ * Security fixes: till 2015-12-11
 
 # 1.0.x
 
@@ -16,8 +12,8 @@ This is a list of supported versions, with their expected release/support time-f
  * Bug fixes: till 2015-12-11
  * Security fixes: till 2016-12-11
 
-# 0.5.x
+# 2.0.x
 
- * Release date: 2013-12-01
- * Bug fixes: till 2015-03-11
- * Security fixes: till 2015-12-11
+ * Release date: TBA
+ * Bug fixes: TBA
+ * Security fixes: TBA

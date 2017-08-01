@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,26 +24,44 @@ class Google_Service_Storagetransfer_Schedule extends Google_Model
   protected $startTimeOfDayType = 'Google_Service_Storagetransfer_TimeOfDay';
   protected $startTimeOfDayDataType = '';
 
+  /**
+   * @param Google_Service_Storagetransfer_Date
+   */
   public function setScheduleEndDate(Google_Service_Storagetransfer_Date $scheduleEndDate)
   {
     $this->scheduleEndDate = $scheduleEndDate;
   }
+  /**
+   * @return Google_Service_Storagetransfer_Date
+   */
   public function getScheduleEndDate()
   {
     return $this->scheduleEndDate;
   }
+  /**
+   * @param Google_Service_Storagetransfer_Date
+   */
   public function setScheduleStartDate(Google_Service_Storagetransfer_Date $scheduleStartDate)
   {
     $this->scheduleStartDate = $scheduleStartDate;
   }
+  /**
+   * @return Google_Service_Storagetransfer_Date
+   */
   public function getScheduleStartDate()
   {
     return $this->scheduleStartDate;
   }
+  /**
+   * @param Google_Service_Storagetransfer_TimeOfDay
+   */
   public function setStartTimeOfDay(Google_Service_Storagetransfer_TimeOfDay $startTimeOfDay)
   {
     $this->startTimeOfDay = $startTimeOfDay;
   }
+  /**
+   * @return Google_Service_Storagetransfer_TimeOfDay
+   */
   public function getStartTimeOfDay()
   {
     return $this->startTimeOfDay;

@@ -10,12 +10,11 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "sebastian/object-reflector": "^1.0",
-        "sebastian/recursion-context": "^3.0"
+        "php": ">=5.6",
+        "sebastian/recursion-context": "~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "~5"
     },
     "autoload": {
         "classmap": [
@@ -24,12 +23,12 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/_fixture/"
+            "tests/"
         ]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

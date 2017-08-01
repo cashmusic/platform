@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,26 +34,44 @@ class Google_Service_Sheets_UpdateCellsRequest extends Google_Collection
   {
     return $this->fields;
   }
+  /**
+   * @param Google_Service_Sheets_GridRange
+   */
   public function setRange(Google_Service_Sheets_GridRange $range)
   {
     $this->range = $range;
   }
+  /**
+   * @return Google_Service_Sheets_GridRange
+   */
   public function getRange()
   {
     return $this->range;
   }
+  /**
+   * @param Google_Service_Sheets_RowData
+   */
   public function setRows($rows)
   {
     $this->rows = $rows;
   }
+  /**
+   * @return Google_Service_Sheets_RowData
+   */
   public function getRows()
   {
     return $this->rows;
   }
+  /**
+   * @param Google_Service_Sheets_GridCoordinate
+   */
   public function setStart(Google_Service_Sheets_GridCoordinate $start)
   {
     $this->start = $start;
   }
+  /**
+   * @return Google_Service_Sheets_GridCoordinate
+   */
   public function getStart()
   {
     return $this->start;

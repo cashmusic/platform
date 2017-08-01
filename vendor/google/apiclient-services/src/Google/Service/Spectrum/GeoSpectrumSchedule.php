@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Spectrum_GeoSpectrumSchedule extends Google_Collection
   protected $spectrumSchedulesType = 'Google_Service_Spectrum_SpectrumSchedule';
   protected $spectrumSchedulesDataType = 'array';
 
+  /**
+   * @param Google_Service_Spectrum_GeoLocation
+   */
   public function setLocation(Google_Service_Spectrum_GeoLocation $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_Spectrum_GeoLocation
+   */
   public function getLocation()
   {
     return $this->location;
   }
+  /**
+   * @param Google_Service_Spectrum_SpectrumSchedule
+   */
   public function setSpectrumSchedules($spectrumSchedules)
   {
     $this->spectrumSchedules = $spectrumSchedules;
   }
+  /**
+   * @return Google_Service_Spectrum_SpectrumSchedule
+   */
   public function getSpectrumSchedules()
   {
     return $this->spectrumSchedules;

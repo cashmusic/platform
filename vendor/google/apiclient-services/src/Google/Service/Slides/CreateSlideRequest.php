@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,18 +41,30 @@ class Google_Service_Slides_CreateSlideRequest extends Google_Collection
   {
     return $this->objectId;
   }
+  /**
+   * @param Google_Service_Slides_LayoutPlaceholderIdMapping
+   */
   public function setPlaceholderIdMappings($placeholderIdMappings)
   {
     $this->placeholderIdMappings = $placeholderIdMappings;
   }
+  /**
+   * @return Google_Service_Slides_LayoutPlaceholderIdMapping
+   */
   public function getPlaceholderIdMappings()
   {
     return $this->placeholderIdMappings;
   }
+  /**
+   * @param Google_Service_Slides_LayoutReference
+   */
   public function setSlideLayoutReference(Google_Service_Slides_LayoutReference $slideLayoutReference)
   {
     $this->slideLayoutReference = $slideLayoutReference;
   }
+  /**
+   * @return Google_Service_Slides_LayoutReference
+   */
   public function getSlideLayoutReference()
   {
     return $this->slideLayoutReference;

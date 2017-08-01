@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,26 +24,44 @@ class Google_Service_ServiceManagement_LogConfig extends Google_Model
   protected $dataAccessType = 'Google_Service_ServiceManagement_DataAccessOptions';
   protected $dataAccessDataType = '';
 
+  /**
+   * @param Google_Service_ServiceManagement_CloudAuditOptions
+   */
   public function setCloudAudit(Google_Service_ServiceManagement_CloudAuditOptions $cloudAudit)
   {
     $this->cloudAudit = $cloudAudit;
   }
+  /**
+   * @return Google_Service_ServiceManagement_CloudAuditOptions
+   */
   public function getCloudAudit()
   {
     return $this->cloudAudit;
   }
+  /**
+   * @param Google_Service_ServiceManagement_CounterOptions
+   */
   public function setCounter(Google_Service_ServiceManagement_CounterOptions $counter)
   {
     $this->counter = $counter;
   }
+  /**
+   * @return Google_Service_ServiceManagement_CounterOptions
+   */
   public function getCounter()
   {
     return $this->counter;
   }
+  /**
+   * @param Google_Service_ServiceManagement_DataAccessOptions
+   */
   public function setDataAccess(Google_Service_ServiceManagement_DataAccessOptions $dataAccess)
   {
     $this->dataAccess = $dataAccess;
   }
+  /**
+   * @return Google_Service_ServiceManagement_DataAccessOptions
+   */
   public function getDataAccess()
   {
     return $this->dataAccess;

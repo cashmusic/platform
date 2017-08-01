@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Fitness_DataSource extends Google_Collection
   public $name;
   public $type;
 
+  /**
+   * @param Google_Service_Fitness_Application
+   */
   public function setApplication(Google_Service_Fitness_Application $application)
   {
     $this->application = $application;
   }
+  /**
+   * @return Google_Service_Fitness_Application
+   */
   public function getApplication()
   {
     return $this->application;
@@ -62,18 +68,30 @@ class Google_Service_Fitness_DataSource extends Google_Collection
   {
     return $this->dataStreamName;
   }
+  /**
+   * @param Google_Service_Fitness_DataType
+   */
   public function setDataType(Google_Service_Fitness_DataType $dataType)
   {
     $this->dataType = $dataType;
   }
+  /**
+   * @return Google_Service_Fitness_DataType
+   */
   public function getDataType()
   {
     return $this->dataType;
   }
+  /**
+   * @param Google_Service_Fitness_Device
+   */
   public function setDevice(Google_Service_Fitness_Device $device)
   {
     $this->device = $device;
   }
+  /**
+   * @return Google_Service_Fitness_Device
+   */
   public function getDevice()
   {
     return $this->device;

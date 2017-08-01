@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_AnalyticsReporting_Segment extends Google_Model
   protected $dynamicSegmentDataType = '';
   public $segmentId;
 
+  /**
+   * @param Google_Service_AnalyticsReporting_DynamicSegment
+   */
   public function setDynamicSegment(Google_Service_AnalyticsReporting_DynamicSegment $dynamicSegment)
   {
     $this->dynamicSegment = $dynamicSegment;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_DynamicSegment
+   */
   public function getDynamicSegment()
   {
     return $this->dynamicSegment;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,10 +17,12 @@
 
 class Google_Service_Tracing_Module extends Google_Model
 {
-  public $buildId;
-  public $module;
+  protected $buildIdType = 'Google_Service_Tracing_TruncatableString';
+  protected $buildIdDataType = '';
+  protected $moduleType = 'Google_Service_Tracing_TruncatableString';
+  protected $moduleDataType = '';
 
-  public function setBuildId($buildId)
+  public function setBuildId(Google_Service_Tracing_TruncatableString $buildId)
   {
     $this->buildId = $buildId;
   }
@@ -28,7 +30,7 @@ class Google_Service_Tracing_Module extends Google_Model
   {
     return $this->buildId;
   }
-  public function setModule($module)
+  public function setModule(Google_Service_Tracing_TruncatableString $module)
   {
     $this->module = $module;
   }

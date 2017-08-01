@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,44 +28,42 @@ class Google_Service_TagManager_Resource_AccountsContainersEnvironments extends 
   /**
    * Creates a GTM Environment. (environments.create)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
+   * @param string $parent GTM Container's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}
    * @param Google_Service_TagManager_Environment $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_TagManager_Environment
    */
-  public function create($accountId, $containerId, Google_Service_TagManager_Environment $postBody, $optParams = array())
+  public function create($parent, Google_Service_TagManager_Environment $postBody, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'postBody' => $postBody);
+    $params = array('parent' => $parent, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('create', array($params), "Google_Service_TagManager_Environment");
   }
   /**
    * Deletes a GTM Environment. (environments.delete)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $environmentId The GTM Environment ID.
+   * @param string $path GTM Environment's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/environments/{environment_id}
    * @param array $optParams Optional parameters.
    */
-  public function delete($accountId, $containerId, $environmentId, $optParams = array())
+  public function delete($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'environmentId' => $environmentId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('delete', array($params));
   }
   /**
    * Gets a GTM Environment. (environments.get)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $environmentId The GTM Environment ID.
+   * @param string $path GTM Environment's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/environments/{environment_id}
    * @param array $optParams Optional parameters.
    * @return Google_Service_TagManager_Environment
    */
-  public function get($accountId, $containerId, $environmentId, $optParams = array())
+  public function get($path, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'environmentId' => $environmentId);
+    $params = array('path' => $path);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_TagManager_Environment");
   }
@@ -73,14 +71,17 @@ class Google_Service_TagManager_Resource_AccountsContainersEnvironments extends 
    * Lists all GTM Environments of a GTM Container.
    * (environments.listAccountsContainersEnvironments)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
+   * @param string $parent GTM Container's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string pageToken Continuation token for fetching the next page of
+   * results.
    * @return Google_Service_TagManager_ListEnvironmentsResponse
    */
-  public function listAccountsContainersEnvironments($accountId, $containerId, $optParams = array())
+  public function listAccountsContainersEnvironments($parent, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId);
+    $params = array('parent' => $parent);
     $params = array_merge($params, $optParams);
     return $this->call('list', array($params), "Google_Service_TagManager_ListEnvironmentsResponse");
   }
@@ -88,9 +89,8 @@ class Google_Service_TagManager_Resource_AccountsContainersEnvironments extends 
    * Updates a GTM Environment. This method supports patch semantics.
    * (environments.patch)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $environmentId The GTM Environment ID.
+   * @param string $path GTM Environment's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/environments/{environment_id}
    * @param Google_Service_TagManager_Environment $postBody
    * @param array $optParams Optional parameters.
    *
@@ -98,18 +98,33 @@ class Google_Service_TagManager_Resource_AccountsContainersEnvironments extends 
    * fingerprint of the environment in storage.
    * @return Google_Service_TagManager_Environment
    */
-  public function patch($accountId, $containerId, $environmentId, Google_Service_TagManager_Environment $postBody, $optParams = array())
+  public function patch($path, Google_Service_TagManager_Environment $postBody, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'environmentId' => $environmentId, 'postBody' => $postBody);
+    $params = array('path' => $path, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('patch', array($params), "Google_Service_TagManager_Environment");
   }
   /**
+   * Re-generates the authorization code for a GTM Environment.
+   * (environments.reauthorize)
+   *
+   * @param string $path GTM Environment's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/environments/{environment_id}
+   * @param Google_Service_TagManager_Environment $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_TagManager_Environment
+   */
+  public function reauthorize($path, Google_Service_TagManager_Environment $postBody, $optParams = array())
+  {
+    $params = array('path' => $path, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('reauthorize', array($params), "Google_Service_TagManager_Environment");
+  }
+  /**
    * Updates a GTM Environment. (environments.update)
    *
-   * @param string $accountId The GTM Account ID.
-   * @param string $containerId The GTM Container ID.
-   * @param string $environmentId The GTM Environment ID.
+   * @param string $path GTM Environment's API relative path. Example:
+   * accounts/{account_id}/containers/{container_id}/environments/{environment_id}
    * @param Google_Service_TagManager_Environment $postBody
    * @param array $optParams Optional parameters.
    *
@@ -117,9 +132,9 @@ class Google_Service_TagManager_Resource_AccountsContainersEnvironments extends 
    * fingerprint of the environment in storage.
    * @return Google_Service_TagManager_Environment
    */
-  public function update($accountId, $containerId, $environmentId, Google_Service_TagManager_Environment $postBody, $optParams = array())
+  public function update($path, Google_Service_TagManager_Environment $postBody, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'containerId' => $containerId, 'environmentId' => $environmentId, 'postBody' => $postBody);
+    $params = array('path' => $path, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('update', array($params), "Google_Service_TagManager_Environment");
   }

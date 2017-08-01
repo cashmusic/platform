@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -52,10 +52,16 @@ class Google_Service_Genomics_VariantSet extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Genomics_VariantSetMetadata
+   */
   public function setMetadata($metadata)
   {
     $this->metadata = $metadata;
   }
+  /**
+   * @return Google_Service_Genomics_VariantSetMetadata
+   */
   public function getMetadata()
   {
     return $this->metadata;
@@ -68,10 +74,16 @@ class Google_Service_Genomics_VariantSet extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Genomics_ReferenceBound
+   */
   public function setReferenceBounds($referenceBounds)
   {
     $this->referenceBounds = $referenceBounds;
   }
+  /**
+   * @return Google_Service_Genomics_ReferenceBound
+   */
   public function getReferenceBounds()
   {
     return $this->referenceBounds;

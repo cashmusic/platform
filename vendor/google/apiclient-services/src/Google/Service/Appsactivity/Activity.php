@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Appsactivity_Activity extends Google_Collection
   protected $singleEventsType = 'Google_Service_Appsactivity_Event';
   protected $singleEventsDataType = 'array';
 
+  /**
+   * @param Google_Service_Appsactivity_Event
+   */
   public function setCombinedEvent(Google_Service_Appsactivity_Event $combinedEvent)
   {
     $this->combinedEvent = $combinedEvent;
   }
+  /**
+   * @return Google_Service_Appsactivity_Event
+   */
   public function getCombinedEvent()
   {
     return $this->combinedEvent;
   }
+  /**
+   * @param Google_Service_Appsactivity_Event
+   */
   public function setSingleEvents($singleEvents)
   {
     $this->singleEvents = $singleEvents;
   }
+  /**
+   * @return Google_Service_Appsactivity_Event
+   */
   public function getSingleEvents()
   {
     return $this->singleEvents;

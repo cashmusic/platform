@@ -8,18 +8,13 @@ $_SERVER['argv'][3] = 'Issue1570Test';
 $_SERVER['argv'][4] = __DIR__ . '/1570/Issue1570Test.php';
 
 require __DIR__ . '/../../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
 R                                                                   1 / 1 (100%)*
 
 Time: %s, Memory: %s
-
-There was 1 risky test:
-
-1) Issue1570Test::testOne
-This test did not perform any assertions
 
 OK, but incomplete, skipped, or risky tests!
 Tests: 1, Assertions: 0, Risky: 1.

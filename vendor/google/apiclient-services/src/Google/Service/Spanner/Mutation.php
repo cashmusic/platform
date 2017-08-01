@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,42 +28,72 @@ class Google_Service_Spanner_Mutation extends Google_Model
   protected $updateType = 'Google_Service_Spanner_Write';
   protected $updateDataType = '';
 
+  /**
+   * @param Google_Service_Spanner_Delete
+   */
   public function setDelete(Google_Service_Spanner_Delete $delete)
   {
     $this->delete = $delete;
   }
+  /**
+   * @return Google_Service_Spanner_Delete
+   */
   public function getDelete()
   {
     return $this->delete;
   }
+  /**
+   * @param Google_Service_Spanner_Write
+   */
   public function setInsert(Google_Service_Spanner_Write $insert)
   {
     $this->insert = $insert;
   }
+  /**
+   * @return Google_Service_Spanner_Write
+   */
   public function getInsert()
   {
     return $this->insert;
   }
+  /**
+   * @param Google_Service_Spanner_Write
+   */
   public function setInsertOrUpdate(Google_Service_Spanner_Write $insertOrUpdate)
   {
     $this->insertOrUpdate = $insertOrUpdate;
   }
+  /**
+   * @return Google_Service_Spanner_Write
+   */
   public function getInsertOrUpdate()
   {
     return $this->insertOrUpdate;
   }
+  /**
+   * @param Google_Service_Spanner_Write
+   */
   public function setReplace(Google_Service_Spanner_Write $replace)
   {
     $this->replace = $replace;
   }
+  /**
+   * @return Google_Service_Spanner_Write
+   */
   public function getReplace()
   {
     return $this->replace;
   }
+  /**
+   * @param Google_Service_Spanner_Write
+   */
   public function setUpdate(Google_Service_Spanner_Write $update)
   {
     $this->update = $update;
   }
+  /**
+   * @return Google_Service_Spanner_Write
+   */
   public function getUpdate()
   {
     return $this->update;

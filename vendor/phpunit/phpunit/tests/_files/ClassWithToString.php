@@ -10,6 +10,7 @@
 
 /**
  * A class with a __toString() method.
+ *
  */
 class ClassWithToString
 {

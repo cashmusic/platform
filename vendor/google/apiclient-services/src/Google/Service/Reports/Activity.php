@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,10 +29,16 @@ class Google_Service_Reports_Activity extends Google_Collection
   public $kind;
   public $ownerDomain;
 
+  /**
+   * @param Google_Service_Reports_ActivityActor
+   */
   public function setActor(Google_Service_Reports_ActivityActor $actor)
   {
     $this->actor = $actor;
   }
+  /**
+   * @return Google_Service_Reports_ActivityActor
+   */
   public function getActor()
   {
     return $this->actor;
@@ -45,18 +51,30 @@ class Google_Service_Reports_Activity extends Google_Collection
   {
     return $this->etag;
   }
+  /**
+   * @param Google_Service_Reports_ActivityEvents
+   */
   public function setEvents($events)
   {
     $this->events = $events;
   }
+  /**
+   * @return Google_Service_Reports_ActivityEvents
+   */
   public function getEvents()
   {
     return $this->events;
   }
+  /**
+   * @param Google_Service_Reports_ActivityId
+   */
   public function setId(Google_Service_Reports_ActivityId $id)
   {
     $this->id = $id;
   }
+  /**
+   * @return Google_Service_Reports_ActivityId
+   */
   public function getId()
   {
     return $this->id;

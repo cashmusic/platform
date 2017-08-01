@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Genomics_BatchCreateAnnotationsResponse extends Google_Coll
   protected $entriesType = 'Google_Service_Genomics_Entry';
   protected $entriesDataType = 'array';
 
+  /**
+   * @param Google_Service_Genomics_Entry
+   */
   public function setEntries($entries)
   {
     $this->entries = $entries;
   }
+  /**
+   * @return Google_Service_Genomics_Entry
+   */
   public function getEntries()
   {
     return $this->entries;

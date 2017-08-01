@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,16 +15,26 @@
  * the License.
  */
 
-class Google_Service_Speech_RecognitionConfig extends Google_Model
+class Google_Service_Speech_RecognitionConfig extends Google_Collection
 {
+  protected $collection_key = 'speechContexts';
+  public $enableWordTimeOffsets;
   public $encoding;
   public $languageCode;
   public $maxAlternatives;
   public $profanityFilter;
-  public $sampleRate;
-  protected $speechContextType = 'Google_Service_Speech_SpeechContext';
-  protected $speechContextDataType = '';
+  public $sampleRateHertz;
+  protected $speechContextsType = 'Google_Service_Speech_SpeechContext';
+  protected $speechContextsDataType = 'array';
 
+  public function setEnableWordTimeOffsets($enableWordTimeOffsets)
+  {
+    $this->enableWordTimeOffsets = $enableWordTimeOffsets;
+  }
+  public function getEnableWordTimeOffsets()
+  {
+    return $this->enableWordTimeOffsets;
+  }
   public function setEncoding($encoding)
   {
     $this->encoding = $encoding;
@@ -57,20 +67,26 @@ class Google_Service_Speech_RecognitionConfig extends Google_Model
   {
     return $this->profanityFilter;
   }
-  public function setSampleRate($sampleRate)
+  public function setSampleRateHertz($sampleRateHertz)
   {
-    $this->sampleRate = $sampleRate;
+    $this->sampleRateHertz = $sampleRateHertz;
   }
-  public function getSampleRate()
+  public function getSampleRateHertz()
   {
-    return $this->sampleRate;
+    return $this->sampleRateHertz;
   }
-  public function setSpeechContext(Google_Service_Speech_SpeechContext $speechContext)
+  /**
+   * @param Google_Service_Speech_SpeechContext
+   */
+  public function setSpeechContexts($speechContexts)
   {
-    $this->speechContext = $speechContext;
+    $this->speechContexts = $speechContexts;
   }
-  public function getSpeechContext()
+  /**
+   * @return Google_Service_Speech_SpeechContext
+   */
+  public function getSpeechContexts()
   {
-    return $this->speechContext;
+    return $this->speechContexts;
   }
 }

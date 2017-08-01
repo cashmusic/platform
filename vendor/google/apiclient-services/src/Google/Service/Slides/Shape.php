@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,18 +25,30 @@ class Google_Service_Slides_Shape extends Google_Model
   protected $textType = 'Google_Service_Slides_TextContent';
   protected $textDataType = '';
 
+  /**
+   * @param Google_Service_Slides_Placeholder
+   */
   public function setPlaceholder(Google_Service_Slides_Placeholder $placeholder)
   {
     $this->placeholder = $placeholder;
   }
+  /**
+   * @return Google_Service_Slides_Placeholder
+   */
   public function getPlaceholder()
   {
     return $this->placeholder;
   }
+  /**
+   * @param Google_Service_Slides_ShapeProperties
+   */
   public function setShapeProperties(Google_Service_Slides_ShapeProperties $shapeProperties)
   {
     $this->shapeProperties = $shapeProperties;
   }
+  /**
+   * @return Google_Service_Slides_ShapeProperties
+   */
   public function getShapeProperties()
   {
     return $this->shapeProperties;
@@ -49,10 +61,16 @@ class Google_Service_Slides_Shape extends Google_Model
   {
     return $this->shapeType;
   }
+  /**
+   * @param Google_Service_Slides_TextContent
+   */
   public function setText(Google_Service_Slides_TextContent $text)
   {
     $this->text = $text;
   }
+  /**
+   * @return Google_Service_Slides_TextContent
+   */
   public function getText()
   {
     return $this->text;

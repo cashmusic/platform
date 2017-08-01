@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,58 +26,83 @@
 class Google_Service_CloudTrace_Resource_ProjectsTraces extends Google_Service_Resource
 {
   /**
-   * Gets a single trace by its ID. (traces.get)
+   * Sends new spans to Stackdriver Trace or updates existing traces. If the name
+   * of a trace that you send matches that of an existing trace, new spans are
+   * added to the existing trace. Attempt to update existing spans results
+   * undefined behavior. If the name does not match, a new trace is created with
+   * given set of spans. (traces.batchWrite)
    *
-   * @param string $projectId ID of the Cloud project where the trace data is
-   * stored.
-   * @param string $traceId ID of the trace to return.
+   * @param string $name Required. Name of the project where the spans belong. The
+   * format is `projects/PROJECT_ID`.
+   * @param Google_Service_CloudTrace_BatchWriteSpansRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_CloudTrace_Trace
+   * @return Google_Service_CloudTrace_CloudtraceEmpty
    */
-  public function get($projectId, $traceId, $optParams = array())
+  public function batchWrite($name, Google_Service_CloudTrace_BatchWriteSpansRequest $postBody, $optParams = array())
   {
-    $params = array('projectId' => $projectId, 'traceId' => $traceId);
+    $params = array('name' => $name, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('get', array($params), "Google_Service_CloudTrace_Trace");
+    return $this->call('batchWrite', array($params), "Google_Service_CloudTrace_CloudtraceEmpty");
   }
   /**
    * Returns of a list of traces that match the specified filter conditions.
    * (traces.listProjectsTraces)
    *
-   * @param string $projectId ID of the Cloud project where the trace data is
-   * stored.
+   * @param string $parent Required. The project where the trace data is stored.
+   * The format is `projects/PROJECT_ID`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string orderBy Field used to sort the returned traces. Optional.
-   * Can be one of the following:
+   * @opt_param string filter Opional. Return only traces that match this [trace
+   * filter](/trace/docs/trace-filters). Example:
    *
-   * *   `trace_id` *   `name` (`name` field of root span in the trace) *
-   * `duration` (difference between `end_time` and `start_time` fields of      the
-   * root span) *   `start` (`start_time` field of the root span)
+   *     "label:/http/url root:/_ah/background my_label:17"
+   * @opt_param string endTime Optional. Do not return traces whose start time is
+   * later than this time.
+   * @opt_param string pageToken Optional. If present, then retrieve the next
+   * batch of results from the preceding call to this method.  `page_token` must
+   * be the value of `next_page_token` from the previous response.  The values of
+   * other method parameters should be identical to those in the previous call.
+   * @opt_param string startTime Optional. Do not return traces whose end time is
+   * earlier than this time.
+   * @opt_param int pageSize Optional. The maximum number of results to return
+   * from this request. Non-positive values are ignored. The presence of
+   * `next_page_token` in the response indicates that more results might be
+   * available, even if fewer than the maximum number of results is returned by
+   * this request.
+   * @opt_param string orderBy Optional. A single field used to sort the returned
+   * traces. Only the following field names can be used:
    *
-   * Descending order can be specified by appending `desc` to the sort field (for
-   * example, `name desc`).
+   * *   `trace_id`: the trace's ID field *   `name`:  the root span's resource
+   * name *   `duration`: the difference between the root span's start time and
+   * end time *   `start`:  the start time of the root span
    *
-   * Only one sort field is permitted.
-   * @opt_param string filter An optional filter for the request.
-   * @opt_param string endTime Start of the time interval (inclusive) during which
-   * the trace data was collected from the application.
-   * @opt_param string pageToken Token identifying the page of results to return.
-   * If provided, use the value of the `next_page_token` field from a previous
-   * request. Optional.
-   * @opt_param string startTime End of the time interval (inclusive) during which
-   * the trace data was collected from the application.
-   * @opt_param int pageSize Maximum number of traces to return. If not specified
-   * or <= 0, the implementation selects a reasonable value.  The implementation
-   * may return fewer traces than the requested page size. Optional.
-   * @opt_param string view Type of data returned for traces in the list.
-   * Optional. Default is `MINIMAL`.
+   * Sorting is in ascending order unless `desc` is appended to the sort field
+   * name. Example: `"name desc"`).
    * @return Google_Service_CloudTrace_ListTracesResponse
    */
-  public function listProjectsTraces($projectId, $optParams = array())
+  public function listProjectsTraces($parent, $optParams = array())
   {
-    $params = array('projectId' => $projectId);
+    $params = array('parent' => $parent);
     $params = array_merge($params, $optParams);
     return $this->call('list', array($params), "Google_Service_CloudTrace_ListTracesResponse");
+  }
+  /**
+   * Returns a list of spans within a trace. (traces.listSpans)
+   *
+   * @param string $parent Required: The resource name of the trace containing the
+   * spans to list. The format is `projects/PROJECT_ID/traces/TRACE_ID`.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string pageToken Optional. If present, then retrieve the next
+   * batch of results from the preceding call to this method. `page_token` must be
+   * the value of `next_page_token` from the previous response. The values of
+   * other method parameters should be identical to those in the previous call.
+   * @return Google_Service_CloudTrace_ListSpansResponse
+   */
+  public function listSpans($parent, $optParams = array())
+  {
+    $params = array('parent' => $parent);
+    $params = array_merge($params, $optParams);
+    return $this->call('listSpans', array($params), "Google_Service_CloudTrace_ListSpansResponse");
   }
 }

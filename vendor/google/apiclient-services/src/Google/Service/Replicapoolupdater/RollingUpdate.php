@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -60,10 +60,16 @@ class Google_Service_Replicapoolupdater_RollingUpdate extends Google_Model
   {
     return $this->description;
   }
+  /**
+   * @param Google_Service_Replicapoolupdater_RollingUpdateError
+   */
   public function setError(Google_Service_Replicapoolupdater_RollingUpdateError $error)
   {
     $this->error = $error;
   }
+  /**
+   * @return Google_Service_Replicapoolupdater_RollingUpdateError
+   */
   public function getError()
   {
     return $this->error;
@@ -116,10 +122,16 @@ class Google_Service_Replicapoolupdater_RollingUpdate extends Google_Model
   {
     return $this->oldInstanceTemplate;
   }
+  /**
+   * @param Google_Service_Replicapoolupdater_RollingUpdatePolicy
+   */
   public function setPolicy(Google_Service_Replicapoolupdater_RollingUpdatePolicy $policy)
   {
     $this->policy = $policy;
   }
+  /**
+   * @return Google_Service_Replicapoolupdater_RollingUpdatePolicy
+   */
   public function getPolicy()
   {
     return $this->policy;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -48,26 +48,44 @@ class Google_Service_Slides_ParagraphStyle extends Google_Model
   {
     return $this->direction;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setIndentEnd(Google_Service_Slides_Dimension $indentEnd)
   {
     $this->indentEnd = $indentEnd;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getIndentEnd()
   {
     return $this->indentEnd;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setIndentFirstLine(Google_Service_Slides_Dimension $indentFirstLine)
   {
     $this->indentFirstLine = $indentFirstLine;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getIndentFirstLine()
   {
     return $this->indentFirstLine;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setIndentStart(Google_Service_Slides_Dimension $indentStart)
   {
     $this->indentStart = $indentStart;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getIndentStart()
   {
     return $this->indentStart;
@@ -80,18 +98,30 @@ class Google_Service_Slides_ParagraphStyle extends Google_Model
   {
     return $this->lineSpacing;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setSpaceAbove(Google_Service_Slides_Dimension $spaceAbove)
   {
     $this->spaceAbove = $spaceAbove;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getSpaceAbove()
   {
     return $this->spaceAbove;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setSpaceBelow(Google_Service_Slides_Dimension $spaceBelow)
   {
     $this->spaceBelow = $spaceBelow;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getSpaceBelow()
   {
     return $this->spaceBelow;

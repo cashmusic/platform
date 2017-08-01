@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,10 +34,16 @@ class Google_Service_Bigquery_Job extends Google_Model
   protected $statusDataType = '';
   public $userEmail;
 
+  /**
+   * @param Google_Service_Bigquery_JobConfiguration
+   */
   public function setConfiguration(Google_Service_Bigquery_JobConfiguration $configuration)
   {
     $this->configuration = $configuration;
   }
+  /**
+   * @return Google_Service_Bigquery_JobConfiguration
+   */
   public function getConfiguration()
   {
     return $this->configuration;
@@ -58,10 +64,16 @@ class Google_Service_Bigquery_Job extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Bigquery_JobReference
+   */
   public function setJobReference(Google_Service_Bigquery_JobReference $jobReference)
   {
     $this->jobReference = $jobReference;
   }
+  /**
+   * @return Google_Service_Bigquery_JobReference
+   */
   public function getJobReference()
   {
     return $this->jobReference;
@@ -82,18 +94,30 @@ class Google_Service_Bigquery_Job extends Google_Model
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_Bigquery_JobStatistics
+   */
   public function setStatistics(Google_Service_Bigquery_JobStatistics $statistics)
   {
     $this->statistics = $statistics;
   }
+  /**
+   * @return Google_Service_Bigquery_JobStatistics
+   */
   public function getStatistics()
   {
     return $this->statistics;
   }
+  /**
+   * @param Google_Service_Bigquery_JobStatus
+   */
   public function setStatus(Google_Service_Bigquery_JobStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_Bigquery_JobStatus
+   */
   public function getStatus()
   {
     return $this->status;

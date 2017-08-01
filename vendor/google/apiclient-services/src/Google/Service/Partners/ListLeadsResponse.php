@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Partners_ListLeadsResponse extends Google_Collection
   protected $responseMetadataDataType = '';
   public $totalSize;
 
+  /**
+   * @param Google_Service_Partners_Lead
+   */
   public function setLeads($leads)
   {
     $this->leads = $leads;
   }
+  /**
+   * @return Google_Service_Partners_Lead
+   */
   public function getLeads()
   {
     return $this->leads;
@@ -41,10 +47,16 @@ class Google_Service_Partners_ListLeadsResponse extends Google_Collection
   {
     return $this->nextPageToken;
   }
+  /**
+   * @param Google_Service_Partners_ResponseMetadata
+   */
   public function setResponseMetadata(Google_Service_Partners_ResponseMetadata $responseMetadata)
   {
     $this->responseMetadata = $responseMetadata;
   }
+  /**
+   * @return Google_Service_Partners_ResponseMetadata
+   */
   public function getResponseMetadata()
   {
     return $this->responseMetadata;

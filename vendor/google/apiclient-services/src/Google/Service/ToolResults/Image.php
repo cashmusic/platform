@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,18 +25,30 @@ class Google_Service_ToolResults_Image extends Google_Model
   protected $thumbnailType = 'Google_Service_ToolResults_Thumbnail';
   protected $thumbnailDataType = '';
 
+  /**
+   * @param Google_Service_ToolResults_Status
+   */
   public function setError(Google_Service_ToolResults_Status $error)
   {
     $this->error = $error;
   }
+  /**
+   * @return Google_Service_ToolResults_Status
+   */
   public function getError()
   {
     return $this->error;
   }
+  /**
+   * @param Google_Service_ToolResults_ToolOutputReference
+   */
   public function setSourceImage(Google_Service_ToolResults_ToolOutputReference $sourceImage)
   {
     $this->sourceImage = $sourceImage;
   }
+  /**
+   * @return Google_Service_ToolResults_ToolOutputReference
+   */
   public function getSourceImage()
   {
     return $this->sourceImage;
@@ -49,10 +61,16 @@ class Google_Service_ToolResults_Image extends Google_Model
   {
     return $this->stepId;
   }
+  /**
+   * @param Google_Service_ToolResults_Thumbnail
+   */
   public function setThumbnail(Google_Service_ToolResults_Thumbnail $thumbnail)
   {
     $this->thumbnail = $thumbnail;
   }
+  /**
+   * @return Google_Service_ToolResults_Thumbnail
+   */
   public function getThumbnail()
   {
     return $this->thumbnail;

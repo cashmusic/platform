@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Storagetransfer_UpdateTransferJobRequest extends Google_Mod
   {
     return $this->projectId;
   }
+  /**
+   * @param Google_Service_Storagetransfer_TransferJob
+   */
   public function setTransferJob(Google_Service_Storagetransfer_TransferJob $transferJob)
   {
     $this->transferJob = $transferJob;
   }
+  /**
+   * @return Google_Service_Storagetransfer_TransferJob
+   */
   public function getTransferJob()
   {
     return $this->transferJob;

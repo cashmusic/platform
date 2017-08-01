@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,18 +41,30 @@ class Google_Service_Safebrowsing_ThreatMatch extends Google_Model
   {
     return $this->platformType;
   }
+  /**
+   * @param Google_Service_Safebrowsing_ThreatEntry
+   */
   public function setThreat(Google_Service_Safebrowsing_ThreatEntry $threat)
   {
     $this->threat = $threat;
   }
+  /**
+   * @return Google_Service_Safebrowsing_ThreatEntry
+   */
   public function getThreat()
   {
     return $this->threat;
   }
+  /**
+   * @param Google_Service_Safebrowsing_ThreatEntryMetadata
+   */
   public function setThreatEntryMetadata(Google_Service_Safebrowsing_ThreatEntryMetadata $threatEntryMetadata)
   {
     $this->threatEntryMetadata = $threatEntryMetadata;
   }
+  /**
+   * @return Google_Service_Safebrowsing_ThreatEntryMetadata
+   */
   public function getThreatEntryMetadata()
   {
     return $this->threatEntryMetadata;

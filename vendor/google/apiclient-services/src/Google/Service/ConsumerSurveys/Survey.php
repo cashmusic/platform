@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,18 +34,30 @@ class Google_Service_ConsumerSurveys_Survey extends Google_Collection
   public $title;
   public $wantedResponseCount;
 
+  /**
+   * @param Google_Service_ConsumerSurveys_SurveyAudience
+   */
   public function setAudience(Google_Service_ConsumerSurveys_SurveyAudience $audience)
   {
     $this->audience = $audience;
   }
+  /**
+   * @return Google_Service_ConsumerSurveys_SurveyAudience
+   */
   public function getAudience()
   {
     return $this->audience;
   }
+  /**
+   * @param Google_Service_ConsumerSurveys_SurveyCost
+   */
   public function setCost(Google_Service_ConsumerSurveys_SurveyCost $cost)
   {
     $this->cost = $cost;
   }
+  /**
+   * @return Google_Service_ConsumerSurveys_SurveyCost
+   */
   public function getCost()
   {
     return $this->cost;
@@ -74,18 +86,30 @@ class Google_Service_ConsumerSurveys_Survey extends Google_Collection
   {
     return $this->owners;
   }
+  /**
+   * @param Google_Service_ConsumerSurveys_SurveyQuestion
+   */
   public function setQuestions($questions)
   {
     $this->questions = $questions;
   }
+  /**
+   * @return Google_Service_ConsumerSurveys_SurveyQuestion
+   */
   public function getQuestions()
   {
     return $this->questions;
   }
+  /**
+   * @param Google_Service_ConsumerSurveys_SurveyRejection
+   */
   public function setRejectionReason(Google_Service_ConsumerSurveys_SurveyRejection $rejectionReason)
   {
     $this->rejectionReason = $rejectionReason;
   }
+  /**
+   * @return Google_Service_ConsumerSurveys_SurveyRejection
+   */
   public function getRejectionReason()
   {
     return $this->rejectionReason;

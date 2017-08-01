@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_Fusiontables_Column extends Google_Collection
   public $validValues;
   public $validateData;
 
+  /**
+   * @param Google_Service_Fusiontables_ColumnBaseColumn
+   */
   public function setBaseColumn(Google_Service_Fusiontables_ColumnBaseColumn $baseColumn)
   {
     $this->baseColumn = $baseColumn;
   }
+  /**
+   * @return Google_Service_Fusiontables_ColumnBaseColumn
+   */
   public function getBaseColumn()
   {
     return $this->baseColumn;

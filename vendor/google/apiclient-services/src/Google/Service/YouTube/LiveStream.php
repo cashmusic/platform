@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_YouTube_LiveStream extends Google_Model
   protected $statusType = 'Google_Service_YouTube_LiveStreamStatus';
   protected $statusDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_CdnSettings
+   */
   public function setCdn(Google_Service_YouTube_CdnSettings $cdn)
   {
     $this->cdn = $cdn;
   }
+  /**
+   * @return Google_Service_YouTube_CdnSettings
+   */
   public function getCdn()
   {
     return $this->cdn;
   }
+  /**
+   * @param Google_Service_YouTube_LiveStreamContentDetails
+   */
   public function setContentDetails(Google_Service_YouTube_LiveStreamContentDetails $contentDetails)
   {
     $this->contentDetails = $contentDetails;
   }
+  /**
+   * @return Google_Service_YouTube_LiveStreamContentDetails
+   */
   public function getContentDetails()
   {
     return $this->contentDetails;
@@ -69,18 +81,30 @@ class Google_Service_YouTube_LiveStream extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_LiveStreamSnippet
+   */
   public function setSnippet(Google_Service_YouTube_LiveStreamSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_LiveStreamSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;
   }
+  /**
+   * @param Google_Service_YouTube_LiveStreamStatus
+   */
   public function setStatus(Google_Service_YouTube_LiveStreamStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_YouTube_LiveStreamStatus
+   */
   public function getStatus()
   {
     return $this->status;

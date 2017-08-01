@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,26 +25,44 @@ class Google_Service_AndroidPublisher_Season extends Google_Collection
   protected $startType = 'Google_Service_AndroidPublisher_MonthDay';
   protected $startDataType = '';
 
+  /**
+   * @param Google_Service_AndroidPublisher_MonthDay
+   */
   public function setEnd(Google_Service_AndroidPublisher_MonthDay $end)
   {
     $this->end = $end;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_MonthDay
+   */
   public function getEnd()
   {
     return $this->end;
   }
+  /**
+   * @param Google_Service_AndroidPublisher_Prorate
+   */
   public function setProrations($prorations)
   {
     $this->prorations = $prorations;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_Prorate
+   */
   public function getProrations()
   {
     return $this->prorations;
   }
+  /**
+   * @param Google_Service_AndroidPublisher_MonthDay
+   */
   public function setStart(Google_Service_AndroidPublisher_MonthDay $start)
   {
     $this->start = $start;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_MonthDay
+   */
   public function getStart()
   {
     return $this->start;

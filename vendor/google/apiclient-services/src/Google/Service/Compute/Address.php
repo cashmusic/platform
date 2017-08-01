@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,6 +22,7 @@ class Google_Service_Compute_Address extends Google_Collection
   public $creationTimestamp;
   public $description;
   public $id;
+  public $ipVersion;
   public $kind;
   public $name;
   public $region;
@@ -60,6 +61,14 @@ class Google_Service_Compute_Address extends Google_Collection
   public function getId()
   {
     return $this->id;
+  }
+  public function setIpVersion($ipVersion)
+  {
+    $this->ipVersion = $ipVersion;
+  }
+  public function getIpVersion()
+  {
+    return $this->ipVersion;
   }
   public function setKind($kind)
   {

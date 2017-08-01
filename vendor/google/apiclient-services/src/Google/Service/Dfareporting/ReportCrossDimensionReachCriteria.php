@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Dfareporting_ReportCrossDimensionReachCriteria extends Goog
   public $overlapMetricNames;
   public $pivoted;
 
+  /**
+   * @param Google_Service_Dfareporting_SortedDimension
+   */
   public function setBreakdown($breakdown)
   {
     $this->breakdown = $breakdown;
   }
+  /**
+   * @return Google_Service_Dfareporting_SortedDimension
+   */
   public function getBreakdown()
   {
     return $this->breakdown;
   }
+  /**
+   * @param Google_Service_Dfareporting_DateRange
+   */
   public function setDateRange(Google_Service_Dfareporting_DateRange $dateRange)
   {
     $this->dateRange = $dateRange;
   }
+  /**
+   * @return Google_Service_Dfareporting_DateRange
+   */
   public function getDateRange()
   {
     return $this->dateRange;
@@ -53,10 +65,16 @@ class Google_Service_Dfareporting_ReportCrossDimensionReachCriteria extends Goog
   {
     return $this->dimension;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setDimensionFilters($dimensionFilters)
   {
     $this->dimensionFilters = $dimensionFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getDimensionFilters()
   {
     return $this->dimensionFilters;

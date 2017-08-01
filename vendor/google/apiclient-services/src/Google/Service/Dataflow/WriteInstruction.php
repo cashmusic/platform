@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Dataflow_WriteInstruction extends Google_Model
   protected $sinkType = 'Google_Service_Dataflow_Sink';
   protected $sinkDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_InstructionInput
+   */
   public function setInput(Google_Service_Dataflow_InstructionInput $input)
   {
     $this->input = $input;
   }
+  /**
+   * @return Google_Service_Dataflow_InstructionInput
+   */
   public function getInput()
   {
     return $this->input;
   }
+  /**
+   * @param Google_Service_Dataflow_Sink
+   */
   public function setSink(Google_Service_Dataflow_Sink $sink)
   {
     $this->sink = $sink;
   }
+  /**
+   * @return Google_Service_Dataflow_Sink
+   */
   public function getSink()
   {
     return $this->sink;

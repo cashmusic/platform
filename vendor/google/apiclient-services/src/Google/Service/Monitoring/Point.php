@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Monitoring_Point extends Google_Model
   protected $valueType = 'Google_Service_Monitoring_TypedValue';
   protected $valueDataType = '';
 
+  /**
+   * @param Google_Service_Monitoring_TimeInterval
+   */
   public function setInterval(Google_Service_Monitoring_TimeInterval $interval)
   {
     $this->interval = $interval;
   }
+  /**
+   * @return Google_Service_Monitoring_TimeInterval
+   */
   public function getInterval()
   {
     return $this->interval;
   }
+  /**
+   * @param Google_Service_Monitoring_TypedValue
+   */
   public function setValue(Google_Service_Monitoring_TypedValue $value)
   {
     $this->value = $value;
   }
+  /**
+   * @return Google_Service_Monitoring_TypedValue
+   */
   public function getValue()
   {
     return $this->value;

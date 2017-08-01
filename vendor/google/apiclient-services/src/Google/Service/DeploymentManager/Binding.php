@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,9 +18,25 @@
 class Google_Service_DeploymentManager_Binding extends Google_Collection
 {
   protected $collection_key = 'members';
+  protected $conditionType = 'Google_Service_DeploymentManager_Expr';
+  protected $conditionDataType = '';
   public $members;
   public $role;
 
+  /**
+   * @param Google_Service_DeploymentManager_Expr
+   */
+  public function setCondition(Google_Service_DeploymentManager_Expr $condition)
+  {
+    $this->condition = $condition;
+  }
+  /**
+   * @return Google_Service_DeploymentManager_Expr
+   */
+  public function getCondition()
+  {
+    return $this->condition;
+  }
   public function setMembers($members)
   {
     $this->members = $members;

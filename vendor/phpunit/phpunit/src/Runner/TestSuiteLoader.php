@@ -8,14 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Runner;
-
-use ReflectionClass;
-
 /**
  * An interface to define how a test suite should be loaded.
  */
-interface TestSuiteLoader
+interface PHPUnit_Runner_TestSuiteLoader
 {
     /**
      * @param string $suiteClassName

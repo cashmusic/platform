@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Customsearch_Context extends Google_Collection
   protected $facetsDataType = 'array';
   public $title;
 
+  /**
+   * @param Google_Service_Customsearch_ContextFacets
+   */
   public function setFacets($facets)
   {
     $this->facets = $facets;
   }
+  /**
+   * @return Google_Service_Customsearch_ContextFacets
+   */
   public function getFacets()
   {
     return $this->facets;

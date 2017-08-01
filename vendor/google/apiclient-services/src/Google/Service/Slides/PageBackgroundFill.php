@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_Slides_PageBackgroundFill extends Google_Model
   {
     return $this->propertyState;
   }
+  /**
+   * @param Google_Service_Slides_SolidFill
+   */
   public function setSolidFill(Google_Service_Slides_SolidFill $solidFill)
   {
     $this->solidFill = $solidFill;
   }
+  /**
+   * @return Google_Service_Slides_SolidFill
+   */
   public function getSolidFill()
   {
     return $this->solidFill;
   }
+  /**
+   * @param Google_Service_Slides_StretchedPictureFill
+   */
   public function setStretchedPictureFill(Google_Service_Slides_StretchedPictureFill $stretchedPictureFill)
   {
     $this->stretchedPictureFill = $stretchedPictureFill;
   }
+  /**
+   * @return Google_Service_Slides_StretchedPictureFill
+   */
   public function getStretchedPictureFill()
   {
     return $this->stretchedPictureFill;

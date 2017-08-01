@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,18 +38,30 @@ class Google_Service_Games_Instance extends Google_Model
   {
     return $this->acquisitionUri;
   }
+  /**
+   * @param Google_Service_Games_InstanceAndroidDetails
+   */
   public function setAndroidInstance(Google_Service_Games_InstanceAndroidDetails $androidInstance)
   {
     $this->androidInstance = $androidInstance;
   }
+  /**
+   * @return Google_Service_Games_InstanceAndroidDetails
+   */
   public function getAndroidInstance()
   {
     return $this->androidInstance;
   }
+  /**
+   * @param Google_Service_Games_InstanceIosDetails
+   */
   public function setIosInstance(Google_Service_Games_InstanceIosDetails $iosInstance)
   {
     $this->iosInstance = $iosInstance;
   }
+  /**
+   * @return Google_Service_Games_InstanceIosDetails
+   */
   public function getIosInstance()
   {
     return $this->iosInstance;
@@ -94,10 +106,16 @@ class Google_Service_Games_Instance extends Google_Model
   {
     return $this->turnBasedPlay;
   }
+  /**
+   * @param Google_Service_Games_InstanceWebDetails
+   */
   public function setWebInstance(Google_Service_Games_InstanceWebDetails $webInstance)
   {
     $this->webInstance = $webInstance;
   }
+  /**
+   * @return Google_Service_Games_InstanceWebDetails
+   */
   public function getWebInstance()
   {
     return $this->webInstance;

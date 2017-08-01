@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,10 +24,16 @@ class Google_Service_Books_VolumeseriesinfoVolumeSeries extends Google_Collectio
   public $seriesBookType;
   public $seriesId;
 
+  /**
+   * @param Google_Service_Books_VolumeseriesinfoVolumeSeriesIssue
+   */
   public function setIssue($issue)
   {
     $this->issue = $issue;
   }
+  /**
+   * @return Google_Service_Books_VolumeseriesinfoVolumeSeriesIssue
+   */
   public function getIssue()
   {
     return $this->issue;

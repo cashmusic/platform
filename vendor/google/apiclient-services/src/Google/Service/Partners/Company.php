@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -73,10 +73,16 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->badgeTier;
   }
+  /**
+   * @param Google_Service_Partners_CertificationStatus
+   */
   public function setCertificationStatuses($certificationStatuses)
   {
     $this->certificationStatuses = $certificationStatuses;
   }
+  /**
+   * @return Google_Service_Partners_CertificationStatus
+   */
   public function getCertificationStatuses()
   {
     return $this->certificationStatuses;
@@ -89,10 +95,16 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->companyTypes;
   }
+  /**
+   * @param Google_Service_Partners_Money
+   */
   public function setConvertedMinMonthlyBudget(Google_Service_Partners_Money $convertedMinMonthlyBudget)
   {
     $this->convertedMinMonthlyBudget = $convertedMinMonthlyBudget;
   }
+  /**
+   * @return Google_Service_Partners_Money
+   */
   public function getConvertedMinMonthlyBudget()
   {
     return $this->convertedMinMonthlyBudget;
@@ -113,18 +125,30 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->industries;
   }
+  /**
+   * @param Google_Service_Partners_LocalizedCompanyInfo
+   */
   public function setLocalizedInfos($localizedInfos)
   {
     $this->localizedInfos = $localizedInfos;
   }
+  /**
+   * @return Google_Service_Partners_LocalizedCompanyInfo
+   */
   public function getLocalizedInfos()
   {
     return $this->localizedInfos;
   }
+  /**
+   * @param Google_Service_Partners_Location
+   */
   public function setLocations($locations)
   {
     $this->locations = $locations;
   }
+  /**
+   * @return Google_Service_Partners_Location
+   */
   public function getLocations()
   {
     return $this->locations;
@@ -137,10 +161,16 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Partners_Money
+   */
   public function setOriginalMinMonthlyBudget(Google_Service_Partners_Money $originalMinMonthlyBudget)
   {
     $this->originalMinMonthlyBudget = $originalMinMonthlyBudget;
   }
+  /**
+   * @return Google_Service_Partners_Money
+   */
   public function getOriginalMinMonthlyBudget()
   {
     return $this->originalMinMonthlyBudget;
@@ -161,10 +191,16 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->primaryLanguageCode;
   }
+  /**
+   * @param Google_Service_Partners_Location
+   */
   public function setPrimaryLocation(Google_Service_Partners_Location $primaryLocation)
   {
     $this->primaryLocation = $primaryLocation;
   }
+  /**
+   * @return Google_Service_Partners_Location
+   */
   public function getPrimaryLocation()
   {
     return $this->primaryLocation;
@@ -177,18 +213,30 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->profileStatus;
   }
+  /**
+   * @param Google_Service_Partners_PublicProfile
+   */
   public function setPublicProfile(Google_Service_Partners_PublicProfile $publicProfile)
   {
     $this->publicProfile = $publicProfile;
   }
+  /**
+   * @return Google_Service_Partners_PublicProfile
+   */
   public function getPublicProfile()
   {
     return $this->publicProfile;
   }
+  /**
+   * @param Google_Service_Partners_Rank
+   */
   public function setRanks($ranks)
   {
     $this->ranks = $ranks;
   }
+  /**
+   * @return Google_Service_Partners_Rank
+   */
   public function getRanks()
   {
     return $this->ranks;
@@ -201,10 +249,16 @@ class Google_Service_Partners_Company extends Google_Collection
   {
     return $this->services;
   }
+  /**
+   * @param Google_Service_Partners_SpecializationStatus
+   */
   public function setSpecializationStatus($specializationStatus)
   {
     $this->specializationStatus = $specializationStatus;
   }
+  /**
+   * @return Google_Service_Partners_SpecializationStatus
+   */
   public function getSpecializationStatus()
   {
     return $this->specializationStatus;

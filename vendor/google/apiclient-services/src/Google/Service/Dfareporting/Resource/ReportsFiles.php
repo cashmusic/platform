@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,7 +26,7 @@
 class Google_Service_Dfareporting_Resource_ReportsFiles extends Google_Service_Resource
 {
   /**
-   * Retrieves a report file. (files.get)
+   * Retrieves a report file. This method supports media download. (files.get)
    *
    * @param string $profileId The DFA profile ID.
    * @param string $reportId The ID of the report.
@@ -51,7 +51,7 @@ class Google_Service_Dfareporting_Resource_ReportsFiles extends Google_Service_R
    * @opt_param string pageToken The value of the nextToken from the previous
    * result page.
    * @opt_param string sortField The field by which to sort the list.
-   * @opt_param string sortOrder Order of sorted results, default is 'DESCENDING'.
+   * @opt_param string sortOrder Order of sorted results.
    * @return Google_Service_Dfareporting_FileList
    */
   public function listReportsFiles($profileId, $reportId, $optParams = array())

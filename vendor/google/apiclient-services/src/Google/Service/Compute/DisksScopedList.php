@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Compute_DisksScopedList extends Google_Collection
   protected $warningType = 'Google_Service_Compute_DisksScopedListWarning';
   protected $warningDataType = '';
 
+  /**
+   * @param Google_Service_Compute_Disk
+   */
   public function setDisks($disks)
   {
     $this->disks = $disks;
   }
+  /**
+   * @return Google_Service_Compute_Disk
+   */
   public function getDisks()
   {
     return $this->disks;
   }
+  /**
+   * @param Google_Service_Compute_DisksScopedListWarning
+   */
   public function setWarning(Google_Service_Compute_DisksScopedListWarning $warning)
   {
     $this->warning = $warning;
   }
+  /**
+   * @return Google_Service_Compute_DisksScopedListWarning
+   */
   public function getWarning()
   {
     return $this->warning;

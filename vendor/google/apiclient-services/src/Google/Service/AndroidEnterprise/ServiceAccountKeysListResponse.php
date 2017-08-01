@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_AndroidEnterprise_ServiceAccountKeysListResponse extends Go
   protected $serviceAccountKeyType = 'Google_Service_AndroidEnterprise_ServiceAccountKey';
   protected $serviceAccountKeyDataType = 'array';
 
+  /**
+   * @param Google_Service_AndroidEnterprise_ServiceAccountKey
+   */
   public function setServiceAccountKey($serviceAccountKey)
   {
     $this->serviceAccountKey = $serviceAccountKey;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_ServiceAccountKey
+   */
   public function getServiceAccountKey()
   {
     return $this->serviceAccountKey;

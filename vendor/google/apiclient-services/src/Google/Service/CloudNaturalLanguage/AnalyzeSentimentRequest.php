@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_CloudNaturalLanguage_AnalyzeSentimentRequest extends Google
   protected $documentDataType = '';
   public $encodingType;
 
+  /**
+   * @param Google_Service_CloudNaturalLanguage_Document
+   */
   public function setDocument(Google_Service_CloudNaturalLanguage_Document $document)
   {
     $this->document = $document;
   }
+  /**
+   * @return Google_Service_CloudNaturalLanguage_Document
+   */
   public function getDocument()
   {
     return $this->document;

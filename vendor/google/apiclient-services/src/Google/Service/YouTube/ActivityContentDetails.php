@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -40,90 +40,156 @@ class Google_Service_YouTube_ActivityContentDetails extends Google_Model
   protected $uploadType = 'Google_Service_YouTube_ActivityContentDetailsUpload';
   protected $uploadDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsBulletin
+   */
   public function setBulletin(Google_Service_YouTube_ActivityContentDetailsBulletin $bulletin)
   {
     $this->bulletin = $bulletin;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsBulletin
+   */
   public function getBulletin()
   {
     return $this->bulletin;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsChannelItem
+   */
   public function setChannelItem(Google_Service_YouTube_ActivityContentDetailsChannelItem $channelItem)
   {
     $this->channelItem = $channelItem;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsChannelItem
+   */
   public function getChannelItem()
   {
     return $this->channelItem;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsComment
+   */
   public function setComment(Google_Service_YouTube_ActivityContentDetailsComment $comment)
   {
     $this->comment = $comment;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsComment
+   */
   public function getComment()
   {
     return $this->comment;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsFavorite
+   */
   public function setFavorite(Google_Service_YouTube_ActivityContentDetailsFavorite $favorite)
   {
     $this->favorite = $favorite;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsFavorite
+   */
   public function getFavorite()
   {
     return $this->favorite;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsLike
+   */
   public function setLike(Google_Service_YouTube_ActivityContentDetailsLike $like)
   {
     $this->like = $like;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsLike
+   */
   public function getLike()
   {
     return $this->like;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsPlaylistItem
+   */
   public function setPlaylistItem(Google_Service_YouTube_ActivityContentDetailsPlaylistItem $playlistItem)
   {
     $this->playlistItem = $playlistItem;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsPlaylistItem
+   */
   public function getPlaylistItem()
   {
     return $this->playlistItem;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsPromotedItem
+   */
   public function setPromotedItem(Google_Service_YouTube_ActivityContentDetailsPromotedItem $promotedItem)
   {
     $this->promotedItem = $promotedItem;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsPromotedItem
+   */
   public function getPromotedItem()
   {
     return $this->promotedItem;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsRecommendation
+   */
   public function setRecommendation(Google_Service_YouTube_ActivityContentDetailsRecommendation $recommendation)
   {
     $this->recommendation = $recommendation;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsRecommendation
+   */
   public function getRecommendation()
   {
     return $this->recommendation;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsSocial
+   */
   public function setSocial(Google_Service_YouTube_ActivityContentDetailsSocial $social)
   {
     $this->social = $social;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsSocial
+   */
   public function getSocial()
   {
     return $this->social;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsSubscription
+   */
   public function setSubscription(Google_Service_YouTube_ActivityContentDetailsSubscription $subscription)
   {
     $this->subscription = $subscription;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsSubscription
+   */
   public function getSubscription()
   {
     return $this->subscription;
   }
+  /**
+   * @param Google_Service_YouTube_ActivityContentDetailsUpload
+   */
   public function setUpload(Google_Service_YouTube_ActivityContentDetailsUpload $upload)
   {
     $this->upload = $upload;
   }
+  /**
+   * @return Google_Service_YouTube_ActivityContentDetailsUpload
+   */
   public function getUpload()
   {
     return $this->upload;

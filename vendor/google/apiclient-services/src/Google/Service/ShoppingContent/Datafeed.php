@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -56,10 +56,16 @@ class Google_Service_ShoppingContent_Datafeed extends Google_Collection
   {
     return $this->contentType;
   }
+  /**
+   * @param Google_Service_ShoppingContent_DatafeedFetchSchedule
+   */
   public function setFetchSchedule(Google_Service_ShoppingContent_DatafeedFetchSchedule $fetchSchedule)
   {
     $this->fetchSchedule = $fetchSchedule;
   }
+  /**
+   * @return Google_Service_ShoppingContent_DatafeedFetchSchedule
+   */
   public function getFetchSchedule()
   {
     return $this->fetchSchedule;
@@ -72,10 +78,16 @@ class Google_Service_ShoppingContent_Datafeed extends Google_Collection
   {
     return $this->fileName;
   }
+  /**
+   * @param Google_Service_ShoppingContent_DatafeedFormat
+   */
   public function setFormat(Google_Service_ShoppingContent_DatafeedFormat $format)
   {
     $this->format = $format;
   }
+  /**
+   * @return Google_Service_ShoppingContent_DatafeedFormat
+   */
   public function getFormat()
   {
     return $this->format;

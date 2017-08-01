@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,10 +49,16 @@ class Google_Service_YouTube_CommentThreadSnippet extends Google_Model
   {
     return $this->isPublic;
   }
+  /**
+   * @param Google_Service_YouTube_Comment
+   */
   public function setTopLevelComment(Google_Service_YouTube_Comment $topLevelComment)
   {
     $this->topLevelComment = $topLevelComment;
   }
+  /**
+   * @return Google_Service_YouTube_Comment
+   */
   public function getTopLevelComment()
   {
     return $this->topLevelComment;

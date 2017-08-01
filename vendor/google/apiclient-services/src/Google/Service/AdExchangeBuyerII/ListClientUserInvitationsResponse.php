@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_AdExchangeBuyerII_ListClientUserInvitationsResponse extends
   protected $invitationsDataType = 'array';
   public $nextPageToken;
 
+  /**
+   * @param Google_Service_AdExchangeBuyerII_ClientUserInvitation
+   */
   public function setInvitations($invitations)
   {
     $this->invitations = $invitations;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyerII_ClientUserInvitation
+   */
   public function getInvitations()
   {
     return $this->invitations;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,10 +41,16 @@ class Google_Service_Bigquery_ExternalDataConfiguration extends Google_Collectio
   {
     return $this->autodetect;
   }
+  /**
+   * @param Google_Service_Bigquery_BigtableOptions
+   */
   public function setBigtableOptions(Google_Service_Bigquery_BigtableOptions $bigtableOptions)
   {
     $this->bigtableOptions = $bigtableOptions;
   }
+  /**
+   * @return Google_Service_Bigquery_BigtableOptions
+   */
   public function getBigtableOptions()
   {
     return $this->bigtableOptions;
@@ -57,18 +63,30 @@ class Google_Service_Bigquery_ExternalDataConfiguration extends Google_Collectio
   {
     return $this->compression;
   }
+  /**
+   * @param Google_Service_Bigquery_CsvOptions
+   */
   public function setCsvOptions(Google_Service_Bigquery_CsvOptions $csvOptions)
   {
     $this->csvOptions = $csvOptions;
   }
+  /**
+   * @return Google_Service_Bigquery_CsvOptions
+   */
   public function getCsvOptions()
   {
     return $this->csvOptions;
   }
+  /**
+   * @param Google_Service_Bigquery_GoogleSheetsOptions
+   */
   public function setGoogleSheetsOptions(Google_Service_Bigquery_GoogleSheetsOptions $googleSheetsOptions)
   {
     $this->googleSheetsOptions = $googleSheetsOptions;
   }
+  /**
+   * @return Google_Service_Bigquery_GoogleSheetsOptions
+   */
   public function getGoogleSheetsOptions()
   {
     return $this->googleSheetsOptions;
@@ -89,10 +107,16 @@ class Google_Service_Bigquery_ExternalDataConfiguration extends Google_Collectio
   {
     return $this->maxBadRecords;
   }
+  /**
+   * @param Google_Service_Bigquery_TableSchema
+   */
   public function setSchema(Google_Service_Bigquery_TableSchema $schema)
   {
     $this->schema = $schema;
   }
+  /**
+   * @return Google_Service_Bigquery_TableSchema
+   */
   public function getSchema()
   {
     return $this->schema;

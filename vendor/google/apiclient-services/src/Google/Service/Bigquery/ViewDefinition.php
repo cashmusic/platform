@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -39,10 +39,16 @@ class Google_Service_Bigquery_ViewDefinition extends Google_Collection
   {
     return $this->useLegacySql;
   }
+  /**
+   * @param Google_Service_Bigquery_UserDefinedFunctionResource
+   */
   public function setUserDefinedFunctionResources($userDefinedFunctionResources)
   {
     $this->userDefinedFunctionResources = $userDefinedFunctionResources;
   }
+  /**
+   * @return Google_Service_Bigquery_UserDefinedFunctionResource
+   */
   public function getUserDefinedFunctionResources()
   {
     return $this->userDefinedFunctionResources;

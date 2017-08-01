@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,18 +49,30 @@ class Google_Service_YouTube_CommentThread extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_CommentThreadReplies
+   */
   public function setReplies(Google_Service_YouTube_CommentThreadReplies $replies)
   {
     $this->replies = $replies;
   }
+  /**
+   * @return Google_Service_YouTube_CommentThreadReplies
+   */
   public function getReplies()
   {
     return $this->replies;
   }
+  /**
+   * @param Google_Service_YouTube_CommentThreadSnippet
+   */
   public function setSnippet(Google_Service_YouTube_CommentThreadSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_CommentThreadSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;

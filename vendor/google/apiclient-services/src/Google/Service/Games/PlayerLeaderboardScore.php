@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -48,10 +48,16 @@ class Google_Service_Games_PlayerLeaderboardScore extends Google_Model
   {
     return $this->leaderboardId;
   }
+  /**
+   * @param Google_Service_Games_LeaderboardScoreRank
+   */
   public function setPublicRank(Google_Service_Games_LeaderboardScoreRank $publicRank)
   {
     $this->publicRank = $publicRank;
   }
+  /**
+   * @return Google_Service_Games_LeaderboardScoreRank
+   */
   public function getPublicRank()
   {
     return $this->publicRank;
@@ -80,10 +86,16 @@ class Google_Service_Games_PlayerLeaderboardScore extends Google_Model
   {
     return $this->scoreValue;
   }
+  /**
+   * @param Google_Service_Games_LeaderboardScoreRank
+   */
   public function setSocialRank(Google_Service_Games_LeaderboardScoreRank $socialRank)
   {
     $this->socialRank = $socialRank;
   }
+  /**
+   * @return Google_Service_Games_LeaderboardScoreRank
+   */
   public function getSocialRank()
   {
     return $this->socialRank;

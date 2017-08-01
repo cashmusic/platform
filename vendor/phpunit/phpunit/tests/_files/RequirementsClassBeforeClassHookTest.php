@@ -1,10 +1,9 @@
 <?php
-use PHPUnit\Framework\TestCase;
 
 /**
  * @requires extension nonExistingExtension
  */
-class RequirementsClassBeforeClassHookTest extends TestCase
+class RequirementsClassBeforeClassHookTest extends PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {

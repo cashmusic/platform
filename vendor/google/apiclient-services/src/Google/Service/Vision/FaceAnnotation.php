@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -53,10 +53,16 @@ class Google_Service_Vision_FaceAnnotation extends Google_Collection
   {
     return $this->blurredLikelihood;
   }
+  /**
+   * @param Google_Service_Vision_BoundingPoly
+   */
   public function setBoundingPoly(Google_Service_Vision_BoundingPoly $boundingPoly)
   {
     $this->boundingPoly = $boundingPoly;
   }
+  /**
+   * @return Google_Service_Vision_BoundingPoly
+   */
   public function getBoundingPoly()
   {
     return $this->boundingPoly;
@@ -69,10 +75,16 @@ class Google_Service_Vision_FaceAnnotation extends Google_Collection
   {
     return $this->detectionConfidence;
   }
+  /**
+   * @param Google_Service_Vision_BoundingPoly
+   */
   public function setFdBoundingPoly(Google_Service_Vision_BoundingPoly $fdBoundingPoly)
   {
     $this->fdBoundingPoly = $fdBoundingPoly;
   }
+  /**
+   * @return Google_Service_Vision_BoundingPoly
+   */
   public function getFdBoundingPoly()
   {
     return $this->fdBoundingPoly;
@@ -101,10 +113,16 @@ class Google_Service_Vision_FaceAnnotation extends Google_Collection
   {
     return $this->landmarkingConfidence;
   }
+  /**
+   * @param Google_Service_Vision_Landmark
+   */
   public function setLandmarks($landmarks)
   {
     $this->landmarks = $landmarks;
   }
+  /**
+   * @return Google_Service_Vision_Landmark
+   */
   public function getLandmarks()
   {
     return $this->landmarks;

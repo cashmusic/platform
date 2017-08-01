@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,16 @@ class Google_Service_Games_TurnBasedMatchTurn extends Google_Collection
   protected $resultsType = 'Google_Service_Games_ParticipantResult';
   protected $resultsDataType = 'array';
 
+  /**
+   * @param Google_Service_Games_TurnBasedMatchDataRequest
+   */
   public function setData(Google_Service_Games_TurnBasedMatchDataRequest $data)
   {
     $this->data = $data;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchDataRequest
+   */
   public function getData()
   {
     return $this->data;
@@ -58,10 +64,16 @@ class Google_Service_Games_TurnBasedMatchTurn extends Google_Collection
   {
     return $this->pendingParticipantId;
   }
+  /**
+   * @param Google_Service_Games_ParticipantResult
+   */
   public function setResults($results)
   {
     $this->results = $results;
   }
+  /**
+   * @return Google_Service_Games_ParticipantResult
+   */
   public function getResults()
   {
     return $this->results;

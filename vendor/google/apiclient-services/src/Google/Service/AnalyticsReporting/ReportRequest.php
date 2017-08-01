@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,34 +45,58 @@ class Google_Service_AnalyticsReporting_ReportRequest extends Google_Collection
   protected $segmentsDataType = 'array';
   public $viewId;
 
+  /**
+   * @param Google_Service_AnalyticsReporting_CohortGroup
+   */
   public function setCohortGroup(Google_Service_AnalyticsReporting_CohortGroup $cohortGroup)
   {
     $this->cohortGroup = $cohortGroup;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_CohortGroup
+   */
   public function getCohortGroup()
   {
     return $this->cohortGroup;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_DateRange
+   */
   public function setDateRanges($dateRanges)
   {
     $this->dateRanges = $dateRanges;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_DateRange
+   */
   public function getDateRanges()
   {
     return $this->dateRanges;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_DimensionFilterClause
+   */
   public function setDimensionFilterClauses($dimensionFilterClauses)
   {
     $this->dimensionFilterClauses = $dimensionFilterClauses;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_DimensionFilterClause
+   */
   public function getDimensionFilterClauses()
   {
     return $this->dimensionFilterClauses;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Dimension
+   */
   public function setDimensions($dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Dimension
+   */
   public function getDimensions()
   {
     return $this->dimensions;
@@ -109,26 +133,44 @@ class Google_Service_AnalyticsReporting_ReportRequest extends Google_Collection
   {
     return $this->includeEmptyRows;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_MetricFilterClause
+   */
   public function setMetricFilterClauses($metricFilterClauses)
   {
     $this->metricFilterClauses = $metricFilterClauses;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_MetricFilterClause
+   */
   public function getMetricFilterClauses()
   {
     return $this->metricFilterClauses;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_OrderBy
+   */
   public function setOrderBys($orderBys)
   {
     $this->orderBys = $orderBys;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_OrderBy
+   */
   public function getOrderBys()
   {
     return $this->orderBys;
@@ -149,10 +191,16 @@ class Google_Service_AnalyticsReporting_ReportRequest extends Google_Collection
   {
     return $this->pageToken;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Pivot
+   */
   public function setPivots($pivots)
   {
     $this->pivots = $pivots;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Pivot
+   */
   public function getPivots()
   {
     return $this->pivots;
@@ -165,10 +213,16 @@ class Google_Service_AnalyticsReporting_ReportRequest extends Google_Collection
   {
     return $this->samplingLevel;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Segment
+   */
   public function setSegments($segments)
   {
     $this->segments = $segments;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Segment
+   */
   public function getSegments()
   {
     return $this->segments;

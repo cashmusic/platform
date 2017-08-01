@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Dfareporting_DfareportingFile extends Google_Model
   protected $urlsType = 'Google_Service_Dfareporting_DfareportingFileUrls';
   protected $urlsDataType = '';
 
+  /**
+   * @param Google_Service_Dfareporting_DateRange
+   */
   public function setDateRange(Google_Service_Dfareporting_DateRange $dateRange)
   {
     $this->dateRange = $dateRange;
   }
+  /**
+   * @return Google_Service_Dfareporting_DateRange
+   */
   public function getDateRange()
   {
     return $this->dateRange;
@@ -102,10 +108,16 @@ class Google_Service_Dfareporting_DfareportingFile extends Google_Model
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_Dfareporting_DfareportingFileUrls
+   */
   public function setUrls(Google_Service_Dfareporting_DfareportingFileUrls $urls)
   {
     $this->urls = $urls;
   }
+  /**
+   * @return Google_Service_Dfareporting_DfareportingFileUrls
+   */
   public function getUrls()
   {
     return $this->urls;

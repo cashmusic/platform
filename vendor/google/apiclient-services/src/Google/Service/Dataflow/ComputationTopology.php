@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,6 @@ class Google_Service_Dataflow_ComputationTopology extends Google_Collection
   protected $stateFamiliesType = 'Google_Service_Dataflow_StateFamilyConfig';
   protected $stateFamiliesDataType = 'array';
   public $systemStageName;
-  public $userStageName;
 
   public function setComputationId($computationId)
   {
@@ -38,34 +37,58 @@ class Google_Service_Dataflow_ComputationTopology extends Google_Collection
   {
     return $this->computationId;
   }
+  /**
+   * @param Google_Service_Dataflow_StreamLocation
+   */
   public function setInputs($inputs)
   {
     $this->inputs = $inputs;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamLocation
+   */
   public function getInputs()
   {
     return $this->inputs;
   }
+  /**
+   * @param Google_Service_Dataflow_KeyRangeLocation
+   */
   public function setKeyRanges($keyRanges)
   {
     $this->keyRanges = $keyRanges;
   }
+  /**
+   * @return Google_Service_Dataflow_KeyRangeLocation
+   */
   public function getKeyRanges()
   {
     return $this->keyRanges;
   }
+  /**
+   * @param Google_Service_Dataflow_StreamLocation
+   */
   public function setOutputs($outputs)
   {
     $this->outputs = $outputs;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamLocation
+   */
   public function getOutputs()
   {
     return $this->outputs;
   }
+  /**
+   * @param Google_Service_Dataflow_StateFamilyConfig
+   */
   public function setStateFamilies($stateFamilies)
   {
     $this->stateFamilies = $stateFamilies;
   }
+  /**
+   * @return Google_Service_Dataflow_StateFamilyConfig
+   */
   public function getStateFamilies()
   {
     return $this->stateFamilies;
@@ -77,13 +100,5 @@ class Google_Service_Dataflow_ComputationTopology extends Google_Collection
   public function getSystemStageName()
   {
     return $this->systemStageName;
-  }
-  public function setUserStageName($userStageName)
-  {
-    $this->userStageName = $userStageName;
-  }
-  public function getUserStageName()
-  {
-    return $this->userStageName;
   }
 }

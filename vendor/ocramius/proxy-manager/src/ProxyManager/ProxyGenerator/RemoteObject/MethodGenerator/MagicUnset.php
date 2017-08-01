@@ -16,12 +16,10 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\RemoteObject\MethodGenerator;
 
 use ProxyManager\Generator\MagicMethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use ProxyManager\Generator\ParameterGenerator;
 use ReflectionClass;
 use Zend\Code\Generator\PropertyGenerator;
 
@@ -41,7 +39,7 @@ class MagicUnset extends MagicMethodGenerator
      */
     public function __construct(ReflectionClass $originalClass, PropertyGenerator $adapterProperty)
     {
-        parent::__construct($originalClass, '__unset', [new ParameterGenerator('name')]);
+        parent::__construct($originalClass, '__unset', array(new ParameterGenerator('name')));
 
         $this->setDocblock('@param string $name');
         $this->setBody(

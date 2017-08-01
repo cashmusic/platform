@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_Spanner_TransactionSelector extends Google_Model
   protected $singleUseType = 'Google_Service_Spanner_TransactionOptions';
   protected $singleUseDataType = '';
 
+  /**
+   * @param Google_Service_Spanner_TransactionOptions
+   */
   public function setBegin(Google_Service_Spanner_TransactionOptions $begin)
   {
     $this->begin = $begin;
   }
+  /**
+   * @return Google_Service_Spanner_TransactionOptions
+   */
   public function getBegin()
   {
     return $this->begin;
@@ -39,10 +45,16 @@ class Google_Service_Spanner_TransactionSelector extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Spanner_TransactionOptions
+   */
   public function setSingleUse(Google_Service_Spanner_TransactionOptions $singleUse)
   {
     $this->singleUse = $singleUse;
   }
+  /**
+   * @return Google_Service_Spanner_TransactionOptions
+   */
   public function getSingleUse()
   {
     return $this->singleUse;

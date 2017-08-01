@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,7 +26,7 @@
 class Google_Service_CloudSourceRepositories_Resource_ProjectsRepos extends Google_Service_Resource
 {
   /**
-   * Creates a repo in the given project with the given name..
+   * Creates a repo in the given project with the given name.
    *
    * If the named repository already exists, `CreateRepo` returns
    * `ALREADY_EXISTS`. (repos.create)
@@ -88,11 +88,19 @@ class Google_Service_CloudSourceRepositories_Resource_ProjectsRepos extends Goog
     return $this->call('getIamPolicy', array($params), "Google_Service_CloudSourceRepositories_Policy");
   }
   /**
-   * Returns all repos belonging to a project. (repos.listProjectsRepos)
+   * Returns all repos belonging to a project. The sizes of the repos are not set
+   * by ListRepos.  To get the size of a repo, use GetRepo.
+   * (repos.listProjectsRepos)
    *
    * @param string $name The project ID whose repos should be listed. Values are
    * of the form `projects/`.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string pageToken Resume listing repositories where a prior
+   * ListReposResponse left off. This is an opaque token that must be obtained
+   * from a recent, prior ListReposResponse's next_page_token field.
+   * @opt_param int pageSize Maximum number of repositories to return; between 1
+   * and 500. If not set or zero, defaults to 100 at the server.
    * @return Google_Service_CloudSourceRepositories_ListReposResponse
    */
   public function listProjectsRepos($name, $optParams = array())

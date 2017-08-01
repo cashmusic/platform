@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,26 +24,44 @@ class Google_Service_ToolResults_ToolOutputReference extends Google_Model
   protected $testCaseType = 'Google_Service_ToolResults_TestCaseReference';
   protected $testCaseDataType = '';
 
+  /**
+   * @param Google_Service_ToolResults_Timestamp
+   */
   public function setCreationTime(Google_Service_ToolResults_Timestamp $creationTime)
   {
     $this->creationTime = $creationTime;
   }
+  /**
+   * @return Google_Service_ToolResults_Timestamp
+   */
   public function getCreationTime()
   {
     return $this->creationTime;
   }
+  /**
+   * @param Google_Service_ToolResults_FileReference
+   */
   public function setOutput(Google_Service_ToolResults_FileReference $output)
   {
     $this->output = $output;
   }
+  /**
+   * @return Google_Service_ToolResults_FileReference
+   */
   public function getOutput()
   {
     return $this->output;
   }
+  /**
+   * @param Google_Service_ToolResults_TestCaseReference
+   */
   public function setTestCase(Google_Service_ToolResults_TestCaseReference $testCase)
   {
     $this->testCase = $testCase;
   }
+  /**
+   * @return Google_Service_ToolResults_TestCaseReference
+   */
   public function getTestCase()
   {
     return $this->testCase;

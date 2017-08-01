@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,34 +26,58 @@ class Google_Service_CloudDebugger_SourceContext extends Google_Model
   protected $gitType = 'Google_Service_CloudDebugger_GitSourceContext';
   protected $gitDataType = '';
 
+  /**
+   * @param Google_Service_CloudDebugger_CloudRepoSourceContext
+   */
   public function setCloudRepo(Google_Service_CloudDebugger_CloudRepoSourceContext $cloudRepo)
   {
     $this->cloudRepo = $cloudRepo;
   }
+  /**
+   * @return Google_Service_CloudDebugger_CloudRepoSourceContext
+   */
   public function getCloudRepo()
   {
     return $this->cloudRepo;
   }
+  /**
+   * @param Google_Service_CloudDebugger_CloudWorkspaceSourceContext
+   */
   public function setCloudWorkspace(Google_Service_CloudDebugger_CloudWorkspaceSourceContext $cloudWorkspace)
   {
     $this->cloudWorkspace = $cloudWorkspace;
   }
+  /**
+   * @return Google_Service_CloudDebugger_CloudWorkspaceSourceContext
+   */
   public function getCloudWorkspace()
   {
     return $this->cloudWorkspace;
   }
+  /**
+   * @param Google_Service_CloudDebugger_GerritSourceContext
+   */
   public function setGerrit(Google_Service_CloudDebugger_GerritSourceContext $gerrit)
   {
     $this->gerrit = $gerrit;
   }
+  /**
+   * @return Google_Service_CloudDebugger_GerritSourceContext
+   */
   public function getGerrit()
   {
     return $this->gerrit;
   }
+  /**
+   * @param Google_Service_CloudDebugger_GitSourceContext
+   */
   public function setGit(Google_Service_CloudDebugger_GitSourceContext $git)
   {
     $this->git = $git;
   }
+  /**
+   * @return Google_Service_CloudDebugger_GitSourceContext
+   */
   public function getGit()
   {
     return $this->git;

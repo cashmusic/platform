@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,10 +36,16 @@ class Google_Service_GamesConfiguration_AchievementConfiguration extends Google_
   {
     return $this->achievementType;
   }
+  /**
+   * @param Google_Service_GamesConfiguration_AchievementConfigurationDetail
+   */
   public function setDraft(Google_Service_GamesConfiguration_AchievementConfigurationDetail $draft)
   {
     $this->draft = $draft;
   }
+  /**
+   * @return Google_Service_GamesConfiguration_AchievementConfigurationDetail
+   */
   public function getDraft()
   {
     return $this->draft;
@@ -68,10 +74,16 @@ class Google_Service_GamesConfiguration_AchievementConfiguration extends Google_
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_GamesConfiguration_AchievementConfigurationDetail
+   */
   public function setPublished(Google_Service_GamesConfiguration_AchievementConfigurationDetail $published)
   {
     $this->published = $published;
   }
+  /**
+   * @return Google_Service_GamesConfiguration_AchievementConfigurationDetail
+   */
   public function getPublished()
   {
     return $this->published;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -39,5 +39,31 @@ class Google_Service_Slides_Resource_PresentationsPages extends Google_Service_R
     $params = array('presentationId' => $presentationId, 'pageObjectId' => $pageObjectId);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_Slides_Page");
+  }
+  /**
+   * Generates a thumbnail of the latest version of the specified page in the
+   * presentation and returns a URL to the thumbnail image. (pages.getThumbnail)
+   *
+   * @param string $presentationId The ID of the presentation to retrieve.
+   * @param string $pageObjectId The object ID of the page whose thumbnail to
+   * retrieve.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string thumbnailProperties.thumbnailSize The optional thumbnail
+   * image size.
+   *
+   * If you don't specify the size, the server chooses a default size of the
+   * image.
+   * @opt_param string thumbnailProperties.mimeType The optional mime type of the
+   * thumbnail image.
+   *
+   * If you don't specify the mime type, the default mime type will be PNG.
+   * @return Google_Service_Slides_Thumbnail
+   */
+  public function getThumbnail($presentationId, $pageObjectId, $optParams = array())
+  {
+    $params = array('presentationId' => $presentationId, 'pageObjectId' => $pageObjectId);
+    $params = array_merge($params, $optParams);
+    return $this->call('getThumbnail', array($params), "Google_Service_Slides_Thumbnail");
   }
 }

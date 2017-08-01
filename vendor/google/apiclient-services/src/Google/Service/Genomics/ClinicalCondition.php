@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_Genomics_ClinicalCondition extends Google_Collection
   {
     return $this->conceptId;
   }
+  /**
+   * @param Google_Service_Genomics_ExternalId
+   */
   public function setExternalIds($externalIds)
   {
     $this->externalIds = $externalIds;
   }
+  /**
+   * @return Google_Service_Genomics_ExternalId
+   */
   public function getExternalIds()
   {
     return $this->externalIds;

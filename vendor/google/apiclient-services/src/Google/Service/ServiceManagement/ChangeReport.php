@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_ServiceManagement_ChangeReport extends Google_Collection
   protected $configChangesType = 'Google_Service_ServiceManagement_ConfigChange';
   protected $configChangesDataType = 'array';
 
+  /**
+   * @param Google_Service_ServiceManagement_ConfigChange
+   */
   public function setConfigChanges($configChanges)
   {
     $this->configChanges = $configChanges;
   }
+  /**
+   * @return Google_Service_ServiceManagement_ConfigChange
+   */
   public function getConfigChanges()
   {
     return $this->configChanges;

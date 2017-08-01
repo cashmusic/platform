@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -54,26 +54,44 @@ class Google_Service_Games_TurnBasedMatch extends Google_Collection
   {
     return $this->applicationId;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedAutoMatchingCriteria
+   */
   public function setAutoMatchingCriteria(Google_Service_Games_TurnBasedAutoMatchingCriteria $autoMatchingCriteria)
   {
     $this->autoMatchingCriteria = $autoMatchingCriteria;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedAutoMatchingCriteria
+   */
   public function getAutoMatchingCriteria()
   {
     return $this->autoMatchingCriteria;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedMatchModification
+   */
   public function setCreationDetails(Google_Service_Games_TurnBasedMatchModification $creationDetails)
   {
     $this->creationDetails = $creationDetails;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchModification
+   */
   public function getCreationDetails()
   {
     return $this->creationDetails;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedMatchData
+   */
   public function setData(Google_Service_Games_TurnBasedMatchData $data)
   {
     $this->data = $data;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchData
+   */
   public function getData()
   {
     return $this->data;
@@ -102,10 +120,16 @@ class Google_Service_Games_TurnBasedMatch extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedMatchModification
+   */
   public function setLastUpdateDetails(Google_Service_Games_TurnBasedMatchModification $lastUpdateDetails)
   {
     $this->lastUpdateDetails = $lastUpdateDetails;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchModification
+   */
   public function getLastUpdateDetails()
   {
     return $this->lastUpdateDetails;
@@ -134,10 +158,16 @@ class Google_Service_Games_TurnBasedMatch extends Google_Collection
   {
     return $this->matchVersion;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedMatchParticipant
+   */
   public function setParticipants($participants)
   {
     $this->participants = $participants;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchParticipant
+   */
   public function getParticipants()
   {
     return $this->participants;
@@ -150,10 +180,16 @@ class Google_Service_Games_TurnBasedMatch extends Google_Collection
   {
     return $this->pendingParticipantId;
   }
+  /**
+   * @param Google_Service_Games_TurnBasedMatchData
+   */
   public function setPreviousMatchData(Google_Service_Games_TurnBasedMatchData $previousMatchData)
   {
     $this->previousMatchData = $previousMatchData;
   }
+  /**
+   * @return Google_Service_Games_TurnBasedMatchData
+   */
   public function getPreviousMatchData()
   {
     return $this->previousMatchData;
@@ -166,10 +202,16 @@ class Google_Service_Games_TurnBasedMatch extends Google_Collection
   {
     return $this->rematchId;
   }
+  /**
+   * @param Google_Service_Games_ParticipantResult
+   */
   public function setResults($results)
   {
     $this->results = $results;
   }
+  /**
+   * @return Google_Service_Games_ParticipantResult
+   */
   public function getResults()
   {
     return $this->results;

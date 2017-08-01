@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -65,10 +65,16 @@ class Google_Service_Analytics_Goal extends Google_Model
   {
     return $this->created;
   }
+  /**
+   * @param Google_Service_Analytics_GoalEventDetails
+   */
   public function setEventDetails(Google_Service_Analytics_GoalEventDetails $eventDetails)
   {
     $this->eventDetails = $eventDetails;
   }
+  /**
+   * @return Google_Service_Analytics_GoalEventDetails
+   */
   public function getEventDetails()
   {
     return $this->eventDetails;
@@ -105,10 +111,16 @@ class Google_Service_Analytics_Goal extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Analytics_GoalParentLink
+   */
   public function setParentLink(Google_Service_Analytics_GoalParentLink $parentLink)
   {
     $this->parentLink = $parentLink;
   }
+  /**
+   * @return Google_Service_Analytics_GoalParentLink
+   */
   public function getParentLink()
   {
     return $this->parentLink;
@@ -145,10 +157,16 @@ class Google_Service_Analytics_Goal extends Google_Model
   {
     return $this->updated;
   }
+  /**
+   * @param Google_Service_Analytics_GoalUrlDestinationDetails
+   */
   public function setUrlDestinationDetails(Google_Service_Analytics_GoalUrlDestinationDetails $urlDestinationDetails)
   {
     $this->urlDestinationDetails = $urlDestinationDetails;
   }
+  /**
+   * @return Google_Service_Analytics_GoalUrlDestinationDetails
+   */
   public function getUrlDestinationDetails()
   {
     return $this->urlDestinationDetails;
@@ -161,18 +179,30 @@ class Google_Service_Analytics_Goal extends Google_Model
   {
     return $this->value;
   }
+  /**
+   * @param Google_Service_Analytics_GoalVisitNumPagesDetails
+   */
   public function setVisitNumPagesDetails(Google_Service_Analytics_GoalVisitNumPagesDetails $visitNumPagesDetails)
   {
     $this->visitNumPagesDetails = $visitNumPagesDetails;
   }
+  /**
+   * @return Google_Service_Analytics_GoalVisitNumPagesDetails
+   */
   public function getVisitNumPagesDetails()
   {
     return $this->visitNumPagesDetails;
   }
+  /**
+   * @param Google_Service_Analytics_GoalVisitTimeOnSiteDetails
+   */
   public function setVisitTimeOnSiteDetails(Google_Service_Analytics_GoalVisitTimeOnSiteDetails $visitTimeOnSiteDetails)
   {
     $this->visitTimeOnSiteDetails = $visitTimeOnSiteDetails;
   }
+  /**
+   * @return Google_Service_Analytics_GoalVisitTimeOnSiteDetails
+   */
   public function getVisitTimeOnSiteDetails()
   {
     return $this->visitTimeOnSiteDetails;

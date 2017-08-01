@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Gmail_Filter extends Google_Model
   protected $criteriaDataType = '';
   public $id;
 
+  /**
+   * @param Google_Service_Gmail_FilterAction
+   */
   public function setAction(Google_Service_Gmail_FilterAction $action)
   {
     $this->action = $action;
   }
+  /**
+   * @return Google_Service_Gmail_FilterAction
+   */
   public function getAction()
   {
     return $this->action;
   }
+  /**
+   * @param Google_Service_Gmail_FilterCriteria
+   */
   public function setCriteria(Google_Service_Gmail_FilterCriteria $criteria)
   {
     $this->criteria = $criteria;
   }
+  /**
+   * @return Google_Service_Gmail_FilterCriteria
+   */
   public function getCriteria()
   {
     return $this->criteria;

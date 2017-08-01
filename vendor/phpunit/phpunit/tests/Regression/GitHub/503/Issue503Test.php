@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue503Test extends TestCase
+class Issue503Test extends PHPUnit_Framework_TestCase
 {
     public function testCompareDifferentLineEndings()
     {

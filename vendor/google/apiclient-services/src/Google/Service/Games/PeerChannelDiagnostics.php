@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Games_PeerChannelDiagnostics extends Google_Model
   protected $roundtripLatencyMillisType = 'Google_Service_Games_AggregateStats';
   protected $roundtripLatencyMillisDataType = '';
 
+  /**
+   * @param Google_Service_Games_AggregateStats
+   */
   public function setBytesReceived(Google_Service_Games_AggregateStats $bytesReceived)
   {
     $this->bytesReceived = $bytesReceived;
   }
+  /**
+   * @return Google_Service_Games_AggregateStats
+   */
   public function getBytesReceived()
   {
     return $this->bytesReceived;
   }
+  /**
+   * @param Google_Service_Games_AggregateStats
+   */
   public function setBytesSent(Google_Service_Games_AggregateStats $bytesSent)
   {
     $this->bytesSent = $bytesSent;
   }
+  /**
+   * @return Google_Service_Games_AggregateStats
+   */
   public function getBytesSent()
   {
     return $this->bytesSent;
@@ -85,10 +97,16 @@ class Google_Service_Games_PeerChannelDiagnostics extends Google_Model
   {
     return $this->numSendFailures;
   }
+  /**
+   * @param Google_Service_Games_AggregateStats
+   */
   public function setRoundtripLatencyMillis(Google_Service_Games_AggregateStats $roundtripLatencyMillis)
   {
     $this->roundtripLatencyMillis = $roundtripLatencyMillis;
   }
+  /**
+   * @return Google_Service_Games_AggregateStats
+   */
   public function getRoundtripLatencyMillis()
   {
     return $this->roundtripLatencyMillis;

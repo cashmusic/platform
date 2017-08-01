@@ -95,7 +95,7 @@ $stack->push($middleware);
 // create the HTTP client
 $client = new Client([
   'handler' => $stack,
-  'base_url' => 'https://www.googleapis.com',
+  'base_uri' => 'https://www.googleapis.com',
   'auth' => 'google_auth'  // authorize all requests
 ]);
 

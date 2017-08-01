@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,26 +44,44 @@ class Google_Service_SQLAdmin_Operation extends Google_Model
   {
     return $this->endTime;
   }
+  /**
+   * @param Google_Service_SQLAdmin_OperationErrors
+   */
   public function setError(Google_Service_SQLAdmin_OperationErrors $error)
   {
     $this->error = $error;
   }
+  /**
+   * @return Google_Service_SQLAdmin_OperationErrors
+   */
   public function getError()
   {
     return $this->error;
   }
+  /**
+   * @param Google_Service_SQLAdmin_ExportContext
+   */
   public function setExportContext(Google_Service_SQLAdmin_ExportContext $exportContext)
   {
     $this->exportContext = $exportContext;
   }
+  /**
+   * @return Google_Service_SQLAdmin_ExportContext
+   */
   public function getExportContext()
   {
     return $this->exportContext;
   }
+  /**
+   * @param Google_Service_SQLAdmin_ImportContext
+   */
   public function setImportContext(Google_Service_SQLAdmin_ImportContext $importContext)
   {
     $this->importContext = $importContext;
   }
+  /**
+   * @return Google_Service_SQLAdmin_ImportContext
+   */
   public function getImportContext()
   {
     return $this->importContext;

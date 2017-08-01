@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_ServiceManagement_Logging extends Google_Collection
   protected $producerDestinationsType = 'Google_Service_ServiceManagement_LoggingDestination';
   protected $producerDestinationsDataType = 'array';
 
+  /**
+   * @param Google_Service_ServiceManagement_LoggingDestination
+   */
   public function setConsumerDestinations($consumerDestinations)
   {
     $this->consumerDestinations = $consumerDestinations;
   }
+  /**
+   * @return Google_Service_ServiceManagement_LoggingDestination
+   */
   public function getConsumerDestinations()
   {
     return $this->consumerDestinations;
   }
+  /**
+   * @param Google_Service_ServiceManagement_LoggingDestination
+   */
   public function setProducerDestinations($producerDestinations)
   {
     $this->producerDestinations = $producerDestinations;
   }
+  /**
+   * @return Google_Service_ServiceManagement_LoggingDestination
+   */
   public function getProducerDestinations()
   {
     return $this->producerDestinations;

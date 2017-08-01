@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_Games_RoomCreateRequest extends Google_Collection
   public $requestId;
   public $variant;
 
+  /**
+   * @param Google_Service_Games_RoomAutoMatchingCriteria
+   */
   public function setAutoMatchingCriteria(Google_Service_Games_RoomAutoMatchingCriteria $autoMatchingCriteria)
   {
     $this->autoMatchingCriteria = $autoMatchingCriteria;
   }
+  /**
+   * @return Google_Service_Games_RoomAutoMatchingCriteria
+   */
   public function getAutoMatchingCriteria()
   {
     return $this->autoMatchingCriteria;
@@ -46,10 +52,16 @@ class Google_Service_Games_RoomCreateRequest extends Google_Collection
   {
     return $this->capabilities;
   }
+  /**
+   * @param Google_Service_Games_RoomClientAddress
+   */
   public function setClientAddress(Google_Service_Games_RoomClientAddress $clientAddress)
   {
     $this->clientAddress = $clientAddress;
   }
+  /**
+   * @return Google_Service_Games_RoomClientAddress
+   */
   public function getClientAddress()
   {
     return $this->clientAddress;
@@ -70,10 +82,16 @@ class Google_Service_Games_RoomCreateRequest extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Games_NetworkDiagnostics
+   */
   public function setNetworkDiagnostics(Google_Service_Games_NetworkDiagnostics $networkDiagnostics)
   {
     $this->networkDiagnostics = $networkDiagnostics;
   }
+  /**
+   * @return Google_Service_Games_NetworkDiagnostics
+   */
   public function getNetworkDiagnostics()
   {
     return $this->networkDiagnostics;

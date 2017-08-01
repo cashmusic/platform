@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,26 +34,44 @@ class Google_Service_AndroidEnterprise_ProductsListResponse extends Google_Colle
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_AndroidEnterprise_PageInfo
+   */
   public function setPageInfo(Google_Service_AndroidEnterprise_PageInfo $pageInfo)
   {
     $this->pageInfo = $pageInfo;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_PageInfo
+   */
   public function getPageInfo()
   {
     return $this->pageInfo;
   }
+  /**
+   * @param Google_Service_AndroidEnterprise_Product
+   */
   public function setProduct($product)
   {
     $this->product = $product;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_Product
+   */
   public function getProduct()
   {
     return $this->product;
   }
+  /**
+   * @param Google_Service_AndroidEnterprise_TokenPagination
+   */
   public function setTokenPagination(Google_Service_AndroidEnterprise_TokenPagination $tokenPagination)
   {
     $this->tokenPagination = $tokenPagination;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_TokenPagination
+   */
   public function getTokenPagination()
   {
     return $this->tokenPagination;

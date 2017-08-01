@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,34 +49,58 @@ class Google_Service_AdExchangeBuyer_Proposal extends Google_Collection
   protected $sellerContactsType = 'Google_Service_AdExchangeBuyer_ContactInformation';
   protected $sellerContactsDataType = 'array';
 
+  /**
+   * @param Google_Service_AdExchangeBuyer_Buyer
+   */
   public function setBilledBuyer(Google_Service_AdExchangeBuyer_Buyer $billedBuyer)
   {
     $this->billedBuyer = $billedBuyer;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Buyer
+   */
   public function getBilledBuyer()
   {
     return $this->billedBuyer;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_Buyer
+   */
   public function setBuyer(Google_Service_AdExchangeBuyer_Buyer $buyer)
   {
     $this->buyer = $buyer;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Buyer
+   */
   public function getBuyer()
   {
     return $this->buyer;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_ContactInformation
+   */
   public function setBuyerContacts($buyerContacts)
   {
     $this->buyerContacts = $buyerContacts;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_ContactInformation
+   */
   public function getBuyerContacts()
   {
     return $this->buyerContacts;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_PrivateData
+   */
   public function setBuyerPrivateData(Google_Service_AdExchangeBuyer_PrivateData $buyerPrivateData)
   {
     $this->buyerPrivateData = $buyerPrivateData;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_PrivateData
+   */
   public function getBuyerPrivateData()
   {
     return $this->buyerPrivateData;
@@ -137,10 +161,16 @@ class Google_Service_AdExchangeBuyer_Proposal extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_MarketplaceLabel
+   */
   public function setLabels($labels)
   {
     $this->labels = $labels;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_MarketplaceLabel
+   */
   public function getLabels()
   {
     return $this->labels;
@@ -217,18 +247,30 @@ class Google_Service_AdExchangeBuyer_Proposal extends Google_Collection
   {
     return $this->revisionTimeMs;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_Seller
+   */
   public function setSeller(Google_Service_AdExchangeBuyer_Seller $seller)
   {
     $this->seller = $seller;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Seller
+   */
   public function getSeller()
   {
     return $this->seller;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_ContactInformation
+   */
   public function setSellerContacts($sellerContacts)
   {
     $this->sellerContacts = $sellerContacts;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_ContactInformation
+   */
   public function getSellerContacts()
   {
     return $this->sellerContacts;

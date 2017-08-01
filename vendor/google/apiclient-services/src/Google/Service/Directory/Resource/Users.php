@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -79,9 +79,9 @@ class Google_Service_Directory_Resource_Users extends Google_Service_Resource
    * @opt_param string customFieldMask Comma-separated list of schema names. All
    * fields from these schemas are fetched. This should only be set when
    * projection=custom.
-   * @opt_param string customer Immutable id of the Google Apps account. In case
-   * of multi-domain, to fetch all users for a customer, fill this field instead
-   * of domain.
+   * @opt_param string customer Immutable ID of the G Suite account. In case of
+   * multi-domain, to fetch all users for a customer, fill this field instead of
+   * domain.
    * @opt_param string domain Name of the domain. Fill this field to get users
    * from only this domain. To return all users in a multi-domain fill customer
    * field instead.
@@ -174,9 +174,9 @@ class Google_Service_Directory_Resource_Users extends Google_Service_Resource
    * @opt_param string customFieldMask Comma-separated list of schema names. All
    * fields from these schemas are fetched. This should only be set when
    * projection=custom.
-   * @opt_param string customer Immutable id of the Google Apps account. In case
-   * of multi-domain, to fetch all users for a customer, fill this field instead
-   * of domain.
+   * @opt_param string customer Immutable ID of the G Suite account. In case of
+   * multi-domain, to fetch all users for a customer, fill this field instead of
+   * domain.
    * @opt_param string domain Name of the domain. Fill this field to get users
    * from only this domain. To return all users in a multi-domain fill customer
    * field instead.

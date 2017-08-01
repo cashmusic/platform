@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,10 +31,16 @@ class Google_Service_Compute_MachineTypesScopedListWarning extends Google_Collec
   {
     return $this->code;
   }
+  /**
+   * @param Google_Service_Compute_MachineTypesScopedListWarningData
+   */
   public function setData($data)
   {
     $this->data = $data;
   }
+  /**
+   * @return Google_Service_Compute_MachineTypesScopedListWarningData
+   */
   public function getData()
   {
     return $this->data;

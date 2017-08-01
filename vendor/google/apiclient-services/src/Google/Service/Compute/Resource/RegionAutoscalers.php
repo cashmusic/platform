@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -79,9 +79,9 @@ class Google_Service_Compute_Resource_RegionAutoscalers extends Google_Service_R
    * @param string $region Name of the region scoping this request.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Sets a filter expression for filtering listed
-   * resources, in the form filter={expression}. Your {expression} must be in the
-   * format: field_name comparison_string literal_string.
+   * @opt_param string filter Sets a filter {expression} for filtering listed
+   * resources. Your {expression} must be in the format: field_name
+   * comparison_string literal_string.
    *
    * The field_name is the name of the field you want to compare. Only atomic
    * field types are supported (string, number, boolean). The comparison_string
@@ -92,7 +92,7 @@ class Google_Service_Compute_Resource_RegionAutoscalers extends Google_Service_R
    * literal value must match the entire field.
    *
    * For example, to filter for instances that do not have a name of example-
-   * instance, you would use filter=name ne example-instance.
+   * instance, you would use name ne example-instance.
    *
    * You can filter on nested fields. For example, you could filter on instances
    * that have set the scheduling.automaticRestart field to true. Use filtering on
@@ -131,18 +131,20 @@ class Google_Service_Compute_Resource_RegionAutoscalers extends Google_Service_R
   }
   /**
    * Updates an autoscaler in the specified project using the data included in the
-   * request. This method supports patch semantics. (regionAutoscalers.patch)
+   * request. This method supports PATCH semantics and uses the JSON merge patch
+   * format and processing rules. (regionAutoscalers.patch)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.
-   * @param string $autoscaler Name of the autoscaler to update.
    * @param Google_Service_Compute_Autoscaler $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string autoscaler Name of the autoscaler to patch.
    * @return Google_Service_Compute_Operation
    */
-  public function patch($project, $region, $autoscaler, Google_Service_Compute_Autoscaler $postBody, $optParams = array())
+  public function patch($project, $region, Google_Service_Compute_Autoscaler $postBody, $optParams = array())
   {
-    $params = array('project' => $project, 'region' => $region, 'autoscaler' => $autoscaler, 'postBody' => $postBody);
+    $params = array('project' => $project, 'region' => $region, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('patch', array($params), "Google_Service_Compute_Operation");
   }

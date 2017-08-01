@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_ShoppingContent_OrderPromotion extends Google_Collection
   public $productApplicability;
   public $redemptionChannel;
 
+  /**
+   * @param Google_Service_ShoppingContent_OrderPromotionBenefit
+   */
   public function setBenefits($benefits)
   {
     $this->benefits = $benefits;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderPromotionBenefit
+   */
   public function getBenefits()
   {
     return $this->benefits;

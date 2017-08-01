@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,10 +34,16 @@ class Google_Service_Reports_UsageReport extends Google_Collection
   {
     return $this->date;
   }
+  /**
+   * @param Google_Service_Reports_UsageReportEntity
+   */
   public function setEntity(Google_Service_Reports_UsageReportEntity $entity)
   {
     $this->entity = $entity;
   }
+  /**
+   * @return Google_Service_Reports_UsageReportEntity
+   */
   public function getEntity()
   {
     return $this->entity;
@@ -58,10 +64,16 @@ class Google_Service_Reports_UsageReport extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Reports_UsageReportParameters
+   */
   public function setParameters($parameters)
   {
     $this->parameters = $parameters;
   }
+  /**
+   * @return Google_Service_Reports_UsageReportParameters
+   */
   public function getParameters()
   {
     return $this->parameters;

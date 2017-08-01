@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,18 +34,30 @@ class Google_Service_Plus_ActivityObject extends Google_Collection
   protected $resharersDataType = '';
   public $url;
 
+  /**
+   * @param Google_Service_Plus_ActivityObjectActor
+   */
   public function setActor(Google_Service_Plus_ActivityObjectActor $actor)
   {
     $this->actor = $actor;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObjectActor
+   */
   public function getActor()
   {
     return $this->actor;
   }
+  /**
+   * @param Google_Service_Plus_ActivityObjectAttachments
+   */
   public function setAttachments($attachments)
   {
     $this->attachments = $attachments;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObjectAttachments
+   */
   public function getAttachments()
   {
     return $this->attachments;
@@ -82,26 +94,44 @@ class Google_Service_Plus_ActivityObject extends Google_Collection
   {
     return $this->originalContent;
   }
+  /**
+   * @param Google_Service_Plus_ActivityObjectPlusoners
+   */
   public function setPlusoners(Google_Service_Plus_ActivityObjectPlusoners $plusoners)
   {
     $this->plusoners = $plusoners;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObjectPlusoners
+   */
   public function getPlusoners()
   {
     return $this->plusoners;
   }
+  /**
+   * @param Google_Service_Plus_ActivityObjectReplies
+   */
   public function setReplies(Google_Service_Plus_ActivityObjectReplies $replies)
   {
     $this->replies = $replies;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObjectReplies
+   */
   public function getReplies()
   {
     return $this->replies;
   }
+  /**
+   * @param Google_Service_Plus_ActivityObjectResharers
+   */
   public function setResharers(Google_Service_Plus_ActivityObjectResharers $resharers)
   {
     $this->resharers = $resharers;
   }
+  /**
+   * @return Google_Service_Plus_ActivityObjectResharers
+   */
   public function getResharers()
   {
     return $this->resharers;

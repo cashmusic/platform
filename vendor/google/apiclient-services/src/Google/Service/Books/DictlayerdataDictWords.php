@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,34 +27,58 @@ class Google_Service_Books_DictlayerdataDictWords extends Google_Collection
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictWordsSource';
   protected $sourceDataType = '';
 
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsDerivatives
+   */
   public function setDerivatives($derivatives)
   {
     $this->derivatives = $derivatives;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsDerivatives
+   */
   public function getDerivatives()
   {
     return $this->derivatives;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsExamples
+   */
   public function setExamples($examples)
   {
     $this->examples = $examples;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsExamples
+   */
   public function getExamples()
   {
     return $this->examples;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSenses
+   */
   public function setSenses($senses)
   {
     $this->senses = $senses;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSenses
+   */
   public function getSenses()
   {
     return $this->senses;
   }
+  /**
+   * @param Google_Service_Books_DictlayerdataDictWordsSource
+   */
   public function setSource(Google_Service_Books_DictlayerdataDictWordsSource $source)
   {
     $this->source = $source;
   }
+  /**
+   * @return Google_Service_Books_DictlayerdataDictWordsSource
+   */
   public function getSource()
   {
     return $this->source;

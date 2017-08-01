@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,10 +49,16 @@ class Google_Service_CloudDebugger_Debuggee extends Google_Collection
   {
     return $this->description;
   }
+  /**
+   * @param Google_Service_CloudDebugger_ExtendedSourceContext
+   */
   public function setExtSourceContexts($extSourceContexts)
   {
     $this->extSourceContexts = $extSourceContexts;
   }
+  /**
+   * @return Google_Service_CloudDebugger_ExtendedSourceContext
+   */
   public function getExtSourceContexts()
   {
     return $this->extSourceContexts;
@@ -97,18 +103,30 @@ class Google_Service_CloudDebugger_Debuggee extends Google_Collection
   {
     return $this->project;
   }
+  /**
+   * @param Google_Service_CloudDebugger_SourceContext
+   */
   public function setSourceContexts($sourceContexts)
   {
     $this->sourceContexts = $sourceContexts;
   }
+  /**
+   * @return Google_Service_CloudDebugger_SourceContext
+   */
   public function getSourceContexts()
   {
     return $this->sourceContexts;
   }
+  /**
+   * @param Google_Service_CloudDebugger_StatusMessage
+   */
   public function setStatus(Google_Service_CloudDebugger_StatusMessage $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_CloudDebugger_StatusMessage
+   */
   public function getStatus()
   {
     return $this->status;

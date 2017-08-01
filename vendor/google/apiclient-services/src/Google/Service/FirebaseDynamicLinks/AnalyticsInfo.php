@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_FirebaseDynamicLinks_AnalyticsInfo extends Google_Model
   protected $itunesConnectAnalyticsType = 'Google_Service_FirebaseDynamicLinks_ITunesConnectAnalytics';
   protected $itunesConnectAnalyticsDataType = '';
 
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_GooglePlayAnalytics
+   */
   public function setGooglePlayAnalytics(Google_Service_FirebaseDynamicLinks_GooglePlayAnalytics $googlePlayAnalytics)
   {
     $this->googlePlayAnalytics = $googlePlayAnalytics;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_GooglePlayAnalytics
+   */
   public function getGooglePlayAnalytics()
   {
     return $this->googlePlayAnalytics;
   }
+  /**
+   * @param Google_Service_FirebaseDynamicLinks_ITunesConnectAnalytics
+   */
   public function setItunesConnectAnalytics(Google_Service_FirebaseDynamicLinks_ITunesConnectAnalytics $itunesConnectAnalytics)
   {
     $this->itunesConnectAnalytics = $itunesConnectAnalytics;
   }
+  /**
+   * @return Google_Service_FirebaseDynamicLinks_ITunesConnectAnalytics
+   */
   public function getItunesConnectAnalytics()
   {
     return $this->itunesConnectAnalytics;

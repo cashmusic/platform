@@ -7,15 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use numeric;
 
 /**
  * Constraint that asserts that the value it is evaluated for is greater
  * than a given value.
  */
-class GreaterThan extends Constraint
+class PHPUnit_Framework_Constraint_GreaterThan extends PHPUnit_Framework_Constraint
 {
     /**
      * @var numeric

@@ -18,10 +18,10 @@
         }
     ],
     "require": {
-        "php": "^7.0"
+        "php": ">=5.3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "~4.4"
     },
     "autoload": {
         "classmap": [
@@ -30,7 +30,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

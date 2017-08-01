@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Sheets_PieChartSpec extends Google_Model
   protected $seriesDataType = '';
   public $threeDimensional;
 
+  /**
+   * @param Google_Service_Sheets_ChartData
+   */
   public function setDomain(Google_Service_Sheets_ChartData $domain)
   {
     $this->domain = $domain;
   }
+  /**
+   * @return Google_Service_Sheets_ChartData
+   */
   public function getDomain()
   {
     return $this->domain;
@@ -49,10 +55,16 @@ class Google_Service_Sheets_PieChartSpec extends Google_Model
   {
     return $this->pieHole;
   }
+  /**
+   * @param Google_Service_Sheets_ChartData
+   */
   public function setSeries(Google_Service_Sheets_ChartData $series)
   {
     $this->series = $series;
   }
+  /**
+   * @return Google_Service_Sheets_ChartData
+   */
   public function getSeries()
   {
     return $this->series;

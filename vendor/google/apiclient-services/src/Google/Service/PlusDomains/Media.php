@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -40,10 +40,16 @@ class Google_Service_PlusDomains_Media extends Google_Collection
   public $videoStatus;
   public $width;
 
+  /**
+   * @param Google_Service_PlusDomains_MediaAuthor
+   */
   public function setAuthor(Google_Service_PlusDomains_MediaAuthor $author)
   {
     $this->author = $author;
   }
+  /**
+   * @return Google_Service_PlusDomains_MediaAuthor
+   */
   public function getAuthor()
   {
     return $this->author;
@@ -64,10 +70,16 @@ class Google_Service_PlusDomains_Media extends Google_Collection
   {
     return $this->etag;
   }
+  /**
+   * @param Google_Service_PlusDomains_MediaExif
+   */
   public function setExif(Google_Service_PlusDomains_MediaExif $exif)
   {
     $this->exif = $exif;
   }
+  /**
+   * @return Google_Service_PlusDomains_MediaExif
+   */
   public function getExif()
   {
     return $this->exif;
@@ -128,10 +140,16 @@ class Google_Service_PlusDomains_Media extends Google_Collection
   {
     return $this->sizeBytes;
   }
+  /**
+   * @param Google_Service_PlusDomains_Videostream
+   */
   public function setStreams($streams)
   {
     $this->streams = $streams;
   }
+  /**
+   * @return Google_Service_PlusDomains_Videostream
+   */
   public function getStreams()
   {
     return $this->streams;

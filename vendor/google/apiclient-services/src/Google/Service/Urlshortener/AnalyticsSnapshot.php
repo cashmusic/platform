@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Urlshortener_AnalyticsSnapshot extends Google_Collection
   protected $referrersDataType = 'array';
   public $shortUrlClicks;
 
+  /**
+   * @param Google_Service_Urlshortener_StringCount
+   */
   public function setBrowsers($browsers)
   {
     $this->browsers = $browsers;
   }
+  /**
+   * @return Google_Service_Urlshortener_StringCount
+   */
   public function getBrowsers()
   {
     return $this->browsers;
   }
+  /**
+   * @param Google_Service_Urlshortener_StringCount
+   */
   public function setCountries($countries)
   {
     $this->countries = $countries;
   }
+  /**
+   * @return Google_Service_Urlshortener_StringCount
+   */
   public function getCountries()
   {
     return $this->countries;
@@ -53,18 +65,30 @@ class Google_Service_Urlshortener_AnalyticsSnapshot extends Google_Collection
   {
     return $this->longUrlClicks;
   }
+  /**
+   * @param Google_Service_Urlshortener_StringCount
+   */
   public function setPlatforms($platforms)
   {
     $this->platforms = $platforms;
   }
+  /**
+   * @return Google_Service_Urlshortener_StringCount
+   */
   public function getPlatforms()
   {
     return $this->platforms;
   }
+  /**
+   * @param Google_Service_Urlshortener_StringCount
+   */
   public function setReferrers($referrers)
   {
     $this->referrers = $referrers;
   }
+  /**
+   * @return Google_Service_Urlshortener_StringCount
+   */
   public function getReferrers()
   {
     return $this->referrers;

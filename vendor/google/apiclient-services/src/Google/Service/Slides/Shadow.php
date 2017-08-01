@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,18 +45,30 @@ class Google_Service_Slides_Shadow extends Google_Model
   {
     return $this->alpha;
   }
+  /**
+   * @param Google_Service_Slides_Dimension
+   */
   public function setBlurRadius(Google_Service_Slides_Dimension $blurRadius)
   {
     $this->blurRadius = $blurRadius;
   }
+  /**
+   * @return Google_Service_Slides_Dimension
+   */
   public function getBlurRadius()
   {
     return $this->blurRadius;
   }
+  /**
+   * @param Google_Service_Slides_OpaqueColor
+   */
   public function setColor(Google_Service_Slides_OpaqueColor $color)
   {
     $this->color = $color;
   }
+  /**
+   * @return Google_Service_Slides_OpaqueColor
+   */
   public function getColor()
   {
     return $this->color;
@@ -77,10 +89,16 @@ class Google_Service_Slides_Shadow extends Google_Model
   {
     return $this->rotateWithShape;
   }
+  /**
+   * @param Google_Service_Slides_AffineTransform
+   */
   public function setTransform(Google_Service_Slides_AffineTransform $transform)
   {
     $this->transform = $transform;
   }
+  /**
+   * @return Google_Service_Slides_AffineTransform
+   */
   public function getTransform()
   {
     return $this->transform;

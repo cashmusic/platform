@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,10 +42,16 @@ class Google_Service_QPXExpress_TripOption extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_QPXExpress_PricingInfo
+   */
   public function setPricing($pricing)
   {
     $this->pricing = $pricing;
   }
+  /**
+   * @return Google_Service_QPXExpress_PricingInfo
+   */
   public function getPricing()
   {
     return $this->pricing;
@@ -58,10 +64,16 @@ class Google_Service_QPXExpress_TripOption extends Google_Collection
   {
     return $this->saleTotal;
   }
+  /**
+   * @param Google_Service_QPXExpress_SliceInfo
+   */
   public function setSlice($slice)
   {
     $this->slice = $slice;
   }
+  /**
+   * @return Google_Service_QPXExpress_SliceInfo
+   */
   public function getSlice()
   {
     return $this->slice;

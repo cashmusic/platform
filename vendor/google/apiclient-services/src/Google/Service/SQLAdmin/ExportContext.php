@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_SQLAdmin_ExportContext extends Google_Collection
   protected $sqlExportOptionsDataType = '';
   public $uri;
 
+  /**
+   * @param Google_Service_SQLAdmin_ExportContextCsvExportOptions
+   */
   public function setCsvExportOptions(Google_Service_SQLAdmin_ExportContextCsvExportOptions $csvExportOptions)
   {
     $this->csvExportOptions = $csvExportOptions;
   }
+  /**
+   * @return Google_Service_SQLAdmin_ExportContextCsvExportOptions
+   */
   public function getCsvExportOptions()
   {
     return $this->csvExportOptions;
@@ -59,10 +65,16 @@ class Google_Service_SQLAdmin_ExportContext extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_SQLAdmin_ExportContextSqlExportOptions
+   */
   public function setSqlExportOptions(Google_Service_SQLAdmin_ExportContextSqlExportOptions $sqlExportOptions)
   {
     $this->sqlExportOptions = $sqlExportOptions;
   }
+  /**
+   * @return Google_Service_SQLAdmin_ExportContextSqlExportOptions
+   */
   public function getSqlExportOptions()
   {
     return $this->sqlExportOptions;

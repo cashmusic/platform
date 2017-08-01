@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,18 +34,30 @@ class Google_Service_Spectrum_PawsGetSpectrumResponse extends Google_Collection
   public $type;
   public $version;
 
+  /**
+   * @param Google_Service_Spectrum_DbUpdateSpec
+   */
   public function setDatabaseChange(Google_Service_Spectrum_DbUpdateSpec $databaseChange)
   {
     $this->databaseChange = $databaseChange;
   }
+  /**
+   * @return Google_Service_Spectrum_DbUpdateSpec
+   */
   public function getDatabaseChange()
   {
     return $this->databaseChange;
   }
+  /**
+   * @param Google_Service_Spectrum_DeviceDescriptor
+   */
   public function setDeviceDesc(Google_Service_Spectrum_DeviceDescriptor $deviceDesc)
   {
     $this->deviceDesc = $deviceDesc;
   }
+  /**
+   * @return Google_Service_Spectrum_DeviceDescriptor
+   */
   public function getDeviceDesc()
   {
     return $this->deviceDesc;
@@ -82,18 +94,30 @@ class Google_Service_Spectrum_PawsGetSpectrumResponse extends Google_Collection
   {
     return $this->needsSpectrumReport;
   }
+  /**
+   * @param Google_Service_Spectrum_RulesetInfo
+   */
   public function setRulesetInfo(Google_Service_Spectrum_RulesetInfo $rulesetInfo)
   {
     $this->rulesetInfo = $rulesetInfo;
   }
+  /**
+   * @return Google_Service_Spectrum_RulesetInfo
+   */
   public function getRulesetInfo()
   {
     return $this->rulesetInfo;
   }
+  /**
+   * @param Google_Service_Spectrum_SpectrumSchedule
+   */
   public function setSpectrumSchedules($spectrumSchedules)
   {
     $this->spectrumSchedules = $spectrumSchedules;
   }
+  /**
+   * @return Google_Service_Spectrum_SpectrumSchedule
+   */
   public function getSpectrumSchedules()
   {
     return $this->spectrumSchedules;

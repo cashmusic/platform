@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -85,7 +85,7 @@ class Google_Service_Dfareporting_Resource_Creatives extends Google_Service_Reso
    * simply "creative".
    * @opt_param string sizeIds Select only creatives with these size IDs.
    * @opt_param string sortField Field by which to sort the list.
-   * @opt_param string sortOrder Order of sorted results, default is ASCENDING.
+   * @opt_param string sortOrder Order of sorted results.
    * @opt_param string studioCreativeId Select only creatives corresponding to
    * this Studio creative ID.
    * @opt_param string types Select only creatives with these creative types.

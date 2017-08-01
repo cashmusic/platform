@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Datastore_AllocateIdsRequest extends Google_Collection
   protected $keysType = 'Google_Service_Datastore_Key';
   protected $keysDataType = 'array';
 
+  /**
+   * @param Google_Service_Datastore_Key
+   */
   public function setKeys($keys)
   {
     $this->keys = $keys;
   }
+  /**
+   * @return Google_Service_Datastore_Key
+   */
   public function getKeys()
   {
     return $this->keys;

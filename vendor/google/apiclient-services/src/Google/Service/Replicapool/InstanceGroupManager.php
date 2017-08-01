@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,10 +34,16 @@ class Google_Service_Replicapool_InstanceGroupManager extends Google_Collection
   public $targetPools;
   public $targetSize;
 
+  /**
+   * @param Google_Service_Replicapool_ReplicaPoolAutoHealingPolicy
+   */
   public function setAutoHealingPolicies($autoHealingPolicies)
   {
     $this->autoHealingPolicies = $autoHealingPolicies;
   }
+  /**
+   * @return Google_Service_Replicapool_ReplicaPoolAutoHealingPolicy
+   */
   public function getAutoHealingPolicies()
   {
     return $this->autoHealingPolicies;

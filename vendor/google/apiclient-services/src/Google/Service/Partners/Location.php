@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -70,10 +70,16 @@ class Google_Service_Partners_Location extends Google_Collection
   {
     return $this->languageCode;
   }
+  /**
+   * @param Google_Service_Partners_LatLng
+   */
   public function setLatLng(Google_Service_Partners_LatLng $latLng)
   {
     $this->latLng = $latLng;
   }
+  /**
+   * @return Google_Service_Partners_LatLng
+   */
   public function getLatLng()
   {
     return $this->latLng;

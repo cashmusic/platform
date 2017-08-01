@@ -7,7 +7,6 @@
          columns="80"
          colors="false"
          stderr="false"
-         convertDeprecationsToExceptions="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -17,9 +16,8 @@
          failOnWarning="false"
          failOnRisky="false"
          extensionsDirectory="/tmp"
-         printerClass="PHPUnit\TextUI\ResultPrinter"
-         testSuiteLoaderClass="PHPUnit\Runner\StandardTestSuiteLoader"
-         defaultTestSuite="My Test Suite"
+         printerClass="PHPUnit_TextUI_ResultPrinter"
+         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          beStrictAboutChangesToGlobalState="false"
          beStrictAboutOutputDuringTests="false"
          beStrictAboutResourceUsageDuringSmallTests="false"
@@ -27,7 +25,6 @@
          beStrictAboutTodoAnnotatedTests="false"
          beStrictAboutCoversAnnotation="false"
          enforceTimeLimit="false"
-         ignoreDeprecatedCodeUnitsFromCodeCoverage="false"
          timeoutForSmallTests="1"
          timeoutForMediumTests="10"
          timeoutForLargeTests="60"
@@ -66,7 +63,6 @@
     <const name="BAR" value="true"/>
     <var name="foo" value="false"/>
     <env name="foo" value="true"/>
-    <env name="bar" value="true" verbatim="true"/>
     <post name="foo" value="bar"/>
     <get name="foo" value="bar"/>
     <cookie name="foo" value="bar"/>

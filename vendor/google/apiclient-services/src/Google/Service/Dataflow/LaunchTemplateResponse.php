@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,23 +19,19 @@ class Google_Service_Dataflow_LaunchTemplateResponse extends Google_Model
 {
   protected $jobType = 'Google_Service_Dataflow_Job';
   protected $jobDataType = '';
-  protected $statusType = 'Google_Service_Dataflow_Status';
-  protected $statusDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_Job
+   */
   public function setJob(Google_Service_Dataflow_Job $job)
   {
     $this->job = $job;
   }
+  /**
+   * @return Google_Service_Dataflow_Job
+   */
   public function getJob()
   {
     return $this->job;
-  }
-  public function setStatus(Google_Service_Dataflow_Status $status)
-  {
-    $this->status = $status;
-  }
-  public function getStatus()
-  {
-    return $this->status;
   }
 }

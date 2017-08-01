@@ -11,7 +11,7 @@ $_SERVER['argv'][6] = 'TestDoxGroupTest';
 $_SERVER['argv'][7] = __DIR__ . '/../_files/TestDoxGroupTest.php';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -22,4 +22,4 @@ PHPUnit %s by Sebastian Bergmann and contributors.
 
 Time: %s, Memory: %s
 
-OK (2 tests, 2 assertions)
+OK (2 tests, 0 assertions)

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_CloudKMS_ListCryptoKeyVersionsResponse extends Google_Colle
   public $nextPageToken;
   public $totalSize;
 
+  /**
+   * @param Google_Service_CloudKMS_CryptoKeyVersion
+   */
   public function setCryptoKeyVersions($cryptoKeyVersions)
   {
     $this->cryptoKeyVersions = $cryptoKeyVersions;
   }
+  /**
+   * @return Google_Service_CloudKMS_CryptoKeyVersion
+   */
   public function getCryptoKeyVersions()
   {
     return $this->cryptoKeyVersions;

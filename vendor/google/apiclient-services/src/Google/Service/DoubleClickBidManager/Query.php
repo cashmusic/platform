@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,18 +37,30 @@ class Google_Service_DoubleClickBidManager_Query extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_DoubleClickBidManager_QueryMetadata
+   */
   public function setMetadata(Google_Service_DoubleClickBidManager_QueryMetadata $metadata)
   {
     $this->metadata = $metadata;
   }
+  /**
+   * @return Google_Service_DoubleClickBidManager_QueryMetadata
+   */
   public function getMetadata()
   {
     return $this->metadata;
   }
+  /**
+   * @param Google_Service_DoubleClickBidManager_Parameters
+   */
   public function setParams(Google_Service_DoubleClickBidManager_Parameters $params)
   {
     $this->params = $params;
   }
+  /**
+   * @return Google_Service_DoubleClickBidManager_Parameters
+   */
   public function getParams()
   {
     return $this->params;
@@ -77,10 +89,16 @@ class Google_Service_DoubleClickBidManager_Query extends Google_Model
   {
     return $this->reportDataStartTimeMs;
   }
+  /**
+   * @param Google_Service_DoubleClickBidManager_QuerySchedule
+   */
   public function setSchedule(Google_Service_DoubleClickBidManager_QuerySchedule $schedule)
   {
     $this->schedule = $schedule;
   }
+  /**
+   * @return Google_Service_DoubleClickBidManager_QuerySchedule
+   */
   public function getSchedule()
   {
     return $this->schedule;

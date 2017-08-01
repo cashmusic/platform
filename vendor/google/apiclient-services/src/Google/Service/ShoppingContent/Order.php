@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -65,18 +65,30 @@ class Google_Service_ShoppingContent_Order extends Google_Collection
   {
     return $this->channelType;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderCustomer
+   */
   public function setCustomer(Google_Service_ShoppingContent_OrderCustomer $customer)
   {
     $this->customer = $customer;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderCustomer
+   */
   public function getCustomer()
   {
     return $this->customer;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderDeliveryDetails
+   */
   public function setDeliveryDetails(Google_Service_ShoppingContent_OrderDeliveryDetails $deliveryDetails)
   {
     $this->deliveryDetails = $deliveryDetails;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderDeliveryDetails
+   */
   public function getDeliveryDetails()
   {
     return $this->deliveryDetails;
@@ -97,10 +109,16 @@ class Google_Service_ShoppingContent_Order extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItem
+   */
   public function setLineItems($lineItems)
   {
     $this->lineItems = $lineItems;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItem
+   */
   public function getLineItems()
   {
     return $this->lineItems;
@@ -121,18 +139,30 @@ class Google_Service_ShoppingContent_Order extends Google_Collection
   {
     return $this->merchantOrderId;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setNetAmount(Google_Service_ShoppingContent_Price $netAmount)
   {
     $this->netAmount = $netAmount;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getNetAmount()
   {
     return $this->netAmount;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderPaymentMethod
+   */
   public function setPaymentMethod(Google_Service_ShoppingContent_OrderPaymentMethod $paymentMethod)
   {
     $this->paymentMethod = $paymentMethod;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderPaymentMethod
+   */
   public function getPaymentMethod()
   {
     return $this->paymentMethod;
@@ -153,42 +183,72 @@ class Google_Service_ShoppingContent_Order extends Google_Collection
   {
     return $this->placedDate;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderPromotion
+   */
   public function setPromotions($promotions)
   {
     $this->promotions = $promotions;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderPromotion
+   */
   public function getPromotions()
   {
     return $this->promotions;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderRefund
+   */
   public function setRefunds($refunds)
   {
     $this->refunds = $refunds;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderRefund
+   */
   public function getRefunds()
   {
     return $this->refunds;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderShipment
+   */
   public function setShipments($shipments)
   {
     $this->shipments = $shipments;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderShipment
+   */
   public function getShipments()
   {
     return $this->shipments;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setShippingCost(Google_Service_ShoppingContent_Price $shippingCost)
   {
     $this->shippingCost = $shippingCost;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getShippingCost()
   {
     return $this->shippingCost;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setShippingCostTax(Google_Service_ShoppingContent_Price $shippingCostTax)
   {
     $this->shippingCostTax = $shippingCostTax;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getShippingCostTax()
   {
     return $this->shippingCostTax;

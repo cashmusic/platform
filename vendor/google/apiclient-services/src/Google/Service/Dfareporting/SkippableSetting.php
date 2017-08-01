@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,18 +32,30 @@ class Google_Service_Dfareporting_SkippableSetting extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_VideoOffset
+   */
   public function setProgressOffset(Google_Service_Dfareporting_VideoOffset $progressOffset)
   {
     $this->progressOffset = $progressOffset;
   }
+  /**
+   * @return Google_Service_Dfareporting_VideoOffset
+   */
   public function getProgressOffset()
   {
     return $this->progressOffset;
   }
+  /**
+   * @param Google_Service_Dfareporting_VideoOffset
+   */
   public function setSkipOffset(Google_Service_Dfareporting_VideoOffset $skipOffset)
   {
     $this->skipOffset = $skipOffset;
   }
+  /**
+   * @return Google_Service_Dfareporting_VideoOffset
+   */
   public function getSkipOffset()
   {
     return $this->skipOffset;

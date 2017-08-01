@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,34 +30,58 @@ class Google_Service_QPXExpress_Data extends Google_Collection
   protected $taxType = 'Google_Service_QPXExpress_TaxData';
   protected $taxDataType = 'array';
 
+  /**
+   * @param Google_Service_QPXExpress_AircraftData
+   */
   public function setAircraft($aircraft)
   {
     $this->aircraft = $aircraft;
   }
+  /**
+   * @return Google_Service_QPXExpress_AircraftData
+   */
   public function getAircraft()
   {
     return $this->aircraft;
   }
+  /**
+   * @param Google_Service_QPXExpress_AirportData
+   */
   public function setAirport($airport)
   {
     $this->airport = $airport;
   }
+  /**
+   * @return Google_Service_QPXExpress_AirportData
+   */
   public function getAirport()
   {
     return $this->airport;
   }
+  /**
+   * @param Google_Service_QPXExpress_CarrierData
+   */
   public function setCarrier($carrier)
   {
     $this->carrier = $carrier;
   }
+  /**
+   * @return Google_Service_QPXExpress_CarrierData
+   */
   public function getCarrier()
   {
     return $this->carrier;
   }
+  /**
+   * @param Google_Service_QPXExpress_CityData
+   */
   public function setCity($city)
   {
     $this->city = $city;
   }
+  /**
+   * @return Google_Service_QPXExpress_CityData
+   */
   public function getCity()
   {
     return $this->city;
@@ -70,10 +94,16 @@ class Google_Service_QPXExpress_Data extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_QPXExpress_TaxData
+   */
   public function setTax($tax)
   {
     $this->tax = $tax;
   }
+  /**
+   * @return Google_Service_QPXExpress_TaxData
+   */
   public function getTax()
   {
     return $this->tax;

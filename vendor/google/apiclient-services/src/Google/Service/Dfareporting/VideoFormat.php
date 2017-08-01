@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -48,10 +48,16 @@ class Google_Service_Dfareporting_VideoFormat extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_Size
+   */
   public function setResolution(Google_Service_Dfareporting_Size $resolution)
   {
     $this->resolution = $resolution;
   }
+  /**
+   * @return Google_Service_Dfareporting_Size
+   */
   public function getResolution()
   {
     return $this->resolution;

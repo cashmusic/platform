@@ -7,12 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
 /**
  * Constraint that accepts finite.
  */
-class IsFinite extends Constraint
+class PHPUnit_Framework_Constraint_IsFinite extends PHPUnit_Framework_Constraint
 {
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
@@ -24,7 +23,7 @@ class IsFinite extends Constraint
      */
     protected function matches($other)
     {
-        return \is_finite($other);
+        return is_finite($other);
     }
 
     /**

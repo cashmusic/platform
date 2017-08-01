@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,33 +27,32 @@ class Google_Service_Speech_Resource_Speech extends Google_Service_Resource
 {
   /**
    * Performs asynchronous speech recognition: receive results via the
-   * [google.longrunning.Operations]
-   * (/speech/reference/rest/v1beta1/operations#Operation) interface. Returns
-   * either an `Operation.error` or an `Operation.response` which contains an
-   * `AsyncRecognizeResponse` message. (speech.asyncrecognize)
+   * google.longrunning.Operations interface. Returns either an `Operation.error`
+   * or an `Operation.response` which contains a `LongRunningRecognizeResponse`
+   * message. (speech.longrunningrecognize)
    *
-   * @param Google_Service_Speech_AsyncRecognizeRequest $postBody
+   * @param Google_Service_Speech_LongRunningRecognizeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Speech_Operation
    */
-  public function asyncrecognize(Google_Service_Speech_AsyncRecognizeRequest $postBody, $optParams = array())
+  public function longrunningrecognize(Google_Service_Speech_LongRunningRecognizeRequest $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('asyncrecognize', array($params), "Google_Service_Speech_Operation");
+    return $this->call('longrunningrecognize', array($params), "Google_Service_Speech_Operation");
   }
   /**
    * Performs synchronous speech recognition: receive results after all audio has
-   * been sent and processed. (speech.syncrecognize)
+   * been sent and processed. (speech.recognize)
    *
-   * @param Google_Service_Speech_SyncRecognizeRequest $postBody
+   * @param Google_Service_Speech_RecognizeRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Google_Service_Speech_SyncRecognizeResponse
+   * @return Google_Service_Speech_RecognizeResponse
    */
-  public function syncrecognize(Google_Service_Speech_SyncRecognizeRequest $postBody, $optParams = array())
+  public function recognize(Google_Service_Speech_RecognizeRequest $postBody, $optParams = array())
   {
     $params = array('postBody' => $postBody);
     $params = array_merge($params, $optParams);
-    return $this->call('syncrecognize', array($params), "Google_Service_Speech_SyncRecognizeResponse");
+    return $this->call('recognize', array($params), "Google_Service_Speech_RecognizeResponse");
   }
 }

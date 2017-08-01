@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_Slides_SheetsChartProperties extends Google_Model
   protected $chartImagePropertiesType = 'Google_Service_Slides_ImageProperties';
   protected $chartImagePropertiesDataType = '';
 
+  /**
+   * @param Google_Service_Slides_ImageProperties
+   */
   public function setChartImageProperties(Google_Service_Slides_ImageProperties $chartImageProperties)
   {
     $this->chartImageProperties = $chartImageProperties;
   }
+  /**
+   * @return Google_Service_Slides_ImageProperties
+   */
   public function getChartImageProperties()
   {
     return $this->chartImageProperties;

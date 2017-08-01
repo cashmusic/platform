@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -180,10 +180,16 @@ class Google_Service_AdExchangeBuyer_PublisherProfileApiProto extends Google_Col
   {
     return $this->publisherProfileId;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_PublisherProvidedForecast
+   */
   public function setPublisherProvidedForecast(Google_Service_AdExchangeBuyer_PublisherProvidedForecast $publisherProvidedForecast)
   {
     $this->publisherProvidedForecast = $publisherProvidedForecast;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_PublisherProvidedForecast
+   */
   public function getPublisherProvidedForecast()
   {
     return $this->publisherProvidedForecast;
@@ -204,10 +210,16 @@ class Google_Service_AdExchangeBuyer_PublisherProfileApiProto extends Google_Col
   {
     return $this->samplePageLink;
   }
+  /**
+   * @param Google_Service_AdExchangeBuyer_Seller
+   */
   public function setSeller(Google_Service_AdExchangeBuyer_Seller $seller)
   {
     $this->seller = $seller;
   }
+  /**
+   * @return Google_Service_AdExchangeBuyer_Seller
+   */
   public function getSeller()
   {
     return $this->seller;

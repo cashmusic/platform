@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,6 +19,7 @@ class Google_Service_ServiceManagement_BackendRule extends Google_Model
 {
   public $address;
   public $deadline;
+  public $minDeadline;
   public $selector;
 
   public function setAddress($address)
@@ -36,6 +37,14 @@ class Google_Service_ServiceManagement_BackendRule extends Google_Model
   public function getDeadline()
   {
     return $this->deadline;
+  }
+  public function setMinDeadline($minDeadline)
+  {
+    $this->minDeadline = $minDeadline;
+  }
+  public function getMinDeadline()
+  {
+    return $this->minDeadline;
   }
   public function setSelector($selector)
   {

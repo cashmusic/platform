@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,10 +17,19 @@
 
 class Google_Service_Container_NodeManagement extends Google_Model
 {
+  public $autoRepair;
   public $autoUpgrade;
   protected $upgradeOptionsType = 'Google_Service_Container_AutoUpgradeOptions';
   protected $upgradeOptionsDataType = '';
 
+  public function setAutoRepair($autoRepair)
+  {
+    $this->autoRepair = $autoRepair;
+  }
+  public function getAutoRepair()
+  {
+    return $this->autoRepair;
+  }
   public function setAutoUpgrade($autoUpgrade)
   {
     $this->autoUpgrade = $autoUpgrade;
@@ -29,10 +38,16 @@ class Google_Service_Container_NodeManagement extends Google_Model
   {
     return $this->autoUpgrade;
   }
+  /**
+   * @param Google_Service_Container_AutoUpgradeOptions
+   */
   public function setUpgradeOptions(Google_Service_Container_AutoUpgradeOptions $upgradeOptions)
   {
     $this->upgradeOptions = $upgradeOptions;
   }
+  /**
+   * @return Google_Service_Container_AutoUpgradeOptions
+   */
   public function getUpgradeOptions()
   {
     return $this->upgradeOptions;

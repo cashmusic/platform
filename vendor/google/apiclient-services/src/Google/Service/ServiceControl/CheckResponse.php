@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,18 +27,30 @@ class Google_Service_ServiceControl_CheckResponse extends Google_Collection
   protected $quotaInfoDataType = '';
   public $serviceConfigId;
 
+  /**
+   * @param Google_Service_ServiceControl_CheckError
+   */
   public function setCheckErrors($checkErrors)
   {
     $this->checkErrors = $checkErrors;
   }
+  /**
+   * @return Google_Service_ServiceControl_CheckError
+   */
   public function getCheckErrors()
   {
     return $this->checkErrors;
   }
+  /**
+   * @param Google_Service_ServiceControl_CheckInfo
+   */
   public function setCheckInfo(Google_Service_ServiceControl_CheckInfo $checkInfo)
   {
     $this->checkInfo = $checkInfo;
   }
+  /**
+   * @return Google_Service_ServiceControl_CheckInfo
+   */
   public function getCheckInfo()
   {
     return $this->checkInfo;
@@ -51,10 +63,16 @@ class Google_Service_ServiceControl_CheckResponse extends Google_Collection
   {
     return $this->operationId;
   }
+  /**
+   * @param Google_Service_ServiceControl_QuotaInfo
+   */
   public function setQuotaInfo(Google_Service_ServiceControl_QuotaInfo $quotaInfo)
   {
     $this->quotaInfo = $quotaInfo;
   }
+  /**
+   * @return Google_Service_ServiceControl_QuotaInfo
+   */
   public function getQuotaInfo()
   {
     return $this->quotaInfo;

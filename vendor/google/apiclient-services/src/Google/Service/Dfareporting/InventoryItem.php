@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -50,10 +50,16 @@ class Google_Service_Dfareporting_InventoryItem extends Google_Collection
   {
     return $this->accountId;
   }
+  /**
+   * @param Google_Service_Dfareporting_AdSlot
+   */
   public function setAdSlots($adSlots)
   {
     $this->adSlots = $adSlots;
   }
+  /**
+   * @return Google_Service_Dfareporting_AdSlot
+   */
   public function getAdSlots()
   {
     return $this->adSlots;
@@ -114,10 +120,16 @@ class Google_Service_Dfareporting_InventoryItem extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_LastModifiedInfo
+   */
   public function setLastModifiedInfo(Google_Service_Dfareporting_LastModifiedInfo $lastModifiedInfo)
   {
     $this->lastModifiedInfo = $lastModifiedInfo;
   }
+  /**
+   * @return Google_Service_Dfareporting_LastModifiedInfo
+   */
   public function getLastModifiedInfo()
   {
     return $this->lastModifiedInfo;
@@ -154,10 +166,16 @@ class Google_Service_Dfareporting_InventoryItem extends Google_Collection
   {
     return $this->placementStrategyId;
   }
+  /**
+   * @param Google_Service_Dfareporting_Pricing
+   */
   public function setPricing(Google_Service_Dfareporting_Pricing $pricing)
   {
     $this->pricing = $pricing;
   }
+  /**
+   * @return Google_Service_Dfareporting_Pricing
+   */
   public function getPricing()
   {
     return $this->pricing;

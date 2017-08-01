@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class Issue1337Test extends TestCase
+class Issue1337Test extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProvider

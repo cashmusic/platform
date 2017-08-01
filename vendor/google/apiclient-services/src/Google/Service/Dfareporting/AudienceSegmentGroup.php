@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_Dfareporting_AudienceSegmentGroup extends Google_Collection
   public $id;
   public $name;
 
+  /**
+   * @param Google_Service_Dfareporting_AudienceSegment
+   */
   public function setAudienceSegments($audienceSegments)
   {
     $this->audienceSegments = $audienceSegments;
   }
+  /**
+   * @return Google_Service_Dfareporting_AudienceSegment
+   */
   public function getAudienceSegments()
   {
     return $this->audienceSegments;

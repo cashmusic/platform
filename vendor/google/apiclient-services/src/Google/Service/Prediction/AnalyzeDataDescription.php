@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,18 +23,30 @@ class Google_Service_Prediction_AnalyzeDataDescription extends Google_Collection
   protected $outputFeatureType = 'Google_Service_Prediction_AnalyzeDataDescriptionOutputFeature';
   protected $outputFeatureDataType = '';
 
+  /**
+   * @param Google_Service_Prediction_AnalyzeDataDescriptionFeatures
+   */
   public function setFeatures($features)
   {
     $this->features = $features;
   }
+  /**
+   * @return Google_Service_Prediction_AnalyzeDataDescriptionFeatures
+   */
   public function getFeatures()
   {
     return $this->features;
   }
+  /**
+   * @param Google_Service_Prediction_AnalyzeDataDescriptionOutputFeature
+   */
   public function setOutputFeature(Google_Service_Prediction_AnalyzeDataDescriptionOutputFeature $outputFeature)
   {
     $this->outputFeature = $outputFeature;
   }
+  /**
+   * @return Google_Service_Prediction_AnalyzeDataDescriptionOutputFeature
+   */
   public function getOutputFeature()
   {
     return $this->outputFeature;

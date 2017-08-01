@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,6 +23,8 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   public $diskSizeGb;
   public $id;
   public $kind;
+  public $labelFingerprint;
+  public $labels;
   public $licenses;
   public $name;
   public $selfLink;
@@ -76,6 +78,22 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   {
     return $this->kind;
   }
+  public function setLabelFingerprint($labelFingerprint)
+  {
+    $this->labelFingerprint = $labelFingerprint;
+  }
+  public function getLabelFingerprint()
+  {
+    return $this->labelFingerprint;
+  }
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  public function getLabels()
+  {
+    return $this->labels;
+  }
   public function setLicenses($licenses)
   {
     $this->licenses = $licenses;
@@ -100,10 +118,16 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_Compute_CustomerEncryptionKey
+   */
   public function setSnapshotEncryptionKey(Google_Service_Compute_CustomerEncryptionKey $snapshotEncryptionKey)
   {
     $this->snapshotEncryptionKey = $snapshotEncryptionKey;
   }
+  /**
+   * @return Google_Service_Compute_CustomerEncryptionKey
+   */
   public function getSnapshotEncryptionKey()
   {
     return $this->snapshotEncryptionKey;
@@ -116,10 +140,16 @@ class Google_Service_Compute_Snapshot extends Google_Collection
   {
     return $this->sourceDisk;
   }
+  /**
+   * @param Google_Service_Compute_CustomerEncryptionKey
+   */
   public function setSourceDiskEncryptionKey(Google_Service_Compute_CustomerEncryptionKey $sourceDiskEncryptionKey)
   {
     $this->sourceDiskEncryptionKey = $sourceDiskEncryptionKey;
   }
+  /**
+   * @return Google_Service_Compute_CustomerEncryptionKey
+   */
   public function getSourceDiskEncryptionKey()
   {
     return $this->sourceDiskEncryptionKey;

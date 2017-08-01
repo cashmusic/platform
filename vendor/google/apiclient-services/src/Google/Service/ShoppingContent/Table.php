@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,16 @@ class Google_Service_ShoppingContent_Table extends Google_Collection
   protected $rowsType = 'Google_Service_ShoppingContent_Row';
   protected $rowsDataType = 'array';
 
+  /**
+   * @param Google_Service_ShoppingContent_Headers
+   */
   public function setColumnHeaders(Google_Service_ShoppingContent_Headers $columnHeaders)
   {
     $this->columnHeaders = $columnHeaders;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Headers
+   */
   public function getColumnHeaders()
   {
     return $this->columnHeaders;
@@ -42,18 +48,30 @@ class Google_Service_ShoppingContent_Table extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Headers
+   */
   public function setRowHeaders(Google_Service_ShoppingContent_Headers $rowHeaders)
   {
     $this->rowHeaders = $rowHeaders;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Headers
+   */
   public function getRowHeaders()
   {
     return $this->rowHeaders;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Row
+   */
   public function setRows($rows)
   {
     $this->rows = $rows;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Row
+   */
   public function getRows()
   {
     return $this->rows;

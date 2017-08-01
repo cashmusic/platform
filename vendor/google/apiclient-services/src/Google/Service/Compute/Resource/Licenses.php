@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,8 +26,7 @@
 class Google_Service_Compute_Resource_Licenses extends Google_Service_Resource
 {
   /**
-   * Returns the specified License resource. Get a list of available licenses by
-   * making a list() request. (licenses.get)
+   * Returns the specified License resource. (licenses.get)
    *
    * @param string $project Project ID for this request.
    * @param string $license Name of the License resource to return.

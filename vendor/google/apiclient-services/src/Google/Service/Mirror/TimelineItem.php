@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -51,10 +51,16 @@ class Google_Service_Mirror_TimelineItem extends Google_Collection
   public $title;
   public $updated;
 
+  /**
+   * @param Google_Service_Mirror_Attachment
+   */
   public function setAttachments($attachments)
   {
     $this->attachments = $attachments;
   }
+  /**
+   * @return Google_Service_Mirror_Attachment
+   */
   public function getAttachments()
   {
     return $this->attachments;
@@ -83,10 +89,16 @@ class Google_Service_Mirror_TimelineItem extends Google_Collection
   {
     return $this->created;
   }
+  /**
+   * @param Google_Service_Mirror_Contact
+   */
   public function setCreator(Google_Service_Mirror_Contact $creator)
   {
     $this->creator = $creator;
   }
+  /**
+   * @return Google_Service_Mirror_Contact
+   */
   public function getCreator()
   {
     return $this->creator;
@@ -163,26 +175,44 @@ class Google_Service_Mirror_TimelineItem extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Mirror_Location
+   */
   public function setLocation(Google_Service_Mirror_Location $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_Mirror_Location
+   */
   public function getLocation()
   {
     return $this->location;
   }
+  /**
+   * @param Google_Service_Mirror_MenuItem
+   */
   public function setMenuItems($menuItems)
   {
     $this->menuItems = $menuItems;
   }
+  /**
+   * @return Google_Service_Mirror_MenuItem
+   */
   public function getMenuItems()
   {
     return $this->menuItems;
   }
+  /**
+   * @param Google_Service_Mirror_NotificationConfig
+   */
   public function setNotification(Google_Service_Mirror_NotificationConfig $notification)
   {
     $this->notification = $notification;
   }
+  /**
+   * @return Google_Service_Mirror_NotificationConfig
+   */
   public function getNotification()
   {
     return $this->notification;
@@ -195,10 +225,16 @@ class Google_Service_Mirror_TimelineItem extends Google_Collection
   {
     return $this->pinScore;
   }
+  /**
+   * @param Google_Service_Mirror_Contact
+   */
   public function setRecipients($recipients)
   {
     $this->recipients = $recipients;
   }
+  /**
+   * @return Google_Service_Mirror_Contact
+   */
   public function getRecipients()
   {
     return $this->recipients;

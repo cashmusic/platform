@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,12 +37,13 @@ class Google_Service_Speech_Resource_Operations extends Google_Service_Resource
    * `Code.CANCELLED`. (operations.cancel)
    *
    * @param string $name The name of the operation resource to be cancelled.
+   * @param Google_Service_Speech_CancelOperationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Speech_SpeechEmpty
    */
-  public function cancel($name, $optParams = array())
+  public function cancel($name, Google_Service_Speech_CancelOperationRequest $postBody, $optParams = array())
   {
-    $params = array('name' => $name);
+    $params = array('name' => $name, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('cancel', array($params), "Google_Service_Speech_SpeechEmpty");
   }
@@ -81,16 +82,20 @@ class Google_Service_Speech_Resource_Operations extends Google_Service_Resource
    * Lists operations that match the specified filter in the request. If the
    * server doesn't support this method, it returns `UNIMPLEMENTED`.
    *
-   * NOTE: the `name` binding below allows API services to override the binding to
-   * use different resource name schemes, such as `users/operations`.
-   * (operations.listOperations)
+   * NOTE: the `name` binding allows API services to override the binding to use
+   * different resource name schemes, such as `users/operations`. To override the
+   * binding, API services can add a binding such as
+   * `"/v1/{name=users}/operations"` to their service configuration. For backwards
+   * compatibility, the default name includes the operations collection id,
+   * however overriding users must ensure the name binding is the parent resource,
+   * without the operations collection id. (operations.listOperations)
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter The standard list filter.
-   * @opt_param string name The name of the operation collection.
    * @opt_param string pageToken The standard list page token.
+   * @opt_param string name The name of the operation's parent resource.
    * @opt_param int pageSize The standard list page size.
+   * @opt_param string filter The standard list filter.
    * @return Google_Service_Speech_ListOperationsResponse
    */
   public function listOperations($optParams = array())

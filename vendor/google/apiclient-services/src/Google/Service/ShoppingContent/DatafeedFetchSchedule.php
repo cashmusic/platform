@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,6 +22,7 @@ class Google_Service_ShoppingContent_DatafeedFetchSchedule extends Google_Model
   public $hour;
   public $minuteOfHour;
   public $password;
+  public $paused;
   public $timeZone;
   public $username;
   public $weekday;
@@ -65,6 +66,14 @@ class Google_Service_ShoppingContent_DatafeedFetchSchedule extends Google_Model
   public function getPassword()
   {
     return $this->password;
+  }
+  public function setPaused($paused)
+  {
+    $this->paused = $paused;
+  }
+  public function getPaused()
+  {
+    return $this->paused;
   }
   public function setTimeZone($timeZone)
   {

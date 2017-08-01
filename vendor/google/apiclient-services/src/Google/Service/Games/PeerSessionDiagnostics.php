@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -49,18 +49,30 @@ class Google_Service_Games_PeerSessionDiagnostics extends Google_Model
   {
     return $this->participantId;
   }
+  /**
+   * @param Google_Service_Games_PeerChannelDiagnostics
+   */
   public function setReliableChannel(Google_Service_Games_PeerChannelDiagnostics $reliableChannel)
   {
     $this->reliableChannel = $reliableChannel;
   }
+  /**
+   * @return Google_Service_Games_PeerChannelDiagnostics
+   */
   public function getReliableChannel()
   {
     return $this->reliableChannel;
   }
+  /**
+   * @param Google_Service_Games_PeerChannelDiagnostics
+   */
   public function setUnreliableChannel(Google_Service_Games_PeerChannelDiagnostics $unreliableChannel)
   {
     $this->unreliableChannel = $unreliableChannel;
   }
+  /**
+   * @return Google_Service_Games_PeerChannelDiagnostics
+   */
   public function getUnreliableChannel()
   {
     return $this->unreliableChannel;

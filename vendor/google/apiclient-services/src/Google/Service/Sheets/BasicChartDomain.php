@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,13 +19,28 @@ class Google_Service_Sheets_BasicChartDomain extends Google_Model
 {
   protected $domainType = 'Google_Service_Sheets_ChartData';
   protected $domainDataType = '';
+  public $reversed;
 
+  /**
+   * @param Google_Service_Sheets_ChartData
+   */
   public function setDomain(Google_Service_Sheets_ChartData $domain)
   {
     $this->domain = $domain;
   }
+  /**
+   * @return Google_Service_Sheets_ChartData
+   */
   public function getDomain()
   {
     return $this->domain;
+  }
+  public function setReversed($reversed)
+  {
+    $this->reversed = $reversed;
+  }
+  public function getReversed()
+  {
+    return $this->reversed;
   }
 }

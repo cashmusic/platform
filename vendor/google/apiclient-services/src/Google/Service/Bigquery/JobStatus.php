@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,18 +24,30 @@ class Google_Service_Bigquery_JobStatus extends Google_Collection
   protected $errorsDataType = 'array';
   public $state;
 
+  /**
+   * @param Google_Service_Bigquery_ErrorProto
+   */
   public function setErrorResult(Google_Service_Bigquery_ErrorProto $errorResult)
   {
     $this->errorResult = $errorResult;
   }
+  /**
+   * @return Google_Service_Bigquery_ErrorProto
+   */
   public function getErrorResult()
   {
     return $this->errorResult;
   }
+  /**
+   * @param Google_Service_Bigquery_ErrorProto
+   */
   public function setErrors($errors)
   {
     $this->errors = $errors;
   }
+  /**
+   * @return Google_Service_Bigquery_ErrorProto
+   */
   public function getErrors()
   {
     return $this->errors;

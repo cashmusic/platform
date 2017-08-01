@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,11 +32,18 @@ class Google_Service_Compute_Project extends Google_Collection
   public $selfLink;
   protected $usageExportLocationType = 'Google_Service_Compute_UsageExportLocation';
   protected $usageExportLocationDataType = '';
+  public $xpnProjectStatus;
 
+  /**
+   * @param Google_Service_Compute_Metadata
+   */
   public function setCommonInstanceMetadata(Google_Service_Compute_Metadata $commonInstanceMetadata)
   {
     $this->commonInstanceMetadata = $commonInstanceMetadata;
   }
+  /**
+   * @return Google_Service_Compute_Metadata
+   */
   public function getCommonInstanceMetadata()
   {
     return $this->commonInstanceMetadata;
@@ -97,10 +104,16 @@ class Google_Service_Compute_Project extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Compute_Quota
+   */
   public function setQuotas($quotas)
   {
     $this->quotas = $quotas;
   }
+  /**
+   * @return Google_Service_Compute_Quota
+   */
   public function getQuotas()
   {
     return $this->quotas;
@@ -113,12 +126,26 @@ class Google_Service_Compute_Project extends Google_Collection
   {
     return $this->selfLink;
   }
+  /**
+   * @param Google_Service_Compute_UsageExportLocation
+   */
   public function setUsageExportLocation(Google_Service_Compute_UsageExportLocation $usageExportLocation)
   {
     $this->usageExportLocation = $usageExportLocation;
   }
+  /**
+   * @return Google_Service_Compute_UsageExportLocation
+   */
   public function getUsageExportLocation()
   {
     return $this->usageExportLocation;
+  }
+  public function setXpnProjectStatus($xpnProjectStatus)
+  {
+    $this->xpnProjectStatus = $xpnProjectStatus;
+  }
+  public function getXpnProjectStatus()
+  {
+    return $this->xpnProjectStatus;
   }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,12 +15,25 @@
  * the License.
  */
 
-class Google_Service_Iam_Role extends Google_Model
+class Google_Service_Iam_Role extends Google_Collection
 {
+  protected $collection_key = 'includedPermissions';
+  public $deleted;
   public $description;
+  public $etag;
+  public $includedPermissions;
   public $name;
+  public $stage;
   public $title;
 
+  public function setDeleted($deleted)
+  {
+    $this->deleted = $deleted;
+  }
+  public function getDeleted()
+  {
+    return $this->deleted;
+  }
   public function setDescription($description)
   {
     $this->description = $description;
@@ -29,6 +42,22 @@ class Google_Service_Iam_Role extends Google_Model
   {
     return $this->description;
   }
+  public function setEtag($etag)
+  {
+    $this->etag = $etag;
+  }
+  public function getEtag()
+  {
+    return $this->etag;
+  }
+  public function setIncludedPermissions($includedPermissions)
+  {
+    $this->includedPermissions = $includedPermissions;
+  }
+  public function getIncludedPermissions()
+  {
+    return $this->includedPermissions;
+  }
   public function setName($name)
   {
     $this->name = $name;
@@ -36,6 +65,14 @@ class Google_Service_Iam_Role extends Google_Model
   public function getName()
   {
     return $this->name;
+  }
+  public function setStage($stage)
+  {
+    $this->stage = $stage;
+  }
+  public function getStage()
+  {
+    return $this->stage;
   }
   public function setTitle($title)
   {

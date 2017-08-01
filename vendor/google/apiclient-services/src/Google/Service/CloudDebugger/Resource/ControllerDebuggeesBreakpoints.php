@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,10 +28,11 @@ class Google_Service_CloudDebugger_Resource_ControllerDebuggeesBreakpoints exten
   /**
    * Returns the list of all active breakpoints for the debuggee.
    *
-   * The breakpoint specification (location, condition, and expression fields) is
-   * semantically immutable, although the field values may change. For example, an
-   * agent may update the location line number to reflect the actual line where
-   * the breakpoint was set, but this doesn't change the breakpoint semantics.
+   * The breakpoint specification (`location`, `condition`, and `expressions`
+   * fields) is semantically immutable, although the field values may change. For
+   * example, an agent may update the location line number to reflect the actual
+   * line where the breakpoint was set, but this doesn't change the breakpoint
+   * semantics.
    *
    * This means that an agent does not need to check if a breakpoint has changed
    * when it encounters the same breakpoint on a successive call. Moreover, an
@@ -66,7 +67,7 @@ class Google_Service_CloudDebugger_Resource_ControllerDebuggeesBreakpoints exten
    *
    * Updates to active breakpoint fields are only allowed if the new value does
    * not change the breakpoint specification. Updates to the `location`,
-   * `condition` and `expression` fields should not alter the breakpoint
+   * `condition` and `expressions` fields should not alter the breakpoint
    * semantics. These may only make changes such as canonicalizing a value or
    * snapping the location to the correct line of code. (breakpoints.update)
    *

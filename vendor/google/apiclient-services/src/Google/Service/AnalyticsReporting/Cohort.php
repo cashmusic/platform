@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_AnalyticsReporting_Cohort extends Google_Model
   public $name;
   public $type;
 
+  /**
+   * @param Google_Service_AnalyticsReporting_DateRange
+   */
   public function setDateRange(Google_Service_AnalyticsReporting_DateRange $dateRange)
   {
     $this->dateRange = $dateRange;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_DateRange
+   */
   public function getDateRange()
   {
     return $this->dateRange;

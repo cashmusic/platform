@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,18 +33,30 @@ class Google_Service_Datastore_GqlQuery extends Google_Collection
   {
     return $this->allowLiterals;
   }
+  /**
+   * @param Google_Service_Datastore_GqlQueryParameter
+   */
   public function setNamedBindings($namedBindings)
   {
     $this->namedBindings = $namedBindings;
   }
+  /**
+   * @return Google_Service_Datastore_GqlQueryParameter
+   */
   public function getNamedBindings()
   {
     return $this->namedBindings;
   }
+  /**
+   * @param Google_Service_Datastore_GqlQueryParameter
+   */
   public function setPositionalBindings($positionalBindings)
   {
     $this->positionalBindings = $positionalBindings;
   }
+  /**
+   * @return Google_Service_Datastore_GqlQueryParameter
+   */
   public function getPositionalBindings()
   {
     return $this->positionalBindings;

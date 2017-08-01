@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,6 +25,7 @@ class Google_Service_Classroom_UserProfile extends Google_Collection
   protected $permissionsType = 'Google_Service_Classroom_GlobalPermission';
   protected $permissionsDataType = 'array';
   public $photoUrl;
+  public $verifiedTeacher;
 
   public function setEmailAddress($emailAddress)
   {
@@ -42,18 +43,30 @@ class Google_Service_Classroom_UserProfile extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Classroom_Name
+   */
   public function setName(Google_Service_Classroom_Name $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_Classroom_Name
+   */
   public function getName()
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Classroom_GlobalPermission
+   */
   public function setPermissions($permissions)
   {
     $this->permissions = $permissions;
   }
+  /**
+   * @return Google_Service_Classroom_GlobalPermission
+   */
   public function getPermissions()
   {
     return $this->permissions;
@@ -65,5 +78,13 @@ class Google_Service_Classroom_UserProfile extends Google_Collection
   public function getPhotoUrl()
   {
     return $this->photoUrl;
+  }
+  public function setVerifiedTeacher($verifiedTeacher)
+  {
+    $this->verifiedTeacher = $verifiedTeacher;
+  }
+  public function getVerifiedTeacher()
+  {
+    return $this->verifiedTeacher;
   }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,10 +23,16 @@ class Google_Service_Slides_DeleteParagraphBulletsRequest extends Google_Model
   protected $textRangeType = 'Google_Service_Slides_Range';
   protected $textRangeDataType = '';
 
+  /**
+   * @param Google_Service_Slides_TableCellLocation
+   */
   public function setCellLocation(Google_Service_Slides_TableCellLocation $cellLocation)
   {
     $this->cellLocation = $cellLocation;
   }
+  /**
+   * @return Google_Service_Slides_TableCellLocation
+   */
   public function getCellLocation()
   {
     return $this->cellLocation;
@@ -39,10 +45,16 @@ class Google_Service_Slides_DeleteParagraphBulletsRequest extends Google_Model
   {
     return $this->objectId;
   }
+  /**
+   * @param Google_Service_Slides_Range
+   */
   public function setTextRange(Google_Service_Slides_Range $textRange)
   {
     $this->textRange = $textRange;
   }
+  /**
+   * @return Google_Service_Slides_Range
+   */
   public function getTextRange()
   {
     return $this->textRange;

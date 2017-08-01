@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,34 +26,58 @@ class Google_Service_Slides_ShapeProperties extends Google_Model
   protected $shapeBackgroundFillType = 'Google_Service_Slides_ShapeBackgroundFill';
   protected $shapeBackgroundFillDataType = '';
 
+  /**
+   * @param Google_Service_Slides_Link
+   */
   public function setLink(Google_Service_Slides_Link $link)
   {
     $this->link = $link;
   }
+  /**
+   * @return Google_Service_Slides_Link
+   */
   public function getLink()
   {
     return $this->link;
   }
+  /**
+   * @param Google_Service_Slides_Outline
+   */
   public function setOutline(Google_Service_Slides_Outline $outline)
   {
     $this->outline = $outline;
   }
+  /**
+   * @return Google_Service_Slides_Outline
+   */
   public function getOutline()
   {
     return $this->outline;
   }
+  /**
+   * @param Google_Service_Slides_Shadow
+   */
   public function setShadow(Google_Service_Slides_Shadow $shadow)
   {
     $this->shadow = $shadow;
   }
+  /**
+   * @return Google_Service_Slides_Shadow
+   */
   public function getShadow()
   {
     return $this->shadow;
   }
+  /**
+   * @param Google_Service_Slides_ShapeBackgroundFill
+   */
   public function setShapeBackgroundFill(Google_Service_Slides_ShapeBackgroundFill $shapeBackgroundFill)
   {
     $this->shapeBackgroundFill = $shapeBackgroundFill;
   }
+  /**
+   * @return Google_Service_Slides_ShapeBackgroundFill
+   */
   public function getShapeBackgroundFill()
   {
     return $this->shapeBackgroundFill;

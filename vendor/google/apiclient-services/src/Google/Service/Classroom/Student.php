@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,18 +32,30 @@ class Google_Service_Classroom_Student extends Google_Model
   {
     return $this->courseId;
   }
+  /**
+   * @param Google_Service_Classroom_UserProfile
+   */
   public function setProfile(Google_Service_Classroom_UserProfile $profile)
   {
     $this->profile = $profile;
   }
+  /**
+   * @return Google_Service_Classroom_UserProfile
+   */
   public function getProfile()
   {
     return $this->profile;
   }
+  /**
+   * @param Google_Service_Classroom_DriveFolder
+   */
   public function setStudentWorkFolder(Google_Service_Classroom_DriveFolder $studentWorkFolder)
   {
     $this->studentWorkFolder = $studentWorkFolder;
   }
+  /**
+   * @return Google_Service_Classroom_DriveFolder
+   */
   public function getStudentWorkFolder()
   {
     return $this->studentWorkFolder;

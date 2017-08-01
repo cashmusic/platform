@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,10 +30,16 @@ class Google_Service_DoubleClickBidManager_ListQueriesResponse extends Google_Co
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_DoubleClickBidManager_Query
+   */
   public function setQueries($queries)
   {
     $this->queries = $queries;
   }
+  /**
+   * @return Google_Service_DoubleClickBidManager_Query
+   */
   public function getQueries()
   {
     return $this->queries;

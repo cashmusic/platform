@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class ThrowExceptionTestCase extends TestCase
+class ThrowExceptionTestCase extends PHPUnit_Framework_TestCase
 {
     public function test()
     {

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -39,10 +39,16 @@ class Google_Service_Dfareporting_PlacementsListResponse extends Google_Collecti
   {
     return $this->nextPageToken;
   }
+  /**
+   * @param Google_Service_Dfareporting_Placement
+   */
   public function setPlacements($placements)
   {
     $this->placements = $placements;
   }
+  /**
+   * @return Google_Service_Dfareporting_Placement
+   */
   public function getPlacements()
   {
     return $this->placements;

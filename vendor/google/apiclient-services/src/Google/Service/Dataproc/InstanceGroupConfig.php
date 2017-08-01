@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_Dataproc_InstanceGroupConfig extends Google_Collection
   protected $managedGroupConfigDataType = '';
   public $numInstances;
 
+  /**
+   * @param Google_Service_Dataproc_AcceleratorConfig
+   */
   public function setAccelerators($accelerators)
   {
     $this->accelerators = $accelerators;
   }
+  /**
+   * @return Google_Service_Dataproc_AcceleratorConfig
+   */
   public function getAccelerators()
   {
     return $this->accelerators;
   }
+  /**
+   * @param Google_Service_Dataproc_DiskConfig
+   */
   public function setDiskConfig(Google_Service_Dataproc_DiskConfig $diskConfig)
   {
     $this->diskConfig = $diskConfig;
   }
+  /**
+   * @return Google_Service_Dataproc_DiskConfig
+   */
   public function getDiskConfig()
   {
     return $this->diskConfig;
@@ -78,10 +90,16 @@ class Google_Service_Dataproc_InstanceGroupConfig extends Google_Collection
   {
     return $this->machineTypeUri;
   }
+  /**
+   * @param Google_Service_Dataproc_ManagedGroupConfig
+   */
   public function setManagedGroupConfig(Google_Service_Dataproc_ManagedGroupConfig $managedGroupConfig)
   {
     $this->managedGroupConfig = $managedGroupConfig;
   }
+  /**
+   * @return Google_Service_Dataproc_ManagedGroupConfig
+   */
   public function getManagedGroupConfig()
   {
     return $this->managedGroupConfig;

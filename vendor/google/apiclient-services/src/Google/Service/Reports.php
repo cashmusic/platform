@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,8 +19,8 @@
  * Service definition for Reports (reports_v1).
  *
  * <p>
- * Fetches reports for the administrators of Google Apps customers about the
- * usage, collaboration, security, and risk for their users.</p>
+ * Fetches reports for the administrators of G Suite customers about the usage,
+ * collaboration, security, and risk for their users.</p>
  *
  * <p>
  * For more information about this service, see the API

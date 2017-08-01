@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Genomics_SearchCallSetsResponse extends Google_Collection
   protected $callSetsDataType = 'array';
   public $nextPageToken;
 
+  /**
+   * @param Google_Service_Genomics_CallSet
+   */
   public function setCallSets($callSets)
   {
     $this->callSets = $callSets;
   }
+  /**
+   * @return Google_Service_Genomics_CallSet
+   */
   public function getCallSets()
   {
     return $this->callSets;

@@ -1,5 +1,5 @@
 <?php
-class BeforeClassWithOnlyDataProviderTest extends \PHPUnit\Framework\TestCase
+class BeforeClassWithOnlyDataProviderTest extends \PHPUnit_Framework_TestCase
 {
     public static $setUpBeforeClassWasCalled;
     public static $beforeClassWasCalled;

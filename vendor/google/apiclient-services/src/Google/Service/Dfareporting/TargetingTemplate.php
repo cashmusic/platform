@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -54,26 +54,44 @@ class Google_Service_Dfareporting_TargetingTemplate extends Google_Model
   {
     return $this->advertiserId;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setAdvertiserIdDimensionValue(Google_Service_Dfareporting_DimensionValue $advertiserIdDimensionValue)
   {
     $this->advertiserIdDimensionValue = $advertiserIdDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getAdvertiserIdDimensionValue()
   {
     return $this->advertiserIdDimensionValue;
   }
+  /**
+   * @param Google_Service_Dfareporting_DayPartTargeting
+   */
   public function setDayPartTargeting(Google_Service_Dfareporting_DayPartTargeting $dayPartTargeting)
   {
     $this->dayPartTargeting = $dayPartTargeting;
   }
+  /**
+   * @return Google_Service_Dfareporting_DayPartTargeting
+   */
   public function getDayPartTargeting()
   {
     return $this->dayPartTargeting;
   }
+  /**
+   * @param Google_Service_Dfareporting_GeoTargeting
+   */
   public function setGeoTargeting(Google_Service_Dfareporting_GeoTargeting $geoTargeting)
   {
     $this->geoTargeting = $geoTargeting;
   }
+  /**
+   * @return Google_Service_Dfareporting_GeoTargeting
+   */
   public function getGeoTargeting()
   {
     return $this->geoTargeting;
@@ -86,10 +104,16 @@ class Google_Service_Dfareporting_TargetingTemplate extends Google_Model
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Dfareporting_KeyValueTargetingExpression
+   */
   public function setKeyValueTargetingExpression(Google_Service_Dfareporting_KeyValueTargetingExpression $keyValueTargetingExpression)
   {
     $this->keyValueTargetingExpression = $keyValueTargetingExpression;
   }
+  /**
+   * @return Google_Service_Dfareporting_KeyValueTargetingExpression
+   */
   public function getKeyValueTargetingExpression()
   {
     return $this->keyValueTargetingExpression;
@@ -102,18 +126,30 @@ class Google_Service_Dfareporting_TargetingTemplate extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_LanguageTargeting
+   */
   public function setLanguageTargeting(Google_Service_Dfareporting_LanguageTargeting $languageTargeting)
   {
     $this->languageTargeting = $languageTargeting;
   }
+  /**
+   * @return Google_Service_Dfareporting_LanguageTargeting
+   */
   public function getLanguageTargeting()
   {
     return $this->languageTargeting;
   }
+  /**
+   * @param Google_Service_Dfareporting_ListTargetingExpression
+   */
   public function setListTargetingExpression(Google_Service_Dfareporting_ListTargetingExpression $listTargetingExpression)
   {
     $this->listTargetingExpression = $listTargetingExpression;
   }
+  /**
+   * @return Google_Service_Dfareporting_ListTargetingExpression
+   */
   public function getListTargetingExpression()
   {
     return $this->listTargetingExpression;
@@ -134,10 +170,16 @@ class Google_Service_Dfareporting_TargetingTemplate extends Google_Model
   {
     return $this->subaccountId;
   }
+  /**
+   * @param Google_Service_Dfareporting_TechnologyTargeting
+   */
   public function setTechnologyTargeting(Google_Service_Dfareporting_TechnologyTargeting $technologyTargeting)
   {
     $this->technologyTargeting = $technologyTargeting;
   }
+  /**
+   * @return Google_Service_Dfareporting_TechnologyTargeting
+   */
   public function getTechnologyTargeting()
   {
     return $this->technologyTargeting;

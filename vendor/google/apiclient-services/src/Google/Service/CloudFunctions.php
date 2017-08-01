@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,7 +16,7 @@
  */
 
 /**
- * Service definition for CloudFunctions (v1beta2).
+ * Service definition for CloudFunctions (v1).
  *
  * <p>
  * API for managing lightweight user-provided functions executed in response to
@@ -37,7 +37,6 @@ class Google_Service_CloudFunctions extends Google_Service
 
   public $operations;
   public $projects_locations;
-  public $projects_locations_functions;
   
   /**
    * Constructs the internal representation of the CloudFunctions service.
@@ -49,7 +48,7 @@ class Google_Service_CloudFunctions extends Google_Service
     parent::__construct($client);
     $this->rootUrl = 'https://cloudfunctions.googleapis.com/';
     $this->servicePath = '';
-    $this->version = 'v1beta2';
+    $this->version = 'v1';
     $this->serviceName = 'cloudfunctions';
 
     $this->operations = new Google_Service_CloudFunctions_Resource_Operations(
@@ -59,7 +58,7 @@ class Google_Service_CloudFunctions extends Google_Service
         array(
           'methods' => array(
             'get' => array(
-              'path' => 'v1beta2/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'name' => array(
@@ -69,18 +68,18 @@ class Google_Service_CloudFunctions extends Google_Service
                 ),
               ),
             ),'list' => array(
-              'path' => 'v1beta2/operations',
+              'path' => 'v1/operations',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'filter' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'name' => array(
+                'pageToken' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'pageToken' => array(
+                'name' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -100,7 +99,7 @@ class Google_Service_CloudFunctions extends Google_Service
         array(
           'methods' => array(
             'list' => array(
-              'path' => 'v1beta2/{+name}/locations',
+              'path' => 'v1/{+name}/locations',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'name' => array(
@@ -119,84 +118,6 @@ class Google_Service_CloudFunctions extends Google_Service
                 'pageSize' => array(
                   'location' => 'query',
                   'type' => 'integer',
-                ),
-              ),
-            ),
-          )
-        )
-    );
-    $this->projects_locations_functions = new Google_Service_CloudFunctions_Resource_ProjectsLocationsFunctions(
-        $this,
-        $this->serviceName,
-        'functions',
-        array(
-          'methods' => array(
-            'call' => array(
-              'path' => 'v1beta2/{+name}:call',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'create' => array(
-              'path' => 'v1beta2/{+location}/functions',
-              'httpMethod' => 'POST',
-              'parameters' => array(
-                'location' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'delete' => array(
-              'path' => 'v1beta2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'get' => array(
-              'path' => 'v1beta2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-              ),
-            ),'list' => array(
-              'path' => 'v1beta2/{+location}/functions',
-              'httpMethod' => 'GET',
-              'parameters' => array(
-                'location' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ),
-                'pageToken' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
-                'pageSize' => array(
-                  'location' => 'query',
-                  'type' => 'integer',
-                ),
-              ),
-            ),'update' => array(
-              'path' => 'v1beta2/{+name}',
-              'httpMethod' => 'PUT',
-              'parameters' => array(
-                'name' => array(
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ),
               ),
             ),

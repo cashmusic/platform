@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\LazyLoadingValueHolder\MethodGenerator;
 
 use ProxyManager\Generator\MethodGenerator;
@@ -37,27 +35,26 @@ class LazyLoadingMethodInterceptor extends MethodGenerator
      * @param \Zend\Code\Generator\PropertyGenerator $initializerProperty
      * @param \Zend\Code\Generator\PropertyGenerator $valueHolderProperty
      *
-     * @return self|static
+     * @return LazyLoadingMethodInterceptor|static
      */
     public static function generateMethod(
         MethodReflection $originalMethod,
         PropertyGenerator $initializerProperty,
         PropertyGenerator $valueHolderProperty
-    ) : self {
+    ) {
         /* @var $method self */
         $method            = static::fromReflection($originalMethod);
         $initializerName   = $initializerProperty->getName();
         $valueHolderName   = $valueHolderProperty->getName();
         $parameters        = $originalMethod->getParameters();
         $methodName        = $originalMethod->getName();
-        $initializerParams = [];
-        $forwardedParams   = [];
+        $initializerParams = array();
+        $forwardedParams   = array();
 
         foreach ($parameters as $parameter) {
             $parameterName       = $parameter->getName();
-            $variadicPrefix      = $parameter->isVariadic() ? '...' : '';
             $initializerParams[] = var_export($parameterName, true) . ' => $' . $parameterName;
-            $forwardedParams[]   = $variadicPrefix . '$' . $parameterName;
+            $forwardedParams[]   = '$' . $parameterName;
         }
 
         $method->setBody(

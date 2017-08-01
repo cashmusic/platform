@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,10 +34,16 @@ class Google_Service_Spanner_PartialResultSet extends Google_Collection
   {
     return $this->chunkedValue;
   }
+  /**
+   * @param Google_Service_Spanner_ResultSetMetadata
+   */
   public function setMetadata(Google_Service_Spanner_ResultSetMetadata $metadata)
   {
     $this->metadata = $metadata;
   }
+  /**
+   * @return Google_Service_Spanner_ResultSetMetadata
+   */
   public function getMetadata()
   {
     return $this->metadata;
@@ -50,10 +56,16 @@ class Google_Service_Spanner_PartialResultSet extends Google_Collection
   {
     return $this->resumeToken;
   }
+  /**
+   * @param Google_Service_Spanner_ResultSetStats
+   */
   public function setStats(Google_Service_Spanner_ResultSetStats $stats)
   {
     $this->stats = $stats;
   }
+  /**
+   * @return Google_Service_Spanner_ResultSetStats
+   */
   public function getStats()
   {
     return $this->stats;

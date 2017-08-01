@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,6 +29,7 @@ class Google_Service_Compute_Route extends Google_Collection
   public $nextHopInstance;
   public $nextHopIp;
   public $nextHopNetwork;
+  public $nextHopPeering;
   public $nextHopVpnTunnel;
   public $priority;
   public $selfLink;
@@ -124,6 +125,14 @@ class Google_Service_Compute_Route extends Google_Collection
   {
     return $this->nextHopNetwork;
   }
+  public function setNextHopPeering($nextHopPeering)
+  {
+    $this->nextHopPeering = $nextHopPeering;
+  }
+  public function getNextHopPeering()
+  {
+    return $this->nextHopPeering;
+  }
   public function setNextHopVpnTunnel($nextHopVpnTunnel)
   {
     $this->nextHopVpnTunnel = $nextHopVpnTunnel;
@@ -156,10 +165,16 @@ class Google_Service_Compute_Route extends Google_Collection
   {
     return $this->tags;
   }
+  /**
+   * @param Google_Service_Compute_RouteWarnings
+   */
   public function setWarnings($warnings)
   {
     $this->warnings = $warnings;
   }
+  /**
+   * @return Google_Service_Compute_RouteWarnings
+   */
   public function getWarnings()
   {
     return $this->warnings;

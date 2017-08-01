@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,7 @@ class Google_Service_Directory_Resource_Notifications extends Google_Service_Res
   /**
    * Deletes a notification (notifications.delete)
    *
-   * @param string $customer The unique ID for the customer's Google account. The
+   * @param string $customer The unique ID for the customer's G Suite account. The
    * customerId is also returned as part of the Users resource.
    * @param string $notificationId The unique ID of the notification.
    * @param array $optParams Optional parameters.
@@ -42,7 +42,7 @@ class Google_Service_Directory_Resource_Notifications extends Google_Service_Res
   /**
    * Retrieves a notification. (notifications.get)
    *
-   * @param string $customer The unique ID for the customer's Google account. The
+   * @param string $customer The unique ID for the customer's G Suite account. The
    * customerId is also returned as part of the Users resource.
    * @param string $notificationId The unique ID of the notification.
    * @param array $optParams Optional parameters.
@@ -57,7 +57,7 @@ class Google_Service_Directory_Resource_Notifications extends Google_Service_Res
   /**
    * Retrieves a list of notifications. (notifications.listNotifications)
    *
-   * @param string $customer The unique ID for the customer's Google account.
+   * @param string $customer The unique ID for the customer's G Suite account.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string language The ISO 639-1 code of the language notifications
@@ -78,7 +78,7 @@ class Google_Service_Directory_Resource_Notifications extends Google_Service_Res
    * Updates a notification. This method supports patch semantics.
    * (notifications.patch)
    *
-   * @param string $customer The unique ID for the customer's Google account.
+   * @param string $customer The unique ID for the customer's G Suite account.
    * @param string $notificationId The unique ID of the notification.
    * @param Google_Service_Directory_Notification $postBody
    * @param array $optParams Optional parameters.
@@ -93,7 +93,7 @@ class Google_Service_Directory_Resource_Notifications extends Google_Service_Res
   /**
    * Updates a notification. (notifications.update)
    *
-   * @param string $customer The unique ID for the customer's Google account.
+   * @param string $customer The unique ID for the customer's G Suite account.
    * @param string $notificationId The unique ID of the notification.
    * @param Google_Service_Directory_Notification $postBody
    * @param array $optParams Optional parameters.

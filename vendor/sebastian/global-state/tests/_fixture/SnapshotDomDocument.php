@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of sebastian/global-state.
+ * This file is part of the GlobalState package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace SebastianBergmann\GlobalState\TestFixture;
 
 use DomDocument;
 
+/**
+ */
 class SnapshotDomDocument extends DomDocument
 {
 }

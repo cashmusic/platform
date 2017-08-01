@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,7 +20,9 @@ class Google_Service_TagManager_Account extends Google_Model
   public $accountId;
   public $fingerprint;
   public $name;
+  public $path;
   public $shareData;
+  public $tagManagerUrl;
 
   public function setAccountId($accountId)
   {
@@ -46,6 +48,14 @@ class Google_Service_TagManager_Account extends Google_Model
   {
     return $this->name;
   }
+  public function setPath($path)
+  {
+    $this->path = $path;
+  }
+  public function getPath()
+  {
+    return $this->path;
+  }
   public function setShareData($shareData)
   {
     $this->shareData = $shareData;
@@ -53,5 +63,13 @@ class Google_Service_TagManager_Account extends Google_Model
   public function getShareData()
   {
     return $this->shareData;
+  }
+  public function setTagManagerUrl($tagManagerUrl)
+  {
+    $this->tagManagerUrl = $tagManagerUrl;
+  }
+  public function getTagManagerUrl()
+  {
+    return $this->tagManagerUrl;
   }
 }

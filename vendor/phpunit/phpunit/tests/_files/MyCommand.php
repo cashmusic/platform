@@ -1,7 +1,6 @@
 <?php
-use PHPUnit\TextUI\Command;
 
-class MyCommand extends Command
+class MyCommand extends PHPUnit_TextUI_Command
 {
     public function __construct()
     {

@@ -8,7 +8,7 @@ $_SERVER['argv'][3] = '.test.php,.my.php';
 $_SERVER['argv'][4] = __DIR__ . '/../_files/';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -16,4 +16,4 @@ PHPUnit %s by Sebastian Bergmann and contributors.
 
 Time: %s, Memory: %s
 
-OK (5 tests, 5 assertions)
+OK (5 tests, 3 assertions)

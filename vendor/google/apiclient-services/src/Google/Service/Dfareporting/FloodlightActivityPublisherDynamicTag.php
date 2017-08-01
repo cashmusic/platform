@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,10 +42,16 @@ class Google_Service_Dfareporting_FloodlightActivityPublisherDynamicTag extends 
   {
     return $this->directorySiteId;
   }
+  /**
+   * @param Google_Service_Dfareporting_FloodlightActivityDynamicTag
+   */
   public function setDynamicTag(Google_Service_Dfareporting_FloodlightActivityDynamicTag $dynamicTag)
   {
     $this->dynamicTag = $dynamicTag;
   }
+  /**
+   * @return Google_Service_Dfareporting_FloodlightActivityDynamicTag
+   */
   public function getDynamicTag()
   {
     return $this->dynamicTag;
@@ -58,10 +64,16 @@ class Google_Service_Dfareporting_FloodlightActivityPublisherDynamicTag extends 
   {
     return $this->siteId;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setSiteIdDimensionValue(Google_Service_Dfareporting_DimensionValue $siteIdDimensionValue)
   {
     $this->siteIdDimensionValue = $siteIdDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getSiteIdDimensionValue()
   {
     return $this->siteIdDimensionValue;

@@ -9,7 +9,7 @@ $_SERVER['argv'][3] = '--stop-on-error';
 $_SERVER['argv'][4] = __DIR__ . '/2145/Issue2145Test.php';
 
 require __DIR__ . '/../../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 ?>
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
@@ -21,7 +21,6 @@ Time: %s, Memory: %s
 There was 1 error:
 
 1) Issue2145Test
-Exception in %s%eIssue2145Test.php:%d
 %A
 ERRORS!
 Tests: 2, Assertions: 0, Errors: 1.

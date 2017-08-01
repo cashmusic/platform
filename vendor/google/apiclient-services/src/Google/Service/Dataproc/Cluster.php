@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -47,10 +47,16 @@ class Google_Service_Dataproc_Cluster extends Google_Collection
   {
     return $this->clusterUuid;
   }
+  /**
+   * @param Google_Service_Dataproc_ClusterConfig
+   */
   public function setConfig(Google_Service_Dataproc_ClusterConfig $config)
   {
     $this->config = $config;
   }
+  /**
+   * @return Google_Service_Dataproc_ClusterConfig
+   */
   public function getConfig()
   {
     return $this->config;
@@ -63,10 +69,16 @@ class Google_Service_Dataproc_Cluster extends Google_Collection
   {
     return $this->labels;
   }
+  /**
+   * @param Google_Service_Dataproc_ClusterMetrics
+   */
   public function setMetrics(Google_Service_Dataproc_ClusterMetrics $metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_Dataproc_ClusterMetrics
+   */
   public function getMetrics()
   {
     return $this->metrics;
@@ -79,18 +91,30 @@ class Google_Service_Dataproc_Cluster extends Google_Collection
   {
     return $this->projectId;
   }
+  /**
+   * @param Google_Service_Dataproc_ClusterStatus
+   */
   public function setStatus(Google_Service_Dataproc_ClusterStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_Dataproc_ClusterStatus
+   */
   public function getStatus()
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_Dataproc_ClusterStatus
+   */
   public function setStatusHistory($statusHistory)
   {
     $this->statusHistory = $statusHistory;
   }
+  /**
+   * @return Google_Service_Dataproc_ClusterStatus
+   */
   public function getStatusHistory()
   {
     return $this->statusHistory;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,50 +31,86 @@ class Google_Service_Dfareporting_TechnologyTargeting extends Google_Collection
   protected $platformTypesType = 'Google_Service_Dfareporting_PlatformType';
   protected $platformTypesDataType = 'array';
 
+  /**
+   * @param Google_Service_Dfareporting_Browser
+   */
   public function setBrowsers($browsers)
   {
     $this->browsers = $browsers;
   }
+  /**
+   * @return Google_Service_Dfareporting_Browser
+   */
   public function getBrowsers()
   {
     return $this->browsers;
   }
+  /**
+   * @param Google_Service_Dfareporting_ConnectionType
+   */
   public function setConnectionTypes($connectionTypes)
   {
     $this->connectionTypes = $connectionTypes;
   }
+  /**
+   * @return Google_Service_Dfareporting_ConnectionType
+   */
   public function getConnectionTypes()
   {
     return $this->connectionTypes;
   }
+  /**
+   * @param Google_Service_Dfareporting_MobileCarrier
+   */
   public function setMobileCarriers($mobileCarriers)
   {
     $this->mobileCarriers = $mobileCarriers;
   }
+  /**
+   * @return Google_Service_Dfareporting_MobileCarrier
+   */
   public function getMobileCarriers()
   {
     return $this->mobileCarriers;
   }
+  /**
+   * @param Google_Service_Dfareporting_OperatingSystemVersion
+   */
   public function setOperatingSystemVersions($operatingSystemVersions)
   {
     $this->operatingSystemVersions = $operatingSystemVersions;
   }
+  /**
+   * @return Google_Service_Dfareporting_OperatingSystemVersion
+   */
   public function getOperatingSystemVersions()
   {
     return $this->operatingSystemVersions;
   }
+  /**
+   * @param Google_Service_Dfareporting_OperatingSystem
+   */
   public function setOperatingSystems($operatingSystems)
   {
     $this->operatingSystems = $operatingSystems;
   }
+  /**
+   * @return Google_Service_Dfareporting_OperatingSystem
+   */
   public function getOperatingSystems()
   {
     return $this->operatingSystems;
   }
+  /**
+   * @param Google_Service_Dfareporting_PlatformType
+   */
   public function setPlatformTypes($platformTypes)
   {
     $this->platformTypes = $platformTypes;
   }
+  /**
+   * @return Google_Service_Dfareporting_PlatformType
+   */
   public function getPlatformTypes()
   {
     return $this->platformTypes;

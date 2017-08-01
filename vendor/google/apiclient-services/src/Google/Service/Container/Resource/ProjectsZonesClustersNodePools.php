@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,6 +25,26 @@
  */
 class Google_Service_Container_Resource_ProjectsZonesClustersNodePools extends Google_Service_Resource
 {
+  /**
+   * Sets the autoscaling settings of a specific node pool.
+   * (nodePools.autoscaling)
+   *
+   * @param string $projectId The Google Developers Console [project ID or project
+   * number](https://support.google.com/cloud/answer/6158840).
+   * @param string $zone The name of the Google Compute Engine
+   * [zone](/compute/docs/zones#available) in which the cluster resides.
+   * @param string $clusterId The name of the cluster to upgrade.
+   * @param string $nodePoolId The name of the node pool to upgrade.
+   * @param Google_Service_Container_SetNodePoolAutoscalingRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Container_Operation
+   */
+  public function autoscaling($projectId, $zone, $clusterId, $nodePoolId, Google_Service_Container_SetNodePoolAutoscalingRequest $postBody, $optParams = array())
+  {
+    $params = array('projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId, 'nodePoolId' => $nodePoolId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('autoscaling', array($params), "Google_Service_Container_Operation");
+  }
   /**
    * Creates a node pool for a cluster. (nodePools.create)
    *
@@ -135,5 +155,44 @@ class Google_Service_Container_Resource_ProjectsZonesClustersNodePools extends G
     $params = array('projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId, 'nodePoolId' => $nodePoolId, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('setManagement', array($params), "Google_Service_Container_Operation");
+  }
+  /**
+   * Sets the size of a specific node pool. (nodePools.setSize)
+   *
+   * @param string $projectId The Google Developers Console [project ID or project
+   * number](https://support.google.com/cloud/answer/6158840).
+   * @param string $zone The name of the Google Compute Engine
+   * [zone](/compute/docs/zones#available) in which the cluster resides.
+   * @param string $clusterId The name of the cluster to update.
+   * @param string $nodePoolId The name of the node pool to update.
+   * @param Google_Service_Container_SetNodePoolSizeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Container_Operation
+   */
+  public function setSize($projectId, $zone, $clusterId, $nodePoolId, Google_Service_Container_SetNodePoolSizeRequest $postBody, $optParams = array())
+  {
+    $params = array('projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId, 'nodePoolId' => $nodePoolId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('setSize', array($params), "Google_Service_Container_Operation");
+  }
+  /**
+   * Updates the version and/or image type of a specific node pool.
+   * (nodePools.update)
+   *
+   * @param string $projectId The Google Developers Console [project ID or project
+   * number](https://support.google.com/cloud/answer/6158840).
+   * @param string $zone The name of the Google Compute Engine
+   * [zone](/compute/docs/zones#available) in which the cluster resides.
+   * @param string $clusterId The name of the cluster to upgrade.
+   * @param string $nodePoolId The name of the node pool to upgrade.
+   * @param Google_Service_Container_UpdateNodePoolRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Google_Service_Container_Operation
+   */
+  public function update($projectId, $zone, $clusterId, $nodePoolId, Google_Service_Container_UpdateNodePoolRequest $postBody, $optParams = array())
+  {
+    $params = array('projectId' => $projectId, 'zone' => $zone, 'clusterId' => $clusterId, 'nodePoolId' => $nodePoolId, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('update', array($params), "Google_Service_Container_Operation");
   }
 }

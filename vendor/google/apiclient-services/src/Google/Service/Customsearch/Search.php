@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,18 +34,30 @@ class Google_Service_Customsearch_Search extends Google_Collection
   protected $urlType = 'Google_Service_Customsearch_SearchUrl';
   protected $urlDataType = '';
 
+  /**
+   * @param Google_Service_Customsearch_Context
+   */
   public function setContext(Google_Service_Customsearch_Context $context)
   {
     $this->context = $context;
   }
+  /**
+   * @return Google_Service_Customsearch_Context
+   */
   public function getContext()
   {
     return $this->context;
   }
+  /**
+   * @param Google_Service_Customsearch_Result
+   */
   public function setItems($items)
   {
     $this->items = $items;
   }
+  /**
+   * @return Google_Service_Customsearch_Result
+   */
   public function getItems()
   {
     return $this->items;
@@ -58,42 +70,72 @@ class Google_Service_Customsearch_Search extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Customsearch_Promotion
+   */
   public function setPromotions($promotions)
   {
     $this->promotions = $promotions;
   }
+  /**
+   * @return Google_Service_Customsearch_Promotion
+   */
   public function getPromotions()
   {
     return $this->promotions;
   }
+  /**
+   * @param Google_Service_Customsearch_Query
+   */
   public function setQueries($queries)
   {
     $this->queries = $queries;
   }
+  /**
+   * @return Google_Service_Customsearch_Query
+   */
   public function getQueries()
   {
     return $this->queries;
   }
+  /**
+   * @param Google_Service_Customsearch_SearchSearchInformation
+   */
   public function setSearchInformation(Google_Service_Customsearch_SearchSearchInformation $searchInformation)
   {
     $this->searchInformation = $searchInformation;
   }
+  /**
+   * @return Google_Service_Customsearch_SearchSearchInformation
+   */
   public function getSearchInformation()
   {
     return $this->searchInformation;
   }
+  /**
+   * @param Google_Service_Customsearch_SearchSpelling
+   */
   public function setSpelling(Google_Service_Customsearch_SearchSpelling $spelling)
   {
     $this->spelling = $spelling;
   }
+  /**
+   * @return Google_Service_Customsearch_SearchSpelling
+   */
   public function getSpelling()
   {
     return $this->spelling;
   }
+  /**
+   * @param Google_Service_Customsearch_SearchUrl
+   */
   public function setUrl(Google_Service_Customsearch_SearchUrl $url)
   {
     $this->url = $url;
   }
+  /**
+   * @return Google_Service_Customsearch_SearchUrl
+   */
   public function getUrl()
   {
     return $this->url;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,10 +15,13 @@
  * the License.
  */
 
-class Google_Service_Speech_SpeechRecognitionAlternative extends Google_Model
+class Google_Service_Speech_SpeechRecognitionAlternative extends Google_Collection
 {
+  protected $collection_key = 'words';
   public $confidence;
   public $transcript;
+  protected $wordsType = 'Google_Service_Speech_WordInfo';
+  protected $wordsDataType = 'array';
 
   public function setConfidence($confidence)
   {
@@ -35,5 +38,19 @@ class Google_Service_Speech_SpeechRecognitionAlternative extends Google_Model
   public function getTranscript()
   {
     return $this->transcript;
+  }
+  /**
+   * @param Google_Service_Speech_WordInfo
+   */
+  public function setWords($words)
+  {
+    $this->words = $words;
+  }
+  /**
+   * @return Google_Service_Speech_WordInfo
+   */
+  public function getWords()
+  {
+    return $this->words;
   }
 }

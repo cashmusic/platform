@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,11 +23,18 @@ class Google_Service_ShoppingContent_AccountsCustomBatchRequestEntry extends Goo
   public $batchId;
   public $merchantId;
   public $method;
+  public $overwrite;
 
+  /**
+   * @param Google_Service_ShoppingContent_Account
+   */
   public function setAccount(Google_Service_ShoppingContent_Account $account)
   {
     $this->account = $account;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Account
+   */
   public function getAccount()
   {
     return $this->account;
@@ -63,5 +70,13 @@ class Google_Service_ShoppingContent_AccountsCustomBatchRequestEntry extends Goo
   public function getMethod()
   {
     return $this->method;
+  }
+  public function setOverwrite($overwrite)
+  {
+    $this->overwrite = $overwrite;
+  }
+  public function getOverwrite()
+  {
+    return $this->overwrite;
   }
 }

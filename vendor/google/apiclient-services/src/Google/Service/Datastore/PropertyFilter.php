@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_Datastore_PropertyFilter extends Google_Model
   {
     return $this->op;
   }
+  /**
+   * @param Google_Service_Datastore_PropertyReference
+   */
   public function setProperty(Google_Service_Datastore_PropertyReference $property)
   {
     $this->property = $property;
   }
+  /**
+   * @return Google_Service_Datastore_PropertyReference
+   */
   public function getProperty()
   {
     return $this->property;
   }
+  /**
+   * @param Google_Service_Datastore_Value
+   */
   public function setValue(Google_Service_Datastore_Value $value)
   {
     $this->value = $value;
   }
+  /**
+   * @return Google_Service_Datastore_Value
+   */
   public function getValue()
   {
     return $this->value;

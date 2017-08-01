@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -50,18 +50,30 @@ class Google_Service_Reports_UsageReports extends Google_Collection
   {
     return $this->nextPageToken;
   }
+  /**
+   * @param Google_Service_Reports_UsageReport
+   */
   public function setUsageReports($usageReports)
   {
     $this->usageReports = $usageReports;
   }
+  /**
+   * @return Google_Service_Reports_UsageReport
+   */
   public function getUsageReports()
   {
     return $this->usageReports;
   }
+  /**
+   * @param Google_Service_Reports_UsageReportsWarnings
+   */
   public function setWarnings($warnings)
   {
     $this->warnings = $warnings;
   }
+  /**
+   * @return Google_Service_Reports_UsageReportsWarnings
+   */
   public function getWarnings()
   {
     return $this->warnings;

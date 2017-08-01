@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Vision_BatchAnnotateImagesRequest extends Google_Collection
   protected $requestsType = 'Google_Service_Vision_AnnotateImageRequest';
   protected $requestsDataType = 'array';
 
+  /**
+   * @param Google_Service_Vision_AnnotateImageRequest
+   */
   public function setRequests($requests)
   {
     $this->requests = $requests;
   }
+  /**
+   * @return Google_Service_Vision_AnnotateImageRequest
+   */
   public function getRequests()
   {
     return $this->requests;

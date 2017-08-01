@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Delete schema (schemas.delete)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string $schemaKey Name or immutable Id of the schema
    * @param array $optParams Optional parameters.
    */
@@ -41,7 +41,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Retrieve schema (schemas.get)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string $schemaKey Name or immutable Id of the schema
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_Schema
@@ -55,7 +55,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Create schema. (schemas.insert)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param Google_Service_Directory_Schema $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_Schema
@@ -69,7 +69,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Retrieve all schemas for a customer (schemas.listSchemas)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_Schemas
    */
@@ -82,7 +82,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Update schema. This method supports patch semantics. (schemas.patch)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string $schemaKey Name or immutable Id of the schema.
    * @param Google_Service_Directory_Schema $postBody
    * @param array $optParams Optional parameters.
@@ -97,7 +97,7 @@ class Google_Service_Directory_Resource_Schemas extends Google_Service_Resource
   /**
    * Update schema (schemas.update)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param string $schemaKey Name or immutable Id of the schema.
    * @param Google_Service_Directory_Schema $postBody
    * @param array $optParams Optional parameters.

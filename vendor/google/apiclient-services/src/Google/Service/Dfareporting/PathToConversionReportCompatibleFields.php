@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,18 +28,30 @@ class Google_Service_Dfareporting_PathToConversionReportCompatibleFields extends
   protected $perInteractionDimensionsType = 'Google_Service_Dfareporting_Dimension';
   protected $perInteractionDimensionsDataType = 'array';
 
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setConversionDimensions($conversionDimensions)
   {
     $this->conversionDimensions = $conversionDimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getConversionDimensions()
   {
     return $this->conversionDimensions;
   }
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setCustomFloodlightVariables($customFloodlightVariables)
   {
     $this->customFloodlightVariables = $customFloodlightVariables;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getCustomFloodlightVariables()
   {
     return $this->customFloodlightVariables;
@@ -52,18 +64,30 @@ class Google_Service_Dfareporting_PathToConversionReportCompatibleFields extends
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Dfareporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_Dfareporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;
   }
+  /**
+   * @param Google_Service_Dfareporting_Dimension
+   */
   public function setPerInteractionDimensions($perInteractionDimensions)
   {
     $this->perInteractionDimensions = $perInteractionDimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_Dimension
+   */
   public function getPerInteractionDimensions()
   {
     return $this->perInteractionDimensions;

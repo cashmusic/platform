@@ -7,19 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Runner;
-
-use File_Iterator_Facade;
-use PHPUnit\Framework\Exception;
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\Test;
-use ReflectionClass;
-use ReflectionException;
 
 /**
  * Base class for all test runners.
  */
-abstract class BaseTestRunner
+abstract class PHPUnit_Runner_BaseTestRunner
 {
     const STATUS_PASSED     = 0;
     const STATUS_SKIPPED    = 1;
@@ -33,11 +25,11 @@ abstract class BaseTestRunner
     /**
      * Returns the loader to be used.
      *
-     * @return TestSuiteLoader
+     * @return PHPUnit_Runner_TestSuiteLoader
      */
     public function getLoader()
     {
-        return new StandardTestSuiteLoader;
+        return new PHPUnit_Runner_StandardTestSuiteLoader;
     }
 
     /**
@@ -49,19 +41,19 @@ abstract class BaseTestRunner
      * @param string $suiteClassFile
      * @param mixed  $suffixes
      *
-     * @return Test
+     * @return PHPUnit_Framework_Test
      */
     public function getTest($suiteClassName, $suiteClassFile = '', $suffixes = '')
     {
-        if (\is_dir($suiteClassName) &&
-            !\is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
+        if (is_dir($suiteClassName) &&
+            !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
             $facade = new File_Iterator_Facade;
             $files  = $facade->getFilesAsArray(
                 $suiteClassName,
                 $suffixes
             );
 
-            $suite = new TestSuite($suiteClassName);
+            $suite = new PHPUnit_Framework_TestSuite($suiteClassName);
             $suite->addTestFiles($files);
 
             return $suite;
@@ -72,7 +64,7 @@ abstract class BaseTestRunner
                 $suiteClassName,
                 $suiteClassFile
             );
-        } catch (Exception $e) {
+        } catch (PHPUnit_Framework_Exception $e) {
             $this->runFailed($e->getMessage());
 
             return;
@@ -93,7 +85,7 @@ abstract class BaseTestRunner
                 $test = $suiteMethod->invoke(null, $testClass->getName());
             } catch (ReflectionException $e) {
                 $this->runFailed(
-                    \sprintf(
+                    sprintf(
                         "Failed to invoke suite() method.\n%s",
                         $e->getMessage()
                     )
@@ -103,9 +95,9 @@ abstract class BaseTestRunner
             }
         } catch (ReflectionException $e) {
             try {
-                $test = new TestSuite($testClass);
-            } catch (Exception $e) {
-                $test = new TestSuite;
+                $test = new PHPUnit_Framework_TestSuite($testClass);
+            } catch (PHPUnit_Framework_Exception $e) {
+                $test = new PHPUnit_Framework_TestSuite;
                 $test->setName($suiteClassName);
             }
         }

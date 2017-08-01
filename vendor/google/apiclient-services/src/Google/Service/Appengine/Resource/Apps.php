@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,11 +26,12 @@
 class Google_Service_Appengine_Resource_Apps extends Google_Service_Resource
 {
   /**
-   * Creates an App Engine application for a Google Cloud Platform project. This
-   * requires a project that excludes an App Engine application. For details about
-   * creating a project without an application, see the Google Cloud Resource
-   * Manager create project topic (https://cloud.google.com/resource-manager/docs
-   * /creating-project). (apps.create)
+   * Creates an App Engine application for a Google Cloud Platform project.
+   * Required fields: id - The ID of the target Cloud Platform project. location -
+   * The region (https://cloud.google.com/appengine/docs/locations) where you want
+   * the App Engine application located.For more information about App Engine
+   * applications, see Managing Projects, Applications, and Billing
+   * (https://cloud.google.com/appengine/docs/python/console/). (apps.create)
    *
    * @param Google_Service_Appengine_Application $postBody
    * @param array $optParams Optional parameters.
@@ -58,11 +59,9 @@ class Google_Service_Appengine_Resource_Apps extends Google_Service_Resource
   }
   /**
    * Updates the specified Application resource. You can update the following
-   * fields: auth_domain (https://cloud.google.com/appengine/docs/admin-
-   * api/reference/rest/v1/apps#Application.FIELDS.auth_domain)
-   * default_cookie_expiration (https://cloud.google.com/appengine/docs/admin-
-   * api/reference/rest/v1/apps#Application.FIELDS.default_cookie_expiration)
-   * (apps.patch)
+   * fields: auth_domain - Google authentication domain for controlling user
+   * access to the application. default_cookie_expiration - Cookie expiration
+   * policy for the application. (apps.patch)
    *
    * @param string $appsId Part of `name`. Name of the Application resource to
    * update. Example: apps/myapp.

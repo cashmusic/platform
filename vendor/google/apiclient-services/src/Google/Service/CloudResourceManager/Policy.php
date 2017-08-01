@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,18 +25,30 @@ class Google_Service_CloudResourceManager_Policy extends Google_Collection
   public $etag;
   public $version;
 
+  /**
+   * @param Google_Service_CloudResourceManager_AuditConfig
+   */
   public function setAuditConfigs($auditConfigs)
   {
     $this->auditConfigs = $auditConfigs;
   }
+  /**
+   * @return Google_Service_CloudResourceManager_AuditConfig
+   */
   public function getAuditConfigs()
   {
     return $this->auditConfigs;
   }
+  /**
+   * @param Google_Service_CloudResourceManager_Binding
+   */
   public function setBindings($bindings)
   {
     $this->bindings = $bindings;
   }
+  /**
+   * @return Google_Service_CloudResourceManager_Binding
+   */
   public function getBindings()
   {
     return $this->bindings;

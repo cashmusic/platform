@@ -1,13 +1,10 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
 /**
  * @group foo
  */
-class OneTest extends TestCase
+class OneTest extends PHPUnit_Framework_TestCase
 {
     public function testSomething()
     {
-        $this->assertTrue(true);
     }
 }

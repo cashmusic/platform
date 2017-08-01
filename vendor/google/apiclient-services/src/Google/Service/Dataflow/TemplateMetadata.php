@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,20 +18,11 @@
 class Google_Service_Dataflow_TemplateMetadata extends Google_Collection
 {
   protected $collection_key = 'parameters';
-  public $bypassTempDirValidation;
   public $description;
   public $name;
   protected $parametersType = 'Google_Service_Dataflow_ParameterMetadata';
   protected $parametersDataType = 'array';
 
-  public function setBypassTempDirValidation($bypassTempDirValidation)
-  {
-    $this->bypassTempDirValidation = $bypassTempDirValidation;
-  }
-  public function getBypassTempDirValidation()
-  {
-    return $this->bypassTempDirValidation;
-  }
   public function setDescription($description)
   {
     $this->description = $description;
@@ -48,10 +39,16 @@ class Google_Service_Dataflow_TemplateMetadata extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Dataflow_ParameterMetadata
+   */
   public function setParameters($parameters)
   {
     $this->parameters = $parameters;
   }
+  /**
+   * @return Google_Service_Dataflow_ParameterMetadata
+   */
   public function getParameters()
   {
     return $this->parameters;

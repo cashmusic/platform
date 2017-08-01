@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_CloudMonitoring_TimeseriesPoint extends Google_Model
   protected $timeseriesDescType = 'Google_Service_CloudMonitoring_TimeseriesDescriptor';
   protected $timeseriesDescDataType = '';
 
+  /**
+   * @param Google_Service_CloudMonitoring_Point
+   */
   public function setPoint(Google_Service_CloudMonitoring_Point $point)
   {
     $this->point = $point;
   }
+  /**
+   * @return Google_Service_CloudMonitoring_Point
+   */
   public function getPoint()
   {
     return $this->point;
   }
+  /**
+   * @param Google_Service_CloudMonitoring_TimeseriesDescriptor
+   */
   public function setTimeseriesDesc(Google_Service_CloudMonitoring_TimeseriesDescriptor $timeseriesDesc)
   {
     $this->timeseriesDesc = $timeseriesDesc;
   }
+  /**
+   * @return Google_Service_CloudMonitoring_TimeseriesDescriptor
+   */
   public function getTimeseriesDesc()
   {
     return $this->timeseriesDesc;

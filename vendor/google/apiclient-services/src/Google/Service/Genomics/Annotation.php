@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -104,10 +104,16 @@ class Google_Service_Genomics_Annotation extends Google_Model
   {
     return $this->start;
   }
+  /**
+   * @param Google_Service_Genomics_Transcript
+   */
   public function setTranscript(Google_Service_Genomics_Transcript $transcript)
   {
     $this->transcript = $transcript;
   }
+  /**
+   * @return Google_Service_Genomics_Transcript
+   */
   public function getTranscript()
   {
     return $this->transcript;
@@ -120,10 +126,16 @@ class Google_Service_Genomics_Annotation extends Google_Model
   {
     return $this->type;
   }
+  /**
+   * @param Google_Service_Genomics_VariantAnnotation
+   */
   public function setVariant(Google_Service_Genomics_VariantAnnotation $variant)
   {
     $this->variant = $variant;
   }
+  /**
+   * @return Google_Service_Genomics_VariantAnnotation
+   */
   public function getVariant()
   {
     return $this->variant;

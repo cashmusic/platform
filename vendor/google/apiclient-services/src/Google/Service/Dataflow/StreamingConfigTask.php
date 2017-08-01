@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,11 +21,19 @@ class Google_Service_Dataflow_StreamingConfigTask extends Google_Collection
   protected $streamingComputationConfigsType = 'Google_Service_Dataflow_StreamingComputationConfig';
   protected $streamingComputationConfigsDataType = 'array';
   public $userStepToStateFamilyNameMap;
+  public $windmillServiceEndpoint;
+  public $windmillServicePort;
 
+  /**
+   * @param Google_Service_Dataflow_StreamingComputationConfig
+   */
   public function setStreamingComputationConfigs($streamingComputationConfigs)
   {
     $this->streamingComputationConfigs = $streamingComputationConfigs;
   }
+  /**
+   * @return Google_Service_Dataflow_StreamingComputationConfig
+   */
   public function getStreamingComputationConfigs()
   {
     return $this->streamingComputationConfigs;
@@ -37,5 +45,21 @@ class Google_Service_Dataflow_StreamingConfigTask extends Google_Collection
   public function getUserStepToStateFamilyNameMap()
   {
     return $this->userStepToStateFamilyNameMap;
+  }
+  public function setWindmillServiceEndpoint($windmillServiceEndpoint)
+  {
+    $this->windmillServiceEndpoint = $windmillServiceEndpoint;
+  }
+  public function getWindmillServiceEndpoint()
+  {
+    return $this->windmillServiceEndpoint;
+  }
+  public function setWindmillServicePort($windmillServicePort)
+  {
+    $this->windmillServicePort = $windmillServicePort;
+  }
+  public function getWindmillServicePort()
+  {
+    return $this->windmillServicePort;
   }
 }

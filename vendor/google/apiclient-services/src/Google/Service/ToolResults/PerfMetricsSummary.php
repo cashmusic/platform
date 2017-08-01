@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,8 @@
 class Google_Service_ToolResults_PerfMetricsSummary extends Google_Collection
 {
   protected $collection_key = 'perfMetrics';
+  protected $appStartTimeType = 'Google_Service_ToolResults_AppStartTime';
+  protected $appStartTimeDataType = '';
   public $executionId;
   public $historyId;
   protected $perfEnvironmentType = 'Google_Service_ToolResults_PerfEnvironment';
@@ -26,6 +28,20 @@ class Google_Service_ToolResults_PerfMetricsSummary extends Google_Collection
   public $projectId;
   public $stepId;
 
+  /**
+   * @param Google_Service_ToolResults_AppStartTime
+   */
+  public function setAppStartTime(Google_Service_ToolResults_AppStartTime $appStartTime)
+  {
+    $this->appStartTime = $appStartTime;
+  }
+  /**
+   * @return Google_Service_ToolResults_AppStartTime
+   */
+  public function getAppStartTime()
+  {
+    return $this->appStartTime;
+  }
   public function setExecutionId($executionId)
   {
     $this->executionId = $executionId;
@@ -42,10 +58,16 @@ class Google_Service_ToolResults_PerfMetricsSummary extends Google_Collection
   {
     return $this->historyId;
   }
+  /**
+   * @param Google_Service_ToolResults_PerfEnvironment
+   */
   public function setPerfEnvironment(Google_Service_ToolResults_PerfEnvironment $perfEnvironment)
   {
     $this->perfEnvironment = $perfEnvironment;
   }
+  /**
+   * @return Google_Service_ToolResults_PerfEnvironment
+   */
   public function getPerfEnvironment()
   {
     return $this->perfEnvironment;

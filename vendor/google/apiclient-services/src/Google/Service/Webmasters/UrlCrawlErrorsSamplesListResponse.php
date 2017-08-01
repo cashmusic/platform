@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Webmasters_UrlCrawlErrorsSamplesListResponse extends Google
   protected $urlCrawlErrorSampleType = 'Google_Service_Webmasters_UrlCrawlErrorsSample';
   protected $urlCrawlErrorSampleDataType = 'array';
 
+  /**
+   * @param Google_Service_Webmasters_UrlCrawlErrorsSample
+   */
   public function setUrlCrawlErrorSample($urlCrawlErrorSample)
   {
     $this->urlCrawlErrorSample = $urlCrawlErrorSample;
   }
+  /**
+   * @return Google_Service_Webmasters_UrlCrawlErrorsSample
+   */
   public function getUrlCrawlErrorSample()
   {
     return $this->urlCrawlErrorSample;

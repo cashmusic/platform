@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,7 @@ class Google_Service_Directory_Resource_DomainAliases extends Google_Service_Res
   /**
    * Deletes a Domain Alias of the customer. (domainAliases.delete)
    *
-   * @param string $customer Immutable id of the Google Apps account.
+   * @param string $customer Immutable ID of the G Suite account.
    * @param string $domainAliasName Name of domain alias to be retrieved.
    * @param array $optParams Optional parameters.
    */
@@ -41,7 +41,7 @@ class Google_Service_Directory_Resource_DomainAliases extends Google_Service_Res
   /**
    * Retrieves a domain alias of the customer. (domainAliases.get)
    *
-   * @param string $customer Immutable id of the Google Apps account.
+   * @param string $customer Immutable ID of the G Suite account.
    * @param string $domainAliasName Name of domain alias to be retrieved.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_DomainAlias
@@ -55,7 +55,7 @@ class Google_Service_Directory_Resource_DomainAliases extends Google_Service_Res
   /**
    * Inserts a Domain alias of the customer. (domainAliases.insert)
    *
-   * @param string $customer Immutable id of the Google Apps account.
+   * @param string $customer Immutable ID of the G Suite account.
    * @param Google_Service_Directory_DomainAlias $postBody
    * @param array $optParams Optional parameters.
    * @return Google_Service_Directory_DomainAlias
@@ -69,7 +69,7 @@ class Google_Service_Directory_Resource_DomainAliases extends Google_Service_Res
   /**
    * Lists the domain aliases of the customer. (domainAliases.listDomainAliases)
    *
-   * @param string $customer Immutable id of the Google Apps account.
+   * @param string $customer Immutable ID of the G Suite account.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string parentDomainName Name of the parent domain for which domain

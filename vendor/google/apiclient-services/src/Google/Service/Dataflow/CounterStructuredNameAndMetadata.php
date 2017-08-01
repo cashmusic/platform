@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Dataflow_CounterStructuredNameAndMetadata extends Google_Mo
   protected $nameType = 'Google_Service_Dataflow_CounterStructuredName';
   protected $nameDataType = '';
 
+  /**
+   * @param Google_Service_Dataflow_CounterMetadata
+   */
   public function setMetadata(Google_Service_Dataflow_CounterMetadata $metadata)
   {
     $this->metadata = $metadata;
   }
+  /**
+   * @return Google_Service_Dataflow_CounterMetadata
+   */
   public function getMetadata()
   {
     return $this->metadata;
   }
+  /**
+   * @param Google_Service_Dataflow_CounterStructuredName
+   */
   public function setName(Google_Service_Dataflow_CounterStructuredName $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_Dataflow_CounterStructuredName
+   */
   public function getName()
   {
     return $this->name;

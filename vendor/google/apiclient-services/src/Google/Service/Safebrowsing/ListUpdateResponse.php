@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_Safebrowsing_ListUpdateResponse extends Google_Collection
   public $threatEntryType;
   public $threatType;
 
+  /**
+   * @param Google_Service_Safebrowsing_ThreatEntrySet
+   */
   public function setAdditions($additions)
   {
     $this->additions = $additions;
   }
+  /**
+   * @return Google_Service_Safebrowsing_ThreatEntrySet
+   */
   public function getAdditions()
   {
     return $this->additions;
   }
+  /**
+   * @param Google_Service_Safebrowsing_Checksum
+   */
   public function setChecksum(Google_Service_Safebrowsing_Checksum $checksum)
   {
     $this->checksum = $checksum;
   }
+  /**
+   * @return Google_Service_Safebrowsing_Checksum
+   */
   public function getChecksum()
   {
     return $this->checksum;
@@ -62,10 +74,16 @@ class Google_Service_Safebrowsing_ListUpdateResponse extends Google_Collection
   {
     return $this->platformType;
   }
+  /**
+   * @param Google_Service_Safebrowsing_ThreatEntrySet
+   */
   public function setRemovals($removals)
   {
     $this->removals = $removals;
   }
+  /**
+   * @return Google_Service_Safebrowsing_ThreatEntrySet
+   */
   public function getRemovals()
   {
     return $this->removals;

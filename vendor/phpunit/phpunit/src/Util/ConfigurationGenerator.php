@@ -8,9 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Util;
-
-class ConfigurationGenerator
+class PHPUnit_Util_ConfigurationGenerator
 {
     /**
      * @var string
@@ -20,9 +18,10 @@ class ConfigurationGenerator
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/{phpunit_version}/phpunit.xsd"
          bootstrap="{bootstrap_script}"
-         forceCoversAnnotation="true"
+         backupGlobals="false"
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"
          verbose="true">
     <testsuite>
@@ -48,7 +47,7 @@ EOT;
      */
     public function generateDefaultConfiguration($phpunitVersion, $bootstrapScript, $testsDirectory, $srcDirectory)
     {
-        return \str_replace(
+        return str_replace(
             [
                 '{phpunit_version}',
                 '{bootstrap_script}',

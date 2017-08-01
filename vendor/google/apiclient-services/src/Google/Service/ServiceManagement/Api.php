@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,18 +30,30 @@ class Google_Service_ServiceManagement_Api extends Google_Collection
   public $syntax;
   public $version;
 
+  /**
+   * @param Google_Service_ServiceManagement_Method
+   */
   public function setMethods($methods)
   {
     $this->methods = $methods;
   }
+  /**
+   * @return Google_Service_ServiceManagement_Method
+   */
   public function getMethods()
   {
     return $this->methods;
   }
+  /**
+   * @param Google_Service_ServiceManagement_Mixin
+   */
   public function setMixins($mixins)
   {
     $this->mixins = $mixins;
   }
+  /**
+   * @return Google_Service_ServiceManagement_Mixin
+   */
   public function getMixins()
   {
     return $this->mixins;
@@ -54,18 +66,30 @@ class Google_Service_ServiceManagement_Api extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_ServiceManagement_Option
+   */
   public function setOptions($options)
   {
     $this->options = $options;
   }
+  /**
+   * @return Google_Service_ServiceManagement_Option
+   */
   public function getOptions()
   {
     return $this->options;
   }
+  /**
+   * @param Google_Service_ServiceManagement_SourceContext
+   */
   public function setSourceContext(Google_Service_ServiceManagement_SourceContext $sourceContext)
   {
     $this->sourceContext = $sourceContext;
   }
+  /**
+   * @return Google_Service_ServiceManagement_SourceContext
+   */
   public function getSourceContext()
   {
     return $this->sourceContext;

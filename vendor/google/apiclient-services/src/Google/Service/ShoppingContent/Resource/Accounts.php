@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,6 +38,26 @@ class Google_Service_ShoppingContent_Resource_Accounts extends Google_Service_Re
     return $this->call('authinfo', array($params), "Google_Service_ShoppingContent_AccountsAuthInfoResponse");
   }
   /**
+   * Claims the website of a Merchant Center sub-account. This method can only be
+   * called for accounts to which the managing account has access: either the
+   * managing account itself for any Merchant Center account, or any sub-account
+   * when the managing account is a multi-client account. (accounts.claimwebsite)
+   *
+   * @param string $merchantId The ID of the managing account.
+   * @param string $accountId The ID of the account whose website is claimed.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool overwrite Flag to remove any existing claim on the requested
+   * website by another account and replace it with a claim from this account.
+   * @return Google_Service_ShoppingContent_AccountsClaimWebsiteResponse
+   */
+  public function claimwebsite($merchantId, $accountId, $optParams = array())
+  {
+    $params = array('merchantId' => $merchantId, 'accountId' => $accountId);
+    $params = array_merge($params, $optParams);
+    return $this->call('claimwebsite', array($params), "Google_Service_ShoppingContent_AccountsClaimWebsiteResponse");
+  }
+  /**
    * Retrieves, inserts, updates, and deletes multiple Merchant Center
    * (sub-)accounts in a single request. (accounts.custombatch)
    *
@@ -72,8 +92,8 @@ class Google_Service_ShoppingContent_Resource_Accounts extends Google_Service_Re
   /**
    * Retrieves a Merchant Center account. This method can only be called for
    * accounts to which the managing account has access: either the managing
-   * account itself or sub-accounts if the managing account is a multi-client
-   * account. (accounts.get)
+   * account itself for any Merchant Center account, or any sub-account when the
+   * managing account is a multi-client account. (accounts.get)
    *
    * @param string $merchantId The ID of the managing account.
    * @param string $accountId The ID of the account.
@@ -124,8 +144,9 @@ class Google_Service_ShoppingContent_Resource_Accounts extends Google_Service_Re
   /**
    * Updates a Merchant Center account. This method can only be called for
    * accounts to which the managing account has access: either the managing
-   * account itself or sub-accounts if the managing account is a multi-client
-   * account. This method supports patch semantics. (accounts.patch)
+   * account itself for any Merchant Center account, or any sub-account when the
+   * managing account is a multi-client account. This method supports patch
+   * semantics. (accounts.patch)
    *
    * @param string $merchantId The ID of the managing account.
    * @param string $accountId The ID of the account.
@@ -144,8 +165,8 @@ class Google_Service_ShoppingContent_Resource_Accounts extends Google_Service_Re
   /**
    * Updates a Merchant Center account. This method can only be called for
    * accounts to which the managing account has access: either the managing
-   * account itself or sub-accounts if the managing account is a multi-client
-   * account. (accounts.update)
+   * account itself for any Merchant Center account, or any sub-account when the
+   * managing account is a multi-client account. (accounts.update)
    *
    * @param string $merchantId The ID of the managing account.
    * @param string $accountId The ID of the account.

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -143,7 +143,7 @@ class Google_Service_Logging_Resource_OrganizationsSinks extends Google_Service_
    * false or both true, then there is no change to the sink's writer_identity. If
    * the old value is false and the new value is true, then writer_identity is
    * changed to a unique service account. It is an error if the old value is true
-   * and the new value is false.
+   * and the new value is set to false or defaulted to false.
    * @return Google_Service_Logging_LogSink
    */
   public function update($sinkName, Google_Service_Logging_LogSink $postBody, $optParams = array())

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_Books_Usersettings extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Books_UsersettingsNotesExport
+   */
   public function setNotesExport(Google_Service_Books_UsersettingsNotesExport $notesExport)
   {
     $this->notesExport = $notesExport;
   }
+  /**
+   * @return Google_Service_Books_UsersettingsNotesExport
+   */
   public function getNotesExport()
   {
     return $this->notesExport;
   }
+  /**
+   * @param Google_Service_Books_UsersettingsNotification
+   */
   public function setNotification(Google_Service_Books_UsersettingsNotification $notification)
   {
     $this->notification = $notification;
   }
+  /**
+   * @return Google_Service_Books_UsersettingsNotification
+   */
   public function getNotification()
   {
     return $this->notification;

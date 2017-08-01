@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,10 +35,16 @@ class Google_Service_Partners_UserProfile extends Google_Collection
   public $primaryCountryCode;
   public $profilePublic;
 
+  /**
+   * @param Google_Service_Partners_Location
+   */
   public function setAddress(Google_Service_Partners_Location $address)
   {
     $this->address = $address;
   }
+  /**
+   * @return Google_Service_Partners_Location
+   */
   public function getAddress()
   {
     return $this->address;
@@ -67,10 +73,16 @@ class Google_Service_Partners_UserProfile extends Google_Collection
   {
     return $this->emailAddress;
   }
+  /**
+   * @param Google_Service_Partners_OptIns
+   */
   public function setEmailOptIns(Google_Service_Partners_OptIns $emailOptIns)
   {
     $this->emailOptIns = $emailOptIns;
   }
+  /**
+   * @return Google_Service_Partners_OptIns
+   */
   public function getEmailOptIns()
   {
     return $this->emailOptIns;

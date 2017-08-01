@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,18 +33,30 @@ class Google_Service_Compute_Router extends Google_Collection
   public $region;
   public $selfLink;
 
+  /**
+   * @param Google_Service_Compute_RouterBgp
+   */
   public function setBgp(Google_Service_Compute_RouterBgp $bgp)
   {
     $this->bgp = $bgp;
   }
+  /**
+   * @return Google_Service_Compute_RouterBgp
+   */
   public function getBgp()
   {
     return $this->bgp;
   }
+  /**
+   * @param Google_Service_Compute_RouterBgpPeer
+   */
   public function setBgpPeers($bgpPeers)
   {
     $this->bgpPeers = $bgpPeers;
   }
+  /**
+   * @return Google_Service_Compute_RouterBgpPeer
+   */
   public function getBgpPeers()
   {
     return $this->bgpPeers;
@@ -73,10 +85,16 @@ class Google_Service_Compute_Router extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Compute_RouterInterface
+   */
   public function setInterfaces($interfaces)
   {
     $this->interfaces = $interfaces;
   }
+  /**
+   * @return Google_Service_Compute_RouterInterface
+   */
   public function getInterfaces()
   {
     return $this->interfaces;

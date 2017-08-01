@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,11 +17,20 @@
 
 class Google_Service_Bigquery_JobStatistics3 extends Google_Model
 {
+  public $badRecords;
   public $inputFileBytes;
   public $inputFiles;
   public $outputBytes;
   public $outputRows;
 
+  public function setBadRecords($badRecords)
+  {
+    $this->badRecords = $badRecords;
+  }
+  public function getBadRecords()
+  {
+    return $this->badRecords;
+  }
   public function setInputFileBytes($inputFileBytes)
   {
     $this->inputFileBytes = $inputFileBytes;

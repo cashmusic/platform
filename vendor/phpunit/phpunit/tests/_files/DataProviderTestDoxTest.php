@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class DataProviderTestDoxTest extends TestCase
+class DataProviderTestDoxTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provider
@@ -9,7 +7,6 @@ class DataProviderTestDoxTest extends TestCase
      */
     public function testOne()
     {
-        $this->assertTrue(true);
     }
 
     /**
@@ -17,7 +14,6 @@ class DataProviderTestDoxTest extends TestCase
      */
     public function testDoesSomethingElseWith()
     {
-        $this->assertTrue(true);
     }
 
     public function provider()

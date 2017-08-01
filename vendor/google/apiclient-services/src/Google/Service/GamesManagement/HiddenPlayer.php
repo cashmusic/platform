@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -38,10 +38,16 @@ class Google_Service_GamesManagement_HiddenPlayer extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_GamesManagement_Player
+   */
   public function setPlayer(Google_Service_GamesManagement_Player $player)
   {
     $this->player = $player;
   }
+  /**
+   * @return Google_Service_GamesManagement_Player
+   */
   public function getPlayer()
   {
     return $this->player;

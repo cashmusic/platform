@@ -7,18 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Constraint that asserts that the Traversable it is applied to contains
  * only values of a given type.
  */
-class TraversableContainsOnly extends Constraint
+class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Framework_Constraint
 {
     /**
-     * @var Constraint
+     * @var PHPUnit_Framework_Constraint
      */
     protected $constraint;
 
@@ -36,9 +33,9 @@ class TraversableContainsOnly extends Constraint
         parent::__construct();
 
         if ($isNativeType) {
-            $this->constraint = new IsType($type);
+            $this->constraint = new PHPUnit_Framework_Constraint_IsType($type);
         } else {
-            $this->constraint = new IsInstanceOf(
+            $this->constraint = new PHPUnit_Framework_Constraint_IsInstanceOf(
                 $type
             );
         }
@@ -62,7 +59,7 @@ class TraversableContainsOnly extends Constraint
      *
      * @return mixed
      *
-     * @throws ExpectationFailedException
+     * @throws PHPUnit_Framework_ExpectationFailedException
      */
     public function evaluate($other, $description = '', $returnResult = false)
     {

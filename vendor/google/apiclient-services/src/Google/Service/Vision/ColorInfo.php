@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,10 +22,16 @@ class Google_Service_Vision_ColorInfo extends Google_Model
   public $pixelFraction;
   public $score;
 
+  /**
+   * @param Google_Service_Vision_Color
+   */
   public function setColor(Google_Service_Vision_Color $color)
   {
     $this->color = $color;
   }
+  /**
+   * @return Google_Service_Vision_Color
+   */
   public function getColor()
   {
     return $this->color;

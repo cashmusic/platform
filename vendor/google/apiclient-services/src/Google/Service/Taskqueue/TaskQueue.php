@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,10 +25,16 @@ class Google_Service_Taskqueue_TaskQueue extends Google_Model
   protected $statsType = 'Google_Service_Taskqueue_TaskQueueStats';
   protected $statsDataType = '';
 
+  /**
+   * @param Google_Service_Taskqueue_TaskQueueAcl
+   */
   public function setAcl(Google_Service_Taskqueue_TaskQueueAcl $acl)
   {
     $this->acl = $acl;
   }
+  /**
+   * @return Google_Service_Taskqueue_TaskQueueAcl
+   */
   public function getAcl()
   {
     return $this->acl;
@@ -57,10 +63,16 @@ class Google_Service_Taskqueue_TaskQueue extends Google_Model
   {
     return $this->maxLeases;
   }
+  /**
+   * @param Google_Service_Taskqueue_TaskQueueStats
+   */
   public function setStats(Google_Service_Taskqueue_TaskQueueStats $stats)
   {
     $this->stats = $stats;
   }
+  /**
+   * @return Google_Service_Taskqueue_TaskQueueStats
+   */
   public function getStats()
   {
     return $this->stats;

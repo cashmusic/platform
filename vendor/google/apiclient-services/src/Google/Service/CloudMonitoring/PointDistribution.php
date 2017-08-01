@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,26 +25,44 @@ class Google_Service_CloudMonitoring_PointDistribution extends Google_Collection
   protected $underflowBucketType = 'Google_Service_CloudMonitoring_PointDistributionUnderflowBucket';
   protected $underflowBucketDataType = '';
 
+  /**
+   * @param Google_Service_CloudMonitoring_PointDistributionBucket
+   */
   public function setBuckets($buckets)
   {
     $this->buckets = $buckets;
   }
+  /**
+   * @return Google_Service_CloudMonitoring_PointDistributionBucket
+   */
   public function getBuckets()
   {
     return $this->buckets;
   }
+  /**
+   * @param Google_Service_CloudMonitoring_PointDistributionOverflowBucket
+   */
   public function setOverflowBucket(Google_Service_CloudMonitoring_PointDistributionOverflowBucket $overflowBucket)
   {
     $this->overflowBucket = $overflowBucket;
   }
+  /**
+   * @return Google_Service_CloudMonitoring_PointDistributionOverflowBucket
+   */
   public function getOverflowBucket()
   {
     return $this->overflowBucket;
   }
+  /**
+   * @param Google_Service_CloudMonitoring_PointDistributionUnderflowBucket
+   */
   public function setUnderflowBucket(Google_Service_CloudMonitoring_PointDistributionUnderflowBucket $underflowBucket)
   {
     $this->underflowBucket = $underflowBucket;
   }
+  /**
+   * @return Google_Service_CloudMonitoring_PointDistributionUnderflowBucket
+   */
   public function getUnderflowBucket()
   {
     return $this->underflowBucket;

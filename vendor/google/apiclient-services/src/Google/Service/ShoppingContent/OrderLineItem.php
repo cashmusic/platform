@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -40,10 +40,16 @@ class Google_Service_ShoppingContent_OrderLineItem extends Google_Collection
   protected $taxType = 'Google_Service_ShoppingContent_Price';
   protected $taxDataType = '';
 
+  /**
+   * @param Google_Service_ShoppingContent_OrderCancellation
+   */
   public function setCancellations($cancellations)
   {
     $this->cancellations = $cancellations;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderCancellation
+   */
   public function getCancellations()
   {
     return $this->cancellations;
@@ -56,18 +62,30 @@ class Google_Service_ShoppingContent_OrderLineItem extends Google_Collection
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setPrice(Google_Service_ShoppingContent_Price $price)
   {
     $this->price = $price;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getPrice()
   {
     return $this->price;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItemProduct
+   */
   public function setProduct(Google_Service_ShoppingContent_OrderLineItemProduct $product)
   {
     $this->product = $product;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItemProduct
+   */
   public function getProduct()
   {
     return $this->product;
@@ -120,34 +138,58 @@ class Google_Service_ShoppingContent_OrderLineItem extends Google_Collection
   {
     return $this->quantityShipped;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItemReturnInfo
+   */
   public function setReturnInfo(Google_Service_ShoppingContent_OrderLineItemReturnInfo $returnInfo)
   {
     $this->returnInfo = $returnInfo;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItemReturnInfo
+   */
   public function getReturnInfo()
   {
     return $this->returnInfo;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderReturn
+   */
   public function setReturns($returns)
   {
     $this->returns = $returns;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderReturn
+   */
   public function getReturns()
   {
     return $this->returns;
   }
+  /**
+   * @param Google_Service_ShoppingContent_OrderLineItemShippingDetails
+   */
   public function setShippingDetails(Google_Service_ShoppingContent_OrderLineItemShippingDetails $shippingDetails)
   {
     $this->shippingDetails = $shippingDetails;
   }
+  /**
+   * @return Google_Service_ShoppingContent_OrderLineItemShippingDetails
+   */
   public function getShippingDetails()
   {
     return $this->shippingDetails;
   }
+  /**
+   * @param Google_Service_ShoppingContent_Price
+   */
   public function setTax(Google_Service_ShoppingContent_Price $tax)
   {
     $this->tax = $tax;
   }
+  /**
+   * @return Google_Service_ShoppingContent_Price
+   */
   public function getTax()
   {
     return $this->tax;

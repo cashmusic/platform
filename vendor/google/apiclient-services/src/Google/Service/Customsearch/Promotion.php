@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_Customsearch_Promotion extends Google_Collection
   public $link;
   public $title;
 
+  /**
+   * @param Google_Service_Customsearch_PromotionBodyLines
+   */
   public function setBodyLines($bodyLines)
   {
     $this->bodyLines = $bodyLines;
   }
+  /**
+   * @return Google_Service_Customsearch_PromotionBodyLines
+   */
   public function getBodyLines()
   {
     return $this->bodyLines;
@@ -51,10 +57,16 @@ class Google_Service_Customsearch_Promotion extends Google_Collection
   {
     return $this->htmlTitle;
   }
+  /**
+   * @param Google_Service_Customsearch_PromotionImage
+   */
   public function setImage(Google_Service_Customsearch_PromotionImage $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_Customsearch_PromotionImage
+   */
   public function getImage()
   {
     return $this->image;

@@ -1,8 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-class FatalTest extends TestCase
+class FatalTest extends PHPUnit_Framework_TestCase
 {
     public function testFatalError()
     {

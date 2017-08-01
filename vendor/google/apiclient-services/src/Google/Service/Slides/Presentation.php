@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -33,10 +33,16 @@ class Google_Service_Slides_Presentation extends Google_Collection
   protected $slidesDataType = 'array';
   public $title;
 
+  /**
+   * @param Google_Service_Slides_Page
+   */
   public function setLayouts($layouts)
   {
     $this->layouts = $layouts;
   }
+  /**
+   * @return Google_Service_Slides_Page
+   */
   public function getLayouts()
   {
     return $this->layouts;
@@ -49,26 +55,44 @@ class Google_Service_Slides_Presentation extends Google_Collection
   {
     return $this->locale;
   }
+  /**
+   * @param Google_Service_Slides_Page
+   */
   public function setMasters($masters)
   {
     $this->masters = $masters;
   }
+  /**
+   * @return Google_Service_Slides_Page
+   */
   public function getMasters()
   {
     return $this->masters;
   }
+  /**
+   * @param Google_Service_Slides_Page
+   */
   public function setNotesMaster(Google_Service_Slides_Page $notesMaster)
   {
     $this->notesMaster = $notesMaster;
   }
+  /**
+   * @return Google_Service_Slides_Page
+   */
   public function getNotesMaster()
   {
     return $this->notesMaster;
   }
+  /**
+   * @param Google_Service_Slides_Size
+   */
   public function setPageSize(Google_Service_Slides_Size $pageSize)
   {
     $this->pageSize = $pageSize;
   }
+  /**
+   * @return Google_Service_Slides_Size
+   */
   public function getPageSize()
   {
     return $this->pageSize;
@@ -89,10 +113,16 @@ class Google_Service_Slides_Presentation extends Google_Collection
   {
     return $this->revisionId;
   }
+  /**
+   * @param Google_Service_Slides_Page
+   */
   public function setSlides($slides)
   {
     $this->slides = $slides;
   }
+  /**
+   * @return Google_Service_Slides_Page
+   */
   public function getSlides()
   {
     return $this->slides;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,18 +26,30 @@ class Google_Service_Games_EventUpdateResponse extends Google_Collection
   protected $playerEventsType = 'Google_Service_Games_PlayerEvent';
   protected $playerEventsDataType = 'array';
 
+  /**
+   * @param Google_Service_Games_EventBatchRecordFailure
+   */
   public function setBatchFailures($batchFailures)
   {
     $this->batchFailures = $batchFailures;
   }
+  /**
+   * @return Google_Service_Games_EventBatchRecordFailure
+   */
   public function getBatchFailures()
   {
     return $this->batchFailures;
   }
+  /**
+   * @param Google_Service_Games_EventRecordFailure
+   */
   public function setEventFailures($eventFailures)
   {
     $this->eventFailures = $eventFailures;
   }
+  /**
+   * @return Google_Service_Games_EventRecordFailure
+   */
   public function getEventFailures()
   {
     return $this->eventFailures;
@@ -50,10 +62,16 @@ class Google_Service_Games_EventUpdateResponse extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Games_PlayerEvent
+   */
   public function setPlayerEvents($playerEvents)
   {
     $this->playerEvents = $playerEvents;
   }
+  /**
+   * @return Google_Service_Games_PlayerEvent
+   */
   public function getPlayerEvents()
   {
     return $this->playerEvents;

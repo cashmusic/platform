@@ -2,24 +2,6 @@
 
 All notable changes to `sebastianbergmann/object-enumerator` are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [3.0.2] - 2017-03-12
-
-### Changed
-
-* `sebastian/object-reflector` is now a dependency
-
-## [3.0.1] - 2017-03-12
-
-### Fixed
-
-* Objects aggregated in inherited attributes are not enumerated
-
-## [3.0.0] - 2017-03-03
-
-### Removed
-
-* This component is no longer supported on PHP 5.6
-
 ## [2.0.1] - 2017-02-18
 
 ### Fixed
@@ -38,9 +20,6 @@ All notable changes to `sebastianbergmann/object-enumerator` are documented in t
 
 * Initial release
 
-[3.0.2]: https://github.com/sebastianbergmann/object-enumerator/compare/3.0.1...3.0.2
-[3.0.1]: https://github.com/sebastianbergmann/object-enumerator/compare/3.0.0...3.0.1
-[3.0.0]: https://github.com/sebastianbergmann/object-enumerator/compare/2.0...3.0.0
 [2.0.1]: https://github.com/sebastianbergmann/object-enumerator/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/sebastianbergmann/object-enumerator/compare/1.0...2.0.0
 

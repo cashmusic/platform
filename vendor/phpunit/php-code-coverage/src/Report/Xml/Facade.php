@@ -15,8 +15,6 @@ use SebastianBergmann\CodeCoverage\Node\AbstractNode;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
 use SebastianBergmann\CodeCoverage\Node\File as FileNode;
 use SebastianBergmann\CodeCoverage\RuntimeException;
-use SebastianBergmann\CodeCoverage\Version;
-use SebastianBergmann\Environment\Runtime;
 
 class Facade
 {
@@ -29,19 +27,6 @@ class Facade
      * @var Project
      */
     private $project;
-
-    /**
-     * @var string
-     */
-    private $phpUnitVersion;
-
-    /**
-     * @param string $version
-     */
-    public function __construct($version)
-    {
-        $this->phpUnitVersion = $version;
-    }
 
     /**
      * @param CodeCoverage $coverage
@@ -64,25 +49,19 @@ class Facade
             $coverage->getReport()->getName()
         );
 
-        $this->setBuildInformation();
         $this->processTests($coverage->getTests());
         $this->processDirectory($report, $this->project);
 
-        $this->saveDocument($this->project->asDom(), 'index');
-    }
-
-    private function setBuildInformation()
-    {
-        $buildNode = $this->project->getBuildInformation();
-        $buildNode->setRuntimeInformation(new Runtime());
-        $buildNode->setBuildTime(\DateTime::createFromFormat('U', $_SERVER['REQUEST_TIME']));
-        $buildNode->setGeneratorVersions($this->phpUnitVersion, Version::id());
+        $index                     = $this->project->asDom();
+        $index->formatOutput       = true;
+        $index->preserveWhiteSpace = false;
+        $index->save($target . '/index.xml');
     }
 
     /**
      * @param string $directory
      */
-    protected function initTargetDirectory($directory)
+    private function initTargetDirectory($directory)
     {
         if (file_exists($directory)) {
             if (!is_dir($directory)) {
@@ -105,11 +84,7 @@ class Facade
 
     private function processDirectory(DirectoryNode $directory, Node $context)
     {
-        $dirname = $directory->getName();
-        if ($this->project->getProjectSourceDirectory() === $dirname) {
-            $dirname = '/';
-        }
-        $dirObject = $context->addDirectory($dirname);
+        $dirObject = $context->addDirectory($directory->getName());
 
         $this->setTotals($directory, $dirObject->getTotals());
 
@@ -131,11 +106,7 @@ class Facade
 
         $this->setTotals($file, $fileObject->getTotals());
 
-        $path = substr(
-            $file->getPath(),
-            strlen($this->project->getProjectSourceDirectory())
-        );
-        $fileReport = new Report($path);
+        $fileReport = new Report($file->getName());
 
         $this->setTotals($file, $fileReport->getTotals());
 
@@ -148,7 +119,7 @@ class Facade
         }
 
         foreach ($file->getCoverageData() as $line => $tests) {
-            if (!is_array($tests) || count($tests) === 0) {
+            if (!is_array($tests) || count($tests) == 0) {
                 continue;
             }
 
@@ -161,11 +132,14 @@ class Facade
             $coverage->finalize();
         }
 
-        $fileReport->getSource()->setSourceCode(
-            file_get_contents($file->getPath())
+        $this->initTargetDirectory(
+            $this->target . dirname($file->getId()) . '/'
         );
 
-        $this->saveDocument($fileReport->asDom(), $file->getId());
+        $fileDom                     = $fileReport->asDom();
+        $fileDom->formatOutput       = true;
+        $fileDom->preserveWhiteSpace = false;
+        $fileDom->save($this->target . $file->getId() . '.xml');
     }
 
     private function processUnit($unit, Report $report)
@@ -260,24 +234,5 @@ class Facade
             $node->getNumFunctions(),
             $node->getNumTestedFunctions()
         );
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTargetDirectory()
-    {
-        return $this->target;
-    }
-
-    protected function saveDocument(\DOMDocument $document, $name)
-    {
-        $filename = sprintf('%s/%s.xml', $this->getTargetDirectory(), $name);
-
-        $document->formatOutput       = true;
-        $document->preserveWhiteSpace = false;
-        $this->initTargetDirectory(dirname($filename));
-
-        $document->save($filename);
     }
 }

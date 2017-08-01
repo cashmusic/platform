@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,8 @@
 class Google_Service_Container_MasterAuth extends Google_Model
 {
   public $clientCertificate;
+  protected $clientCertificateConfigType = 'Google_Service_Container_ClientCertificateConfig';
+  protected $clientCertificateConfigDataType = '';
   public $clientKey;
   public $clusterCaCertificate;
   public $password;
@@ -30,6 +32,20 @@ class Google_Service_Container_MasterAuth extends Google_Model
   public function getClientCertificate()
   {
     return $this->clientCertificate;
+  }
+  /**
+   * @param Google_Service_Container_ClientCertificateConfig
+   */
+  public function setClientCertificateConfig(Google_Service_Container_ClientCertificateConfig $clientCertificateConfig)
+  {
+    $this->clientCertificateConfig = $clientCertificateConfig;
+  }
+  /**
+   * @return Google_Service_Container_ClientCertificateConfig
+   */
+  public function getClientCertificateConfig()
+  {
+    return $this->clientCertificateConfig;
   }
   public function setClientKey($clientKey)
   {

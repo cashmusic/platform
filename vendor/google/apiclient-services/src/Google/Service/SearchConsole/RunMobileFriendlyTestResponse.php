@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,34 +36,58 @@ class Google_Service_SearchConsole_RunMobileFriendlyTestResponse extends Google_
   {
     return $this->mobileFriendliness;
   }
+  /**
+   * @param Google_Service_SearchConsole_MobileFriendlyIssue
+   */
   public function setMobileFriendlyIssues($mobileFriendlyIssues)
   {
     $this->mobileFriendlyIssues = $mobileFriendlyIssues;
   }
+  /**
+   * @return Google_Service_SearchConsole_MobileFriendlyIssue
+   */
   public function getMobileFriendlyIssues()
   {
     return $this->mobileFriendlyIssues;
   }
+  /**
+   * @param Google_Service_SearchConsole_ResourceIssue
+   */
   public function setResourceIssues($resourceIssues)
   {
     $this->resourceIssues = $resourceIssues;
   }
+  /**
+   * @return Google_Service_SearchConsole_ResourceIssue
+   */
   public function getResourceIssues()
   {
     return $this->resourceIssues;
   }
+  /**
+   * @param Google_Service_SearchConsole_Image
+   */
   public function setScreenshot(Google_Service_SearchConsole_Image $screenshot)
   {
     $this->screenshot = $screenshot;
   }
+  /**
+   * @return Google_Service_SearchConsole_Image
+   */
   public function getScreenshot()
   {
     return $this->screenshot;
   }
+  /**
+   * @param Google_Service_SearchConsole_TestStatus
+   */
   public function setTestStatus(Google_Service_SearchConsole_TestStatus $testStatus)
   {
     $this->testStatus = $testStatus;
   }
+  /**
+   * @return Google_Service_SearchConsole_TestStatus
+   */
   public function getTestStatus()
   {
     return $this->testStatus;

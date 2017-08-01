@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -72,10 +72,16 @@ class Google_Service_QPXExpress_SegmentInfo extends Google_Collection
   {
     return $this->duration;
   }
+  /**
+   * @param Google_Service_QPXExpress_FlightInfo
+   */
   public function setFlight(Google_Service_QPXExpress_FlightInfo $flight)
   {
     $this->flight = $flight;
   }
+  /**
+   * @return Google_Service_QPXExpress_FlightInfo
+   */
   public function getFlight()
   {
     return $this->flight;
@@ -96,10 +102,16 @@ class Google_Service_QPXExpress_SegmentInfo extends Google_Collection
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_QPXExpress_LegInfo
+   */
   public function setLeg($leg)
   {
     $this->leg = $leg;
   }
+  /**
+   * @return Google_Service_QPXExpress_LegInfo
+   */
   public function getLeg()
   {
     return $this->leg;

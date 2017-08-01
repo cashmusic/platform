@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,7 @@
 class Google_Service_Dataflow_MetricUpdate extends Google_Model
 {
   public $cumulative;
+  public $distribution;
   public $internal;
   public $kind;
   public $meanCount;
@@ -35,6 +36,14 @@ class Google_Service_Dataflow_MetricUpdate extends Google_Model
   public function getCumulative()
   {
     return $this->cumulative;
+  }
+  public function setDistribution($distribution)
+  {
+    $this->distribution = $distribution;
+  }
+  public function getDistribution()
+  {
+    return $this->distribution;
   }
   public function setInternal($internal)
   {
@@ -68,10 +77,16 @@ class Google_Service_Dataflow_MetricUpdate extends Google_Model
   {
     return $this->meanSum;
   }
+  /**
+   * @param Google_Service_Dataflow_MetricStructuredName
+   */
   public function setName(Google_Service_Dataflow_MetricStructuredName $name)
   {
     $this->name = $name;
   }
+  /**
+   * @return Google_Service_Dataflow_MetricStructuredName
+   */
   public function getName()
   {
     return $this->name;

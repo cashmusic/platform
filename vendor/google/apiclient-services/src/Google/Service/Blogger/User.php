@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -37,10 +37,16 @@ class Google_Service_Blogger_User extends Google_Model
   {
     return $this->about;
   }
+  /**
+   * @param Google_Service_Blogger_UserBlogs
+   */
   public function setBlogs(Google_Service_Blogger_UserBlogs $blogs)
   {
     $this->blogs = $blogs;
   }
+  /**
+   * @return Google_Service_Blogger_UserBlogs
+   */
   public function getBlogs()
   {
     return $this->blogs;
@@ -77,10 +83,16 @@ class Google_Service_Blogger_User extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_Blogger_UserLocale
+   */
   public function setLocale(Google_Service_Blogger_UserLocale $locale)
   {
     $this->locale = $locale;
   }
+  /**
+   * @return Google_Service_Blogger_UserLocale
+   */
   public function getLocale()
   {
     return $this->locale;

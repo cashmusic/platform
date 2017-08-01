@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,25 +18,30 @@
 class Google_Service_TagManager_ListContainerVersionsResponse extends Google_Collection
 {
   protected $collection_key = 'containerVersionHeader';
-  protected $containerVersionType = 'Google_Service_TagManager_ContainerVersion';
-  protected $containerVersionDataType = 'array';
   protected $containerVersionHeaderType = 'Google_Service_TagManager_ContainerVersionHeader';
   protected $containerVersionHeaderDataType = 'array';
+  public $nextPageToken;
 
-  public function setContainerVersion($containerVersion)
-  {
-    $this->containerVersion = $containerVersion;
-  }
-  public function getContainerVersion()
-  {
-    return $this->containerVersion;
-  }
+  /**
+   * @param Google_Service_TagManager_ContainerVersionHeader
+   */
   public function setContainerVersionHeader($containerVersionHeader)
   {
     $this->containerVersionHeader = $containerVersionHeader;
   }
+  /**
+   * @return Google_Service_TagManager_ContainerVersionHeader
+   */
   public function getContainerVersionHeader()
   {
     return $this->containerVersionHeader;
+  }
+  public function setNextPageToken($nextPageToken)
+  {
+    $this->nextPageToken = $nextPageToken;
+  }
+  public function getNextPageToken()
+  {
+    return $this->nextPageToken;
   }
 }

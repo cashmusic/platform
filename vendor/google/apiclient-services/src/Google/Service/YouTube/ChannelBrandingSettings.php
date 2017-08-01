@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,34 +27,58 @@ class Google_Service_YouTube_ChannelBrandingSettings extends Google_Collection
   protected $watchType = 'Google_Service_YouTube_WatchSettings';
   protected $watchDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_ChannelSettings
+   */
   public function setChannel(Google_Service_YouTube_ChannelSettings $channel)
   {
     $this->channel = $channel;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSettings
+   */
   public function getChannel()
   {
     return $this->channel;
   }
+  /**
+   * @param Google_Service_YouTube_PropertyValue
+   */
   public function setHints($hints)
   {
     $this->hints = $hints;
   }
+  /**
+   * @return Google_Service_YouTube_PropertyValue
+   */
   public function getHints()
   {
     return $this->hints;
   }
+  /**
+   * @param Google_Service_YouTube_ImageSettings
+   */
   public function setImage(Google_Service_YouTube_ImageSettings $image)
   {
     $this->image = $image;
   }
+  /**
+   * @return Google_Service_YouTube_ImageSettings
+   */
   public function getImage()
   {
     return $this->image;
   }
+  /**
+   * @param Google_Service_YouTube_WatchSettings
+   */
   public function setWatch(Google_Service_YouTube_WatchSettings $watch)
   {
     $this->watch = $watch;
   }
+  /**
+   * @return Google_Service_YouTube_WatchSettings
+   */
   public function getWatch()
   {
     return $this->watch;

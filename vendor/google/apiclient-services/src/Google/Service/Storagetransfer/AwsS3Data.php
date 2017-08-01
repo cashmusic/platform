@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Storagetransfer_AwsS3Data extends Google_Model
   protected $awsAccessKeyDataType = '';
   public $bucketName;
 
+  /**
+   * @param Google_Service_Storagetransfer_AwsAccessKey
+   */
   public function setAwsAccessKey(Google_Service_Storagetransfer_AwsAccessKey $awsAccessKey)
   {
     $this->awsAccessKey = $awsAccessKey;
   }
+  /**
+   * @return Google_Service_Storagetransfer_AwsAccessKey
+   */
   public function getAwsAccessKey()
   {
     return $this->awsAccessKey;

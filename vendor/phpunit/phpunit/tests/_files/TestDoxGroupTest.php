@@ -1,15 +1,12 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-class TestDoxGroupTest extends TestCase
+class TestDoxGroupTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group one
      */
     public function testOne()
     {
-        $this->assertTrue(true);
     }
 
     /**
@@ -17,6 +14,5 @@ class TestDoxGroupTest extends TestCase
      */
     public function testTwo()
     {
-        $this->assertTrue(true);
     }
 }

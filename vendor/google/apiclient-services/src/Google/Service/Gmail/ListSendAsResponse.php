@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_Gmail_ListSendAsResponse extends Google_Collection
   protected $sendAsType = 'Google_Service_Gmail_SendAs';
   protected $sendAsDataType = 'array';
 
+  /**
+   * @param Google_Service_Gmail_SendAs
+   */
   public function setSendAs($sendAs)
   {
     $this->sendAs = $sendAs;
   }
+  /**
+   * @return Google_Service_Gmail_SendAs
+   */
   public function getSendAs()
   {
     return $this->sendAs;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,6 +17,7 @@
 
 class Google_Service_IdentityToolkit_IdentitytoolkitRelyingpartyVerifyAssertionRequest extends Google_Model
 {
+  public $autoCreate;
   public $delegatedProjectNumber;
   public $idToken;
   public $instanceId;
@@ -28,6 +29,14 @@ class Google_Service_IdentityToolkit_IdentitytoolkitRelyingpartyVerifyAssertionR
   public $returnSecureToken;
   public $sessionId;
 
+  public function setAutoCreate($autoCreate)
+  {
+    $this->autoCreate = $autoCreate;
+  }
+  public function getAutoCreate()
+  {
+    return $this->autoCreate;
+  }
   public function setDelegatedProjectNumber($delegatedProjectNumber)
   {
     $this->delegatedProjectNumber = $delegatedProjectNumber;

@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class NotPublicTestCase extends TestCase
+class NotPublicTestCase extends PHPUnit_Framework_TestCase
 {
     public function testPublic()
     {

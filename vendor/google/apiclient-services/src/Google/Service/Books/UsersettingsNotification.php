@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,21 +21,49 @@ class Google_Service_Books_UsersettingsNotification extends Google_Model
   protected $moreFromAuthorsDataType = '';
   protected $moreFromSeriesType = 'Google_Service_Books_UsersettingsNotificationMoreFromSeries';
   protected $moreFromSeriesDataType = '';
+  protected $rewardExpirationsType = 'Google_Service_Books_UsersettingsNotificationRewardExpirations';
+  protected $rewardExpirationsDataType = '';
 
+  /**
+   * @param Google_Service_Books_UsersettingsNotificationMoreFromAuthors
+   */
   public function setMoreFromAuthors(Google_Service_Books_UsersettingsNotificationMoreFromAuthors $moreFromAuthors)
   {
     $this->moreFromAuthors = $moreFromAuthors;
   }
+  /**
+   * @return Google_Service_Books_UsersettingsNotificationMoreFromAuthors
+   */
   public function getMoreFromAuthors()
   {
     return $this->moreFromAuthors;
   }
+  /**
+   * @param Google_Service_Books_UsersettingsNotificationMoreFromSeries
+   */
   public function setMoreFromSeries(Google_Service_Books_UsersettingsNotificationMoreFromSeries $moreFromSeries)
   {
     $this->moreFromSeries = $moreFromSeries;
   }
+  /**
+   * @return Google_Service_Books_UsersettingsNotificationMoreFromSeries
+   */
   public function getMoreFromSeries()
   {
     return $this->moreFromSeries;
+  }
+  /**
+   * @param Google_Service_Books_UsersettingsNotificationRewardExpirations
+   */
+  public function setRewardExpirations(Google_Service_Books_UsersettingsNotificationRewardExpirations $rewardExpirations)
+  {
+    $this->rewardExpirations = $rewardExpirations;
+  }
+  /**
+   * @return Google_Service_Books_UsersettingsNotificationRewardExpirations
+   */
+  public function getRewardExpirations()
+  {
+    return $this->rewardExpirations;
   }
 }

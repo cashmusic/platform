@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,50 +36,86 @@ class Google_Service_Dfareporting_ReportPathToConversionCriteria extends Google_
   protected $reportPropertiesType = 'Google_Service_Dfareporting_ReportPathToConversionCriteriaReportProperties';
   protected $reportPropertiesDataType = '';
 
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setActivityFilters($activityFilters)
   {
     $this->activityFilters = $activityFilters;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getActivityFilters()
   {
     return $this->activityFilters;
   }
+  /**
+   * @param Google_Service_Dfareporting_SortedDimension
+   */
   public function setConversionDimensions($conversionDimensions)
   {
     $this->conversionDimensions = $conversionDimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_SortedDimension
+   */
   public function getConversionDimensions()
   {
     return $this->conversionDimensions;
   }
+  /**
+   * @param Google_Service_Dfareporting_SortedDimension
+   */
   public function setCustomFloodlightVariables($customFloodlightVariables)
   {
     $this->customFloodlightVariables = $customFloodlightVariables;
   }
+  /**
+   * @return Google_Service_Dfareporting_SortedDimension
+   */
   public function getCustomFloodlightVariables()
   {
     return $this->customFloodlightVariables;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setCustomRichMediaEvents($customRichMediaEvents)
   {
     $this->customRichMediaEvents = $customRichMediaEvents;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getCustomRichMediaEvents()
   {
     return $this->customRichMediaEvents;
   }
+  /**
+   * @param Google_Service_Dfareporting_DateRange
+   */
   public function setDateRange(Google_Service_Dfareporting_DateRange $dateRange)
   {
     $this->dateRange = $dateRange;
   }
+  /**
+   * @return Google_Service_Dfareporting_DateRange
+   */
   public function getDateRange()
   {
     return $this->dateRange;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setFloodlightConfigId(Google_Service_Dfareporting_DimensionValue $floodlightConfigId)
   {
     $this->floodlightConfigId = $floodlightConfigId;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getFloodlightConfigId()
   {
     return $this->floodlightConfigId;
@@ -92,18 +128,30 @@ class Google_Service_Dfareporting_ReportPathToConversionCriteria extends Google_
   {
     return $this->metricNames;
   }
+  /**
+   * @param Google_Service_Dfareporting_SortedDimension
+   */
   public function setPerInteractionDimensions($perInteractionDimensions)
   {
     $this->perInteractionDimensions = $perInteractionDimensions;
   }
+  /**
+   * @return Google_Service_Dfareporting_SortedDimension
+   */
   public function getPerInteractionDimensions()
   {
     return $this->perInteractionDimensions;
   }
+  /**
+   * @param Google_Service_Dfareporting_ReportPathToConversionCriteriaReportProperties
+   */
   public function setReportProperties(Google_Service_Dfareporting_ReportPathToConversionCriteriaReportProperties $reportProperties)
   {
     $this->reportProperties = $reportProperties;
   }
+  /**
+   * @return Google_Service_Dfareporting_ReportPathToConversionCriteriaReportProperties
+   */
   public function getReportProperties()
   {
     return $this->reportProperties;

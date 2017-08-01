@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,10 +27,16 @@ class Google_Service_YouTube_Subscription extends Google_Model
   protected $subscriberSnippetType = 'Google_Service_YouTube_SubscriptionSubscriberSnippet';
   protected $subscriberSnippetDataType = '';
 
+  /**
+   * @param Google_Service_YouTube_SubscriptionContentDetails
+   */
   public function setContentDetails(Google_Service_YouTube_SubscriptionContentDetails $contentDetails)
   {
     $this->contentDetails = $contentDetails;
   }
+  /**
+   * @return Google_Service_YouTube_SubscriptionContentDetails
+   */
   public function getContentDetails()
   {
     return $this->contentDetails;
@@ -59,18 +65,30 @@ class Google_Service_YouTube_Subscription extends Google_Model
   {
     return $this->kind;
   }
+  /**
+   * @param Google_Service_YouTube_SubscriptionSnippet
+   */
   public function setSnippet(Google_Service_YouTube_SubscriptionSnippet $snippet)
   {
     $this->snippet = $snippet;
   }
+  /**
+   * @return Google_Service_YouTube_SubscriptionSnippet
+   */
   public function getSnippet()
   {
     return $this->snippet;
   }
+  /**
+   * @param Google_Service_YouTube_SubscriptionSubscriberSnippet
+   */
   public function setSubscriberSnippet(Google_Service_YouTube_SubscriptionSubscriberSnippet $subscriberSnippet)
   {
     $this->subscriberSnippet = $subscriberSnippet;
   }
+  /**
+   * @return Google_Service_YouTube_SubscriptionSubscriberSnippet
+   */
   public function getSubscriberSnippet()
   {
     return $this->subscriberSnippet;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,34 +27,58 @@ class Google_Service_ToolResults_Outcome extends Google_Model
   protected $successDetailDataType = '';
   public $summary;
 
+  /**
+   * @param Google_Service_ToolResults_FailureDetail
+   */
   public function setFailureDetail(Google_Service_ToolResults_FailureDetail $failureDetail)
   {
     $this->failureDetail = $failureDetail;
   }
+  /**
+   * @return Google_Service_ToolResults_FailureDetail
+   */
   public function getFailureDetail()
   {
     return $this->failureDetail;
   }
+  /**
+   * @param Google_Service_ToolResults_InconclusiveDetail
+   */
   public function setInconclusiveDetail(Google_Service_ToolResults_InconclusiveDetail $inconclusiveDetail)
   {
     $this->inconclusiveDetail = $inconclusiveDetail;
   }
+  /**
+   * @return Google_Service_ToolResults_InconclusiveDetail
+   */
   public function getInconclusiveDetail()
   {
     return $this->inconclusiveDetail;
   }
+  /**
+   * @param Google_Service_ToolResults_SkippedDetail
+   */
   public function setSkippedDetail(Google_Service_ToolResults_SkippedDetail $skippedDetail)
   {
     $this->skippedDetail = $skippedDetail;
   }
+  /**
+   * @return Google_Service_ToolResults_SkippedDetail
+   */
   public function getSkippedDetail()
   {
     return $this->skippedDetail;
   }
+  /**
+   * @param Google_Service_ToolResults_SuccessDetail
+   */
   public function setSuccessDetail(Google_Service_ToolResults_SuccessDetail $successDetail)
   {
     $this->successDetail = $successDetail;
   }
+  /**
+   * @return Google_Service_ToolResults_SuccessDetail
+   */
   public function getSuccessDetail()
   {
     return $this->successDetail;

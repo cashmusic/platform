@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,26 +27,44 @@ class Google_Service_Spectrum_PawsNotifySpectrumUseRequest extends Google_Collec
   public $type;
   public $version;
 
+  /**
+   * @param Google_Service_Spectrum_DeviceDescriptor
+   */
   public function setDeviceDesc(Google_Service_Spectrum_DeviceDescriptor $deviceDesc)
   {
     $this->deviceDesc = $deviceDesc;
   }
+  /**
+   * @return Google_Service_Spectrum_DeviceDescriptor
+   */
   public function getDeviceDesc()
   {
     return $this->deviceDesc;
   }
+  /**
+   * @param Google_Service_Spectrum_GeoLocation
+   */
   public function setLocation(Google_Service_Spectrum_GeoLocation $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_Spectrum_GeoLocation
+   */
   public function getLocation()
   {
     return $this->location;
   }
+  /**
+   * @param Google_Service_Spectrum_SpectrumMessage
+   */
   public function setSpectra($spectra)
   {
     $this->spectra = $spectra;
   }
+  /**
+   * @return Google_Service_Spectrum_SpectrumMessage
+   */
   public function getSpectra()
   {
     return $this->spectra;

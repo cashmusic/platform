@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_SQLAdmin_InstancesCloneRequest extends Google_Model
   protected $cloneContextType = 'Google_Service_SQLAdmin_CloneContext';
   protected $cloneContextDataType = '';
 
+  /**
+   * @param Google_Service_SQLAdmin_CloneContext
+   */
   public function setCloneContext(Google_Service_SQLAdmin_CloneContext $cloneContext)
   {
     $this->cloneContext = $cloneContext;
   }
+  /**
+   * @return Google_Service_SQLAdmin_CloneContext
+   */
   public function getCloneContext()
   {
     return $this->cloneContext;

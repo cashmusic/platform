@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,10 +15,12 @@
  * the License.
  */
 
-class Google_Service_CloudMachineLearningEngine_GoogleApiHttpBody extends Google_Model
+class Google_Service_CloudMachineLearningEngine_GoogleApiHttpBody extends Google_Collection
 {
+  protected $collection_key = 'extensions';
   public $contentType;
   public $data;
+  public $extensions;
 
   public function setContentType($contentType)
   {
@@ -35,5 +37,13 @@ class Google_Service_CloudMachineLearningEngine_GoogleApiHttpBody extends Google
   public function getData()
   {
     return $this->data;
+  }
+  public function setExtensions($extensions)
+  {
+    $this->extensions = $extensions;
+  }
+  public function getExtensions()
+  {
+    return $this->extensions;
   }
 }

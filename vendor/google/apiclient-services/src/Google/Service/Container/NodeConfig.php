@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,8 @@
 class Google_Service_Container_NodeConfig extends Google_Collection
 {
   protected $collection_key = 'tags';
+  protected $acceleratorsType = 'Google_Service_Container_AcceleratorConfig';
+  protected $acceleratorsDataType = 'array';
   public $diskSizeGb;
   public $imageType;
   public $labels;
@@ -29,6 +31,20 @@ class Google_Service_Container_NodeConfig extends Google_Collection
   public $serviceAccount;
   public $tags;
 
+  /**
+   * @param Google_Service_Container_AcceleratorConfig
+   */
+  public function setAccelerators($accelerators)
+  {
+    $this->accelerators = $accelerators;
+  }
+  /**
+   * @return Google_Service_Container_AcceleratorConfig
+   */
+  public function getAccelerators()
+  {
+    return $this->accelerators;
+  }
   public function setDiskSizeGb($diskSizeGb)
   {
     $this->diskSizeGb = $diskSizeGb;

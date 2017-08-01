@@ -30,7 +30,7 @@ abstract class CredentialsLoader implements FetchAuthTokenInterface
     const ENV_VAR = 'GOOGLE_APPLICATION_CREDENTIALS';
     const WELL_KNOWN_PATH = 'gcloud/application_default_credentials.json';
     const NON_WINDOWS_WELL_KNOWN_PATH_BASE = '.config';
-    const AUTH_METADATA_KEY = 'Authorization';
+    const AUTH_METADATA_KEY = 'authorization';
 
     /**
      * @param string $cause

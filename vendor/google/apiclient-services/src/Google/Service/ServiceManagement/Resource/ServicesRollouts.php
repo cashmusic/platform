@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -78,6 +78,12 @@ class Google_Service_ServiceManagement_Resource_ServicesRollouts extends Google_
    * @opt_param string pageToken The token of the page to retrieve.
    * @opt_param int pageSize The max number of items to include in the response
    * list.
+   * @opt_param string filter Use `filter` to return subset of rollouts. The
+   * following filters are supported:   -- To limit the results to only those in
+   * [status](google.api.servicemanagement.v1.RolloutStatus) 'SUCCESS',      use
+   * filter='status=SUCCESS'   -- To limit the results to those in
+   * [status](google.api.servicemanagement.v1.RolloutStatus) 'CANCELLED'      or
+   * 'FAILED', use filter='status=CANCELLED OR status=FAILED'
    * @return Google_Service_ServiceManagement_ListServiceRolloutsResponse
    */
   public function listServicesRollouts($serviceName, $optParams = array())

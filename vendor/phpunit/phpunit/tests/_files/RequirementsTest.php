@@ -1,15 +1,5 @@
 <?php
-/*
- * This file is part of PHPUnit.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-use PHPUnit\Framework\TestCase;
-
-class RequirementsTest extends TestCase
+class RequirementsTest extends PHPUnit_Framework_TestCase
 {
     public function testOne()
     {
@@ -150,8 +140,8 @@ class RequirementsTest extends TestCase
     }
 
     /**
-     * @requires extension spl
-     * @requires OS .*
+     * @requires	  extension	  spl
+     * @requires	  OS	  .*
      */
     public function testSpace()
     {
@@ -350,90 +340,6 @@ class RequirementsTest extends TestCase
      * @requires extension testExtOne >=99
      */
     public function testExtensionVersionOperatorNoSpace()
-    {
-    }
-
-    /**
-     * @requires PHP ~1.0
-     * @requires PHPUnit ~2.0
-     */
-    public function testVersionConstraintTildeMajor()
-    {
-    }
-
-    /**
-     * @requires PHP ^1.0
-     * @requires PHPUnit ^2.0
-     */
-    public function testVersionConstraintCaretMajor()
-    {
-    }
-
-    /**
-     * @requires PHP ~3.4.7
-     * @requires PHPUnit ~4.7.1
-     */
-    public function testVersionConstraintTildeMinor()
-    {
-    }
-
-    /**
-     * @requires PHP ^7.0.17
-     * @requires PHPUnit ^4.7.1
-     */
-    public function testVersionConstraintCaretMinor()
-    {
-    }
-
-    /**
-     * @requires PHP ^5.6 || ^7.0
-     * @requires PHPUnit ^5.0 || ^6.0
-     */
-    public function testVersionConstraintCaretOr()
-    {
-    }
-
-    /**
-     * @requires PHP ~5.6.22 || ~7.0.17
-     * @requires PHPUnit ^5.0.5 || ^6.0.6
-     */
-    public function testVersionConstraintTildeOr()
-    {
-    }
-
-    /**
-     * @requires PHP ~5.6.22 || ^7.0
-     * @requires PHPUnit ~5.6.22 || ^7.0
-     */
-    public function testVersionConstraintTildeOrCaret()
-    {
-    }
-    /**
-     * @requires PHP ^5.6 || ~7.0.17
-     * @requires PHPUnit ^5.6 || ~7.0.17
-     */
-    public function testVersionConstraintCaretOrTilde()
-    {
-    }
-
-    /**
-     * @requires   PHP        ~5.6.22 || ~7.0.17
-     * @requires   PHPUnit    ~5.6.22 || ~7.0.17
-     */
-    public function testVersionConstraintRegexpIgnoresWhitespace()
-    {
-    }
-
-    /**
-     * @requires   PHP ~^12345
-     */
-    public function testVersionConstraintInvalidPhpConstraint()
-    {
-    }
-    /**
-     * @requires   PHPUnit ~^12345
-     */
-    public function testVersionConstraintInvalidPhpUnitConstraint()
     {
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -31,18 +31,30 @@ class Google_Service_Slides_PageElementProperties extends Google_Model
   {
     return $this->pageObjectId;
   }
+  /**
+   * @param Google_Service_Slides_Size
+   */
   public function setSize(Google_Service_Slides_Size $size)
   {
     $this->size = $size;
   }
+  /**
+   * @return Google_Service_Slides_Size
+   */
   public function getSize()
   {
     return $this->size;
   }
+  /**
+   * @param Google_Service_Slides_AffineTransform
+   */
   public function setTransform(Google_Service_Slides_AffineTransform $transform)
   {
     $this->transform = $transform;
   }
+  /**
+   * @return Google_Service_Slides_AffineTransform
+   */
   public function getTransform()
   {
     return $this->transform;

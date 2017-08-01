@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -39,6 +39,8 @@ class Google_Service_Genomics_Resource_ReferencesBases extends Google_Service_Re
    * @param string $referenceId The ID of the reference.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string end The end position (0-based, exclusive) of this query.
+   * Defaults to the length of this reference.
    * @opt_param string pageToken The continuation token, which is used to page
    * through large result sets. To get the next page of results, set this
    * parameter to the value of `nextPageToken` from the previous response.
@@ -47,8 +49,6 @@ class Google_Service_Genomics_Resource_ReferencesBases extends Google_Service_Re
    * is 10Mbp (mega base pairs).
    * @opt_param string start The start position (0-based) of this query. Defaults
    * to 0.
-   * @opt_param string end The end position (0-based, exclusive) of this query.
-   * Defaults to the length of this reference.
    * @return Google_Service_Genomics_ListBasesResponse
    */
   public function listReferencesBases($referenceId, $optParams = array())

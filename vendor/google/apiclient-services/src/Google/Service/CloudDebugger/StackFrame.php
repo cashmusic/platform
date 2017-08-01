@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,10 +26,16 @@ class Google_Service_CloudDebugger_StackFrame extends Google_Collection
   protected $locationType = 'Google_Service_CloudDebugger_SourceLocation';
   protected $locationDataType = '';
 
+  /**
+   * @param Google_Service_CloudDebugger_Variable
+   */
   public function setArguments($arguments)
   {
     $this->arguments = $arguments;
   }
+  /**
+   * @return Google_Service_CloudDebugger_Variable
+   */
   public function getArguments()
   {
     return $this->arguments;
@@ -42,18 +48,30 @@ class Google_Service_CloudDebugger_StackFrame extends Google_Collection
   {
     return $this->function;
   }
+  /**
+   * @param Google_Service_CloudDebugger_Variable
+   */
   public function setLocals($locals)
   {
     $this->locals = $locals;
   }
+  /**
+   * @return Google_Service_CloudDebugger_Variable
+   */
   public function getLocals()
   {
     return $this->locals;
   }
+  /**
+   * @param Google_Service_CloudDebugger_SourceLocation
+   */
   public function setLocation(Google_Service_CloudDebugger_SourceLocation $location)
   {
     $this->location = $location;
   }
+  /**
+   * @return Google_Service_CloudDebugger_SourceLocation
+   */
   public function getLocation()
   {
     return $this->location;

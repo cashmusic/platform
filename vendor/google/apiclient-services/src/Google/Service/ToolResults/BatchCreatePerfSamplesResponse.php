@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,10 +21,16 @@ class Google_Service_ToolResults_BatchCreatePerfSamplesResponse extends Google_C
   protected $perfSamplesType = 'Google_Service_ToolResults_PerfSample';
   protected $perfSamplesDataType = 'array';
 
+  /**
+   * @param Google_Service_ToolResults_PerfSample
+   */
   public function setPerfSamples($perfSamples)
   {
     $this->perfSamples = $perfSamples;
   }
+  /**
+   * @return Google_Service_ToolResults_PerfSample
+   */
   public function getPerfSamples()
   {
     return $this->perfSamples;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,6 +36,8 @@ class Google_Service_Dataflow_Job extends Google_Collection
   public $replaceJobId;
   public $replacedByJobId;
   public $requestedState;
+  protected $stageStatesType = 'Google_Service_Dataflow_ExecutionStageState';
+  protected $stageStatesDataType = 'array';
   protected $stepsType = 'Google_Service_Dataflow_Step';
   protected $stepsDataType = 'array';
   public $tempFiles;
@@ -74,18 +76,30 @@ class Google_Service_Dataflow_Job extends Google_Collection
   {
     return $this->currentStateTime;
   }
+  /**
+   * @param Google_Service_Dataflow_Environment
+   */
   public function setEnvironment(Google_Service_Dataflow_Environment $environment)
   {
     $this->environment = $environment;
   }
+  /**
+   * @return Google_Service_Dataflow_Environment
+   */
   public function getEnvironment()
   {
     return $this->environment;
   }
+  /**
+   * @param Google_Service_Dataflow_JobExecutionInfo
+   */
   public function setExecutionInfo(Google_Service_Dataflow_JobExecutionInfo $executionInfo)
   {
     $this->executionInfo = $executionInfo;
   }
+  /**
+   * @return Google_Service_Dataflow_JobExecutionInfo
+   */
   public function getExecutionInfo()
   {
     return $this->executionInfo;
@@ -122,10 +136,16 @@ class Google_Service_Dataflow_Job extends Google_Collection
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_Dataflow_PipelineDescription
+   */
   public function setPipelineDescription(Google_Service_Dataflow_PipelineDescription $pipelineDescription)
   {
     $this->pipelineDescription = $pipelineDescription;
   }
+  /**
+   * @return Google_Service_Dataflow_PipelineDescription
+   */
   public function getPipelineDescription()
   {
     return $this->pipelineDescription;
@@ -162,10 +182,30 @@ class Google_Service_Dataflow_Job extends Google_Collection
   {
     return $this->requestedState;
   }
+  /**
+   * @param Google_Service_Dataflow_ExecutionStageState
+   */
+  public function setStageStates($stageStates)
+  {
+    $this->stageStates = $stageStates;
+  }
+  /**
+   * @return Google_Service_Dataflow_ExecutionStageState
+   */
+  public function getStageStates()
+  {
+    return $this->stageStates;
+  }
+  /**
+   * @param Google_Service_Dataflow_Step
+   */
   public function setSteps($steps)
   {
     $this->steps = $steps;
   }
+  /**
+   * @return Google_Service_Dataflow_Step
+   */
   public function getSteps()
   {
     return $this->steps;

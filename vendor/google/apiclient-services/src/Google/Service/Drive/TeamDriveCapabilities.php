@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,6 +18,7 @@
 class Google_Service_Drive_TeamDriveCapabilities extends Google_Model
 {
   public $canAddChildren;
+  public $canChangeTeamDriveBackground;
   public $canComment;
   public $canCopy;
   public $canDeleteTeamDrive;
@@ -38,6 +39,14 @@ class Google_Service_Drive_TeamDriveCapabilities extends Google_Model
   public function getCanAddChildren()
   {
     return $this->canAddChildren;
+  }
+  public function setCanChangeTeamDriveBackground($canChangeTeamDriveBackground)
+  {
+    $this->canChangeTeamDriveBackground = $canChangeTeamDriveBackground;
+  }
+  public function getCanChangeTeamDriveBackground()
+  {
+    return $this->canChangeTeamDriveBackground;
   }
   public function setCanComment($canComment)
   {

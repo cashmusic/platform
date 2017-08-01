@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,26 +24,44 @@ class Google_Service_CloudBuild_SourceProvenance extends Google_Model
   protected $resolvedStorageSourceType = 'Google_Service_CloudBuild_StorageSource';
   protected $resolvedStorageSourceDataType = '';
 
+  /**
+   * @param Google_Service_CloudBuild_FileHashes
+   */
   public function setFileHashes($fileHashes)
   {
     $this->fileHashes = $fileHashes;
   }
+  /**
+   * @return Google_Service_CloudBuild_FileHashes
+   */
   public function getFileHashes()
   {
     return $this->fileHashes;
   }
+  /**
+   * @param Google_Service_CloudBuild_RepoSource
+   */
   public function setResolvedRepoSource(Google_Service_CloudBuild_RepoSource $resolvedRepoSource)
   {
     $this->resolvedRepoSource = $resolvedRepoSource;
   }
+  /**
+   * @return Google_Service_CloudBuild_RepoSource
+   */
   public function getResolvedRepoSource()
   {
     return $this->resolvedRepoSource;
   }
+  /**
+   * @param Google_Service_CloudBuild_StorageSource
+   */
   public function setResolvedStorageSource(Google_Service_CloudBuild_StorageSource $resolvedStorageSource)
   {
     $this->resolvedStorageSource = $resolvedStorageSource;
   }
+  /**
+   * @return Google_Service_CloudBuild_StorageSource
+   */
   public function getResolvedStorageSource()
   {
     return $this->resolvedStorageSource;

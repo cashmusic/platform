@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
 /**
  * Constraint that asserts that the value it is evaluated for is of a
@@ -15,7 +14,7 @@ namespace PHPUnit\Framework\Constraint;
  *
  * The expected value is passed in the constructor.
  */
-class IsType extends Constraint
+class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 {
     const TYPE_ARRAY    = 'array';
     const TYPE_BOOL     = 'bool';
@@ -58,16 +57,16 @@ class IsType extends Constraint
     /**
      * @param string $type
      *
-     * @throws \PHPUnit\Framework\Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public function __construct($type)
     {
         parent::__construct();
 
         if (!isset($this->types[$type])) {
-            throw new \PHPUnit\Framework\Exception(
-                \sprintf(
-                    'Type specified for PHPUnit\Framework\Constraint\IsType <%s> ' .
+            throw new PHPUnit_Framework_Exception(
+                sprintf(
+                    'Type specified for PHPUnit_Framework_Constraint_IsType <%s> ' .
                     'is not a valid type.',
                     $type
                 )
@@ -89,41 +88,41 @@ class IsType extends Constraint
     {
         switch ($this->type) {
             case 'numeric':
-                return \is_numeric($other);
+                return is_numeric($other);
 
             case 'integer':
             case 'int':
-                return \is_int($other);
+                return is_int($other);
 
             case 'double':
             case 'float':
             case 'real':
-                return \is_float($other);
+                return is_float($other);
 
             case 'string':
-                return \is_string($other);
+                return is_string($other);
 
             case 'boolean':
             case 'bool':
-                return \is_bool($other);
+                return is_bool($other);
 
             case 'null':
-                return \is_null($other);
+                return is_null($other);
 
             case 'array':
-                return \is_array($other);
+                return is_array($other);
 
             case 'object':
-                return \is_object($other);
+                return is_object($other);
 
             case 'resource':
-                return \is_resource($other) || \is_string(@\get_resource_type($other));
+                return is_resource($other) || is_string(@get_resource_type($other));
 
             case 'scalar':
-                return \is_scalar($other);
+                return is_scalar($other);
 
             case 'callable':
-                return \is_callable($other);
+                return is_callable($other);
         }
     }
 
@@ -134,7 +133,7 @@ class IsType extends Constraint
      */
     public function toString()
     {
-        return \sprintf(
+        return sprintf(
             'is of type "%s"',
             $this->type
         );

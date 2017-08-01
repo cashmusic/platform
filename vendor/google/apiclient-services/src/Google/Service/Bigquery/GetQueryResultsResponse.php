@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -43,10 +43,16 @@ class Google_Service_Bigquery_GetQueryResultsResponse extends Google_Collection
   {
     return $this->cacheHit;
   }
+  /**
+   * @param Google_Service_Bigquery_ErrorProto
+   */
   public function setErrors($errors)
   {
     $this->errors = $errors;
   }
+  /**
+   * @return Google_Service_Bigquery_ErrorProto
+   */
   public function getErrors()
   {
     return $this->errors;
@@ -67,10 +73,16 @@ class Google_Service_Bigquery_GetQueryResultsResponse extends Google_Collection
   {
     return $this->jobComplete;
   }
+  /**
+   * @param Google_Service_Bigquery_JobReference
+   */
   public function setJobReference(Google_Service_Bigquery_JobReference $jobReference)
   {
     $this->jobReference = $jobReference;
   }
+  /**
+   * @return Google_Service_Bigquery_JobReference
+   */
   public function getJobReference()
   {
     return $this->jobReference;
@@ -99,18 +111,30 @@ class Google_Service_Bigquery_GetQueryResultsResponse extends Google_Collection
   {
     return $this->pageToken;
   }
+  /**
+   * @param Google_Service_Bigquery_TableRow
+   */
   public function setRows($rows)
   {
     $this->rows = $rows;
   }
+  /**
+   * @return Google_Service_Bigquery_TableRow
+   */
   public function getRows()
   {
     return $this->rows;
   }
+  /**
+   * @param Google_Service_Bigquery_TableSchema
+   */
   public function setSchema(Google_Service_Bigquery_TableSchema $schema)
   {
     $this->schema = $schema;
   }
+  /**
+   * @return Google_Service_Bigquery_TableSchema
+   */
   public function getSchema()
   {
     return $this->schema;

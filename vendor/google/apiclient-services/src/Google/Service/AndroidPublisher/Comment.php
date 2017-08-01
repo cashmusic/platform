@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_AndroidPublisher_Comment extends Google_Model
   protected $userCommentType = 'Google_Service_AndroidPublisher_UserComment';
   protected $userCommentDataType = '';
 
+  /**
+   * @param Google_Service_AndroidPublisher_DeveloperComment
+   */
   public function setDeveloperComment(Google_Service_AndroidPublisher_DeveloperComment $developerComment)
   {
     $this->developerComment = $developerComment;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_DeveloperComment
+   */
   public function getDeveloperComment()
   {
     return $this->developerComment;
   }
+  /**
+   * @param Google_Service_AndroidPublisher_UserComment
+   */
   public function setUserComment(Google_Service_AndroidPublisher_UserComment $userComment)
   {
     $this->userComment = $userComment;
   }
+  /**
+   * @return Google_Service_AndroidPublisher_UserComment
+   */
   public function getUserComment()
   {
     return $this->userComment;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -89,10 +89,16 @@ class Google_Service_YouTube_VideoSnippet extends Google_Collection
   {
     return $this->liveBroadcastContent;
   }
+  /**
+   * @param Google_Service_YouTube_VideoLocalization
+   */
   public function setLocalized(Google_Service_YouTube_VideoLocalization $localized)
   {
     $this->localized = $localized;
   }
+  /**
+   * @return Google_Service_YouTube_VideoLocalization
+   */
   public function getLocalized()
   {
     return $this->localized;
@@ -113,10 +119,16 @@ class Google_Service_YouTube_VideoSnippet extends Google_Collection
   {
     return $this->tags;
   }
+  /**
+   * @param Google_Service_YouTube_ThumbnailDetails
+   */
   public function setThumbnails(Google_Service_YouTube_ThumbnailDetails $thumbnails)
   {
     $this->thumbnails = $thumbnails;
   }
+  /**
+   * @return Google_Service_YouTube_ThumbnailDetails
+   */
   public function getThumbnails()
   {
     return $this->thumbnails;

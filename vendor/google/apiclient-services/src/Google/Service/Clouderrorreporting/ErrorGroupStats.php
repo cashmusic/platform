@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,10 +32,16 @@ class Google_Service_Clouderrorreporting_ErrorGroupStats extends Google_Collecti
   protected $timedCountsType = 'Google_Service_Clouderrorreporting_TimedCount';
   protected $timedCountsDataType = 'array';
 
+  /**
+   * @param Google_Service_Clouderrorreporting_ServiceContext
+   */
   public function setAffectedServices($affectedServices)
   {
     $this->affectedServices = $affectedServices;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_ServiceContext
+   */
   public function getAffectedServices()
   {
     return $this->affectedServices;
@@ -64,10 +70,16 @@ class Google_Service_Clouderrorreporting_ErrorGroupStats extends Google_Collecti
   {
     return $this->firstSeenTime;
   }
+  /**
+   * @param Google_Service_Clouderrorreporting_ErrorGroup
+   */
   public function setGroup(Google_Service_Clouderrorreporting_ErrorGroup $group)
   {
     $this->group = $group;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_ErrorGroup
+   */
   public function getGroup()
   {
     return $this->group;
@@ -88,18 +100,30 @@ class Google_Service_Clouderrorreporting_ErrorGroupStats extends Google_Collecti
   {
     return $this->numAffectedServices;
   }
+  /**
+   * @param Google_Service_Clouderrorreporting_ErrorEvent
+   */
   public function setRepresentative(Google_Service_Clouderrorreporting_ErrorEvent $representative)
   {
     $this->representative = $representative;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_ErrorEvent
+   */
   public function getRepresentative()
   {
     return $this->representative;
   }
+  /**
+   * @param Google_Service_Clouderrorreporting_TimedCount
+   */
   public function setTimedCounts($timedCounts)
   {
     $this->timedCounts = $timedCounts;
   }
+  /**
+   * @return Google_Service_Clouderrorreporting_TimedCount
+   */
   public function getTimedCounts()
   {
     return $this->timedCounts;

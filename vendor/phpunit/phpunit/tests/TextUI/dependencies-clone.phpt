@@ -8,7 +8,7 @@ $_SERVER['argv'][3] = 'ClonedDependencyTest';
 $_SERVER['argv'][4] = __DIR__ . '/../_files/ClonedDependencyTest.php';
 
 require __DIR__ . '/../bootstrap.php';
-PHPUnit\TextUI\Command::main();
+PHPUnit_TextUI_Command::main();
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
@@ -18,5 +18,5 @@ Runtime:       %s
 
 Time: %s, Memory: %s
 
-OK (4 tests, 4 assertions)
+OK (4 tests, 3 assertions)
 

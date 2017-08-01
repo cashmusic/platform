@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -48,10 +48,16 @@ class Google_Service_DeploymentManager_Type extends Google_Model
   {
     return $this->name;
   }
+  /**
+   * @param Google_Service_DeploymentManager_Operation
+   */
   public function setOperation(Google_Service_DeploymentManager_Operation $operation)
   {
     $this->operation = $operation;
   }
+  /**
+   * @return Google_Service_DeploymentManager_Operation
+   */
   public function getOperation()
   {
     return $this->operation;

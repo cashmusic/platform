@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -39,10 +39,16 @@ class Google_Service_Logging_LogLine extends Google_Model
   {
     return $this->severity;
   }
+  /**
+   * @param Google_Service_Logging_SourceLocation
+   */
   public function setSourceLocation(Google_Service_Logging_SourceLocation $sourceLocation)
   {
     $this->sourceLocation = $sourceLocation;
   }
+  /**
+   * @return Google_Service_Logging_SourceLocation
+   */
   public function getSourceLocation()
   {
     return $this->sourceLocation;

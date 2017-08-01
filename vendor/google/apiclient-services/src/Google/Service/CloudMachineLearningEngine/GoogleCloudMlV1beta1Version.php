@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,16 +17,34 @@
 
 class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1Version extends Google_Model
 {
+  protected $autoScalingType = 'Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1AutoScaling';
+  protected $autoScalingDataType = '';
   public $createTime;
   public $deploymentUri;
   public $description;
+  public $errorMessage;
   public $isDefault;
   public $lastUseTime;
   protected $manualScalingType = 'Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1ManualScaling';
   protected $manualScalingDataType = '';
   public $name;
   public $runtimeVersion;
+  public $state;
 
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1AutoScaling
+   */
+  public function setAutoScaling(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1AutoScaling $autoScaling)
+  {
+    $this->autoScaling = $autoScaling;
+  }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1AutoScaling
+   */
+  public function getAutoScaling()
+  {
+    return $this->autoScaling;
+  }
   public function setCreateTime($createTime)
   {
     $this->createTime = $createTime;
@@ -51,6 +69,14 @@ class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1Version exte
   {
     return $this->description;
   }
+  public function setErrorMessage($errorMessage)
+  {
+    $this->errorMessage = $errorMessage;
+  }
+  public function getErrorMessage()
+  {
+    return $this->errorMessage;
+  }
   public function setIsDefault($isDefault)
   {
     $this->isDefault = $isDefault;
@@ -67,10 +93,16 @@ class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1Version exte
   {
     return $this->lastUseTime;
   }
+  /**
+   * @param Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1ManualScaling
+   */
   public function setManualScaling(Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1ManualScaling $manualScaling)
   {
     $this->manualScaling = $manualScaling;
   }
+  /**
+   * @return Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1ManualScaling
+   */
   public function getManualScaling()
   {
     return $this->manualScaling;
@@ -90,5 +122,13 @@ class Google_Service_CloudMachineLearningEngine_GoogleCloudMlV1beta1Version exte
   public function getRuntimeVersion()
   {
     return $this->runtimeVersion;
+  }
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  public function getState()
+  {
+    return $this->state;
   }
 }

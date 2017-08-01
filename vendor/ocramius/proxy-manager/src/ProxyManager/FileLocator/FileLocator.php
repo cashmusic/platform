@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\FileLocator;
 
 use ProxyManager\Exception\InvalidProxyDirectoryException;
@@ -40,7 +38,7 @@ class FileLocator implements FileLocatorInterface
      *
      * @throws \ProxyManager\Exception\InvalidProxyDirectoryException
      */
-    public function __construct(string $proxiesDirectory)
+    public function __construct($proxiesDirectory)
     {
         $this->proxiesDirectory = realpath($proxiesDirectory);
 
@@ -52,7 +50,7 @@ class FileLocator implements FileLocatorInterface
     /**
      * {@inheritDoc}
      */
-    public function getProxyFileName(string $className) : string
+    public function getProxyFileName($className)
     {
         return $this->proxiesDirectory . DIRECTORY_SEPARATOR . str_replace('\\', '', $className) . '.php';
     }

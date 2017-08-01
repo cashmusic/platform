@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -27,18 +27,30 @@ class Google_Service_AnalyticsReporting_Pivot extends Google_Collection
   protected $metricsDataType = 'array';
   public $startGroup;
 
+  /**
+   * @param Google_Service_AnalyticsReporting_DimensionFilterClause
+   */
   public function setDimensionFilterClauses($dimensionFilterClauses)
   {
     $this->dimensionFilterClauses = $dimensionFilterClauses;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_DimensionFilterClause
+   */
   public function getDimensionFilterClauses()
   {
     return $this->dimensionFilterClauses;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Dimension
+   */
   public function setDimensions($dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Dimension
+   */
   public function getDimensions()
   {
     return $this->dimensions;
@@ -51,10 +63,16 @@ class Google_Service_AnalyticsReporting_Pivot extends Google_Collection
   {
     return $this->maxGroupCount;
   }
+  /**
+   * @param Google_Service_AnalyticsReporting_Metric
+   */
   public function setMetrics($metrics)
   {
     $this->metrics = $metrics;
   }
+  /**
+   * @return Google_Service_AnalyticsReporting_Metric
+   */
   public function getMetrics()
   {
     return $this->metrics;

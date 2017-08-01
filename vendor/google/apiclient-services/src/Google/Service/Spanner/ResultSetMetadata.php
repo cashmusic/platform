@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Spanner_ResultSetMetadata extends Google_Model
   protected $transactionType = 'Google_Service_Spanner_Transaction';
   protected $transactionDataType = '';
 
+  /**
+   * @param Google_Service_Spanner_StructType
+   */
   public function setRowType(Google_Service_Spanner_StructType $rowType)
   {
     $this->rowType = $rowType;
   }
+  /**
+   * @return Google_Service_Spanner_StructType
+   */
   public function getRowType()
   {
     return $this->rowType;
   }
+  /**
+   * @param Google_Service_Spanner_Transaction
+   */
   public function setTransaction(Google_Service_Spanner_Transaction $transaction)
   {
     $this->transaction = $transaction;
   }
+  /**
+   * @return Google_Service_Spanner_Transaction
+   */
   public function getTransaction()
   {
     return $this->transaction;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,10 +42,16 @@ class Google_Service_YouTube_ChannelSectionSnippet extends Google_Model
   {
     return $this->defaultLanguage;
   }
+  /**
+   * @param Google_Service_YouTube_ChannelSectionLocalization
+   */
   public function setLocalized(Google_Service_YouTube_ChannelSectionLocalization $localized)
   {
     $this->localized = $localized;
   }
+  /**
+   * @return Google_Service_YouTube_ChannelSectionLocalization
+   */
   public function getLocalized()
   {
     return $this->localized;

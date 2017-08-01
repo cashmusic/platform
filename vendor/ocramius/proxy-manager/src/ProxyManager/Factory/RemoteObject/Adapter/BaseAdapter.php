@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Factory\RemoteObject\Adapter;
 
 use ProxyManager\Factory\RemoteObject\AdapterInterface;
@@ -43,7 +41,7 @@ abstract class BaseAdapter implements AdapterInterface
      *
      * @var string[]
      */
-    protected $map = [];
+    protected $map = array();
 
     /**
      * Constructor
@@ -51,7 +49,7 @@ abstract class BaseAdapter implements AdapterInterface
      * @param Client $client
      * @param array  $map    map of service names to their aliases
      */
-    public function __construct(Client $client, array $map = [])
+    public function __construct(Client $client, array $map = array())
     {
         $this->client = $client;
         $this->map    = $map;
@@ -60,7 +58,7 @@ abstract class BaseAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function call(string $wrappedClass, string $method, array $params = [])
+    public function call($wrappedClass, $method, array $params = array())
     {
         $serviceName = $this->getServiceName($wrappedClass, $method);
 
@@ -79,5 +77,5 @@ abstract class BaseAdapter implements AdapterInterface
      *
      * @return string Service name
      */
-    abstract protected function getServiceName(string $wrappedClass, string $method) : string;
+    abstract protected function getServiceName($wrappedClass, $method);
 }

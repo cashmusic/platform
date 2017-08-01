@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,18 +32,30 @@ class Google_Service_CloudNaturalLanguage_AnalyzeSyntaxResponse extends Google_C
   {
     return $this->language;
   }
+  /**
+   * @param Google_Service_CloudNaturalLanguage_Sentence
+   */
   public function setSentences($sentences)
   {
     $this->sentences = $sentences;
   }
+  /**
+   * @return Google_Service_CloudNaturalLanguage_Sentence
+   */
   public function getSentences()
   {
     return $this->sentences;
   }
+  /**
+   * @param Google_Service_CloudNaturalLanguage_Token
+   */
   public function setTokens($tokens)
   {
     $this->tokens = $tokens;
   }
+  /**
+   * @return Google_Service_CloudNaturalLanguage_Token
+   */
   public function getTokens()
   {
     return $this->tokens;

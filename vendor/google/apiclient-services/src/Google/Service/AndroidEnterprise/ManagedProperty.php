@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -44,18 +44,30 @@ class Google_Service_AndroidEnterprise_ManagedProperty extends Google_Collection
   {
     return $this->valueBool;
   }
+  /**
+   * @param Google_Service_AndroidEnterprise_ManagedPropertyBundle
+   */
   public function setValueBundle(Google_Service_AndroidEnterprise_ManagedPropertyBundle $valueBundle)
   {
     $this->valueBundle = $valueBundle;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_ManagedPropertyBundle
+   */
   public function getValueBundle()
   {
     return $this->valueBundle;
   }
+  /**
+   * @param Google_Service_AndroidEnterprise_ManagedPropertyBundle
+   */
   public function setValueBundleArray($valueBundleArray)
   {
     $this->valueBundleArray = $valueBundleArray;
   }
+  /**
+   * @return Google_Service_AndroidEnterprise_ManagedPropertyBundle
+   */
   public function getValueBundleArray()
   {
     return $this->valueBundleArray;

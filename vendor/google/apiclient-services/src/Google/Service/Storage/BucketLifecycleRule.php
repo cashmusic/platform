@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,18 +22,30 @@ class Google_Service_Storage_BucketLifecycleRule extends Google_Model
   protected $conditionType = 'Google_Service_Storage_BucketLifecycleRuleCondition';
   protected $conditionDataType = '';
 
+  /**
+   * @param Google_Service_Storage_BucketLifecycleRuleAction
+   */
   public function setAction(Google_Service_Storage_BucketLifecycleRuleAction $action)
   {
     $this->action = $action;
   }
+  /**
+   * @return Google_Service_Storage_BucketLifecycleRuleAction
+   */
   public function getAction()
   {
     return $this->action;
   }
+  /**
+   * @param Google_Service_Storage_BucketLifecycleRuleCondition
+   */
   public function setCondition(Google_Service_Storage_BucketLifecycleRuleCondition $condition)
   {
     $this->condition = $condition;
   }
+  /**
+   * @return Google_Service_Storage_BucketLifecycleRuleCondition
+   */
   public function getCondition()
   {
     return $this->condition;

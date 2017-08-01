@@ -8,18 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Framework;
-
-class TestImplementorTest extends TestCase
+class Framework_TestImplementorTest extends PHPUnit_Framework_TestCase
 {
     public function testSuccessfulRun()
     {
-        $result = new TestResult;
+        $result = new PHPUnit_Framework_TestResult;
 
-        $test = new \DoubleTestCase(new \Success);
+        $test = new DoubleTestCase(new Success);
         $test->run($result);
 
-        $this->assertCount(\count($test), $result);
+        $this->assertCount(count($test), $result);
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
     }

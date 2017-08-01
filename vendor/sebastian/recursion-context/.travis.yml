@@ -1,23 +1,21 @@
 language: php
 
 php:
-  - 7.0
-  - 7.0snapshot
-  - 7.1
-  - 7.1snapshot
-  - master
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
 
 sudo: false
 
-before_install:
+before_script:
   - composer self-update
-  - composer clear-cache
+  - composer install --no-interaction --prefer-source --dev
 
-install:
-  - travis_retry composer update --no-interaction --no-ansi --no-progress --no-suggest --optimize-autoloader --prefer-stable
-
-script:
-  - ./vendor/bin/phpunit
+script: ./vendor/bin/phpunit
 
 notifications:
   email: false
+  irc: "irc.freenode.org#phpunit"

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,8 +28,8 @@ class Google_Service_Directory_Resource_Chromeosdevices extends Google_Service_R
   /**
    * Take action on Chrome OS Device (chromeosdevices.action)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $resourceId Immutable id of Chrome OS Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $resourceId Immutable ID of Chrome OS Device
    * @param Google_Service_Directory_ChromeOsDeviceAction $postBody
    * @param array $optParams Optional parameters.
    */
@@ -42,8 +42,8 @@ class Google_Service_Directory_Resource_Chromeosdevices extends Google_Service_R
   /**
    * Retrieve Chrome OS Device (chromeosdevices.get)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $deviceId Immutable id of Chrome OS Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $deviceId Immutable ID of Chrome OS Device
    * @param array $optParams Optional parameters.
    *
    * @opt_param string projection Restrict information returned to a set of
@@ -60,11 +60,12 @@ class Google_Service_Directory_Resource_Chromeosdevices extends Google_Service_R
    * Retrieve all Chrome OS Devices of a customer (paginated)
    * (chromeosdevices.listChromeosdevices)
    *
-   * @param string $customerId Immutable id of the Google Apps account
+   * @param string $customerId Immutable ID of the G Suite account
    * @param array $optParams Optional parameters.
    *
    * @opt_param int maxResults Maximum number of results to return. Default is 100
    * @opt_param string orderBy Column to use for sorting results
+   * @opt_param string orgUnitPath Full path of the organization unit or its Id
    * @opt_param string pageToken Token to specify next page in the list
    * @opt_param string projection Restrict information returned to a set of
    * selected fields.
@@ -81,11 +82,27 @@ class Google_Service_Directory_Resource_Chromeosdevices extends Google_Service_R
     return $this->call('list', array($params), "Google_Service_Directory_ChromeOsDevices");
   }
   /**
+   * Move or insert multiple Chrome OS Devices to Organization Unit
+   * (chromeosdevices.moveDevicesToOu)
+   *
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $orgUnitPath Full path of the target organization unit or its
+   * Id
+   * @param Google_Service_Directory_ChromeOsMoveDevicesToOu $postBody
+   * @param array $optParams Optional parameters.
+   */
+  public function moveDevicesToOu($customerId, $orgUnitPath, Google_Service_Directory_ChromeOsMoveDevicesToOu $postBody, $optParams = array())
+  {
+    $params = array('customerId' => $customerId, 'orgUnitPath' => $orgUnitPath, 'postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('moveDevicesToOu', array($params));
+  }
+  /**
    * Update Chrome OS Device. This method supports patch semantics.
    * (chromeosdevices.patch)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $deviceId Immutable id of Chrome OS Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $deviceId Immutable ID of Chrome OS Device
    * @param Google_Service_Directory_ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *
@@ -102,8 +119,8 @@ class Google_Service_Directory_Resource_Chromeosdevices extends Google_Service_R
   /**
    * Update Chrome OS Device (chromeosdevices.update)
    *
-   * @param string $customerId Immutable id of the Google Apps account
-   * @param string $deviceId Immutable id of Chrome OS Device
+   * @param string $customerId Immutable ID of the G Suite account
+   * @param string $deviceId Immutable ID of Chrome OS Device
    * @param Google_Service_Directory_ChromeOsDevice $postBody
    * @param array $optParams Optional parameters.
    *

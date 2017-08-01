@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -77,10 +77,16 @@ class Google_Service_Storagetransfer_TransferJob extends Google_Model
   {
     return $this->projectId;
   }
+  /**
+   * @param Google_Service_Storagetransfer_Schedule
+   */
   public function setSchedule(Google_Service_Storagetransfer_Schedule $schedule)
   {
     $this->schedule = $schedule;
   }
+  /**
+   * @return Google_Service_Storagetransfer_Schedule
+   */
   public function getSchedule()
   {
     return $this->schedule;
@@ -93,10 +99,16 @@ class Google_Service_Storagetransfer_TransferJob extends Google_Model
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_Storagetransfer_TransferSpec
+   */
   public function setTransferSpec(Google_Service_Storagetransfer_TransferSpec $transferSpec)
   {
     $this->transferSpec = $transferSpec;
   }
+  /**
+   * @return Google_Service_Storagetransfer_TransferSpec
+   */
   public function getTransferSpec()
   {
     return $this->transferSpec;

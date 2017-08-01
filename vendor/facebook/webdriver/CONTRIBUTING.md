@@ -13,7 +13,7 @@ send a pull request (see bellow) with your contribution.
 4. When implementing notable change, fix or a new feature, add record to Unreleased section of [CHANGELOG.md](CHANGELOG.md)
 5. Submit your [pull request](https://github.com/facebook/php-webdriver/pulls) against community branch
  
-Note before any pull request can be accepted, a [Contributors Licensing Agreement](http://developers.facebook.com/opensource/cla) must be signed.
+Note before any pull request can be accepted, a [Contributors Licensing Agreement](https://developers.facebook.com/opensource/cla) must be signed.
 
 When you are going to contribute, please keep in mind that this webdriver client aims to be as close as possible to other languages Java/Ruby/Python/C#.
 FYI, here is the overview of [the official Java API](http://seleniumhq.github.io/selenium/docs/api/java/)
@@ -29,15 +29,28 @@ To execute all tests simply run:
 If you want to execute just the unit tests, run:
 
     ./vendor/bin/phpunit --testsuite unit
-    
-For the functional tests you must first download and start the selenium server, then run the `functional` test suite:
 
-    java -jar selenium-server-standalone-2.48.2.jar -log selenium.log &
+For the functional tests you must first [download](http://selenium-release.storage.googleapis.com/index.html) and start
+the selenium standalone server, start the local PHP server which will serve the test pages and then run the `functional`
+test suite:
+
+    java -jar selenium-server-standalone-2.53.1.jar -log selenium.log &
+    php -S localhost:8000 -t tests/functional/web/ &
+    ./vendor/bin/phpunit --testsuite functional
+    
+The functional tests will be started in HtmlUnit headless browser by default. If you want to run them in eg. Firefox,
+simply set the `BROWSER` environment variable:
+
+    ...
+    export BROWSER_NAME="firefox"
     ./vendor/bin/phpunit --testsuite functional
 
 ### Check coding style
 
 Your code-style should comply with [PSR-2](http://www.php-fig.org/psr/psr-2/). To make sure your code matches this requirement run:
 
-    ./vendor/bin/php-cs-fixer fix --diff --dry-run
-    ./vendor/bin/phpcs --standard=PSR2 ./lib/ ./tests/
+    composer codestyle:check
+
+To auto-fix the codestyle simply run:
+
+    composer codestyle:fix

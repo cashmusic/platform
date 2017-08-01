@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -50,18 +50,30 @@ class Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElement ex
   {
     return $this->ruleImpact;
   }
+  /**
+   * @param Google_Service_Pagespeedonline_PagespeedApiFormatStringV2
+   */
   public function setSummary(Google_Service_Pagespeedonline_PagespeedApiFormatStringV2 $summary)
   {
     $this->summary = $summary;
   }
+  /**
+   * @return Google_Service_Pagespeedonline_PagespeedApiFormatStringV2
+   */
   public function getSummary()
   {
     return $this->summary;
   }
+  /**
+   * @param Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks
+   */
   public function setUrlBlocks($urlBlocks)
   {
     $this->urlBlocks = $urlBlocks;
   }
+  /**
+   * @return Google_Service_Pagespeedonline_ResultFormattedResultsRuleResultsElementUrlBlocks
+   */
   public function getUrlBlocks()
   {
     return $this->urlBlocks;

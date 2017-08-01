@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_Sheets_AddProtectedRangeResponse extends Google_Model
   protected $protectedRangeType = 'Google_Service_Sheets_ProtectedRange';
   protected $protectedRangeDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_ProtectedRange
+   */
   public function setProtectedRange(Google_Service_Sheets_ProtectedRange $protectedRange)
   {
     $this->protectedRange = $protectedRange;
   }
+  /**
+   * @return Google_Service_Sheets_ProtectedRange
+   */
   public function getProtectedRange()
   {
     return $this->protectedRange;

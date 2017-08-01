@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,10 +20,16 @@ class Google_Service_Sheets_AutoResizeDimensionsRequest extends Google_Model
   protected $dimensionsType = 'Google_Service_Sheets_DimensionRange';
   protected $dimensionsDataType = '';
 
+  /**
+   * @param Google_Service_Sheets_DimensionRange
+   */
   public function setDimensions(Google_Service_Sheets_DimensionRange $dimensions)
   {
     $this->dimensions = $dimensions;
   }
+  /**
+   * @return Google_Service_Sheets_DimensionRange
+   */
   public function getDimensions()
   {
     return $this->dimensions;

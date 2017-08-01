@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,18 +29,30 @@ class Google_Service_Dfareporting_CreativeAssetMetadata extends Google_Collectio
   public $kind;
   public $warnedValidationRules;
 
+  /**
+   * @param Google_Service_Dfareporting_CreativeAssetId
+   */
   public function setAssetIdentifier(Google_Service_Dfareporting_CreativeAssetId $assetIdentifier)
   {
     $this->assetIdentifier = $assetIdentifier;
   }
+  /**
+   * @return Google_Service_Dfareporting_CreativeAssetId
+   */
   public function getAssetIdentifier()
   {
     return $this->assetIdentifier;
   }
+  /**
+   * @param Google_Service_Dfareporting_ClickTag
+   */
   public function setClickTags($clickTags)
   {
     $this->clickTags = $clickTags;
   }
+  /**
+   * @return Google_Service_Dfareporting_ClickTag
+   */
   public function getClickTags()
   {
     return $this->clickTags;
@@ -61,10 +73,16 @@ class Google_Service_Dfareporting_CreativeAssetMetadata extends Google_Collectio
   {
     return $this->id;
   }
+  /**
+   * @param Google_Service_Dfareporting_DimensionValue
+   */
   public function setIdDimensionValue(Google_Service_Dfareporting_DimensionValue $idDimensionValue)
   {
     $this->idDimensionValue = $idDimensionValue;
   }
+  /**
+   * @return Google_Service_Dfareporting_DimensionValue
+   */
   public function getIdDimensionValue()
   {
     return $this->idDimensionValue;

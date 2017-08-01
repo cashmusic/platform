@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2016 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -62,18 +62,30 @@ class Google_Service_Dataproc_Job extends Google_Collection
   {
     return $this->driverOutputResourceUri;
   }
+  /**
+   * @param Google_Service_Dataproc_HadoopJob
+   */
   public function setHadoopJob(Google_Service_Dataproc_HadoopJob $hadoopJob)
   {
     $this->hadoopJob = $hadoopJob;
   }
+  /**
+   * @return Google_Service_Dataproc_HadoopJob
+   */
   public function getHadoopJob()
   {
     return $this->hadoopJob;
   }
+  /**
+   * @param Google_Service_Dataproc_HiveJob
+   */
   public function setHiveJob(Google_Service_Dataproc_HiveJob $hiveJob)
   {
     $this->hiveJob = $hiveJob;
   }
+  /**
+   * @return Google_Service_Dataproc_HiveJob
+   */
   public function getHiveJob()
   {
     return $this->hiveJob;
@@ -86,82 +98,142 @@ class Google_Service_Dataproc_Job extends Google_Collection
   {
     return $this->labels;
   }
+  /**
+   * @param Google_Service_Dataproc_PigJob
+   */
   public function setPigJob(Google_Service_Dataproc_PigJob $pigJob)
   {
     $this->pigJob = $pigJob;
   }
+  /**
+   * @return Google_Service_Dataproc_PigJob
+   */
   public function getPigJob()
   {
     return $this->pigJob;
   }
+  /**
+   * @param Google_Service_Dataproc_JobPlacement
+   */
   public function setPlacement(Google_Service_Dataproc_JobPlacement $placement)
   {
     $this->placement = $placement;
   }
+  /**
+   * @return Google_Service_Dataproc_JobPlacement
+   */
   public function getPlacement()
   {
     return $this->placement;
   }
+  /**
+   * @param Google_Service_Dataproc_PySparkJob
+   */
   public function setPysparkJob(Google_Service_Dataproc_PySparkJob $pysparkJob)
   {
     $this->pysparkJob = $pysparkJob;
   }
+  /**
+   * @return Google_Service_Dataproc_PySparkJob
+   */
   public function getPysparkJob()
   {
     return $this->pysparkJob;
   }
+  /**
+   * @param Google_Service_Dataproc_JobReference
+   */
   public function setReference(Google_Service_Dataproc_JobReference $reference)
   {
     $this->reference = $reference;
   }
+  /**
+   * @return Google_Service_Dataproc_JobReference
+   */
   public function getReference()
   {
     return $this->reference;
   }
+  /**
+   * @param Google_Service_Dataproc_JobScheduling
+   */
   public function setScheduling(Google_Service_Dataproc_JobScheduling $scheduling)
   {
     $this->scheduling = $scheduling;
   }
+  /**
+   * @return Google_Service_Dataproc_JobScheduling
+   */
   public function getScheduling()
   {
     return $this->scheduling;
   }
+  /**
+   * @param Google_Service_Dataproc_SparkJob
+   */
   public function setSparkJob(Google_Service_Dataproc_SparkJob $sparkJob)
   {
     $this->sparkJob = $sparkJob;
   }
+  /**
+   * @return Google_Service_Dataproc_SparkJob
+   */
   public function getSparkJob()
   {
     return $this->sparkJob;
   }
+  /**
+   * @param Google_Service_Dataproc_SparkSqlJob
+   */
   public function setSparkSqlJob(Google_Service_Dataproc_SparkSqlJob $sparkSqlJob)
   {
     $this->sparkSqlJob = $sparkSqlJob;
   }
+  /**
+   * @return Google_Service_Dataproc_SparkSqlJob
+   */
   public function getSparkSqlJob()
   {
     return $this->sparkSqlJob;
   }
+  /**
+   * @param Google_Service_Dataproc_JobStatus
+   */
   public function setStatus(Google_Service_Dataproc_JobStatus $status)
   {
     $this->status = $status;
   }
+  /**
+   * @return Google_Service_Dataproc_JobStatus
+   */
   public function getStatus()
   {
     return $this->status;
   }
+  /**
+   * @param Google_Service_Dataproc_JobStatus
+   */
   public function setStatusHistory($statusHistory)
   {
     $this->statusHistory = $statusHistory;
   }
+  /**
+   * @return Google_Service_Dataproc_JobStatus
+   */
   public function getStatusHistory()
   {
     return $this->statusHistory;
   }
+  /**
+   * @param Google_Service_Dataproc_YarnApplication
+   */
   public function setYarnApplications($yarnApplications)
   {
     $this->yarnApplications = $yarnApplications;
   }
+  /**
+   * @return Google_Service_Dataproc_YarnApplication
+   */
   public function getYarnApplications()
   {
     return $this->yarnApplications;
