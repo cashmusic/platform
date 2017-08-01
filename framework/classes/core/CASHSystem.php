@@ -975,19 +975,31 @@ abstract class CASHSystem  {
 		return $file;
 	}
 
-	public static function errorLog($data, $json=true) {
+	public static function errorLog($data, $json=true, $debug=true) {
+
+		if ($debug) {
+
+            $bt = debug_backtrace();
+            $caller = array_shift($bt);
+
+
+            $debug = "(". $caller['line'] .": ".str_replace("/var/www/cash_platform/", "", $caller['file']) . ") ";
+		} else {
+			$debug = "";
+		}
+
 		switch(gettype($data)) {
 			case "string":
 			case "boolean":
 			case "integer":
 			case "double":
-				error_log("### errorLog (".gettype($data).") -> " . $data);
+				error_log($debug.":[".gettype($data)."]: " . $data);
 				return true;
 			break;
 
 			case "NULL":
 			case "unknown type":
-				error_log("### errorLog -> NULL");
+				error_log($debug.": NULL");
 				return true;
 			break;
 
@@ -996,16 +1008,16 @@ abstract class CASHSystem  {
 			case "resource":
 
 				if ($json) {
-                    error_log("### errorLog (".gettype($data).") -> " . json_encode($data, JSON_PRETTY_PRINT));
+                    error_log($debug.":[".gettype($data)."]: " . json_encode($data, JSON_PRETTY_PRINT));
 				} else {
-                    error_log("### errorLog (".gettype($data).") -> " . print_r($data, true));
+                    error_log($debug."[".gettype($data)."]: " . print_r($data, true));
 
                 }
 				return true;
 			break;
 
 			default:
-				error_log("### errorLog -> no data");
+				error_log($debug.": no data");
 				return true;
 
 		}

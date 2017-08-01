@@ -378,7 +378,7 @@ class PeoplePlant extends PlantBase {
 
 		try {
     	$query = $this->db->table('people')
-			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'people_lists_members.initial_comment', 'people_lists_members.additional_data', 'people_lists_members.active', 'people_lists_members.verified', 'people_lists_members.creation_date'])
+			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'people.address_postalcode', 'people_lists_members.initial_comment', 'people_lists_members.additional_data', 'people_lists_members.active', 'people_lists_members.verified', 'people_lists_members.creation_date'])
 			->join('people_lists_members', 'people_lists_members.user_id', '=', 'people.id', 'LEFT OUTER')
 			->where('people_lists_members.list_id', $list_id)
 			->where('people_lists_members.active', 1)
@@ -560,25 +560,21 @@ class PeoplePlant extends PlantBase {
 						$result = true;
 					}
 
+					if (!$user = $this->orm->find(People::class, $user_id)) {
+						return false;
+					}
+
 					// update this data cuz yeah
 					if (isset($first_name) || isset($last_name) || isset($postal_code)) {
-                        $result = $this->db->setData(
-                            'users',
-                            array(
-                                'first_name' => $first_name,
-                                'last_name' => $last_name,
-                                'address_postalcode' => $postal_code
-                            ),
-                            array(
-                                'id' => array(
-                                    'condition' => '=',
-                                    'value' => $user_id
-                                )
-                            )
-                        );
+
+						$user->update([
+                            'first_name' => $first_name,
+                            'last_name' => $last_name,
+                            'address_postalcode' => $postal_code
+						]);
                     }
 
-					if ($result && !$request_from_service) {
+					if ($user && !$request_from_service) {
 						if ($do_not_verify) {
 							$api_connection = $this->getConnectionAPI($list_id);
 							if ($api_connection) {

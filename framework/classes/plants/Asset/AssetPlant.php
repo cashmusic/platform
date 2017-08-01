@@ -84,7 +84,7 @@ class AssetPlant extends PlantBase {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
-		CASHSystem::errorLog($asset_details);
+
 		// test that getInfo returned results
 		if ($asset_details) {
 
@@ -536,7 +536,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
 		$connection = $this->getConnectionDetails($connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 
 		if (is_array($connection_type)) {
 			$seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];

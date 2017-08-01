@@ -40,6 +40,7 @@ if ($request_parameters) {
 			foreach ($list_members['payload']['members'] as &$entry) {
             // array stuff
             $entry = json_decode(json_encode($entry), true);
+
 			$entry['formatted_date'] = date('M j, Y',$entry['creation_date']);
 		}
 		$cash_admin->page_data['list_members'] = new ArrayIterator($list_members['payload']['members']);
