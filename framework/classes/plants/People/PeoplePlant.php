@@ -900,7 +900,7 @@ class PeoplePlant extends PlantBase {
 		$user_id = $this->getUserIDForAddress($address);
 		$list_info = $this->getList($list_id) ;
 		$user_list_info = $this->getAddressListInfo($address,$list_id);
-		if ($list_info['user_id'] == $user_id) {
+		if ($list_info->user_id == $user_id) {
 			// user is the owner of the list, set validate to true
 			$validate = true;
 		}
