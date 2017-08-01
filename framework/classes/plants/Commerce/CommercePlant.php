@@ -505,21 +505,6 @@ class CommercePlant extends PlantBase {
      */
     public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false,$geo=false,$finalize_url=false) {
 
-      if (CASH_DEBUG) {
-         error_log(
-            'Called CommercePlant::initiateCheckout with: '
-            . '$element_id='      . (string)$element_id
-            . ', $shipping_info=' . (string)$shipping_info
-            . ', $paypal='        . (string)$paypal
-            . ', $stripe='        . (string)$stripe
-            . ', $origin='        . (string)$origin
-            . ', $email_address=' . (string)$email_address
-            . ', $customer_name=' . (string)$customer_name
-            . ', $session_id='    . (string)$session_id
-            . ', $geo='    . (string)$geo
-         );
-      }
-
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
@@ -584,15 +569,6 @@ class CommercePlant extends PlantBase {
 
             $total_price = $subtotal + $shipping;
 
-            if (CASH_DEBUG) {
-               error_log(
-                  'In CommercePlant::initiateCheckout found: '
-                  . '$total_price=' . (string)$total_price
-                  . ', $subtotal='  . (string)$subtotal
-                  . ', $shipping='  . (string)$shipping
-               );
-            }
-
             // total zero price stop-gap, before this thing can load seeds or create an order or any dumb stuff.
             if ($total_price == 0) {
                 $this->unlockElement($element_id);
@@ -609,11 +585,7 @@ class CommercePlant extends PlantBase {
             if ($stripe != false) {
               $seed_class = "StripeSeed";
               $connection_id = $stripe_default;
-              if (CASH_DEBUG) {
-                 error_log(
-                    'In CommercePlant::initiateCheckout using Stripe.'
-                 );
-              }
+
             }
 
             if ($paypal != false) {
@@ -623,11 +595,6 @@ class CommercePlant extends PlantBase {
                   $connection_id = $pp_micro;
               } else {
                   $connection_id = $pp_default;
-              }
-              if (CASH_DEBUG) {
-                 error_log(
-                    'In CommercePlant::initiateCheckout using Paypal.'
-                 );
               }
             }
 
@@ -722,12 +689,6 @@ class CommercePlant extends PlantBase {
                     }
                     if ($finalize_url) {
                        $return_url .= '&finalize_url=' . urlencode($finalize_url);
-                    }
-
-                    if (CASH_DEBUG) {
-                       error_log(
-                          'In CommercePlant::initiateCheckout redirecting to ' . $return_url
-                       );
                     }
 
                     $approval_url = $payment_seed->preparePayment(
@@ -860,7 +821,6 @@ class CommercePlant extends PlantBase {
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
       $this->startSession($session_id);
-
       // this just checks to see if we've started finalizing already. really
       // only an issue for embeds used on pages
       $working = $this->sessionGet('finalizing_payment');
@@ -874,22 +834,6 @@ class CommercePlant extends PlantBase {
       // nothing found? set the in-progress marker to the current id
       $this->sessionSet('finalizing_payment',$order_id);
 
-
-      if (CASH_DEBUG) {
-         error_log(
-            'Called CommercePlant::finalizePayment with: '
-            . '$order_id='               . (string)$order_id
-            . ', $token='                . (string)$token
-            . ', $email_address='        . (string)$email_address
-            . ', $customer_name='        . (string)$customer_name
-            . ', $shipping_info='        . (string)$shipping_info
-            . ', $session_id='           . (string)$session_id
-            . ', $total_price='          . (string)$total_price
-            . ', $description='          . (string)$description
-         );
-      }
-
-
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
@@ -901,12 +845,6 @@ class CommercePlant extends PlantBase {
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 
         $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
-
-        if (CASH_DEBUG) {
-           error_log(
-             'In CommercePlant::finalizePayment using seed class ' . $seed_class
-           );
-        }
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -980,12 +918,6 @@ class CommercePlant extends PlantBase {
 
                     $this->unlockElement($order_details['element_id'], $order_details);
 
-                     if (CASH_DEBUG) {
-                        error_log(
-                          'In CommercePlant::finalizePayment. Success! Order number ' . $order_id
-                        );
-                     }
-
                     return $order_id;
                 } else {
                     $this->setErrorMessage("Error in CommercePlant::finalizePayment. Couldn't find your account.");
@@ -1058,8 +990,8 @@ class CommercePlant extends PlantBase {
     protected function getFulfillmentStatus(array $order_details) {
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
-           $debug_info = "ORDER CONTENTS\n" . $order_details['order_contents'] . "\n\n";
-            $order_items = json_decode( $order_details['order_contents'],true);
+           $debug_info = "ORDER CONTENTS\n" . json_encode($order_details['order_contents']) . "\n\n";
+            $order_items = $order_details['order_contents'];
             $debug_info .= "DECODED TYPE\n" . gettype($order_items) . "\n\n";
             if (is_array($order_items)) {
                 foreach ($order_items as $i) {
@@ -1097,7 +1029,7 @@ class CommercePlant extends PlantBase {
 
 
                               $debug_info .= "\n\nVARIANT ID: " . $variant_id . "\n";
-                              // error_log($debug_info);
+                                CASHSystem::errorLog($debug_info);
 
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);

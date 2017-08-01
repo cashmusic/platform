@@ -72,17 +72,6 @@ class StripeSeed extends SeedBase
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
-            if (CASH_DEBUG) {
-               error_log(
-                  'Initiated StripeSeed with: '
-                  . '$this->client_id='            . (string)$this->client_id
-                  . ', $this->client_secret='      . (string)$this->client_secret
-                  . ', $this->publishable_key='    . (string)$this->publishable_key
-                  . ', $this->access_token='       . (string)$this->access_token
-                  . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
-               );
-            }
-
             Stripe::setApiKey($this->access_token);
         } else {
             $this->error_message = 'could not get connection settings';
@@ -329,18 +318,6 @@ class StripeSeed extends SeedBase
      */
     public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='usd') {
 
-      if (CASH_DEBUG) {
-         error_log(
-            'Called StripeSeed::doPayment with: '
-            . '$total_price='       . (string)$total_price
-            . ', $description='     . (string)$description
-            . ', $token='           . (string)$token
-            . ', $email_address='   . (string)$email_address
-            . ', $customer_name='   . (string)$customer_name
-            . ', $currency='        . (string)$currency
-         );
-      }
-
     if (!empty($token)) {
 
         try {
@@ -406,7 +383,7 @@ class StripeSeed extends SeedBase
                 'transaction_description' => '',
                 'customer_email' => $email_address,
                 'customer_first_name' => $full_name[0],
-                'customer_last_name' => $full_name[1],
+                'customer_last_name' => (isset($full_name[1])) ? $full_name[1] : '',
                 'customer_name' => $customer_name,
 
                 'customer_phone' => '',

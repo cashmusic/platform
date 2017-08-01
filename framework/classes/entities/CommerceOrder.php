@@ -37,7 +37,7 @@ class CommerceOrder extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="order_contents", type="text", length=65535, nullable=false)
+     * @Column(name="order_contents", type="json_array", length=65535, nullable=false)
      */
     protected $order_contents;
 
