@@ -224,6 +224,8 @@ class CommercePlant extends PlantBase {
                 $order = $order[0];
             }
 
+            if (!$deep) $order = $order->toArray();
+
             if ($deep) {
                 $transaction = $order->transaction();
                 $order = $order->toArray();
@@ -643,7 +645,7 @@ class CommercePlant extends PlantBase {
             }
 
 
-            $transaction_id = $this->addTransaction(
+            $transaction = $this->addTransaction(
                 $user_id,
                 $connection_id,
                 $this->getConnectionType($connection_id),
@@ -661,7 +663,7 @@ class CommercePlant extends PlantBase {
             $order_id = $this->addOrder(
                 $user_id,
                 $order_contents,
-                $transaction_id,
+                $transaction->id,
                 $is_physical,
                 $is_digital,
                 $this->getSessionID(),
@@ -692,10 +694,10 @@ class CommercePlant extends PlantBase {
 
                 $order_details = $this->getOrder($order_id);
 
-                $transaction_details = $this->getTransaction($order_details['transaction_id']);
+                $transaction = $this->getTransaction($order_details['transaction_id']);
 
                 //TODO: we'll need to figure out a way to get the connection_id for whatever payment method was chosen, in order to switch on the fly
-                $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+                $connection_type = $this->getConnectionType($transaction->connection_id);
                 $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
                 // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
@@ -706,7 +708,7 @@ class CommercePlant extends PlantBase {
                 }
 
                 // call the payment seed class
-                $payment_seed = new $seed_class($user_id,$transaction_details['connection_id']);
+                $payment_seed = new $seed_class($user_id,$transaction->connection_id);
 
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
                 if ($payment_seed->redirects != false) {
@@ -737,7 +739,7 @@ class CommercePlant extends PlantBase {
                         $currency,									# payment currency
                         'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
                         $shipping,								# price additions (like shipping, but could be taxes in future as well)
-                        $transaction_id                         # for adding data sent
+                        $transaction->id                         # for adding data sent
                     );
 
                     // returns a url, javascript parses for success/failure and gets http://, so it does a redirect
@@ -761,9 +763,7 @@ class CommercePlant extends PlantBase {
                     } else {
                         return "failure";
                     }
-
                 }
-
                 //$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
                 //return $success;
             } else {
@@ -893,7 +893,7 @@ class CommercePlant extends PlantBase {
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
-        $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+        $connection_type = $this->getConnectionType($transaction_details->connection_id);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
@@ -916,7 +916,7 @@ class CommercePlant extends PlantBase {
 
 
         // call the payment seed class
-        $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+        $payment_seed = new $seed_class($order_details['user_id'],$transaction_details->connection_id);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $order_details['currency'])) {
