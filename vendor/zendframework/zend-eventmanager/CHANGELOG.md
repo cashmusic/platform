@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.2.0 - 2017-07-11
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#47](https://github.com/zendframework/zend-eventmanager/pull/47) removes
+  support for PHP 5.5 and HHVM.
+
+### Fixed
+
+- Nothing.
+
 ## 3.1.0 - 2016-12-19
 
 ### Added

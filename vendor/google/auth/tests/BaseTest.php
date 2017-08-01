@@ -27,6 +27,6 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function getValidKeyName($key)
     {
-        return str_replace(['{', '}', '(', ')', '/', '\\', '@', ':'], '-', $key);
+        return preg_replace('|[^a-zA-Z0-9_\.! ]|', '', $key);
     }
 }

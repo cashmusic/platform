@@ -222,7 +222,8 @@ class PrettyPageHandler extends Handler
 
             "title"          => $this->getPageTitle(),
             "name"           => explode("\\", $inspector->getExceptionName()),
-            "message"        => $inspector->getException()->getMessage(),
+            "message"        => $inspector->getExceptionMessage(),
+            "docref_url"     => $inspector->getExceptionDocrefUrl(),
             "code"           => $code,
             "plain_exception" => Formatter::formatExceptionPlain($inspector),
             "frames"         => $frames,
@@ -234,13 +235,13 @@ class PrettyPageHandler extends Handler
             "has_frames_tabs"   => $this->getApplicationPaths(),
 
             "tables"      => [
-                "GET Data"              => $this->masked('_GET'),
-                "POST Data"             => $this->masked('_POST'),
-                "Files"                 => $this->masked('_FILES'),
-                "Cookies"               => $this->masked('_COOKIE'),
-                "Session"               => isset($_SESSION) ? $this->masked('_SESSION') :  [],
-                "Server/Request Data"   => $this->masked('_SERVER'),
-                "Environment Variables" => $this->masked('_ENV'),
+                "GET Data"              => $this->masked($_GET, '_GET'),
+                "POST Data"             => $this->masked($_POST, '_POST'),
+                "Files"                 => isset($_FILES) ? $this->masked($_FILES, '_FILES') : [],
+                "Cookies"               => $this->masked($_COOKIE, '_COOKIE'),
+                "Session"               => isset($_SESSION) ? $this->masked($_SESSION, '_SESSION') :  [],
+                "Server/Request Data"   => $this->masked($_SERVER, '_SERVER'),
+                "Environment Variables" => $this->masked($_ENV, '_ENV'),
             ],
         ];
 
@@ -258,7 +259,7 @@ class PrettyPageHandler extends Handler
         $plainTextHandler = new PlainTextHandler();
         $plainTextHandler->setException($this->getException());
         $plainTextHandler->setInspector($this->getInspector());
-        $vars["preface"] = "<!--\n\n\n" . $plainTextHandler->generateResponse() . "\n\n\n\n\n\n\n\n\n\n\n-->";
+        $vars["preface"] = "<!--\n\n\n" .  $this->templateHelper->escape($plainTextHandler->generateResponse()) . "\n\n\n\n\n\n\n\n\n\n\n-->";
 
         $this->templateHelper->setVariables($vars);
         $this->templateHelper->render($templateFile);
@@ -655,19 +656,22 @@ class PrettyPageHandler extends Handler
     }
 
     /**
-     * Checks all values identified by the given superGlobalName within GLOBALS.
+     * Checks all values within the given superGlobal array.
      * Blacklisted values will be replaced by a equal length string cointaining only '*' characters.
      *
+     * We intentionally dont rely on $GLOBALS as it depends on 'auto_globals_jit' php.ini setting.
+     *
+     * @param $superGlobal array One of the superglobal arrays
      * @param $superGlobalName string the name of the superglobal array, e.g. '_GET'
      * @return array $values without sensitive data
      */
-    private function masked($superGlobalName) {
+    private function masked(array $superGlobal, $superGlobalName) {
         $blacklisted = $this->blacklist[$superGlobalName];
-        $values = $GLOBALS[$superGlobalName];
 
+        $values = $superGlobal;
         foreach($blacklisted as $key) {
-            if (isset($values[$key])) {
-                $values[$key] = str_repeat('*', strlen($values[$key]));
+            if (isset($superGlobal[$key])) {
+                $values[$key] = str_repeat('*', strlen($superGlobal[$key]));
             }
         }
         return $values;

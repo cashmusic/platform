@@ -18,14 +18,31 @@
 
 namespace CASHMusic\Plants\Commerce;
 
+use CASHMusic\Plants\Commerce\Stems\Fulfillment;
+use CASHMusic\Plants\Commerce\Stems\Items;
+use CASHMusic\Plants\Commerce\Stems\Subscriptions;
+use CASHMusic\Plants\Commerce\Stems\Transactions;
+use CASHMusic\Plants\Commerce\Stems\Variants;
+
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\CommerceOrder;
+
 use CASHMusic\Seeds\PaypalSeed;
 use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
+use Exception;
 
 class CommercePlant extends PlantBase {
+
+    // break out functionality to traits to better manage feature subsets
+    use Fulfillment;
+    use Items;
+    use Subscriptions;
+    use Transactions;
+    use Variants;
+
     protected $subscription_active_status, $request_type, $routing_table;
 
     public function __construct($request_type,$request) {
@@ -36,655 +53,6 @@ class CommercePlant extends PlantBase {
         $this->plantPrep($request_type,$request);
 
         $this->subscription_active_status = ['active', 'comped'];
-    }
-
-    /**
-     * @param $subscriber_user_id
-     * @param $subscription_plan
-     * @param $data
-     * @return mixed
-     */
-    public function createSubscriptionMember($subscriber_user_id, $plan_id, $data)
-    {
-        $subscription_member_id = $this->db->setData(
-            'subscriptions_members',
-            array(
-                'user_id' => $subscriber_user_id,
-                'subscription_id' => $plan_id,
-                'status' => 'created',
-                'start_date' => strtotime('today'),
-                'total_paid_to_date' => 0, // do we need a second field for pledged amount?
-                'data' => json_encode($data)
-            )
-        );
-        return $subscription_member_id;
-    }
-
-    protected function addItem(
-        $user_id,
-        $name,
-        $description='',
-        $sku='',
-        $price=0,
-        $flexible_price=0,
-        $available_units=-1,
-        $digital_fulfillment=0,
-        $physical_fulfillment=0,
-        $physical_weight=0,
-        $physical_width=0,
-        $physical_height=0,
-        $physical_depth=0,
-        $variable_pricing=0,
-        $fulfillment_asset=0,
-        $descriptive_asset=0,
-        $shipping=''
-    ) {
-        if (!$fulfillment_asset) {
-            $digital_fulfillment = false;
-        } else {
-            // if there's no descriptive asset we can try pulling the cover from the fulfillment asset
-            if (empty($descriptive_asset)) {
-                $request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'asset',
-                        'cash_action' => 'getasset',
-                        'id' => $fulfillment_asset
-                    )
-                );
-
-                // we've got the request, we need to make sure the properties actually exist
-
-                $fulfillment_asset_data = $request->response['payload'];
-                if (is_array($fulfillment_asset_data['metadata'])
-                    && isset($fulfillment_asset_data['metadata']['cover'])
-                ) {
-                    $descriptive_asset = $fulfillment_asset_data['metadata']['cover'];
-                }
-            }
-        }
-        $result = $this->db->setData(
-            'items',
-            array(
-                'user_id' => $user_id,
-                'name' => $name,
-                'description' => $description,
-                'sku' => $sku,
-                'price' => $price,
-                'shipping' => json_encode($shipping),
-                'flexible_price' => (int)$flexible_price,
-                'available_units' => $available_units,
-                'digital_fulfillment' => (int)$digital_fulfillment,
-                'physical_fulfillment' => (int)$physical_fulfillment,
-                'physical_weight' => $physical_weight,
-                'physical_width' => $physical_width,
-                'physical_height' => $physical_height,
-                'physical_depth' => $physical_depth,
-                'variable_pricing' => (int)$variable_pricing,
-                'fulfillment_asset' => $fulfillment_asset,
-                'descriptive_asset' => $descriptive_asset
-            )
-        );
-        return $result;
-    }
-
-    protected function addItemVariants(
-        $item_id,
-        $variants
-    ) {
-
-        $item_details = $this->getItem($item_id);
-        if ($item_details) {
-            $variant_ids = array();
-
-            foreach ($variants as $attributes => $quantity) {
-
-                $result = $this->db->setData(
-                    'item_variants',
-                    array(
-                        'item_id' 		=> $item_id,
-                        'user_id'		=> $item_details['user_id'],
-                        'attributes' 	=> $attributes,
-                        'quantity' 		=> $quantity,
-                    )
-                );
-
-                if (!$result) {
-                    return false;
-                }
-
-                $variant_ids[$attributes] = $result;
-            }
-
-            $this->updateItemQuantity($item_id);
-
-            return $variant_ids;
-        } else {
-            return false;
-        }
-    }
-
-    protected function getItem($id,$user_id=false,$with_variants=true) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'items',
-            '*',
-            $condition
-        );
-
-        if ($result) {
-            $item = $result[0];
-
-            if ($with_variants) {
-                $item['variants'] = $this->getItemVariants($id, $user_id);
-            }
-
-            $item['shipping'] = json_decode($item['shipping'],true);
-
-            return $item;
-        } else {
-            return false;
-        }
-    }
-
-    protected function getItemVariants($item_id, $exclude_empties=false, $user_id=false) {
-        $condition = array(
-            "item_id" => array(
-                "condition" => "=",
-                "value" => $item_id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'item_variants',
-            '*',
-            $condition
-        );
-        if ($result) {
-            $variants = array(
-                'attributes' => array(),
-                'quantities' => array(),
-            );
-            $attributes = array();
-            foreach ($result as $item) {
-                // first try json_decode
-                $attribute_array = json_decode($item['attributes'],true);
-                if (!$attribute_array) {
-                    // old style keys, so format them to match JSON
-                    $attribute_array = array();
-                    $attribute_keys = explode('+', $item['attributes']);
-                    foreach ($attribute_keys as $part) {
-                        list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
-                        // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
-                        $attribute_array[$key] = $type;
-                    }
-                }
-                foreach ($attribute_array as $key => $type) {
-                    // build the final attributes array
-                    if (!isset($attributes[$key][$type])) {
-                        $attributes[$key][$type] = 0;
-                    }
-                    $attributes[$key][$type] += $item['quantity'];
-                }
-                if (!($item['quantity'] < 1 && $exclude_empties)) {
-                    $variants['quantities'][] = array(
-                        'id' => $item['id'],
-                        'key' => $item['attributes'],
-                        'formatted_name' => $this->formatVariantName($item['attributes']),
-                        'value' => $item['quantity']
-                    );
-                }
-            }
-            foreach ($attributes as $key => $values) {
-                $items = array();
-                foreach ($values as $type => $quantity) {
-                    $items[] = array(
-                        'key' => $type,
-                        'value' => $quantity,
-                    );
-                }
-                $variants['attributes'][] = array(
-                    'key' => $key,
-                    'items' => $items
-                );
-            }
-            return $variants;
-        } else {
-            return false;
-        }
-    }
-
-    protected function formatVariantName ($name) {
-        $final_name = '';
-        $name_decoded = json_decode($name,true);
-        if ($name_decoded) {
-            foreach ($name_decoded as $var => $val) {
-                $final_name .= $var . ': ' . $val . ', ';
-            }
-            $final_name = rtrim($final_name,', ');
-            return $final_name;
-        } else {
-            $totalmatches = preg_match_all("/([a-z]+)->/i", $name, $key_parts);
-            if ($totalmatches) {
-                $variant_keys = $key_parts[1];
-                $variant_values = preg_split("/([a-z]+)->/i", $name, 0, PREG_SPLIT_NO_EMPTY);
-                $count = count($variant_keys);
-                $variant_descriptions = array();
-                for($index = 0; $index < $count; $index++) {
-                    $key = $variant_keys[$index];
-                    $value = trim(str_replace('+', ' ', $variant_values[$index]));
-                    $variant_descriptions[] = "$key: $value";
-                }
-                return implode(', ', $variant_descriptions);
-            } else {
-                return $name;
-            }
-        }
-    }
-
-    protected function editItem(
-        $id,
-        $name=false,
-        $description=false,
-        $sku=false,
-        $price=false,
-        $flexible_price=false,
-        $available_units=false,
-        $digital_fulfillment=false,
-        $physical_fulfillment=false,
-        $physical_weight=false,
-        $physical_width=false,
-        $physical_height=false,
-        $physical_depth=false,
-        $variable_pricing=false,
-        $fulfillment_asset=false,
-        $descriptive_asset=false,
-        $user_id=false,
-        $shipping=false
-    ) {
-        if ($fulfillment_asset === 0) {
-            $digital_fulfillment = 0;
-        }
-        if ($fulfillment_asset > 0) {
-            $digital_fulfillment = 1;
-        }
-        $final_edits = array_filter(
-            array(
-                'name' => $name,
-                'description' => $description,
-                'sku' => $sku,
-                'price' => $price,
-                'shipping' => $shipping,
-                'flexible_price' => $flexible_price,
-                'available_units' => $available_units,
-                'digital_fulfillment' => $digital_fulfillment,
-                'physical_fulfillment' => $physical_fulfillment,
-                'physical_weight' => $physical_weight,
-                'physical_width' => $physical_width,
-                'physical_height' => $physical_height,
-                'physical_depth' => $physical_depth,
-                'variable_pricing' => $variable_pricing,
-                'fulfillment_asset' => $fulfillment_asset,
-                'descriptive_asset' => $descriptive_asset
-            ),
-            function($value) {
-                return CASHSystem::notExplicitFalse($value);
-            }
-        );
-        if (isset($final_edits['shipping'])) {
-            $final_edits['shipping'] = json_encode($shipping);
-        }
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->setData(
-            'items',
-            $final_edits,
-            $condition
-        );
-        return $result;
-    }
-
-    protected function editItemVariant($id, $quantity, $item_id, $user_id=false) {
-
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id,
-            )
-        );
-
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-
-        $updates = array(
-            'quantity' => $quantity
-        );
-
-        $result = $this->db->setData(
-            'item_variants',
-            $updates,
-            $condition
-        );
-
-        if ($result) {
-            $this->updateItemQuantity($item_id);
-        }
-
-        return $result;
-    }
-
-    protected function deleteItem($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->deleteData(
-            'items',
-            $condition
-        );
-
-        if (!$result) {
-            return false;
-        }
-        $this->deleteItemVariants($id, $user_id);
-        return $result;
-    }
-
-    protected function deleteItemVariant($id, $user_id=false) {
-
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-
-        $result = $this->db->deleteData(
-            'item_variants',
-            $condition
-        );
-        return $result;
-    }
-
-    protected function deleteItemVariants($item_id, $user_id=false) {
-
-        $condition = array(
-            "item_id" => array(
-                "condition" => "=",
-                "value" => $item_id
-            )
-        );
-
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-
-        $result = $this->db->deleteData(
-            'item_variants',
-            $condition
-        );
-
-        return $result;
-    }
-
-    protected function getItemsForUser($user_id,$with_variants=true) {
-      $result = $this->db->getData(
-          'CommercePlant_getItemsForUser',
-          false,
-          array(
-               "user_id" => array(
-                   "condition" => "=",
-                   "value" => $user_id
-               )
-          )
-      );
-
-        if ($with_variants) {
-            $length = count($result);
-
-            for ($index = 0; $index < $length; $index++) {
-                $result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
-                $result[$index]['shipping'] = json_decode($result[$index]['shipping'],true);
-            }
-        }
-
-        return $result;
-    }
-
-    protected function emailBuyersByItem($user_id,$connection_id,$item_id,$subject,$message,$include_download=false) {
-
-        if (CASH_DEBUG) {
-            CASHSystem::errorLog(
-                'Requested CommercePlant->emailBuyersByItem with: '
-                .'$user_id='. (string)$user_id
-                .',$item_id='. (string)$item_id
-                .',$connection_id='. (string)$connection_id
-                .',$subject='. (string)$subject
-                .',$message='. (string)$message
-                .',$include_download='. (string)$include_download
-            );
-        }
-
-        $item_details = $this->getItem($item_id);
-
-        if ($item_details['user_id'] == $user_id) {
-            $merge_vars = null;
-            $global_merge_vars = array(
-                array(
-                    'name' => 'itemname',
-                    'content' => $item_details['name']
-                ),
-                array(
-                    'name' => 'itemdescription',
-                    'content' => $item_details['description']
-                )
-            );
-
-            //TODO: move these to the outer solar system in their own template
-
-            $recipients = array();
-            $tmp_recipients = array();
-            $all_orders = $this->getOrdersByItem($user_id,$item_id);
-
-            // if there are no orders, let's cheese it
-            //TODO: no error being displayed
-            if (empty($all_orders)) {
-                return false;
-            }
-
-            foreach ($all_orders as $order) {
-                $tmp_recipients[] = $order['customer_email'];
-            }
-            $tmp_recipients = array_unique($tmp_recipients);
-
-            foreach ($tmp_recipients as $email) {
-                $recipients[] = array(
-                    'email' => $email
-                );
-            }
-
-            if (count($recipients)) {
-
-                $html_message = CASHSystem::parseMarkdown($message);
-
-                if ($include_download) {
-                    $asset_request = new CASHRequest(
-                        array(
-                            'cash_request_type' => 'asset',
-                            'cash_action' => 'getasset',
-                            'id' => $item_details['fulfillment_asset']
-                        )
-                    );
-                    if ($asset_request->response['payload']) {
-                        $unlock_suffix = 1;
-                        $all_assets = array();
-                        if ($asset_request->response['payload']['type'] == 'file') {
-                            $message .= "\n\n" . 'Download *|ITEMNAME|*: at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
-                            $html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
-                            $all_assets[] = array(
-                                'id' => $item_details['fulfillment_asset'],
-                                'name' => $asset_request->response['payload']['title']
-                            );
-
-                        } else {
-                            $message .= "\n\n" . '*|ITEMNAME|*:' . "\n\n";
-                            $html_message .= "\n\n" . '<p><b>*|ITEMNAME|*:</b></p>';
-                            $fulfillment_request = new CASHRequest(
-                                array(
-                                    'cash_request_type' => 'asset',
-                                    'cash_action' => 'getfulfillmentassets',
-                                    'asset_details' => $asset_request->response['payload']
-                                )
-                            );
-                            if ($fulfillment_request->response['payload']) {
-                                foreach ($fulfillment_request->response['payload'] as $asset) {
-                                    $all_assets[] = array(
-                                        'id' => $asset['id'],
-                                        'name' => $asset['title']
-                                    );
-                                    $message .= "\n\n" . 'Download *|ASSETNAME'.$unlock_suffix.'|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*';
-                                    $html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*">Download *|ASSETNAME'.$unlock_suffix.'|*</a></b></p>';
-                                    $unlock_suffix++;
-                                }
-                            }
-                        }
-                        $merge_vars = array();
-                        $all_vars = array();
-                        $unlock_suffix = 1;
-                        $success = true;
-
-
-                        //TODO: really we want to do this in one shot with the API
-
-                        foreach ($recipients as $recipient) {
-
-                            foreach ($all_assets as $asset) {
-                                $addcode_request = new CASHRequest(
-                                    array(
-                                        'cash_request_type' => 'asset',
-                                        'cash_action' => 'addlockcode',
-                                        'asset_id' => $asset['id']
-                                    )
-                                );
-                                $all_vars[] = array(
-                                    'name' => 'assetname'.$unlock_suffix,
-                                    'content' => $asset['name']
-                                );
-                                $all_vars[] = array(
-                                    'name' => 'unlockcode'.$unlock_suffix,
-                                    'content' => $addcode_request->response['payload']
-                                );
-
-                                // replace asset name
-                                $recipient_message = str_replace
-                                (
-                                    '*|ASSETNAME'.$unlock_suffix.'|*',
-                                    $asset['name'],
-                                    $html_message
-                                );
-
-                                $recipient_message = str_replace
-                                (
-                                    '*|ITEMNAME|*',
-                                    $global_merge_vars[0]['content'],
-                                    $recipient_message
-                                );
-
-
-
-                                // replace unlock code
-                                $recipient_message = str_replace
-                                (
-                                    '*|UNLOCKCODE'.$unlock_suffix.'|*',
-                                    $addcode_request->response['payload'],
-                                    $recipient_message
-                                );
-
-                                $unlock_suffix++;
-                            }
-                            if ($addcode_request->response['payload']) {
-                                $merge_vars[] = array(
-                                    'rcpt' => $recipient['email'],
-                                    'vars' => $all_vars
-                                );
-                            }
-
-                            $all_vars = array();
-                            $unlock_suffix = 1;
-
-                        }
-                    }
-                }
-
-                // by the power of grayskull
-                $success = CASHSystem::sendMassEmail(
-                    $user_id,
-                    $subject,
-                    $recipients,
-                    $html_message,
-                    $subject,
-                    $global_merge_vars,
-                    $merge_vars,
-                    false,
-                    true
-                );
-
-                CASHSystem::errorLog($success);
-
-                if (!$success) return false;
-
-                return true;
-            }
-        } else {
-            return false;
-        }
     }
 
     protected function addToCart($item_id,$element_id,$item_variant=false,$price=false,$session_id=false) {
@@ -811,14 +179,12 @@ class CommercePlant extends PlantBase {
                 in the event an item changes or is deleted. we want accurate
                 history so folks don't get all crazy bananas about teh $$s
             */
-            $final_order_contents = json_encode($order_contents);
-            $result = $this->db->setData(
-                'orders',
-                array(
+            try {
+                $order = $this->orm->create(CommerceOrder::class, [
                     'user_id' => $user_id,
                     'customer_user_id' => $customer_user_id,
                     'transaction_id' => $transaction_id,
-                    'order_contents' => $final_order_contents,
+                    'order_contents' => $order_contents,
                     'fulfilled' => $fulfilled,
                     'canceled' => $canceled,
                     'physical' => $physical,
@@ -828,84 +194,75 @@ class CommercePlant extends PlantBase {
                     'currency' => $currency,
                     'element_id' => $element_id,
                     'cash_session_id' => $cash_session_id,
-                    'data' => json_encode($data)
-                )
-            );
-            return $result;
+                    'data' => $data
+                ]);
+
+            } catch (Exception $e) {
+                CASHSystem::errorLog($e->getMessage());
+                return false;
+            }
+
+            return $order->id;
         } else {
             return false;
         }
     }
 
     protected function getOrder($id,$deep=false,$user_id=false) {
-        if ($deep) {
-            $result = $this->db->getData(
-                'CommercePlant_getOrder_deep',
-                false,
-                array(
-                    "id" => array(
-                        "condition" => "=",
-                        "value" => $id
-                    )
-                )
-            );
 
-            if ($result) {
-                if ($user_id) {
-                    if ($result[0]['user_id'] != $user_id) {
-                        return false;
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        if($order = $this->orm->findWhere(CommerceOrder::class, $conditions)) {
+            // cast a spell of summoning if this is an array. it never should be but
+            if (is_array($order)) {
+                $order = $order[0];
+            }
+
+            if (!$deep) $order = $order->toArray();
+
+            if ($deep) {
+                $transaction = $order->transaction();
+                $order = $order->toArray();
+                $order['order_totals'] = $this->getOrderTotals($order['order_contents']);
+                $order['order_description'] = $order['order_totals']['description'];
+                // currently there will only be one transaction for orders
+                if ($transaction) {
+
+                    $transaction_data = $this->parseTransactionData($transaction->data_returned, $transaction->data_sent);
+
+                    $transaction_array = $transaction->toArray();
+
+                    if (is_array($transaction_array)) {
+                        $order = array_merge($transaction_array, $order);
                     }
                 }
 
-                if (!empty($result[0]['data'])) {
-                    $result[0]['data'] = json_decode($result[0]['data']);
-                }
-                $result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
-                $result[0]['order_description'] = $result[0]['order_totals']['description'];
-                $transaction_data = $this->parseTransactionData($result[0]['data_returned'],$result[0]['data_sent']);
-
                 if (is_array($transaction_data)) {
-                    $result[0] = array_merge($result[0],$transaction_data);
+                    $order = array_merge($order,$transaction_data);
                 }
 
                 $user_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'people',
                         'cash_action' => 'getuser',
-                        'user_id' => $result[0]['customer_user_id']
+                        'user_id' => $order['customer_user_id']
                     )
                 );
-                $result[0]['customer_details'] = $user_request->response['payload'];
+                $order['customer_details'] = $user_request->response['payload'];
             }
-        } else {
-            $condition = array(
-                "id" => array(
-                    "condition" => "=",
-                    "value" => $id
-                )
-            );
-            if ($user_id) {
-                $condition['user_id'] = array(
-                    "condition" => "=",
-                    "value" => $user_id
-                );
-            }
-            $result = $this->db->getData(
-                'orders',
-                '*',
-                $condition
-            );
 
-            if (!empty($result[0]['data'])) {
-                $result[0]['data'] = json_decode($result[0]['data']);
-            }
+            return $order;
         }
 
-        if ($result) {
-            return $result[0];
-        } else {
-            return false;
-        }
+        return false;
+
+
     }
 
     protected function editOrder(
@@ -939,194 +296,110 @@ class CommercePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
         );
-        if (isset($final_edits['order_contents'])) {
-            $final_edits['order_contents'] = json_encode($order_contents);
-        }
-        if (isset($final_edits['data'])) {
-            $final_edits['data'] = json_encode($data);
-        }
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
+
+        $conditions = array(
+            "id" => $id
         );
+
         if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
+            $conditions['user_id'] = $user_id;
         }
-        $result = $this->db->setData(
-            'orders',
-            $final_edits,
-            $condition
-        );
-        return $result;
-    }
 
-    protected function parseTransactionData($data_returned,$data_sent) {
-      if (!is_array($data_returned)) {
-          $data_returned = json_decode($data_returned,true);
-      }
-      if (!is_array($data_sent)) {
-         $data_sent = json_decode($data_sent,true);
-      }
+        $order = $this->orm->findWhere(CommerceOrder::class, $conditions);
 
-
-      if (is_array($data_returned)) {
-
-         if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
-
-            return $data_returned;
-         }
-      }
-
-      // LEGACY TRANSACTION
-      if (is_array($data_sent)) {
-         if (isset($data_sent['PAYMENTREQUEST_0_DESC'])) {
-            if (isset($data_sent['PAYMENTREQUEST_0_DESC'])) {
-               $return_array = array(
-      				'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
-      				'customer_email' => $data_sent['EMAIL'],
-      				'customer_first_name' => $data_sent['FIRSTNAME'],
-      				'customer_last_name' => $data_sent['LASTNAME'],
-      				'customer_name' => $data_sent['FIRSTNAME'] . ' ' . $data_sent['LASTNAME']
-      			);
-      			// this is ugly, but the if statements normalize Paypal's love of omitting empty data
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
-      				$return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
-      			} else {
-      				$return_array['customer_shipping_name'] = '';
-      			}
-
-
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
-      				$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
-      			} else {
-      				$return_array['customer_address1'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'])) {
-      				$return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
-      			} else {
-      				$return_array['customer_address2'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCITY'])) {
-      				$return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
-      			} else {
-      				$return_array['customer_city'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'])) {
-      				$return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
-      			} else {
-      				$return_array['customer_region'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOZIP'])) {
-      				$return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
-      			} else {
-      				$return_array['customer_postalcode'] = '';
-      			}
-      			if (isset($data_sent['SHIPTOCOUNTRYNAME'])) {
-      				$return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
-      			} else {
-      				$return_array['customer_country'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'])) {
-      				$return_array['customer_countrycode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'];
-      			} else {
-      				$return_array['customer_countrycode'] = '';
-      			}
-      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'])) {
-      				$return_array['customer_phone'] = $data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'];
-      			} else {
-      				$return_array['customer_phone'] = '';
-      			}
-               return $return_array;
-            } else {
-               return false;
-            }
-         }
-      }
-
-      return false;
+        if ($order->update($final_edits)) {
+            return $order->toArray();
+        } else {
+            return false;
+        }
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
         if ($max_returned) {
-            $limit = $skip . ', ' . $max_returned;
+            $limit = $max_returned;
         } else {
             $limit = false;
         }
+
+        try {
+            // gets multiple orders with all information
+            if (!$deep) {
+                $query = $this->db->table('commerce_orders')->select('commerce_orders.*');
+            } else if ($deep) {
+                $query = $this->db->table('commerce_orders')->select([
+                        'commerce_orders.*',
+                        'commerce_transactions.data_returned',
+                        'commerce_transactions.data_sent',
+                        'commerce_transactions.successful',
+                        'commerce_transactions.gross_price',
+                        'commerce_transactions.service_fee',
+                        'commerce_transactions.currency',
+                        'commerce_transactions.status',
+                        'commerce_transactions.service_transaction_id',
+                        'commerce_transactions.service_timestamp',
+                        'commerce_transactions.connection_type',
+                        'commerce_transactions.connection_id'
+                    ])->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id')
+                    ->where('commerce_transactions.successful', '=', 1);
+            }
+
+            $query = $query->where('commerce_orders.user_id', '=', $user_id);
+
+            if ($since_date) {
+                $query = $query->where('commerce_orders.creation_date', ">", $since_date);
+            }
+
+            if ($include_abandoned) {
+                $query = $query->where('commerce_orders.modification_date', ">", 0);
+            }
+
+            if (isset($unfulfilled_only)) {
+                if ($unfulfilled_only == 1) {
+                    $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
+                } else {
+                    $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+                }
+            }
+
+            if ($limit) $query = $query->limit($limit)->offset($skip);
+
+            $result = $query->get();
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+        }
+
         if ($deep) {
-            $result = $this->db->getData(
-                'CommercePlant_getOrders_deep',
-                false,
-                array(
-                    "user_id" => array(
-                        "condition" => "=",
-                        "value" => $user_id
-                    ),
-                    "unfulfilled_only" => array(
-                        "condition" => "=",
-                        "value" => $unfulfilled_only
-                    ),
-                    "since_date" => array(
-                        "condition" => ">",
-                        "value" => $since_date
-                    )
-                ),
-                $limit
-            );
             if ($result) {
                 // loop through and parse all transactions
                 if (is_array($result)) {
                     foreach ($result as &$order) {
-                        $transaction_data = $this->parseTransactionData($order['data_returned'],$order['data_sent']);
-                        if (is_array($transaction_data)) {
-                            $order = array_merge($order,$transaction_data);
-                        }
-                        $order_totals = $this->getOrderTotals($order['order_contents']);
+                        $order = json_decode(json_encode($order), true); // cast array wizard spell
 
+                        $transaction_data = $this->parseTransactionData($order['data_returned'], $order['data_sent']);
+
+                        if (is_array($transaction_data)) {
+                            $order = array_merge($order, $transaction_data);
+                        }
+
+                        $order_totals = $this->getOrderTotals($order['order_contents']);
                         $order['order_description'] = $order_totals['description'];
                     }
                 }
             }
         } else {
-            $conditions = array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "creation_date" => array(
-                    "condition" => ">",
-                    "value" => $since_date
-                ),
-                "customer_user_id" => array(
-                    "condition" => ">",
-                    "value" => 0
-                )
-            );
-            if ($unfulfilled_only) {
-                $conditions['fulfilled'] = array(
-                    "condition" => "=",
-                    "value" => 0
-                );
+            if (is_array($result)) {
+                foreach ($result as &$order) {
+                    $order = json_decode(json_encode($order), true); // cast array wizard spell
+                }
             }
-            if (!$include_abandoned) {
-                $conditions['modification_date'] = array(
-                    "condition" => ">",
-                    "value" => 0
-                );
-            }
-            $result = $this->db->getData(
-                'orders',
-                '*',
-                $conditions,
-                $limit,
-                'id DESC'
-            );
         }
-        return $result;
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+
     }
 
     protected function getOrdersByCustomer($user_id,$customer_email) {
@@ -1139,48 +412,70 @@ class CommercePlant extends PlantBase {
         );
         $customer_id = $user_request->response['payload'];
 
-        $result = $this->db->getData(
-            'orders',
-            '*',
-            array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "customer_user_id" => array(
-                    "condition" => "=",
-                    "value" => $customer_id
-                ),
-                "modification_date" => array(
-                    "condition" => ">",
-                    "value" => 0
-                )
-            )
-        );
-        return $result;
+        try {
+            $orders = $this->orm->findWhere(CommerceOrder::class, ['user_id'=>$user_id, 'customer_user_id'=>$customer_id] );
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e);
+        }
+
+        if ($orders) {
+            return $orders;
+        } else {
+            return false;
+        }
     }
 
-    protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0) {
+    protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0,$since_date=false) {
+
         if ($max_returned) {
-            $limit = $skip . ', ' . $max_returned;
+            $limit = $max_returned;
         } else {
             $limit = false;
         }
-        $result = $this->db->getData(
-            'CommercePlant_getOrders_deep',
-            false,
-            array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                ),
-                "contains_item" => array(
-                    "condition" => "=",
-                    "value" => '%"id":"' . $item_id . '"%'
-                )
-            ),
-            $limit
-        );
+
+        // gets multiple orders with all information
+        $query = $this->db->table('commerce_orders')
+            ->select('commerce_orders.*');
+
+            $query = $query->select(
+                [
+                    'commerce_transactions.data_returned',
+                    'commerce_transactions.data_sent',
+                    'commerce_transactions.successful',
+                    'commerce_transactions.gross_price',
+                    'commerce_transactions.service_fee',
+                    'commerce_transactions.currency',
+                    'commerce_transactions.status',
+                    'commerce_transactions.service_transaction_id',
+                    'commerce_transactions.service_timestamp',
+                    'commerce_transactions.connection_type',
+                    'commerce_transactions.connection_id'
+                ]
+            );
+
+            $query = $query->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id');
+
+        $query = $query->where('commerce_orders.user_id', '=', $user_id)
+            ->where('commerce_transactions.successful', '=', 1);
+
+        if ($since_date) {
+            $query = $query->where('commerce_orders.creation_date', ">", $since_date);
+        }
+
+        if (isset($unfulfilled_only)) {
+            if ($unfulfilled_only == 1) {
+                $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
+            } else {
+                $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+            }
+        }
+
+        $query = $query->where('commerce_orders.order_contents', 'LIKE', '%"id":"' . $item_id . '"%');
+
+        if ($limit) $query = $query->limit($limit)->offset($skip);
+
+        $result = $query->get();
+
         if ($result) {
             // loop through and parse all transactions
             if (is_array($result)) {
@@ -1197,162 +492,6 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    protected function addTransaction(
-        $user_id,
-        $connection_id,
-        $connection_type,
-        $service_timestamp='',
-        $service_transaction_id='',
-        $data_sent='',
-        $data_returned='',
-        $successful=-1,
-        $gross_price=0,
-        $service_fee=0,
-        $status='abandoned',
-        $currency='USD',
-        $parent='order',
-        $parent_id='0'
-    ) {
-        $result = $this->db->setData(
-            'transactions',
-            array(
-                'user_id' => $user_id,
-                'connection_id' => $connection_id,
-                'connection_type' => $connection_type,
-                'service_timestamp' => $service_timestamp,
-                'service_transaction_id' => $service_transaction_id,
-                'data_sent' => json_encode($data_sent),
-                'data_returned' => json_encode($data_returned),
-                'successful' => $successful,
-                'gross_price' => $gross_price,
-                'service_fee' => $service_fee,
-                'currency' => $currency,
-                'status' => $status,
-                'parent' => $parent,
-                'parent_id' => $parent_id
-            )
-        );
-        return $result;
-    }
-
-    protected function getTransaction($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'transactions',
-            '*',
-            $condition
-        );
-
-         if ($result) {
-            if (!empty($result[0]['data_sent'])) {
-               $result[0]['data_sent'] = json_decode($result[0]['data_sent'], true);
-            }
-            if (!empty($result[0]['data_returned'])) {
-               $result[0]['data_returned'] = json_decode($result[0]['data_returned'], true);
-            }
-            return $result[0];
-        } else {
-            return false;
-        }
-    }
-
-    protected function editTransaction(
-        $id,
-        $service_timestamp=false,
-        $service_transaction_id=false,
-        $data_sent=false,
-        $data_returned=false,
-        $successful=false,
-        $gross_price=false,
-        $service_fee=false,
-        $status=false
-    ) {
-        $final_edits = array_filter(
-            array(
-                'service_timestamp' => $service_timestamp,
-                'service_transaction_id' => $service_transaction_id,
-                'data_sent' => $data_sent,
-                'data_returned' => $data_returned,
-                'successful' => $successful,
-                'gross_price' => $gross_price,
-                'service_fee' => $service_fee,
-                'status' => $status
-            ),
-            function($value) {
-                return CASHSystem::notExplicitFalse($value);
-            }
-        );
-        if (isset($final_edits['data_sent'])) {
-            $final_edits['data_sent'] = json_encode($data_sent);
-        }
-        if (isset($final_edits['data_returned'])) {
-            $final_edits['data_returned'] = json_encode($data_returned);
-        }
-
-        $result = $this->db->setData(
-            'transactions',
-            $final_edits,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
-        );
-
-        return $result;
-    }
-
-    protected function updateItemQuantity(
-        $id
-    ) {
-
-        $result = $this->db->getData(
-            'CommercePlant_getTotalItemVariantsQuantity',
-            false,
-            array(
-                "item_id" => array(
-                    "condition" => "=",
-                    "value" => $id
-                )
-            )
-        );
-
-        if (!$result) {
-            return false;
-        }
-
-        $updates = array(
-            'available_units' => $result[0]['total_quantity']
-        );
-
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-
-        $result = $this->db->setData(
-            'items',
-            $updates,
-            $condition
-        );
-
-        return $result;
-    }
-
     /** initiateCheckout
      * @param bool $element_id
      * @param bool $shipping_info
@@ -1365,21 +504,6 @@ class CommercePlant extends PlantBase {
      * @return bool
      */
     public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false,$geo=false,$finalize_url=false) {
-
-      if (CASH_DEBUG) {
-         error_log(
-            'Called CommercePlant::initiateCheckout with: '
-            . '$element_id='      . (string)$element_id
-            . ', $shipping_info=' . (string)$shipping_info
-            . ', $paypal='        . (string)$paypal
-            . ', $stripe='        . (string)$stripe
-            . ', $origin='        . (string)$origin
-            . ', $email_address=' . (string)$email_address
-            . ', $customer_name=' . (string)$customer_name
-            . ', $session_id='    . (string)$session_id
-            . ', $geo='    . (string)$geo
-         );
-      }
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1445,15 +569,6 @@ class CommercePlant extends PlantBase {
 
             $total_price = $subtotal + $shipping;
 
-            if (CASH_DEBUG) {
-               error_log(
-                  'In CommercePlant::initiateCheckout found: '
-                  . '$total_price=' . (string)$total_price
-                  . ', $subtotal='  . (string)$subtotal
-                  . ', $shipping='  . (string)$shipping
-               );
-            }
-
             // total zero price stop-gap, before this thing can load seeds or create an order or any dumb stuff.
             if ($total_price == 0) {
                 $this->unlockElement($element_id);
@@ -1470,11 +585,7 @@ class CommercePlant extends PlantBase {
             if ($stripe != false) {
               $seed_class = "StripeSeed";
               $connection_id = $stripe_default;
-              if (CASH_DEBUG) {
-                 error_log(
-                    'In CommercePlant::initiateCheckout using Stripe.'
-                 );
-              }
+
             }
 
             if ($paypal != false) {
@@ -1485,11 +596,6 @@ class CommercePlant extends PlantBase {
               } else {
                   $connection_id = $pp_default;
               }
-              if (CASH_DEBUG) {
-                 error_log(
-                    'In CommercePlant::initiateCheckout using Paypal.'
-                 );
-              }
             }
 
             $seed_class = '\\CASHMusic\Seeds\\'.$seed_class;
@@ -1497,7 +603,8 @@ class CommercePlant extends PlantBase {
             $currency = $this->getCurrencyForUser($user_id);
 
             // merge all this stuff into $data for storage
-            $shipping_info = json_decode($shipping_info, true);
+            if (!is_array($shipping_info)) $shipping_info = json_decode($shipping_info, true);
+
             $data = array("geo" => $geo);
 
             if ($shipping_info) {
@@ -1505,7 +612,7 @@ class CommercePlant extends PlantBase {
             }
 
 
-            $transaction_id = $this->addTransaction(
+            $transaction = $this->addTransaction(
                 $user_id,
                 $connection_id,
                 $this->getConnectionType($connection_id),
@@ -1523,7 +630,7 @@ class CommercePlant extends PlantBase {
             $order_id = $this->addOrder(
                 $user_id,
                 $order_contents,
-                $transaction_id,
+                $transaction->id,
                 $is_physical,
                 $is_digital,
                 $this->getSessionID(),
@@ -1554,10 +661,10 @@ class CommercePlant extends PlantBase {
 
                 $order_details = $this->getOrder($order_id);
 
-                $transaction_details = $this->getTransaction($order_details['transaction_id']);
+                $transaction = $this->getTransaction($order_details['transaction_id']);
 
                 //TODO: we'll need to figure out a way to get the connection_id for whatever payment method was chosen, in order to switch on the fly
-                $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+                $connection_type = $this->getConnectionType($transaction->connection_id);
                 $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
                 // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
@@ -1568,7 +675,7 @@ class CommercePlant extends PlantBase {
                 }
 
                 // call the payment seed class
-                $payment_seed = new $seed_class($user_id,$transaction_details['connection_id']);
+                $payment_seed = new $seed_class($user_id,$transaction->connection_id);
 
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
                 if ($payment_seed->redirects != false) {
@@ -1584,12 +691,6 @@ class CommercePlant extends PlantBase {
                        $return_url .= '&finalize_url=' . urlencode($finalize_url);
                     }
 
-                    if (CASH_DEBUG) {
-                       error_log(
-                          'In CommercePlant::initiateCheckout redirecting to ' . $return_url
-                       );
-                    }
-
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
@@ -1599,7 +700,7 @@ class CommercePlant extends PlantBase {
                         $currency,									# payment currency
                         'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
                         $shipping,								# price additions (like shipping, but could be taxes in future as well)
-                        $transaction_id                         # for adding data sent
+                        $transaction->id                         # for adding data sent
                     );
 
                     // returns a url, javascript parses for success/failure and gets http://, so it does a redirect
@@ -1623,9 +724,7 @@ class CommercePlant extends PlantBase {
                     } else {
                         return "failure";
                     }
-
                 }
-
                 //$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
                 //return $success;
             } else {
@@ -1634,43 +733,10 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false, $finalize_url=false) {
-        $this->startSession($session_id);
-        if (!$element_id) {
-            return false;
-        } else {
+    protected function getOrderTotals($contents) {
 
-        // do shit
+        if (!is_array($contents)) { $contents = json_decode($contents, true); }
 
-            $user_id = CASHSystem::getUserIdByElement($element_id);
-
-            $default_connections = CommercePlant::getDefaultConnections($user_id);
-
-            if (is_array($default_connections)) {
-                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
-                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
-                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
-            } else {
-                return false; // no default PP shit set
-            }
-
-            $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
-            if (!class_exists($seed_class)) {
-                $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
-                return false;
-            }
-
-            // call the payment seed class --- connection id needs to switch later maybe
-            $response = $this->createSubscription($element_id,$user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url);
-
-            return $response;
-
-        }
-
-    }
-
-    protected function getOrderTotals($order_contents) {
-        $contents = json_decode($order_contents,true);
         $return_array = array(
             'price' => 0,
             'description' => ''
@@ -1740,10 +806,13 @@ class CommercePlant extends PlantBase {
      * @return array or bool
      */
     protected function getOrderProperties($order_contents) {
-        $contents = json_decode($order_contents, true);
 
-        if (!empty($contents[0])) {
-            return $contents[0];
+        if (!is_array($order_contents)) {
+            $order_contents = json_decode($order_contents, true);
+        }
+
+        if (!empty($order_contents[0])) {
+            return $order_contents[0];
         } else {
             return false;
         }
@@ -1752,7 +821,6 @@ class CommercePlant extends PlantBase {
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
       $this->startSession($session_id);
-
       // this just checks to see if we've started finalizing already. really
       // only an issue for embeds used on pages
       $working = $this->sessionGet('finalizing_payment');
@@ -1766,26 +834,10 @@ class CommercePlant extends PlantBase {
       // nothing found? set the in-progress marker to the current id
       $this->sessionSet('finalizing_payment',$order_id);
 
-
-      if (CASH_DEBUG) {
-         error_log(
-            'Called CommercePlant::finalizePayment with: '
-            . '$order_id='               . (string)$order_id
-            . ', $token='                . (string)$token
-            . ', $email_address='        . (string)$email_address
-            . ', $customer_name='        . (string)$customer_name
-            . ', $shipping_info='        . (string)$shipping_info
-            . ', $session_id='           . (string)$session_id
-            . ', $total_price='          . (string)$total_price
-            . ', $description='          . (string)$description
-         );
-      }
-
-
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
-        $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+        $connection_type = $this->getConnectionType($transaction_details->connection_id);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
@@ -1793,12 +845,6 @@ class CommercePlant extends PlantBase {
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 
         $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
-
-        if (CASH_DEBUG) {
-           error_log(
-             'In CommercePlant::finalizePayment using seed class ' . $seed_class
-           );
-        }
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -1808,7 +854,7 @@ class CommercePlant extends PlantBase {
 
 
         // call the payment seed class
-        $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+        $payment_seed = new $seed_class($order_details['user_id'],$transaction_details->connection_id);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $order_details['currency'])) {
@@ -1872,12 +918,6 @@ class CommercePlant extends PlantBase {
 
                     $this->unlockElement($order_details['element_id'], $order_details);
 
-                     if (CASH_DEBUG) {
-                        error_log(
-                          'In CommercePlant::finalizePayment. Success! Order number ' . $order_id
-                        );
-                     }
-
                     return $order_id;
                 } else {
                     $this->setErrorMessage("Error in CommercePlant::finalizePayment. Couldn't find your account.");
@@ -1894,9 +934,7 @@ class CommercePlant extends PlantBase {
             $this->setErrorMessage("Error in CommercePlant::finalizePayment. There was an issue with this payment.");
             return false;
         }
-
     }
-
 
     /**
      * Find a user's id by their email, or create one
@@ -1952,8 +990,8 @@ class CommercePlant extends PlantBase {
     protected function getFulfillmentStatus(array $order_details) {
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
-           $debug_info = "ORDER CONTENTS\n" . $order_details['order_contents'] . "\n\n";
-            $order_items = json_decode( $order_details['order_contents'],true);
+           $debug_info = "ORDER CONTENTS\n" . json_encode($order_details['order_contents']) . "\n\n";
+            $order_items = $order_details['order_contents'];
             $debug_info .= "DECODED TYPE\n" . gettype($order_items) . "\n\n";
             if (is_array($order_items)) {
                 foreach ($order_items as $i) {
@@ -1991,7 +1029,7 @@ class CommercePlant extends PlantBase {
 
 
                               $debug_info .= "\n\nVARIANT ID: " . $variant_id . "\n";
-                              // error_log($debug_info);
+                                CASHSystem::errorLog($debug_info);
 
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
@@ -2199,6 +1237,13 @@ class CommercePlant extends PlantBase {
                )
            )
        );
+
+     $result = $this->db->table('commerce_transactions')
+         ->select(['SUM(gross_price as total_gross', 'COUNT(id) AS total_transactions'])
+         ->where('user_id', '=', $user_id)
+         ->where('successful', '=', 1)
+         ->whereBetween('creation_date', $date_low, $date_high)->get();
+
        if ($result) {
            return $result[0];
        } else {
@@ -2242,755 +1287,6 @@ class CommercePlant extends PlantBase {
                 $this->sessionSet('commerce-' . $element_id, $order_details);
             }
         }
-    }
-
-    protected function editFulfillmentOrder(
-        $id,
-        $name=false,
-        $email=false,
-        $shipping_address_1=false,
-        $shipping_address_2=false,
-        $shipping_city=false,
-        $shipping_province=false,
-        $shipping_postal=false,
-        $shipping_country=false,
-        $complete=false,
-        $fulfilled=false,
-        $price=false,
-        $tier_id=false,
-        $order_data=false,
-        $notes=false,
-        $data_sent=false
-    ) {
-        $final_edits = array_filter(
-            array(
-                'name' => $name,
-                'email' => $email,
-                'shipping_address_1' => $shipping_address_1,
-                'shipping_address_2' => $shipping_address_2,
-                'shipping_city' => $shipping_city,
-                'shipping_province' => $shipping_province,
-                'shipping_postal' => $shipping_postal,
-                'shipping_country' => $shipping_country,
-                'complete' => $complete,
-                'fulfilled' => $fulfilled,
-                'price' => $price,
-                'tier_id' => $tier_id,
-                'order_data' => $order_data,
-                'notes' => $notes
-            ),
-            function($value) {
-                return CASHSystem::notExplicitFalse($value);
-            }
-        );
-        if (isset($final_edits['order_data'])) {
-            $final_edits['order_data'] = json_encode($data_sent);
-        }
-
-        $result = $this->db->setData(
-            'external_fulfillment_orders',
-            $final_edits,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
-        );
-
-        return $result;
-    }
-
-    protected function getFulfillmentOrder($id,$user_id=false) {
-        $condition = array(
-            "id" => array(
-                "condition" => "=",
-                "value" => $id
-            )
-        );
-        if ($user_id) {
-            $condition['user_id'] = array(
-                "condition" => "=",
-                "value" => $user_id
-            );
-        }
-        $result = $this->db->getData(
-            'external_fulfillment_orders',
-            '*',
-            $condition
-        );
-
-        if ($result) {
-            return $result[0];
-        } else {
-            return false;
-        }
-    }
-
-    protected function getFulfillmentJobByTier($tier_id) {
-         $result = $this->db->getData(
-              'external_fulfillment_tiers',
-              '*',
-              array(
-                  "id" => array(
-                      "condition" => "=",
-                      "value" => $tier_id
-                  )
-              )
-         );
-         if ($result) {
-            $tier = $result[0];
-            $new_result = $this->db->getData(
-                 'external_fulfillment_jobs',
-                 '*',
-                 array(
-                     "id" => array(
-                         "condition" => "=",
-                         "value" => $tier['fulfillment_job_id']
-                     )
-                 )
-            );
-            if ($new_result) {
-               return $new_result[0];
-            }
-         }
-    }
-
-    /* Subscription specific stuff */
-
-    protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount=0, $flexible_price=false, $recurring=true, $suggested_price=false, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
-
-        //TODO: load seed---> eventually we want this to dynamically switch, but for now
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
-
-        // create the plan on payment service (stripe for now) and get plan id
-        if ($flexible_price) {
-            $cent_amount = 1;
-        } else {
-            $cent_amount = $amount * 100;
-        }
-
-        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
-
-            $result = $this->db->setData(
-                'subscriptions',
-                array(
-                    'user_id' => $user_id,
-                    'name' => $plan_name,
-                    'description' => $description,
-                    'sku' => $sku,
-                    'price' => $amount, // as cents
-                    'flexible_price' => $flexible_price,
-                    'recurring_payment' => $recurring,
-                    'physical' => $physical,
-                    'interval' => $interval,
-                    'interval_count' => $interval_count,
-                    'suggested_price' => $suggested_price
-                )
-            );
-
-            if (!$result) return false;
-
-            return ['id'=>$sku, 'numeric_id'=>$result];
-        }
-
-        return false;
-    }
-
-    public function getAllSubscriptionPlans($user_id, $limit=false) {
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            [
-                'user_id' => ['condition' => '=', 'value' => $user_id]
-            ]
-        );
-
-        return $result;
-    }
-
-    public function getSubscriptionPlan($id, $user_id=false) {
-
-        $conditions = [
-            'id' => ['condition' => '=', 'value' => $id]
-        ];
-
-        if ($user_id) {
-            $conditions['user_id'] = ['condition' => '=', 'value' => $user_id];
-        }
-
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            $conditions
-        );
-
-        return $result;
-    }
-
-    public function getSubscriptionPlanBySku($sku) {
-
-        $result = $this->db->getData(
-            'subscriptions',
-            '*',
-            [
-                'sku'      => ['condition' => '=', 'value' => $sku]
-            ]
-        );
-
-        return $result;
-    }
-
-    public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $flexible_price=false, $suggested_price=false, $physical=false) {
-
-        //TODO: load seed---> eventually we want this to dynamically switch, but for now
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
-
-        if ($payment_seed->updateSubscriptionPlan($sku, $name)) {
-
-            $result = $this->db->setData(
-                'subscriptions',
-                array(
-                    'name' => $name,
-                    'description' => $description,
-                    'flexible_price' => $flexible_price,
-                    'physical' => $physical,
-                    'suggested_price' => $suggested_price
-                ),
-                [
-                    'user_id' => ['condition' => '=', 'value' => $user_id],
-                    'id'      => ['condition' => '=', 'value' => $id]
-                ]
-            );
-
-            if (!$result) return false;
-
-            return $result;
-        }
-
-        return false;
-    }
-
-    public function getAllSubscriptionsByPlan($id, $limit=false) {
-        $result = $this->db->getData(
-            'CommercePlant_getSubscribersByPlan',
-            false,
-            [
-                'subscription_id' => ['condition' => '=', 'value' => $id]
-            ]
-        );
-
-        return $result;
-    }
-
-    public function deleteSubscriptionPlan($user_id, $id) {
-
-        $results = $this->db->deleteData(
-            'subscriptions',
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                ),
-                'user_id' => array(
-                    'condition' => '=',
-                    'value' => $user_id
-                )
-            )
-
-        );
-
-        if (!$results) return false;
-
-        return true;
-
-    }
-
-    public function getSubscriptionDetails($id) {
-
-        // we can handle this as id or by customer payment token
-        if (is_numeric($id)) {
-            $condition = [
-                'id' => ['condition' => '=', 'value' => $id]
-            ];
-        } else {
-            $condition = [
-                'payment_identifier' => ['condition' => '=', 'value' => $id]
-            ];
-        }
-
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $condition
-        );
-
-        if (!$result) return false;
-
-        return $result;
-    }
-
-    public function subscriptionExists($user_id, $subscription_id) {
-        // we can handle this as id or by customer payment token
-        $conditions = [
-            'user_id' => ['condition' => '=', 'value' => $user_id]
-        ];
-
-        // this enables us to look up one or multiples
-        if (is_array($subscription_id)) {
-            $conditions['subscription_id'] = ['condition' => 'IN', 'value' => $subscription_id];
-        } else {
-            $conditions['subscription_id'] = ['condition' => '=', 'value' => $subscription_id];
-        }
-
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $conditions
-        );
-
-        if (!$result) {
-            error_log("subscriptionExists false");
-            return false;
-        } else {
-            error_log("subscriptionExists true");
-            return $result;
-        }
-    }
-
-    public function getSubscriptionTransactions($id) {
-
-        $condition = [
-            'parent_id' => ['condition' => '=', 'value' => $id],
-            'parent' => ['condition' => '=', 'value' => 'sub']
-        ];
-
-        $result = $this->db->getData(
-            'transactions',
-            '*',
-            $condition,
-            false,
-            'service_timestamp DESC'
-        );
-
-        if (!$result) return false;
-
-        return $result;
-    }
-
-    public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
-
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
-
-        if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
-
-            // if this plan doesn't even exist, then just quit.
-            ###ERROR: plan doesn't exist
-            if (empty($subscription_plan[0])) return "404";
-
-            // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
-            if ($subscription_plan[0]['flexible_price'] == 1) {
-
-                // make sure price is equal or greater than minimum
-                ###ERROR: price is less than minimum
-                if ($price < $subscription_plan[0]['price']) return "402";
-
-                $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
-            }
-
-            $name_split = CASHSystem::splitCustomerName($customer_name);
-
-            $customer = [
-                'customer_email' => trim(strtolower($email_address)),
-                'customer_name' => trim($customer_name),
-                'customer_first_name' => $name_split['first_name'],
-                'customer_last_name' => $name_split['last_name'],
-                'customer_countrycode' => "" // none unless there's shipping
-
-            ];
-
-            if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
-
-                if ($shipping_info) {
-
-                    $shipping_info = json_decode($shipping_info, true);
-
-                    $shipping_info = [
-                        'customer_shipping_name' => $shipping_info['name'],
-                        'customer_address1' => $shipping_info['address1'],
-                        'customer_address2' => $shipping_info['address2'],
-                        'customer_city' => $shipping_info['city'],
-                        'customer_region' => $shipping_info['state'],
-                        'customer_postalcode' => $shipping_info['postalcode'],
-                        'customer_countrycode' => $shipping_info['country']
-                    ];
-                }
-
-                $data = [
-                    'shipping_info' => $shipping_info,
-                    'customer' => $customer
-                ];
-
-                // for multi-plan element featureset we need to make sure they don't already have another plan
-                // on this same element, so let's get all of the element's plans to check against first
-                if (!$element_data = $this->getElementData($element_id, $user_id)) {
-                    // this is a big problem, if we don't get any element data back.
-                    return "412";
-                }
-
-                if (!empty($element_data['options']['plans'])) {
-                    $element_plans = [];
-
-                    foreach ($element_data['options']['plans'] as $plan) {
-                        $element_plans[] = $plan['plan_id'];
-                    }
-
-                }
-
-                // add user to subscription membership and set inactive to start, so stripe has someone to talk to
-                if (!$existing_subscriptions = $this->subscriptionExists($subscriber_user_id, $element_plans)) {
-
-                    if (!$subscription_member_id = $this->createSubscriptionMember(
-                        $subscriber_user_id,
-                        $subscription_plan[0]['id'],
-                        $data)
-                    ) {
-                        ###ERROR: error creating membership
-                        return "412";
-                    }
-
-                } else {
-
-                    $subscription_member_id = false;
-                    $active = false;
-
-                    // okay, so this user has a subscription for a plan under this element. same as passed plan_id?
-                    foreach($existing_subscriptions as $subscription) {
-
-                        // keep track of which subscriptions are marked as active
-                        if ($subscription['status'] == 'active') {
-                            $active[$subscription['payment_identifier']] = $subscription['id'];
-                        }
-
-                        // if there's a match on passed plan, then we check if it's an active subscription
-                        if ($subscription['subscription_id'] == $subscription_plan[0]['id']) {
-                            // if subscription exists we need to allow them to subscribe if their status is
-                            // 'canceled'. this raises some questions and problems with race conditions and
-                            // double subscriptions but hey
-                            if ($subscription['status'] == 'active') {
-                                ###ERROR: subscriber already exists for this plan and it's active
-                                return "409";
-                            } else {
-                                // return inactive subscription id match
-                                $subscription_member_id = $subscription['id'];
-                            }
-                        }
-
-                    // if not let's cancel currently active one, then subscribe to plan_id
-                    if (!$subscription_member_id) {
-                        if (!empty($active)) {
-                            foreach($active as $payment_identifier => $active_subscription) {
-
-                                $payment_seed->cancelSubscription($payment_identifier);
-
-                                // remember to set the subscription member id
-                                $subscription_member_id = $active_subscription;
-                            }
-                        } else {
-                            // okay, the plan passed does not match the existing subscription, and it's not active.
-                            // this most likely means it's not active and we can modify it anyways.
-                            // it could also mean we're in a race condition where it's in the process of being activated.
-                            // we need to just operate under the assumption that they meant to do this new subscription
-                            // since it doesn't match the previous plan id.
-                            $subscription_member_id = $existing_subscriptions[0]['id'];
-                        }
-
-                        }
-
-                        $this->updateSubscription($subscription_member_id, "created", false, false, $subscription_plan[0]['id']);
-                    }
-                }
-
-                // create actual subscription on stripe
-                if ($subscription = $payment_seed->createSubscription($token, $subscription_plan[0]['sku'], $email_address, $quantity)) {
-                    // we need to add in the customer token so we can actually corollate with the webhooks
-                    $add_customer_token_result = $this->db->setData(
-                        'subscriptions_members',
-                        array(
-                            'payment_identifier' => $subscription->id
-                        ),
-                        array(
-                            "id" => array(
-                                "condition" => "=",
-                                "value" => $subscription_member_id
-                            )
-                        )
-                    );
-
-                    ###ERROR: error creating subscription payment
-                    if (!$add_customer_token_result) return "406";
-                } else {
-                    return "406";
-                }
-
-                $email_content = $element_data['options']['message_email'];
-
-                if (!CommercePlant::sendResetValidationEmail(
-                    $element_id,
-                    $user_id,
-                    $email_address,
-                    $finalize_url,
-                    $email_content)) {
-                    return "417";
-                }
-
-                return "200";
-
-            } else {
-                ###ERROR: error creating user
-                return "403";
-            }
-        } else {
-            ###ERROR: plan doesn't exist
-            return "404";
-        }
-
-    }
-
-    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false) {
-
-        $values = [];
-
-        if ($status) {
-            $values['status'] = $status;
-        }
-
-        if ($start_date) {
-            $values['start_date'] = $start_date;
-        }
-
-        if ($total) {
-            $values['total_paid_to_date'] = $total;
-        }
-
-        if ($update_plan_id) {
-            $values['subscription_id'] = $update_plan_id;
-        }
-
-        if (count($values) < 1) return false;
-
-        $results = $this->db->setData(
-            'subscriptions_members',
-            $values,
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                )
-            )
-
-        );
-
-        if (!$results) return false;
-
-        return true;
-    }
-
-    public function cancelSubscription($user_id, $connection_id, $id) {
-
-        $this->updateSubscription($id, "canceled");
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
-
-        $subscription = $this->getSubscriptionDetails($id);
-
-        if(!empty($subscription[0]['payment_identifier'])) {
-            if ($payment_seed->cancelSubscription($subscription[0]['payment_identifier'])) {
-                return true;
-            }
-        } else {
-            return true; // whatevers for now i guess
-        }
-
-
-        return false;
-    }
-
-    public function deleteSubscription($id, $subscription_id) {
-
-        $results = $this->db->deleteData(
-            'subscriptions_members',
-            array(
-                'id' => array(
-                    'condition' => '=',
-                    'value' => $id
-                ),
-                'subscription_id' => array(
-                    'condition' => '=',
-                    'value' => $subscription_id
-                )
-            )
-
-        );
-
-        if (!$results) return false;
-
-        return true;
-    }
-
-    public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address) {
-        //
-        // check if user exists by email passed, or else create a new one
-        $customer = [
-            'customer_email' => trim(strtolower($email_address)),
-            'customer_name' => trim($first_name) . " " . trim($last_name),
-            'customer_first_name' => $first_name,
-            'customer_last_name' => $last_name,
-            'customer_countrycode' => "" // none unless there's shipping
-
-        ];
-
-        $data = [
-            'shipping_info' => [],
-            'customer' => $customer
-        ];
-
-
-        if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
-
-        } else {
-            return false;
-        }
-
-        // manually create a new subscription and set to comped
-        if (!$existing_subscriptions = $this->subscriptionExists($subscriber_user_id, [$plan_id])) {
-
-            if (!$subscription_member_id = $this->createSubscriptionMember(
-                $subscriber_user_id,
-                $plan_id,
-                $data)
-            ) {
-                ###ERROR: error creating membership
-                return false;
-            }
-
-        }
-
-        $this->updateSubscription($subscription_member_id, "comped", false, false, $plan_id);
-
-        if (!CommercePlant::sendResetValidationEmail(
-            52,
-            $user_id,
-            $email_address,
-            "https://family.cashmusic.org/",
-            "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
-            error_log("email failed");
-            return false;
-        }
-
-        return true;
-    }
-
-    public function loginSubscriber($email=false, $password=false, $plans=false) {
-
-        $validate_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'validatelogin',
-                'address' => $email,
-                'password' => $password,
-                'keep_session' => true
-            )
-        );
-
-        // email or password are not set so bail, or they're set but they don't validate
-        if ( (!$email || !$password || !$plans) || !$validate_request->response['payload'] ) {
-            return "401";
-        }
-
-        if ($validate_request->response['payload']) {
-
-            $user_id = $validate_request->response['payload'];
-
-            // this is a valid login--- so now the question is, are they an active subscriber?
-            $plan_id = $this->validateSubscription($user_id, $plans);
-
-            if ($plan_id) {
-
-                // this is a valid subscription so bust out the confetti
-                $session = new CASHRequest(null);
-                $session->sessionSet("user_id", $user_id);
-                $session->sessionSet("plan_id", $plan_id);
-                $session->sessionSet("subscription_authenticated", true);
-
-                return $user_id;
-            } else {
-                return "401";
-            }
-        }
-
-        // all else fail
-        return "401";
-    }
-
-    /**
-     *
-     * Simple lookup to check if a user is an active subscriber
-     * @param $user_id
-     * @param $plan_id
-     * @return bool
-     */
-    public function validateSubscription($user_id, $plans) {
-
-        $conditions = [
-            'user_id' => array(
-                "condition" => "=",
-                "value" => $user_id
-            ),
-            'subscription_id' => array(
-                "condition" => "IN",
-                "value" => $plans
-            )
-        ];
-
-        $result = $this->db->getData(
-            'subscriptions_members',
-            '*',
-            $conditions
-        );
-
-        if (!$result) return false;
-
-        if (isset($result[0]['status']) && in_array($result[0]['status'], ['active', 'comped'])) {
-            return $result[0]['subscription_id'];
-        } else {
-            return false;
-        }
-    }
-
-    public function getSubscriptionStats($plan_id) {
-
-        $result = $this->db->getData(
-            'CommercePlant_getActiveSubscriberTotal',
-            false,
-            [
-                'plan_id' => ['condition' => '=', 'value' => $plan_id]
-            ]
-        );
-
-        return $result;
-    }
-
-    public function getSubscriberCount($plan_id) {
-
-        $result = $this->db->getData(
-            'CommercePlant_getActiveSubscriberCount',
-            false,
-            [
-                'plan_id' => ['condition' => '=', 'value' => $plan_id]
-            ]
-        );
-
-        return $result;
     }
 
     public function getElementData($element_id, $user_id) {
@@ -3236,72 +1532,6 @@ class CommercePlant extends PlantBase {
                 $paid_to_date
             );
 
-        } else {
-            return false;
-        }
-
-    }
-
-    /**
-     * @param $element_id
-     * @param $user_id
-     * @param $email_address
-     * @param $finalize_url
-     * @param $email_content
-     */
-    public static function sendResetValidationEmail($element_id, $user_id, $email_address, $finalize_url, $email_content)
-    {
-        $reset_key = CommercePlant::createValidateCustomerURL($email_address);
-        $verify_link = $finalize_url . '?key=' . $reset_key . '&address=' .
-            urlencode($email_address) .
-            '&element_id=' . $element_id;
-
-        $email_content = CASHSystem::renderMustache(
-            $email_content, array(
-                // array of values to be passed to the mustache template
-                'verify_link' => $verify_link
-            )
-        );
-
-        ###ERROR: error emailing subscriber
-        if (empty($email_content)) {
-            return false;
-        }
-
-
-        if (!CASHSystem::sendEmail(
-            'Welcome to the CASH Music Family',
-            $user_id,
-            $email_address,
-            $email_content,
-            'Thank you.'
-        )
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $cash_admin
-     * @param $add_request
-     */
-    public static function createValidateCustomerURL($email_address)
-    {
-
-        $reset_key = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'setresetflag',
-                'address' => $email_address
-            )
-        );
-
-        $reset_key = $reset_key->response['payload'];
-
-        if ($reset_key) {
-            return $reset_key;
         } else {
             return false;
         }

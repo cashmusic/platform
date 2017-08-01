@@ -110,32 +110,36 @@ $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','h
 
 $campaign_elements = array();
 $elements_for_campaign = array();
+
 if (is_array($campaigns_response['payload'])) {
 	$cash_admin->page_data['campaigns_as_options'] = '';
 	$elements_response = false;
 	foreach ($campaigns_response['payload'] as &$campaign) {
+
 		// pull out element details
-		$campaign['elements'] = json_decode($campaign['elements'],true);
-		if (is_array($campaign['elements'])) {
-			$campaign_elements = array_merge($campaign['elements'],$campaign_elements);
-			if ($campaign['id'] == $current_campaign) {
+		//$campaign['elements'] = json_decode($campaign['elements'],true);
+		if (is_array($campaign->elements)) {
+
+			$campaign_elements = array_merge($campaign->elements,$campaign_elements);
+			if ($campaign->id == $current_campaign) {
+
 				$elements_response = $cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'element',
 						'cash_action' => 'getelementsforcampaign',
-						'id' => $campaign['id']
+						'id' => $campaign->id
 					)
 				);
 			}
 		}
 		// add campaign to dropdown options
-		$cash_admin->page_data['campaigns_as_options'] .= '<option value="' . $campaign['id'] .'"';
-		if ($campaign['id'] == $current_campaign) {
+		$cash_admin->page_data['campaigns_as_options'] .= '<option value="' . $campaign->id .'"';
+		if ($campaign->id == $current_campaign) {
 			$cash_admin->page_data['campaigns_as_options'] .= ' selected="selected"';
 			// set the campaign as the selected campaign
-			$cash_admin->page_data['element_count'] = count($campaign['elements']);
+			$cash_admin->page_data['element_count'] = count($campaign->elements);
 		}
-		$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign['title'] . '</option>';
+		$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign->title . '</option>';
 	}
 	if ($elements_response) {
 		$elements_for_campaign = $elements_response['payload'];
@@ -149,7 +153,9 @@ if ($current_campaign == -1) {
 
 	if ($extra_elements > 0) {
 		$elements_for_campaign = array();
+
 		foreach ($all_elements_response['payload'] as $element) {
+			$element = $element->toArray();
 			if (!in_array($element['id'], $campaign_elements)) {
 				$elements_for_campaign[] = $element;
 			}
@@ -161,6 +167,8 @@ if ($current_campaign == -1) {
 if (is_array($elements_for_campaign)) {
 	$elements_for_campaign = array_reverse($elements_for_campaign);
 	foreach ($elements_for_campaign as &$element) {
+
+		if (is_object($element)) $element = $element->toArray();
 		if ($element['modification_date'] == 0) {
 			$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
 		} else {

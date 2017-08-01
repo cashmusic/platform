@@ -16,13 +16,10 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\LazyLoadingValueHolder\MethodGenerator;
 
-use Closure;
 use ProxyManager\Generator\MethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use ProxyManager\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 
 /**
@@ -36,8 +33,6 @@ class SetProxyInitializer extends MethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param PropertyGenerator $initializerProperty
      */
     public function __construct(PropertyGenerator $initializerProperty)
     {
@@ -45,7 +40,7 @@ class SetProxyInitializer extends MethodGenerator
 
         $initializerParameter = new ParameterGenerator('initializer');
 
-        $initializerParameter->setType(Closure::class);
+        $initializerParameter->setType('Closure');
         $initializerParameter->setDefaultValue(null);
         $this->setParameter($initializerParameter);
         $this->setDocblock('{@inheritDoc}');

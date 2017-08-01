@@ -975,31 +975,49 @@ abstract class CASHSystem  {
 		return $file;
 	}
 
-	public static function errorLog($data, $json=true) {
+	public static function errorLog($data, $json=true, $debug=true) {
+
+		if ($debug) {
+
+            $bt = debug_backtrace();
+            $caller = array_shift($bt);
+
+
+            $debug = "(". $caller['line'] .": ".str_replace("/var/www/cash_platform/", "", $caller['file']) . ") ";
+		} else {
+			$debug = "";
+		}
+
 		switch(gettype($data)) {
 			case "string":
 			case "boolean":
 			case "integer":
 			case "double":
-				error_log("### errorLog (".gettype($data).") -> " . $data);
+				error_log($debug.":[".gettype($data)."]: " . $data);
 				return true;
 			break;
 
 			case "NULL":
 			case "unknown type":
-				error_log("### errorLog -> NULL");
+				error_log($debug.": NULL");
 				return true;
 			break;
 
 			case "array":
 			case "object":
 			case "resource":
-                error_log("### errorLog (".gettype($data).") -> " . ($json) ? json_encode($data) : print_r($data, true));
+
+				if ($json) {
+                    error_log($debug.":[".gettype($data)."]: " . json_encode($data, JSON_PRETTY_PRINT));
+				} else {
+                    error_log($debug."[".gettype($data)."]: " . print_r($data, true));
+
+                }
 				return true;
 			break;
 
 			default:
-				error_log("### errorLog -> no data");
+				error_log($debug.": no data");
 				return true;
 
 		}
@@ -1273,8 +1291,8 @@ abstract class CASHSystem  {
         $connection_id = false;
 
         // if a viable connection, set connection id with user connection
-        if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-            $connection_id = $mandrill[0]['id'];
+        if (is_array($mandrill) && !empty($mandrill->id)) {
+            $connection_id = $mandrill->id;
         }
 
         $system_connections = CASHSystem::getSystemSettings('system_connections');
@@ -1367,6 +1385,27 @@ abstract class CASHSystem  {
         $string[0] = strtolower($string[0]);
 
         return $string;
+    }
+
+    public static function isJson($string) {
+
+    	if(is_array($string) || is_object($string)) return false;
+
+    	try {
+            json_decode($string);
+		} catch (\Exception $e) {
+			return false;
+		}
+
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    public static function arrayWrap($object) {
+        if (gettype($object) == "object") {
+            $object = [$object];
+        }
+
+        return $object;
     }
 } // END class
 ?>

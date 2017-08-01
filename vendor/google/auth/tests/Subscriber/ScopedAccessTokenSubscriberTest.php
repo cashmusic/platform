@@ -82,7 +82,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $s->onBefore($before);
         $this->assertSame(
             'Bearer 1/abcdef1234567890',
-            $request->getHeader('Authorization')
+            $request->getHeader('authorization')
         );
     }
 
@@ -92,6 +92,10 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $fakeAuthFunc = function ($unused_scopes) {
             return '';
         };
+        $this->mockCacheItem
+            ->expects($this->once())
+            ->method('isHit')
+            ->will($this->returnValue(true));
         $this->mockCacheItem
             ->expects($this->once())
             ->method('get')
@@ -112,17 +116,21 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $s->onBefore($before);
         $this->assertSame(
             'Bearer 2/abcdef1234567890',
-            $request->getHeader('Authorization')
+            $request->getHeader('authorization')
         );
     }
 
     public function testGetsCachedAuthTokenUsingCachePrefix()
     {
-        $prefix = 'test_prefix-';
+        $prefix = 'test_prefix_';
         $cachedValue = '2/abcdef1234567890';
         $fakeAuthFunc = function ($unused_scopes) {
             return '';
         };
+        $this->mockCacheItem
+            ->expects($this->once())
+            ->method('isHit')
+            ->will($this->returnValue(true));
         $this->mockCacheItem
             ->expects($this->once())
             ->method('get')
@@ -144,7 +152,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $s->onBefore($before);
         $this->assertSame(
             'Bearer 2/abcdef1234567890',
-            $request->getHeader('Authorization')
+            $request->getHeader('authorization')
         );
     }
 
@@ -156,7 +164,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         };
         $this->mockCacheItem
             ->expects($this->once())
-            ->method('get')
+            ->method('isHit')
             ->will($this->returnValue(false));
         $this->mockCacheItem
             ->expects($this->once())
@@ -177,21 +185,21 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $s->onBefore($before);
         $this->assertSame(
             'Bearer 2/abcdef1234567890',
-            $request->getHeader('Authorization')
+            $request->getHeader('authorization')
         );
     }
 
     public function testShouldSaveValueInCacheWithCacheOptions()
     {
         $token = '2/abcdef1234567890';
-        $prefix = 'test_prefix-';
+        $prefix = 'test_prefix_';
         $lifetime = '70707';
         $fakeAuthFunc = function ($unused_scopes) {
             return '2/abcdef1234567890';
         };
         $this->mockCacheItem
             ->expects($this->once())
-            ->method('get')
+            ->method('isHit')
             ->will($this->returnValue(false));
         $this->mockCacheItem
             ->expects($this->once())
@@ -218,7 +226,7 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
         $s->onBefore($before);
         $this->assertSame(
             'Bearer 2/abcdef1234567890',
-            $request->getHeader('Authorization')
+            $request->getHeader('authorization')
         );
     }
 
@@ -233,6 +241,6 @@ class ScopedAccessTokenSubscriberTest extends BaseTest
             ['auth' => 'notscoped']);
         $before = new BeforeEvent(new Transaction($client, $request));
         $s->onBefore($before);
-        $this->assertSame('', $request->getHeader('Authorization'));
+        $this->assertSame('', $request->getHeader('authorization'));
     }
 }

@@ -11,22 +11,26 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 //Asset connections?
 $cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('assets');
 
+$user_id = $cash_admin->effective_user_id;
+
 // Deal with download code requests
 if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 	if ($_REQUEST['add_codes_qty'] > 0) {
 		$total_added = 0;
-		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
-			$addcode_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'addlockcode',
-					'asset_id' => $request_parameters[0]
-				)
-			);
-			if ($addcode_response['payload']) {
-				$total_added++;
-			}
-		}
+
+        $addcode_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'asset',
+                'cash_action' => 'addbulklockcodes',
+                'asset_id' => $request_parameters[0],
+                'code_count' => $_POST['add_codes_qty']
+            )
+        );
+
+        if ($addcode_response['payload']) {
+            $total_added = $_POST['add_codes_qty'];
+        }
+
 		$cash_admin->page_data['page_message'] = 'Added ' . $total_added . ' new download codes';
 	}
 }
@@ -48,10 +52,10 @@ if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
 	if ($asset_codes) {
 		echo '"code","creation date","claim date"' . "\n";
 		foreach ($asset_codes as $code) {
-		    echo '"' . $code['uid'] . '"';
-			echo ',"' . date('M j, Y h:iA T',$code['creation_date']) . '"';
-			if ($code['claim_date']) {
-				echo ',"' . date('M j, Y h:iA T',$code['claim_date']) . '"';
+		    echo '"' . $code->uid . '"';
+			echo ',"' . date('M j, Y h:iA T',$code->creation_date) . '"';
+			if ($code->claim_date) {
+				echo ',"' . date('M j, Y h:iA T',$code->claim_date) . '"';
 			} else {
 				echo ',"not claimed"';
 			}
@@ -76,7 +80,7 @@ if (isset($_POST['doassetedit'])) {
 	if (isset($_POST['asset_description'])) $asset_description = $_POST['asset_description'];
 
 	$metadata_and_tags = AdminHelper::parseMetaData($_POST);
-	$effective_user = $cash_admin->effective_user_id;
+	
 
 	if ($_POST['asset_type'] == 'release') {
 		$metadata = array(
@@ -101,7 +105,7 @@ if (isset($_POST['doassetedit'])) {
 			'cash_request_type' => 'asset',
 			'cash_action' => 'editasset',
 			'id' => $request_parameters[0],
-			'user_id' => $effective_user,
+			'user_id' => $user_id,
 			'title' => $_POST['asset_title'],
 			'description' => $asset_description,
 			'location' => $asset_location,
@@ -128,12 +132,16 @@ $asset_response = $cash_admin->requestAndStore(
 		'id' => $request_parameters[0]
 	)
 );
-if ($asset_response['payload']) {
-	$cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);
+
+$asset = $asset_response['payload']->toArray();
+
+if ($asset) {
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$asset);
 }
 
 // Metadata shizz:
 if (isset($cash_admin->page_data['metadata'])) {
+
 	if (is_array($cash_admin->page_data['metadata'])) {
 		foreach ($cash_admin->page_data['metadata'] as $key => $value) {
 			$cash_admin->page_data['metadata_' . $key] = $value;
@@ -147,8 +155,8 @@ if (isset($cash_admin->page_data['metadata'])) {
 // Deal with tags:
 $tag_counter = 1;
 $tag_markup = '';
-if (is_array($asset_response['payload']['tags'])) {
-	foreach ($asset_response['payload']['tags'] as $tag) {
+if (isset($asset['tags']) && is_array($asset['tags'])) {
+	foreach ($asset['tags'] as $tag) {
 		$tag_markup .= "<input type='text' name='tag$tag_counter' value='$tag' placeholder='Tag' />";
 		$tag_counter = $tag_counter+1;
 	}
@@ -188,6 +196,9 @@ if ($cash_admin->page_data['type'] == 'file') {
             'asset_details' => $request_parameters[0]
         )
     );
+
+	CASHSystem::errorLog($fulfillment_request);
+
     if ($fulfillment_request->response['payload']) {
         $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
     }
@@ -199,7 +210,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 		array(
 			'cash_request_type' => 'asset',
 			'cash_action' => 'getfulfillmentassets',
-			'asset_details' => $asset_response['payload']
+			'asset_details' => $asset
 		)
 	);
 	if ($fulfillment_response['payload']) {
@@ -212,7 +223,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 				array(
 					'cash_request_type' => 'asset',
 					'cash_action' => 'getfulfillmentassets',
-					'asset_details' => $asset_response['payload'],
+					'asset_details' => $asset,
 					'type' => 'private'
 				)
 			);
@@ -233,7 +244,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 				)
 			);
 			if ($cover_response['payload']) {
-				$cover_asset = $cover_response['payload'];
+				$cover_asset = $cover_response['payload']->toArray();
 				$cover_url_response = $cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'asset',

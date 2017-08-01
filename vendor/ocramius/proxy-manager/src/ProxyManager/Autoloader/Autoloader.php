@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Autoloader;
 
 use ProxyManager\FileLocator\FileLocatorInterface;
@@ -54,7 +52,7 @@ class Autoloader implements AutoloaderInterface
     /**
      * {@inheritDoc}
      */
-    public function __invoke(string $className) : bool
+    public function __invoke($className)
     {
         if (class_exists($className, false) || ! $this->classNameInflector->isProxyClassName($className)) {
             return false;
@@ -66,7 +64,6 @@ class Autoloader implements AutoloaderInterface
             return false;
         }
 
-        /* @noinspection PhpIncludeInspection */
         return (bool) require_once $file;
     }
 }

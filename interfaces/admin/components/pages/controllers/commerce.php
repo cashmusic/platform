@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Entities\CommerceOrder;
 
 /*******************************************************************************
  *
@@ -110,7 +111,7 @@ $pp = array();
 $allpp = $page_data_object->getConnectionsByType('com.paypal');
 if (is_array($allpp)) {
 	foreach ($allpp as $ppq) {
-		$pp[$ppq['id']] = $ppq['name'];
+		$pp[$ppq->id] = $ppq->name;
 	}
 }
 $cash_admin->page_data['paypal_default_options'] = $admin_helper->echoFormOptions($pp,$pp_default,false,true,true);
@@ -121,7 +122,7 @@ $stripe = array();
 $allstripe = $page_data_object->getConnectionsByType('com.stripe');
 if (is_array($allstripe)) {
 	foreach ($allstripe as $stripeq) {
-		$stripe[$stripeq['id']] = $stripeq['name'];
+		$stripe[$stripeq->id] = $stripeq->name;
 	}
 }
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
@@ -155,6 +156,7 @@ $settings_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
 if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
 	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];

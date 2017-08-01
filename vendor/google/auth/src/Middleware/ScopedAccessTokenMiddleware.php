@@ -18,7 +18,6 @@
 namespace Google\Auth\Middleware;
 
 use Google\Auth\CacheTrait;
-use Google\Auth\FetchAuthTokenInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -32,7 +31,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * Requests will be accessed with the authorization header:
  *
- * 'Authorization' 'Bearer <value of auth_token>'
+ * 'authorization' 'Bearer <value of auth_token>'
  */
 class ScopedAccessTokenMiddleware
 {
@@ -44,16 +43,6 @@ class ScopedAccessTokenMiddleware
      * @var CacheItemPoolInterface
      */
     private $cache;
-
-    /**
-     * @var callback
-     */
-    private $httpHandler;
-
-    /**
-     * @var FetchAuthTokenInterface
-     */
-    private $fetcher;
 
     /**
      * @var array configuration
@@ -141,7 +130,7 @@ class ScopedAccessTokenMiddleware
                 return $handler($request, $options);
             }
 
-            $request = $request->withHeader('Authorization', 'Bearer ' . $this->fetchToken());
+            $request = $request->withHeader('authorization', 'Bearer ' . $this->fetchToken());
 
             return $handler($request, $options);
         };
@@ -171,14 +160,15 @@ class ScopedAccessTokenMiddleware
      */
     private function fetchToken()
     {
-        $cached = $this->getCachedValue();
+        $cacheKey = $this->getCacheKey();
+        $cached = $this->getCachedValue($cacheKey);
 
         if (!empty($cached)) {
             return $cached;
         }
 
         $token = call_user_func($this->tokenFunc, $this->scopes);
-        $this->setCachedValue($token);
+        $this->setCachedValue($cacheKey, $token);
 
         return $token;
     }

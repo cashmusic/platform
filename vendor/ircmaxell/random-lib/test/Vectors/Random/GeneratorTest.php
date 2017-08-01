@@ -1,13 +1,22 @@
 <?php
 
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
+use RandomLib\Generator;
 use RandomLibTest\Mocks\Random\Mixer;
 use RandomLibTest\Mocks\Random\Source;
 
-use RandomLib\Generator;
-
-class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
-
-    public static function provideGenerateInt() {
+class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase
+{
+    public static function provideGenerateInt()
+    {
         return array(
             // First, lets test each offset based range
             array(0, 7),
@@ -34,13 +43,15 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-    public static function provideGenerators() {
-        $factory = new \RandomLib\Factory;
+    public static function provideGenerators()
+    {
+        $factory = new \RandomLib\Factory();
         $generator = $factory->getLowStrengthGenerator();
         $sources = $generator->getSources();
         $ret = array();
 
-        $ret[] = array(new Generator($sources, new \RandomLib\Mixer\Hash), 10000, 'hash');
+        $ret[] = array(new Generator($sources, new \RandomLib\Mixer\Hash()), 10000, 'hash');
+
         return $ret;
     }
 
@@ -52,7 +63,8 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
      *
      * @dataProvider provideGenerateInt
      */
-    public function testGenerateInt($min, $max, $offset = 0) {
+    public function testGenerateInt($min, $max, $offset = 0)
+    {
         $generator = $this->getGenerator($max - $min + $offset);
         for ($i = $max; $i >= $min; $i--) {
             $this->assertEquals($i, $generator->generateInt($min, $max));
@@ -87,7 +99,8 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
      *
      * @dataProvider provideGenerators
      */
-    public function testGenerate(\RandomLib\Generator $generator, $times) {
+    public function testGenerate(\RandomLib\Generator $generator, $times)
+    {
         $ratio = $this->doTestGenerate($generator, $times);
         if ($ratio < 0.8 || $ratio > 1.2) {
             $ratio2 = $this->doTestGenerate($generator, $times);
@@ -103,7 +116,8 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    protected function doTestGenerate(\RandomLib\Generator $generator, $times) {
+    protected function doTestGenerate(\RandomLib\Generator $generator, $times)
+    {
         $inside = 0;
         $outside = 0;
         $on = 0;
@@ -124,25 +138,31 @@ class Vectors_Random_GeneratorTest extends PHPUnit_Framework_TestCase {
         $this->assertGreaterThan(0, $outside, 'Outside Is 0');
         $this->assertGreaterThan(0, $inside, 'Inside Is 0');
         $ratio = $inside / $outside;
+
         return $ratio;
     }
 
-    public function getGenerator($random) {
+    public function getGenerator($random)
+    {
         $source1  = new Source(array(
             'generate' => function ($size) use (&$random) {
                 $ret = pack('N', $random);
                 $random--;
+
                 return substr($ret, -1 * $size);
-            }
+            },
         ));
         $sources = array($source1);
         $mixer   = new Mixer(array(
-            'mix'=> function(array $sources) {
-                if (empty($sources)) return '';
+            'mix'=> function (array $sources) {
+                if (empty($sources)) {
+                    return '';
+                }
+
                 return array_pop($sources);
-            }
+            },
         ));
+
         return new Generator($sources, $mixer);
     }
-
 }

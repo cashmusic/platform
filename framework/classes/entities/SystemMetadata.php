@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemMetadata
  *
  * @Table(name="system_metadata", indexes={@Index(name="system_metadata_scope_table", columns={"scope_table_alias", "scope_table_id"})})
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemMetadata extends EntityBase
 {
 
@@ -19,21 +18,21 @@ class SystemMetadata extends EntityBase
      *
      * @Column(name="scope_table_alias", type="string", length=255, nullable=false)
      */
-    protected $scopeTableAlias = '';
+    protected $scope_table_alias = '';
 
     /**
      * @var integer
      *
      * @Column(name="scope_table_id", type="integer", nullable=false)
      */
-    protected $scopeTableId = '0';
+    protected $scope_table_id = '0';
 
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId = '0';
+    protected $user_id = '0';
 
     /**
      * @var string
@@ -52,16 +51,16 @@ class SystemMetadata extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

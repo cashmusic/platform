@@ -59,6 +59,7 @@ class AdminHelper  {
 		// if we're not trying to change things, let's just get the setting or fall back to americuhn
 		if (!$set_language) {
 			$session_language = $this->cash_request->sessionGet('session_language');
+
 			if (!ctype_alnum($session_language)) $session_language = "en";
 			if (empty($session_language)) {
 
@@ -101,6 +102,9 @@ class AdminHelper  {
 
 			if (!$language_change_response['payload']) {
 				// danger will robinson
+
+
+                CASHSystem::errorLog("there was an error changing language");
 			}
 		}
 
@@ -279,12 +283,12 @@ class AdminHelper  {
 	 */
 	public function getConnectionName($connection_id) {
 		$page_data_object = new CASHConnection($this->getPersistentData('cash_effective_user'));
-		$connection_name = false;
+
 		$connection_details = $page_data_object->getConnectionDetails($connection_id);
 		if ($connection_details) {
-			$connection_name = $connection_details['name'];
+			return $connection_details->name;
 		}
-		return $connection_name;
+		return false;
 	}
 
 	/**********************************************
@@ -720,10 +724,6 @@ class AdminHelper  {
 	public function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
 		$formatted = false;
 
-		CASHSystem::errorLog($name);
-        CASHSystem::errorLog($type);
-        CASHSystem::errorLog($value);
-        CASHSystem::errorLog("----");
 		if ($type == 'boolean') {
 			if ($value) {
 				$formatted = 1;
@@ -1625,6 +1625,7 @@ class AdminHelper  {
 		if (is_array($available_options)) {
 			$first = true;
 			foreach ($available_options as $item) {
+				if (is_object($item)) $item = $item->toArray();
 				$doloop = true;
 				if ($range) {
 					if (!in_array($item['id'],$range)) {

@@ -10,14 +10,17 @@ use CASHMusic\Admin\AdminHelper;
 
 
 	function formatVenueDetails($venue_details) {
-		$display_string = $venue_details['name'];
-		if (strtolower($venue_details['country']) == 'usa' || strtolower($venue_details['country']) == 'canada') {
-			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['region'];
+
+	    if (is_array($venue_details)) $venue_details = (object) $venue_details;
+
+		$display_string = $venue_details->name;
+		if (strtolower($venue_details->country) == 'usa' || strtolower($venue_details->country) == 'canada') {
+			$display_string .= ' / ' . $venue_details->city . ', ' . $venue_details->region;
 		} else {
-			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['country'];	
+			$display_string .= ' / ' . $venue_details->city . ', ' . $venue_details->country;
 		}
 		return array(
-			'id' => $venue_details['id'],
+			'id' => $venue_details->id,
 			'displayString' => $display_string
 		);
 	}

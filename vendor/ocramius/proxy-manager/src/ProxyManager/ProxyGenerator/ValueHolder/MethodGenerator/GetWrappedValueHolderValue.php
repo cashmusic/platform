@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\ValueHolder\MethodGenerator;
 
 use ProxyManager\Generator\MethodGenerator;
@@ -34,8 +32,6 @@ class GetWrappedValueHolderValue extends MethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param PropertyGenerator $valueHolderProperty
      */
     public function __construct(PropertyGenerator $valueHolderProperty)
     {

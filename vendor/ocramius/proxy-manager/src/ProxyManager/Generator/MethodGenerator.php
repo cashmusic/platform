@@ -16,10 +16,9 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Generator;
 
+use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\MethodGenerator as ZendMethodGenerator;
 use Zend\Code\Reflection\MethodReflection;
 
@@ -32,14 +31,131 @@ use Zend\Code\Reflection\MethodReflection;
 class MethodGenerator extends ZendMethodGenerator
 {
     /**
+     * @var bool
+     */
+    protected $returnsReference = false;
+
+    /**
+     * @param boolean $returnsReference
+     */
+    public function setReturnsReference($returnsReference)
+    {
+        $this->returnsReference = (bool) $returnsReference;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function returnsReference()
+    {
+        return $this->returnsReference;
+    }
+
+    /**
+     * @override enforces generation of \ProxyManager\Generator\MethodGenerator
+     *
      * {@inheritDoc}
      */
-    public static function fromReflection(MethodReflection $reflectionMethod) : self
+    public static function fromReflection(MethodReflection $reflectionMethod)
     {
-        $method = parent::fromReflection($reflectionMethod);
+        /* @var $method self */
+        $method = new static();
 
-        $method->setInterface(false);
+        $method->setSourceContent($reflectionMethod->getContents(false));
+        $method->setSourceDirty(false);
+
+        if ($reflectionMethod->getDocComment() != '') {
+            $method->setDocBlock(DocBlockGenerator::fromReflection($reflectionMethod->getDocBlock()));
+        }
+
+        $method->setFinal($reflectionMethod->isFinal());
+        $method->setVisibility(self::extractVisibility($reflectionMethod));
+
+        foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+            $method->setParameter(ParameterGenerator::fromReflection($reflectionParameter));
+        }
+
+        $method->setStatic($reflectionMethod->isStatic());
+        $method->setName($reflectionMethod->getName());
+        $method->setBody($reflectionMethod->getBody());
+        $method->setReturnsReference($reflectionMethod->returnsReference());
 
         return $method;
+    }
+
+    /**
+     * Retrieves the visibility for the given method reflection
+     *
+     * @param MethodReflection $reflectionMethod
+     *
+     * @return string
+     */
+    private static function extractVisibility(MethodReflection $reflectionMethod)
+    {
+        if ($reflectionMethod->isPrivate()) {
+            return static::VISIBILITY_PRIVATE;
+        }
+
+        if ($reflectionMethod->isProtected()) {
+            return static::VISIBILITY_PROTECTED;
+        }
+
+        return static::VISIBILITY_PUBLIC;
+    }
+
+    /**
+     * @override fixes by-reference return value in zf2's method generator
+     *
+     * {@inheritDoc}
+     */
+    public function generate()
+    {
+        $output = '';
+        $indent = $this->getIndentation();
+
+        if (null !== ($docBlock = $this->getDocBlock())) {
+            $docBlock->setIndentation($indent);
+
+            $output .= $docBlock->generate();
+        }
+
+        $output .= $indent . $this->generateMethodDeclaration() . self::LINE_FEED . $indent . '{' . self::LINE_FEED;
+
+        if ($this->body) {
+            $output .= preg_replace('#^(.+?)$#m', $indent . $indent . '$1', trim($this->body))
+                . self::LINE_FEED;
+        }
+
+        $output .= $indent . '}' . self::LINE_FEED;
+
+        return $output;
+    }
+
+    /**
+     * @return string
+     */
+    private function generateMethodDeclaration()
+    {
+        $output = $this->generateVisibility()
+            . ' function '
+            . (($this->returnsReference()) ? '& ' : '')
+            . $this->getName() . '(';
+
+        $parameterOutput = array();
+
+        foreach ($this->getParameters() as $parameter) {
+            $parameterOutput[] = $parameter->generate();
+        }
+
+        return $output . implode(', ', $parameterOutput) . ')';
+    }
+
+    /**
+     * @return string
+     */
+    private function generateVisibility()
+    {
+        return $this->isAbstract() ? 'abstract ' : (($this->isFinal()) ? 'final ' : '')
+            . ($this->getVisibility() . (($this->isStatic()) ? ' static' : ''));
     }
 }

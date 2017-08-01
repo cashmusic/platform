@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Elements\Subscription;
 
+use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
 

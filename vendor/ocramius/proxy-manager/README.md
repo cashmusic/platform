@@ -1,8 +1,8 @@
 # Proxy Manager
 
-This library aims at providing abstraction for generating various kinds of [proxy classes](http://ocramius.github.io/presentations/proxy-pattern-in-php/).
+This library aims at providing abstraction for generating various kinds of [proxy classes](http://marco-pivetta.com/proxy-pattern-in-php/).
 
-![ProxyManager](https://raw.githubusercontent.com/Ocramius/ProxyManager/917bf1698243a1079aaa27ed8ea08c2aef09f4cb/proxy-manager.png)
+![ProxyManager](proxy-manager.png)
 
 [![Build Status](https://travis-ci.org/Ocramius/ProxyManager.png?branch=master)](https://travis-ci.org/Ocramius/ProxyManager)
 [![Code Coverage](https://scrutinizer-ci.com/g/Ocramius/ProxyManager/badges/coverage.png?s=ca3b9ceb9e36aeec0e57569cc8983394b7d2a59e)](https://scrutinizer-ci.com/g/Ocramius/ProxyManager/)
@@ -19,19 +19,14 @@ This library aims at providing abstraction for generating various kinds of [prox
 
 ## Documentation
 
-You can learn about the proxy pattern and how to use the **ProxyManager** in the [docs](docs), which are also
-[compiled to HTML](http://ocramius.github.io/ProxyManager).
-
-## Help/Support
-
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Ocramius/ProxyManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+You can learn about the proxy pattern and how to use the **ProxyManager** on the [online documentation](http://ocramius.github.io/ProxyManager).
 
 ## Installation
 
 The suggested installation method is via [composer](https://getcomposer.org/):
 
 ```sh
-php composer.phar require ocramius/proxy-manager
+php composer.phar require ocramius/proxy-manager:1.0.*
 ```
 
 ## Proxy example
@@ -42,7 +37,7 @@ Here's how you build a lazy loadable object with ProxyManager using a *Virtual P
 $factory = new \ProxyManager\Factory\LazyLoadingValueHolderFactory();
 
 $proxy = $factory->createProxy(
-    \MyApp\HeavyComplexObject::class,
+    'MyApp\HeavyComplexObject',
     function (& $wrappedObject, $proxy, $method, $parameters, & $initializer) {
         $wrappedObject = new HeavyComplexObject(); // instantiation logic here
         $initializer   = null; // turning off further lazy initialization

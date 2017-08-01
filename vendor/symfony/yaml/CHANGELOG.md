@@ -1,12 +1,57 @@
 CHANGELOG
 =========
 
+3.3.0
+-----
+
+ * Starting an unquoted string with a question mark followed by a space is
+   deprecated and will throw a `ParseException` in Symfony 4.0.
+
+ * Deprecated support for implicitly parsing non-string mapping keys as strings.
+   Mapping keys that are no strings will lead to a `ParseException` in Symfony
+   4.0. Use quotes to opt-in for keys to be parsed as strings.
+
+   Before:
+
+   ```php
+   $yaml = <<<YAML
+   null: null key
+   true: boolean true
+   2.0: float key
+   YAML;
+
+   Yaml::parse($yaml);
+   ```
+
+   After:
+
+   ```php
+
+   $yaml = <<<YAML
+   "null": null key
+   "true": boolean true
+   "2.0": float key
+   YAML;
+
+   Yaml::parse($yaml);
+   ```
+
+ * Omitted mapping values will be parsed as `null`.
+
+ * Omitting the key of a mapping is deprecated and will throw a `ParseException` in Symfony 4.0.
+
+ * Added support for dumping empty PHP arrays as YAML sequences:
+
+   ```php
+   Yaml::dump([], 0, 0, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
+   ```
+
 3.2.0
 -----
 
  * Mappings with a colon (`:`) that is not followed by a whitespace are deprecated
-   and will lead to a `ParseException` in Symfony 4.0 (e.g. `foo:bar` must be
-   `foo: bar`).
+   when the mapping key is not quoted and will lead to a `ParseException` in
+   Symfony 4.0 (e.g. `foo:bar` must be `foo: bar`).
 
  * Added support for parsing PHP constants:
 

@@ -71,24 +71,13 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
     /**
      * Get parameter type
      *
-     * @return string|null
+     * @return string
      */
-    public function detectType()
+    public function getType()
     {
-        if (method_exists($this, 'getType')
-            && ($type = $this->getType())
-            && $type->isBuiltin()
-        ) {
-            return (string) $type;
-        }
-
-        // can be dropped when dropping PHP7 support:
         if ($this->isArray()) {
             return 'array';
-        }
-
-        // can be dropped when dropping PHP7 support:
-        if ($this->isCallable()) {
+        } elseif (method_exists($this, 'isCallable') && $this->isCallable()) {
             return 'callable';
         }
 
@@ -97,18 +86,16 @@ class ParameterReflection extends ReflectionParameter implements ReflectionInter
         }
 
         $docBlock = $this->getDeclaringFunction()->getDocBlock();
-
-        if (! $docBlock instanceof DocBlockReflection) {
-            return null;
+        if (!$docBlock instanceof DocBlockReflection) {
+            return;
         }
 
         $params = $docBlock->getTags('param');
-
         if (isset($params[$this->getPosition()])) {
             return $params[$this->getPosition()]->getType();
         }
 
-        return null;
+        return;
     }
 
     /**

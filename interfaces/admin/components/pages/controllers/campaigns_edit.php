@@ -35,18 +35,24 @@ $current_response = $cash_admin->requestAndStore(
 		'id' => $request_parameters[0]
 	)
 );
-$cash_admin->page_data['ui_title'] = 'Campaigns: Edit "' . $current_response['payload']['title'] . '"';
 
-$current_campaign = $current_response['payload'];
+if ($current_response['payload']) {
+    $campaign = $current_response['payload']->toArray();
 
-if (is_array($current_campaign)) {
-	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_campaign);
+    $cash_admin->page_data['ui_title'] = 'Campaigns: Edit "' . $campaign['title'] . '"';
+
+    $current_campaign = $campaign;
+
+    if (is_array($current_campaign)) {
+        $cash_admin->page_data = array_merge($cash_admin->page_data, $current_campaign);
+    }
+    $cash_admin->page_data['form_state_action'] = 'docampaignedit';
+    $cash_admin->page_data['button_text'] = 'Save changes';
+    $cash_admin->page_data['delete_text'] = 'Delete this campaign';
+    $cash_admin->page_data['edit_exisiting'] = $campaign;
+} else {
+	echo "error";
 }
-$cash_admin->page_data['form_state_action'] = 'docampaignedit';
-$cash_admin->page_data['button_text'] = 'Save changes';
-$cash_admin->page_data['delete_text'] = 'Delete this campaign';
-$cash_admin->page_data['edit_exisiting'] = $current_response['payload'];
-
 
 
 $elements_response = $cash_admin->requestAndStore(

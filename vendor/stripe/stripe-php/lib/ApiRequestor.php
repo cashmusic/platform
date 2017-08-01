@@ -137,15 +137,13 @@ class ApiRequestor
         }
     }
 
-    private static function _defaultHeaders($apiKey)
+    private static function _defaultHeaders($apiKey, $clientInfo = null)
     {
-        $appInfo = Stripe::getAppInfo();
-
         $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
 
         $langVersion = phpversion();
         $uname = php_uname();
-        $curlVersion = curl_version();
+
         $appInfo = Stripe::getAppInfo();
         $ua = array(
             'bindings_version' => Stripe::VERSION,
@@ -153,9 +151,10 @@ class ApiRequestor
             'lang_version' => $langVersion,
             'publisher' => 'stripe',
             'uname' => $uname,
-            'httplib' => 'curl ' . $curlVersion['version'],
-            'ssllib' => $curlVersion['ssl_version'],
         );
+        if ($clientInfo) {
+            $ua = array_merge($clientInfo, $ua);
+        }
         if ($appInfo !== null) {
             $uaString .= ' ' . self::_formatAppInfo($appInfo);
             $ua['application'] = $appInfo;
@@ -184,9 +183,17 @@ class ApiRequestor
             throw new Error\Authentication($msg);
         }
 
+        // Clients can supply arbitrary additional keys to be included in the
+        // X-Stripe-Client-User-Agent header via the optional getUserAgentInfo()
+        // method
+        $clientUAInfo = null;
+        if (method_exists($this->httpClient(), 'getUserAgentInfo')) {
+            $clientUAInfo = $this->httpClient()->getUserAgentInfo();
+        }
+
         $absUrl = $this->_apiBase.$url;
         $params = self::_encodeObjects($params);
-        $defaultHeaders = $this->_defaultHeaders($myApiKey);
+        $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo);
         if (Stripe::$apiVersion) {
             $defaultHeaders['Stripe-Version'] = Stripe::$apiVersion;
         }
@@ -254,11 +261,11 @@ class ApiRequestor
 
     private function _interpretResponse($rbody, $rcode, $rheaders)
     {
-        try {
-            $resp = json_decode($rbody, true);
-        } catch (Exception $e) {
+        $resp = json_decode($rbody, true);
+        $jsonError = json_last_error();
+        if ($resp === null && $jsonError !== JSON_ERROR_NONE) {
             $msg = "Invalid response body from API: $rbody "
-              . "(HTTP response code was $rcode)";
+              . "(HTTP response code was $rcode, json_last_error() was $jsonError)";
             throw new Error\Api($msg, $rcode, $rbody);
         }
 

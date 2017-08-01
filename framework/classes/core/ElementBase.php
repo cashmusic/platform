@@ -54,9 +54,6 @@ abstract class ElementBase extends CASHData {
 			$session_id = $this->startSession();
 
 			$this->session_id = $session_id['id'];
-
-			CASHSystem::errorLog("started new session");
-			CASHSystem::errorLog("new session id is ".$this->session_id);
 		}
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {

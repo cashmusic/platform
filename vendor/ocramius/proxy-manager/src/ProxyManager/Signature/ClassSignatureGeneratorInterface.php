@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Signature;
 
 use Zend\Code\Generator\ClassGenerator;
@@ -38,5 +36,5 @@ interface ClassSignatureGeneratorInterface
      *
      * @return ClassGenerator
      */
-    public function addSignature(ClassGenerator $classGenerator, array $parameters) : ClassGenerator;
+    public function addSignature(ClassGenerator $classGenerator, array $parameters);
 }

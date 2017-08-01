@@ -117,14 +117,17 @@ if (is_array($settings_request->response['payload'])) {
             'id' => $request_parameters[0]
         )
     );
-
+    CASHSystem::errorLog($subscriber_request);
     if ($subscriber_request->response['payload']) {
 
         // get subscription details
-        $data = json_decode($subscriber_request->response['payload'][0]['data'], true);
-        $cash_admin->page_data['subscriber'] = $subscriber_request->response['payload'][0];
+        $subscription_details = $subscriber_request->response['payload']->toArray();
 
-        $cash_admin->page_data['subscription_id'] = $subscriber_request->response['payload'][0]['subscription_id'];
+        $data = $subscription_details['data'];
+        CASHSystem::errorLog($subscription_details);
+        $cash_admin->page_data['subscriber'] = $subscription_details;
+
+        $cash_admin->page_data['subscription_id'] = $subscription_details['subscription_id'];
 
         $cash_admin->page_data['subscriber']['creation_date'] = date("F jS, Y", $cash_admin->page_data['subscriber']['creation_date']);
         $cash_admin->page_data['customer'] = $data['customer'];
@@ -145,7 +148,7 @@ if (is_array($settings_request->response['payload'])) {
             $payments = $subscriber_request->response['payload'];
 
             foreach ($payments as $payment) {
-
+                $payment = $payment->toArray();
                 $payment['service_timestamp'] = date('m/d/Y g:i A', $payment['service_timestamp']);
                 $cash_admin->page_data['subscriptions_payment'][] = $payment;
             }

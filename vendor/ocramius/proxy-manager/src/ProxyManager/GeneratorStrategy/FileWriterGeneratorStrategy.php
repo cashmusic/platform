@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\GeneratorStrategy;
 
 use ProxyManager\Exception\FileNotWritableException;
@@ -59,7 +57,7 @@ class FileWriterGeneratorStrategy implements GeneratorStrategyInterface
      *
      * {@inheritDoc}
      */
-    public function generate(ClassGenerator $classGenerator) : string
+    public function generate(ClassGenerator $classGenerator)
     {
         $className     = trim($classGenerator->getNamespaceName(), '\\')
             . '\\' . trim($classGenerator->getName(), '\\');
@@ -71,10 +69,12 @@ class FileWriterGeneratorStrategy implements GeneratorStrategyInterface
         try {
             $this->writeFile("<?php\n\n" . $generatedCode, $fileName);
         } catch (FileNotWritableException $fileNotWritable) {
-            throw $fileNotWritable;
-        } finally {
             restore_error_handler();
+
+            throw $fileNotWritable;
         }
+
+        restore_error_handler();
 
         return $generatedCode;
     }
@@ -86,11 +86,9 @@ class FileWriterGeneratorStrategy implements GeneratorStrategyInterface
      * @param string $source
      * @param string $location
      *
-     * @return void
-     *
      * @throws FileNotWritableException
      */
-    private function writeFile(string $source, string $location)
+    private function writeFile($source, $location)
     {
         $tmpFileName   = $location . '.' . uniqid('', true);
 

@@ -64,6 +64,9 @@ if (isset($request_parameters[0])) {
 		if (is_array($elements_response['payload'])) {
 			$elements_response['payload'] = array_reverse($elements_response['payload']);
 			foreach ($elements_response['payload'] as &$element) {
+
+				$element = $element->toArray();
+
 				if ($element['modification_date'] == 0) {
 					$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
 				} else {

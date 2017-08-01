@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Generator\Util;
 
 use ReflectionClass;
@@ -32,11 +30,18 @@ use Zend\Code\Generator\MethodGenerator;
  */
 final class ClassGeneratorUtils
 {
+    /**
+     * @param ReflectionClass  $originalClass
+     * @param ClassGenerator   $classGenerator
+     * @param MethodGenerator  $generatedMethod
+     *
+     * @return void|false
+     */
     public static function addMethodIfNotFinal(
         ReflectionClass $originalClass,
         ClassGenerator $classGenerator,
         MethodGenerator $generatedMethod
-    ) : bool {
+    ) {
         $methodName = $generatedMethod->getName();
 
         if ($originalClass->hasMethod($methodName) && $originalClass->getMethod($methodName)->isFinal()) {
@@ -44,7 +49,5 @@ final class ClassGeneratorUtils
         }
 
         $classGenerator->addMethodFromGenerator($generatedMethod);
-
-        return true;
     }
 }

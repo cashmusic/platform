@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator;
 
 use ProxyManager\Generator\MagicMethodGenerator;
@@ -35,10 +33,6 @@ class MagicSleep extends MagicMethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param ReflectionClass   $originalClass
-     * @param PropertyGenerator $initializerProperty
-     * @param MethodGenerator   $callInitializer
      */
     public function __construct(
         ReflectionClass $originalClass,
@@ -49,7 +43,7 @@ class MagicSleep extends MagicMethodGenerator
 
         $this->setBody(
             '$this->' . $initializerProperty->getName() . ' && $this->' . $callInitializer->getName()
-            . '(\'__sleep\', []);' . "\n\n"
+            . '(\'__sleep\', array());' . "\n\n"
             . ($originalClass->hasMethod('__sleep') ? 'return parent::__sleep();' : 'return array_keys((array) $this);')
         );
     }

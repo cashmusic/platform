@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CommerceSubscriptionsIncludedItems
  *
  * @Table(name="commerce_subscriptions_included_items")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class CommerceSubscriptionsIncludedItems extends EntityBase
 {
 
@@ -19,28 +18,28 @@ class CommerceSubscriptionsIncludedItems extends EntityBase
      *
      * @Column(name="subscription_id", type="integer", nullable=false)
      */
-    protected $subscriptionId;
+    protected $subscription_id;
 
     /**
      * @var integer
      *
      * @Column(name="item_id", type="integer", nullable=true)
      */
-    protected $itemId;
+    protected $item_id;
 
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

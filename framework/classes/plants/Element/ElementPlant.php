@@ -19,9 +19,16 @@
 namespace CASHMusic\Plants\Element;
 
 use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHDBAL;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\Element;
+use CASHMusic\Entities\ElementAnalytic;
+use CASHMusic\Entities\ElementAnalyticBasic;
+use CASHMusic\Entities\ElementsCampaign;
+use CASHMusic\Entities\People;
+use Pixie\Exception;
 
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
@@ -146,38 +153,25 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function getElement($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+            $element = $this->orm->findWhere(Element::class, ['id'=>$id, 'user_id'=>$user_id] );
+		} else {
+			$element = $this->orm->find(Element::class, $id );
 		}
-		$result = $this->db->getData(
-			'elements',
-			'id,name,type,user_id,template_id,options',
-			$condition
-		);
-		if ($result) {
-			$the_element = array(
-				'id' => $result[0]['id'],
-				'name' => $result[0]['name'],
-				'type' => $result[0]['type'],
-				'user_id' => $result[0]['user_id'],
-				'template_id' => $result[0]['template_id'],
-				'options' => json_decode($result[0]['options'],true)
-			);
+
+		if ($element) {
+
+			if (is_array($element)) $element = $element[0];
 
 			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
-			$allmetadata = $this->getAllMetaData('elements',$id);
+			$allmetadata = $this->getAllMetaData("elements", $id);
+
+			// convert this to an array to work with current structure
+            $element = $element->toArray();
 			if (is_array($allmetadata)) {
 				// Loop through $this->options and turn metadata values into real values
-				foreach ($the_element['options'] as $name => $value) {
+				foreach ($element['options'] as $name => $value) {
 					// now check all metadata, one at a time
 					foreach ($allmetadata as $dataname => $data) {
 						// an array means it's a scalar, loop through
@@ -201,7 +195,7 @@ class ElementPlant extends PlantBase {
 				}
 			}
 
-			return $the_element;
+			return $element;
 		} else {
 			return false;
 		}
@@ -253,40 +247,38 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function setElementTemplate($element_id,$template_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $element_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+
+        try {
+            if ($user_id) {
+                $element = $this->orm->findWhere(Element::class, ['id'=>$element_id, 'user_id'=>$user_id] );
+            } else {
+                $element = $this->orm->find(Element::class, $element_id );
+            }
+
+            $element->template_id = $template_id;
+            $element->save();
+
+            return $element->toArray();
+
+		} catch (\Exception $e) {
+			if (CASH_DEBUG) {
+				CASHSystem::errorLog($e->getMessage());
+			}
+        	return false;
 		}
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'template_id' => $template_id
-			),
-			$condition
-		);
-		return $result;
 	}
 
 	protected function getElementsForUser($user_id) {
-		$result = $this->db->getData(
-			'elements',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
+        try {
+            $elements = $this->orm->findWhere(Element::class, ['user_id'=>$user_id] );
+        } catch (\Exception $e) {
+            if (CASH_DEBUG) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+            return false;
+        }
+
+        return $elements;
 	}
 
 	protected function getSupportedTypes($force_all=false) {
@@ -310,7 +302,7 @@ class ElementPlant extends PlantBase {
 	/**
 	 * Records the basic access data to the elements analytics table
 	 *
-	 * @return boolean
+	 * @return array|boolean
 	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$location=false,$access_data='') {
 		// check settings first as they're already loaded in the environment
 		$record_type = CASHSystem::getSystemSettings('analytics');
@@ -340,138 +332,125 @@ class ElementPlant extends PlantBase {
 		// first the big record if needed
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
-			$result = $this->db->setData(
-				'elements_analytics',
-				array(
-					'element_id' => $id,
-					'access_method' => $access_method,
-					'access_location' => $location,
-					'access_action' => $access_action,
-					'access_data' => json_encode($access_data),
-					'access_time' => time(),
-					'client_ip' => $ip_and_proxy['ip'],
-					'client_proxy' => $ip_and_proxy['proxy'],
-					'cash_session_id' => $this->getSessionID()
-				)
-			);
+
+			$result = $this->orm->create(ElementAnalytic::class, [
+                'element_id' => $id,
+                'access_method' => $access_method,
+                'access_location' => $location,
+                'access_action' => $access_action,
+                'access_data' => json_encode($access_data),
+                'access_time' => time(),
+                'client_ip' => $ip_and_proxy['ip'],
+                'client_proxy' => $ip_and_proxy['proxy'],
+                'cash_session_id' => $this->getSessionID()
+            ]);
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$condition = array(
-				"element_id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			);
-			$current_result = $this->db->getData(
-				'elements_analytics_basic',
-				'*',
-				$condition
-			);
-			$short_geo = false;
-			if (is_array($access_data)) {
-				if (isset($access_data['geo'])) {
-					$short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
-				}
-			}
-			if (is_array($current_result)) {
-				$new_total = $current_result[0]['total'] +1;
-				$data      = json_decode($current_result[0]['data'],true);
-				if (isset($data['locations'][$location])) {
-					$data['locations'][$location] = $data['locations'][$location] + 1;
-				} else {
-					$data['locations'][$location] = 1;
-				}
-				if (isset($data['methods'][$access_method])) {
-					$data['methods'][$access_method] = $data['methods'][$access_method] + 1;
-				} else {
-					$data['methods'][$access_method] = 1;
-				}
-				if (isset($data['geo'][$short_geo])) {
-					$data['geo'][$short_geo] = $data['geo'][$short_geo] + 1;
-				} else {
-					$data['geo'][$short_geo] = 1;
-				}
-			} else {
-				$new_total = 1;
-				$data      = array(
-					'locations'  => array(
-						$location => 1
-					),
-					'methods'    => array(
-						$access_method => 1
-					),
-					'geo'        => array(
-						$short_geo => 1
-					)
-				);
-				$condition = false;
-			}
-			$result = $this->db->setData(
-				'elements_analytics_basic',
-				array(
-					'element_id' => $id,
-					'data' => json_encode($data),
-					'total' => $new_total
-				),
-				$condition
-			);
-		}
+            $result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $id]);
 
-		return $result;
+            $short_geo = false;
+            if (is_array($access_data)) {
+                if (isset($access_data['geo'])) {
+                    $short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
+                }
+            }
+
+            if ($result) {
+                $new_total = $result->total + 1;
+                $data = json_decode($result->data, true);
+                if (isset($data['locations'][$location])) {
+                    $data['locations'][$location] = $data['locations'][$location] + 1;
+                } else {
+                    $data['locations'][$location] = 1;
+                }
+                if (isset($data['methods'][$access_method])) {
+                    $data['methods'][$access_method] = $data['methods'][$access_method] + 1;
+                } else {
+                    $data['methods'][$access_method] = 1;
+                }
+                if (isset($data['geo'][$short_geo])) {
+                    $data['geo'][$short_geo] = $data['geo'][$short_geo] + 1;
+                } else {
+                    $data['geo'][$short_geo] = 1;
+                }
+            } else {
+                $new_total = 1;
+                $data = array(
+                    'locations' => array(
+                        $location => 1
+                    ),
+                    'methods' => array(
+                        $access_method => 1
+                    ),
+                    'geo' => array(
+                        $short_geo => 1
+                    )
+                );
+            }
+            if ($result) {
+                $result->total = $new_total;
+                $result->data = $data;
+                $result->save();
+
+                return $result->toArray();
+            }
+
+            return false;
+        }
+
+
 	}
 
 	/**
 	 * Pulls analytics queries in a few different formats
 	 *
 	 * @return array
-	 */protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
+	 */
+	protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
+
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
-				$result = $this->db->getData(
-					'ElementPlant_getAnalytics_mostactive',
-					false,
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
-					)
-				);
+
+                $query = $this->db->table('elements_analytics')
+                    ->select("COUNT(elements_analytics.id) as 'total', elements.name as 'name'")
+                    ->join('elements', 'elements.id', '=', 'elements_analytics.element_id')
+                    ->where('elements.user_id', $user_id)
+					->where('elements_analytics.access_time', ">", (time() - 1209600))
+                    ->groupBy('elements_analytics.element_id')
+                    ->orderBy('total', 'DESC');
+
+                $result = $query->get();
+
+
 				return $result;
 				break;
 			case 'elementbasics':
-				$result = $this->db->getData(
-					'elements_analytics_basic',
-					'*',
-					array(
-						"element_id" => array(
-							"condition" => "=",
-							"value" => $element_id
-						)
-					)
-				);
+
+				$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $element_id] );
+
 				if ($result) {
-					$data = json_decode($result[0]['data'],true);
-					$data['total'] = $result[0]['total'];
-					return $data;
+
+                    if (is_array($result)) {
+                        $result = $result[0];
+                    } else {
+                        $result = $result->toArray();
+                    }
+
+                    $data = [];
+                    if (is_array($result->data)) $data = $result->data;
+
+                    $data['total'] = $result->total;
+                    return $data;
+
 				} else {
 					return false;
 				}
 				break;
 			case 'recentlyadded':
-				$result = $this->db->getData(
-					'elements',
-					'*',
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
-					),
-					false,
-					'creation_date DESC'
-				);
+
+				$result = $this->orm->find(People::class, $user_id)->elements(false, false, "creation_date DESC" );
+
 				return $result;
 				break;
 		}
@@ -510,62 +489,53 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function addElement($name,$type,$options_data,$user_id) {
-		$options_data = json_encode($options_data);
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'name' => $name,
-				'type' => $type,
-				'options' => $options_data,
-				'user_id' => $user_id
-			)
-		);
-		return $result;
+		// if this worked we can cast to an array
+		if($result = $this->orm->create(Element::class, [
+            'name' => $name,
+            'type' => $type,
+            'options' => $options_data,
+            'user_id' => $user_id
+        ])) {
+			CASHSystem::errorLog($result->toArray());
+			return $result->id;
+		}
+
+		return false;
 	}
 
 	protected function editElement($id,$name,$options_data,$user_id=false) {
-		$options_data = json_encode($options_data);
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
+		$conditions = [
+			"id" => $id
+		];
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->setData(
-			'elements',
-			array(
-				'name' => $name,
-				'options' => $options_data,
-			),
-			$condition
-		);
-		return $result;
+
+        $element = $this->orm->findWhere(Element::class, $conditions);
+
+        $element->name = $name;
+        $element->options = $options_data;
+        $result = $element->save();
+
+        return $result;
 	}
 
 	protected function deleteElement($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
+		$conditions = array(
+			"id" => $id
 		);
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->deleteData(
-			'elements',
-			$condition
-		);
-		return $result;
+
+		$element = $this->orm->findWhere(Element::class, $conditions);
+
+		if ($element->delete()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -612,145 +582,112 @@ class ElementPlant extends PlantBase {
 	 *
 	 */
 
-	protected function addCampaign($title,$description,$user_id,$elements='[]',$metadata='{}') {
-		$final_options = array(
-			'title' => $title,
-			'description' => $description,
-			'elements' => $elements,
-			'metadata' => $metadata,
-			'user_id' => $user_id
-		);
-		if (is_array($metadata)) {
-			$final_options['metadata'] = json_encode($metadata);
+	protected function addCampaign($title,$description,$user_id,$elements=false,$metadata=false) {
+
+		$campaign = $this->orm->create(ElementsCampaign::class, [
+            'title' => $title,
+            'description' => $description,
+            'elements' => $elements,
+            'metadata' => $metadata,
+            'user_id' => $user_id
+        ]);
+
+		if ($campaign) {
+			return $campaign->id;
+		} else {
+			return false;
 		}
-		if (is_array($elements)) {
-			// array_values ensures a non-associative array. which we want.
-			$final_options['elements'] = json_encode(array_values($elements));
-		}
-		$result = $this->db->setData(
-			'elements_campaigns',
-			$final_options
-		);
-		return $result;
 	}
 
 	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false,$template_id=false) {
+
 		$final_edits = array_filter(
 			array(
 				'title' => $title,
 				'description' => $description,
-				'template_id' => $template_id
+				'template_id' => $template_id,
+				'elements' => (is_array($elements)) ? array_values($elements) : false,
+				'metadata' => $metadata
 			),
             function($value) {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		if (is_array($metadata)) {
-			$final_edits['metadata'] = json_encode($metadata);
-		}
-		if (is_array($elements)) {
-			// array_values ensures a non-associative array. which we want.
-			$final_edits['elements'] = json_encode(array_values($elements));
-		}
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
+
+		$conditions = array(
+			"id" => $id
 		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->setData(
-			'elements_campaigns',
-			$final_edits,
-			$condition
-		);
-		return $result;
+
+		$campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
+
+		if ($campaign->update($final_edits)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	protected function deleteCampaign($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->deleteData(
-			'elements_campaigns',
-			$condition
-		);
-		return $result;
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
+
+        if ($campaign->delete()) {
+            return true;
+        } else {
+            return false;
+        }
 	}
 
 	protected function getCampaign($id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->getData(
-			'elements_campaigns',
-			'*',
-			$condition
-		);
-		if ($result) {
-			$result[0]['metadata'] = json_decode($result[0]['metadata'],true);
-			$result[0]['elements'] = json_decode($result[0]['elements'],true);
-			return $result[0];
+        $conditions = array(
+            "id" => $id
+        );
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+        $campaign = $this->orm->findWhere(ElementsCampaign::class, $conditions);
+		if ($campaign) {
+			if (is_array($campaign)) {
+				return $campaign[0];
+			}
+			return $campaign;
 		} else {
 			return false;
 		}
 	}
 
 	protected function getCampaignsForUser($user_id) {
-		$result = $this->db->getData(
-			'elements_campaigns',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
+
+        $campaigns = $this->orm->findWhere(ElementsCampaign::class, ['user_id'=>$user_id] );
+
+        if ($campaigns) {
+
+            return $campaigns;
+        } else {
+            return false;
+        }
 	}
 
 	protected function getElementsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
 
-		if (count($campaign['elements'])) {
-            $result = $this->db->getData(
-                'elements',
-                '*',
-                array(
-                    "id" => array(
-                        "condition" => "IN",
-                        "value" => $campaign['elements']
-                    )
-                )
-            );
-            foreach ($result as $key => &$val) {
-                $val['options'] = json_decode($val['options'],true);
-            }
-            return $result;
+		if (count($campaign->elements)) {
+            $elements = $this->orm->findWhere(Element::class, ['id'=>$campaign->elements], true);
+
+            return $elements;
 		} else {
 			return false;
 		}
@@ -759,59 +696,40 @@ class ElementPlant extends PlantBase {
 
 	protected function getAnalyticsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
-		$result = $this->db->getData(
-			'elements_analytics_basic',
-			'MAX(total)',
-			array(
-				"element_id" => array(
-					"condition" => "IN",
-					"value" => $campaign['elements']
-				)
-			)
-		);
+
+		$result = $this->db->table('elements_analytics_basic')
+			->select("MAX(total) as 'total'")
+			->whereIn('element_id', $campaign->elements)
+			->get();
+
 		$returnarray = array(
 			'total_views' => 0
 		);
+
 		if ($result) {
-			$returnarray['total_views'] = $result[0]['MAX(total)'];
+			$returnarray['total_views'] = $result[0]->total;
 			return $returnarray;
 		} else {
 			return false;
 		}
-		return $result;
 	}
 
 	protected function getCampaignForElement($id) {
-		$result = $this->db->getData(
-			'ElementPlant_getCampaignForElement',
-			false,
-			array(
-				"elements1" => array(
-					"condition" => "LIKE",
-					"value" => '["'.$id.'",%'
-				),
-				"elements2" => array(
-					"condition" => "LIKE",
-					"value" => '%,"'.$id.'",%'
-				),
-				"elements3" => array(
-					"condition" => "LIKE",
-					"value" => '%,"'.$id.'"]'
-				),
-				"elements4" => array(
-					"condition" => "LIKE",
-					"value" => '['.$id.',%'
-				),
-				"elements5" => array(
-					"condition" => "LIKE",
-					"value" => '%,'.$id.',%'
-				),
-				"elements6" => array(
-					"condition" => "LIKE",
-					"value" => '%,'.$id.']'
-				)
-			)
-		);
+
+        try {
+            $result = $this->db->table('elements_campaigns')
+                ->where("elements", 'LIKE', '["'.$id.'",%')
+                ->orWhere("elements", 'LIKE', '%,"'.$id.'",%')
+                ->orWhere("elements", 'LIKE', '%,"'.$id.'"]')
+                ->orWhere("elements", 'LIKE', '['.$id.',%')
+                ->orWhere("elements", 'LIKE', '%,'.$id.',%')
+                ->orWhere("elements", 'LIKE', '%,'.$id.']')
+                ->get();
+
+        } catch (Exception $e) {
+        	CASHSystem::errorLog($e->getMessage());
+		}
+
 		// 6 conditions is overkill, but wanted to make sure this would work if PHP treats the
 		// json_encode variables as strings OR ints (have only seen string handling)
 		//
@@ -828,15 +746,22 @@ class ElementPlant extends PlantBase {
 	protected function addElementToCampaign($element_id,$campaign_id) {
 		$campaign = $this->getCampaign($campaign_id);
 
-		if (is_array($campaign['elements'])) {
-            if(($key = array_search($element_id, $campaign['elements'])) === false) {
+		if ($campaign) {
+            $campaign = $campaign->toArray();
+            if (is_array($campaign['elements'])) {
+                if(($key = array_search($element_id, $campaign['elements'])) === false) {
+                    $campaign['elements'][] = $element_id;
+                }
+            } else {
                 $campaign['elements'][] = $element_id;
             }
-		} else {
-            $campaign['elements'][] = $element_id;
+
+            return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
+
+        } else {
+			return false;
 		}
 
-		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
 	}
 
 	protected function removeElementFromCampaign($element_id,$campaign_id) {

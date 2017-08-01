@@ -14,13 +14,17 @@ namespace GuzzleHttp\Promise;
  * }
  * </code>
  *
- * @return TaskQueue
+ * @param TaskQueueInterface $assign Optionally specify a new queue instance.
+ *
+ * @return TaskQueueInterface
  */
-function queue()
+function queue(TaskQueueInterface $assign = null)
 {
     static $queue;
 
-    if (!$queue) {
+    if ($assign) {
+        $queue = $assign;
+    } elseif (!$queue) {
         $queue = new TaskQueue();
     }
 
@@ -210,7 +214,7 @@ function unwrap($promises)
  *
  * @param mixed $promises Promises or values.
  *
- * @return Promise
+ * @return PromiseInterface
  */
 function all($promises)
 {
@@ -243,7 +247,7 @@ function all($promises)
  * @param int   $count    Total number of promises.
  * @param mixed $promises Promises or values.
  *
- * @return Promise
+ * @return PromiseInterface
  */
 function some($count, $promises)
 {
@@ -299,7 +303,7 @@ function any($promises)
  *
  * @param mixed $promises Promises or values.
  *
- * @return Promise
+ * @return PromiseInterface
  * @see GuzzleHttp\Promise\inspect for the inspection state array format.
  */
 function settle($promises)
@@ -337,7 +341,7 @@ function settle($promises)
  * @param callable $onFulfilled
  * @param callable $onRejected
  *
- * @return Promise
+ * @return PromiseInterface
  */
 function each(
     $iterable,
@@ -363,7 +367,7 @@ function each(
  * @param callable     $onFulfilled
  * @param callable     $onRejected
  *
- * @return mixed
+ * @return PromiseInterface
  */
 function each_limit(
     $iterable,
@@ -387,7 +391,7 @@ function each_limit(
  * @param int|callable $concurrency
  * @param callable     $onFulfilled
  *
- * @return mixed
+ * @return PromiseInterface
  */
 function each_limit_all(
     $iterable,
@@ -441,60 +445,13 @@ function is_settled(PromiseInterface $promise)
 }
 
 /**
- * Creates a promise that is resolved using a generator that yields values or
- * promises (somewhat similar to C#'s async keyword).
+ * @see Coroutine
  *
- * When called, the coroutine function will start an instance of the generator
- * and returns a promise that is fulfilled with its final yielded value.
+ * @param callable $generatorFn
  *
- * Control is returned back to the generator when the yielded promise settles.
- * This can lead to less verbose code when doing lots of sequential async calls
- * with minimal processing in between.
- *
- *     use GuzzleHttp\Promise;
- *
- *     function createPromise($value) {
- *         return new Promise\FulfilledPromise($value);
- *     }
- *
- *     $promise = Promise\coroutine(function () {
- *         $value = (yield createPromise('a'));
- *         try {
- *             $value = (yield createPromise($value . 'b'));
- *         } catch (\Exception $e) {
- *             // The promise was rejected.
- *         }
- *         yield $value . 'c';
- *     });
- *
- *     // Outputs "abc"
- *     $promise->then(function ($v) { echo $v; });
- *
- * @param callable $generatorFn Generator function to wrap into a promise.
- *
- * @return Promise
- * @link https://github.com/petkaantonov/bluebird/blob/master/API.md#generators inspiration
+ * @return PromiseInterface
  */
 function coroutine(callable $generatorFn)
 {
-    $generator = $generatorFn();
-    return __next_coroutine($generator->current(), $generator)->then();
-}
-
-/** @internal */
-function __next_coroutine($yielded, \Generator $generator)
-{
-    return promise_for($yielded)->then(
-        function ($value) use ($generator) {
-            $nextYield = $generator->send($value);
-            return $generator->valid()
-                ? __next_coroutine($nextYield, $generator)
-                : $value;
-        },
-        function ($reason) use ($generator) {
-            $nextYield = $generator->throw(exception_for($reason));
-            // The throw was caught, so keep iterating on the coroutine
-            return __next_coroutine($nextYield, $generator);
-        }
-    );
+    return new Coroutine($generatorFn);
 }

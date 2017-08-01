@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\LazyLoadingValueHolder\MethodGenerator;
 
 use ProxyManager\Generator\MethodGenerator;
@@ -34,15 +32,11 @@ class InitializeProxy extends MethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param PropertyGenerator $initializerProperty
-     * @param PropertyGenerator $valueHolderProperty
      */
     public function __construct(PropertyGenerator $initializerProperty, PropertyGenerator $valueHolderProperty)
     {
         parent::__construct('initializeProxy');
         $this->setDocblock('{@inheritDoc}');
-        $this->setReturnType('bool');
 
         $initializer = $initializerProperty->getName();
 

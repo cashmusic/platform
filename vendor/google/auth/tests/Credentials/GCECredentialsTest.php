@@ -56,6 +56,20 @@ class GCECredentialsOnGCETest extends \PHPUnit_Framework_TestCase
     }
 }
 
+class GCECredentialsOnAppEngineFlexibleTest extends \PHPUnit_Framework_TestCase
+{
+    public function testIsFalseByDefault()
+    {
+        $this->assertFalse(GCECredentials::onAppEngineFlexible());
+    }
+
+    public function testIsTrueWhenGaeVmIsTrue()
+    {
+        $_SERVER['GAE_VM'] = 'true';
+        $this->assertTrue(GCECredentials::onAppEngineFlexible());
+    }
+}
+
 class GCECredentialsGetCacheKeyTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldNotBeEmpty()

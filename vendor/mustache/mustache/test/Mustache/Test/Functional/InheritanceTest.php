@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Mustache.php.
+ *
+ * (c) 2010-2017 Justin Hileman
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /**
  * @group inheritance
  * @group functional
@@ -83,6 +92,15 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
                 array(),
                 '{{<foo}}set by template{{$baz}}also set by template{{/baz}}{{/foo}}',
                 'also set by template',
+            ),
+            array(
+                array(
+                    'foo' => '{{$a}}FAIL!{{/a}}',
+                    'bar' => 'WIN!!',
+                ),
+                array(),
+                '{{<foo}}{{$a}}{{<bar}}FAIL{{/bar}}{{/a}}{{/foo}}',
+                'WIN!!',
             ),
         );
     }
@@ -207,6 +225,23 @@ class Mustache_Test_Functional_InheritanceTest extends PHPUnit_Framework_TestCas
         $data = array();
 
         $this->assertEquals('test |override1 default| |override2 default|', $tpl->render($data));
+    }
+
+    public function testBlocksDoNotLeakBetweenPartials()
+    {
+        $partials = array(
+            'partial' => '|{{$a}}A{{/a}} {{$b}}B{{/b}}|',
+        );
+
+        $this->mustache->setPartials($partials);
+
+        $tpl = $this->mustache->loadTemplate(
+            'test {{<partial}}{{$a}}C{{/a}}{{/partial}} {{<partial}}{{$b}}D{{/b}}{{/partial}}'
+        );
+
+        $data = array();
+
+        $this->assertEquals('test |C B| |A D|', $tpl->render($data));
     }
 
     public function testDataDoesNotOverrideBlock()

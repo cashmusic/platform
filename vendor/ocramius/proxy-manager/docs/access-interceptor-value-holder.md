@@ -1,7 +1,3 @@
----
-title: Access Interceptor Value Holder Proxy
----
-
 # Access Interceptor Value Holder Proxy
 
 An access interceptor value holder is a smart reference proxy that allows you to dynamically
@@ -39,8 +35,8 @@ $factory = new Factory();
 
 $proxy = $factory->createProxy(
     new Foo(),
-    ['doFoo' => function () { echo "PreFoo!\n"; }],
-    ['doFoo' => function () { echo "PostFoo!\n"; }]
+    array('doFoo' => function () { echo "PreFoo!\n"; }),
+    array('doFoo' => function () { echo "PostFoo!\n"; })
 );
 
 $proxy->doFoo();
@@ -58,8 +54,10 @@ PostFoo!
 
 A proxy produced by the
 [`ProxyManager\Factory\AccessInterceptorValueHolderFactory`](https://github.com/Ocramius/ProxyManager/blob/master/src/ProxyManager/Factory/AccessInterceptorValueHolderFactory.php)
-implements the
-[`ProxyManager\Proxy\AccessInterceptorValueHolderInterface`](https://github.com/Ocramius/ProxyManager/blob/master/src/ProxyManager/Proxy/AccessInterceptorValueHolderInterface.php).
+implements both the
+[`ProxyManager\Proxy\ValueHolderInterface`](https://github.com/Ocramius/ProxyManager/blob/master/src/ProxyManager/Proxy/ValueHolderInterface.php)
+and the
+[`ProxyManager\Proxy\AccessInterceptorInterface`](https://github.com/Ocramius/ProxyManager/blob/master/src/ProxyManager/Proxy/ValueHolderInterface.php).
 
 Therefore, you can set an access interceptor callback by calling:
 
@@ -70,7 +68,7 @@ $proxy->setMethodSuffixInterceptor('methodName', function () { echo 'post'; });
 
 You can also listen to public properties access by attaching interceptors to `__get`, `__set`, `__isset` and `__unset`.
 
-A prefix interceptor (executed before method logic) should have the following signature:
+A prefix interceptor (executed before method logic) should have following signature:
 
 ```php
 /**
@@ -87,7 +85,7 @@ A prefix interceptor (executed before method logic) should have the following si
 $prefixInterceptor = function ($proxy, $instance, $method, $params, & $returnEarly) {};
 ```
 
-A suffix interceptor (executed after method logic) should have the following signature:
+A suffix interceptor (executed after method logic) should have following signature:
 
 ```php
 /**
@@ -104,13 +102,6 @@ A suffix interceptor (executed after method logic) should have the following sig
  */
 $suffixInterceptor = function ($proxy, $instance, $method, $params, $returnValue, & $returnEarly) {};
 ```
-
-## Known limitations
-
- * methods using `func_get_args()`, `func_get_arg()` and `func_num_arg()` will not function properly
-   for parameters that are not part of the proxied object interface: use 
-   [variadic arguments](http://php.net/manual/en/functions.arguments.php#functions.variable-arg-list)
-   instead.
 
 ## Tuning performance for production
 

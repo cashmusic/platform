@@ -25,6 +25,11 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         ApiRequestor::setHttpClient(HttpClient\CurlClient::instance());
+
+        // Peg the API version so that it can be varied independently of the
+        // one set on the test account.
+        Stripe::setApiVersion('2017-04-06');
+
         $this->mock = null;
         $this->call = 0;
     }
@@ -60,19 +65,15 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'amount' => 2000,
                 'currency' => 'usd',
                 'description' => 'Charge for test@example.com',
-                'card' => array(
-                    'number' => '4242424242424242',
-                    'exp_month' => 5,
-                    'exp_year' => date('Y') + 3,
-                ),
+                'card' => 'tok_visa',
             )
         );
     }
 
     /**
-     * Create a valid test charge.
+     * Create a valid test transfer.
      */
-    protected static function createTestTransfer(array $attributes = array())
+    protected static function createTestTransfer(array $attributes = array(), $opts = null)
     {
         self::authorizeFromEnv();
 
@@ -84,7 +85,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'currency' => 'usd',
                 'description' => 'Transfer to test@example.com',
                 'recipient' => $recipient->id
-            )
+            ),
+            $opts
         );
     }
 
@@ -97,11 +99,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
         return Customer::create(
             $attributes + array(
-                'card' => array(
-                    'number' => '4242424242424242',
-                    'exp_month' => 5,
-                    'exp_year' => date('Y') + 3,
-                ),
+                'card' => 'tok_visa',
             )
         );
     }
@@ -119,9 +117,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'type' => 'individual',
                 'tax_id' => '000000000',
                 'bank_account' => array(
-                    'country'    => 'US',
+                    'country' => 'US',
                     'routing_number' => '110000000',
-                    'account_number'  => '000123456789'
+                    'account_number' => '000123456789'
                 ),
             )
         );
@@ -139,6 +137,47 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'managed' => false,
                 'country' => 'US',
                 'email' => self::generateRandomEmail(),
+            )
+        );
+    }
+
+    /**
+     * Create a test account
+     */
+    protected static function createTestManagedAccount(array $attributes = array())
+    {
+        self::authorizeFromEnv();
+
+        return Account::create(
+            $attributes + array(
+                'managed' => true,
+                'country' => 'US',
+                'external_account' => array(
+                    'object' => 'bank_account',
+                    'country' => 'US',
+                    'currency' => 'usd',
+                    'routing_number' => '110000000',
+                    'account_number' => '000123456789'
+                ),
+                'legal_entity' => array(
+                    'type'               => 'individual',
+                    'personal_id_number' => '000000000',
+                    'type'               => 'individual',
+                    'dob'                => array('year' => '1980', 'month' => '01', 'day' => '01'),
+                    'first_name'         => 'John',
+                    'last_name'          => 'Doe',
+                    'address'            => array(
+                        'line1'          => '1234 Main Street',
+                        'postal_code'    => '94110',
+                        'city'           => 'San Francisco'
+                    ),
+                    'personal_address'   => array(
+                        'line1'          => '1234 Main Street',
+                        'postal_code'    => '94110',
+                        'city'           => 'San Francisco'
+                    )
+                ),
+                'tos_acceptance' => array('date' => time(), 'ip' => '127.0.0.1')
             )
         );
     }
@@ -188,7 +227,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Genereate a semi-random string
+     * Generate a semi-random string
      */
     protected static function generateRandomString($length = 24)
     {
@@ -204,9 +243,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Generate a semi-random email.
      */
-    protected static function generateRandomEmail($domain = 'bar.com')
+    protected static function generateRandomEmail()
     {
-        return self::generateRandomString().'@'.$domain;
+        return 'dev-platform-bots+php-'.self::generateRandomString(12).'@stripe.com';
     }
 
     protected static function createTestBitcoinReceiver($email)

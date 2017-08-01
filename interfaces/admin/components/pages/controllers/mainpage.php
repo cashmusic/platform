@@ -6,6 +6,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Seeds\ExternalFulfillmentSeed;
 
 /*******************************************************************************
  *
@@ -19,7 +20,6 @@ use CASHMusic\Admin\AdminHelper;
  ******************************************************************************/
 
 // get username and any user data
-
 $user_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people',
@@ -27,6 +27,8 @@ $user_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
+$cash_admin->page_data['last_login'] = 0;
 
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
@@ -43,6 +45,9 @@ if (is_array($user_response['payload'])) {
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
+
+	if (!isset($current_username)) $current_username = false;
+
 	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/');
 	$cash_admin->page_data['user_page_uri'] = str_replace('://','://' . $current_username . '.',$cash_admin->page_data['user_page_uri']);
 } else {
@@ -79,20 +84,20 @@ $activity_request = new CASHRequest(
 		'since_date' => $cash_admin->page_data['last_login']
 	)
 );
+
 $activity = $activity_request->response['payload'];
 
 // PARSE ACTIVITY FOR LISTS
 $cash_admin->page_data['delta_lists'] = false;
 if (is_array($activity['lists'])) {
 	foreach ($activity['lists'] as &$list_stats) {
-		if ($list_stats['total'] == 1) {
-			$list_stats['singular'] = true;
+		if ($list_stats->total == 1) {
+			$list_stats->singular = true;
 		} else {
-			$list_stats['singular'] = false;
+			$list_stats->singular = false;
 		}
 	}
 	$cash_admin->page_data['delta_lists'] = $activity['lists'];
-	error_log(json_encode($cash_admin->page_data['delta_lists']));
 }
 
 // PARSE ACTIVITY FOR ORDERS
@@ -116,6 +121,7 @@ $list_response = $cash_admin->requestAndStore(
 );
 if (is_array($list_response['payload'])) {
 	foreach ($list_response['payload'] as &$list) {
+		$list = $list->toArray();
 		$list_analytics = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'people',
@@ -125,11 +131,14 @@ if (is_array($list_response['payload'])) {
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
-		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
-		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
-		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+
+        $list_analytics = json_decode(json_encode($list_analytics['payload']), true);
+
+		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['active']);
+		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['inactive']);
+		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['last_week']);
 	}
-	$cash_admin->page_data['all_lists'] = $list_response['payload'];
+	$cash_admin->page_data['all_lists'] = $list_response;
 }
 
 // FIND UNFULFILLED ORDERS

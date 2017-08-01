@@ -1,7 +1,3 @@
----
-title: Remote Object Proxy
----
-
 # Remote Object Proxy
 
 The remote object implementation is a mechanism that enables an local object to control an other object on an other server.
@@ -92,20 +88,13 @@ interface AdapterInterface
      *
      * @return mixed
      */
-    public function call($wrappedClass, $method, array $params = []);
+    public function call($wrappedClass, $method, array $params = array());
 }
 ```
 
 It is very easy to create your own implementation (for RESTful web services, for example). Simply pass
 your own adapter instance to your factory at construction time
 
-## Known limitations
-
- * methods using `func_get_args()`, `func_get_arg()` and `func_num_arg()` will not function properly
-   for parameters that are not part of the proxied object interface: use 
-   [variadic arguments](http://php.net/manual/en/functions.arguments.php#functions.variable-arg-list)
-   instead.
-
 ## Tuning performance for production
 
-See [Tuning ProxyManager for Production](tuning-for-production.md).
+See [Tuning ProxyManager for Production](https://github.com/Ocramius/ProxyManager/blob/master/docs/tuning-for-production.md).

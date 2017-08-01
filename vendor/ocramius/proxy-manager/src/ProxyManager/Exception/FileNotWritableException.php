@@ -16,10 +16,11 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Exception;
 
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionMethod;
 use UnexpectedValueException;
 
 /**
@@ -30,7 +31,13 @@ use UnexpectedValueException;
  */
 class FileNotWritableException extends UnexpectedValueException implements ExceptionInterface
 {
-    public static function fromInvalidMoveOperation(string $fromPath, string $toPath) : self
+    /**
+     * @param string $fromPath
+     * @param string $toPath
+     *
+     * @return self
+     */
+    public static function fromInvalidMoveOperation($fromPath, $toPath)
     {
         return new self(sprintf(
             'Could not move file "%s" to location "%s": '
@@ -40,20 +47,20 @@ class FileNotWritableException extends UnexpectedValueException implements Excep
         ));
     }
 
-    public static function fromNonWritableLocation($path) : self
+    /**
+     * @param string $path
+     *
+     * @return self
+     */
+    public static function fromNonWritableLocation($path)
     {
-        $messages    = [];
-        $destination = realpath($path);
+        $messages = array();
 
-        if (! $destination) {
-            $messages[] = 'path does not exist';
-        }
-
-        if ($destination && ! is_file($destination)) {
+        if (($destination = realpath($path)) && ! is_file($destination)) {
             $messages[] = 'exists and is not a file';
         }
 
-        if ($destination && ! is_writable($destination)) {
+        if (! is_writable($destination)) {
             $messages[] = 'is not writable';
         }
 

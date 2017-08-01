@@ -16,11 +16,8 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator\RemoteObject\PropertyGenerator;
 
-use ProxyManager\Factory\RemoteObject\AdapterInterface;
 use ProxyManager\Generator\Util\UniqueIdentifierGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 
@@ -40,6 +37,6 @@ class AdapterProperty extends PropertyGenerator
         parent::__construct(UniqueIdentifierGenerator::getIdentifier('adapter'));
 
         $this->setVisibility(self::VISIBILITY_PRIVATE);
-        $this->setDocblock('@var \\' . AdapterInterface::class . ' Remote web service adapter');
+        $this->setDocblock('@var \\ProxyManager\\Factory\\RemoteObject\\AdapterInterface Remote web service adapter');
     }
 }

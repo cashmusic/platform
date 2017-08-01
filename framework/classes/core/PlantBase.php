@@ -24,7 +24,7 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$api;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
@@ -220,7 +220,7 @@ use Exception;
 							if ($param_name == 'full_cash_request') {
 								// this is a special case. it allows us to add a required
 								// parameter called 'full_cash_request' to any method and
-								// get all of the values passed in as an array — useful 
+								// get all of the values passed in as an array — useful
 								// for parsing variable data POSTed to a request
 								$final_parameters[$param_name] = $this->request;
 							} else {

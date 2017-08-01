@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
 /**
  * The OpenSSL Random Number Source
  *
@@ -9,12 +19,13 @@
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ *
  * @version    Build @@version@@
  */
-
 namespace RandomLib\Source;
 
 use SecurityLib\Strength;
@@ -27,18 +38,59 @@ use SecurityLib\Strength;
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-class OpenSSL implements \RandomLib\Source {
+class OpenSSL extends \RandomLib\AbstractSource
+{
 
     /**
      * Return an instance of Strength indicating the strength of the source
      *
-     * @return Strength An instance of one of the strength classes
+     * @return \SecurityLib\Strength An instance of one of the strength classes
      */
-    public static function getStrength() {
-        return new Strength(Strength::HIGH);
+    public static function getStrength()
+    {
+        /**
+         * Prior to PHP 5.6.12 (see https://bugs.php.net/bug.php?id=70014) the "openssl_random_pseudo_bytes"
+         * was using "RAND_pseudo_bytes" (predictable) instead of "RAND_bytes" (unpredictable).
+         * Release notes: http://php.net/ChangeLog-5.php#5.6.12
+         */
+        if (PHP_VERSION_ID >= 50612) {
+            return new Strength(Strength::HIGH);
+        }
+        
+        /**
+         * Prior to PHP 5.5.28 (see https://bugs.php.net/bug.php?id=70014) the "openssl_random_pseudo_bytes"
+         * was using "RAND_pseudo_bytes" (predictable) instead of "RAND_bytes" (unpredictable).
+         * Release notes: http://php.net/ChangeLog-5.php#5.5.28
+         */
+        if (PHP_VERSION_ID >= 50528 && PHP_VERSION_ID < 50600) {
+            return new Strength(Strength::HIGH);
+        }
+        
+        /**
+         * Prior to PHP 5.4.44 (see https://bugs.php.net/bug.php?id=70014) the "openssl_random_pseudo_bytes"
+         * was using "RAND_pseudo_bytes" (predictable) instead of "RAND_bytes" (unpredictable).
+         * Release notes: http://php.net/ChangeLog-5.php#5.4.44
+         */
+        if (PHP_VERSION_ID >= 50444 && PHP_VERSION_ID < 50500) {
+            return new Strength(Strength::HIGH);
+        }
+        
+        return new Strength(Strength::MEDIUM);
+    }
+
+    /**
+     * If the source is currently available.
+     * Reasons might be because the library is not installed
+     *
+     * @return bool
+     */
+    public static function isSupported()
+    {
+        return function_exists('openssl_random_pseudo_bytes');
     }
 
     /**
@@ -48,8 +100,9 @@ class OpenSSL implements \RandomLib\Source {
      *
      * @return string A string of the requested size
      */
-    public function generate($size) {
-        if (!function_exists('openssl_random_pseudo_bytes') || $size < 1) {
+    public function generate($size)
+    {
+        if ($size < 1) {
             return str_repeat(chr(0), $size);
         }
         /**
@@ -60,5 +113,4 @@ class OpenSSL implements \RandomLib\Source {
          */
         return openssl_random_pseudo_bytes($size);
     }
-
 }

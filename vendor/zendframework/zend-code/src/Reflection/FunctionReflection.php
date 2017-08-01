@@ -99,11 +99,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
             }
         } else {
             $name = substr($this->getName(), strrpos($this->getName(), '\\')+1);
-            preg_match(
-                '#function\s+' . preg_quote($name) . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)?}#',
-                $functionLine,
-                $matches
-            );
+            preg_match('#function\s+' . preg_quote($name) . '\s*\([^\)]*\)\s*{([^{}]+({[^}]+})*[^}]+)?}#', $functionLine, $matches);
             if (isset($matches[0])) {
                 $content = $matches[0];
             }
@@ -139,7 +135,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
         $parameters = $this->getParameters();
         foreach ($parameters as $parameter) {
             $prototype['arguments'][$parameter->getName()] = [
-                'type'     => $parameter->detectType(),
+                'type'     => $parameter->getType(),
                 'required' => !$parameter->isOptional(),
                 'by_ref'   => $parameter->isPassedByReference(),
                 'default'  => $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null,
@@ -150,9 +146,7 @@ class FunctionReflection extends ReflectionFunction implements ReflectionInterfa
             $line = $prototype['return'] . ' ' . $prototype['name'] . '(';
             $args = [];
             foreach ($prototype['arguments'] as $name => $argument) {
-                $argsLine = ($argument['type']
-                    ? $argument['type'] . ' '
-                    : '') . ($argument['by_ref'] ? '&' : '') . '$' . $name;
+                $argsLine = ($argument['type'] ? $argument['type'] . ' ' : '') . ($argument['by_ref'] ? '&' : '') . '$' . $name;
                 if (!$argument['required']) {
                     $argsLine .= ' = ' . var_export($argument['default'], true);
                 }

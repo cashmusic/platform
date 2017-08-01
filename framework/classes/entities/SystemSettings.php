@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemSettings
  *
  * @Table(name="system_settings")
- * @Entity
- */
+ * @Entity @HasLifecycleCallbacks */
 class SystemSettings extends EntityBase
 {
 
@@ -24,7 +23,7 @@ class SystemSettings extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="value", type="text", length=65535, nullable=false)
+     * @Column(name="value", type="json_array", length=65535, nullable=false)
      */
     protected $value;
 
@@ -33,21 +32,21 @@ class SystemSettings extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

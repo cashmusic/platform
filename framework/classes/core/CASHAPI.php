@@ -8,12 +8,29 @@
 
 namespace CASHMusic\Core;
 
+use CASHMusic\Core\API\AccessTokenRepository;
+use CASHMusic\Core\API\AuthCodeRepository;
+use CASHMusic\Core\API\AuthMiddleware;
+use CASHMusic\Core\API\ClientRepository;
+use CASHMusic\Core\API\RefreshTokenRepository;
 use CASHMusic\Core\API\RoutingMiddleware;
+use CASHMusic\Core\API\ScopeRepository;
+use CASHMusic\Core\API\UserEntity;
+use League\OAuth2\Client\Provider\GenericProvider;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use Slim\App as Slim;
-use Slim\Http;
-use Psr\Http\Message\ServerRequestInterface;
+
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\Middleware\AuthorizationServerMiddleware;
+use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
+use League\OAuth2\Server\ResourceServer;
+
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Stream;
 
 class CASHAPI
 {
@@ -22,56 +39,63 @@ class CASHAPI
     {
         CASHSystem::startUp(false);
 
-/*        $cash_db_settings = CASHSystem::getSystemSettings();
+        list($accessTokenRepository, $server, $resourceServer) = $this->getAuthorizationServer();
 
-        $cashdba = new CASHDBA(
-            $cash_db_settings['hostname'],
-            $cash_db_settings['username'],
-            $cash_db_settings['password'],
-            $cash_db_settings['database'],
-            $cash_db_settings['driver']
-        );
+        $api = new Slim(['settings' => [
+            'addContentLengthHeader' => false,
+        ]]);
 
-        $cashdba->connect();
 
-        $storage = new Storage\Pdo($cashdba->db);
+        $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
 
-        $server = new \OAuth2\Server(
-            $storage,
-            [
-                'access_lifetime' => 3600,
-            ],
-            [
-                new GrantType\ClientCredentials($storage),
-                new GrantType\AuthorizationCode($storage),
-            ]
-        );*/
+            try {
+                $server->enableGrantType(
+                    new ClientCredentialsGrant(),
+                    new \DateInterval('PT1H') // access tokens will expire after 1 hour
+                );
 
-        $api = new Slim([
-            'settings' => [
-                'determineRouteBeforeAppMiddleware' => true,
-            ]
-        ]);
+                // Try to respond to the request
+                return $server->respondToAccessTokenRequest($request, $response);
 
-        $api->any('/{plant}/{noun}', function ($request, $response, $args) use (&$authorization) {
+            } catch (\League\OAuth2\Server\Exception\OAuthServerException $exception) {
+
+                // All instances of OAuthServerException can be formatted into a HTTP response
+                return $exception->generateHttpResponse($response);
+
+            } catch (\Exception $exception) {
+
+                // Unknown exception
+                $body = new Stream('php://temp', 'r+');
+                $body->write($exception->getMessage());
+                return $response->withStatus(500)->withBody($body);
+
+            }
+        });
+
+
+
+        $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
+
+            $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
+
             if ($route = $request->getAttribute('route_settings')) {
                 $request_params = $request->getQueryParams();
                 if (isset($request_params['p'])) unset($request_params['p']);
-
-                $logged_in = false;
-                if ($request->getAttribute('auth_required')) {
-                    // if !authed return 403
-
-                    // else set authed true
-                    $logged_in = true;
-                }
 
                 $params = [
                     'cash_request_type' => $args['plant'],
                     'cash_action' => $args['noun']
                 ];
 
-                if ($logged_in) $params['user_id'] = 1;
+                if (isset($args['origin'], $args['type'])) {
+                    $params['origin'] = $args['origin'];
+                    $params['type'] = $args['type'];
+                }
+
+                if (isset($serverRequest)) {
+                    $user_id = $serverRequest->getAttribute('oauth_client_id');
+                    if (!empty($user_id)) $params['user_id'] = $user_id;
+                }
 
                 if (is_array($request_params)) $params = array_merge($request_params, $params);
 
@@ -83,28 +107,16 @@ class CASHAPI
                     $request->getMethod());
 
                 if ($cash_request) {
-                    /*return $response->withStatus($cash_request->response['status_code'])->withJson(
+                    return $response->withStatus($cash_request->response['status_code'])->withJson(
                         self::APIResponse($cash_request)
-                    );*/
-
-                    return $response->withHeader('Content-type', 'application/json')
-                        ->withStatus($cash_request->response['status_code'])
-                        ->write(
-                            self::APIResponse($cash_request)
-                        );
+                    );
                 }
-
             }
 
-            if (empty($json_response)) {
-                return $response->withStatus(500)->withJson(
-                    self::APIResponse(false)
-                );
-            }
+            return $response->withStatus(404)->withJson(self::APIResponse(false));
 
-            return $json_response;
             // if we get here return 404
-        })->add(new RoutingMiddleware());
+        })->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
         $api->run();
     }
@@ -129,14 +141,43 @@ class CASHAPI
             }
         } else {
             $response = [
-                'status' => 500,
-                'status_uid' => "general_500",
-                'status_message' => "Server error",
+                'status' => 404,
+                'status_uid' => "general_404",
+                'status_message' => "Route not found, or server error",
                 'error_name' => "There was an error while getting a response",
                 'error_message' => "The request failed."
             ];
         }
 
-        return json_encode($response);
+        return ($response);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAuthorizationServer()
+    {
+        $clientRepository = new ClientRepository(); // instance of ClientRepositoryInterface
+        $scopeRepository = new ScopeRepository(); // instance of ScopeRepositoryInterface
+        $accessTokenRepository = new AccessTokenRepository(); // instance of AccessTokenRepositoryInterface
+
+        $resourceServer = new \League\OAuth2\Server\ResourceServer(
+            $accessTokenRepository,
+            CASH_PLATFORM_ROOT . "/settings/keys/public.key"
+        );
+
+        $privateKey = CASH_PLATFORM_ROOT . "/settings/keys/private.key";
+        $encryptionKey = 'X7jv9J1UcOE00EgRGzcJJ6boPXFASE3idhwPUoWsw5k=';
+
+        // Setup the authorization server
+        $server = new AuthorizationServer(
+            $clientRepository,
+            $accessTokenRepository,
+            $scopeRepository,
+            $privateKey,
+            $encryptionKey
+        );
+
+        return array($accessTokenRepository, $server, $resourceServer);
     }
 }

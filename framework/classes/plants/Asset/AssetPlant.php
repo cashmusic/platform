@@ -18,17 +18,26 @@
 
 namespace CASHMusic\Plants\Asset;
 
+use CASHMusic\Core\CASHDBAL;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Entities\Asset;
+use CASHMusic\Entities\AssetAnalytic;
+use CASHMusic\Entities\AssetAnalyticsBasic;
+use CASHMusic\Entities\People;
+use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Seeds\S3Seed;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Pixie\Exception;
 
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
         $this->getRoutingTable();
-		
+
 		$this->plantPrep($request_type,$request);
 	}
 
@@ -78,6 +87,12 @@ class AssetPlant extends PlantBase {
 
 		// test that getInfo returned results
 		if ($asset_details) {
+
+			//vestigial mess
+			if (!is_array($asset_details)) {
+                $asset_details = $asset_details->toArray();
+			}
+
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
 			} elseif ($asset_details['type'] == 'release') {
@@ -88,19 +103,16 @@ class AssetPlant extends PlantBase {
 						$final_assets = array();
 
 						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
+
+
 							if (is_array($fulfillment_id)) $fulfillment_id = array_pop($fulfillment_id);
 
-							$fulfillment_request = new CASHRequest(
-								array(
-									'cash_request_type' => 'asset',
-									'cash_action' => 'getasset',
-									'id' => $fulfillment_id
-								)
-							);
-							if ($fulfillment_request->response['payload']) {
-								$final_assets[] = $fulfillment_request->response['payload'];
+
+							if ($fulfillment_asset = $this->getAssetInfo($fulfillment_id)) {
+								$final_assets[] = $fulfillment_asset->toArray();
 							}
 						}
+
 						if (count($final_assets)) {
 							$result = $final_assets;
 						} else {
@@ -123,56 +135,44 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getAssetsForConnection($connection_id) {
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			array(
-				"connection_id" => array(
-					"condition" => "=",
-					"value" => $connection_id
-				)
-			),
-			false,
-			'location'
-		);
-		return $result;
+
+		$assets = $this->orm->findWhere(Asset::class, ['connection_id'=>$connection_id] );
+
+		if ($assets) {
+			return $assets->toArray();
+		}
+
+        return false;
+
 	}
 
 	protected function getAssetsForUser($user_id,$type=false,$parent_id=false) {
-		$options_array = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			)
-		);
+		$options = [
+			"user_id" => $user_id
+		];
+
 		if ($type !== false) {
-			$options_array["type"] = array(
-				"condition" => "=",
-				"value" => $type
-			);
+			$options["type"] = $type;
 		}
+
 		if ($parent_id !== false) {
-			$options_array["parent_id"] = array(
-				"condition" => "=",
-				"value" => $parent_id
-			);
+			$options["parent_id"] = $parent_id;
 		}
 
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			$options_array
-		);
-		if ($result) {
-			if (is_array($result)) {
-				foreach ($result as &$asset) {
-					$asset['tags'] = $this->getAllMetaData('assets',$asset['id'],'tag');
-					$asset['metadata'] = json_decode($asset['metadata'],true);
-				}
-			}
+        try {
+
+			// this should actually be from People but i need to build out conditions for relationships
+            $assets = $this->orm->findWhere(Asset::class, $options, true);
+
+		} catch (\Exception $e) {
+        	CASHSystem::errorLog($e->getMessage());
 		}
 
-		return $result;
+		if ($assets) {
+            return $assets;
+		}
+
+		return false;
 	}
 
 	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {
@@ -183,6 +183,7 @@ class AssetPlant extends PlantBase {
 		// this is a hack to get test emails working
 		if (!is_numeric($scope_table_id) && strlen($scope_table_id) > 64) {
             $asset_id = substr($scope_table_id, 64);
+            $asset_details = $this->getAssetInfo($asset_id);
 		} else {
             $asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
             $asset_id = $asset['asset_id'];
@@ -195,15 +196,12 @@ class AssetPlant extends PlantBase {
 
 				return [
 					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
-					'name'=>$asset_details['title']
+					'name'=>$asset_details->title
 				];
 				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);
 			} else {
 				return false;
 			}
-
-
-
 		} else {
 			return false;
 		}
@@ -217,37 +215,17 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return string
 	 */protected function getAssetInfo($id,$user_id=false) {
-		// first set conditions based on single id or array
-		if (!is_array($id)) {
-			// straightforward...i mean seriously
-			$conditions = array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			);
-		} else {
-			// implode array and use IN operator
-			$conditions = array(
-				"id" => array(
-					"condition" => "IN",
-					"value" => $id
-				)
-			);
-		}
+
+		// handles array or integer
+    	$conditions = ['id'=>$id];
+
 		if ($user_id) {
-			$conditions['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$conditions['user_id'] = $user_id;
 		}
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			$conditions
-		);
-		if ($result) {
-			foreach ($result as &$asset_info) {
+
+		if ($asset = $this->orm->findWhere(Asset::class, $conditions)) {
+			/*foreach ($result as &$asset_info) {
+				$asset_info = $asset_info->toArray();
 				$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
 				$asset_info['metadata'] = json_decode($asset_info['metadata'],true);
 				if (!is_array($asset_info['metadata'])) {
@@ -260,58 +238,46 @@ class AssetPlant extends PlantBase {
 					}
 					$asset_info['metadata'] = $output_array;
 				}
-			}
-			if (!is_array($id)) {
-				return $result[0];
-			} else {
-				return $result;
-			}
+			}*/
+
+            return $asset;
 		} else {
 			return false;
 		}
 	}
 
 	protected function getAssetsForParent($parent_id) {
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			array(
-				"parent_id" => array(
-					"condition" => "=",
-					"value" => $parent_id
-				)
-			)
-		);
-		return $result;
+
+	 	$assets = $this->orm->findWhere(Asset::class, ['parent_id'=>$parent_id] );
+
+		return $assets;
 	}
 
 	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
-		$result = $this->db->setData(
-			'assets',
-			array(
-				'title' => $title,
-				'description' => $description,
-				'location' => $location,
-				'user_id' => $user_id,
-				'connection_id' => $connection_id,
-				'parent_id' => $parent_id,
-				'public_status' => $public_status,
-				'hash' => $hash,
-				'size' => $size,
-				'type' => $type,
-				'public_url' => $public_url='',
-				'metadata' => json_encode($metadata)
-			)
-		);
+
+	 	$result = $this->orm->create(Asset::class, [
+            'title' => $title,
+            'description' => $description,
+            'location' => $location,
+            'user_id' => $user_id,
+            'connection_id' => $connection_id,
+            'parent_id' => $parent_id,
+            'public_status' => $public_status,
+            'hash' => $hash,
+            'size' => $size,
+            'type' => $type,
+            'public_url' => $public_url='',
+            'metadata' => $metadata
+        ]);
+
 		if ($result) {
-			$this->setAllMetaData('assets',$result,$user_id,$tags,false);
+			$this->setAllMetaData('assets',$result->id,$user_id,$tags,false);
 		}
-		return $result;
+		return $result->id;
 	}
 
 	protected function deleteAsset($id,$user_id=false, $connection_id=false) {
 		$asset_details = $this->getAssetInfo($id);
-
 
 		if ($asset_details) {
 
@@ -321,58 +287,50 @@ class AssetPlant extends PlantBase {
             if (is_array($connection_type)) {
                 $seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
                 $seed = new $seed_type($user_id,$connection_id);
-                $seed->deleteFile($asset_details['location']);
+                $seed->deleteFile($asset_details->location);
             }
 
 			$user_id_match = true;
 			if ($user_id) {
-				if ($asset_details['user_id'] != $user_id) {
+				if ($asset_details->user_id != $user_id) {
 					$user_id_match = false;
 				}
 			}
 			if ($user_id_match) {
-				if ($asset_details['parent_id']) {
-					$parent_details = $this->getAssetInfo($asset_details['parent_id']);
-					if ($parent_details['type'] == 'release') {
-						if (isset($parent_details['metadata']['cover'])) {
-							if ($parent_details['metadata']['cover'] == $id) {
-								$parent_details['metadata']['cover'] = '';
+				if ($asset_details->parent_id) {
+					$parent_details = $this->getAssetInfo($asset_details->parent_id);
+
+					if ($parent_details->type == 'release') {
+						if (isset($parent_details->metadata['cover'])) {
+							if ($parent_details->metadata['cover'] == $id) {
+								$parent_details->metadata['cover'] = '';
 							}
 						}
-						if (isset($parent_details['metadata']['fulfillment'])) {
-							foreach ($parent_details['metadata']['fulfillment'] as $key => $value) {
+						if (isset($parent_details->metadata['fulfillment'])) {
+							foreach ($parent_details->metadata['fulfillment'] as $key => $value) {
 								if ($value == $id) {
-									unset($parent_details['metadata']['fulfillment'][$key]);
+									unset($parent_details->metadata['fulfillment'][$key]);
 								}
 							}
 						}
-						if (isset($parent_details['metadata']['private'])) {
-							foreach ($parent_details['metadata']['private'] as $key => $value) {
+						if (isset($parent_details->metadata['private'])) {
+							foreach ($parent_details->metadata['private'] as $key => $value) {
 								if ($value == $id) {
-									unset($parent_details['metadata']['private'][$key]);
+									unset($parent_details->metadata['private'][$key]);
 								}
 							}
 						}
-						$this->editAsset(
-							$asset_details['parent_id'],
-							false,false,false,false,false,false,false,false,false,false,false,false,
-							$parent_details['metadata']
-						);
+
+                        $parent_details->save();
 					}
 				}
-				$result = $this->db->deleteData(
-					'assets',
-					array(
-						'id' => array(
-							'condition' => '=',
-							'value' => $id
-						)
-					)
-				);
-				if ($result) {
+
+				if ($asset_details->delete()) {
 					$this->removeAllMetaData('assets',$id);
+					return true;
 				}
-				return $result;
+
+				return false;
 			} else {
 				return false;
 			}
@@ -401,26 +359,22 @@ class AssetPlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->setData(
-			'assets',
-			$final_edits,
-			$condition
-		);
+
+        $conditions = ['id'=>$id];
+
+
+        if ($user_id) {
+            $conditions['user_id'] = $user_id;
+        }
+
+		$asset = $this->orm->findWhere(Asset::class, $conditions);
+
+        $result = $asset->update($final_edits);
+
 		if ($result && $tags && $user_id) {
 			$this->setAllMetaData('assets',$id,$user_id,$tags,false,true);
 		}
+
 		return $result;
 	}
 
@@ -428,19 +382,12 @@ class AssetPlant extends PlantBase {
 	 * Returns true if asset is public, false otherwise
 	 *
 	 * @return boolean
-	 */protected function getPublicStatus($id) {
-		$result = $this->db->getData(
-			'assets',
-			'public_url', // originally we did this with public_status but that's become unnecessary
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			),
-			1
-		);
-		if ($result[0]['public_url']) {
+	 */
+	protected function getPublicStatus($id) {
+
+	 	$asset = $this->orm->find(Asset::class, $id );
+
+		if (!empty($asset->public_url)) {
 			return true;
 		} else {
 			return false;
@@ -458,7 +405,6 @@ class AssetPlant extends PlantBase {
 			$current_unlocked_assets = array();
 		}
 		$assets_to_unlock = array($id);
-		$asset = $this->getAssetInfo($id);
 
 		foreach ($assets_to_unlock as $asset_id) {
 			$current_unlocked_assets[""."$asset_id"] = true;
@@ -525,45 +471,31 @@ class AssetPlant extends PlantBase {
 		// first the big record if needed
 		if ($record_type == 'full' || !$record_type) {
 			$ip_and_proxy = CASHSystem::getRemoteIP();
-			$result = $this->db->setData(
-				'assets_analytics',
-				array(
-					'asset_id' => $id,
-					'element_id' => $element_id,
-					'access_time' => time(),
-					'client_ip' => $ip_and_proxy['ip'],
-					'client_proxy' => $ip_and_proxy['proxy'],
-					'cash_session_id' => $this->getSessionID()
-				)
-			);
+
+			$result = $this->orm->create(AssetAnalytic::class, [
+                'asset_id' => $id,
+                'element_id' => $element_id,
+                'access_time' => time(),
+                'client_ip' => $ip_and_proxy['ip'],
+                'client_proxy' => $ip_and_proxy['proxy'],
+                'cash_session_id' => $this->getSessionID()
+            ]);
+
 		}
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
-			$condition = array(
-				"asset_id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			);
-			$current_result = $this->db->getData(
-				'assets_analytics_basic',
-				'*',
-				$condition
-			);
-			if (is_array($current_result)) {
-				$new_total = $current_result[0]['total'] +1;
+
+			$basic_analytics = $this->orm->findWhere(AssetAnalyticsBasic::class, ['asset_id'=>$id] );
+
+			if (!empty($basic_analytics->total)) {
+				$new_total = $basic_analytics->total +1;
 			} else {
 				$new_total = 1;
 				$condition = false;
 			}
-			$result = $this->db->setData(
-				'assets_analytics_basic',
-				array(
-					'asset_id' => $id,
-					'total' => $new_total
-				),
-				$condition
-			);
+
+            $basic_analytics->total = $new_total;
+			$result = $basic_analytics->save();
 		}
 
 		return $result;
@@ -576,52 +508,51 @@ class AssetPlant extends PlantBase {
 	 */protected function getAnalytics($analtyics_type,$user_id) {
 		switch (strtolower($analtyics_type)) {
 			case 'mostaccessed':
-				$result = $this->db->getData(
-					'AssetPlant_getAnalytics_mostaccessed',
-					false,
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
-					)
-				);
+
+                $query = $this->db->table('assets_analytics')
+					->select("assets_analytics.asset_id as 'id', COUNT(assets_analytics.id) as 'count', assets.title as 'title', assets.description as 'description'")
+                    ->join('assets', 'assets.id', '=', 'assets_analytics.asset_id')
+					->where('assets.user_id', $user_id)
+					->where('assets.parent_id', 0)
+					->groupBy('assets_analytics.asset_id')
+					->orderBy('count', 'DESC');
+
+				$result = $query->get();
+
 				return $result;
 				break;
 			case 'recentlyadded':
-				$result = $this->db->getData(
-					'assets',
-					'*',
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						)
-					),
-					false,
-					'creation_date DESC'
-				);
+
+				$query = $this->db->table('assets')
+					->where('user_id', $user_id)
+					->orderBy('creation_date', 'DESC');
+
+				$result = $query->get();
+
 				return $result;
 				break;
 		}
 	}
 
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
-		$connection = $this->getConnectionDetails($connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		if ($connection = $this->getConnectionDetails($connection_id)) {
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 
-		if (is_array($connection_type)) {
-			$seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
-			$seed = new $seed_type($user_id,$connection_id);
+            if (is_array($connection_type)) {
+                $seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
+                $seed = new $seed_type($user_id,$connection_id);
 
-			return $seed->getExpiryURL($asset_location);
-		} else {
-			if ($asset_location) {
-				return $asset_location;
-			} else {
-				return false;
-			}
+                return $seed->getExpiryURL($asset_location);
+            } else {
+                if ($asset_location) {
+                    return $asset_location;
+                } else {
+                    return false;
+                }
+            }
 		}
+
+		return false;
 	}
 
 	protected function getPublicURL($id,$user_id=false) {
@@ -629,12 +560,12 @@ class AssetPlant extends PlantBase {
 		$asset = $this->getAssetInfo($id);
 
 		if ($user_id) {
-			if ($asset['user_id'] != $user_id) {
+			if ($asset->user_id != $user_id) {
 				return false;
 			}
 		}
-		if ($asset['public_status']) {
-			return $asset['location'];
+		if ($asset->public_status) {
+			return $asset->location;
 		} else {
 			return $this->makePublic($id);
 		}
@@ -648,15 +579,14 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
 	 */
-	protected function redirectToAsset($id,$element_id=0,$session_id=false) {
-		$return_only=false;
+    protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
 			$final_asset_location = $this->getFinalAssetLocation(
-				$asset['connection_id'],
-				$asset['user_id'],
-				$asset['location']
+				$asset->connection_id,
+				$asset->user_id,
+				$asset->location
 			);
 
 			if ($final_asset_location !== false) {
@@ -689,15 +619,17 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
-		$connection = $this->getConnectionDetails($connection_id);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
-		if (is_array($connection_type)) {
-			$seed_type = '\CASHMusic\Seeds\\'. $connection_type['seed'];
-			$seed = new $seed_type($user_id,$connection_id);
-			return $seed->getUploadParameters($acl);
-		} else {
-			return false;
-		}
+		if ($connection = $this->getConnectionDetails($connection_id)) {
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
+
+            if (is_array($connection_type)) {
+                $seed_type = '\CASHMusic\Seeds\\' . $connection_type['seed'];
+                $seed = new $seed_type($user_id, $connection_id);
+                return $seed->getUploadParameters($acl);
+            }
+        }
+
+        throw new \Exception("didn't work");
 	}
 
 	protected function finalizeUpload($connection_id,$filename) {
@@ -716,17 +648,17 @@ class AssetPlant extends PlantBase {
 
 		$asset = $this->getAssetInfo($id);
 		if ($user_id) {
-			if ($asset['user_id'] != $user_id) {
+			if ($asset->user_id != $user_id) {
 				return false;
 			}
 		}
-		$connection = $this->getConnectionDetails($asset['connection_id']);
-		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		$connection = $this->getConnectionDetails($asset->connection_id);
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 		if (is_array($connection_type)) {
 
 			$seed_type = '\CASHMusic\Seeds\\'.$connection_type['seed'];
-			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
-			$public_location = $seed->makePublic($asset['location']);
+			$seed = new $seed_type($asset->user_id,$asset->connection_id);
+			$public_location = $seed->makePublic($asset->location);
 			if ($commit) {
 				$this->editAsset(
 					$id,
@@ -749,10 +681,12 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return string|false
-	 */protected function addLockCode($asset_id){
-		$asset_info = $this->getAssetInfo($asset_id);
-		if ($asset_info) {
-			$user_id = $asset_info['user_id'];
+	 */
+	protected function addLockCode($asset_id){
+		$asset = $this->getAssetInfo($asset_id);
+		if ($asset) {
+			$user_id = $asset->user_id;
+
 			$add_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'system',
@@ -766,6 +700,29 @@ class AssetPlant extends PlantBase {
 		}
 		return false;
 	}
+
+    protected function addBulkLockCodes($asset_id, $code_count){
+        $asset = $this->getAssetInfo($asset_id);
+        if ($asset) {
+            $user_id = $asset->user_id;
+
+            $add_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'addbulklockcodes',
+                    'scope_table_alias' => 'assets',
+                    'scope_table_id' => $asset_id,
+                    'user_id' => $user_id,
+					'count' => $code_count
+                )
+            );
+
+            return $add_request->response['payload'];
+        }
+        return false;
+    }
+
+
 
 	/**
 	 * Wrapper for system lock code call

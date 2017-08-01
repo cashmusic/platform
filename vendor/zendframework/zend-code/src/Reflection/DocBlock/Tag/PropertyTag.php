@@ -95,6 +95,6 @@ class PropertyTag implements TagInterface, PhpDocTypedTagInterface
 
     public function __toString()
     {
-        return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";
+        return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . PHP_EOL;
     }
 }

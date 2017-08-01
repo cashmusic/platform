@@ -27,7 +27,7 @@ if (isset($_POST['dovenueedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editvenue_200') {
-		$admin_helper->formSuccess('Success. Edited.','/calendar/venues/' . $edit_response['payload']);
+		$admin_helper->formSuccess('Success. Edited.','/calendar/venues/' . $edit_response['payload']->id);
 	} else {
 		$admin_helper->formFailure('Error. There was a problem editing.');
 	}

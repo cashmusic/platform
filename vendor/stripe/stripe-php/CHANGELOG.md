@@ -1,3 +1,71 @@
+### 4.13.0 2017-06-19
+
+* Add support for ephemeral keys
+
+### 4.12.0 2017-06-05
+
+* Clients can implement `getUserAgentInfo()` to add additional user agent information
+
+### 4.11.0 2017-06-05
+
+* Implement `Countable` for `AttachedObject` (`metadata` and `additional_owners`)
+
+### 4.10.0 2017-05-25
+
+* Add support for login links
+
+### 4.9.1 2017-05-10
+
+* Fix docs to include arrays on `$id` parameter for retrieve methods
+
+### 4.9.0 2017-04-28
+
+* Support for checking webhook signatures
+
+### 4.8.1 2017-04-24
+
+* Allow nested field `payout_schedule` to be updated
+
+### 4.8.0 2017-04-20
+
+* Add `\Stripe\Stripe::setLogger()` to support an external PSR-3 compatible logger
+
+### 4.7.0 2017-04-10
+
+* Add support for payouts and recipient transfers
+
+### 4.6.0 2017-04-06
+
+* Please see 4.7.0 instead (no-op release)	
+
+### 4.5.1 2017-03-22
+
+* Remove hard dependency on cURL
+
+### 4.5.0 2017-03-20
+
+* Support for detaching sources from customers
+
+### 4.4.2 2017-02-27
+
+* Correct handling of `owner` parameter when updating sources
+
+### 4.4.1 2017-02-24
+
+* Correct the error check on a bad JSON decoding
+
+### 4.4.0 2017-01-18
+
+* Add support for updating sources
+
+### 4.3.0 2016-11-30
+
+* Add support for verifying sources
+
+### 4.2.0 2016-11-21
+
+* Add retrieve method for 3-D Secure resources
+
 ### 4.1.1 2016-10-21
 
 * Add docblock with model properties for `Plan`

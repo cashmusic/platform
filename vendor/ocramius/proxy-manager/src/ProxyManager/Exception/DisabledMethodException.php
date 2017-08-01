@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Exception;
 
 use BadMethodCallException;
@@ -32,8 +30,13 @@ class DisabledMethodException extends BadMethodCallException implements Exceptio
 {
     const NAME = __CLASS__;
 
-    public static function disabledMethod(string $method) : self
+    /**
+     * @param string $method
+     *
+     * @return self
+     */
+    public static function disabledMethod($method)
     {
-        return new self(sprintf('Method "%s" is forcefully disabled', $method));
+        return new self(sprintf('Method "%s" is forcefully disabled', (string) $method));
     }
 }

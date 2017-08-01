@@ -66,13 +66,6 @@
 				"direct"
 			]
 		},
-		"addcontact": {
-			"description": "Add a contact.",
-			"plantfunction": "addContact",
-			"security": [
-				"direct"
-			]
-		},
 		"addmailing": {
 			"description": "Add a new mailing.",
 			"plantfunction": "addMailing",
@@ -139,27 +132,6 @@
 		"getanalytics": {
 			"description": "Get analytics for list.",
 			"plantfunction": "getAnalytics",
-			"security": [
-				"direct"
-			]
-		},
-		"getcontact": {
-			"description": "Get contact.",
-			"plantfunction": "getContact",
-			"security": [
-				"direct"
-			]
-		},
-		"getcontactsbyinitials": {
-			"description": "Get contacts by initials.",
-			"plantfunction": "getContactsByInitials",
-			"security": [
-				"direct"
-			]
-		},
-		"getcontactinitials": {
-			"description": "Get contact initials.",
-			"plantfunction": "getContactInitials",
 			"security": [
 				"direct"
 			]
@@ -235,7 +207,7 @@
 				"direct",
 				"get",
 				"post",
-				"api_key"
+				"api_public"
 			]
 		},
 		"recordmailinganalytics": {
@@ -280,13 +252,6 @@
 				"post",
 				"get",
 				"api_key"
-			]
-		},
-		"storeuserdata": {
-			"description": "Store user data.",
-			"plantfunction": "storeUserData",
-			"security": [
-				"direct"
 			]
 		},
 		"verifyaddress": {

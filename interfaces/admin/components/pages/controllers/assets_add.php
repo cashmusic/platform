@@ -41,7 +41,13 @@ if (isset($_POST['doassetadd'])) {
 			// found it. now we can overwrite or extend the original metadata
 			if ($asset_response['payload']) {
 				// modify the existing chunk o metadata
-				$new_metadata = $asset_response['payload']['metadata'];
+
+                if (gettype($asset_response['payload']->metadata) == "string") {
+                    $new_metadata = json_decode($asset_response['payload']->metadata, true);
+                } else {
+                    $new_metadata = $asset_response['payload']->metadata;
+                }
+
 				if ($_POST['metadata_command'] == 'setmetadata') {
 					$new_metadata[$_POST['metadata_name']] = $add_response['payload'];
 				} else if ($_POST['metadata_command'] == 'addtometadata') {

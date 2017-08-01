@@ -33,6 +33,7 @@ class ErrorHandler
 
     private $previousErrorHandler;
     private $errorLevelMap;
+    private $handleOnlyReportedErrors;
 
     private $hasFatalErrorHandler;
     private $fatalLevel;
@@ -57,6 +58,9 @@ class ErrorHandler
      */
     public static function register(LoggerInterface $logger, $errorLevelMap = array(), $exceptionLevel = null, $fatalLevel = null)
     {
+        //Forces the autoloader to run for LogLevel. Fixes an autoload issue at compile-time on PHP5.3. See https://github.com/Seldaek/monolog/pull/929
+        class_exists('\\Psr\\Log\\LogLevel', true);
+
         $handler = new static($logger);
         if ($errorLevelMap !== false) {
             $handler->registerErrorHandler($errorLevelMap);
@@ -80,13 +84,15 @@ class ErrorHandler
         }
     }
 
-    public function registerErrorHandler(array $levelMap = array(), $callPrevious = true, $errorTypes = -1)
+    public function registerErrorHandler(array $levelMap = array(), $callPrevious = true, $errorTypes = -1, $handleOnlyReportedErrors = true)
     {
         $prev = set_error_handler(array($this, 'handleError'), $errorTypes);
         $this->errorLevelMap = array_replace($this->defaultErrorLevelMap(), $levelMap);
         if ($callPrevious) {
             $this->previousErrorHandler = $prev ?: true;
         }
+
+        $this->handleOnlyReportedErrors = $handleOnlyReportedErrors;
     }
 
     public function registerFatalHandler($level = null, $reservedMemorySize = 20)
@@ -142,7 +148,7 @@ class ErrorHandler
      */
     public function handleError($code, $message, $file = '', $line = 0, $context = array())
     {
-        if (!(error_reporting() & $code)) {
+        if ($this->handleOnlyReportedErrors && !(error_reporting() & $code)) {
             return;
         }
 

@@ -31,7 +31,7 @@ class RoutingMiddleware
             $method = ($request->getMethod() == "PUT") ? "POST" : $request->getMethod();
             $headers = $request->getHeaders();
 
-            list($restful_routes, $soap_routes) = self::getRoutingTables($plant);
+            //list($restful_routes, $soap_routes) = self::getRoutingTables($plant);
 
             if ($route_response = self::validateRequestedRoute($plant, $noun, $method, false)) {
                 // parse response
@@ -47,17 +47,7 @@ class RoutingMiddleware
             } else {
                 $request = $request->withAttribute('route_settings', false);
             }
-                //$api->isAuthenticatedRequest($request);
-
-/*            if ($response = $api->validateRequestedRoute($plant, $noun, $method, false)) {
-                // parse response
-                echo "wee";
-            } else {
-
-            }*/
-
         }
-
 
         $response = $next($request, $response);
 
@@ -97,7 +87,6 @@ class RoutingMiddleware
             // check method + ACL + $auth
             if (isset($restful_route['verbs'][$method])) {
                 $verb = $restful_route['verbs'][$method];
-                CASHSystem::errorLog("REST");
 
                 if (isset($verb['authrequired'], $verb['plantfunction'], $verb['description'])) {
                     return $verb;
@@ -113,7 +102,6 @@ class RoutingMiddleware
             // check method ACL + $auth
             if (in_array('api_public', $soap_route['security']) ||
                 in_array('api_key', $soap_route['security'])) {
-                CASHSystem::errorLog("SOAP");
                 // do request
                 return [
                     'description' => $soap_route['description'],

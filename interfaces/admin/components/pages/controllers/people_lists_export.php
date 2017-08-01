@@ -10,21 +10,22 @@ $list_details = $cash_admin->requestAndStore(
 		'unlimited' => true
 	)
 );
+
 if (is_array($list_details)) {
 	header('Content-Disposition: attachment; filename="list_' . $request_list_id . '_export.csv"');
 	if ($list_details['status_uid'] == 'people_viewlist_200') {
 		echo '"email address","display name","first name","last name","address_postalcode","initial comment","additional data","verified","active","join date"' . "\n";
 		foreach ($list_details['payload']['members'] as $entry) {
-		   echo '"' . str_replace ('"','""',$entry['email_address']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['display_name']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['first_name']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['last_name']) . '"';
-            echo ',"' . str_replace ('"','""',$entry['address_postalcode']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['initial_comment']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['additional_data']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['verified']) . '"';
-			echo ',"' . str_replace ('"','""',$entry['active']) . '"';
-			echo ',"' . date('m/d/Y',$entry['creation_date']) . '"';
+		   echo '"' . str_replace ('"','""',$entry->email_address) . '"';
+			echo ',"' . str_replace ('"','""',$entry->display_name) . '"';
+			echo ',"' . str_replace ('"','""',$entry->first_name) . '"';
+			echo ',"' . str_replace ('"','""',$entry->last_name) . '"';
+            echo ',"' . str_replace ('"','""',$entry->address_postalcode) . '"';
+            echo ',"' . str_replace ('"','""',$entry->initial_comment) . '"';
+			echo ',"' . str_replace ('"','""',$entry->additional_data) . '"';
+			echo ',"' . str_replace ('"','""',$entry->verified) . '"';
+			echo ',"' . str_replace ('"','""',$entry->active) . '"';
+			echo ',"' . date('M j, Y h:iA T',$entry->creation_date) . '"';
 			echo "\n";
 		}
 	} else {
@@ -32,5 +33,5 @@ if (is_array($list_details)) {
 	}
 }
 
-exit;l
+exit;
 ?>
