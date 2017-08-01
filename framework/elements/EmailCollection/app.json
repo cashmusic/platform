@@ -71,6 +71,24 @@
 					"type":"boolean",
 					"default":true,
 					"displaysize":"large"
+				},
+				"collect_name":{
+					"label":{
+						"en":"Get name with email collection?",
+						"is":"Get name with email collection?"
+					},
+					"type":"boolean",
+					"default":false,
+					"displaysize":"small"
+				},
+				"collect_postal":{
+					"label":{
+						"en":"Get postal code with email collection?",
+						"is":"Get postal code with email collection?"
+					},
+					"type":"boolean",
+					"default":false,
+					"displaysize":"small"
 				}
 			}
 		},
@@ -152,8 +170,8 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"",
-						"is":""
+						"en":"Enter your email",
+						"is":"Enter your email"
 					},
 					"displaysize":"small"
 				},

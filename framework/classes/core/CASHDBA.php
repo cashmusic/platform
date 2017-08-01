@@ -602,7 +602,7 @@ class CASHDBA {
 				. "WHERE user_id = :user_id ORDER BY last_name";
 				break;
 			case 'PeoplePlant_getUsersForList':
-				$query = "SELECT u.id,u.email_address,u.display_name,u.first_name,u.last_name,"
+				$query = "SELECT u.id,u.email_address,u.display_name,u.first_name,u.last_name,u.address_postalcode,"
 				. "l.initial_comment,l.additional_data,l.active,l.verified,l.creation_date "
 				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "
 				. "WHERE l.list_id = :list_id AND l.active = 1";
@@ -644,7 +644,7 @@ class CASHDBA {
 				$query = "SELECT o.shipping_postal AS postal, t.upc as upc, o.price from commerce_external_fulfillment_orders as o "
 				. "JOIN commerce_external_fulfillment_tiers as t ON o.tier_id = t.id "
 				. "WHERE o.complete BETWEEN :start_date AND :end_date AND t.upc != '' AND o.shipping_postal != '' AND t.physical = :physical "
-				. "AND shipping_country = 'US'";
+				. "AND shipping_country IN ('US', 'CA')";
 
 				break;
 
