@@ -435,7 +435,7 @@ abstract class CASHData {
 			return $result;
 		} else {
 			// exact match: metadata exists as requested. return true
-			return $selected_tag['id'];
+			return $selected_tag->id;
 		}
 	}
 

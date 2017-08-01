@@ -18,14 +18,14 @@ class CommerceSubscriptionsIncludedItems extends EntityBase
      *
      * @Column(name="subscription_id", type="integer", nullable=false)
      */
-    protected $subscriptionId;
+    protected $subscription_id;
 
     /**
      * @var integer
      *
      * @Column(name="item_id", type="integer", nullable=true)
      */
-    protected $itemId;
+    protected $item_id;
 
     /**
      * @var integer
