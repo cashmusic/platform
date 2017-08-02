@@ -281,26 +281,28 @@ if (is_array($orders_response['payload'])) {
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
-			CASHSystem::errorLog($o['order_contents']);
-			foreach ($o['order_contents'] as $key => $item) {
-				if (!isset($item['qty'])) {
-					$item['qty'] = 1;
-				}
-				$item_price += $item['qty'] * $item['price'];
 
-				if (isset($item['variant'])) {
-					$variant_response = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'commerce',
-							'cash_action' => 'formatvariantname',
-							'name' => $item['variant']
-						)
-					);
-					if ($variant_response['payload']) {
-                        $o['order_contents'][$key]['variant'] = $variant_response['payload'];
-					}
-				}
-			}
+			if ($o['order_contents']) {
+                foreach ($o['order_contents'] as $key => $item) {
+                    if (!isset($item['qty'])) {
+                        $item['qty'] = 1;
+                    }
+                    $item_price += $item['qty'] * $item['price'];
+
+                    if (isset($item['variant'])) {
+                        $variant_response = $cash_admin->requestAndStore(
+                            array(
+                                'cash_request_type' => 'commerce',
+                                'cash_action' => 'formatvariantname',
+                                'name' => $item['variant']
+                            )
+                        );
+                        if ($variant_response['payload']) {
+                            $o['order_contents'][$key]['variant'] = $variant_response['payload'];
+                        }
+                    }
+                }
+            }
 
 			if ($o['gross_price'] - $item_price) {
 				$shipping_cost = CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'] - $item_price,2);
@@ -323,7 +325,7 @@ if (is_array($orders_response['payload'])) {
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
 				'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'],true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
-				'order_contents' => new ArrayIterator($o['order_contents']),
+				'order_contents' => ($o['order_contents']) ? new ArrayIterator($o['order_contents']) : false,
 				'shipping' => $shipping_cost,
 				'itemtotal' => $item_price,
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
