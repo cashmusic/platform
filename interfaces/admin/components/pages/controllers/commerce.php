@@ -226,7 +226,6 @@ if ($filter == 'byitem') {
 }
 
 $orders_response = $cash_admin->requestAndStore($order_request);
-
 /*******************************************************************************
  *
  * 5. GET ALL VALID SERVICE CONNECTIONS FOR FIRST-USE
@@ -277,6 +276,7 @@ if (!$cash_admin->page_data['connection']) {
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
+		CASHSystem::errorLog($o['order_contents']);
 
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
@@ -311,9 +311,16 @@ if (is_array($orders_response['payload'])) {
 				$shipping_cost = false;
 			}
 
+			$customer_name = "";
+			if (isset($o['customer_first_name'],$o['customer_last_name'])) {
+				$customer_name = $o['customer_first_name'] . " " . $o['customer_last_name'];
+			}
+
+
+
 			$all_order_details[] = array(
 				'id' => $o['id'],
-				'customer_name' => $o['customer_first_name'] . " " . $o['customer_last_name'],
+				'customer_name' => $customer_name,
 				'customer_shipping_name' => $o['customer_shipping_name'],
 				'customer_email' => $o['customer_email'],
 				'customer_address1' => $o['customer_address1'],

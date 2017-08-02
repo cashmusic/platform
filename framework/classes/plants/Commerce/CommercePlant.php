@@ -320,6 +320,8 @@ class CommercePlant extends PlantBase {
         } else {
             $limit = false;
         }
+        
+        CASHSystem::errorLog(func_get_args());
 
         try {
             // gets multiple orders with all information
@@ -340,6 +342,7 @@ class CommercePlant extends PlantBase {
                         'commerce_transactions.connection_type',
                         'commerce_transactions.connection_id'
                     ])->join('commerce_transactions', 'commerce_transactions.id', '=', 'commerce_orders.transaction_id')
+                    ->join('people', 'people.id', '=', 'commerce_orders.customer_user_id')
                     ->where('commerce_transactions.successful', '=', 1);
             }
 
@@ -375,17 +378,20 @@ class CommercePlant extends PlantBase {
                     foreach ($result as &$order) {
                         $order = json_decode(json_encode($order), true); // cast array wizard spell
 
-                        $transaction_data = $this->parseTransactionData($order['data_returned'], $order['data_sent']);
+                        if ($transaction_data = $this->parseTransactionData($order['data_returned'], $order['data_sent'])) {
 
-                        if (is_array($transaction_data)) {
-                            $order = array_merge($order, $transaction_data);
-                        }
+                            if (is_array($transaction_data)) {
+                                $order = array_merge($order, $transaction_data);
+                            }
 
-                        $order_totals = $this->getOrderTotals($order['order_contents']);
-                        $order['order_description'] = $order_totals['description'];
+                            $order_totals = $this->getOrderTotals($order['order_contents']);
+                            $order['order_description'] = $order_totals['description'];
 
-                        if (!is_array($order['order_contents'])) {
-                            $order['order_contents'] = json_decode($order['order_contents'], true);
+                            if (!is_array($order['order_contents'])) {
+                                $order['order_contents'] = json_decode($order['order_contents'], true);
+                            }
+                        } else {
+                            continue;
                         }
                     }
                 }
@@ -393,9 +399,8 @@ class CommercePlant extends PlantBase {
         } else {
             if (is_array($result)) {
                 foreach ($result as &$order) {
-
-                    if (!is_array($order['order_contents'])) {
-                        $order['order_contents'] = json_decode($order['order_contents'], true);
+                    if (!is_array($order->order_contents)) {
+                        $order->order_contents = json_decode($order->order_contents, true);
                     }
 
                     $order = json_decode(json_encode($order), true); // cast array wizard spell
@@ -895,7 +900,7 @@ class CommercePlant extends PlantBase {
                     );
 
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
-                    $shipping_info = $this->sessionGet('shipping_info');
+                    if (!isset($shipping_info)) $shipping_info = $this->sessionGet('shipping_info');
 
                     $payment_details = array_merge($payment_details, $shipping_info);
 
