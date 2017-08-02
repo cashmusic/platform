@@ -131,7 +131,6 @@ trait Subscriptions {
                 $subscribers[$key] = $member->toArray();
 
                 if ($user = $member->customer()) {
-                    CASHSystem::errorLog($user->toArray());
                     $subscribers[$key]['email_address'] = $user->email_address;
                 }
             }
@@ -531,23 +530,49 @@ trait Subscriptions {
     }
 
     public function getSubscriptionStats($plan_id) {
-
-        if ($result = $this->db->table('commerce_transactions')
-            ->select('SUM(commerce_transactions.gross_price) as total_active')
+        $result =  $this->db->table('commerce_transactions')
+            ->select(['commerce_transactions.gross_price', 'commerce_subscriptions_members.id', 'commerce_transactions.creation_date'])
             ->join('commerce_subscriptions_members', function($table)
             {
                 $table->on('commerce_subscriptions_members.id', '=', 'commerce_transactions.parent_id');
-                $table->on('commerce_transactions.parent', '=', 'sub');
-                $table->on('commerce_transactions.status', '=', 'success');
             })
+            ->where('commerce_transactions.parent', '=', 'sub')
+            ->where('commerce_transactions.status', '=', 'success')
             ->where('commerce_subscriptions_members.status', '=', 'active')
-            ->where('commerce_subscriptions_members.subscription_id', '=', $plan_id)->get()) {
+            ->where('commerce_subscriptions_members.subscription_id', '=', $plan_id)
+            ->orderBy('commerce_transactions.creation_date', 'DESC')->get();
 
-            if (is_array($result)) {
-                return $result[0]->total_active;
+        if ($result) {
+
+            $payments = [];
+
+            // build it up
+            foreach($result as $payment) {
+                $payment_value = [array("creation_date"=>$payment->creation_date, "price" => $payment->gross_price)];
+                //CASHSystem::errorLog($payment_value);
+                if (array_key_exists($payment->id, $payments)) {
+                    $payments[$payment->id] = array_merge(
+                        $payments[$payment->id], $payment_value
+                    );
+                } else {
+                    $payments[$payment->id] = $payment_value;
+                }
             }
 
-            return $result->total_active;
+            // just to break it down again
+            $gross_income = 0;
+
+            foreach ($payments as $id=>$payment_user) {
+                $max = 0;
+
+                arsort($payment_user);
+                $key_of_max = key($payment_user);   // returns the index.
+                if (isset($payment_user[$key_of_max])) {
+                    $gross_income += $payment_user[$key_of_max]['price'];
+                }
+            }
+
+            return $gross_income;
         }
 
         return false;
@@ -556,9 +581,12 @@ trait Subscriptions {
     public function getSubscriberCount($plan_id) {
 
         if ($result = $this->db->table('commerce_subscriptions_members')
-            ->select('COUNT(*) as active_subscribers')
+            ->select(
+                $this->db->raw('COUNT(id) as active_subscribers')
+            )
             ->where('status', '=', 'active')
             ->where('subscription_id' , '=', $plan_id)->get()) {
+
             if (is_array($result)) {
                 return $result[0]->active_subscribers;
             } else {

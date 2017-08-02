@@ -93,13 +93,17 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
             if (isset($data['customer'])) {
                 $subscription['subscriber_name'] = $data['customer']['customer_name'];
+                if (!isset($subscription['email_address'])) $subscription['email_address'] = $data['customer']['customer_email'];
             }
+
+
+
             $cash_admin->page_data['subscriptions'][] = $subscription;
         }
 
     }
 
-/*    $stats_request = new CASHRequest(
+    $stats_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'getsubscriptionstats',
@@ -109,7 +113,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
     $cash_admin->page_data['gross_active'] = 0.00;
     if ($stats_request->response['payload']) {
-        $cash_admin->page_data['gross_active'] = $stats_request->response['payload'][0]['total_active'];
+        $cash_admin->page_data['gross_active'] = $stats_request->response['payload'];
     }
 
     $stats_request = new CASHRequest(
@@ -122,8 +126,8 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
     $cash_admin->page_data['active_subscribers'] = 0;
     if ($stats_request->response['payload']) {
-        $cash_admin->page_data['active_subscribers'] = $stats_request->response['payload'][0]['active_subscribers'];
-    }*/
+        $cash_admin->page_data['active_subscribers'] = $stats_request->response['payload'];
+    }
 
 
     $cash_admin->page_data['ui_title'] = $cash_admin->page_data['plan']['name'];
