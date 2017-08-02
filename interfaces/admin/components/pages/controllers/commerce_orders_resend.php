@@ -23,7 +23,7 @@ $analytics = $cash_admin->requestAndStore(
 		'cash_request_type' => 'element',
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'elementbasics',
-		'element_id' => $order_details['payload']->element_id,
+		'element_id' => $order_details['payload']['element_id'],
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
