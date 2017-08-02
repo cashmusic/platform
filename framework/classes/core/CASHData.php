@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHDBA;
+use CASHMusic\Entities\EntityBase;
 use PDO;
 use CASHMusic\Entities\SystemConnection;
 use CASHMusic\Entities\SystemMetadata;
@@ -435,6 +436,10 @@ abstract class CASHData {
 			return $result;
 		} else {
 			// exact match: metadata exists as requested. return true
+			if (!$selected_tag instanceof EntityBase) {
+                return $selected_tag[0]->id;
+			}
+
 			return $selected_tag->id;
 		}
 	}
