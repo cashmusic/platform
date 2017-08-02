@@ -383,12 +383,21 @@ class CommercePlant extends PlantBase {
 
                         $order_totals = $this->getOrderTotals($order['order_contents']);
                         $order['order_description'] = $order_totals['description'];
+
+                        if (!is_array($order['order_contents'])) {
+                            $order['order_contents'] = json_decode($order['order_contents'], true);
+                        }
                     }
                 }
             }
         } else {
             if (is_array($result)) {
                 foreach ($result as &$order) {
+
+                    if (!is_array($order['order_contents'])) {
+                        $order['order_contents'] = json_decode($order['order_contents'], true);
+                    }
+
                     $order = json_decode(json_encode($order), true); // cast array wizard spell
                 }
             }
@@ -736,6 +745,8 @@ class CommercePlant extends PlantBase {
     protected function getOrderTotals($contents) {
 
         if (!is_array($contents)) { $contents = json_decode($contents, true); }
+
+        if (!$contents) return false;
 
         $return_array = array(
             'price' => 0,

@@ -6,6 +6,9 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
 use Exception;
+use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -976,6 +979,15 @@ abstract class CASHSystem  {
 	}
 
 	public static function errorLog($data, $json=true, $debug=true) {
+
+/*        // Create the logger
+        $logger = new Logger('my_logger');
+// Now add some handlers
+        $logger->pushHandler(new StreamHandler(__DIR__.'/../../debug.log', Logger::DEBUG));
+        $logger->pushHandler(new FirePHPHandler());
+
+// You can now use your logger
+        $logger->info('My logger is now ready');*/
 
 		if ($debug) {
 
