@@ -6,6 +6,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
 use Exception;
+use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -978,16 +979,7 @@ abstract class CASHSystem  {
 		return $file;
 	}
 
-	public static function errorLog($data, $json=true, $debug=true) {
-
-/*        // Create the logger
-        $logger = new Logger('my_logger');
-// Now add some handlers
-        $logger->pushHandler(new StreamHandler(__DIR__.'/../../debug.log', Logger::DEBUG));
-        $logger->pushHandler(new FirePHPHandler());
-
-// You can now use your logger
-        $logger->info('My logger is now ready');*/
+	public static function errorLog($data, $json=false, $debug=true) {
 
 		if ($debug) {
 
@@ -1005,14 +997,12 @@ abstract class CASHSystem  {
 			case "boolean":
 			case "integer":
 			case "double":
-				error_log($debug.":[".gettype($data)."]: " . $data);
-				return true;
+				$log = $debug.":[".gettype($data)."]: " . $data;
 			break;
 
 			case "NULL":
 			case "unknown type":
-				error_log($debug.": NULL");
-				return true;
+				$log = $debug.": NULL";
 			break;
 
 			case "array":
@@ -1020,19 +1010,25 @@ abstract class CASHSystem  {
 			case "resource":
 
 				if ($json) {
-                    error_log($debug.":[".gettype($data)."]: " . json_encode($data, JSON_PRETTY_PRINT));
+                    $log = $debug.":[".gettype($data)."]: " . json_encode($data, JSON_PRETTY_PRINT);
 				} else {
-                    error_log($debug."[".gettype($data)."]: " . print_r($data, true));
+                    $log = $debug."[".gettype($data)."]: " . print_r($data, true);
 
                 }
-				return true;
 			break;
 
 			default:
-				error_log($debug.": no data");
-				return true;
+				$log = $debug.": no data";
 
 		}
+
+		if (CASH_DEBUG) {
+            $logger = new Logger('debug_logger');
+            $logger->pushHandler(new BrowserConsoleHandler());
+            $logger->error($debug."[".gettype($data)."]: \n".json_encode($data));
+		}
+
+		error_log($log);
 	}
 
 	/**

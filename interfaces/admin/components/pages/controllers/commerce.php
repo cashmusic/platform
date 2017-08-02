@@ -281,7 +281,7 @@ if (is_array($orders_response['payload'])) {
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
-
+			CASHSystem::errorLog($o['order_contents']);
 			foreach ($o['order_contents'] as $key => $item) {
 				if (!isset($item['qty'])) {
 					$item['qty'] = 1;
