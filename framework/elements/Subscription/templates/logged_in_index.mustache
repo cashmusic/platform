@@ -1,5 +1,41 @@
+<style>
+    .account-settings {
+        float: right;
+        position: absolute;
+        z-index: 9999;
+        right: 0px;
+    }
+    .feed-button {
+        float: right;
+        text-decoration: none;
+        text-align: center;
+        font-size: 12px;
+        background: #ddd;
+        color: #fff!important;
+        padding: 12px 20px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        display: inline-block;
+        background-color: rgba(128,47,198,0.9);
+    }
+
+    .feed-button:hover {
+        cursor: pointer;
+        background-color: rgba(128,47,198,0.5);
+    }
+
+    .feed-button:last-child {
+        margin-right: 5px;
+
+    }
+</style>
 
 <div class="cm-sub-logo"></div>
+<div class="account-settings">
+    <a href="#" class="feed-button">Logout</a>
+    <a href="#" class="feed-button">Account Settings</a>
+
+</div>
 <div id="cm-subscription-feed">
 {{#firstuse}} 
 <h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
