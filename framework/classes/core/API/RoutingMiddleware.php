@@ -37,10 +37,12 @@ class RoutingMiddleware
                 // parse response
                 $auth_required = false;
 
-                if ($route_response['authrequired']) {
+                if ($route_response['authrequired'] === true) {
                     // auth check
                     $auth_required = true;
                 }
+
+                if (isset($route_response['soap'])) $request = $request->withAttribute('soap', true);
 
                 $request = $request->withAttribute('auth_required', $auth_required);
                 $request = $request->withAttribute('route_settings', $route_response);
@@ -102,11 +104,17 @@ class RoutingMiddleware
             // check method ACL + $auth
             if (in_array('api_public', $soap_route['security']) ||
                 in_array('api_key', $soap_route['security'])) {
+
+                $auth_required = false;
+                if (in_array('api_key', $soap_route['security'])) {
+                    $auth_required = true;
+                }
                 // do request
                 return [
                     'description' => $soap_route['description'],
                     'plantfunction' => $soap_route['plantfunction'],
-                    'authrequired' => (in_array('api_public', $soap_route['security'])) ? true : false
+                    'authrequired' => $auth_required,
+                    'soap' => true
                 ];
 
             } else {

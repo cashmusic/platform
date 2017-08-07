@@ -529,8 +529,8 @@ trait Subscriptions {
         return false;
     }
 
-    public function getSubscriptionStats($plan_id) {
-        $result =  $this->db->table('commerce_transactions')
+    public function getSubscriptionStats($plan_id, $subscriber_id=false) {
+        $query = $this->db->table('commerce_transactions')
             ->select(['commerce_transactions.gross_price', 'commerce_subscriptions_members.id', 'commerce_transactions.creation_date'])
             ->join('commerce_subscriptions_members', function($table)
             {
@@ -539,8 +539,13 @@ trait Subscriptions {
             ->where('commerce_transactions.parent', '=', 'sub')
             ->where('commerce_transactions.status', '=', 'success')
             ->where('commerce_subscriptions_members.status', '=', 'active')
-            ->where('commerce_subscriptions_members.subscription_id', '=', $plan_id)
-            ->orderBy('commerce_transactions.creation_date', 'DESC')->get();
+            ->where('commerce_subscriptions_members.subscription_id', '=', $plan_id);
+
+            if ($subscriber_id) {
+                $query = $query->where('commerce_subscriptions_members.id', '=', $subscriber_id);
+            }
+
+            $result = $query->orderBy('commerce_transactions.creation_date', 'DESC')->get();
 
         if ($result) {
 

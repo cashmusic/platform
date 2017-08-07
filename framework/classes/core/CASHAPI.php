@@ -45,6 +45,18 @@ class CASHAPI
             'addContentLengthHeader' => false,
         ]]);
 
+        $api->options('/{routes:.+}', function ($request, $response, $args) {
+            return $response;
+        });
+
+        $api->add(function ($req, $res, $next) {
+            $response = $next($req, $res);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        });
+
 
         $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
 
@@ -72,11 +84,11 @@ class CASHAPI
             }
         });
 
-
-
         $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
 
-            $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
+            if ($request->getAttribute('auth_required') === true) {
+                $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
+            }
 
             if ($route = $request->getAttribute('route_settings')) {
                 $request_params = $request->getQueryParams();
@@ -91,19 +103,21 @@ class CASHAPI
                     $params['origin'] = $args['origin'];
                     $params['type'] = $args['type'];
                 }
-
+                $user_id = false;
                 if (isset($serverRequest)) {
                     $user_id = $serverRequest->getAttribute('oauth_client_id');
                     if (!empty($user_id)) $params['user_id'] = $user_id;
                 }
 
                 if (is_array($request_params)) $params = array_merge($request_params, $params);
+                $api = true;
+                if ($request->getAttribute('soap') === true) $api = false;
 
                 $cash_request = new CASHRequest(
                     $params,
                     'direct',
-                    1,
-                    true,
+                    $user_id,
+                    $api,
                     $request->getMethod());
 
                 if ($cash_request) {

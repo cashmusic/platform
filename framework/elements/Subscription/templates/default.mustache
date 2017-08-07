@@ -6,7 +6,7 @@
 
 <h2>{{name}}</h2>
 <p>{{description}}</p>
-
+<pre>{{debug}}</pre>
 {{#all_plans}}
     <!-- plan {{plan_id}} values -->
     <input type="hidden" class="plan_id_per_plan" id="plan_id_{{plan_id}}" value="{{plan_id}}">
@@ -276,7 +276,9 @@
                  }
             );
         }
-        //
+
+        cm.session.setid({"id":"{{session_id}}"});
+
     });
 
 }());

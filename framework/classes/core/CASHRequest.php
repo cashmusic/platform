@@ -89,7 +89,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 
 					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
 					$this->plant = new $class_name($this->request_method,$this->request);
-
 					$this->response = $this->plant->processRequest($this->api, $http_method);
 				}
 			}

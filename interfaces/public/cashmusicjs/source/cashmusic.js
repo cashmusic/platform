@@ -990,7 +990,7 @@
 						// a new session id. that will stop this block from executing a second time
 						cm.sessionid = false;
 						// okay so no GET and no localstorage. ask the serversessionstart
-						var endpoint = cm.path.replace('public','api')+'/verbose/system/startjssession';
+						var endpoint = cm.path.replace('public','api')+'/system/startjssession';
 						endpoint += '?ts=' + new Date().getTime();
 						// fire off the ajax call
 						cm.ajax.send(
@@ -999,9 +999,11 @@
 							function(r) {
 								if (r) {
 									var rp = JSON.parse(r);
-									var session_data = JSON.parse(rp.payload);
+									var session_data = JSON.parse(rp.data);
+                                    console.log(session_data, rp.data);
+
 									cm.session.setid(session_data);
-									cm.events.fire(cm,'sessionstarted',rp.payload);
+									cm.events.fire(cm,'sessionstarted',rp.data);
 								}
 							},
 							function(r) {
