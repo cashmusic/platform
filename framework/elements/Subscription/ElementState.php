@@ -111,6 +111,7 @@ class ElementState implements StatesInterface
                     break;
 
                 default:
+                    $result = ['data'=>['logged_in'=>true]];
 
             }
 
