@@ -1486,6 +1486,9 @@ class Connection implements DriverConnection
                 if (isset($types[$typeIndex])) {
                     $type = $types[$typeIndex];
                     list($value, $bindingType) = $this->getBindingInfo($value, $type);
+                    error_log(print_r($bindIndex, true));
+                    error_log(print_r($value, true));
+                    error_log(print_r($bindingType, true));
                     $stmt->bindValue($bindIndex, $value, $bindingType);
                 } else {
                     $stmt->bindValue($bindIndex, $value);
