@@ -320,29 +320,30 @@ if (is_array($orders_response['payload'])) {
 			}
 
 
-
-			$all_order_details[] = array(
-				'id' => $o['id'],
-				'customer_name' => $customer_name,
-				'customer_shipping_name' => $o['customer_shipping_name'],
-				'customer_email' => $o['customer_email'],
-				'customer_address1' => $o['customer_address1'],
-				'customer_address2' => $o['customer_address2'],
-				'customer_city' => $o['customer_city'],
-				'customer_region' => $o['customer_region'],
-				'customer_postalcode' => $o['customer_postalcode'],
-				'customer_country' => $o['customer_countrycode'],
-				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
-				'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'],true),
-				'order_description' => str_replace("\n",' ',$o['order_description']),
-				'order_contents' => ($o['order_contents']) ? new ArrayIterator($o['order_contents']) : false,
-				'shipping' => $shipping_cost,
-				'itemtotal' => $item_price,
-				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
-				'fulfilled' => $o['fulfilled'],
-				'notes' => $o['notes'],
-				'canceled' => $o['canceled']
-			);
+			if (!empty($o['customer_shipping_name'])) {
+                $all_order_details[] = array(
+                    'id' => $o['id'],
+                    'customer_name' => $customer_name,
+                    'customer_shipping_name' => $o['customer_shipping_name'],
+                    'customer_email' => $o['customer_email'],
+                    'customer_address1' => $o['customer_address1'],
+                    'customer_address2' => $o['customer_address2'],
+                    'customer_city' => $o['customer_city'],
+                    'customer_region' => $o['customer_region'],
+                    'customer_postalcode' => $o['customer_postalcode'],
+                    'customer_country' => $o['customer_countrycode'],
+                    'number' => '#' . str_pad($o['id'], 6, 0, STR_PAD_LEFT),
+                    'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'], true),
+                    'order_description' => str_replace("\n", ' ', $o['order_description']),
+                    'order_contents' => ($o['order_contents']) ? new ArrayIterator($o['order_contents']) : false,
+                    'shipping' => $shipping_cost,
+                    'itemtotal' => $item_price,
+                    'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'], 2),
+                    'fulfilled' => $o['fulfilled'],
+                    'notes' => $o['notes'],
+                    'canceled' => $o['canceled']
+                );
+            }
 		}
 	}
 
