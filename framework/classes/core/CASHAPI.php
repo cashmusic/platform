@@ -37,6 +37,7 @@ class CASHAPI
 
     public function __construct()
     {
+        CASHSystem::dd($_REQUEST);
         CASHSystem::startUp(false);
 
         list($accessTokenRepository, $server, $resourceServer) = $this->getAuthorizationServer();
