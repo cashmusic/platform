@@ -45,9 +45,9 @@ class CASHAPI
             'addContentLengthHeader' => false,
         ]]);
 
-        /*$api->options('/{routes:.+}', function ($request, $response, $args) {
+        $api->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
-        });*/
+        });
 
         $api->add(function ($req, $res, $next) {
             $response = $next($req, $res);
