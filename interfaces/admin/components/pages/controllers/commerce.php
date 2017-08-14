@@ -96,6 +96,9 @@ $settings_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
+CASHSystem::dd($settings_response);
+
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
