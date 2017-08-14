@@ -285,7 +285,11 @@ if (is_array($orders_response['payload'])) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
 			if (!empty($o['order_contents'])) {
-				$order_contents = json_decode($o['order_contents'], true);
+                $order_contents = $o['order_contents'];
+				if (!is_array($order_contents)) {
+                    $order_contents = json_decode($order_contents, true);
+				}
+
 			}
 			if (is_array($order_contents)) {
                 foreach ($order_contents as $key => $item) {
