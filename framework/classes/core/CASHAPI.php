@@ -70,7 +70,7 @@ class CASHAPI
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
 
-            $url = '/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
+            $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
             return $response->withStatus(301)->withHeader('Location', $url);
 
         });
