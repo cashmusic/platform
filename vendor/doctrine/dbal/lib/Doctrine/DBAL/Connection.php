@@ -1483,10 +1483,10 @@ class Connection implements DriverConnection
             $bindIndex = 1;
             foreach ($params as $value) {
                 $typeIndex = $bindIndex + $typeOffset;
+                error_log(print_r($value, true));
                 if (isset($types[$typeIndex])) {
                     $type = $types[$typeIndex];
                     list($value, $bindingType) = $this->getBindingInfo($value, $type);
-                    error_log(print_r($type, true));
                     $stmt->bindValue($bindIndex, $value, $bindingType);
                 } else {
                     $stmt->bindValue($bindIndex, $value);
