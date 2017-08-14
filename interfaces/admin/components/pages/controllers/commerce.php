@@ -112,8 +112,6 @@ $pp = array();
 $allpp = $page_data_object->getConnectionsByType('com.paypal');
 
 
-CASHSystem::dd($allpp);
-
 if (is_array($allpp)) {
 	foreach ($allpp as $ppq) {
 		$pp[$ppq->id] = $ppq->name;
