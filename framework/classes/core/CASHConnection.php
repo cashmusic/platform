@@ -141,7 +141,7 @@ use CASHMusic\Entities\SystemConnection;
 	 */public function getConnectionsByType($settings_type) {
 
 	 	if ($connections = $this->orm->findWhere(SystemConnection::class,
-			['type'=>$settings_type, 'user_id'=>$this->user_id])) {
+			['type'=>$settings_type, 'user_id'=>$this->user_id], true)) {
 	 		return $connections;
 		}
 

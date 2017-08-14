@@ -96,6 +96,7 @@ $settings_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
@@ -109,6 +110,8 @@ $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($c
 
 $pp = array();
 $allpp = $page_data_object->getConnectionsByType('com.paypal');
+
+
 if (is_array($allpp)) {
 	foreach ($allpp as $ppq) {
 		$pp[$ppq->id] = $ppq->name;
