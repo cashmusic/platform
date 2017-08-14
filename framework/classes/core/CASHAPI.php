@@ -37,7 +37,6 @@ class CASHAPI
 
     public function __construct()
     {
-        CASHSystem::dd($_REQUEST);
         CASHSystem::startUp(false);
 
         list($accessTokenRepository, $server, $resourceServer) = $this->getAuthorizationServer();
@@ -59,10 +58,10 @@ class CASHAPI
         });*/
 
 
-        $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}]', function ($request, $response, $args) use ($api) {
+        $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
 
             CASHSystem::dd($args);
-            $api->redirect('/new', 301);
+            //$api->redirect('/new', 301);
         });
 
 
