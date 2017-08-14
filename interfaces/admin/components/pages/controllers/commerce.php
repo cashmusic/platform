@@ -281,17 +281,17 @@ if (is_array($orders_response['payload'])) {
 	foreach ($orders_response['payload'] as $o) {
 
 
-        if ($o['successful']) {
-            $order_date = $o['creation_date'];
-            $item_price = 0;
-            if (!empty($o['order_contents'])) {
+		if ($o['successful']) {
+			$order_date = $o['creation_date'];
+			$item_price = 0;
+			if (!empty($o['order_contents'])) {
                 $order_contents = $o['order_contents'];
-                if (!is_array($order_contents)) {
+				if (!is_array($order_contents)) {
                     $order_contents = json_decode($order_contents, true);
-                }
-            }
+				}
+			}
 
-            if (is_array($order_contents)) {
+			if (is_array($order_contents)) {
                 foreach ($order_contents as $key => $item) {
                     if (!isset($item['qty'])) {
                         $item['qty'] = 1;
@@ -313,20 +313,20 @@ if (is_array($orders_response['payload'])) {
                 }
             }
 
-            if ($o['gross_price'] - $item_price) {
-                $shipping_cost = CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'] - $item_price, 2);
-                $item_price = CASHSystem::getCurrencySymbol($o['currency']) . number_format($item_price, 2);
-            } else {
-                $shipping_cost = false;
-            }
+			if ($o['gross_price'] - $item_price) {
+				$shipping_cost = CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'] - $item_price,2);
+				$item_price = CASHSystem::getCurrencySymbol($o['currency']) . number_format($item_price,2);
+			} else {
+				$shipping_cost = false;
+			}
 
-            $customer_name = "";
-            if (isset($o['customer_first_name'], $o['customer_last_name'])) {
-                $customer_name = $o['customer_first_name'] . " " . $o['customer_last_name'];
-            }
+			$customer_name = "";
+			if (isset($o['customer_first_name'],$o['customer_last_name'])) {
+				$customer_name = $o['customer_first_name'] . " " . $o['customer_last_name'];
+			}
 
 
-            if (!empty($o['customer_shipping_name'])) {
+			if (!empty($o['customer_shipping_name'])) {
                 $all_order_details[] = array(
                     'id' => $o['id'],
                     'customer_name' => $customer_name,
@@ -350,8 +350,8 @@ if (is_array($orders_response['payload'])) {
                     'canceled' => $o['canceled']
                 );
             }
-        }
-    }
+		}
+
 	}
 
 
