@@ -285,7 +285,7 @@ if (is_array($orders_response['payload'])) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
 
-			if (!empty($o['order_contents'])) {
+			if (!empty($o['order_contents']) && is_array($o['order_contents'])) {
                 foreach ($o['order_contents'] as $key => $item) {
                     if (!isset($item['qty'])) {
                         $item['qty'] = 1;
