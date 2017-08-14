@@ -59,8 +59,8 @@ class CASHAPI
 
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
+            return $response->withStatus(200)->withJson(self::APIResponse($args));
 
-            self::APIResponse($args);
             //$api->redirect('/new', 301);
         });
 
