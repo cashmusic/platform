@@ -279,14 +279,16 @@ if (!$cash_admin->page_data['connection']) {
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
-		CASHSystem::errorLog($o['order_contents']);
+
 
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
-
-			if (!empty($o['order_contents']) && is_array($o['order_contents'])) {
-                foreach ($o['order_contents'] as $key => $item) {
+			if (!empty($o['order_contents'])) {
+				$order_contents = json_decode($o['order_contents'], true);
+			}
+			if (is_array($order_contents)) {
+                foreach ($order_contents as $key => $item) {
                     if (!isset($item['qty'])) {
                         $item['qty'] = 1;
                     }
@@ -301,7 +303,7 @@ if (is_array($orders_response['payload'])) {
                             )
                         );
                         if ($variant_response['payload']) {
-                            $o['order_contents'][$key]['variant'] = $variant_response['payload'];
+                            $order_contents[$key]['variant'] = $variant_response['payload'];
                         }
                     }
                 }
@@ -335,7 +337,7 @@ if (is_array($orders_response['payload'])) {
                     'number' => '#' . str_pad($o['id'], 6, 0, STR_PAD_LEFT),
                     'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'], true),
                     'order_description' => str_replace("\n", ' ', $o['order_description']),
-                    'order_contents' => ($o['order_contents']) ? new ArrayIterator($o['order_contents']) : false,
+                    'order_contents' => ($order_contents) ? new ArrayIterator($order_contents) : false,
                     'shipping' => $shipping_cost,
                     'itemtotal' => $item_price,
                     'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'], 2),
