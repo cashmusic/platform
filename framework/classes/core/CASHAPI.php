@@ -59,9 +59,18 @@ class CASHAPI
 
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
-            return $response->withStatus(200)->withJson(self::APIResponse($request->getAttributes()));
 
-            //$api->redirect('/new', 301);
+            $query_string = $request->getQueryParams();
+
+            if (isset($args['arg1'])) {
+                $query_string[$args['arg1']] = $args['arg1_val'];
+            }
+
+            if (isset($args['arg2'])) {
+                $query_string[$args['arg2']] = $args['arg2_val'];
+            }
+
+            $api->redirect('/'.$args['plant'].'/'.$args['noun'], 301);
         });
 
 
