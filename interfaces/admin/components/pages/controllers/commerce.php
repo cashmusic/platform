@@ -349,7 +349,9 @@ if (is_array($orders_response['payload'])) {
                     'notes' => $o['notes'],
                     'canceled' => $o['canceled']
                 );
-            }
+            } else {
+				CASHSystem::errorLog($o);
+			}
 		}
 
 	}
