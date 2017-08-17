@@ -58,8 +58,11 @@ class ElementState implements StatesInterface
         $this->element_data['logged_in'] = false;
 
         $authenticated = false;
-        if (!empty($this->element_data['subscriber_id']) || $this->session->sessionGet('logged_in')) {
+        if (!empty($this->element_data['subscriber_id'])) {
             $authenticated = true;
+        }
+
+        if ($this->session->sessionGet('logged_in') || $authenticated === true) {
             $this->element_data['logged_in'] = true;
         }
 
