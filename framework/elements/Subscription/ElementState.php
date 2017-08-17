@@ -58,14 +58,6 @@ class ElementState implements StatesInterface
         $this->element_data['logged_in'] = false;
 
         $authenticated = false;
-        if (!empty($this->element_data['subscriber_id'])) {
-            $authenticated = true;
-        }
-
-        CASHSystem::errorLog($this->session->sessionGet('logged_in'));
-        if ($this->session->sessionGet('logged_in') || $authenticated === true) {
-            $this->element_data['logged_in'] = true;
-        }
 
         // get plan data based on plan ids. works for multiples
         $plans = [];
@@ -87,9 +79,17 @@ class ElementState implements StatesInterface
             //return false; // no valid payment found error
         }
 
+        if (!empty($this->element_data['subscriber_id'])) {
+            $authenticated = true;
+        }
+
+        CASHSystem::errorLog("wtf session " . $this->session->sessionGet('logged_in'));
+        CASHSystem::errorLog($plan_id);
+        CASHSystem::errorLog($this->element_data['plans']);
+
         //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
         // if we're logged in already, show them the my account button instead of login
-        if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
+        if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->session->sessionGet('logged_in')) {
             $this->element_data['logged_in'] = true;
         }
 
