@@ -185,7 +185,7 @@ class ElementState implements StatesInterface
 
             }
 
-            CASHSystem::errorLog($this->state);
+            CASHSystem::errorLog($result);
             // merge in all data we have
             if (!empty($result['data'])) {
                 $result['data'] = array_merge($this->element_data, $result['data']);
