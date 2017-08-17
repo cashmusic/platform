@@ -23,6 +23,8 @@ class Subscription extends ElementBase {
             $this->updateElementData($values);
         });
 
+        CASHSystem::errorLog($this->element_data['template']);
+
 		return $this->element_data;
 	}
 } // END class

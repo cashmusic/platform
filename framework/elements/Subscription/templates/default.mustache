@@ -272,6 +272,10 @@
 
         cm.session.setid({"id":"{{session_id}}"});
 
+        {{#logged_in}}
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+        {{/logged_in}}
+
     });
 
 }());
