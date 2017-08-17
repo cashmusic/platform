@@ -140,10 +140,12 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getMarkup() {
-		if ($this->template == 'default') {
-			$this->element_data['template'] = $this->getTemplate('default');
-		}
 		$this->getData(); // call getData() first as it not only sets data but the correct template
+
+        if ($this->template == 'default') {
+            $this->element_data['template'] = $this->getTemplate('default');
+        }
+
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}
