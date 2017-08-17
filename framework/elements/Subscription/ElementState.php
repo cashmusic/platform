@@ -180,9 +180,6 @@ class ElementState implements StatesInterface
                     $result = $this->stateResetPassword();
                     break;
 
-                default:
-                    $result = ['template'=>'default'];
-
             }
 
             // merge in all data we have
