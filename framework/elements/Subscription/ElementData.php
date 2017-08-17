@@ -103,7 +103,7 @@ class ElementData implements DataInterface
             )
         );
 
-        CASHSystem::errorLog(var_export($plan_request->response['payload']));
+        CASHSystem::errorLog(json_encode($plan_request->response['payload']));
 
         // get plan data or bust
         if ($plan_request->response['payload']) {
