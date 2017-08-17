@@ -185,6 +185,7 @@ class ElementState implements StatesInterface
 
             }
 
+            CASHSystem::errorLog($this->state);
             // merge in all data we have
             if (!empty($result['data'])) {
                 $result['data'] = array_merge($this->element_data, $result['data']);
@@ -366,14 +367,12 @@ class ElementState implements StatesInterface
             $items = array_reverse($items);
         }
 
-        CASHSystem::errorLog($items);
-
         if ($pass_data) {
             return $items;
         } else {
             return [
                 'template' => 'logged_in_index',
-                'data' => ['items'=>$items]
+                'data' => ['logged_in'=>true, 'items'=>$items]
             ];
         }
 
