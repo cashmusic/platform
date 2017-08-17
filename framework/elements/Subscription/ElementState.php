@@ -366,12 +366,14 @@ class ElementState implements StatesInterface
             $items = array_reverse($items);
         }
 
+        CASHSystem::errorLog($items);
+
         if ($pass_data) {
             return $items;
         } else {
             return [
                 'template' => 'logged_in_index',
-                'data' => ['logged_in'=>true, 'items'=>$items]
+                'data' => ['items'=>$items]
             ];
         }
 
