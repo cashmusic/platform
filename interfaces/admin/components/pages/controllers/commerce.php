@@ -284,6 +284,7 @@ if (is_array($orders_response['payload'])) {
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
+            $order_contents = [];
 			if (!empty($o['order_contents'])) {
                 $order_contents = $o['order_contents'];
 				if (!is_array($order_contents)) {
