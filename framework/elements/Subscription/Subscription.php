@@ -28,8 +28,6 @@ class Subscription extends ElementBase {
 
         $subscription_data = new ElementData($this->element_data['user_id']);
 
-        $this->element_data['debug'] = var_dump($subscription_data);
-
         foreach ($this->element_data['plans'] as $plan) {
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
         }
@@ -62,6 +60,8 @@ class Subscription extends ElementBase {
         $this->updateElementData(
             $this->processVerificationKey()
         );
+
+        $this->element_data['debug'] = var_dump($this->element_data['logged_in'])."<br>".$this->session_id;
 
         if (!empty($_REQUEST['state'])) {
 
