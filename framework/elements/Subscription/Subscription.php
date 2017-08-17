@@ -11,7 +11,6 @@ class Subscription extends ElementBase {
 	public $name = 'Subscription';
 
 	public function getData() {
-
         // set state and fire the appropriate method in Element\State class
         $state = new ElementState(
             $this->element_data,
