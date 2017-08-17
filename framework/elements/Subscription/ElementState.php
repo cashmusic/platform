@@ -34,8 +34,6 @@ class ElementState implements StatesInterface
 
         $this->element_data = $element_data;
 
-        CASHSystem::errorLog($element_data['user_id']);
-
         if (!empty($session_id)) {
             $this->session = new CASHRequest(null);
             $this->session->startSession($session_id);
@@ -68,7 +66,6 @@ class ElementState implements StatesInterface
         $plans = [];
 
         $subscription_data = new ElementData($this->element_data['user_id']);
-        CASHSystem::errorLog($subscription_data);
 
         foreach ($this->element_data['plans'] as $plan) {
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
@@ -107,11 +104,8 @@ class ElementState implements StatesInterface
          * end ElementData migration
          */
 
-        CASHSystem::errorLog("session id ".$session_id);
-        CASHSystem::errorLog("logged in".$this->session->sessionGet('logged_in'));
-
         $this->session_id = $session_id;
-
+        CASHSystem::errorLog("session id ".$session_id);
         $this->element_id = $this->element_data['element_id'];
 
         $this->user_id = false;
@@ -197,6 +191,8 @@ class ElementState implements StatesInterface
             } else {
                 $result['data'] = $this->element_data;
             }
+
+            CASHSystem::errorLog("logged in".$this->session->sessionGet('logged_in'));
 
             $callback($result['template'], $result['data']);
         }
