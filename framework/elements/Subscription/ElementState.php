@@ -76,7 +76,6 @@ class ElementState implements StatesInterface
 
         // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
-        $this->element_data['debug'] = json_encode($this->element_data['all_plans']);
 
         // get connections and currency
         $this->updateElementData($subscription_data->getConnections());
@@ -188,8 +187,15 @@ class ElementState implements StatesInterface
                     break;
 
                 default:
-                    $result = ['template'=>'default', 'data'=>['logged_in'=>true]];
+                    $result = ['template'=>'default'];
 
+            }
+
+            // merge in all data we have
+            if (!empty($result['data'])) {
+                $result['data'] = array_merge($this->element_data, $result['data']);
+            } else {
+                $result['data'] = $this->element_data;
             }
 
             $callback($result['template'], $result['data']);
