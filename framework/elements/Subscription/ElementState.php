@@ -69,10 +69,12 @@ class ElementState implements StatesInterface
 
         $subscription_data = new ElementData($this->element_data['user_id']);
         CASHSystem::errorLog($subscription_data);
-        CASHSystem::errorLog($this->element_data['plans']);
+
         foreach ($this->element_data['plans'] as $plan) {
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
         }
+
+        CASHSystem::errorLog($plans);
 
         // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
