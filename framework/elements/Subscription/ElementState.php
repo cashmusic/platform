@@ -74,10 +74,10 @@ class ElementState implements StatesInterface
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
         }
 
-        CASHSystem::errorLog($plans);
-
         // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
+
+        CASHSystem::errorLog($this->element_data['all_plans']);
 
         // get connections and currency
         $this->updateElementData($subscription_data->getConnections());
