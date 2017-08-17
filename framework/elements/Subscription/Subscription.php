@@ -19,7 +19,6 @@ class Subscription extends ElementBase {
         );
 
         $state->router(function ($template, $values) {
-            CASHSystem::errorLog($template);
             $this->setTemplate($template);
             $this->updateElementData($values);
         });
