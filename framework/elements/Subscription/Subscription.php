@@ -61,18 +61,18 @@ class Subscription extends ElementBase {
             $this->processVerificationKey()
         );
 
-        $this->element_data['debug'] = var_dump($this->element_data['logged_in'])."<br>".$this->session_id;
+        $this->element_data['debug'] = "logged in ".var_dump($this->element_data['logged_in'])."\n".$this->session_id;
 
         if (!empty($_REQUEST['state'])) {
 
             // set state and fire the appropriate method in Element\State class
-            $subscription_state = new ElementState(
+            $state = new ElementState(
                 $this->element_data,
                 $plan_id,
                 $this->session_id
             );
 
-            $subscription_state->router(function ($template, $values) {
+            $state->router(function ($template, $values) {
                 $this->setTemplate($template);
                 $this->updateElementData($values);
             });
