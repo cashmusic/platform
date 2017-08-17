@@ -34,6 +34,8 @@ class ElementState implements StatesInterface
 
         $this->element_data = $element_data;
 
+        CASHSystem::errorLog($element_data['user_id']);
+
         if (!empty($session_id)) {
             $this->session = new CASHRequest(null);
             $this->session->startSession($session_id);
