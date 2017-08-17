@@ -61,8 +61,6 @@ class Subscription extends ElementBase {
             $this->processVerificationKey()
         );
 
-        $this->element_data['debug'] = "logged in ".var_dump($this->element_data['logged_in'])."\n".$this->session_id;
-
         if (!empty($_REQUEST['state'])) {
 
             // set state and fire the appropriate method in Element\State class

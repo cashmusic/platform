@@ -37,7 +37,10 @@ class ElementState implements StatesInterface
             $this->session = new CASHRequest(null);
             $this->session->startSession($session_id);
         }
-    CASHSystem::errorLog("state ".$session_id);
+    CASHSystem::errorLog("session id ".$session_id);
+
+        CASHSystem::errorLog("logged in".$this->session->sessionGet('logged_in'));
+
         $this->session_id = $session_id;
 
         $this->element_id = $this->element_data['element_id'];
