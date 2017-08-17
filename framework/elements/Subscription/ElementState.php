@@ -62,6 +62,7 @@ class ElementState implements StatesInterface
             $authenticated = true;
         }
 
+        CASHSystem::errorLog($this->session->sessionGet('logged_in'));
         if ($this->session->sessionGet('logged_in') || $authenticated === true) {
             $this->element_data['logged_in'] = true;
         }
