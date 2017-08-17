@@ -33,7 +33,7 @@
 <div class="cm-sub-logo"></div>
 <div class="account-settings">
     <a href="#" class="feed-button">Logout</a>
-    <a href="#" class="feed-button">Account Settings</a>
+    <a href="#" class="feed-button cm-account-settings">Account Settings</a>
 
 </div>
 <div id="cm-subscription-feed">
@@ -70,8 +70,6 @@
 
 </div><!--cm-subscription-feed-->
 
-
-{{#firstuse}}
 <script type="text/javascript">
 
 var cm = window.cashmusic;
@@ -80,6 +78,15 @@ cm.events.add(cm,'ready', function(e) {
 
     cm.session.start();
 
+    var account_settings = document.querySelector('.cm-account-settings');
+
+    if (account_settings) {
+        cm.events.add(login, 'click', function (e) {
+            e.preventDefault();
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_settings"});
+        });
+    }
+    {{#firstuse}}
     cm.loadScript(cm.path + '/share/share-buttons.js', function () {
         cm.shareButtons.buildButtons(
             ".test-buttons",
@@ -93,7 +100,7 @@ cm.events.add(cm,'ready', function(e) {
             }
         );
     });
+    {{/firstuse}}
 });
 
 </script>
-{{/firstuse}}

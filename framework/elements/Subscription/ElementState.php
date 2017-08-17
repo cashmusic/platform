@@ -102,6 +102,10 @@ class ElementState implements StatesInterface
                     $result = $this->stateLoggedInIndex();
                     break;
 
+                case "account_settings":
+                    $result = $this->stateAccountSettings();
+                    break;
+
                 case "forgot_password":
                     $result = $this->stateForgotPassword();
                     break;
@@ -298,6 +302,13 @@ class ElementState implements StatesInterface
             ];
         }
 
+    }
+
+    private function stateAccountSettings() {
+        return [
+            'template' => 'account_settings',
+            'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
+        ];
     }
 
     private function stateForgotPassword() {
