@@ -103,13 +103,11 @@ class ElementData implements DataInterface
             )
         );
 
-        CASHSystem::errorLog(json_encode($plan_request->response['payload']));
-
         // get plan data or bust
         if ($plan_request->response['payload']) {
 
             $payload = $plan_request->response['payload']->toArray();
-
+            CASHSystem::errorLog($payload);
             $this->data['plan_name'] = $payload['name'];
             $this->data['interval'] = $payload['interval'];
             $this->data['plan_description'] = $payload['description'];
