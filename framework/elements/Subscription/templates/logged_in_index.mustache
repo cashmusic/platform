@@ -81,7 +81,7 @@ cm.events.add(cm,'ready', function(e) {
     var account_settings = document.querySelector('.cm-account-settings');
 
     if (account_settings) {
-        cm.events.add(login, 'click', function (e) {
+        cm.events.add(account_settings, 'click', function (e) {
             e.preventDefault();
             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_settings"});
         });
