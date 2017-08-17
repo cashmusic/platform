@@ -1129,7 +1129,8 @@
 				},
 
 				reveal: function(innerContent,wrapClass) {
-					console.log("reveal");
+                    console.log(innerContent);
+
 					// add the correct content to the content div
 					var cm = window.cashmusic;
 					var self = cm.overlay;
