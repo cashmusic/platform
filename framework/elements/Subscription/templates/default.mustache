@@ -18,9 +18,9 @@
 
 {{#flexible_price}}<label class="cm-add-amount">Adjust your payment amount:</label><div class="cm-store-flexible-price"><span class="cm-store-currency">{{currency}}</span><input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" ></div>{{/flexible_price}}<select name="plan_id" id="plan_id" required><option value="">Select a plan</option>{{#all_plans}}<option value="{{plan_id}}">{{plan_name}}</option>{{/all_plans}}</select><a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/<span id="plan_interval">{{plan_interval}}</span> - Subscribe</a>
 
-{{#logged_in}}
-    <a href="#" class="cm-my-account cm-secondary-link">My Account</a>
-{{/logged_in}}
+<!--{{#logged_in}}
+    <a href="#" class="cm-my-account cm-secondary-link">Logout</a>
+{{/logged_in}}-->
 
 {{^logged_in}}
     <a href="#" class="cm-login cm-secondary-link">Member's Login</a>
@@ -152,15 +152,6 @@
             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
         }
 
-        var account = document.querySelector('.cm-my-account');
-
-        if (account) {
-            cm.events.add(account, 'click', function (e) {
-                e.preventDefault();
-                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
-            });
-        }
-
         if (flexible_price) {
             cm.events.add(flexible_price,'keyup', function() {
                 var price = (flexible_price.value != "") ? flexible_price.value : "{{plan_price}}";
@@ -280,6 +271,10 @@
         cm.session.setid({"id":"{{session_id}}"});
 
     });
+
+    {{#logged_in}}
+        cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+    {{/logged_in}}
 
 }());
 </script>

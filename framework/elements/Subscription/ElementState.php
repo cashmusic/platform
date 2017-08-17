@@ -83,10 +83,6 @@ class ElementState implements StatesInterface
             $authenticated = true;
         }
 
-        CASHSystem::errorLog("wtf session " . $this->session->sessionGet('logged_in'));
-        CASHSystem::errorLog($plan_id);
-        CASHSystem::errorLog($this->element_data['plans']);
-
         //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
         // if we're logged in already, show them the my account button instead of login
         if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->session->sessionGet('logged_in')) {
@@ -110,7 +106,6 @@ class ElementState implements StatesInterface
          */
 
         $this->session_id = $session_id;
-        CASHSystem::errorLog("session id ".$session_id);
         $this->element_id = $this->element_data['element_id'];
 
         $this->user_id = false;
@@ -196,8 +191,6 @@ class ElementState implements StatesInterface
             } else {
                 $result['data'] = $this->element_data;
             }
-
-            CASHSystem::errorLog("logged in".$this->element_data['logged_in']);
 
             $callback($result['template'], $result['data']);
         }
