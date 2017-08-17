@@ -70,39 +70,3 @@
 {{/items}}
 
 </div><!--cm-subscription-feed-->
-<!--
-
-<script type="text/javascript">
-
-var cm = window.cashmusic;
-
-cm.events.add(cm,'ready', function(e) {
-
-    cm.session.start();
-
-    var account_settings = document.querySelector('.cm-account-settings');
-
-    if (account_settings) {
-        cm.events.add(account_settings, 'click', function (e) {
-            e.preventDefault();
-            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_settings"});
-        });
-    }
-    {{#firstuse}}
-    cm.loadScript(cm.path + '/share/share-buttons.js', function () {
-        cm.shareButtons.buildButtons(
-            ".test-buttons",
-            {
-                'title':'Join the CASH Music Family.',
-                'description':'Support musicians. Vote on what we create. Receive monthly music. Access our exclusive store. We fight for musicians because art is too important to let corporations lead the way. Let’s build a better future together.',
-                'caption':'CASH Music is a nonprofit empowering artists through open tools & knowledge.',
-                'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
-                'url':'https://family.cashmusic.org',
-                'tags':"CASH Music,Run the jewels,non-profit,musicians"
-            }
-        );
-    });
-    {{/firstuse}}
-});
-
-</script>-->
