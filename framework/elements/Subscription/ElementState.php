@@ -60,6 +60,7 @@ class ElementState implements StatesInterface
         $authenticated = false;
         if (!empty($this->element_data['subscriber_id']) || $this->session->sessionGet('logged_in')) {
             $authenticated = true;
+            $this->element_data['logged_in'] = true;
         }
 
         // get plan data based on plan ids. works for multiples
@@ -192,7 +193,7 @@ class ElementState implements StatesInterface
                 $result['data'] = $this->element_data;
             }
 
-            CASHSystem::errorLog("logged in".$this->session->sessionGet('logged_in'));
+            CASHSystem::errorLog("logged in".$this->element_data['logged_in']);
 
             $callback($result['template'], $result['data']);
         }
