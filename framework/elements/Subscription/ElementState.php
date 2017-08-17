@@ -12,6 +12,7 @@ use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Elements\Interfaces\StatesInterface;
 use CASHMusic\Plants\Commerce\CommercePlant;
+use CASHMusic\Elements\Subscription\ElementData;
 
 class ElementState implements StatesInterface
 {
