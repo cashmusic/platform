@@ -31,7 +31,7 @@ class ElementState implements StatesInterface
     public function __construct($element_data, $session_id)
     {
         $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
-        CASHSystem::errorLog($this->state);
+
         $this->element_data = $element_data;
 
         if (!empty($session_id)) {
@@ -184,7 +184,7 @@ class ElementState implements StatesInterface
                     break;
 
                 default:
-                    $result = ['data'=>['logged_in'=>true]];
+                    $result = ['template'=>'default', 'data'=>['logged_in'=>true]];
 
             }
 
