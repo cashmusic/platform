@@ -82,7 +82,7 @@ class ElementState implements StatesInterface
         $this->updateElementData($subscription_data->getCurrency());
 
         if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
-            return false; // no valid payment found error
+            //return false; // no valid payment found error
         }
 
         //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
