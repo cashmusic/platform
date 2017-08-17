@@ -46,11 +46,11 @@ class ElementState implements StatesInterface
             $this->element_data['subscriber_id'] = false;
         }
 
-        if (!$this->element_data['email_address'] = $this->sessionGet("email_address")) {
+        if (!$this->element_data['email_address'] = $this->session->sessionGet("email_address")) {
             $this->element_data['email_address'] = false;
         }
 
-        if (!$plan_id = $this->sessionGet("plan_id")) {
+        if (!$plan_id = $this->session->sessionGet("plan_id")) {
             $plan_id = false;
         }
 
