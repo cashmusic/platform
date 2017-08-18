@@ -136,7 +136,6 @@ abstract class CASHData {
 			$expiration = time() + $this->cash_session_timeout;
 			$current_ip = CASHSystem::getRemoteIP();
 			if ($force_session_id || $sandbox) {
-				CASHSystem::errorLog($force_session_id);
 				$session_id = $force_session_id;
 			} else {
 				$session_id = $this->getSessionID();

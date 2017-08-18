@@ -32,10 +32,10 @@ class ElementState implements StatesInterface
         $this->element_data = $element_data;
 
         $this->session = new CASHRequest(null);
-        $new_session_id = $this->session->startSession($session_id);
+        $this->session->startSession($session_id);
 
-        CASHSystem::errorLog("State session id ");
-        CASHSystem::errorLog($new_session_id);
+        $this->session_id = $session_id;
+
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
         }
@@ -223,8 +223,6 @@ class ElementState implements StatesInterface
                 $data['has_password'] = true;
 
                 $this->setLoginState();
-
-                $this->session->sessionSet("logged_in", true);
             }
         }
 
@@ -266,8 +264,6 @@ class ElementState implements StatesInterface
 
             $this->setLoginState();
             $data['items'] = $this->stateLoggedInIndex(true);
-
-            $this->session->sessionSet("logged_in", true);
 
             $template = 'logged_in_index';
 
@@ -314,8 +310,6 @@ class ElementState implements StatesInterface
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
 
-                $this->session->sessionSet("logged_in", true);
-
                 $template = 'logged_in_index';
             }
 
@@ -332,6 +326,12 @@ class ElementState implements StatesInterface
     }
 
     private function stateLoggedInIndex($pass_data=false) {
+
+        // make sure we're actually logged in
+        if (!$this->checkLoginState()) return [
+            'template' => 'login',
+            'data' => ['logged_in'=>false]
+        ];
 
         $items = [];
 
@@ -362,6 +362,13 @@ class ElementState implements StatesInterface
     }
 
     private function stateAccountSettings() {
+
+        // make sure we're actually logged in
+        if (!$this->checkLoginState()) return [
+            'template' => 'login',
+            'data' => ['logged_in'=>false]
+        ];
+
         return [
             'template' => 'account_settings',
             'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
@@ -444,6 +451,8 @@ class ElementState implements StatesInterface
         $this->session->sessionSet("plan_id", $this->plan_id);
         $this->session->sessionSet("subscription_authenticated", true);
 
+        $this->session->sessionSet("logged_in", true);
+
     }
 
     public function updateElementData($data) {
@@ -503,6 +512,18 @@ class ElementState implements StatesInterface
 
             return $data;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkLoginState()
+    {
+        if (!$this->session->sessionGet("logged_in")) {
+            return false;
+        }
+
+        return true;
     }
 
 }
