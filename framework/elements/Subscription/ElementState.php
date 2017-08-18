@@ -34,7 +34,8 @@ class ElementState implements StatesInterface
         $this->session = new CASHRequest(null);
         $new_session_id = $this->session->startSession($session_id);
 
-        CASHSystem::errorLog("State session id " . $new_session_id);
+        CASHSystem::errorLog("State session id ");
+        CASHSystem::errorLog($new_session_id);
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
         }
