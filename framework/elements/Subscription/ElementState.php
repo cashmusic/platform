@@ -218,6 +218,8 @@ class ElementState implements StatesInterface
             )
         );
 
+        CASHSystem::errorLog($subscriber_id);
+        CASHSystem::errorLog($data['email']);
         CASHSystem::errorLog($user_request->response);
 
         if ($user_request->response['payload']) {
