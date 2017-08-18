@@ -401,7 +401,9 @@ class ElementState implements StatesInterface
             $subscriber_details = $this->getSubscriberDetails();
 
             if (is_cash_model($subscriber_details)) {
-                $address = $subscriber_details->data;
+                if (isset($subscriber_details->data['shipping_info'])) {
+                    $address = $subscriber_details->data['shipping_info'];
+                }
             }
         }
 
@@ -583,9 +585,6 @@ class ElementState implements StatesInterface
      */
     private function getSubscriberDetails()
     {
-        CASHSystem::errorLog($this->session_id);
-        CASHSystem::errorLog($this->session->getAllSessionData());
-
         $address_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
@@ -594,9 +593,6 @@ class ElementState implements StatesInterface
                 'user_id'=>true
             )
         );
-
-        CASHSystem::errorLog($this->session->sessionGet('user_id'));
-        CASHSystem::errorLog($address_request->response);
 
         if ($address_request->response['payload'] !== false) {
             return $address_request->response['payload'];
