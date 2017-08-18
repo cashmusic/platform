@@ -390,7 +390,7 @@ class ElementState implements StatesInterface
 
         return [
             'template' => 'account/main',
-            'data' => ['address'=>$address, 'session_id'=>$this->session_id]
+            'data' => ['address'=>$address]
         ];
     }
 
