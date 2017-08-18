@@ -592,6 +592,7 @@ class ElementState implements StatesInterface
             )
         );
 
+        CASHSystem::errorLog($this->session->sessionGet('subscription_id'));
         CASHSystem::errorLog($address_request->response);
 
         if ($address_request->response['payload'] !== false) {
