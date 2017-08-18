@@ -359,14 +359,14 @@ class SystemPlant extends PlantBase {
 
 		$credentials = array();
 		if ($address) {
-			$id_request = new CASHRequest(
+			$email_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'people',
 					'cash_action' => 'getuseridforaddress',
 					'address' => $address
 				)
 			);
-			if (!$id_request->response['payload']) {
+			if (!$email_request->response['payload']) {
 				// only go if not found. if it's found and different, then we can't have that email.
 				// if it's found but the same, then why bother changing?
 				$credentials['email_address'] = $address;
@@ -416,15 +416,18 @@ class SystemPlant extends PlantBase {
 				}
 			}
 		}
+
+
+    CASHSystem::errorLog($user_id);
+		CASHSystem::errorLog(debug_backtrace(false, 5));
 		if (count($credentials)) {
 
             // reset the data field for subscriptions
             $credentials['data'] = "{}";
 
-            $user = $this->orm->find(People::class, $user_id);
-            $user->update($credentials);
-
-            if ($user) {
+            if ($user = $this->orm->find(People::class, $user_id)) {
+            	CASHSystem::errorLog($user);
+                $user->update($credentials);
                 return $user->id;
             }
 		}

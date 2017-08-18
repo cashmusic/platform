@@ -27,20 +27,6 @@ trait Subscriptions {
         }
 
         if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
-            CASHSystem::errorLog([
-                'user_id' => $user_id,
-                'name' => $plan_name,
-                'description' => $description,
-                'sku' => $sku,
-                'price' => $amount, // as cents
-                'flexible_price' => $flexible_price,
-                'recurring_payment' => $recurring,
-                'recurring_interval' => 0,
-                'physical' => $physical,
-                'interval' => $interval,
-                'interval_count' => $interval_count,
-                'suggested_price' => $suggested_price
-            ], false);
             $plan = $this->orm->create(CommerceSubscription::class, [
                 'user_id' => $user_id,
                 'name' => $plan_name,

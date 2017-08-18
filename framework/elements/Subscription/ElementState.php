@@ -35,6 +35,7 @@ class ElementState implements StatesInterface
         $this->session->startSession($session_id);
 
         $this->session_id = $session_id;
+        CASHSystem::errorLog($session_id);
 
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
@@ -208,14 +209,19 @@ class ElementState implements StatesInterface
     private function stateVerified() {
 
         $data = [];
-
+        $subscriber_id = $this->session->sessionGet('subscription_id');
+        $data['email'] = $this->session->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
                 'cash_request_type' => 'people',
                 'cash_action' => 'getuser',
-                'user_id' => $this->user_id
+                'user_id' => $subscriber_id
             )
         );
+
+        CASHSystem::errorLog($subscriber_id);
+        CASHSystem::errorLog($data['email']);
+        CASHSystem::errorLog($user_request->response);
 
         if ($user_request->response['payload']) {
 
@@ -505,6 +511,8 @@ class ElementState implements StatesInterface
                         'address' => $email
                     )
                 );
+
+                CASHSystem::errorLog($user_request->response);
 
                 $data['email_address'] = $email;
                 $this->session->sessionSet("email_address", $email);
