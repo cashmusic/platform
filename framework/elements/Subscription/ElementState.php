@@ -41,8 +41,6 @@ class ElementState implements StatesInterface
             $this->element_data['subscriber_id'] = false;
         }
 
-        CASHSystem::errorLog($this->element_data['subscriber_id']);
-
         if (!$this->element_data['email_address'] = $this->session->sessionGet("email_address")) {
             $this->element_data['email_address'] = false;
         }
@@ -105,6 +103,8 @@ class ElementState implements StatesInterface
         } else {
             if ($session_user_id = $this->session->sessionGet("subscription_id")) $this->user_id = $session_user_id;
         }
+
+        CASHSystem::errorLog($this->user_id);
 
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
