@@ -378,19 +378,19 @@ class ElementState implements StatesInterface
             'data' => ['logged_in'=>false]
         ];
 
-
-
         $address = false;
 
         $subscriber_details = $this->getSubscriberDetails();
 
         if (is_cash_model($subscriber_details)) {
-            $address = $subscriber_details->data;
+            if (isset($subscriber_details->data['shipping_info'])) {
+                $address = $subscriber_details->data['shipping_info'];
+            }
         }
 
         return [
             'template' => 'account/main',
-            'data' => ['address'=>$address]
+            'data' => compact('address')
         ];
     }
 

@@ -40,12 +40,17 @@
     </div>
 
     <h1 class="cm-success-title">Account Settings</h1>
+    {{#address}}
     <h3>Shipping Address</h3>
     <p>
-        Tom Filepp<br>
-        3124 SE 8th Ave<br>
-        Portland, OR 97202
+        <strong>{{customer_shipping_name}}</strong><br>
+        {{customer_address1}}<br>
+        {{#customer_address2}}
+            {{customer_address2}}<br>
+        {{/customer_address2}}
+        {{customer_city}}, {{customer_region}} {{customer_postalcode}} {{customer_countrycode}}
     </p>
+    {{/address}}
 
     <a href="#" class="button cm-address">Update Address</a>
 
