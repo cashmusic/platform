@@ -419,7 +419,7 @@ class SystemPlant extends PlantBase {
 
 
     CASHSystem::errorLog($user_id);
-		CASHSystem::errorLog(debug_backtrace(false, 2));
+		CASHSystem::errorLog(debug_backtrace(false, 5));
 		if (count($credentials)) {
 
             // reset the data field for subscriptions
