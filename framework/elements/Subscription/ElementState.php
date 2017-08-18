@@ -217,6 +217,8 @@ class ElementState implements StatesInterface
             )
         );
 
+        CASHSystem::errorLog($user_request->response);
+
         if ($user_request->response['payload']) {
 
             $user_data = $user_request->response['payload']['data'];
