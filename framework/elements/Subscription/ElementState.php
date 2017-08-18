@@ -384,7 +384,7 @@ class ElementState implements StatesInterface
 
     private function stateEditAddress() {
         return [
-            'template' => 'account/address',
+            'template' => ['account/partials/setting_header', 'account/address'],
             'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
         ];
     }

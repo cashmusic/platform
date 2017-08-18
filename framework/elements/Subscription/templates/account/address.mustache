@@ -1,0 +1,32 @@
+<h2>OH MY</h2>
+<img src="http://i.imgur.com/B6dLkJx.gif" alt="">
+</div>
+
+<script type="text/javascript">
+
+    var cm = window.cashmusic;
+
+    cm.events.add(cm,'ready', function(e) {
+
+        cm.session.start();
+
+        var feed = document.querySelector('.cm-feed');
+        var logout = document.querySelector('.cm-logout');
+
+        if (feed) {
+            cm.events.add(feed, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+            });
+        }
+
+        if (logout) {
+            cm.events.add(logout, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logout"});
+            });
+        }
+
+    });
+
+</script>
