@@ -17,6 +17,7 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        'f451e5d34c322e3cd02e1eaf95d39162' => __DIR__ . '/../..' . '/framework/helpers/entity_helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (

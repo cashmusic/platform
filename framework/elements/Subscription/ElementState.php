@@ -10,7 +10,9 @@ namespace CASHMusic\Elements\subscription;
 
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\ElementBase;
 use CASHMusic\Elements\Interfaces\StatesInterface;
+use CASHMusic\Entities\EntityBase;
 use CASHMusic\Plants\Commerce\CommercePlant;
 use CASHMusic\Elements\Subscription\ElementData;
 
@@ -376,16 +378,37 @@ class ElementState implements StatesInterface
             'data' => ['logged_in'=>false]
         ];
 
+
+
+        $address = false;
+
+        $subscriber_details = $this->getSubscriberDetails();
+
+        if (is_cash_model($subscriber_details)) {
+            $address = $subscriber_details->data;
+        }
+
         return [
             'template' => 'account/main',
-            'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
+            'data' => ['address'=>$address, 'session_id'=>$this->session_id]
         ];
     }
 
     private function stateEditAddress() {
+
+        $address = false;
+
+        if (!isset($_REQUEST['action'])) {
+            $subscriber_details = $this->getSubscriberDetails();
+
+            if (is_cash_model($subscriber_details)) {
+                $address = $subscriber_details->data;
+            }
+        }
+
         return [
             'template' => ['account/partials/setting_header', 'account/address'],
-            'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
+            'data' => ['address'=>$address, 'logged_in'=>true, 'session_id'=>$this->session_id]
         ];
     }
 
@@ -554,6 +577,27 @@ class ElementState implements StatesInterface
     {
         $this->session->sessionClear("subscription_id");
         $this->session->sessionClear('logged_in');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getSubscriberDetails()
+    {
+        $address_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptiondetails',
+                'id' => $this->session->sessionGet('subscription_id')
+            )
+        );
+
+        if ($address_request->response['payload'] !== false) {
+            return $address_request->response['payload'];
+        }
+
+        return false;
+
     }
 
 }

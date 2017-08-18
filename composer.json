@@ -34,7 +34,8 @@
             "CASHMusic\\API\\": "interfaces/api/classes",
             "CASHMusic\\PublicInterface\\": "interfaces",
             "CASHMusic\\Tests\\": "tests"
-        }
+        },
+        "files": ["framework/helpers/entity_helpers.php"]
     },
 
     "license": "AGPL license",
