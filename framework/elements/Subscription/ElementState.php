@@ -382,7 +382,6 @@ class ElementState implements StatesInterface
 
         $subscriber_details = $this->getSubscriberDetails();
 
-        CASHSystem::errorLog($subscriber_details->toArray());
         if (is_cash_model($subscriber_details)) {
             if (isset($subscriber_details->data['shipping_info'])) {
                 $address = $subscriber_details->data['shipping_info'];
@@ -592,6 +591,8 @@ class ElementState implements StatesInterface
                 'id' => $this->session->sessionGet('subscription_id')
             )
         );
+
+        CASHSystem::errorLog($address_request->response);
 
         if ($address_request->response['payload'] !== false) {
             return $address_request->response['payload'];
