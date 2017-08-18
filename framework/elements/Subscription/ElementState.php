@@ -39,10 +39,6 @@ class ElementState implements StatesInterface
             $this->session->startSession($session_id);
         }
 
-        /**
-         * migrating ElementData to here to make sure there is one unified session
-         */
-
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
         }
@@ -82,9 +78,7 @@ class ElementState implements StatesInterface
         if (!empty($this->element_data['subscriber_id'])) {
             $authenticated = true;
         }
-
-        //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
-        // if we're logged in already, show them the my account button instead of login
+        // if we're logged in already, maybe show them a logout button
         if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->session->sessionGet('logged_in')) {
             $this->element_data['logged_in'] = true;
         }
@@ -100,10 +94,6 @@ class ElementState implements StatesInterface
         $this->updateElementData(
             $this->processVerificationKey()
         );
-
-        /**
-         * end ElementData migration
-         */
 
         $this->session_id = $session_id;
         $this->element_id = $this->element_data['element_id'];
