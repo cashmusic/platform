@@ -30,7 +30,6 @@ class ElementState implements StatesInterface
     public function __construct($element_data, $session_id)
     {
         $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
-
         $this->element_data = $element_data;
 
         $this->session = new CASHRequest(null);
@@ -41,6 +40,8 @@ class ElementState implements StatesInterface
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
         }
+
+        CASHSystem::errorLog($this->element_data['subscriber_id']);
 
         if (!$this->element_data['email_address'] = $this->session->sessionGet("email_address")) {
             $this->element_data['email_address'] = false;
