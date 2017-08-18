@@ -1,4 +1,10 @@
-<h2>Logging you out!</h2>
-<script>
-    window.locaton = '{{public_url}}';
+<h2 style="text-align: center;">Logging you out!</h2>
+<script type="text/javascript">
+
+    var cm = window.cashmusic;
+
+    cm.events.add(cm,'ready', function(e) {
+        window.locaton = '{{public_url}}';
+    });
+
 </script>
