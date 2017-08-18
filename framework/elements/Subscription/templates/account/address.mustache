@@ -11,6 +11,7 @@
         {{customer_city}}, {{customer_region}} {{customer_postalcode}} {{customer_countrycode}}
     </p>
     <form class="cm-userinput getshippingaddress noshipping" _lpchecked="1">
+        <input type="hidden" name="action" value="true">
         <input type="text" placeholder="Ship to name" name="name" id="cm-userinput-getshippingaddress-name" data-required="1" value="{{customer_shipping_name}}">
         <input type="text" placeholder="Shipping address 1" name="address1" id="cm-userinput-getshippingaddress-address1" data-required="1" value="{{customer_address1}}">
         <input type="text" placeholder="Shipping address 2" name="address2" id="cm-userinput-getshippingaddress-address2" value="{{customer_address2}}">
