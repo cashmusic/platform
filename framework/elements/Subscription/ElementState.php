@@ -590,7 +590,8 @@ class ElementState implements StatesInterface
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptiondetails',
-                'id' => $this->session->sessionGet('subscription_id')
+                'id' => $this->session->sessionGet('user_id'),
+                'user_id'=>true
             )
         );
 
