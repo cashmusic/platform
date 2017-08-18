@@ -65,11 +65,19 @@
         cm.session.start();
 
         var feed = document.querySelector('.cm-feed');
+        var logout = document.querySelector('.cm-account-settings');
 
         if (feed) {
             cm.events.add(feed, 'click', function (e) {
                 e.preventDefault();
                 cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+            });
+        }
+
+        if (logout) {
+            cm.events.add(logout, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logout"});
             });
         }
 
