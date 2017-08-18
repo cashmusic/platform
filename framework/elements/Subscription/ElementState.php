@@ -24,9 +24,6 @@ class ElementState implements StatesInterface
      *
      * @param $element_data
      * @param $session_id
-     * @param $element_id
-     * @param $plan_id
-     * @param $email_address
      */
     public function __construct($element_data, $session_id)
     {
@@ -34,11 +31,10 @@ class ElementState implements StatesInterface
 
         $this->element_data = $element_data;
 
-        if (!empty($session_id)) {
-            $this->session = new CASHRequest(null);
-            $this->session->startSession($session_id);
-        }
+        $this->session = new CASHRequest(null);
+        $this->session->startSession($session_id);
 
+        CASHSystem::errorLog("State session id " . $this->session->session_id);
         if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscriber_id'] = false;
         }

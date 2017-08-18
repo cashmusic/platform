@@ -16,6 +16,8 @@ class Subscription extends ElementBase {
             $this->element_data,
             $this->session_id
         );
+        
+        CASHSystem::errorLog("original session id " . $this->session_id);
 
         $state->router(function ($template, $values) {
             $this->setTemplate($template);
