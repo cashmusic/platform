@@ -142,7 +142,7 @@ trait Subscriptions {
         // we can handle this as id or by customer payment token
         if (is_numeric($id)) {
             if ($user_id) {
-                $member = $this->orm->find(CommerceSubscriptionMember::class, ['user_id'=>$id] );
+                $member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$id] );
             } else {
                 $member = $this->orm->find(CommerceSubscriptionMember::class, $id );
             }
