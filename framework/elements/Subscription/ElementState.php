@@ -135,6 +135,10 @@ class ElementState implements StatesInterface
                     $result = $this->stateLogin();
                     break;
 
+                case "logout":
+                    $result = $this->stateLogout();
+                    break;
+
                 case "success":
                     $result = $this->stateSuccess();
                 break;
@@ -193,9 +197,7 @@ class ElementState implements StatesInterface
 
     private function stateSuccess() {
 
-
-        $this->session->sessionClear("subscription_id");
-        $this->session->sessionClear('logged_in');
+        $this->revokeLoginState();
 
         return [
             'template' => 'success',
@@ -441,6 +443,16 @@ class ElementState implements StatesInterface
         ];
     }
 
+    private function stateLogout() {
+
+        $this->revokeLoginState();
+
+        return [
+            'template' => 'logout',
+            'data' => ['logout'=>true]
+        ];
+    }
+
     /**
      * Helper function to set session vars for logins
      */
@@ -524,6 +536,12 @@ class ElementState implements StatesInterface
         }
 
         return true;
+    }
+
+    private function revokeLoginState()
+    {
+        $this->session->sessionClear("subscription_id");
+        $this->session->sessionClear('logged_in');
     }
 
 }
