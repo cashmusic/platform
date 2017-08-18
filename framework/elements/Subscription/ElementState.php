@@ -506,6 +506,8 @@ class ElementState implements StatesInterface
                     )
                 );
 
+                CASHSystem::errorLog($user_request->response);
+
                 $data['email_address'] = $email;
                 $this->session->sessionSet("email_address", $email);
 
