@@ -104,8 +104,6 @@ class ElementState implements StatesInterface
             if ($session_user_id = $this->session->sessionGet("subscription_id")) $this->user_id = $session_user_id;
         }
 
-        CASHSystem::errorLog($this->user_id);
-
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
         $this->element_user_id = $this->element_data['user_id'];
@@ -585,6 +583,9 @@ class ElementState implements StatesInterface
      */
     private function getSubscriberDetails()
     {
+        CASHSystem::errorLog($this->session_id);
+        CASHSystem::errorLog($this->session->getAllSessionData());
+
         $address_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
