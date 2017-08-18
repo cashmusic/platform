@@ -405,6 +405,8 @@ class ElementState implements StatesInterface
                     $address = $subscriber_details->data['shipping_info'];
                 }
             }
+        } else {
+            CASHSystem::errorLog($_REQUEST);
         }
 
         return [
