@@ -209,6 +209,7 @@ class ElementState implements StatesInterface
 
         $data = [];
         $subscriber_id = $this->session->sessionGet('subscription_id');
+        $data['email'] = $this->session->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
                 'cash_request_type' => 'people',
