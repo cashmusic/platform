@@ -208,12 +208,12 @@ class ElementState implements StatesInterface
     private function stateVerified() {
 
         $data = [];
-
+        $subscriber_id = $this->session->sessionGet('subscription_id');
         $user_request = new CASHRequest(
             array(
                 'cash_request_type' => 'people',
                 'cash_action' => 'getuser',
-                'user_id' => $this->user_id
+                'user_id' => $subscriber_id
             )
         );
 
