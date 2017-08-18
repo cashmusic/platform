@@ -140,10 +140,12 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getMarkup() {
-		if ($this->template == 'default') {
-			$this->element_data['template'] = $this->getTemplate('default');
-		}
 		$this->getData(); // call getData() first as it not only sets data but the correct template
+
+        if ($this->template == 'default') {
+            $this->element_data['template'] = $this->getTemplate('default');
+        }
+
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}
@@ -155,9 +157,10 @@ abstract class ElementBase extends CASHData {
 		$this->element_data['template'] = $this->getTemplate($template_name);
 	}
 
-	public function getTemplate() {
-		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template  . '.mustache')) {
-			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template . '.mustache');
+	public function getTemplate($template_name) {
+		$template = CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $template_name  . '.mustache';
+		if (file_exists($template)) {
+			return CASHSystem::getFileContents($template, true);
 		} else {
 			return false;
 		}

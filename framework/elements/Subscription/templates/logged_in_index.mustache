@@ -31,12 +31,13 @@
 </style>
 
 <div class="cm-sub-logo"></div>
-<div class="account-settings">
-    <a href="#" class="feed-button">Logout</a>
-    <a href="#" class="feed-button">Account Settings</a>
 
-</div>
 <div id="cm-subscription-feed">
+    <div class="account-settings">
+        <a href="#" class="feed-button cm-logout">Logout</a>
+        <a href="#" class="feed-button cm-account-settings">Account Settings</a>
+
+    </div>
 {{#firstuse}} 
 <h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
 <div class="cm-verify">{{{message_verify}}}</div>
@@ -70,8 +71,6 @@
 
 </div><!--cm-subscription-feed-->
 
-
-{{#firstuse}}
 <script type="text/javascript">
 
 var cm = window.cashmusic;
@@ -80,6 +79,24 @@ cm.events.add(cm,'ready', function(e) {
 
     cm.session.start();
 
+    var account_settings = document.querySelector('.cm-account-settings');
+    var logout = document.querySelector('.cm-logout');
+
+    if (account_settings) {
+        cm.events.add(account_settings, 'click', function (e) {
+            e.preventDefault();
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_settings"});
+        });
+    }
+
+    if (logout) {
+        cm.events.add(logout, 'click', function (e) {
+            e.preventDefault();
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logout"});
+        });
+    }
+
+    {{#firstuse}}
     cm.loadScript(cm.path + '/share/share-buttons.js', function () {
         cm.shareButtons.buildButtons(
             ".test-buttons",
@@ -93,7 +110,7 @@ cm.events.add(cm,'ready', function(e) {
             }
         );
     });
+    {{/firstuse}}
 });
 
 </script>
-{{/firstuse}}

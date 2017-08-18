@@ -12,6 +12,7 @@ use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Elements\Interfaces\StatesInterface;
 use CASHMusic\Plants\Commerce\CommercePlant;
+use CASHMusic\Elements\Subscription\ElementData;
 
 class ElementState implements StatesInterface
 {
@@ -23,23 +24,75 @@ class ElementState implements StatesInterface
      *
      * @param $element_data
      * @param $session_id
-     * @param $element_id
-     * @param $plan_id
-     * @param $email_address
      */
-    public function __construct($element_data, $plan_id, $session_id)
+    public function __construct($element_data, $session_id)
     {
         $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
 
         $this->element_data = $element_data;
 
-        if (!empty($session_id)) {
-            $this->session = new CASHRequest(null);
-            $this->session->startSession($session_id);
-        }
-    CASHSystem::errorLog("state ".$session_id);
+        $this->session = new CASHRequest(null);
+        $this->session->startSession($session_id);
+
         $this->session_id = $session_id;
 
+        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
+            $this->element_data['subscriber_id'] = false;
+        }
+
+        if (!$this->element_data['email_address'] = $this->session->sessionGet("email_address")) {
+            $this->element_data['email_address'] = false;
+        }
+
+        if (!$plan_id = $this->session->sessionGet("plan_id")) {
+            $plan_id = false;
+        }
+
+        $this->element_data['logged_in'] = false;
+
+        $authenticated = false;
+
+        // get plan data based on plan ids. works for multiples
+        $plans = [];
+
+        $subscription_data = new ElementData($this->element_data['user_id']);
+
+        foreach ($this->element_data['plans'] as $plan) {
+            $plans[] = $subscription_data->getPlan($plan['plan_id']);
+        }
+
+        // add plan data to element_data array
+        $this->updateElementData(['all_plans'=>$plans]);
+
+        // get connections and currency
+        $this->updateElementData($subscription_data->getConnections());
+        $this->updateElementData($subscription_data->getCurrency());
+
+        if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
+            //return false; // no valid payment found error
+        }
+
+        if (!empty($this->element_data['subscriber_id'])) {
+            $authenticated = true;
+        }
+        // if we're logged in already, maybe show them a logout button
+        if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->session->sessionGet('logged_in')) {
+            $this->element_data['logged_in'] = true;
+        }
+
+        //TODO: this is also a problem if someone wants one plan to not be flexible price
+        $this->element_data['flexible_price'] = false;
+
+        foreach($this->element_data['all_plans'] as $plan) {
+            if ($plan['flexible_price'] == 1) $this->element_data['flexible_price'] = true;
+        }
+
+        // check if $_REQUEST['key'] is set and do verify-y things
+        $this->updateElementData(
+            $this->processVerificationKey()
+        );
+
+        $this->session_id = $session_id;
         $this->element_id = $this->element_data['element_id'];
 
         $this->user_id = false;
@@ -82,6 +135,10 @@ class ElementState implements StatesInterface
                     $result = $this->stateLogin();
                     break;
 
+                case "logout":
+                    $result = $this->stateLogout();
+                    break;
+
                 case "success":
                     $result = $this->stateSuccess();
                 break;
@@ -102,6 +159,10 @@ class ElementState implements StatesInterface
                     $result = $this->stateLoggedInIndex();
                     break;
 
+                case "account_settings":
+                    $result = $this->stateAccountSettings();
+                    break;
+
                 case "forgot_password":
                     $result = $this->stateForgotPassword();
                     break;
@@ -110,9 +171,13 @@ class ElementState implements StatesInterface
                     $result = $this->stateResetPassword();
                     break;
 
-                default:
-                    $result = ['data'=>['logged_in'=>true]];
+            }
 
+            // merge in all data we have
+            if (!empty($result['data'])) {
+                $result['data'] = array_merge($this->element_data, $result['data']);
+            } else {
+                $result['data'] = $this->element_data;
             }
 
             $callback($result['template'], $result['data']);
@@ -132,9 +197,7 @@ class ElementState implements StatesInterface
 
     private function stateSuccess() {
 
-
-        $this->session->sessionClear("subscription_id");
-        $this->session->sessionClear('logged_in');
+        $this->revokeLoginState();
 
         return [
             'template' => 'success',
@@ -162,8 +225,6 @@ class ElementState implements StatesInterface
                 $data['has_password'] = true;
 
                 $this->setLoginState();
-
-                $this->session->sessionSet("logged_in", true);
             }
         }
 
@@ -205,8 +266,6 @@ class ElementState implements StatesInterface
 
             $this->setLoginState();
             $data['items'] = $this->stateLoggedInIndex(true);
-
-            $this->session->sessionSet("logged_in", true);
 
             $template = 'logged_in_index';
 
@@ -253,8 +312,6 @@ class ElementState implements StatesInterface
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
 
-                $this->session->sessionSet("logged_in", true);
-
                 $template = 'logged_in_index';
             }
 
@@ -271,6 +328,12 @@ class ElementState implements StatesInterface
     }
 
     private function stateLoggedInIndex($pass_data=false) {
+
+        // make sure we're actually logged in
+        if (!$this->checkLoginState()) return [
+            'template' => 'login',
+            'data' => ['logged_in'=>false]
+        ];
 
         $items = [];
 
@@ -298,6 +361,20 @@ class ElementState implements StatesInterface
             ];
         }
 
+    }
+
+    private function stateAccountSettings() {
+
+        // make sure we're actually logged in
+        if (!$this->checkLoginState()) return [
+            'template' => 'login',
+            'data' => ['logged_in'=>false]
+        ];
+
+        return [
+            'template' => 'account_settings',
+            'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
+        ];
     }
 
     private function stateForgotPassword() {
@@ -366,6 +443,16 @@ class ElementState implements StatesInterface
         ];
     }
 
+    private function stateLogout() {
+
+        $this->revokeLoginState();
+
+        return [
+            'template' => 'logout',
+            'data' => ['logout'=>true]
+        ];
+    }
+
     /**
      * Helper function to set session vars for logins
      */
@@ -376,6 +463,85 @@ class ElementState implements StatesInterface
         $this->session->sessionSet("plan_id", $this->plan_id);
         $this->session->sessionSet("subscription_authenticated", true);
 
+        $this->session->sessionSet("logged_in", true);
+
+    }
+
+    public function updateElementData($data) {
+        if (is_array($data) && count($data) > 0) {
+            $this->element_data = array_merge($this->element_data, $data);
+        }
+    }
+
+    private function processVerificationKey() {
+
+        $data = [];
+
+        if (!empty($_REQUEST['key'])) {
+            $validate_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'validateresetflag',
+                    'address' => $_REQUEST['address'],
+                    'key' => $_REQUEST['key']
+                )
+            );
+
+            if ($validate_request->response['payload']) {
+
+                $data['key'] = true;
+                $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
+
+                if (empty($email)) {
+                    $data['error_message'] = "Something went wrong.";
+
+                    return $data;
+                }
+
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuseridforaddress',
+                        'address' => $email
+                    )
+                );
+
+                $data['email_address'] = $email;
+                $this->session->sessionSet("email_address", $email);
+
+                if ($user_request->response['payload']) {
+                    //$data['user_id'] = $user_request->response['payload'];
+                    $data['subscriber_id'] = $user_request->response['payload'];
+                    $this->session->sessionSet("subscription_id", $data['subscriber_id']);
+
+                    //$this->element_data['subscriber_id'] = $user_request->response['payload'];
+                } else {
+                    $data['error_message'] = "We couldn't find your user.";
+                }
+            } else {
+                $data['error_message'] = "Something went wrong.";
+            }
+
+            return $data;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function checkLoginState()
+    {
+        if (!$this->session->sessionGet("logged_in")) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function revokeLoginState()
+    {
+        $this->session->sessionClear("subscription_id");
+        $this->session->sessionClear('logged_in');
     }
 
 }

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ElementAnalyticBasic extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['element_id', 'data', 'total'];
     /**
      * @var integer
      *
@@ -23,7 +23,7 @@ class ElementAnalyticBasic extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="data", type="text", length=65535, nullable=false)
+     * @Column(name="data", type="json_array", length=65535, nullable=false)
      */
     protected $data;
 

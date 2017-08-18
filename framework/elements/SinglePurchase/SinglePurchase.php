@@ -75,8 +75,8 @@ class SinglePurchase extends ElementBase {
 			if ($item['shipping']) {
 				// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
 				if (isset($item['shipping']['r1-1'])) {
-					$this->element_data['region1_cost'] = number_format($item['shipping']['r1-1'], 2);
-					$this->element_data['region2_cost'] = number_format($item['shipping']['r2-1'],2);
+					$this->element_data['region1_cost'] = number_format((float) $item['shipping']['r1-1'], 2);
+					$this->element_data['region2_cost'] = number_format((float) $item['shipping']['r2-1'],2);
 				}
 			}
 			// fallback for error shipping

@@ -902,7 +902,9 @@ class CommercePlant extends PlantBase {
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
                     if (!isset($shipping_info)) $shipping_info = $this->sessionGet('shipping_info');
 
-                    $payment_details = array_merge($payment_details, $shipping_info);
+                    if (is_array($shipping_info)) {
+                        $payment_details = array_merge($payment_details, $shipping_info);
+                    }
 
                     $this->editTransaction(
                         $order_details['transaction_id'], 		// order id
