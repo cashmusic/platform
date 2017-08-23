@@ -63,7 +63,10 @@ class CASHAPI
 
         });*/
 
-        $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($api) {
+        /**
+         * super garbage way of doing legacy /verbose endpoint
+         */
+        $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -74,12 +77,12 @@ class CASHAPI
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
 
-            $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
-            return $response->withStatus(301)->withHeader('Location', $url);
+            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
 
-        })->add(new OptionsMiddleware());
 
-        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/', function ($request, $response, $args) use ($api) {
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+
+        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -90,11 +93,14 @@ class CASHAPI
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
 
-            $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
-            return $response->withStatus(301)->withHeader('Location', $url);
+            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
 
-        })->add(new OptionsMiddleware());
 
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+
+        /**
+         * end garbage
+         */
 
         $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
 
@@ -124,48 +130,7 @@ class CASHAPI
 
         $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
 
-            if ($request->getAttribute('auth_required') === true) {
-                $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
-            }
-
-            if ($route = $request->getAttribute('route_settings')) {
-                $request_params = $request->getQueryParams();
-                if (isset($request_params['p'])) unset($request_params['p']);
-
-                $params = [
-                    'cash_request_type' => $args['plant'],
-                    'cash_action' => $args['noun']
-                ];
-
-                if (isset($args['origin'], $args['type'])) {
-                    $params['origin'] = $args['origin'];
-                    $params['type'] = $args['type'];
-                }
-                $user_id = false;
-                if (isset($serverRequest)) {
-                    $user_id = $serverRequest->getAttribute('oauth_client_id');
-                    if (!empty($user_id)) $params['user_id'] = $user_id;
-                }
-
-                if (is_array($request_params)) $params = array_merge($request_params, $params);
-                $api = true;
-                if ($request->getAttribute('soap') === true) $api = false;
-
-                $cash_request = new CASHRequest(
-                    $params,
-                    'direct',
-                    $user_id,
-                    $api,
-                    $request->getMethod());
-
-                if ($cash_request) {
-                    return $response->withStatus($cash_request->response['status_code'])->withJson(
-                        self::APIResponse($cash_request)
-                    );
-                }
-            }
-
-            return $response->withStatus(404)->withJson(self::APIResponse(false));
+            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer);
 
             // if we get here return 404
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
@@ -235,5 +200,63 @@ class CASHAPI
         );
 
         return array($accessTokenRepository, $server, $resourceServer);
+    }
+
+    /**
+     * @param $request
+     * @param $response
+     * @param $args
+     * @param $resourceServer
+     * @return mixed
+     */
+    public function parseRequestAndResponse($request, $response, $args, $resourceServer, $query=false)
+    {
+        if ($request->getAttribute('auth_required') === true) {
+            $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
+        }
+
+        if ($route = $request->getAttribute('route_settings')) {
+            $request_params = $request->getQueryParams();
+            if (isset($request_params['p'])) unset($request_params['p']);
+
+            $params = [
+                'cash_request_type' => $args['plant'],
+                'cash_action' => $args['noun']
+            ];
+
+            if (isset($args['origin'], $args['type'])) {
+                $params['origin'] = $args['origin'];
+                $params['type'] = $args['type'];
+            }
+
+            if (isset($query) && is_array($query)) {
+                $params = array_merge($params, $query);
+            }
+
+            $user_id = false;
+            if (isset($serverRequest)) {
+                $user_id = $serverRequest->getAttribute('oauth_client_id');
+                if (!empty($user_id)) $params['user_id'] = $user_id;
+            }
+
+            if (is_array($request_params)) $params = array_merge($request_params, $params);
+            $api = true;
+            if ($request->getAttribute('soap') === true) $api = false;
+
+            $cash_request = new CASHRequest(
+                $params,
+                'direct',
+                $user_id,
+                $api,
+                $request->getMethod());
+
+            if ($cash_request) {
+                return $response->withStatus($cash_request->response['status_code'])->withJson(
+                    self::APIResponse($cash_request)
+                );
+            }
+        }
+
+        return $response->withStatus(404)->withJson(self::APIResponse(false));
     }
 }
