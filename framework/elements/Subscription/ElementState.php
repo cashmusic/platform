@@ -93,7 +93,7 @@ class ElementState implements StatesInterface
             $this->processVerificationKey()
         );
 
-        CASHSystem::errorLog(($_REQUEST);
+        CASHSystem::errorLog($_REQUEST);
 
         $this->session_id = $session_id;
         $this->element_id = $this->element_data['element_id'];
