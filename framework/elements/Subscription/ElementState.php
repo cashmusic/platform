@@ -626,13 +626,13 @@ class ElementState implements StatesInterface
                     array(
                         'cash_request_type' => 'commerce',
                         'cash_action' => 'updatesubscriptionaddress',
-                        'subscriber_id' => $this->element_data['subscriber_id'],
+                        'subscriber_id' => $this->session->sessionGet('user_id'),
                         'address' => $address
                     )
                 );
 
                 $this->element_data['submit_result'] = "failed";
-                CASHSystem::errorLog($this->session->getAllSessionData());
+                CASHSystem::errorLog($this->session->sessionGet('user_id'));
                 CASHSystem::errorLog($address_request->response);
                 if ($address_request->response['payload']) {
                     $this->element_data['submit_result'] = "success";
