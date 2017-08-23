@@ -1428,7 +1428,7 @@ class CommercePlant extends PlantBase {
 
     protected function processWebhook($origin,$type=false,$data=false) {
 
-        CASHSystem::errorLog($_REQUEST);
+        CASHSystem::errorLog(file_get_contents("php://input"));
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
             CASHSystem::errorLog("success");
