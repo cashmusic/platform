@@ -632,6 +632,7 @@ class ElementState implements StatesInterface
                 );
 
                 $this->element_data['submit_result'] = "failed";
+                CASHSystem::errorLog($this->element_data['subscriber_id']);
                 CASHSystem::errorLog($address_request->response);
                 if ($address_request->response['payload']) {
                     $this->element_data['submit_result'] = "success";
