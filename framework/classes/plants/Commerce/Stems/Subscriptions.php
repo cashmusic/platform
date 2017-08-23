@@ -721,13 +721,17 @@ trait Subscriptions {
 
     }
 
-    public function updateSubscriptionAddress($subscriber_id) {
+    public function updateSubscriptionAddress($subscriber_id, $address) {
         if ($member = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_id)) {
-            CASHSystem::errorLog($_REQUEST);
-            CASHSystem::errorLog($member->data);
-            /*if ($member->update($values)) {
+
+            if (isset($member->data) && is_array($member->data)) {
+                $member->data['shipping_info'] = $address;
+                $member->save();
+
                 return true;
-            }*/
+            }
+
+            return false;
         }
     }
 }

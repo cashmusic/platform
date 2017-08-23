@@ -93,7 +93,9 @@ class ElementState implements StatesInterface
             $this->processVerificationKey()
         );
 
-        CASHSystem::errorLog($_REQUEST);
+        // form submission handling.
+        $this->checkRequestForFormSubmission();
+
 
         $this->session_id = $session_id;
         $this->element_id = $this->element_data['element_id'];
@@ -604,6 +606,40 @@ class ElementState implements StatesInterface
 
         return false;
 
+    }
+
+    public function checkRequestForFormSubmission() {
+        if (isset($_REQUEST['action'])) {
+            if ($_REQUEST['action'] == "update_address") {
+
+                $address = [
+                    'customer_shipping_name' => trim($_REQUEST['name']),
+                    'customer_address1' => trim($_REQUEST['address1']),
+                    'customer_address2' => trim($_REQUEST['address2']),
+                    'customer_city' => trim($_REQUEST['city']),
+                    'customer_region' => trim($_REQUEST['region']),
+                    'customer_postalcode' => trim($_REQUEST['postalcode']),
+                    'customer_countrycode' => trim($_REQUEST['country'])
+                ];
+
+                $address_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'commerce',
+                        'cash_action' => 'updatesubscriptionaddress',
+                        'subscriber_id' => $this->element_data['subscriber_id'],
+                        'address' => $address
+                    )
+                );
+
+                $this->element_data['submit_result'] = "failed";
+
+                if ($address_request->response['payload']) {
+                    $this->element_data['submit_result'] = "success";
+                }
+
+                $this->state = "account_settings";
+            }
+        }
     }
 
 }
