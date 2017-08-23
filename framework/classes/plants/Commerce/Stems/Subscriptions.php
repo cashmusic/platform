@@ -347,7 +347,7 @@ trait Subscriptions {
 
     }
 
-    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false) {
+    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false, $data=false) {
 
         $values = [];
 
@@ -719,5 +719,15 @@ trait Subscriptions {
             return false;
         }
 
+    }
+
+    public function updateSubscriptionAddress($subscriber_id) {
+        if ($member = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_id)) {
+            CASHSystem::errorLog($_REQUEST);
+            CASHSystem::errorLog($member->data);
+            /*if ($member->update($values)) {
+                return true;
+            }*/
+        }
     }
 }

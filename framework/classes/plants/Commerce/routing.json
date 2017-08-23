@@ -475,6 +475,13 @@
 				"direct"
 			]
 		},
+		"updatesubscriptionaddress": {
+			"description": "Update data field address for subscriber, if exists.",
+			"plantfunction": "updateSubscriptionAddress",
+			"security": [
+				"direct"
+			]
+		},
 		"gettransaction": {
 			"description": "Get a transaction by id.",
 			"plantfunction": "getTransaction",
