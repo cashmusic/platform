@@ -18,7 +18,7 @@ use CASHMusic\Elements\Subscription\ElementData;
 
 class ElementState implements StatesInterface
 {
-    protected $state, $element_data, $element_id, $session, $session_id, $user_id, $plan_id, $email_address, $element_user_id;
+    protected $state, $element_data, $element_id, $session, $session_id, $user_id, $plan_id, $email_address, $element_user_id, $subscriber_id;
 
     /**
      * States constructor. Set the needed values for whatever we're going to do to
@@ -37,7 +37,7 @@ class ElementState implements StatesInterface
 
         $this->session_id = $session_id;
 
-        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
+        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscriber_id")) {
             $this->element_data['subscriber_id'] = false;
         }
 
@@ -217,7 +217,7 @@ class ElementState implements StatesInterface
     private function stateVerified() {
 
         $data = [];
-        $subscriber_id = $this->session->sessionGet('subscription_id');
+        $subscriber_id = $this->session->sessionGet('subscriber_id');
         $data['email'] = $this->session->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
@@ -317,7 +317,7 @@ class ElementState implements StatesInterface
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
-                $this->user_id = $password_request->response['payload'];
+                list($this->user_id, $this->subscriber_id) = $password_request->response['payload'];
 
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
@@ -504,6 +504,7 @@ class ElementState implements StatesInterface
         $this->session->sessionSet("user_id", $this->user_id);
         $this->session->sessionSet("plan_id", $this->plan_id);
         $this->session->sessionSet("subscription_authenticated", true);
+        $this->session->sessionSet('subscriber_id', $this->subscriber_id);
 
         $this->session->sessionSet("logged_in", true);
 
@@ -554,7 +555,7 @@ class ElementState implements StatesInterface
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
                     $data['subscriber_id'] = $user_request->response['payload'];
-                    $this->session->sessionSet("subscription_id", $data['subscriber_id']);
+                    $this->session->sessionSet("subscriber_id", $data['subscriber_id']);
 
                     //$this->element_data['subscriber_id'] = $user_request->response['payload'];
                 } else {
@@ -626,13 +627,13 @@ class ElementState implements StatesInterface
                     array(
                         'cash_request_type' => 'commerce',
                         'cash_action' => 'updatesubscriptionaddress',
-                        'subscriber_id' => $this->session->sessionGet('user_id'),
+                        'subscriber_id' => $this->element_data['subscriber_id'],
                         'address' => $address
                     )
                 );
 
                 $this->element_data['submit_result'] = "failed";
-                CASHSystem::errorLog($this->session->sessionGet('user_id'));
+                CASHSystem::errorLog($this->element_data['subscriber_id']);
                 CASHSystem::errorLog($address_request->response);
                 if ($address_request->response['payload']) {
                     $this->element_data['submit_result'] = "success";

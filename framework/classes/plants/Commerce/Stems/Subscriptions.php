@@ -482,7 +482,7 @@ trait Subscriptions {
             $user_id = $validate_request->response['payload'];
 
             // this is a valid login--- so now the question is, are they an active subscriber?
-            $plan_id = $this->validateSubscription($user_id, $plans);
+            list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
 
             if ($plan_id) {
 
@@ -491,8 +491,9 @@ trait Subscriptions {
                 $session->sessionSet("user_id", $user_id);
                 $session->sessionSet("plan_id", $plan_id);
                 $session->sessionSet("subscription_authenticated", true);
+                $session->sessionSet('subscriber_id', $subscriber_id);
 
-                return $user_id;
+                return ['user_id'=>$user_id, 'subscriber_id'=>$subscriber_id];
             } else {
                 return "401";
             }
@@ -507,13 +508,13 @@ trait Subscriptions {
      * Simple lookup to check if a user is an active subscriber
      * @param $user_id
      * @param $plan_id
-     * @return bool
+     * @return array|boolean
      */
     public function validateSubscription($user_id, $plans) {
 
         if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans])) {
             if (in_array($member->status, ['active', 'comped'])) {
-                return $member->subscription_id;
+                return ['plan_id'=>$member->subscription_id, 'subscriber_id'=>$member->id];
             }
         }
 
