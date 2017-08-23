@@ -57,6 +57,8 @@ class CASHAPI
                 $query_string[$args['arg1']] = $args['arg1_val'];
             }
 
+            CASHSystem::errorLog($query_string);
+
             if (isset($args['arg2'])) {
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
