@@ -1430,6 +1430,7 @@ class CommercePlant extends PlantBase {
 
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
+            CASHSystem::errorLog("success");
             $event = json_decode($input);
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
@@ -1465,17 +1466,19 @@ class CommercePlant extends PlantBase {
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
 
-            $user_id = $plan[0]['user_id'];
+            $user_id = $plan->user_id;
 
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
+
+            if (!is_cash_model($customer)) return false; // this is not an existing customer
 
             // get customer email
             $user_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'people',
                     'cash_action' => 'getuser',
-                    'user_id' => $customer[0]['user_id']
+                    'user_id' => $customer->user_id
                 )
             );
 
@@ -1484,7 +1487,7 @@ class CommercePlant extends PlantBase {
             }
 
             if ($event->type == "invoice.payment_succeeded") {
-                $paid_to_date = ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount));
+                $paid_to_date = ((integer) $customer->total_paid_to_date + (integer) $this->centsToDollar($plan_amount));
                 $payment_status = "success";
                 $status = "active";
             } else {
@@ -1498,7 +1501,7 @@ class CommercePlant extends PlantBase {
                         $payment_status = "expired";
 
                         // send email
-                        if (!empty($email_address) && !in_array($customer[0]['status'], ['canceled', 'comped', 'failed'])) {
+                        if (!empty($email_address) && !in_array($customer->status, ['canceled', 'comped', 'failed'])) {
                             if (!CASHSystem::sendEmail(
                                 'Your CASH Music Family subscription has lapsed.',
                                 $user_id,
@@ -1517,7 +1520,7 @@ class CommercePlant extends PlantBase {
                 $status = $payment_status;
             }
 
-            if (!is_array($customer)) return false;
+            if (!is_cash_model($customer)) return false;
 
             // we need to make sure this is a real event
             // for now let's just add stripe
@@ -1539,17 +1542,18 @@ class CommercePlant extends PlantBase {
                 $payment_status,
                 'usd',
                 'sub',
-                $customer[0]['id']
+                $customer->id
             );
 
             // mark subscription member as active
             $this->updateSubscription(
-                $customer[0]['id'],
+                $customer->id,
                 $status,
                 $paid_to_date
             );
 
         } else {
+            CASHSystem::errorLog("failed");
             return false;
         }
 
