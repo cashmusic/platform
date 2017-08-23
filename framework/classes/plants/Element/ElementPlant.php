@@ -484,8 +484,12 @@ class ElementPlant extends PlantBase {
 				if (!$donottrack) {
 					$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
 				}
-				CASHSystem::errorLog("do we even make it here");
-				$markup = $element_object->getMarkup();
+
+				try {
+                    $markup = $element_object->getMarkup();
+				} catch (Exception $e) {
+					CASHSystem::errorLog($e->getMessage());
+				}
 
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;
