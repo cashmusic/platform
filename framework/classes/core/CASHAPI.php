@@ -45,18 +45,9 @@ class CASHAPI
             'addContentLengthHeader' => false,
         ]]);
 
-        $api->options('/{routes:.+}', function ($request, $response, $args) {
+/*        $api->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
-        });
-
-        $api->add(function ($req, $res, $next) {
-            $response = $next($req, $res);
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        });
-
+        });*/
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
 
@@ -148,6 +139,12 @@ class CASHAPI
             return $response->withStatus(404)->withJson(self::APIResponse(false));
 
             // if we get here return 404
+        })->add(function ($req, $res, $next) {
+            $response = $next($req, $res);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         })->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
         $api->run();

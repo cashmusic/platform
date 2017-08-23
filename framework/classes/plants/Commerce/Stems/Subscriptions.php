@@ -743,14 +743,10 @@ trait Subscriptions {
     public function getSubscriberPaymentDetails($user_id, $subscriber_id) {
 
         if($payment_seed = $this->getPaymentSeed($user_id)) {
-            CASHSystem::errorLog("payment seed");
             if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
-                CASHSystem::errorLog("subscriber");
                 $payment_details = $payment_seed->getSubscription($subscriber_id);
 
                 if ($payment_details) {
-                    CASHSystem::errorLog("payment details");
-                    CASHSystem::errorLog($payment_details);
                     return $payment_details;
                 }
 
