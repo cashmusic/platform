@@ -155,9 +155,9 @@ class CASHAPI
             // if we get here return 404
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
-        $api->options('/{routes:.+}', function ($request, $response, $args) {
+        /*$api->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
-        });
+        });*/
 
         $api->run();
     }
