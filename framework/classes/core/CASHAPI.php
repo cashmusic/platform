@@ -12,6 +12,7 @@ use CASHMusic\Core\API\AccessTokenRepository;
 use CASHMusic\Core\API\AuthCodeRepository;
 use CASHMusic\Core\API\AuthMiddleware;
 use CASHMusic\Core\API\ClientRepository;
+use CASHMusic\Core\API\OptionsMiddleware;
 use CASHMusic\Core\API\RefreshTokenRepository;
 use CASHMusic\Core\API\RoutingMiddleware;
 use CASHMusic\Core\API\ScopeRepository;
@@ -77,7 +78,7 @@ class CASHAPI
             $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
             return $response->withStatus(301)->withHeader('Location', $url);
 
-        });
+        })->add(new OptionsMiddleware());
 
 
         $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
@@ -152,13 +153,7 @@ class CASHAPI
             return $response->withStatus(404)->withJson(self::APIResponse(false));
 
             // if we get here return 404
-        })->add(function ($req, $res, $next) {
-            $response = $next($req, $res);
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        })->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
         $api->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
