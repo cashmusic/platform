@@ -1,7 +1,7 @@
 {{> account/partials/setting_header }}
 
 <h2>Shipping Address</h2>
-<form method="post" class="cm-userinput getshippingaddress noshipping cash_form {{element_type}}" action="">
+<form method="post" class="cm-userinput noshipping cash_form {{element_type}}" action="">
 
     <input type="hidden" name="cash_request_type" value="commerce" />
     <input type="hidden" name="cash_action" value="updatesubscriptionaddress" />
@@ -20,7 +20,7 @@
 
 
 
-        <input type="hidden" name="action" value="true">
+        <input type="hidden" name="action" value="update_address">
         <input type="hidden" name="state" value="account_address">
         <input type="text" placeholder="Ship to name" name="name" id="cm-userinput-getshippingaddress-name" data-required="1" value="{{customer_shipping_name}}">
         <input type="text" placeholder="Shipping address 1" name="address1" id="cm-userinput-getshippingaddress-address1" data-required="1" value="{{customer_address1}}">
