@@ -152,8 +152,6 @@ abstract class ElementBase extends CASHData {
 			$this->element_data['error_message'] = $this->error;
 		}
 
-		CASHSystem::errorLog($this->element_data['template']);
-
 		return $this->mustache->render($this->element_data['template'],$this->element_data);
 	}
 
@@ -165,7 +163,7 @@ abstract class ElementBase extends CASHData {
 	public function getTemplate($template_name) {
 
         $template = 'elements/' . $this->extending_class . '/templates/' . $template_name;
-
+		CASHSystem::errorLog(CASH_PLATFORM_ROOT . '/' . $template);
         if (file_exists(CASH_PLATFORM_ROOT . '/' . $template)) {
             return $template;
         }
