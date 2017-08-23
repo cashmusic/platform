@@ -485,11 +485,9 @@ class ElementPlant extends PlantBase {
 					$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
 				}
 
-				try {
-                    $markup = $element_object->getMarkup();
-				} catch (Exception $e) {
-					CASHSystem::errorLog($e->getMessage());
-				}
+                $markup = $element_object->getMarkup();
+
+				CASHSystem::errorLog($markup);
 
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;
