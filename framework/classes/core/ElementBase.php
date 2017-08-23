@@ -162,10 +162,15 @@ abstract class ElementBase extends CASHData {
 
 	public function getTemplate($template_name) {
 
-        $template = 'elements/' . $this->extending_class . '/templates/' . $template_name;
+		$dir = 'elements/' . $this->extending_class . '/templates/';
+         $template = $dir . $template_name;
+
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/'.$dir)
+        ));
 
         if (file_exists(CASH_PLATFORM_ROOT . '/' . $template . ".mustache")) {
-            return $template;
+            return $template_name;
         }
 
         return false;
