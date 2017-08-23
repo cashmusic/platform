@@ -514,13 +514,11 @@ trait Subscriptions {
 
         if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans])) {
             if (in_array($member->status, ['active', 'comped'])) {
-                return ['plan_id'=>$member->subscription_id, 'subscriber_id'=>$member->id];
+                return [$member->subscription_id, $member->id];
             }
         }
 
-        CASHSystem::errorLog($member);
-
-        return false;
+        return [false, false];
     }
 
     public function getSubscriptionStats($plan_id, $subscriber_id=false) {
