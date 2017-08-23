@@ -146,7 +146,7 @@ class CASHAPI
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         })*/->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
-        CASHSystem::errorLog($api->getContainer()->get('router')->getRoutes());
+        CASHSystem::errorLog(get_class_methods($api->getContainer()->get('router')->getRoutes()));
         $api->run();
     }
 
