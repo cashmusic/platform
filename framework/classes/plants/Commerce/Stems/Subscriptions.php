@@ -726,7 +726,6 @@ trait Subscriptions {
         if ($member = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_id)) {
 
             if (isset($member->data) && is_array($member->data)) {
-                CASHSystem::errorLog("it checks out");
 
                 $data = $member->data;
 
