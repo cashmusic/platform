@@ -410,7 +410,7 @@ class ElementState implements StatesInterface
         }
 
         return [
-            'template' => ['account/partials/setting_header', 'account/address'],
+            'template' => 'account/address',
             'data' => ['address'=>$address, 'logged_in'=>true, 'session_id'=>$this->session_id]
         ];
     }

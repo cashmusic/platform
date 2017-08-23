@@ -487,8 +487,6 @@ class ElementPlant extends PlantBase {
 
                 $markup = $element_object->getMarkup();
 
-				CASHSystem::errorLog($markup);
-
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;
 			}
@@ -505,7 +503,6 @@ class ElementPlant extends PlantBase {
             'options' => $options_data,
             'user_id' => $user_id
         ])) {
-			CASHSystem::errorLog($result->toArray());
 			return $result->id;
 		}
 
