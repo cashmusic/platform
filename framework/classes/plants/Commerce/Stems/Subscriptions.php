@@ -726,7 +726,11 @@ trait Subscriptions {
 
             if (isset($member->data) && is_array($member->data)) {
                 CASHSystem::errorLog("it checks out");
-                $member->data['shipping_info'] = $address;
+
+                $data = $member->data;
+
+                $data['shipping_info'] = $address;
+                $member->data = $data;
                 $member->save();
 
                 return true;
