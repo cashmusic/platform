@@ -77,7 +77,7 @@ class CASHAPI
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
 
-            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
 
 
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
@@ -93,7 +93,7 @@ class CASHAPI
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
 
-            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
 
 
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
@@ -130,7 +130,7 @@ class CASHAPI
 
         $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
 
-            return $this->parseRequestAndResponse($request, $response, $args, $resourceServer);
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer);
 
             // if we get here return 404
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
@@ -209,7 +209,7 @@ class CASHAPI
      * @param $resourceServer
      * @return mixed
      */
-    public function parseRequestAndResponse($request, $response, $args, $resourceServer, $query=false)
+    public static function parseRequestAndResponse($request, $response, $args, $resourceServer, $query=false)
     {
         if ($request->getAttribute('auth_required') === true) {
             $serverRequest = $resourceServer->validateAuthenticatedRequest($request);
