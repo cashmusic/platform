@@ -493,7 +493,7 @@ trait Subscriptions {
                 $session->sessionSet("subscription_authenticated", true);
                 $session->sessionSet('subscriber_id', $subscriber_id);
 
-                return ['user_id'=>$user_id, 'subscriber_id'=>$subscriber_id];
+                return [$user_id, $subscriber_id];
             } else {
                 return "401";
             }
