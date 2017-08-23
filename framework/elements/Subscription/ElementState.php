@@ -602,6 +602,22 @@ class ElementState implements StatesInterface
         );
 
         if ($address_request->response['payload'] !== false) {
+
+            if (!$subscriber_id = $this->element_data['subscriber_id']) {
+                $subscriber_id = $this->session->sessionGet('subscriber_id');
+            }
+
+            $payment_details_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'commerce',
+                    'cash_action' => 'getsubscriberpaymentdetails',
+                    'subscriber_id' => $subscriber_id,
+                    'user_id'=>$this->element_user_id
+                )
+            );
+
+            CASHSystem::errorLog($payment_details_request->response);
+
             return $address_request->response['payload'];
         }
 

@@ -527,6 +527,13 @@
 				"direct"
 			]
 		},
+		"getsubscriberpaymentdetails": {
+			"description": "Get subscriber's payment details.",
+			"plantfunction": "getSubscriberPaymentDetails",
+			"security": [
+				"direct"
+			]
+		},
 		"processwebhook": {
 			"description": "Process webhooks for various seed services.",
 			"plantfunction": "processWebhook",
