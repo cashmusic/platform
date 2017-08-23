@@ -417,16 +417,12 @@ class SystemPlant extends PlantBase {
 			}
 		}
 
-
-    CASHSystem::errorLog($user_id);
-		CASHSystem::errorLog(debug_backtrace(false, 5));
 		if (count($credentials)) {
 
             // reset the data field for subscriptions
             $credentials['data'] = "{}";
 
             if ($user = $this->orm->find(People::class, $user_id)) {
-            	CASHSystem::errorLog($user);
                 $user->update($credentials);
                 return $user->id;
             }

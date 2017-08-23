@@ -45,21 +45,29 @@ class CASHAPI
             'addContentLengthHeader' => false,
         ]]);
 
-        $api->options('/{routes:.+}', function ($request, $response, $args) {
+/*        $api->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
-        });
+        });*/
 
-        $api->add(function ($req, $res, $next) {
-            $response = $next($req, $res);
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        });
+        $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($api) {
+            CASHSystem::errorLog("hey");
+            $query_string = $request->getQueryParams();
 
+            if (isset($args['arg1'])) {
+                $query_string[$args['arg1']] = $args['arg1_val'];
+            }
+
+            if (isset($args['arg2'])) {
+                $query_string[$args['arg2']] = $args['arg2_val'];
+            }
+
+            $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
+            return $response->withStatus(301)->withHeader('Location', $url);
+
+        });
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
-
+            CASHSystem::errorLog("hey");
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -148,7 +156,13 @@ class CASHAPI
             return $response->withStatus(404)->withJson(self::APIResponse(false));
 
             // if we get here return 404
-        })->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+        })/*->add(function ($req, $res, $next) {
+            $response = $next($req, $res);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        })*/->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
         $api->run();
     }

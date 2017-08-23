@@ -10,13 +10,15 @@ namespace CASHMusic\Elements\subscription;
 
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\ElementBase;
 use CASHMusic\Elements\Interfaces\StatesInterface;
+use CASHMusic\Entities\EntityBase;
 use CASHMusic\Plants\Commerce\CommercePlant;
 use CASHMusic\Elements\Subscription\ElementData;
 
 class ElementState implements StatesInterface
 {
-    protected $state, $element_data, $element_id, $session, $session_id, $user_id, $plan_id, $email_address, $element_user_id;
+    protected $state, $element_data, $element_id, $session, $session_id, $user_id, $plan_id, $email_address, $element_user_id, $subscriber_id;
 
     /**
      * States constructor. Set the needed values for whatever we're going to do to
@@ -28,16 +30,14 @@ class ElementState implements StatesInterface
     public function __construct($element_data, $session_id)
     {
         $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
-
         $this->element_data = $element_data;
 
         $this->session = new CASHRequest(null);
         $this->session->startSession($session_id);
 
         $this->session_id = $session_id;
-        CASHSystem::errorLog($session_id);
 
-        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscription_id")) {
+        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscriber_id")) {
             $this->element_data['subscriber_id'] = false;
         }
 
@@ -92,6 +92,10 @@ class ElementState implements StatesInterface
         $this->updateElementData(
             $this->processVerificationKey()
         );
+
+        // form submission handling.
+        $this->checkRequestForFormSubmission();
+
 
         $this->session_id = $session_id;
         $this->element_id = $this->element_data['element_id'];
@@ -164,6 +168,10 @@ class ElementState implements StatesInterface
                     $result = $this->stateAccountSettings();
                     break;
 
+                case "account_address":
+                    $result = $this->stateEditAddress();
+                    break;
+
                 case "forgot_password":
                     $result = $this->stateForgotPassword();
                     break;
@@ -209,7 +217,7 @@ class ElementState implements StatesInterface
     private function stateVerified() {
 
         $data = [];
-        $subscriber_id = $this->session->sessionGet('subscription_id');
+        $subscriber_id = $this->session->sessionGet('subscriber_id');
         $data['email'] = $this->session->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
@@ -218,10 +226,6 @@ class ElementState implements StatesInterface
                 'user_id' => $subscriber_id
             )
         );
-
-        CASHSystem::errorLog($subscriber_id);
-        CASHSystem::errorLog($data['email']);
-        CASHSystem::errorLog($user_request->response);
 
         if ($user_request->response['payload']) {
 
@@ -313,7 +317,7 @@ class ElementState implements StatesInterface
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
-                $this->user_id = $password_request->response['payload'];
+                list($this->user_id, $this->subscriber_id) = $password_request->response['payload'];
 
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
@@ -377,9 +381,41 @@ class ElementState implements StatesInterface
             'data' => ['logged_in'=>false]
         ];
 
+        $address = false;
+
+        $subscriber_details = $this->getSubscriberDetails();
+
+        if (is_cash_model($subscriber_details)) {
+            if (isset($subscriber_details->data['shipping_info'])) {
+                $address = $subscriber_details->data['shipping_info'];
+            }
+        }
+
         return [
-            'template' => 'account_settings',
-            'data' => ['logged_in'=>true, 'session_id'=>$this->session_id]
+            'template' => 'account/main',
+            'data' => compact('address')
+        ];
+    }
+
+    private function stateEditAddress() {
+
+        $address = false;
+
+        if (!isset($_REQUEST['action'])) {
+            $subscriber_details = $this->getSubscriberDetails();
+
+            if (is_cash_model($subscriber_details)) {
+                if (isset($subscriber_details->data['shipping_info'])) {
+                    $address = $subscriber_details->data['shipping_info'];
+                }
+            }
+        } else {
+            CASHSystem::errorLog($_REQUEST);
+        }
+
+        return [
+            'template' => 'account/address',
+            'data' => ['address'=>$address, 'logged_in'=>true, 'session_id'=>$this->session_id]
         ];
     }
 
@@ -468,6 +504,7 @@ class ElementState implements StatesInterface
         $this->session->sessionSet("user_id", $this->user_id);
         $this->session->sessionSet("plan_id", $this->plan_id);
         $this->session->sessionSet("subscription_authenticated", true);
+        $this->session->sessionSet('subscriber_id', $this->subscriber_id);
 
         $this->session->sessionSet("logged_in", true);
 
@@ -512,15 +549,13 @@ class ElementState implements StatesInterface
                     )
                 );
 
-                CASHSystem::errorLog($user_request->response);
-
                 $data['email_address'] = $email;
                 $this->session->sessionSet("email_address", $email);
 
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
                     $data['subscriber_id'] = $user_request->response['payload'];
-                    $this->session->sessionSet("subscription_id", $data['subscriber_id']);
+                    $this->session->sessionSet("subscriber_id", $data['subscriber_id']);
 
                     //$this->element_data['subscriber_id'] = $user_request->response['payload'];
                 } else {
@@ -550,6 +585,82 @@ class ElementState implements StatesInterface
     {
         $this->session->sessionClear("subscription_id");
         $this->session->sessionClear('logged_in');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getSubscriberDetails()
+    {
+        $address_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptiondetails',
+                'id' => $this->session->sessionGet('user_id'),
+                'user_id'=>true
+            )
+        );
+
+        if ($address_request->response['payload'] !== false) {
+
+            if (!$subscriber_id = $this->element_data['subscriber_id']) {
+                $subscriber_id = $this->session->sessionGet('subscriber_id');
+            }
+
+            $payment_details_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'commerce',
+                    'cash_action' => 'getsubscriberpaymentdetails',
+                    'subscriber_id' => $subscriber_id,
+                    'user_id'=>$this->element_user_id
+                )
+            );
+
+            CASHSystem::errorLog($payment_details_request->response);
+
+            return $address_request->response['payload'];
+        }
+
+        return false;
+
+    }
+
+    public function checkRequestForFormSubmission() {
+        if (isset($_REQUEST['action'])) {
+            if ($_REQUEST['action'] == "update_address") {
+
+                $address = [
+                    'customer_shipping_name' => trim($_REQUEST['name']),
+                    'customer_address1' => trim($_REQUEST['address1']),
+                    'customer_address2' => trim($_REQUEST['address2']),
+                    'customer_city' => trim($_REQUEST['city']),
+                    'customer_region' => trim($_REQUEST['region']),
+                    'customer_postalcode' => trim($_REQUEST['postalcode']),
+                    'customer_countrycode' => trim($_REQUEST['country'])
+                ];
+
+                if (!$subscriber_id = $this->element_data['subscriber_id']) {
+                    $subscriber_id = $_REQUEST['subscriber_id'];
+                }
+
+                $address_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'commerce',
+                        'cash_action' => 'updatesubscriptionaddress',
+                        'subscriber_id' => $subscriber_id,
+                        'address' => $address
+                    )
+                );
+
+                $this->element_data['form_result'] = false;
+
+                if ($address_request->response['payload']) {
+                    $this->element_data['form_result'] = "Your shipping address was updated successfully!";
+                }
+
+                $this->state = "account_settings";
+            }
+        }
     }
 
 }

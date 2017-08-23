@@ -138,10 +138,15 @@ trait Subscriptions {
         return false;
     }
 
-    public function getSubscriptionDetails($id) {
+    public function getSubscriptionDetails($id, $user_id=false) {
         // we can handle this as id or by customer payment token
         if (is_numeric($id)) {
-            $member = $this->orm->find(CommerceSubscriptionMember::class, $id );
+            if ($user_id) {
+                $member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$id] );
+            } else {
+                $member = $this->orm->find(CommerceSubscriptionMember::class, $id );
+            }
+
         } else {
             $member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['payment_identifier'=>$id] );
         }
@@ -342,7 +347,7 @@ trait Subscriptions {
 
     }
 
-    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false) {
+    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false, $data=false) {
 
         $values = [];
 
@@ -477,7 +482,7 @@ trait Subscriptions {
             $user_id = $validate_request->response['payload'];
 
             // this is a valid login--- so now the question is, are they an active subscriber?
-            $plan_id = $this->validateSubscription($user_id, $plans);
+            list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
 
             if ($plan_id) {
 
@@ -486,8 +491,9 @@ trait Subscriptions {
                 $session->sessionSet("user_id", $user_id);
                 $session->sessionSet("plan_id", $plan_id);
                 $session->sessionSet("subscription_authenticated", true);
+                $session->sessionSet('subscriber_id', $subscriber_id);
 
-                return $user_id;
+                return [$user_id, $subscriber_id];
             } else {
                 return "401";
             }
@@ -502,17 +508,17 @@ trait Subscriptions {
      * Simple lookup to check if a user is an active subscriber
      * @param $user_id
      * @param $plan_id
-     * @return bool
+     * @return array|boolean
      */
     public function validateSubscription($user_id, $plans) {
 
         if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans])) {
             if (in_array($member->status, ['active', 'comped'])) {
-                return $member->subscription_id;
+                return [$member->subscription_id, $member->id];
             }
         }
 
-        return false;
+        return [false, false];
     }
 
     public function getSubscriptionStats($plan_id, $subscriber_id=false) {
@@ -714,5 +720,40 @@ trait Subscriptions {
             return false;
         }
 
+    }
+
+    public function updateSubscriptionAddress($subscriber_id, $address) {
+        if ($member = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_id)) {
+
+            if (isset($member->data) && is_array($member->data)) {
+
+                $data = $member->data;
+
+                $data['shipping_info'] = $address;
+                $member->data = $data;
+                $member->save();
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public function getSubscriberPaymentDetails($user_id, $subscriber_id) {
+
+        if($payment_seed = $this->getPaymentSeed($user_id)) {
+            if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
+                $payment_details = $payment_seed->getSubscription($subscriber_id);
+
+                if ($payment_details) {
+                    return $payment_details;
+                }
+
+            }
+
+        }
+
+        return false;
     }
 }

@@ -84,11 +84,13 @@ abstract class ElementBase extends CASHData {
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
-		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php')) {
-			include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-			$this->mustache = new \Mustache;
-		}
-		// check for an init() in the defined element. if it exists, call it
+
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/')
+        ));
+
+
+        // check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
 			$this->init();
 		}
@@ -149,6 +151,7 @@ abstract class ElementBase extends CASHData {
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}
+
 		return $this->mustache->render($this->element_data['template'],$this->element_data);
 	}
 
@@ -158,12 +161,19 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getTemplate($template_name) {
-		$template = CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $template_name  . '.mustache';
-		if (file_exists($template)) {
-			return CASHSystem::getFileContents($template, true);
-		} else {
-			return false;
-		}
+
+		$dir = 'elements/' . $this->extending_class . '/templates/';
+         $template = $dir . $template_name;
+
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/'.$dir)
+        ));
+
+        if (file_exists(CASH_PLATFORM_ROOT . '/' . $template . ".mustache")) {
+            return $template_name;
+        }
+
+        return false;
 	}
 
 	public function getAppData() {

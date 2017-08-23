@@ -72,21 +72,19 @@ class SocialFeeds extends ElementBase {
 
 			foreach ($raw_feeds['twitter'] as $feed) {
 				foreach ($feed as $tweet) {
-					$template = file_get_contents(__DIR__.'/templates/tweet.mustache');
 
 					$formatted_feed[strtotime($tweet->created_at)] = array(
 						'type' => 'twitter',
-						'markup' => $this->mustache->render($template,$tweet)
+						'markup' => $this->mustache->render("tweet",$tweet)
 					);
 				}
 			}
 
 			foreach ($raw_feeds['tumblr'] as $feed) {
 				foreach ($feed as $post) {
-					$template = file_get_contents(__DIR__.'/templates/tumblrpost_' . $post['type'] . '.mustache');
 					$formatted_feed[$post['unix-timestamp']] = array(
 						'type' => 'tumblr',
-						'markup' => $this->mustache->render($template,$post)
+						'markup' => $this->mustache->render('tumblrpost_' . $post['type'],$post)
 					);
 				}
 

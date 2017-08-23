@@ -1329,27 +1329,24 @@ class CommercePlant extends PlantBase {
 
     /**
      * @param $user_id
-     * @return bool
+     * @return object|bool
      */
     protected function getPaymentSeed($user_id, $connection_id=false)
     {
-        if (!$connection_id) {
-            $settings_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'system',
-                    'cash_action' => 'getsettings',
-                    'type' => 'payment_defaults',
-                    'user_id' => $user_id
-                )
-            );
-            if (is_array($settings_request->response['payload'])) {
-                $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-            } else {
-                return false; // no default PP shit set
-            }
+
+        $default_connections = self::getDefaultConnections($user_id);
+
+        if (is_array($default_connections)) {
+            $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+            $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+            $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
 
             $connection_id = $stripe_default;
+        } else {
+            return false; // no default PP shit set
         }
+
+
 
         //TODO: this should be dynamic
         $payment_seed = new StripeSeed($user_id, $connection_id);
@@ -1368,9 +1365,11 @@ class CommercePlant extends PlantBase {
         );
 
         if (is_array($settings_request->response['payload'])) {
-            $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
-            $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
-            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+
+            $settings = $settings_request->response['payload'];
+            $pp_default = (isset($settings['pp_default'])) ? $settings['pp_default'] : false;
+            $pp_micro = (isset($settings['pp_micro'])) ? $settings['pp_micro'] : false;
+            $stripe_default = (isset($settings['stripe_default'])) ? $settings['stripe_default'] : false;
         } else {
             return false; // no default shit set
         }
