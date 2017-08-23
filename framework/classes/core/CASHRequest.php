@@ -45,7 +45,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * @param $api boolean
 	 */
 	public function __construct($direct_request=false,$method='direct',$authorized_user=false,$api=false,$http_method=false) {
-		error_log("cash request");
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
