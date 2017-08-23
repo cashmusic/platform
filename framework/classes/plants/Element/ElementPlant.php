@@ -461,6 +461,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		$element = $this->getElement($id);
+		CASHSystem::errorLog($element);
 		$element_type = strtolower($element['type']);
 		$element_options = $element['options'];
 
@@ -483,6 +484,7 @@ class ElementPlant extends PlantBase {
 					$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
 				}
 				$markup = $element_object->getMarkup();
+				CASHSystem::errorLog($markup);
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;
 			}
