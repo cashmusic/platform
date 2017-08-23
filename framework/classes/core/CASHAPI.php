@@ -64,7 +64,6 @@ class CASHAPI
         });*/
 
         $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($api) {
-            CASHSystem::errorLog("hey");
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
