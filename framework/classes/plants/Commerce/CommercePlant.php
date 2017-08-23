@@ -1470,7 +1470,9 @@ class CommercePlant extends PlantBase {
 
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
-            CASHSystem::errorLog($customer_id);
+
+            if (!is_cash_model($customer)) return false; // this is not an existing customer
+
             // get customer email
             $user_request = new CASHRequest(
                 array(
