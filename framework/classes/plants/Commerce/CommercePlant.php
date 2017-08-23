@@ -1367,6 +1367,8 @@ class CommercePlant extends PlantBase {
             )
         );
 
+        CASHSystem::errorLog($settings_request->response['payload']);
+
         if (is_cash_model($settings_request->response['payload'])) {
             $pp_default = (isset($settings_request->response['payload']->pp_default)) ? $settings_request->response['payload']->pp_default : false;
             $pp_micro = (isset($settings_request->response['payload']->pp_micro)) ? $settings_request->response['payload']->pp_micro : false;
