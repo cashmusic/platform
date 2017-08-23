@@ -1367,10 +1367,10 @@ class CommercePlant extends PlantBase {
             )
         );
 
-        if (is_array($settings_request->response['payload'])) {
-            $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
-            $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
-            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+        if (is_cash_model($settings_request->response['payload'])) {
+            $pp_default = (isset($settings_request->response['payload']->pp_default)) ? $settings_request->response['payload']->pp_default : false;
+            $pp_micro = (isset($settings_request->response['payload']->pp_micro)) ? $settings_request->response['payload']->pp_micro : false;
+            $stripe_default = (isset($settings_request->response['payload']->stripe_default)) ? $settings_request->response['payload']->stripe_default : false;
         } else {
             return false; // no default shit set
         }

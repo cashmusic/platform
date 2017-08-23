@@ -85,9 +85,12 @@ abstract class ElementBase extends CASHData {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
 
-        $this->mustache = new \Mustache;
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/')
+        ));
 
-		// check for an init() in the defined element. if it exists, call it
+
+        // check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
 			$this->init();
 		}
@@ -158,28 +161,13 @@ abstract class ElementBase extends CASHData {
 
 	public function getTemplate($template_name) {
 
-		// partials hack--- you pass them in order and it will append them all that way, then process var output
-		$templates = $template_name;
+        $template = 'elements/' . $this->extending_class . '/templates/' . $template_name;
 
-		if (!is_array($template_name)) {
-			$templates = [$template_name];
-		}
+        if (file_exists(CASH_PLATFORM_ROOT . '/' . $template)) {
+            return $template;
+        }
 
-		$final_template = "";
-
-		foreach ($templates as $the_template) {
-            $template = CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $the_template  . '.mustache';
-            if (file_exists($template)) {
-                $final_template .= CASHSystem::getFileContents($template, true);
-            }
-		}
-
-		// this opens the possibility for still getting a template even if some aren't found
-		if ($final_template == "") {
-			return false;
-		}
-
-		return $final_template;
+        return false;
 	}
 
 	public function getAppData() {
