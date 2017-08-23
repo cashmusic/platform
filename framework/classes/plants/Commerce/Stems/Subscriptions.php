@@ -518,6 +518,8 @@ trait Subscriptions {
             }
         }
 
+        CASHSystem::errorLog($member);
+
         return false;
     }
 
