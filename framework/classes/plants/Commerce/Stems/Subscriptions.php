@@ -484,7 +484,7 @@ trait Subscriptions {
             // this is a valid login--- so now the question is, are they an active subscriber?
             list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
 
-            if ($plan_id) {
+            if (!empty($plan_id) && !empty($subscriber_id)) {
 
                 // this is a valid subscription so bust out the confetti
                 $session = new CASHRequest(null);
@@ -512,10 +512,8 @@ trait Subscriptions {
      */
     public function validateSubscription($user_id, $plans) {
 
-        if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans])) {
-            if (in_array($member->status, ['active', 'comped'])) {
-                return [$member->subscription_id, $member->id];
-            }
+        if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans, 'status'=>['active', 'comped'] ])) {
+            return [$member->subscription_id, $member->id];
         }
 
         return [false, false];
