@@ -461,7 +461,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		$element = $this->getElement($id);
-		CASHSystem::errorLog($element);
+
 		$element_type = strtolower($element['type']);
 		$element_options = $element['options'];
 
@@ -473,6 +473,8 @@ class ElementPlant extends PlantBase {
 				$element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
 
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
+				CASHSystem::errorLog("element object");
+				CASHSystem::errorLog($element_object);
 				if ($geo) {
 					$access_data = array(
 						'geo' => json_decode($geo,true)
