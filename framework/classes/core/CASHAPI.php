@@ -45,7 +45,7 @@ class CASHAPI
             'addContentLengthHeader' => false,
         ]]);
 
-        $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($api) {
+/*        $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($api) {
             CASHSystem::errorLog("hey");
             $query_string = $request->getQueryParams();
 
@@ -60,7 +60,7 @@ class CASHAPI
             $url = '/api/'.$args['plant'].'/'.$args['noun'] . "?" . http_build_query($query_string);
             return $response->withStatus(301)->withHeader('Location', $url);
 
-        });
+        });*/
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
             CASHSystem::errorLog("hey");
