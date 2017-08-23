@@ -623,11 +623,15 @@ class ElementState implements StatesInterface
                     'customer_countrycode' => trim($_REQUEST['country'])
                 ];
 
+                if (!$subscriber_id = $this->element_data['subscriber_id']) {
+                    $subscriber_id = $_REQUEST['subscriber_id'];
+                }
+
                 $address_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',
                         'cash_action' => 'updatesubscriptionaddress',
-                        'subscriber_id' => $this->element_data['subscriber_id'],
+                        'subscriber_id' => $subscriber_id,
                         'address' => $address
                     )
                 );
