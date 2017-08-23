@@ -139,13 +139,13 @@ class CASHAPI
             return $response->withStatus(404)->withJson(self::APIResponse(false));
 
             // if we get here return 404
-        })->add(function ($req, $res, $next) {
+        })/*->add(function ($req, $res, $next) {
             $response = $next($req, $res);
             return $response
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        })->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+        })*/->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
         $api->run();
     }
