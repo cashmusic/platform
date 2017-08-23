@@ -50,7 +50,7 @@ class CASHAPI
         });*/
 
         $api->get('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}/{arg2}/{arg2_val}/]', function ($request, $response, $args) use ($api) {
-
+            CASHSystem::errorLog("hey");
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -146,7 +146,7 @@ class CASHAPI
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         })*/->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
-        CASHSystem::errorLog(get_class_methods($api->getContainer()->get('router')->getRoutes()));
+
         $api->run();
     }
 
