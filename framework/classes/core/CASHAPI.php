@@ -57,8 +57,6 @@ class CASHAPI
                 $query_string[$args['arg1']] = $args['arg1_val'];
             }
 
-            CASHSystem::errorLog($query_string);
-
             if (isset($args['arg2'])) {
                 $query_string[$args['arg2']] = $args['arg2_val'];
             }
@@ -148,7 +146,7 @@ class CASHAPI
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         })*/->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
-
+        CASHSystem::errorLog($api->router->routes);
         $api->run();
     }
 
