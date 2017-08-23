@@ -473,8 +473,7 @@ class ElementPlant extends PlantBase {
 				$element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
 
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
-				CASHSystem::errorLog("element object");
-				CASHSystem::errorLog($element_object);
+
 				if ($geo) {
 					$access_data = array(
 						'geo' => json_decode($geo,true)
@@ -485,8 +484,9 @@ class ElementPlant extends PlantBase {
 				if (!$donottrack) {
 					$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
 				}
+				CASHSystem::errorLog("do we even make it here");
 				$markup = $element_object->getMarkup();
-				CASHSystem::errorLog($markup);
+
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;
 			}
