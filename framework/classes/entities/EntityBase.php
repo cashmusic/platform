@@ -439,7 +439,7 @@ class EntityBase extends CASHData
 
         // make sure we're getting an array for these properties
         foreach ($properties as $key => &$property) {
-            if (CASHSystem::isJson($property)) { //in_array($key, ['metadata', 'data'])
+            if (is_json($property)) { //in_array($key, ['metadata', 'data'])
                 $property = json_decode($property, true);
             }
         }

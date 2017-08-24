@@ -1430,8 +1430,16 @@ class CommercePlant extends PlantBase {
 
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
-            CASHSystem::errorLog("success");
-            $event = json_decode($input);
+
+            if (is_json($input)) {
+                $event = json_decode($input);
+            } else {
+                CASHSystem::errorLog("not valid json");
+                return false; // not valid json?
+            }
+
+
+            CASHSystem::errorLog($event);
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 $payment_status = "failed";
