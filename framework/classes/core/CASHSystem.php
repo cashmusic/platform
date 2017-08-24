@@ -1395,19 +1395,6 @@ abstract class CASHSystem  {
         return $string;
     }
 
-    public static function isJson($string) {
-
-    	if(is_array($string) || is_object($string)) return false;
-
-    	try {
-            json_decode($string);
-		} catch (\Exception $e) {
-			return false;
-		}
-
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
-
     public static function arrayWrap($object) {
         if (gettype($object) == "object") {
             $object = [$object];
