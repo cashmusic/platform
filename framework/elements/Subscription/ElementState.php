@@ -88,7 +88,6 @@ class ElementState implements StatesInterface
 
         // check if $_REQUEST['key'] is set and do verify-y things
         $verification_data = $this->processVerificationKey();
-        CASHSystem::errorLog($verification_data);
 
         $this->updateElementData(
             $verification_data
