@@ -262,7 +262,7 @@ class ElementState implements StatesInterface
             $template = 'settings';
         }
 
-        CASHSystem::errorLog($this->user_id);
+        CASHSystem::errorLog("user id ".$this->user_id);
 
         // validate the request to change things
         $password_request = new CASHRequest(
@@ -521,6 +521,8 @@ class ElementState implements StatesInterface
     private function processVerificationKey() {
 
         $data = [];
+
+        CASHSystem::errorLog($_REQUEST);
 
         if (!empty($_REQUEST['key'])) {
             $validate_request = new CASHRequest(
