@@ -1438,7 +1438,7 @@ class CommercePlant extends PlantBase {
                 return false; // not valid json?
             }
 
-            CASHSystem::errorLog($event);
+            CASHSystem::errorLog($event, true);
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 $payment_status = "failed";
