@@ -102,8 +102,8 @@ class ElementState implements StatesInterface
 
         $this->user_id = false;
 
-        if (!empty($this->element_data['subscriber_id'])) {
-            $this->user_id = $this->element_data['subscriber_id'];
+        if (!empty($this->element_data['subscription_id'])) {
+            $this->user_id = $this->element_data['subscription_id'];
         } else {
             if ($session_user_id = $this->session->sessionGet("subscription_id")) $this->user_id = $session_user_id;
         }
@@ -538,8 +538,6 @@ class ElementState implements StatesInterface
                 )
             );
 
-            CASHSystem::errorLog($validate_request->response['payload']);
-
             if ($validate_request->response['payload']) {
                 $data['key'] = true;
 
@@ -559,12 +557,10 @@ class ElementState implements StatesInterface
 
                 $data['email_address'] = $email;
 
-                CASHSystem::errorLog($user_request->response['payload']);
-
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
                     $data['subscriber_id'] = $user_request->response['payload'];
-                    $this->session->sessionSet("subscriber_id", $data['subscriber_id']);
+                    $this->session->sessionSet("subscription_id", $data['subscriber_id']);
 
                     //$this->element_data['subscriber_id'] = $user_request->response['payload'];
                 } else {
