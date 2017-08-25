@@ -37,8 +37,8 @@ class ElementState implements StatesInterface
 
         $this->session_id = $session_id;
 
-        if (!$this->element_data['subscriber_id'] = $this->session->sessionGet("subscriber_id")) {
-            $this->element_data['subscriber_id'] = false;
+        if (!$this->element_data['subscription_id'] = $this->session->sessionGet("subscription_id")) {
+            $this->element_data['subscription_id'] = false;
         }
 
         if (!$this->element_data['email_address'] = $this->session->sessionGet("email_address")) {
@@ -73,7 +73,7 @@ class ElementState implements StatesInterface
             //return false; // no valid payment found error
         }
 
-        if (!empty($this->element_data['subscriber_id'])) {
+        if (!empty($this->element_data['subscription_id'])) {
             $authenticated = true;
         }
         // if we're logged in already, maybe show them a logout button
@@ -217,7 +217,7 @@ class ElementState implements StatesInterface
     private function stateVerified() {
 
         $data = [];
-        $subscriber_id = $this->session->sessionGet('subscriber_id');
+        $subscriber_id = $this->session->sessionGet('subscription_id');
         $data['email'] = $this->session->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
@@ -506,7 +506,7 @@ class ElementState implements StatesInterface
         $this->session->sessionSet("user_id", $this->user_id);
         $this->session->sessionSet("plan_id", $this->plan_id);
         $this->session->sessionSet("subscription_authenticated", true);
-        $this->session->sessionSet('subscriber_id', $this->subscriber_id);
+        $this->session->sessionSet('subscription_id', $this->subscriber_id);
 
         $this->session->sessionSet("logged_in", true);
 
@@ -559,10 +559,10 @@ class ElementState implements StatesInterface
 
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
-                    $data['subscriber_id'] = $user_request->response['payload'];
-                    $this->session->sessionSet("subscription_id", $data['subscriber_id']);
+                    $data['subscription_id'] = $user_request->response['payload'];
+                    $this->session->sessionSet("subscription_id", $data['subscription_id']);
 
-                    //$this->element_data['subscriber_id'] = $user_request->response['payload'];
+                    //$this->element_data['subscription_id'] = $user_request->response['payload'];
                 } else {
                     $data['error_message'] = "We couldn't find your user.";
                 }
@@ -608,8 +608,8 @@ class ElementState implements StatesInterface
 
         if ($address_request->response['payload'] !== false) {
 
-            if (!$subscriber_id = $this->element_data['subscriber_id']) {
-                $subscriber_id = $this->session->sessionGet('subscriber_id');
+            if (!$subscriber_id = $this->element_data['subscription_id']) {
+                $subscriber_id = $this->session->sessionGet('subscription_id');
             }
 
             $payment_details_request = new CASHRequest(
@@ -644,8 +644,8 @@ class ElementState implements StatesInterface
                     'customer_countrycode' => trim($_REQUEST['country'])
                 ];
 
-                if (!$subscriber_id = $this->element_data['subscriber_id']) {
-                    $subscriber_id = $_REQUEST['subscriber_id'];
+                if (!$subscriber_id = $this->element_data['subscription_id']) {
+                    $subscriber_id = $_REQUEST['subscription_id'];
                 }
 
                 $address_request = new CASHRequest(
