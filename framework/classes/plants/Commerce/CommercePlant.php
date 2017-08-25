@@ -1470,8 +1470,10 @@ class CommercePlant extends PlantBase {
                 return false;
             }*/
 
+CASHSystem::errorLog("plan id $plan_id");
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
+            CASHSystem::errorLog($plan);
 
             $user_id = $plan->user_id;
 
