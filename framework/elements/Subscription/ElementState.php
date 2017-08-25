@@ -36,7 +36,7 @@ class ElementState implements StatesInterface
         $this->session->startSession($session_id);
 
         $this->session_id = $session_id;
-
+        CASHSystem::errorLog($this->session->getAllSessionData());
         if (!$this->element_data['subscription_id'] = $this->session->sessionGet("subscription_id")) {
             $this->element_data['subscription_id'] = false;
         }
@@ -89,8 +89,11 @@ class ElementState implements StatesInterface
         }
 
         // check if $_REQUEST['key'] is set and do verify-y things
+        $verification_data = $this->processVerificationKey();
+        CASHSystem::errorLog($verification_data);
+
         $this->updateElementData(
-            $this->processVerificationKey()
+            $verification_data
         );
 
         // form submission handling.
