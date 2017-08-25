@@ -479,7 +479,7 @@ trait Subscriptions {
         if ($validate_request->response['payload']) {
 
             $user_id = $validate_request->response['payload'];
-
+            CASHSystem::errorLog("there's a user id and it's $user_id");
             // this is a valid login--- so now the question is, are they an active subscriber?
             list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
 
@@ -512,8 +512,11 @@ trait Subscriptions {
     public function validateSubscription($user_id, $plans) {
 
         if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans, 'status'=>['active', 'comped'] ])) {
+            CASHSystem::errorLog("this works");
             return [$member->subscription_id, $member->id];
         }
+
+        CASHSystem::errorLog("or it doesn't");
 
         return [false, false];
     }
