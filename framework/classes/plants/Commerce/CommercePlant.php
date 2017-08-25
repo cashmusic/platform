@@ -1438,7 +1438,6 @@ class CommercePlant extends PlantBase {
                 return false; // not valid json?
             }
 
-            CASHSystem::errorLog($event, true);
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 $payment_status = "failed";
@@ -1470,10 +1469,8 @@ class CommercePlant extends PlantBase {
                 return false;
             }*/
 
-CASHSystem::errorLog("plan id $plan_id");
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
-            CASHSystem::errorLog($plan);
 
             $user_id = $plan->user_id;
 
