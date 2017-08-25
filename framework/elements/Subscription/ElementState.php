@@ -41,8 +41,6 @@ class ElementState implements StatesInterface
         $this->element_data['subscription_id'] = $this->session->sessionGet("subscription_id");
         $this->element_data['email_address'] = $this->session->sessionGet("email_address");
 
-        CASHSystem::errorLog($this->session->sessionGet("subscription_id") . "vs" . $this->session->sessionGet("subscriber id"));
-
         if (!$plan_id = $this->session->sessionGet("plan_id")) {
             $plan_id = false;
         }
