@@ -262,6 +262,8 @@ class ElementState implements StatesInterface
             $template = 'settings';
         }
 
+        CASHSystem::errorLog($this->user_id);
+
         // validate the request to change things
         $password_request = new CASHRequest(
             array(
