@@ -43,7 +43,7 @@ trait Subscriptions {
             ]);
 
             if (!$plan) return false;
-
+            CASHSystem::errorLog("CREATED PLAN $plan_id");
             return ['id'=>$sku, 'numeric_id'=>$plan->id];
         }
 
