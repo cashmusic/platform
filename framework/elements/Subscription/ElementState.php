@@ -521,23 +521,27 @@ class ElementState implements StatesInterface
     private function processVerificationKey() {
 
         $data = [];
+        $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
+        $key = isset($_REQUEST['key']) ? $_REQUEST['key'] : "";
 
-        CASHSystem::errorLog($_REQUEST);
+        if (!isset($email, $key)) return false; // how did we even get here?
+
+        $this->session->sessionSet("email_address", $email);
 
         if (!empty($_REQUEST['key'])) {
             $validate_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'system',
                     'cash_action' => 'validateresetflag',
-                    'address' => $_REQUEST['address'],
-                    'key' => $_REQUEST['key']
+                    'address' => $email,
+                    'key' => $key
                 )
             );
 
-            if ($validate_request->response['payload']) {
+            CASHSystem::errorLog($validate_request->response['payload']);
 
+            if ($validate_request->response['payload']) {
                 $data['key'] = true;
-                $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
 
                 if (empty($email)) {
                     $data['error_message'] = "Something went wrong.";
@@ -554,7 +558,8 @@ class ElementState implements StatesInterface
                 );
 
                 $data['email_address'] = $email;
-                $this->session->sessionSet("email_address", $email);
+
+                CASHSystem::errorLog($user_request->response['payload']);
 
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
