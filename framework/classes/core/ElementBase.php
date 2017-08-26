@@ -145,6 +145,7 @@ abstract class ElementBase extends CASHData {
 		$this->getData(); // call getData() first as it not only sets data but the correct template
 
         if ($this->template == 'default') {
+
             $this->element_data['template'] = $this->getTemplate('default');
         }
 
@@ -170,7 +171,7 @@ abstract class ElementBase extends CASHData {
         ));
 
         if (file_exists(CASH_PLATFORM_ROOT . '/' . $template . ".mustache")) {
-            return $template_name;
+            return $template_namee;
         }
 
         return false;
