@@ -171,7 +171,7 @@ abstract class ElementBase extends CASHData {
         ));
 
         if (file_exists(CASH_PLATFORM_ROOT . '/' . $template . ".mustache")) {
-            return $template_namee;
+            return $template_name;
         }
 
         return false;
