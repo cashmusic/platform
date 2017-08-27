@@ -109,6 +109,8 @@ trait Misc {
                 )
             );
 
+            CASHSystem::errorLog($payment_details_request);
+
             if ($payment = $payment_details_request->response['payload']){
 
                 $payment['address'] = $address_request->response['payload'];
