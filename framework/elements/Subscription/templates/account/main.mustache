@@ -79,6 +79,7 @@
     cm.events.add(cm,'ready', function(e) {
 
         cm.session.start();
+        cm.session.setid({"id":"{{session_id}}"});
 
         var feed = document.querySelector('.cm-feed');
         var logout = document.querySelector('.cm-logout');
