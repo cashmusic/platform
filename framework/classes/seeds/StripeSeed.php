@@ -644,6 +644,7 @@ class StripeSeed extends SeedBase
             if(!$customer = Customer::retrieve($customer_id)) {
                 return false;
             }
+            CASHSystem::errorLog($customer);
 
         } catch (Exception $e) {
             CASHSystem::errorLog($e->getMessage());
