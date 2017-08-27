@@ -99,10 +99,7 @@ trait Misc {
             if (!$subscriber_id = $this->element_data['subscription_id']) {
                 $subscriber_id = $this->sessionGet('subscription_id');
             }
-
-            CASHSystem::errorLog($this->element_data['subscription_id']);
-            CASHSystem::errorLog($this->sessionGet('subscription_id'));
-            CASHSystem::errorLog($this->session_id);
+            
             $payment_details_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'commerce',
