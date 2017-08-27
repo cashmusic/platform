@@ -1000,7 +1000,6 @@
 								if (r) {
 									var rp = JSON.parse(r);
 									var session_data = JSON.parse(rp.data);
-                                    console.log(session_data, rp.data);
 
 									cm.session.setid(session_data);
 									cm.events.fire(cm,'sessionstarted',rp.data);
