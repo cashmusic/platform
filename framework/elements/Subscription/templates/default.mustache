@@ -105,7 +105,9 @@
     {{/key}}
 
     cm.events.add(cm,'ready', function(e) {
+
         cm.session.start();
+        cm.session.setid({"id":"{{session_id}}"});
 
         var login = document.querySelector('.cm-login');
 
@@ -269,8 +271,6 @@
                  }
             );
         }
-
-        cm.session.setid({"id":"{{session_id}}"});
 
         {{#logged_in}}
             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
