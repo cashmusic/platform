@@ -79,8 +79,6 @@ trait States
             $template = 'settings';
         }
 
-        CASHSystem::errorLog("user id ".$this->user_id);
-
         // validate the request to change things
         $password_request = new CASHRequest(
             array(
