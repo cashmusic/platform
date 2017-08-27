@@ -15,7 +15,7 @@ class Subscription extends ElementBase {
     use States;
     use Misc;
 
-    protected $state, $plan_id, $email_address, $element_user_id, $subscriber_id;
+    protected $state, $plan_id, $email_address, $element_user_id, $subscription_id;
 	public $type = 'subscription';
 	public $name = 'Subscription';
 
@@ -70,10 +70,8 @@ class Subscription extends ElementBase {
         }
 
         // check if $_REQUEST['key'] is set and do verify-y things
-        $verification_data = $this->processVerificationKey();
-
         $this->updateElementData(
-            $verification_data
+            $this->processVerificationKey()
         );
 
         // form submission handling.

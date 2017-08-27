@@ -136,7 +136,7 @@ trait States
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
-                list($this->user_id, $this->subscriber_id) = $password_request->response['payload'];
+                list($this->user_id, $this->subscription_id) = $password_request->response['payload'];
 
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
@@ -323,7 +323,7 @@ trait States
         $this->sessionSet("user_id", $this->user_id);
         $this->sessionSet("plan_id", $this->plan_id);
         $this->sessionSet("subscription_authenticated", true);
-        $this->sessionSet('subscription_id', $this->subscriber_id);
+        $this->sessionSet('subscription_id', $this->subscription_id);
 
         $this->sessionSet("logged_in", true);
 
