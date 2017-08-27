@@ -78,7 +78,6 @@ trait States
             $data['error_message'] = "Minimum password lengh of 10 characters.";
             $template = 'settings';
         }
-
         // validate the request to change things
         $password_request = new CASHRequest(
             array(

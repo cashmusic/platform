@@ -48,7 +48,7 @@ trait Misc {
                 if ($user_request->response['payload']) {
                     //$data['user_id'] = $user_request->response['payload'];
                     $data['subscription_id'] = $user_request->response['payload'];
-                    $this->sessionSet("subscription_id", $data['subscription_id']);
+                    $this->sessionSet("subscription_id", $user_request->response['payload']);
 
                     //$this->element_data['subscription_id'] = $user_request->response['payload'];
                 } else {
@@ -99,6 +99,9 @@ trait Misc {
             if (!$subscriber_id = $this->element_data['subscription_id']) {
                 $subscriber_id = $this->sessionGet('subscription_id');
             }
+
+            CASHSystem::errorLog($this->element_data['subscription_id']);
+            CASHSystem::errorLog($this->sessionGet('subscription_id'));
 
             $payment_details_request = new CASHRequest(
                 array(
