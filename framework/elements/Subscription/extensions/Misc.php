@@ -89,7 +89,7 @@ trait Misc {
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptiondetails',
-                'id' => $this->sessionGet('user_id'),
+                'id' => $this->sessionGet('subscription_id'),
                 'user_id'=>true
             )
         );
@@ -99,7 +99,7 @@ trait Misc {
             if (!$subscriber_id = $this->element_data['subscription_id']) {
                 $subscriber_id = $this->sessionGet('subscription_id');
             }
-            
+
             $payment_details_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'commerce',
