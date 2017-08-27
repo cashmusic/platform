@@ -202,8 +202,9 @@ trait States
         $subscriber_details = $this->getSubscriberDetails();
 
         if (is_cash_model($subscriber_details)) {
-            if (isset($subscriber_details->data['shipping_info'])) {
-                $address = $subscriber_details->data['shipping_info'];
+            CASHSystem::errorLog($subscriber_details);
+            if (isset($subscriber_details['address']->data['shipping_info'])) {
+                $address = $subscriber_details['address']->data['shipping_info'];
             }
         }
 

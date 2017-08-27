@@ -26,6 +26,7 @@ use AdamPaterson\OAuth2\Client\Provider\Stripe as StripeOAuth;
 use Stripe\Account;
 use Stripe\BalanceTransaction as BalanceTransaction;
 use Stripe\Charge;
+use Stripe\Customer;
 use Stripe\Error as StripeError;
 use Stripe\Event;
 use Stripe\Plan as Plan;
@@ -634,6 +635,23 @@ class StripeSeed extends SeedBase
         }
 
         return $subscriptions;
+    }
+
+    public function getCustomer($customer_id) {
+        try {
+            Stripe::setApiKey($this->access_token);
+
+            if(!$customer = Customer::retrieve($customer_id)) {
+                return false;
+            }
+
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+
+            return false;
+        }
+
+        return $customer;
     }
 
     /**

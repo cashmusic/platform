@@ -747,7 +747,13 @@ trait Subscriptions {
                 $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
 
                 if ($payment_details) {
-                    return $payment_details;
+
+                    $customer_details = $payment_seed->getCustomer($payment_details->customer);
+
+                    return [
+                        'customer'=>$customer_details,
+                        'payment'=>$payment_details
+                    ];
                 }
 
             }
