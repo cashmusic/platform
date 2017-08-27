@@ -748,10 +748,9 @@ trait Subscriptions {
 
                 if ($payment_details) {
 
-                    $customer_details = $payment_seed->getCustomer($payment_details->customer);
+                    //$customer_details = $payment_seed->getCustomer($payment_details->customer);
 
                     return [
-                        'customer'=>$customer_details,
                         'payment'=>$payment_details
                     ];
                 }
