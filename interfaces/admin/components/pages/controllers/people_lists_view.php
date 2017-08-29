@@ -35,6 +35,16 @@ if ($request_parameters) {
 			foreach ($list_members['payload']['members'] as &$entry) {
 			$entry['formatted_date'] = date('M j, Y',$entry['creation_date']);
 		}
+
+		foreach($list_members['payload']['members'] as &$member) {
+			    if (!is_array($member['additional_data'])) $member['additional_data'] = json_decode($member['additional_data'], true);
+
+                $member['geo'] = false;
+			    if (isset($member['additional_data']['geo'])) {
+                    $member['geo'] = $member['additional_data']['geo'];
+                }
+        }
+
 		$cash_admin->page_data['list_members'] = new ArrayIterator($list_members['payload']['members']);
 	} else {
 		$cash_admin->page_data['list_members'] = false;
