@@ -1,4 +1,5 @@
 <?php
+ini_set('memory_limit', '-1');
 $request_list_id = $request_parameters[0];
 
 $list_details = $cash_admin->requestAndStore(
