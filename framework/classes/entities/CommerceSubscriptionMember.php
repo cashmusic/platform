@@ -94,7 +94,7 @@ class CommerceSubscriptionMember extends EntityBase
         return $this->belongsTo("People", "user_id", "id");
     }
 
-    public function getStartDate() {
+    public function getStartDateAttribute() {
         return format_date($this->start_date);
     }
 }
