@@ -746,9 +746,11 @@ trait Subscriptions {
 
                 if ($payment_details) {
 
-                    //$customer_details = $payment_seed->getCustomer($payment_details->customer);
-                    CASHSystem::errorLog($payment_details);
+                    $customer_details = $payment_seed->getCustomer($payment_details->customer);
+
                     return [
+                        'subscriber'=>$subscriber,
+                        'customer'=>$customer_details,
                         'payment'=>$payment_details
                     ];
                 }
