@@ -28,3 +28,9 @@ function is_json($string) {
 
     return (json_last_error() == JSON_ERROR_NONE);
 }
+
+function format_date($date, $format=false) {
+    if (!$format) $format = "F jS, Y";
+
+    return date($format, $date);
+}

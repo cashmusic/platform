@@ -67,8 +67,9 @@
     <h3>Subscription settings</h3>
     <p><strong>Status</strong> {{subscriber.status}}</p>
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
-    <p><strong>Payment source</strong> {{customer.brand}} *{{customer.last_four}}, expires {{customer.expiry}} </p>
+    <p><strong>Payment source</strong> {{customer.brand}} ending in {{customer.last_four}}, expires {{customer.expiry}} </p>
     <p><strong>Contribution</strong> {{customer.payment}}/per {{customer.interval}}</p>
+    <p><strong>Next renewal date</strong> {{customer.expires}}</p>
     <a href="#" class="button cm-billing">Change payment source</a>
     <a href="#" class="button cm-amount">Change contribution amount</a>
 

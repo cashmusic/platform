@@ -847,7 +847,7 @@ customer->subscriptions->data [loop] ->id
 
             if (isset($customer->subscriptions->data[0])) {
                 $subscription = $customer->subscriptions->data[0];
-                $expires = $subscription->current_period_end;
+                $expires = date('F jS, Y', $subscription->current_period_end);
                 //TODO: also should not just be assuming this is dollars or euro
                 $payment = money_format('%i', $subscription->items->data[0]->quantity/100);
                 $interval = $subscription->items->data[0]->plan->interval;
