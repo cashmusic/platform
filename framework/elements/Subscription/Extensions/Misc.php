@@ -93,7 +93,7 @@ trait Misc {
                 'user_id'=>true
             )
         );
-
+        CASHSystem::errorLog($address_request->response);
         if ($address_request->response['payload'] !== false) {
 
             if (!$subscriber_id = $this->element_data['subscription_id']) {
