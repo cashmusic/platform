@@ -68,6 +68,9 @@
     <p><strong>Status</strong> {{subscriber.status}}</p>
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
     <p><strong>Contribution</strong> $15/per month</p>
+    {{#customer}}
+        * {{ . }}
+    {{/customer}}
     <a href="#" class="button cm-billing">Change payment source</a>
     <a href="#" class="button cm-amount">Change contribution amount</a>
 
