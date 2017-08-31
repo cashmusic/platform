@@ -637,7 +637,7 @@ class StripeSeed extends SeedBase
         return $subscriptions;
     }
 
-    public function getCustomer($customer_id) {
+    public function getCustomer($customer_id, $format=false) {
         try {
             Stripe::setApiKey($this->access_token);
 
@@ -651,7 +651,12 @@ class StripeSeed extends SeedBase
             return false;
         }
 
-        return $customer;
+        if (!$format) {
+            return $customer;
+        } else {
+            return $this->formatCustomer($customer);
+        }
+
     }
 
     /**
@@ -817,5 +822,41 @@ class StripeSeed extends SeedBase
         return $this->api->call('webhooks/transaction', $_params);
     }
 
+    public function formatCustomer($customer) {
+        if (is_object($customer))
+            /*
+ * customer->sources->data[0]->brand
+customer->sources->data[0]->exp_month
+customer->sources->data[0]->exp_year
+customer->sources->data[0]->last4
+
+customer->subscriptions->data [loop] ->id
+->current_period_end
+->items->data[0]->quantity
+
+ */
+            $brand = $expiry = $last_four = $expires = $payment = $interval = false;
+            if (isset($customer->sources->data[0])) {
+            $source = $customer->sources->data[0];
+
+            $brand = $source->brand;
+            $expiry = $source->exp_month ."/".$source->exp_year;
+            $last_four = $source->last4;
+
+            //TODO: we're assuming right now a customer will only be on one plan for the subscription provider, but this should change based on sub
+
+            if (isset($customer->subscriptions->data[0])) {
+                $subscription = $customer->subscriptions->data[0];
+                $expires = $subscription->current_period_end;
+                //TODO: also should not just be assuming this is dollars or euro
+                $payment = money_format('%i', $subscription->items->data[0]->quantity/100);
+                $interval = $subscription->items->data[0]->plan->interval;
+            }
+
+            return compact('brand', 'expiry', 'last_four', 'expires', 'payment', 'interval');
+        }
+
+        return false;
+    }
 
 } // END class

@@ -217,7 +217,6 @@ trait States
             $customer = $subscriber_details['customer'];
         }
 
-        CASHSystem::errorLog($customer);
         return [
             'template' => 'account/main',
             'data' => compact('address', 'subscriber','payment_details', 'customer')
