@@ -197,21 +197,29 @@ trait States
             'data' => ['logged_in'=>false]
         ];
 
-        $address = false;
+        $address = $subscriber = $payment_details = $customer = false; // defaults
 
         $subscriber_details = $this->getSubscriberDetails();
 
         if (is_cash_model($subscriber_details['subscriber'])) {
             if (isset($subscriber_details['subscriber']->data['shipping_info'])) {
                 $address = $subscriber_details['subscriber']->data['shipping_info'];
-                $subscriber = $subscriber_details['subscriber'];
-                $payment_details = $subscriber_details['payment'];
             }
+
+            $subscriber = $subscriber_details['subscriber'];
+        }
+
+        if (is_cash_model($subscriber_details['payment'])) {
+            $payment_details = $subscriber_details['payment'];
+        }
+
+        if (isset($subscriber_details['customer'])) {
+            $customer = $subscriber_details['customer'];
         }
 
         return [
             'template' => 'account/main',
-            'data' => compact('address', 'subscriber','payment_details')
+            'data' => compact('address', 'subscriber','payment_details', 'customer')
         ];
     }
 
