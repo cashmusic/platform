@@ -90,7 +90,7 @@ trait Misc {
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptiondetails',
                 'id' => $this->sessionGet('subscription_id'),
-                'user_id'=>true
+                'user_id'=>false
             )
         );
         CASHSystem::errorLog($this->sessionGet('subscription_id'));
