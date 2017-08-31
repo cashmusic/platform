@@ -11,7 +11,7 @@ use CASHMusic\Elements\Subscription\Extensions\States;
 
 class Subscription extends ElementBase {
 
-    use Router; // why
+    use Router;
     use States;
     use Misc;
 
