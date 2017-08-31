@@ -67,10 +67,8 @@
     <h3>Subscription settings</h3>
     <p><strong>Status</strong> {{subscriber.status}}</p>
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
-    <p><strong>Contribution</strong> $15/per month</p>
-    {{#customer}}
-        * {{ . }}
-    {{/customer}}
+    <p><strong>Payment source</strong> {{customer.brand}} *{{customer.last_four}}, expires {{customer.expiry}} </p>
+    <p><strong>Contribution</strong> {{customer.payment}}/per {{customer.interval}}</p>
     <a href="#" class="button cm-billing">Change payment source</a>
     <a href="#" class="button cm-amount">Change contribution amount</a>
 
