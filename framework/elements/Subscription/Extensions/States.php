@@ -202,8 +202,8 @@ trait States
         $subscriber_details = $this->getSubscriberDetails();
 
         if (is_cash_model($subscriber_details['customer'])) {
-            if (isset($subscriber_details['customer']['address']->data['shipping_info'])) {
-                $address = $subscriber_details['customer']['address']->data['shipping_info'];
+            if (isset($subscriber_details['customer']->data['shipping_info'])) {
+                $address = $subscriber_details['customer']->data['shipping_info'];
             }
         }
 
