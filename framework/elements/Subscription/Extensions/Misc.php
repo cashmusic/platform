@@ -85,16 +85,16 @@ trait Misc {
      */
     private function getSubscriberDetails()
     {
-        $address_request = new CASHRequest(
+        /*$address_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptiondetails',
                 'id' => $this->sessionGet('subscription_id'),
                 'user_id'=>false
             )
-        );
+        );*/
 
-        if ($address_request->response['payload'] !== false) {
+        //if ($address_request->response['payload'] !== false) {
 
             if (!$subscriber_id = $this->element_data['subscription_id']) {
                 $subscriber_id = $this->sessionGet('subscription_id');
@@ -112,7 +112,7 @@ trait Misc {
             if ($payment = $payment_details_request->response['payload']){
                 return $payment;
             }
-        }
+        //}
 
         return false;
 
