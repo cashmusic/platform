@@ -204,12 +204,14 @@ trait States
         if (is_cash_model($subscriber_details['subscriber'])) {
             if (isset($subscriber_details['subscriber']->data['shipping_info'])) {
                 $address = $subscriber_details['subscriber']->data['shipping_info'];
+                $subscriber = $subscriber_details['subscriber'];
+                $payment_details = $subscriber_details['payment'];
             }
         }
 
         return [
             'template' => 'account/main',
-            'data' => compact('address')
+            'data' => compact('address', 'subscriber','payment_details')
         ];
     }
 
