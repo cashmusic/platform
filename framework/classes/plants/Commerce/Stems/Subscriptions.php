@@ -747,7 +747,7 @@ trait Subscriptions {
                 if ($payment_details) {
 
                     $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
-
+                    CASHSystem::errorLog($subscriber->start_date);
                     return [
                         'subscriber'=>$subscriber,
                         'customer'=> $customer_details,
