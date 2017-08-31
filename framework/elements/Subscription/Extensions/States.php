@@ -201,7 +201,6 @@ trait States
 
         $subscriber_details = $this->getSubscriberDetails();
 
-        CASHSystem::errorLog($subscriber_details['subscriber']->toArray());
         if (is_cash_model($subscriber_details['subscriber'])) {
             if (isset($subscriber_details['subscriber']->data['shipping_info'])) {
                 $address = $subscriber_details['subscriber']->data['shipping_info'];
@@ -221,11 +220,12 @@ trait States
         if (!isset($_REQUEST['action'])) {
             $subscriber_details = $this->getSubscriberDetails();
 
-            if (is_cash_model($subscriber_details)) {
-                if (isset($subscriber_details->data['shipping_info'])) {
-                    $address = $subscriber_details->data['shipping_info'];
+            if (is_cash_model($subscriber_details['subscriber'])) {
+                if (isset($subscriber_details['subscriber']->data['shipping_info'])) {
+                    $address = $subscriber_details['subscriber']->data['shipping_info'];
                 }
             }
+
         } else {
             CASHSystem::errorLog($_REQUEST);
         }
