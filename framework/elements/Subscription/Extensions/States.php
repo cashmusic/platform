@@ -201,8 +201,8 @@ trait States
 
         $subscriber_details = $this->getSubscriberDetails();
 
+        CASHSystem::errorLog($subscriber_details['customer']->toArray());
         if (is_cash_model($subscriber_details['customer'])) {
-            CASHSystem::errorLog($subscriber_details['customer']->toArray());
             if (isset($subscriber_details['customer']->data['shipping_info'])) {
                 $address = $subscriber_details['customer']->data['shipping_info'];
             }
