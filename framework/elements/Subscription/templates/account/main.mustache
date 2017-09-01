@@ -2,8 +2,7 @@
     #modal_dialog {
         position:absolute;
         z-index:99999;
-        display: inline-block;
-        min-height: 200px;
+        display: none;
         width: 100%;
         background-color: rgba(0,0,0,1);
         color: #fff;
@@ -11,6 +10,11 @@
         left:0px;
         top: 25px;
         text-align: center;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -ms-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
     }
 
     #modal_dialog .feed-button {
@@ -134,8 +138,7 @@
 
         if (cancel) {
             cm.events.add(cancel, 'click', function (e) {
-                e.preventDefault();
-                cm.overlay.confirm({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cancel", "message":"This is a confirmation message", "cancel":"account_settings"});
+                document.getElementById("modal_dialog").style.display = "block";
             });
         }
 
