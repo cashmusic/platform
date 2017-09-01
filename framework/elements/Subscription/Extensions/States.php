@@ -323,7 +323,7 @@ trait States
     }
 
     private function stateCancel() {
-
+        CASHSystem::errorLog("cancel shit");
         $this->revokeLoginState();
 
         return [
