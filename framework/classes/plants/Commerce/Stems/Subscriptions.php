@@ -377,12 +377,12 @@ trait Subscriptions {
         return false;
     }
 
-    public function cancelSubscription($user_id, $connection_id, $id) {
+    public function cancelSubscription($user_id, $subscriber_id) {
 
-        $this->updateSubscription($id, "canceled");
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+        $this->updateSubscription($subscriber_id, "canceled");
+        $payment_seed = $this->getPaymentSeed($user_id);
 
-        $subscription = $this->getSubscriptionDetails($id);
+        $subscription = $this->getSubscriptionDetails($subscriber_id);
 
         if(isset($subscription->payment_identifier)) {
             if ($payment_seed->cancelSubscription($subscription->payment_identifier)) {

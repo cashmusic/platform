@@ -155,4 +155,30 @@ trait Misc {
             }
         }
     }
+
+    public function cancelSubscription() {
+
+        if (!$subscriber_id = $this->element_data['subscription_id']) {
+            $subscriber_id = $this->sessionGet('subscription_id');
+        }
+
+        $cancel_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'updatesubscriptionaddress',
+                'subscriber_id' => $subscriber_id,
+                'user_id' => $this->element_user_id
+            )
+        );
+
+        $this->element_data['message'] = false;
+
+        if ($cancel_request->response['payload']) {
+            $this->element_data['message'] = "Sorry to see you go! Come back sometime.";
+            return true;
+        } else {
+            $this->element_data['message'] = "There was an error cancelling your subscription.";
+            return false;
+        }
+    }
 }

@@ -323,13 +323,19 @@ trait States
     }
 
     private function stateCancel() {
-        CASHSystem::errorLog("cancel shit");
-        $this->revokeLoginState();
+        if ($this->cancelSubscription()) {
+            $this->revokeLoginState();
+            return [
+                'template' => 'logout',
+                'data' => ['logout'=>true]
+            ];
 
-        return [
-            'template' => 'logout',
-            'data' => ['logout'=>true, 'message'=>"Sorry to see you go! Come back sometime."]
-        ];
+        } else {
+            return [
+                'template' => 'account_settings',
+                'data' => ['form_result'=>"Your shipping address was updated successfully!"]
+            ];
+        }
     }
 
     /**
