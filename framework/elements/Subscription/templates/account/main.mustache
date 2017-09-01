@@ -144,7 +144,7 @@
 
             cm.events.add(document.querySelector('.confirm'), 'click', function (e) {
                 e.preventDefault();
-                console.log(e.target.data('value'));
+                console.log(e.target.dataset.continue);
                 //document.getElementById("modal_dialog").style.visibility = "visible";
             });
         }
