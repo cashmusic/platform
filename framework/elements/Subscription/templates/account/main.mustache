@@ -41,6 +41,16 @@
         background-color: rgba(128,47,198,0.5);
     }
 
+    .cm-subscription-message {
+        border: 4px solid #fff;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .main-settings .feed-button {
+        float: none;
+    }
+
     br {
         display: block !important;
     }
@@ -63,10 +73,11 @@
     <h1 class="cm-success-title">Account Settings</h1>
 
     {{#form_result}}
-        <div class="message">
+        <div class="cm-subscription-message">
             <p>{{form_result}}</p>
         </div>
     {{/form_result}}
+    <div class="main-settings">
     {{#address}}
     <h3>Shipping Address</h3>
     <p>
@@ -79,9 +90,10 @@
     </p>
     {{/address}}
 
-    <a href="#" class="button cm-address">Update Address</a>
+    <a href="#" class="feed-button cm-address">Update Address</a>
 
     <h3>Subscription settings</h3>
+
     <p><strong>Status</strong> {{subscriber.status}}</p>
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
 
@@ -93,7 +105,7 @@
     <p><strong>Next renewal date</strong> {{customer.expires}}<br>
         <a href="#" class="feed-button cm-cancel">Cancel my subscription</a>
     </p>
-
+    </div>
 
 </div>
 
