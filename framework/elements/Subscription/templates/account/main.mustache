@@ -77,7 +77,7 @@
             <p>{{form_result}}</p>
         </div>
     {{/form_result}}
-    <div class="main-settings">
+    <p class="main-settings">
     {{#address}}
     <h3>Shipping Address</h3>
     <p>
@@ -98,12 +98,12 @@
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
 
     <p><strong>Payment source</strong> {{customer.brand}} ending in {{customer.last_four}}, expires {{customer.expiry}} </p>
-    <p><strong>Contribution</strong> {{currency}}{{customer.payment}}/per {{customer.interval}}<br>
-        <a href="#" class="feed-button cm-billing">Change payment source</a><br>
-        <a href="#" class="feed-button cm-amount">Change contribution amount</a>
+        <p><strong>Contribution</strong> {{currency}}{{customer.payment}}/per {{customer.interval}}</p>
+        <p><a href="#" class="feed-button cm-billing">Change payment source</a></p>
+    <p><a href="#" class="feed-button cm-amount">Change contribution amount</a></p>
     </p>
-    <p><strong>Next renewal date</strong> {{customer.expires}}<br>
-        <a href="#" class="feed-button cm-cancel">Cancel my subscription</a>
+    <p><strong>Next renewal date</strong> {{customer.expires}}</p>
+    <p>   <a href="#" class="feed-button cm-cancel">Cancel my subscription</a>
     </p>
     </div>
 
