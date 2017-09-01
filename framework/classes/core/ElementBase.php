@@ -154,7 +154,7 @@ abstract class ElementBase extends CASHData {
 		}
 
 		$markup = $this->mustache->render($this->element_data['template'],$this->element_data);
-		//$markup .= $this->mustache->render("confirm",$this->element_data);
+		$markup .= $this->mustache->render("confirm",$this->element_data);
 
 		return $markup;
 	}
