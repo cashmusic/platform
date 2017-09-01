@@ -172,7 +172,7 @@ trait Misc {
         );
 
         $this->element_data['message'] = false;
-        CASHSystem::errorLog($cancel_request->response);
+
         if ($cancel_request->response['payload']) {
             $this->element_data['message'] = "Sorry to see you go! Come back sometime.";
             return true;
