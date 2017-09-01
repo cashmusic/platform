@@ -139,8 +139,9 @@
 
             cm.events.add(document.querySelector('.confirm-true'), 'click', function (e) {
                 e.preventDefault();
-                console.log(e.target.dataset.continue);
-                //document.getElementById("modal_dialog").style.visibility = "visible";
+                document.getElementById("modal_dialog").style.visibility = "hidden";
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cancel"});
+
             });
 
             cm.events.add(document.querySelector('.confirm-false'), 'click', function (e) {
