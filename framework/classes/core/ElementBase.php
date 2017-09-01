@@ -153,7 +153,11 @@ abstract class ElementBase extends CASHData {
 			$this->element_data['error_message'] = $this->error;
 		}
 
-		return $this->mustache->render($this->element_data['template'],$this->element_data);
+		return $this->mustache->render(
+            'layout', array(
+            'header'  => $this->mustache->render($this->element_data['template'], "loader"),
+            'content' => $this->mustache->render('confirm', "shared"),
+        ),$this->element_data);
 	}
 
 	public function setTemplate($template_name) {
