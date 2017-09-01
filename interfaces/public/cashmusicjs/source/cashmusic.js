@@ -626,9 +626,9 @@
                 setTimeout(function(){
                     // window.top for top level reload/redirect
                 	if (reload === true) {
-                        window.top.location.reload();
+                        cm.location.reload();
                     } else {
-                        window.top.location = destination;
+                        cm.location = destination;
 					}
 
                 }, delay);
