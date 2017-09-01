@@ -116,7 +116,7 @@
         if (cancel) {
             cm.events.add(address, 'click', function (e) {
                 e.preventDefault();
-                cm.overlay.confirm({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cancel"});
+                cm.overlay.confirm({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cancel"}, null, "This is a confirmation message");
             });
         }
 

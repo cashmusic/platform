@@ -1181,7 +1181,7 @@
 					}
 				},
 				confirm: function(innerContent,wrapClass,message) {
-                    var r = window.confirm("Press a button!");
+                    var r = window.confirm(message);
                     if (r === true) {
                         this.reveal(innerContent, wrapClass);
                     } else {
