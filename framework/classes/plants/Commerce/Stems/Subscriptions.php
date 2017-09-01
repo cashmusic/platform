@@ -754,7 +754,6 @@ trait Subscriptions {
                         'payment'=>$payment_details
                     ];
                 }
-
             }
 
         }

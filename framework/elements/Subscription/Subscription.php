@@ -26,6 +26,8 @@ class Subscription extends ElementBase {
         $this->element_data['subscription_id'] = $this->sessionGet("subscription_id");
         $this->element_data['email_address'] = $this->sessionGet("email_address");
 
+        $this->element_data['currency'] = $this->getCurrency();
+
         if (!$plan_id = $this->sessionGet("plan_id")) {
             $plan_id = false;
         }
@@ -95,5 +97,24 @@ class Subscription extends ElementBase {
 
 		return $this->element_data;
 	}
+
+    private function getCurrency()
+    {
+        $currency_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'use_currency',
+                'user_id' => $this->element_data['user_id']
+            )
+        );
+        if ($currency_request->response['payload']) {
+            $currency = $currency_request->response['payload'];
+        } else {
+            $currency = 'USD';
+        }
+
+        return CASHSystem::getCurrencySymbol($currency);
+    }
 } // END class
 ?>
