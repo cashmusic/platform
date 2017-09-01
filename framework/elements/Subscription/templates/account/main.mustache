@@ -10,11 +10,11 @@
         left:0px;
         top: 25px;
         text-align: center;
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        -ms-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        transition: all 0.3s;
+        -webkit-transition: all 0.8s;
+        -moz-transition: all 0.8s;
+        -ms-transition: all 0.8s;
+        -o-transition: all 0.8s;
+        transition: all 0.8s;
     }
 
     #modal_dialog .feed-button {
@@ -137,8 +137,15 @@
         }
 
         if (cancel) {
+
             cm.events.add(cancel, 'click', function (e) {
                 document.getElementById("modal_dialog").style.visibility = "visible";
+            });
+
+            cm.events.add(document.querySelector('.confirm'), 'click', function (e) {
+                e.preventDefault();
+                console.log(e.data('value'));
+                //document.getElementById("modal_dialog").style.visibility = "visible";
             });
         }
 
