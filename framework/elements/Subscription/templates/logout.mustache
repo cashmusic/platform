@@ -1,10 +1,10 @@
-<h2 style="text-align: center;">Logging you out!</h2>
+<h2 style="text-align: center;">{{message}}</h2>
 <script type="text/javascript">
 
     var cm = window.cashmusic;
 
     cm.events.add(cm,'ready', function(e) {
-        window.locaton = '{{public_url}}';
+        cm.overlay.redirect("{{public_url}}");
     });
 
 </script>

@@ -318,7 +318,17 @@ trait States
 
         return [
             'template' => 'logout',
-            'data' => ['logout'=>true]
+            'data' => ['logout'=>true, 'message'=>"Logging you out."]
+        ];
+    }
+
+    private function stateCancel() {
+
+        $this->revokeLoginState();
+
+        return [
+            'template' => 'logout',
+            'data' => ['logout'=>true, 'message'=>"Sorry to see you go! Come back sometime."]
         ];
     }
 

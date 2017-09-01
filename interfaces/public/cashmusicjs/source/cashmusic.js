@@ -1191,6 +1191,10 @@
                     	return false;
                     }
 				},
+				redirect: function(destination) {
+					window.location = destination;
+					return true;
+				},
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;
