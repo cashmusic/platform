@@ -617,6 +617,18 @@
 				}
 				return(false);
 			},
+            // simple redirect function, for logouts and stuff
+            redirect: function(destination, delay) {
+				if (delay === null) {
+					delay = 0;
+				}
+
+                setTimeout(function(){
+                    window.location = destination;
+                }, delay);
+
+                return true;
+            },
 
 			/***************************************************************************************
  			 *
@@ -1190,10 +1202,6 @@
                         console.log("nope")
                     	return false;
                     }
-				},
-				redirect: function(destination) {
-					window.location = destination;
-					return true;
 				},
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
