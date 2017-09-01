@@ -152,9 +152,9 @@ abstract class ElementBase extends CASHData {
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}
-
+		CASHSystem::errorLog($this->element_data['template']);
 		$markup = $this->mustache->render($this->element_data['template'],$this->element_data);
-		$markup .= $this->mustache->render("confirm",$this->element_data);
+		//$markup .= $this->mustache->render("confirm",$this->element_data);
 
 		return $markup;
 	}
