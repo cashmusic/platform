@@ -142,10 +142,15 @@
                 document.getElementById("modal_dialog").style.visibility = "visible";
             });
 
-            cm.events.add(document.querySelector('.confirm'), 'click', function (e) {
+            cm.events.add(document.querySelector('.confirm-true'), 'click', function (e) {
                 e.preventDefault();
                 console.log(e.target.dataset.continue);
                 //document.getElementById("modal_dialog").style.visibility = "visible";
+            });
+
+            cm.events.add(document.querySelector('.confirm-false'), 'click', function (e) {
+                e.preventDefault();
+                document.getElementById("modal_dialog").style.visibility = "hidden";
             });
         }
 
