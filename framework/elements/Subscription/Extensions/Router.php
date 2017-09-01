@@ -70,6 +70,10 @@ trait Router {
                     $result = $this->stateResetPassword();
                     break;
 
+                case "cancel":
+                    $result = $this->stateCancel();
+                    break;
+
             }
 
             // merge in all data we have
