@@ -165,14 +165,14 @@ trait Misc {
         $cancel_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
-                'cash_action' => 'updatesubscriptionaddress',
+                'cash_action' => 'cancelsubscription',
                 'subscriber_id' => $subscriber_id,
                 'user_id' => $this->element_user_id
             )
         );
 
         $this->element_data['message'] = false;
-
+        CASHSystem::errorLog($cancel_request->response);
         if ($cancel_request->response['payload']) {
             $this->element_data['message'] = "Sorry to see you go! Come back sometime.";
             return true;
