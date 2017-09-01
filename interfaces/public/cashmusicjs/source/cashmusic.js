@@ -618,13 +618,19 @@
 				return(false);
 			},
             // simple redirect function, for logouts and stuff
-            redirect: function(destination, delay) {
+            redirect: function(destination, delay, reload) {
 				if (delay === null) {
 					delay = 0;
 				}
 
                 setTimeout(function(){
-                    window.top.location = destination; // need to make sure this is the top level getting redirected
+                    // window.top for top level reload/redirect
+                	if (reload === true) {
+                        window.top.location.reload();
+                    } else {
+                        window.top.location = destination;
+					}
+
                 }, delay);
 
                 return true;
