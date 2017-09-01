@@ -4,7 +4,6 @@
     var cm = window.cashmusic;
 
     cm.events.add(cm,'ready', function(e) {
-        cm.overlay.close();
         cm.redirect("{{public_url}}", 3000);
     });
 
