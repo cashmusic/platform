@@ -624,7 +624,7 @@
 				}
 
                 setTimeout(function(){
-                    window.location = destination;
+                    window.top.location = destination; // need to make sure this is the top level getting redirected
                 }, delay);
 
                 return true;
