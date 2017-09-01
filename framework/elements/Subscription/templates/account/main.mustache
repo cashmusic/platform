@@ -22,6 +22,7 @@
         margin-top: -77px;
     }
     .feed-button {
+        border: 0px;
         float: right;
         text-decoration: none;
         text-align: center;
@@ -85,11 +86,11 @@
     <p><strong>Member since </strong> {{subscriber.start_date}}</p>
 
     <p><strong>Payment source</strong> {{customer.brand}} ending in {{customer.last_four}}, expires {{customer.expiry}} </p>
-    <p><strong>Contribution</strong> {{currency}}{{customer.payment}}/per {{customer.interval}}
-        <a href="#" class="feed-button cm-billing">Change payment source</a>
+    <p><strong>Contribution</strong> {{currency}}{{customer.payment}}/per {{customer.interval}}<br>
+        <a href="#" class="feed-button cm-billing">Change payment source</a><br>
         <a href="#" class="feed-button cm-amount">Change contribution amount</a>
     </p>
-    <p><strong>Next renewal date</strong> {{customer.expires}}
+    <p><strong>Next renewal date</strong> {{customer.expires}}<br>
         <a href="#" class="feed-button cm-cancel">Cancel my subscription</a>
     </p>
 
