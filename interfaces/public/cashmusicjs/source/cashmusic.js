@@ -1180,7 +1180,16 @@
 						}
 					}
 				},
+				confirm: function(innerContent,wrapClass,message) {
+                    var r = window.confirm("Press a button!");
+                    if (r === true) {
+                        this.reveal(innerContent, wrapClass);
+                    } else {
 
+                        console.log("nope")
+                    	return false;
+                    }
+				},
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;

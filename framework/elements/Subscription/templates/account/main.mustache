@@ -89,6 +89,8 @@
         var logout = document.querySelector('.cm-logout');
 
         var address = document.querySelector('.cm-address');
+        var cancel = document.querySelector('.cm-cancel');
+
 
         if (feed) {
             cm.events.add(feed, 'click', function (e) {
@@ -108,6 +110,13 @@
             cm.events.add(address, 'click', function (e) {
                 e.preventDefault();
                 cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_address"});
+            });
+        }
+
+        if (cancel) {
+            cm.events.add(address, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.confirm({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cancel"});
             });
         }
 
