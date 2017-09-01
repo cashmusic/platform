@@ -1181,6 +1181,7 @@
 					}
 				},
 				confirm: function(innerContent,wrapClass,message) {
+					console.log("wtf");
                     var r = window.confirm(message);
                     if (r === true) {
                         this.reveal(innerContent, wrapClass);
