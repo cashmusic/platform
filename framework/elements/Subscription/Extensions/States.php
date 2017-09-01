@@ -318,7 +318,7 @@ trait States
 
         return [
             'template' => 'logout',
-            'data' => ['logout'=>true, 'message'=>"Logging you out."]
+            'data' => ['logout'=>true, 'message'=>"You're now logged out."]
         ];
     }
 
