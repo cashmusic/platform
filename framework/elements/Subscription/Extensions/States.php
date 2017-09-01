@@ -236,8 +236,6 @@ trait States
                 }
             }
 
-        } else {
-            CASHSystem::errorLog($_REQUEST);
         }
 
         return [
