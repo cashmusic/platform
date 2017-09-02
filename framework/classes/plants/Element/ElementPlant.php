@@ -241,7 +241,7 @@ class ElementPlant extends PlantBase {
 
 				// very basic element level CSS dynamics
 				//TODO: would love this to happen on element and also state level
-				CASHSystem::errorLog(CASH_ADMIN_URL);
+				CASHSystem::errorLog(get_defined_constants());
 				if (file_exists($path."Styles/styles.css")) {
                     $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-dark.css" />';
 				}
