@@ -203,7 +203,8 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementTemplate($element_id,$return_template=false) {
 		$element = $this->getElement($element_id);
-        CASHSystem::errorLog($element['type']);
+        list($path, $element_object_type) = $this->getElementClassData($element);
+
 		if ($element) {
 			if (!$return_template) {
 				return $element['template_id'];
@@ -236,6 +237,13 @@ class ElementPlant extends PlantBase {
 					$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-light.css" />';
 				} else if ($element['template_id'] == '-2') {
 					$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-dark.css" />';
+				}
+
+				// very basic element level CSS dynamics
+				//TODO: would love this to happen on element and also state level
+				CASHSystem::errorLog(CASH_ADMIN_URL);
+				if (file_exists($path."Styles/styles.css")) {
+                    $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-dark.css" />';
 				}
 
 				$template = str_replace('<head>', "<head>\n".$styles."\n", $template);
