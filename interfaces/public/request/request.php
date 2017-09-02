@@ -22,6 +22,7 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 if (isset($_REQUEST['element_style'])) {
     header("Content-Type: text/css");
     header("X-Content-Type-Options: nosniff");
+    echo CASH_PLATFORM_ROOT . $_REQUEST['element_style'];
     if (file_exists(CASH_PLATFORM_ROOT . $_REQUEST['element_style']))
     echo CASHSystem::getFileContents(CASH_PLATFORM_ROOT . $_REQUEST['element_style']);
     exit;
