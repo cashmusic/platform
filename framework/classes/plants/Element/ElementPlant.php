@@ -242,7 +242,7 @@ class ElementPlant extends PlantBase {
 				// very basic element level CSS dynamics
 				//TODO: would love this to happen on element and also state level
 				if (file_exists($path."Styles/styles.css")) {
-                    $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_PUBLIC_URL.'/request/?element_style='.$base_path.'Styles/styles.css" />';
+                    $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_PUBLIC_URL.'/request/request.php?element_style='.$base_path.'Styles/styles.css" />';
 				}
 
 				$template = str_replace('<head>', "<head>\n".$styles."\n", $template);

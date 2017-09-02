@@ -20,6 +20,8 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
 // element style css
 if (isset($_REQUEST['element_style'])) {
+    header("Content-Type: text/css");
+    header("X-Content-Type-Options: nosniff");
     echo "body{ color: pink !important; }";
     exit;
 }
