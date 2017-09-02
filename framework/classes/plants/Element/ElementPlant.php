@@ -203,7 +203,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementTemplate($element_id,$return_template=false) {
 		$element = $this->getElement($element_id);
-        list($path, $element_object_type) = $this->getElementClassData($element);
+        list($path, $element_object_type, $base_path) = $this->getElementClassData($element);
 
 		if ($element) {
 			if (!$return_template) {
@@ -241,9 +241,8 @@ class ElementPlant extends PlantBase {
 
 				// very basic element level CSS dynamics
 				//TODO: would love this to happen on element and also state level
-				CASHSystem::errorLog(get_defined_constants());
 				if (file_exists($path."Styles/styles.css")) {
-                    $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-dark.css" />';
+                    $styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_PUBLIC_URL.'/request/?element_style='.$base_path.'Styles/styles.css" />';
 				}
 
 				$template = str_replace('<head>', "<head>\n".$styles."\n", $template);
@@ -792,9 +791,10 @@ class ElementPlant extends PlantBase {
 
             if (file_exists($for_include)) {
                 $element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
-                $element_path = CASH_PLATFORM_ROOT . "/elements/$class_name/";
+                $base_path = "/elements/$class_name/";
+                $element_path = CASH_PLATFORM_ROOT . $base_path;
 
-                return [$element_path, $element_object_type];
+                return [$element_path, $element_object_type, $base_path];
             }
         }
 

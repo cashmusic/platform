@@ -17,6 +17,12 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+
+// element style css
+if (isset($_REQUEST['element_style'])) {
+    echo "body{ color: pink !important; }";
+    exit;
+}
 if (!isset($_REQUEST['nooutput'])) {
     $requests = false;
     if (isset($_GET['p'])) {
