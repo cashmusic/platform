@@ -24,9 +24,8 @@ if (isset($_REQUEST['element_style'])) {
     header("X-Content-Type-Options: nosniff");
     $root = realpath(dirname(__FILE__) . '/../../../framework');
 
-    echo $root . $_REQUEST['element_style'];
-    if (file_exists($root . $_REQUEST['element_style']))
-    echo CASHSystem::getFileContents($root . $_REQUEST['element_style']);
+    if (file_exists($root ."/". $_REQUEST['element_style']))
+    echo CASHSystem::getFileContents($root ."/". $_REQUEST['element_style']);
     exit;
 }
 if (!isset($_REQUEST['nooutput'])) {
