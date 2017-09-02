@@ -19,6 +19,7 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
 // element style css
+//TODO:some form of caching
 if (isset($_REQUEST['element_style'])) {
     header("Content-Type: text/css");
     header("X-Content-Type-Options: nosniff");
