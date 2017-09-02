@@ -26,7 +26,7 @@ if (isset($_REQUEST['element_style'])) {
     $root = realpath(dirname(__FILE__) . '/../../../framework');
 
     if (file_exists($root ."/". $_REQUEST['element_style']))
-    echo CASHSystem::getFileContents($root ."/". $_REQUEST['element_style']);
+    echo CASHSystem::getFileContents($root ."/". $_REQUEST['element_style'], true);
     exit;
 }
 if (!isset($_REQUEST['nooutput'])) {
