@@ -40,6 +40,18 @@
     background-color: rgba(128,47,198,0.5);
 }
 
+.account-settings {
+    position: absolute;
+    z-index: 9999;
+    right: 0px;
+    margin-top: -77px;
+}
+
+
+.feed-button:last-child {
+    margin-right: 5px;
+
+}
 .cm-subscription-message {
     border: 4px solid #fff;
     font-weight: 500;
@@ -51,7 +63,7 @@
     float: left;
     clear: both;
     border-radius: 0px;
-    color: #4 !important;
+    color: #333 !important;
     font-weight: 500;
     background-color: rgba(255,255,255,0.8);
     margin: 5px 0px 2px 0px;
