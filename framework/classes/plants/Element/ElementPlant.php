@@ -203,9 +203,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementTemplate($element_id,$return_template=false) {
 		$element = $this->getElement($element_id);
-        CASHSystem::errorLog($element['template']);
-        CASHSystem::errorLog($element['options']);
-		CASHSystem::errorLog($element['state']);
+        CASHSystem::errorLog($element);
 		if ($element) {
 			if (!$return_template) {
 				return $element['template_id'];
