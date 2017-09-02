@@ -203,7 +203,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementTemplate($element_id,$return_template=false) {
 		$element = $this->getElement($element_id);
-        CASHSystem::errorLog($element);
+        CASHSystem::errorLog($element['type']);
 		if ($element) {
 			if (!$return_template) {
 				return $element['template_id'];
@@ -465,32 +465,26 @@ class ElementPlant extends PlantBase {
 
 		$element_type = strtolower($element['type']);
 		$element_options = $element['options'];
+        list($path, $element_object_type) = $this->getElementClassData($element);
 
-		if ($element_type) {
-			$class_name = $this->elements_array[$element_type];
-			$for_include = CASH_PLATFORM_ROOT."/elements/$class_name/$class_name.php";
+		if ($element_object_type) {
+			$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
 
-			if (file_exists($for_include)) {
-				$element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
-
-				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
-
-				if ($geo) {
-					$access_data = array(
-						'geo' => json_decode($geo,true)
-					);
-				} else {
-					$access_data = false;
-				}
-				if (!$donottrack) {
-					$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
-				}
-
-                $markup = $element_object->getMarkup();
-
-				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
-				return $markup;
+			if ($geo) {
+				$access_data = array(
+					'geo' => json_decode($geo,true)
+				);
+			} else {
+				$access_data = false;
 			}
+			if (!$donottrack) {
+				$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
+			}
+
+			$markup = $element_object->getMarkup();
+
+			$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
+			return $markup;
 		} else {
 			return false;
 		}
@@ -777,6 +771,26 @@ class ElementPlant extends PlantBase {
 			unset($campaign['elements'][$key]);
 		}
 		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
+	}
+
+	protected function getElementClassData($element) {
+
+        $element_type = strtolower($element['type']);
+        $element_options = $element['options'];
+
+        if ($element_type) {
+            $class_name = $this->elements_array[$element_type];
+            $for_include = CASH_PLATFORM_ROOT . "/elements/$class_name/$class_name.php";
+
+            if (file_exists($for_include)) {
+                $element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
+                $element_path = CASH_PLATFORM_ROOT . "/elements/$class_name/";
+
+                return [$element_path, $element_object_type];
+            }
+        }
+
+        return [false,false];
 	}
 
 } // END class
