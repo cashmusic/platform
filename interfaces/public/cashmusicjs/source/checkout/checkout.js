@@ -59,7 +59,6 @@
                     if (cm.storage['checkoutdata'].default_name !== null) {
                         name = cm.storage['checkoutdata'].default_name;
                     }
-
                     if (cm.storage['checkoutdata'].default_email !== null) {
                         email = cm.storage['checkoutdata'].default_email;
                     }
