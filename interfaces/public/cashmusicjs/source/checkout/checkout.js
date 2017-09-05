@@ -53,9 +53,18 @@
 
                     var d = new Date();
                     var formElements = [];
-                    console.log( cm.storage['checkoutdata']);
-                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
-                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
+                    var name = false;
+                    var email = false;
+
+                    if (cm.storage['checkoutdata'].default_name !== null) {
+                        name = cm.storage['checkoutdata'].default_name;
+                    }
+
+                    if (cm.storage['checkoutdata'].default_email !== null) {
+                        email = cm.storage['checkoutdata'].default_email;
+                    }
+                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true, value:name});
+                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true, value:email});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});
                     formElements.push({id: "card-expiry-month", type: "select", required:true, options: {
                         "01":"01: Jan",
@@ -538,7 +547,7 @@
                    });
                    cm.checkout.stripeEvents = true;
                 }
-                console.log(options);
+
                 // set up the empty object we'll populate in the return
                 cm.storage['checkoutdata'] = {
                     'stripe'   :false,
