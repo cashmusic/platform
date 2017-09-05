@@ -752,7 +752,7 @@ trait Subscriptions {
                     CASHSystem::errorLog($subscriber_user);
                     return [
                         'subscriber'=>$subscriber,
-                        'user'=>($subscriber->customer() !== null) ? $subscriber->customer()->toArray() : false,
+                        'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
                         'customer'=> $customer_details,
                         'payment'=>$payment_details
                     ];
