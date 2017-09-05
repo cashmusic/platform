@@ -51,7 +51,6 @@
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
 
-                    console.log(cm.storage['checkoutdata']);
                     var d = new Date();
                     var formElements = [];
                     formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
@@ -538,7 +537,7 @@
                    });
                    cm.checkout.stripeEvents = true;
                 }
-
+                console.log(options);
                 // set up the empty object we'll populate in the return
                 cm.storage['checkoutdata'] = {
                     'stripe'   :false,
