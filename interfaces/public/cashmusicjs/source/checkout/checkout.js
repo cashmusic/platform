@@ -50,6 +50,8 @@
                 cm.events.fire(cm,'stripetokenrequested',params);
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
+
+                    console.log(cm.storage['checkoutdata']);
                     var d = new Date();
                     var formElements = [];
                     formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
@@ -547,6 +549,8 @@
                     'email'    :false,
                     'recurring':false,
                     'update_only':false,
+                    'default_name':false,
+                    'default_email':false,
                     'origin'   :window.location.href,
                     'total'	 :false,
                     'transaction_message':false
@@ -571,6 +575,14 @@
 
                 if (options.update_only) {
                     cm.storage['checkoutdata'].update_only = options.update_only;
+                }
+
+                if (options.default_email) {
+                    cm.storage['checkoutdata'].default_email = options.default_email;
+                }
+
+                if (options.default_name) {
+                    cm.storage['checkoutdata'].default_name = options.default_name;
                 }
 
                 // choose defaults by currency
