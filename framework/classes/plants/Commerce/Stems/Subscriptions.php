@@ -750,7 +750,7 @@ trait Subscriptions {
 
                     return [
                         'subscriber'=>$subscriber,
-                        'user'=>($subscriber->customer() !== null) ? $subscriber->customer() : false,
+                        'user'=>($subscriber->customer() !== null) ? $subscriber->customer()->toArray() : false,
                         'customer'=> $customer_details,
                         'payment'=>$payment_details
                     ];
