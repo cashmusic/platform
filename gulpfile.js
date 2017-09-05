@@ -5,11 +5,14 @@ var shell = require('gulp-shell');
 var argv = require('yargs').argv;
 var uglify = require('gulp-uglify');
 
+const debug = require('gulp-debug');
+
+
 var js_source = './interfaces/public/cashmusicjs/source/';
 var paths = {
   scripts: [
-      js_source+'cashmusic.js'], /*,
-     js_source+'checkout/checkout.js',
+      js_source+'cashmusic.js',js_source+'checkout/checkout.js'], /*,
+     ,
      js_source+'share/share-buttons.js'*/
     json: [
         './framework/settings/**/*.json',
@@ -21,18 +24,21 @@ var paths = {
 gulp.task('compile', function() {
 
     return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
+        .pipe(debug({title: 'Compile JS:'}))
         .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
 });
 
 gulp.task('compile-admin', function() {
     return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
+        .pipe(debug({title: 'Compile Admin JS:'}))
         .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
 });
 
 gulp.task('jsonlint', function() {
     return gulp.src(paths.json)
+        .pipe(debug({title: 'JSON Linter:'}))
         .pipe(jsonlint())
         .pipe(jsonlint.reporter());
 });
