@@ -142,6 +142,7 @@
                     "paypal": false,
                     "currency": "usd", // USD = auto default
                     "recurring": true,
+                    "update_only": true,
                     "shipping": false,
                     "total": "{{currency}}" + parseFloat({{customer.payment}}),
                     "transaction_message": "/{{customer.interval}}"
