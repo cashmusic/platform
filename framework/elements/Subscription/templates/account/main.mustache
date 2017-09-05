@@ -27,7 +27,7 @@
         {{customer_city}}, {{customer_region}} {{customer_postalcode}} {{customer_countrycode}}
     </p>
     {{/address}}
-
+    {{user}}
     <a href="#" class="feed-button cm-address">Update Address</a>
         <div class="clear"></div>
 
@@ -143,6 +143,8 @@
                     "currency": "usd", // USD = auto default
                     "recurring": true,
                     "update_only": true,
+                    "default_name": "{{customer_shipping_name}}",
+                    "default_email": "",
                     "shipping": false,
                     "total": "{{currency}}" + parseFloat({{customer.payment}}),
                     "transaction_message": "/{{customer.interval}}"

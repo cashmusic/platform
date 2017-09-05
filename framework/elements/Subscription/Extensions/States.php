@@ -207,6 +207,7 @@ trait States
             }
 
             $subscriber = $subscriber_details['subscriber'];
+            $user = var_dump($subscriber_details['user']);
         }
 
         if (is_cash_model($subscriber_details['payment'])) {
@@ -219,7 +220,7 @@ trait States
 
         return [
             'template' => 'account/main',
-            'data' => compact('address', 'subscriber','payment_details', 'customer')
+            'data' => compact('address', 'subscriber','payment_details', 'customer', 'user')
         ];
     }
 
