@@ -164,8 +164,13 @@
                         cm.storage.checkoutdata.transaction_message = "";
                     }
 
+                    if (cm.storage.checkoutdata.update_only) {
+                        total.innerHTML = '<h2 class="cm-pricing">Change payment source for <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+" subscription</span></h2><!--cm-pricing-->";
+                    } else {
+                        total.innerHTML = '<h2 class="cm-pricing">Transaction amount: <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+"</span></h2><!--cm-pricing-->";
+                    }
 
-                    total.innerHTML = '<h2 class="cm-pricing">Transaction amount: <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+"</span></h2><!--cm-pricing-->";
+
 
                     form.appendChild(total);
                 }
@@ -541,6 +546,7 @@
                     'name'     :false,
                     'email'    :false,
                     'recurring':false,
+                    'update_only':false,
                     'origin'   :window.location.href,
                     'total'	 :false,
                     'transaction_message':false
@@ -561,6 +567,10 @@
 
                 if (options.total) {
                     cm.storage['checkoutdata'].total = options.total;
+                }
+
+                if (options.update_only) {
+                    cm.storage['checkoutdata'].update_only = options.update_only;
                 }
 
                 // choose defaults by currency
