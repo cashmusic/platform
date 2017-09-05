@@ -53,6 +53,7 @@
 
                     var d = new Date();
                     var formElements = [];
+                    console.log( cm.storage['checkoutdata']);
                     formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
                     formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});

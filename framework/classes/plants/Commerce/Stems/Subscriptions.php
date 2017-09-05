@@ -749,7 +749,6 @@ trait Subscriptions {
                     $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
                     $subscriber_user = $subscriber->customer();
 
-                    CASHSystem::errorLog($subscriber_user);
                     return [
                         'subscriber'=>$subscriber,
                         'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
