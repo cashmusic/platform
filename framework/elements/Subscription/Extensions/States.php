@@ -207,7 +207,7 @@ trait States
             }
 
             $subscriber = $subscriber_details['subscriber'];
-            $user = var_dump($subscriber_details['user']);
+            $user = $subscriber_details['user'];
         }
 
         if (is_cash_model($subscriber_details['payment'])) {
