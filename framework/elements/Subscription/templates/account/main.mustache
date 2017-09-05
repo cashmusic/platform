@@ -143,8 +143,8 @@
                     "currency": "usd", // USD = auto default
                     "recurring": true,
                     "shipping": false,
-                    "total": "{{currency}}" + parseFloat(10.00),
-                    "transaction_message": "/foo"
+                    "total": "{{currency}}" + parseFloat({{customer.payment}}),
+                    "transaction_message": "/{{customer.interval}}"
                 });
             });
 
