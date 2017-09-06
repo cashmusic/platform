@@ -212,12 +212,11 @@
 
 
         function initiatePayment(f) {
-            console.log("yo yo yo")
             cm.ajax.send(
                     '{{public_url}}/request/payload',
                     cm.ajax.encodeForm(f),
                     function(details) {
-                        console.log("inside the ajax call response");
+                        console.log(f)
                         if (details.substring(0,4) == 'http') {
                             top.location.href = details;
                         } else if (details == '200') {
