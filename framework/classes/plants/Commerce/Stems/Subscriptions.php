@@ -266,7 +266,7 @@ trait Subscriptions {
                     // okay, so this user has a subscription for a plan under this element. same as passed plan_id?
                         // keep track of which subscriptions are marked as active
                         if ($existing_subscriptions->status == 'active') {
-                            $active[$existing_subscriptions->payment_identifier] = $existing_subscriptions['id'];
+                            $active[$existing_subscriptions->payment_identifier] = $existing_subscriptions->id;
                         }
 
                         // if there's a match on passed plan, then we check if it's an active subscription
