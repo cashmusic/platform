@@ -301,6 +301,7 @@ trait Subscriptions {
                                 // it could also mean we're in a race condition where it's in the process of being activated.
                                 // we need to just operate under the assumption that they meant to do this new subscription
                                 // since it doesn't match the previous plan id.
+                                CASHSystem::errorLog($existing_subscriptions);
                                 $subscription_member_id = $existing_subscriptions[0]->id;
                             }
 
