@@ -150,7 +150,9 @@
                     "transaction_message": "/{{customer.interval}}"
                 });
             });
-            cm.events.remove(cm, 'checkoutdata', function(e) {});
+
+            console.log(cm);
+            cm.events.remove(cm, 'checkoutdata', function(payment) {});
             cm.events.add(cm, 'checkoutdata', function (payment) {
                 var f = document.createElement('form');
                 f.method = 'post';
