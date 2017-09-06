@@ -264,24 +264,24 @@ trait Subscriptions {
                     $active = false;
 
                     // okay, so this user has a subscription for a plan under this element. same as passed plan_id?
-                        // keep track of which subscriptions are marked as active
-                        if ($existing_subscriptions->status == 'active') {
-                            $active[$existing_subscriptions->payment_identifier] = $existing_subscriptions->id;
-                        }
+                    // keep track of which subscriptions are marked as active
+                    if ($existing_subscriptions->status == 'active') {
+                        $active[$existing_subscriptions->payment_identifier] = $existing_subscriptions->id;
+                    }
 
-                        // if there's a match on passed plan, then we check if it's an active subscription
-                        if ($existing_subscriptions->subscription_id == $subscription_plan->id) {
-                            // if subscription exists we need to allow them to subscribe if their status is
-                            // 'canceled'. this raises some questions and problems with race conditions and
-                            // double subscriptions but hey
-                            if ($existing_subscriptions->status == 'active') {
-                                ###ERROR: subscriber already exists for this plan and it's active
-                                return "409";
-                            } else {
-                                // return inactive subscription id match
-                                $subscription_member_id = $existing_subscriptions->id;
-                            }
+                    // if there's a match on passed plan, then we check if it's an active subscription
+                    if ($existing_subscriptions->subscription_id == $subscription_plan->id) {
+                        // if subscription exists we need to allow them to subscribe if their status is
+                        // 'canceled'. this raises some questions and problems with race conditions and
+                        // double subscriptions but hey
+                        if ($existing_subscriptions->status == 'active') {
+                            ###ERROR: subscriber already exists for this plan and it's active
+                            return "409";
+                        } else {
+                            // return inactive subscription id match
+                            $subscription_member_id = $existing_subscriptions->id;
                         }
+                    }
 
                         // if not let's cancel currently active one, then subscribe to plan_id
                         if (!$subscription_member_id) {
