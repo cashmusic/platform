@@ -167,7 +167,7 @@
                 }
 
                 f.cash_request_type.value = 'commerce';
-                f.cash_action.value = 'initiatesubscription';
+                f.cash_action.value = 'updatesubscriptionpayment';
                         {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
                 f.element_id.value = {{element_id}};
                 f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
@@ -176,6 +176,8 @@
                 f.email_address.value = payment.detail.email;
                 f.customer_name.value = payment.detail.name;
                 f.geo.value = cm.geo;
+
+                f.subscriber_id.value = {{subscriber.id}};
 
                 if (cm.embedded) {
                     if (cm.get['params']['location']) {

@@ -762,4 +762,8 @@ trait Subscriptions {
 
         return false;
     }
+
+    public function updateSubscriptionPayment() {
+        CASHSystem::errorLog($_REQUEST);
+    }
 }
