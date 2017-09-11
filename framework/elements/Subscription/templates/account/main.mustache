@@ -151,7 +151,7 @@
                 });
             });
 
-            console.log(cm);
+            console.log(cm.events);
             cm.events.remove(cm, 'checkoutdata', function(payment) {});
             cm.events.add(cm, 'checkoutdata', function (payment) {
                 var f = document.createElement('form');
