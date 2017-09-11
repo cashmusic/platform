@@ -123,6 +123,8 @@
         if (billing) {
             cm.events.add(billing, 'click', function (e) {
                 e.preventDefault();
+
+                cm.events.remove(cm, 'checkoutdata', false);
                 /*var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
 
@@ -151,8 +153,6 @@
                 });
             });
 
-            console.log(cm);
-            cm.events.remove(cm, 'checkoutdata', function(payment) {});
             cm.events.add(cm, 'checkoutdata', function (payment) {
                 var f = document.createElement('form');
                 f.method = 'post';
