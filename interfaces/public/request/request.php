@@ -17,6 +17,18 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+
+// element style css
+//TODO:some form of caching
+if (isset($_REQUEST['element_style'])) {
+    header("Content-Type: text/css");
+    header("X-Content-Type-Options: nosniff");
+    $root = realpath(dirname(__FILE__) . '/../../../framework');
+
+    if (file_exists($root ."/". $_REQUEST['element_style']))
+    echo CASHSystem::getFileContents($root ."/". $_REQUEST['element_style'], true);
+    exit;
+}
 if (!isset($_REQUEST['nooutput'])) {
     $requests = false;
     if (isset($_GET['p'])) {

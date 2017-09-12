@@ -617,6 +617,24 @@
 				}
 				return(false);
 			},
+            // simple redirect function, for logouts and stuff
+            redirect: function(destination, delay, reload) {
+				if (delay === null) {
+					delay = 0;
+				}
+
+                setTimeout(function(){
+                    // window.top for top level reload/redirect
+                	if (reload === true) {
+                        self.location.reload();
+                    } else {
+                        self.location = destination;
+					}
+
+                }, delay);
+
+                return true;
+            },
 
 			/***************************************************************************************
  			 *
@@ -1000,7 +1018,6 @@
 								if (r) {
 									var rp = JSON.parse(r);
 									var session_data = JSON.parse(rp.data);
-                                    console.log(session_data, rp.data);
 
 									cm.session.setid(session_data);
 									cm.events.fire(cm,'sessionstarted',rp.data);
@@ -1181,7 +1198,18 @@
 						}
 					}
 				},
+				confirm: function(innerContent,wrapClass,message) {
 
+
+                    var r = window.confirm(message);
+                    if (r === true) {
+                        this.reveal(innerContent, wrapClass);
+                    } else {
+
+                        console.log("nope")
+                    	return false;
+                    }
+				},
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;

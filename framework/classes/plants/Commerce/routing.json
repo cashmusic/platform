@@ -482,6 +482,10 @@
 				"direct"
 			]
 		},
+		"updatesubscriptionpayment": {
+			"description": "Update payment method for subscriber.",
+			"plantfunction": "updateSubscriptionPayment"
+		},
 		"gettransaction": {
 			"description": "Get a transaction by id.",
 			"plantfunction": "getTransaction",

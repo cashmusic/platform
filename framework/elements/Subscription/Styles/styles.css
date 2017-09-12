@@ -1,0 +1,89 @@
+#modal_dialog {
+    position:fixed;
+    z-index:99999;
+    width: 100%;
+    visibility: hidden;
+    background-color: rgba(0,0,0,1);
+    color: #fff;
+    padding: 30px;
+    left:0px;
+    top: 25px;
+    text-align: center;
+}
+
+#modal_dialog .feed-button {
+    float: none;
+}
+.account-settings {
+    position: absolute;
+    z-index: 9999;
+    right: 0px;
+    margin-top: -77px;
+}
+.feed-button {
+    border: 0px;
+    float: right;
+    text-decoration: none;
+    text-align: center;
+    font-size: 12px;
+    background: #ddd;
+    color: #fff!important;
+    padding: 12px 20px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    display: inline-block;
+    background-color: rgba(128,47,198,0.9);
+}
+
+.feed-button:hover {
+    cursor: pointer;
+    background-color: rgba(128,47,198,0.5);
+}
+
+.account-settings {
+    position: absolute;
+    z-index: 9999;
+    right: 0px;
+    margin-top: -77px;
+}
+
+
+.feed-button:last-child {
+    margin-right: 5px;
+
+}
+.cm-subscription-message {
+    border: 4px solid #fff;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.main-settings .feed-button {
+    display: block;
+    float: left;
+    clear: both;
+    border-radius: 0px;
+    color: #333 !important;
+    font-weight: 500;
+    background-color: rgba(255,255,255,0.8);
+    margin: 5px 0px 2px 0px;
+}
+
+.main-settings p {
+    margin: 15px 0px 5px 0px;
+}
+
+.clear {
+    clear: both;
+    height: 0px;
+    margin: 0px;
+}
+
+br {
+    display: block !important;
+}
+
+.feed-button:last-child {
+    margin-right: 5px;
+
+}

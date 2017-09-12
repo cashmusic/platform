@@ -50,10 +50,20 @@
                 cm.events.fire(cm,'stripetokenrequested',params);
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
+
                     var d = new Date();
                     var formElements = [];
-                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
-                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
+                    var name = false;
+                    var email = false;
+
+                    if (cm.storage['checkoutdata'].default_name !== null) {
+                        name = cm.storage['checkoutdata'].default_name;
+                    }
+                    if (cm.storage['checkoutdata'].default_email !== null) {
+                        email = cm.storage['checkoutdata'].default_email;
+                    }
+                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true, value:name});
+                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true, value:email});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});
                     formElements.push({id: "card-expiry-month", type: "select", required:true, options: {
                         "01":"01: Jan",
@@ -164,8 +174,13 @@
                         cm.storage.checkoutdata.transaction_message = "";
                     }
 
+                    if (cm.storage.checkoutdata.update_only) {
+                        total.innerHTML = '<h2 class="cm-pricing">Change payment source for <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+" subscription</span></h2><!--cm-pricing-->";
+                    } else {
+                        total.innerHTML = '<h2 class="cm-pricing">Transaction amount: <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+"</span></h2><!--cm-pricing-->";
+                    }
 
-                    total.innerHTML = '<h2 class="cm-pricing">Transaction amount: <span>'+cm.storage.checkoutdata.total+cm.storage.checkoutdata.transaction_message+"</span></h2><!--cm-pricing-->";
+
 
                     form.appendChild(total);
                 }
@@ -541,6 +556,9 @@
                     'name'     :false,
                     'email'    :false,
                     'recurring':false,
+                    'update_only':false,
+                    'default_name':false,
+                    'default_email':false,
                     'origin'   :window.location.href,
                     'total'	 :false,
                     'transaction_message':false
@@ -561,6 +579,18 @@
 
                 if (options.total) {
                     cm.storage['checkoutdata'].total = options.total;
+                }
+
+                if (options.update_only) {
+                    cm.storage['checkoutdata'].update_only = options.update_only;
+                }
+
+                if (options.default_email) {
+                    cm.storage['checkoutdata'].default_email = options.default_email;
+                }
+
+                if (options.default_name) {
+                    cm.storage['checkoutdata'].default_name = options.default_name;
                 }
 
                 // choose defaults by currency

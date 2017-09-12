@@ -242,7 +242,7 @@ class EntityBase extends CASHData
      */
     public function __get($property)
     {
-        $custom_method = "get" . ucwords($property) . "Attribute";
+        $custom_method = "get" . str_replace("_", "", ucwords($property, "_")) . "Attribute";
 
         if (method_exists($this, $custom_method)) {
             return $this->$custom_method();

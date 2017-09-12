@@ -43,7 +43,6 @@ trait Subscriptions {
             ]);
 
             if (!$plan) return false;
-
             return ['id'=>$sku, 'numeric_id'=>$plan->id];
         }
 
@@ -265,26 +264,24 @@ trait Subscriptions {
                     $active = false;
 
                     // okay, so this user has a subscription for a plan under this element. same as passed plan_id?
-                    foreach($existing_subscriptions as $subscription) {
+                    // keep track of which subscriptions are marked as active
+                    if ($existing_subscriptions->status == 'active') {
+                        $active[$existing_subscriptions->payment_identifier] = $existing_subscriptions->id;
+                    }
 
-                        // keep track of which subscriptions are marked as active
-                        if ($subscription['status'] == 'active') {
-                            $active[$subscription['payment_identifier']] = $subscription['id'];
+                    // if there's a match on passed plan, then we check if it's an active subscription
+                    if ($existing_subscriptions->subscription_id == $subscription_plan->id) {
+                        // if subscription exists we need to allow them to subscribe if their status is
+                        // 'canceled'. this raises some questions and problems with race conditions and
+                        // double subscriptions but hey
+                        if ($existing_subscriptions->status == 'active') {
+                            ###ERROR: subscriber already exists for this plan and it's active
+                            return "409";
+                        } else {
+                            // return inactive subscription id match
+                            $subscription_member_id = $existing_subscriptions->id;
                         }
-
-                        // if there's a match on passed plan, then we check if it's an active subscription
-                        if ($subscription['subscription_id'] == $subscription_plan->id) {
-                            // if subscription exists we need to allow them to subscribe if their status is
-                            // 'canceled'. this raises some questions and problems with race conditions and
-                            // double subscriptions but hey
-                            if ($subscription['status'] == 'active') {
-                                ###ERROR: subscriber already exists for this plan and it's active
-                                return "409";
-                            } else {
-                                // return inactive subscription id match
-                                $subscription_member_id = $subscription['id'];
-                            }
-                        }
+                    }
 
                         // if not let's cancel currently active one, then subscribe to plan_id
                         if (!$subscription_member_id) {
@@ -302,13 +299,12 @@ trait Subscriptions {
                                 // it could also mean we're in a race condition where it's in the process of being activated.
                                 // we need to just operate under the assumption that they meant to do this new subscription
                                 // since it doesn't match the previous plan id.
-                                $subscription_member_id = $existing_subscriptions[0]['id'];
+                                $subscription_member_id = $existing_subscriptions->id;
                             }
 
                         }
 
                         $this->updateSubscription($subscription_member_id, "created", false, false, $subscription_plan->id);
-                    }
                 }
 
                 // create actual subscription on stripe
@@ -378,12 +374,12 @@ trait Subscriptions {
         return false;
     }
 
-    public function cancelSubscription($user_id, $connection_id, $id) {
+    public function cancelSubscription($user_id, $subscriber_id) {
 
-        $this->updateSubscription($id, "canceled");
-        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+        $this->updateSubscription($subscriber_id, "canceled");
+        $payment_seed = $this->getPaymentSeed($user_id);
 
-        $subscription = $this->getSubscriptionDetails($id);
+        $subscription = $this->getSubscriptionDetails($subscriber_id);
 
         if(isset($subscription->payment_identifier)) {
             if ($payment_seed->cancelSubscription($subscription->payment_identifier)) {
@@ -513,6 +509,7 @@ trait Subscriptions {
     public function validateSubscription($user_id, $plans) {
 
         if ($member = $this->orm->findWhere(CommerceSubscriptionMember::class, ['user_id'=>$user_id, 'subscription_id'=>$plans, 'status'=>['active', 'comped'] ])) {
+
             return [$member->subscription_id, $member->id];
         }
 
@@ -742,16 +739,28 @@ trait Subscriptions {
 
         if($payment_seed = $this->getPaymentSeed($user_id)) {
             if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
-                $payment_details = $payment_seed->getSubscription($subscriber_id);
+                $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
 
                 if ($payment_details) {
-                    return $payment_details;
-                }
 
+                    $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
+                    $subscriber_user = $subscriber->customer();
+
+                    return [
+                        'subscriber'=>$subscriber,
+                        'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
+                        'customer'=> $customer_details,
+                        'payment'=>$payment_details
+                    ];
+                }
             }
 
         }
 
         return false;
+    }
+
+    public function updateSubscriptionPayment() {
+        CASHSystem::errorLog($_REQUEST);
     }
 }

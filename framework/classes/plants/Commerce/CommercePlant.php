@@ -1472,6 +1472,8 @@ class CommercePlant extends PlantBase {
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
 
+            if (!$plan) return false; // something bogus about the plan id that's being passed here
+
             $user_id = $plan->user_id;
 
             // get customer info from commerce_subscriptions_members
