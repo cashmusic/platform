@@ -148,16 +148,15 @@ trait Subscriptions {
                 CASHSystem::errorLog($e->getMessage());
             }
 
+            $subscriber_user_ids = [];
             if (is_array($subscribers)) {
-                foreach ($subscribers as $key => &$subscriber) {
-                    unset($subscriber->totalScore);
+                foreach ($subscribers as $key => $subscriber) {
+                    $subscriber_user_ids[] = $subscriber->id;
                 }
             }
-
-            CASHSystem::errorLog($subscribers);
         }
 
-        if ($members = $this->orm->find(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
+        if ($members = $this->orm->find(CommerceSubscriptionMember::class, ['subscription_id' => $subscriber_user_ids], $search, true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
