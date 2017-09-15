@@ -31,7 +31,7 @@ class Subscription extends ElementBase {
         if (!$plan_id = $this->sessionGet("plan_id")) {
             $plan_id = false;
         }
-        CASHSystem::errorLog($this->element_data['show_feed']);
+
         $this->element_data['logged_in'] = false;
 
         $authenticated = false;

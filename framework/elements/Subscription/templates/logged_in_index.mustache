@@ -11,7 +11,12 @@
 <div class="cm-verify">{{{message_verify}}}</div>
 <div class="test-buttons"></div>
 {{/firstuse}}
-{{show_feed}}
+
+{{^show_feed}}
+    <div class="item cm-audio">
+        <p>Thanks for joining the {{}}</p>
+    </div>
+{{/show_feed}}
 {{#show_feed}}
 {{^items}}
     <div class="item cm-audio">
