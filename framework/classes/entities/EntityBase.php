@@ -71,6 +71,7 @@ class EntityBase extends CASHData
         try {
             // if it's an array of ids we can try to get multiples
             if (array_filter($values,'is_int') !==false) {
+                CASHSystem::errorLog("Id only");
                 $object = $em->getRepository(get_called_class())->findById($values, $order_by, $limit, $offset);
             } else if (is_array($values)) {
                 $object = $em->getRepository(get_called_class())->findBy($values, $order_by, $limit, $offset);
