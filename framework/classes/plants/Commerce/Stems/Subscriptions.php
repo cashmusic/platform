@@ -134,25 +134,29 @@ trait Subscriptions {
             // we assume they're searching by email or name, since it's not in the status array
             try {
                 $subscribers = $this->db->table('people')
-                    ->select(['email_address', 'first_name', 'last_name', 'id'])
+                    ->select(['people.id', $this->db->raw('(MATCH (people.first_name) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE) * 3) +
+            (MATCH (people.email_address) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)*2 +
+            MATCH (people.last_name) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)) AS totalScore')])
                     ->join('commerce_subscriptions_members', function($table) use ($id)
                     {
                         $table->on('commerce_subscriptions_members.user_id', '=', 'people.id');
                         $table->on('commerce_subscriptions_members.subscription_id', '=',  $this->db->raw($id));
-                    })->get();
+                    })->
+                    where($this->db->raw('MATCH (people.first_name, people.last_name, people.email_address) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)'))
+                    ->orderBy('totalScore', 'DESC')->get();
             } catch (Exception $e) {
                 CASHSystem::errorLog($e->getMessage());
             }
 
-            $found=[];
-            foreach($subscribers as $subscriber) {
-                if (strpos($subscriber['email_address'], trim($search)) !== FALSE ||
-                    strpos($subscriber['first_name'] . " " . $subscriber['last_name'], trim($search)) !== FALSE) {
-                    $found[] = $subscriber['id'];
-                }
-            }
+            /*
+            SELECT people.id, people.first_name, people.last_name, people.email_address,
+            (MATCH (people.first_name) AGAINST ('tom' IN BOOLEAN MODE) * 3) +
+            (MATCH (people.email_address) AGAINST ('tom' IN BOOLEAN MODE)*2 +
+            MATCH (people.last_name) AGAINST ('tom' IN BOOLEAN MODE)) AS totalScore
+            FROM people WHERE MATCH (people.first_name, people.last_name, people.email_address) AGAINST ('tom' IN BOOLEAN MODE)
+            ORDER BY totalScore DESC;*/
 
-            CASHSystem::errorLog($found);
+            CASHSystem::errorLog($subscribers);
         }
 
         if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
