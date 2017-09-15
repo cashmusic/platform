@@ -127,7 +127,7 @@ trait Subscriptions {
     }
 
     public function searchSubscriptionsByPlan($id, $search, $limit=false) {
-        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], ['status'=>'active'], true)) {
+        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], ['status'=>'comped'], true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
