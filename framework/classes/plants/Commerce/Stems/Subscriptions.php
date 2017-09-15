@@ -139,7 +139,7 @@ trait Subscriptions {
                     ->join('commerce_subscriptions_members', function($table) use ($id)
                     {
                         $table->on('commerce_subscriptions_members.user_id', '=', 'people.id');
-                        $table->on('commerce_subscriptions_members.subscription_id', '=',  $this->db->raw(1));
+                        $table->on('commerce_subscriptions_members.subscription_id', '=',  $this->db->raw($id));
                     })->get();
             } catch (Exception $e) {
                 CASHSystem::errorLog($e->getMessage());
