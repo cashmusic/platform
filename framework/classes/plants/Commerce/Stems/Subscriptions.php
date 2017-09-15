@@ -131,11 +131,10 @@ trait Subscriptions {
         if (in_array($search, $this->status)) {
             $search = ['status' => $search];
         } else {
-            CASHSystem::errorLog("HERE");
             // we assume they're searching by email or name, since it's not in the status array
             try {
-                $result = $this->db->table('people')
-                    ->select(['email_address', 'first_name', 'last_name'])
+                $subscribers = $this->db->table('people')
+                    ->select(['email_address', 'first_name', 'last_name', 'id'])
                     ->join('commerce_subscriptions_members', function($table) use ($id)
                     {
                         $table->on('commerce_subscriptions_members.user_id', '=', 'people.id');
@@ -145,8 +144,15 @@ trait Subscriptions {
                 CASHSystem::errorLog($e->getMessage());
             }
 
+            $found=[];
+            foreach($subscribers as $subscriber) {
+                if (strpos($subscriber['email_address'], trim($search)) !== FALSE ||
+                    strpos($subscriber['first_name'] . " " . $subscriber['last_name'], trim($search)) !== FALSE) {
+                    $found[] = $subscriber['id'];
+                }
+            }
 
-            CASHSystem::errorLog($result);
+            CASHSystem::errorLog($found);
         }
 
         if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
