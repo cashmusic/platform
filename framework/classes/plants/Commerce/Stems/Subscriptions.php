@@ -150,10 +150,12 @@ trait Subscriptions {
 
             $subscriber_user_ids = [];
             if (is_array($subscribers)) {
-                foreach ($subscribers as $key => $subscriber) {
+                foreach ($subscribers as $subscriber) {
                     $subscriber_user_ids[] = $subscriber->id;
                 }
             }
+
+            CASHSystem::errorLog($subscriber_user_ids);
         }
 
         if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, ['subscription_id' => $subscriber_user_ids], $search, true)) {
