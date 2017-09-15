@@ -126,6 +126,27 @@ trait Subscriptions {
         return false;
     }
 
+    public function searchSubscriptionsByPlan($search, $limit=false) {
+        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['email'=>'tom'], true)) {
+
+            $subscribers = [];
+            foreach ($members as $key=>$member) {
+
+                $subscribers[$key] = $member->toArray();
+
+                if ($user = $member->customer()) {
+                    $subscribers[$key]['email_address'] = $user->email_address;
+                }
+            }
+
+            CASHSystem::errorLog($subscribers);
+
+            return $subscribers;
+        }
+
+        return false;
+    }
+
     public function deleteSubscriptionPlan($user_id, $id) {
 
         if ($plan = $this->orm->findWhere(CommerceSubscription::class, ['user_id'=>$user_id, 'id'=>$id])) {

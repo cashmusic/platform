@@ -96,6 +96,23 @@ class EntityBase extends CASHData
         return false;
     }
 
+    public static function search($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
+        $query = $em->getRepository(get_called_class())->createQueryBuilder('s');
+
+            $i=0;
+            foreach ($values as $field=>$value) {
+                if ($i==0) {
+                    $query = $query->where('o.'.$field.' LIKE ?', $value);
+                } else {
+                    $query = $query->orWhere('o.'.$field.' LIKE ?', $value);
+                }
+
+            }
+
+            return $query->getQuery()
+            ->getResult();
+    }
+
 
     /**
      * Static method shortcut to get all model results.

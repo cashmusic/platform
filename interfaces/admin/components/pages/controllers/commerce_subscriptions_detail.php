@@ -31,10 +31,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     }
 }
 
-if (isset($_REQUEST['search'])) {
-    $cash_admin->page_data['search'] = trim($_REQUEST['search']);
-}
-
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
@@ -77,6 +73,11 @@ if (isset($_REQUEST['search'])) {
         $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
     }
 
+
+// searching for a subscriber
+if (isset($_REQUEST['search'])) {
+    $cash_admin->page_data['search'] = trim($_REQUEST['search']);
+} else {
     $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
@@ -84,6 +85,9 @@ if (isset($_REQUEST['search'])) {
             'id' => $request_parameters[0]
         )
     );
+}
+
+
 
     if ($subscription_request->response['payload']) {
 
