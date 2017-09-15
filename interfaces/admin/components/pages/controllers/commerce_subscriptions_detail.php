@@ -33,7 +33,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
 }
 
-CASHSystem::errorLog($_REQUEST['search']);
+CASHSystem::errorLog($_REQUEST);
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
