@@ -68,7 +68,7 @@ class EntityBase extends CASHData
      */
     public static function findWhere($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null)
     {
-
+        CASHSystem::errorLog($values);
         try {
             // if it's an array of ids we can try to get multiples
             if (is_array($values)) {
