@@ -129,7 +129,7 @@ trait Subscriptions {
     public function searchSubscriptionsByPlan($id, $search, $limit=false) {
 
         if (in_array($search, $this->status)) {
-            $search = ['status', $search];
+            $search = ['status' => $search];
         }
 
         if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
