@@ -48,9 +48,14 @@
 <h4 class="section breaker">{{copy_subscriber_title}} ({{active_subscribers}} active, {{currency}}{{gross_active}}{{#plan}}/{{interval}}{{/plan}})</h4>
 <div class="pure-g">
     <div class="pure-u-1-2">
-        <button>Active</button>
-        <button>Canceled</button>
-        <button>Comped</button>
+        <p><small>Filter by status</small></p>
+        <select name="filter" id="filter">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="canceled">Canceled</option>
+            <option value="created">Signup error</option>
+            <option value="comped">Comped</option>
+        </select>
     </div>
 
     <div class="pure-u-1-2">
