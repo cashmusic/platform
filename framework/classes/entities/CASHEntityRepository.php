@@ -29,7 +29,7 @@ class CASHEntityRepository extends EntityRepository
         }
 
         $criteria->where(call_user_func_array(array( $criteria->expr(), 'andX' ),$reqs))
-                ->where(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
+                ->andWhere(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
         return $this->matching($criteria);
 
 
