@@ -99,7 +99,7 @@ class EntityBase extends CASHData
     public static function search($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
         $query = $em->getRepository(get_called_class())->createQueryBuilder('s');
 
-            $i=0;
+            $i=1;
             foreach ($values as $field=>$value) {
                 if ($i==1) {
                     $query = $query->where('s.'.$field.' LIKE ?'.$i, $value);
