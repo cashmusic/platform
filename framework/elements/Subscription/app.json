@@ -176,6 +176,18 @@
 					},
 					"displaysize":"small"
 				},
+				"contact_email":{
+					"label":{
+						"en":"Subscription contact email",
+						"is":"Subscription contact email"
+					},
+					"type":"text",
+					"default":{
+						"en":"",
+						"is":""
+					},
+					"displaysize":"small"
+				},
 				"message_success":{
 					"label":{
 						"en":"Success message",
