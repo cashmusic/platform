@@ -11,7 +11,8 @@
 <div class="cm-verify">{{{message_verify}}}</div>
 <div class="test-buttons"></div>
 {{/firstuse}}
-
+{{show_feed}}
+{{#show_feed}}
 {{^items}}
     <div class="item cm-audio">
         <p>There are currently no posts for this subscription feed.</p>
@@ -36,6 +37,7 @@
         {{/fulfillment_assets}}
     </div>
 {{/items}}
+{{/show_feed}}
 
 </div><!--cm-subscription-feed-->
 
