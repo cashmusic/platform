@@ -96,7 +96,7 @@ if (isset($_REQUEST['search'])) {
     );
 }
 
-CASHSystem::errorLog($subscription_request);
+CASHSystem::errorLog($subscription_request->response);
 
     if ($subscription_request->response['payload']) {
 
