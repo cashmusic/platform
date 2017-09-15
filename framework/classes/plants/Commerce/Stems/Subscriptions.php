@@ -150,7 +150,7 @@ trait Subscriptions {
 
             if (is_array($subscribers)) {
                 foreach ($subscribers as $key => &$subscriber) {
-                    unset($subscriber['totalScore']);
+                    unset($subscriber->totalScore);
                 }
             }
 
