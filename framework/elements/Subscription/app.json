@@ -133,7 +133,7 @@
 					"default": true,
 					"displaysize": "small"
 				},
-				"description": {
+				"subscription_description": {
 					"label": {
 						"en": "Subscription description",
 						"is": "Subscription description"
