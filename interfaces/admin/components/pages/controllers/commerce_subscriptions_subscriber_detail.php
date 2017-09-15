@@ -124,7 +124,7 @@ if (is_array($settings_request->response['payload'])) {
         $subscription_details = $subscriber_request->response['payload']->toArray();
 
         $data = $subscription_details['data'];
-        CASHSystem::errorLog($subscription_details);
+
         $cash_admin->page_data['subscriber'] = $subscription_details;
 
         $cash_admin->page_data['subscription_id'] = $subscription_details['subscription_id'];
@@ -148,7 +148,7 @@ if (is_array($settings_request->response['payload'])) {
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptionplan',
                 'user_id' => $cash_admin->effective_user_id,
-                'id' => $request_parameters[0]
+                'id' => $subscription_details['subscription_id']
             )
         );
 
