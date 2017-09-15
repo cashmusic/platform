@@ -10,9 +10,10 @@ class CASHEntityRepository extends EntityRepository
 {
 
 
-    public function search(Array $required_values, Array $search)
+    public function search(array $required_values, array $search)
     {
-        CASHSystem::errorLog("foo");
+        CASHSystem::errorLog($required_values);
+        CASHSystem::errorLog($search);
         $expr = Criteria::expr();
         $criteria = Criteria::create();
 
