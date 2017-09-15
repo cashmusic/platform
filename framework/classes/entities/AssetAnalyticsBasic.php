@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AssetAnalyticsBasic
  *
  * @Table(name="assets_analytics_basic")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class AssetAnalyticsBasic extends EntityBase
 {
 

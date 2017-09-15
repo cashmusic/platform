@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemProcesses
  *
  * @Table(name="system_processes")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemProcess extends EntityBase
 {
 

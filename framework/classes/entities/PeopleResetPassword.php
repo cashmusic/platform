@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PeopleResetPassword
  *
  * @Table(name="people_resetpassword")
- * @Entity @HasLifecycleCallbacks
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks
  */
 class PeopleResetPassword extends EntityBase
 {

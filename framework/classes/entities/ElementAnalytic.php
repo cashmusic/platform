@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ElementsAnalytics
  *
  * @Table(name="elements_analytics", indexes={@Index(name="elements_analytics_element_id", columns={"element_id"})})
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class ElementAnalytic extends EntityBase
 {
 

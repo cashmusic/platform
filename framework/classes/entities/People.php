@@ -7,7 +7,7 @@ use CASHMusic\Core\CASHDBAL;
 /**
  * @Entity(repositoryClass="CASHMusic\Entities\CASHRepository")
  * @Table(name="people")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 
 class People extends EntityBase {
 
