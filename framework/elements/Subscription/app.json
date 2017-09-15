@@ -186,7 +186,7 @@
 						"en":"Thank you for signing up. Please check your inbox to verify your email & complete your subscription.",
 						"is":"No translation available."
 					},
-					"displaysize":"large"
+					"displaysize":"small"
 				},
 				"message_email":{
 					"label":{
