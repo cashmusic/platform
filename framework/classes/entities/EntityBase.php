@@ -97,7 +97,7 @@ class EntityBase extends CASHData
     }
 
     public static function search($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
-        $query = $em->getRepository($em->getClassMetadata(get_called_class())->getTableName())->createQueryBuilder('s');
+        $query = $em->getRepository("CommerceSubscriptionMember")->createQueryBuilder('s');
 
             $i=1;
             foreach ($values as $field=>$value) {
