@@ -133,7 +133,7 @@ trait Subscriptions {
         } else {
             CASHSystem::errorLog("HERE");
             // we assume they're searching by email or name, since it's not in the status array
-            $result = $this->qb->table('people')
+            $result = $this->db->table('people')
                 ->select(['email_address', 'first_name', 'last_name'])
                 ->join('commerce_subscription_members', function($table) use ($id)
                 {
