@@ -155,7 +155,7 @@ trait Subscriptions {
                     $subscriber_user_ids[] = $subscriber->id;
                 }
 
-                $members = $this->orm->findWhere(CommerceSubscriptionMember::class, $subscriber_user_ids, $search, true);
+                $members = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_user_ids, $search, true);
             }
         }
 
