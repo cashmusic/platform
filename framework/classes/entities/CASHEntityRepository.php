@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Entities;
 
+use CASHMusic\Core\CASHSystem;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 
