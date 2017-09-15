@@ -148,18 +148,16 @@ trait Subscriptions {
                 CASHSystem::errorLog($e->getMessage());
             }
 
-            /*
-            SELECT people.id, people.first_name, people.last_name, people.email_address,
-            (MATCH (people.first_name) AGAINST ('tom' IN BOOLEAN MODE) * 3) +
-            (MATCH (people.email_address) AGAINST ('tom' IN BOOLEAN MODE)*2 +
-            MATCH (people.last_name) AGAINST ('tom' IN BOOLEAN MODE)) AS totalScore
-            FROM people WHERE MATCH (people.first_name, people.last_name, people.email_address) AGAINST ('tom' IN BOOLEAN MODE)
-            ORDER BY totalScore DESC;*/
+            if (is_array($subscribers)) {
+                foreach ($subscribers as $key => &$subscriber) {
+                    unset($subscriber['totalScore']);
+                }
+            }
 
             CASHSystem::errorLog($subscribers);
         }
 
-        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
+        if ($members = $this->orm->find(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
