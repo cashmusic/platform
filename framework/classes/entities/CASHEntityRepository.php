@@ -35,6 +35,7 @@ class CASHEntityRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQueryBuilder('p')
             ->setParameter('status', '%active%')
+            ->getQuery()
             ->getResult();
     }
 
