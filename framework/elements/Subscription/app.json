@@ -160,7 +160,7 @@
 				"is":"Velgengnis/villu skilaboð"
 			},
 			"description":{
-				"en":"Customize messages shown to people using this element.",
+				"en":"Customize messages shown to people using this element. HTML and markdown are accepted.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
 			"data":{
@@ -186,7 +186,7 @@
 						"en":"Thank you for signing up. Please check your inbox to verify your email & complete your subscription.",
 						"is":"No translation available."
 					},
-					"displaysize":"small"
+					"displaysize":"large"
 				},
 				"message_email":{
 					"label":{
