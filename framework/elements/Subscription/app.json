@@ -164,6 +164,18 @@
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
 			"data":{
+				"subscription_name":{
+					"label":{
+						"en":"Name of subscription",
+						"is":"Name of subscription"
+					},
+					"type":"text",
+					"default":{
+						"en":"My Subscription",
+						"is":"My Subscription"
+					},
+					"displaysize":"small"
+				},
 				"message_success":{
 					"label":{
 						"en":"Success message",
