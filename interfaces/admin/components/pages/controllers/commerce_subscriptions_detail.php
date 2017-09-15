@@ -54,8 +54,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
     // currency stuff
     if ($currency_request->response['payload']) {
-
-        CASHSystem::dd($currency_request->response['payload']);
         $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
     } else {
         $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol('USD');
