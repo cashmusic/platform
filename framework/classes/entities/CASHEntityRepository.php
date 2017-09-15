@@ -17,8 +17,9 @@ class CASHEntityRepository extends EntityRepository
         $expr = Criteria::expr();
         $criteria = Criteria::create();
 
+        $reqs = [];
         foreach($required_values as $field=>$value) {
-            $criteria->where($expr->eq($field, $value));
+           $reqs[] = $expr->eq($field, $value);
         }
 
         $searches = [];
@@ -27,7 +28,8 @@ class CASHEntityRepository extends EntityRepository
             $searches[] = $expr->contains($field, $value);
         }
 
-        $criteria->where(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
+        $criteria->where(call_user_func_array(array( $criteria->expr(), 'andX' ),$reqs))
+                ->where(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
         return $this->matching($criteria);
     }
 
