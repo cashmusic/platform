@@ -97,21 +97,11 @@ class EntityBase extends CASHData
     }
 
     public static function search($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
-        $query = $em->getRepository(get_called_class())->createQueryBuilder('s');
-
-            $i=1;
-            foreach ($values as $field=>$value) {
-                if ($i==1) {
-                    $query = $query->where('s.'.$field.' LIKE :value'.$i)->setParameter('value'.$i, '%'.$value.'%');
-                } else {
-                    //$query = $query->orWhere('s.'.$field.' LIKE :value'.$i)->setParameter('value'.$i, $value);
-                }
-
-                $i++;
-            }
-
-            return $query->getQuery()
+        $field = "email"; $value = "tom";
+        $query = $em->getRepository(get_called_class())->createQueryBuilder('s')->where('s.'.$field.' LIKE :value'.$i)->setParameter('value'.$i, '%'.$value.'%')->getQuery()
             ->getResult();
+
+        return $query;
     }
 
 
