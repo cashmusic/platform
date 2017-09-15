@@ -104,7 +104,7 @@ class EntityBase extends CASHData
                 if ($i==1) {
                     $query = $query->where('s.'.$field.' LIKE ?'.$i, $value);
                 } else {
-                    $query = $query->orWhere('s.'.$field.' LIKE ?'.$i, $value);
+                    //$query = $query->orWhere('s.'.$field.' LIKE ?'.$i, $value);
                 }
 
                 $i++;
