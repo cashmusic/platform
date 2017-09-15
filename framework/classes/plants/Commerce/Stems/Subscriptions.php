@@ -134,15 +134,15 @@ trait Subscriptions {
             // we assume they're searching by email or name, since it's not in the status array
             try {
                 $subscribers = $this->db->table('people')
-                    ->select(['people.id', $this->db->raw('(MATCH (people.first_name) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE) * 3) +
-            (MATCH (people.email_address) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)*2 +
-            MATCH (people.last_name) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)) AS totalScore')])
+                    ->select(['people.id', $this->db->raw('(MATCH (people.first_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE) * 3) +
+            (MATCH (people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)*2 +
+            MATCH (people.last_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)) AS totalScore')])
                     ->join('commerce_subscriptions_members', function($table) use ($id)
                     {
                         $table->on('commerce_subscriptions_members.user_id', '=', 'people.id');
                         $table->on('commerce_subscriptions_members.subscription_id', '=',  $this->db->raw($id));
                     })->
-                    where($this->db->raw('MATCH (people.first_name, people.last_name, people.email_address) AGAINST ('.$this->db->raw($search).' IN BOOLEAN MODE)'))
+                    where($this->db->raw('MATCH (people.first_name, people.last_name, people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)'))
                     ->orderBy('totalScore', 'DESC')->get();
             } catch (Exception $e) {
                 CASHSystem::errorLog($e->getMessage());
