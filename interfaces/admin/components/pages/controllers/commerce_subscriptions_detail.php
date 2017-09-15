@@ -86,9 +86,6 @@ if (isset($_REQUEST['search'])) {
         )
     );
 
-
-    CASHSystem::errorLog($subscription_request);
-
 } else {
     $subscription_request = new CASHRequest(
         array(
@@ -99,6 +96,7 @@ if (isset($_REQUEST['search'])) {
     );
 }
 
+CASHSystem::errorLog($subscription_request);
 
     if ($subscription_request->response['payload']) {
 
