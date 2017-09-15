@@ -169,6 +169,22 @@ if (is_array($settings_request->response['payload'])) {
 
     }
 
+    $settings_response = $cash_admin->requestAndStore(
+        array(
+            'cash_request_type' => 'system',
+            'cash_action' => 'getsettings',
+            'type' => 'use_currency',
+            'user_id' => $cash_admin->effective_user_id
+        )
+    );
+    if ($settings_response['payload']) {
+        $current_currency = $settings_response['payload'];
+    } else {
+        $current_currency = 'USD';
+    }
+
+    $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($current_currency);
+
 /*    $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',

@@ -42,7 +42,7 @@
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_subscriber_total}}</h5>
-            <p><strong>{{total_paid_to_date}}</strong></p>
+            <p><strong>{{currency}}{{total_paid_to_date}}</strong></p>
 {{/subscriber}}
         </div><!--pure-->
          
@@ -67,7 +67,7 @@
                     <td>{{service_timestamp}}</td>
                     <td>{{connection_type}}</td>
                     <td>{{status}}</td>
-                    <td class="block-color">{{gross_price}}</td>
+                    <td class="block-color">{{currency}}{{gross_price}}</td>
                 </tr>
             {{/subscriptions_payment}}    
             </tbody>
