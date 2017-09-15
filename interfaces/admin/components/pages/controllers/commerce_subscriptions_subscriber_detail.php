@@ -143,6 +143,19 @@ if (is_array($settings_request->response['payload'])) {
             )
         );
 
+        $plan_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptionplan',
+                'user_id' => $cash_admin->effective_user_id,
+                'id' => $request_parameters[0]
+            )
+        );
+
+        if ($plan_request->response['payload']) {
+            $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
+        }
+
 
         if ($subscriber_request->response['payload']) {
             $payments = $subscriber_request->response['payload'];
