@@ -87,7 +87,6 @@ if (isset($_REQUEST['search'])) {
     );
 
     CASHSystem::errorLog($subscription_request->response);
-    CASHSystem::dd($subscription_request->response);
 
 } else {
     $subscription_request = new CASHRequest(
