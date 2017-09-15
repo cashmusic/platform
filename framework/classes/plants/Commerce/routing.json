@@ -447,6 +447,13 @@
 				"direct"
 			]
 		},
+		"searchsubscriptionsbyplan": {
+			"description": "Search subscriptions by plan id.",
+			"plantfunction": "searchSubscriptionsByPlan",
+			"security": [
+				"direct"
+			]
+		},
 		"getsubscriptionplans": {
 			"description": "Get all subscription plans.",
 			"plantfunction": "getAllSubscriptionPlans",
