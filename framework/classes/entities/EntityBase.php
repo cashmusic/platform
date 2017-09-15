@@ -97,9 +97,8 @@ class EntityBase extends CASHData
     }
 
     public static function search($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
-        $field = "email"; $value = "tom";
 
-        return $em->getRepository(get_called_class())->search("tom");
+        return $em->getRepository(get_called_class())->search($values);
 
     }
 
