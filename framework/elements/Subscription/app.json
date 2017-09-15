@@ -200,6 +200,15 @@
 					},
 					"displaysize":"small"
 				},
+				"show_feed":{
+					"label":{
+						"en":"Show the subscription feed on element",
+						"is":"Show the subscription feed on element"
+					},
+					"type":"boolean",
+					"default":true,
+					"displaysize":"small"
+				},
 				"description":{
 					"label":{
 						"en":"Subscription description",
