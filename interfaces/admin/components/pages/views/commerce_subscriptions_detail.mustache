@@ -48,7 +48,7 @@
 <h4 class="section breaker">{{copy_subscriber_title}} ({{active_subscribers}} active, {{currency}}{{gross_active}}{{#plan}}/{{interval}}{{/plan}})</h4>
 <div class="pure-g">
     <div class="pure-u-1-2" style="padding-right: 15px;">
-        <small>Filter by status</small><br>
+        <small>Filter by status</small>
         <select name="filter" id="filter">
             <option value="all">All</option>
             <option value="active">Active</option>
@@ -59,9 +59,9 @@
     </div>
 
     <div class="pure-u-1-2">
-        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="lists" style="width:100%; margin-top:15px; float:right">
-            <small>Search by email, name, or status</small>
 
+        <small>Search by email, name, or status</small>
+        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="lists" style="width:100%; margin-top:15px; float:right">
             <div class="pure-g">
                 <div class="pure-u-3-5">
                     <input type="text" name="search" placeholder="Search subscribers" value="{{search}}" class="required">
