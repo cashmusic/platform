@@ -188,6 +188,30 @@
 					},
 					"displaysize":"small"
 				},
+				"element_url":{
+					"label":{
+						"en":"URL of subscription element",
+						"is":"URL of subscription element"
+					},
+					"type":"text",
+					"default":{
+						"en":"",
+						"is":""
+					},
+					"displaysize":"small"
+				},
+				"description":{
+					"label":{
+						"en":"Subscription description",
+						"is":"Subscription description"
+					},
+					"type":"text",
+					"default":{
+						"en":"",
+						"is":""
+					},
+					"displaysize":"large"
+				},
 				"message_success":{
 					"label":{
 						"en":"Success message",

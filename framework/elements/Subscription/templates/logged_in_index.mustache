@@ -7,7 +7,7 @@
 
     </div>
 {{#firstuse}} 
-<h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
+<h1 class="cm-success-title">Welcome to the {{subscription_name}}!</h1>
 <div class="cm-verify">{{{message_verify}}}</div>
 <div class="test-buttons"></div>
 {{/firstuse}}
@@ -69,12 +69,11 @@ cm.events.add(cm,'ready', function(e) {
         cm.shareButtons.buildButtons(
             ".test-buttons",
             {
-                'title':'Join the CASH Music Family.',
+                'title':'Join the {{subscription_name}}.',
                 'description':'Support musicians. Vote on what we create. Receive monthly music. Access our exclusive store. We fight for musicians because art is too important to let corporations lead the way. Let’s build a better future together.',
                 'caption':'CASH Music is a nonprofit empowering artists through open tools & knowledge.',
-                'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
-                'url':'https://family.cashmusic.org',
-                'tags':"CASH Music,Run the jewels,non-profit,musicians"
+                'url':'{{element_url}}',
+                'tags':"{{subscription_name}},subscription"
             }
         );
     });
