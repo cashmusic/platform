@@ -130,6 +130,7 @@ trait Subscriptions {
 
         if (in_array($search, $this->status)) {
             $search = ['status' => $search];
+            $members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id'=>$id], $search, true);
         } else {
             // we assume they're searching by email or name, since it's not in the status array
             try {
@@ -153,10 +154,12 @@ trait Subscriptions {
                 foreach ($subscribers as $subscriber) {
                     $subscriber_user_ids[] = $subscriber->id;
                 }
+
+                $members = $this->orm->findWhere(CommerceSubscriptionMember::class, $subscriber_user_ids, $search, true);
             }
         }
 
-        if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, $subscriber_user_ids, $search, true)) {
+        if ($members) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
