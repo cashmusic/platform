@@ -156,7 +156,7 @@ trait Subscriptions {
             }
         }
 
-        if ($members = $this->orm->find(CommerceSubscriptionMember::class, ['subscription_id' => $subscriber_user_ids], $search, true)) {
+        if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, ['subscription_id' => $subscriber_user_ids], $search, true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
