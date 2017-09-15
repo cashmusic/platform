@@ -29,11 +29,12 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     } else {
         $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
     }
-
-
 }
 
-CASHSystem::errorLog($_REQUEST);
+if (isset($_REQUEST['search'])) {
+    $cash_admin->page_data['search'] = trim($_REQUEST['search']);
+}
+
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
