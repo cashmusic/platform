@@ -131,6 +131,7 @@ trait Subscriptions {
         if (in_array($search, $this->status)) {
             $search = ['status' => $search];
         } else {
+            CASHSystem::errorLog("HERE");
             // we assume they're searching by email or name, since it's not in the status array
             $result = $this->qb->table('people')
                 ->select(['email_address', 'first_name', 'last_name'])
