@@ -13,7 +13,7 @@ use Exception;
 
 trait Subscriptions {
     /* Subscription specific stuff */
-
+    protected $status = ['active', 'canceled', 'created', 'failed', 'comped'];
     protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount=0, $flexible_price=false, $recurring=true, $suggested_price=false, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
@@ -127,7 +127,12 @@ trait Subscriptions {
     }
 
     public function searchSubscriptionsByPlan($id, $search, $limit=false) {
-        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], ['status'=>'comped'], true)) {
+
+        if (in_array($search, $this->status)) {
+            $search = ['status', $search];
+        }
+
+        if ($members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id' => $id], $search, true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
