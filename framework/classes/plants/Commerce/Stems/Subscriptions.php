@@ -133,13 +133,18 @@ trait Subscriptions {
         } else {
             CASHSystem::errorLog("HERE");
             // we assume they're searching by email or name, since it's not in the status array
-            $result = $this->db->table('people')
-                ->select(['email_address', 'first_name', 'last_name'])
-                ->join('commerce_subscription_members', function($table) use ($id)
-                {
-                    $table->on('commerce_subscription_members.user_id', '=', 'people.id');
-                    $table->on('commerce_subscription_members.subscription_id', '=', $id);
-                })->get();
+            try {
+                $result = $this->db->table('people')
+                    ->select(['email_address', 'first_name', 'last_name'])
+                    ->join('commerce_subscription_members', function($table) use ($id)
+                    {
+                        $table->on('commerce_subscription_members.user_id', '=', 'people.id');
+                        $table->on('commerce_subscription_members.subscription_id', '=', $id);
+                    })->get();
+            } catch (Exception $e) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+
 
             CASHSystem::errorLog($result);
         }
