@@ -32,11 +32,16 @@ class CASHEntityRepository extends EntityRepository
                 ->where(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
         return $this->matching($criteria);*/
 
-        return $this->getEntityManager()
+        $test =  $this->getEntityManager()
             ->createQueryBuilder('p')
             ->setParameter('status', '%active%')
             ->getQuery()
             ->getResult();
+
+        CASHSystem::errorLog($test);
+
+
+        return $test;
     }
 
 
