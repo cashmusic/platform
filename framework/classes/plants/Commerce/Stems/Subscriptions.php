@@ -134,7 +134,7 @@ trait Subscriptions {
             // we assume they're searching by email or name, since it's not in the status array
             try {
                 $subscribers = $this->db->table('people')
-                    ->select(['people.id', $this->db->raw('(MATCH (people.first_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE) * 3) +
+                    ->select(['commerce_subscriptions_members.id', $this->db->raw('(MATCH (people.first_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE) * 3) +
             (MATCH (people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)*2 +
             MATCH (people.last_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)) AS totalScore')])
                     ->join('commerce_subscriptions_members', function($table) use ($id)
@@ -154,11 +154,9 @@ trait Subscriptions {
                     $subscriber_user_ids[] = $subscriber->id;
                 }
             }
-
-            CASHSystem::errorLog($subscriber_user_ids);
         }
 
-        if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, ['subscription_id' => $subscriber_user_ids], $search, true)) {
+        if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, $subscriber_user_ids, $search, true)) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {
