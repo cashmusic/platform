@@ -157,33 +157,35 @@ if (is_array($settings_request->response['payload'])) {
         }
 
 
+        $settings_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'use_currency',
+                'user_id' => $cash_admin->effective_user_id
+            )
+        );
+        if ($settings_response['payload']) {
+            $current_currency = $settings_response['payload'];
+        } else {
+            $current_currency = 'USD';
+        }
+
+        $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($current_currency);
+
+
         if ($subscriber_request->response['payload']) {
             $payments = $subscriber_request->response['payload'];
 
             foreach ($payments as $payment) {
                 $payment = $payment->toArray();
+                $payment['currency'] = $cash_admin->page_data['currency'];
                 $payment['service_timestamp'] = date('m/d/Y g:i A', $payment['service_timestamp']);
                 $cash_admin->page_data['subscriptions_payment'][] = $payment;
             }
         }
 
     }
-
-    $settings_response = $cash_admin->requestAndStore(
-        array(
-            'cash_request_type' => 'system',
-            'cash_action' => 'getsettings',
-            'type' => 'use_currency',
-            'user_id' => $cash_admin->effective_user_id
-        )
-    );
-    if ($settings_response['payload']) {
-        $current_currency = $settings_response['payload'];
-    } else {
-        $current_currency = 'USD';
-    }
-
-    $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($current_currency);
 
 /*    $subscription_request = new CASHRequest(
         array(
