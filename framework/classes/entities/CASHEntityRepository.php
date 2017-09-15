@@ -14,31 +14,24 @@ class CASHEntityRepository extends EntityRepository
     {
         CASHSystem::errorLog($required_values);
         CASHSystem::errorLog($search);
-        /*$expr = Criteria::expr();
+
         $criteria = Criteria::create();
 
         $reqs = [];
         foreach($required_values as $field=>$value) {
-           $reqs[] = $expr->eq($field, $value);
+           $reqs[] = Criteria::expr()->eq($field, $value);
         }
 
         $searches = [];
         foreach($search as $field=>$value) {
 
-            $searches[] = $expr->contains($field, $value);
+            $searches[] = Criteria::expr()->contains($field, $value);
         }
 
         $criteria->where(call_user_func_array(array( $criteria->expr(), 'andX' ),$reqs))
                 ->where(call_user_func_array(array( $criteria->expr(), 'orX' ),$searches));
-        return $this->matching($criteria);*/
+        return $this->matching($criteria);
 
-        $test =  $this->getEntityManager()
-            ->createQueryBuilder('p')
-            ->setParameter('status', '%active%')
-            ->getQuery()
-            ->getResult();
-
-        CASHSystem::errorLog($test);
 
 
         return $test;
