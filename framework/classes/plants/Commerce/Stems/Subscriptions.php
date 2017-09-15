@@ -139,8 +139,6 @@ trait Subscriptions {
                 }
             }
 
-            CASHSystem::errorLog($subscribers);
-
             return $subscribers;
         }
 
