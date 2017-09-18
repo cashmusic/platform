@@ -47,7 +47,7 @@ class Subscription extends ElementBase {
 
         // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
-        $this->element_data['shipping'] = false;
+
         // get connections and currency
         $this->updateElementData($subscription_data->getConnections());
         $this->updateElementData($subscription_data->getCurrency());
@@ -88,6 +88,7 @@ class Subscription extends ElementBase {
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
         $this->element_user_id = $this->element_data['user_id'];
+        $this->element_data['shipping'] = false;
         
         // set state and fire the appropriate method in Element\State class
         $this->router(function ($template, $values) {
