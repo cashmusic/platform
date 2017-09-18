@@ -122,7 +122,7 @@
         {{#stripe_public_key}}
             var stripe_public_key = "{{stripe_public_key}}";
         {{/stripe_public_key}}
-        cm.removeEventListener('checkoutdata', function());
+        cm.removeEventListener('checkoutdata', function(){});
         //.remove(cm, 'checkoutdata', false);
 
         cm.events.add(cm, 'checkoutdata', function (payment) {
