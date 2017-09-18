@@ -6,7 +6,6 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
-use Maatwebsite\Excel\Facades\Excel;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
@@ -45,26 +44,9 @@ if (isset($_REQUEST['export'])) {
     if ($data = $subscription_request->response['payload']) {
 
         $filename = "cash-subscription-".$request_parameters[0].date('mdY', time());
-        Excel::create($filename, function($excel) use ($data, $filename) {
 
-            $excel->sheet($filename, function($sheet) use ($data) {
-                /*$sheet->setAutoSize([
-                    'A', 'F', 'H', 'I'
-                ]);
+        CASHSystem::outputArrayToCSV($data, $filename);
 
-                $sheet->setWidth(array(
-                    'B'     =>  60,
-                    'C'     =>  60,
-                    'G'     => 50,
-                    'I'     => 10,
-                    'J'     => 40
-
-                ));*/
-
-                $sheet->fromArray($data);
-            });
-
-        })->download('csv');
     }
 }
 

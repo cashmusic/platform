@@ -21,7 +21,7 @@
         "usmanhalalit/pixie": "^2.0",
         "codeception/codeception": "^2.3",
         "league/oauth2-server": "^6.0",
-        "maatwebsite/excel": "^2.1"
+        "goodby/csv": "^1.3"
     },
     "autoload": {
         "psr-4": {
