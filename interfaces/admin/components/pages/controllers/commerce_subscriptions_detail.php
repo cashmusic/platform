@@ -9,6 +9,25 @@ use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
+// export
+if (isset($_REQUEST['export'])) {
+
+    $subscription_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getallsubscriptionsbyplan',
+            'id' => $request_parameters[0]
+        )
+    );
+
+    if ($data = $subscription_request->response['payload']) {
+
+        $filename = "cash-subscription-".$request_parameters[0].date('mdY', time());
+        CASHSystem::dd($filename);
+        //CASHSystem::outputArrayToCSV($data, $filename);
+    }
+}
+
 // comped subscription
 if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
@@ -30,26 +49,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
     }
 }
-
-if (isset($_REQUEST['export'])) {
-
-    $subscription_request = new CASHRequest(
-        array(
-            'cash_request_type' => 'commerce',
-            'cash_action' => 'getallsubscriptionsbyplan',
-            'id' => $request_parameters[0]
-        )
-    );
-
-    if ($data = $subscription_request->response['payload']) {
-
-        $filename = "cash-subscription-".$request_parameters[0].date('mdY', time());
-
-        CASHSystem::outputArrayToCSV($data, $filename);
-
-    }
-}
-
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
