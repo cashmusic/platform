@@ -22,9 +22,9 @@ if (isset($_REQUEST['export'])) {
 
     if ($data = $subscription_request->response['payload']) {
 
-        $filename = "cash-subscription-".$request_parameters[0].date('mdY', time());
-        CASHSystem::dd($filename);
-        //CASHSystem::outputArrayToCSV($data, $filename);
+        $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
+
+        CASHSystem::outputArrayToCSV($data, true, $filename);
     }
 }
 
