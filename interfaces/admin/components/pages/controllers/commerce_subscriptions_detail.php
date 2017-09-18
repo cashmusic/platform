@@ -26,12 +26,7 @@ if (isset($_REQUEST['export'])) {
 
         $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
 
-        $config = new ExporterConfig();
-        $exporter = new Exporter($config);
-
-        $exporter->export('php://output', $data);
-
-        //CASHSystem::outputArrayToCSV($data, true, $filename);
+        CASHSystem::outputArrayToCSV($data, true, $filename);
     }
 }
 
