@@ -75,7 +75,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
 
 // searching for a subscriber
-if (isset($_REQUEST['search'])) {
+if (!empty($_REQUEST['search'])) {
     $cash_admin->page_data['search'] = trim($_REQUEST['search']);
     $subscription_request = new CASHRequest(
         array(
