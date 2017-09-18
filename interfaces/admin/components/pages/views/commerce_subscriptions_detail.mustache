@@ -62,7 +62,7 @@
                 $(function() {
                     var filter = $("#filter");
 
-                    if ("{{search}}" == "") {
+                    if ('{{search}}' === '') {
                         filter.find('option.empty').prop('selected', true);
                     } else {
                         filter.find('option:contains("{{search}}")').prop('selected', true);
