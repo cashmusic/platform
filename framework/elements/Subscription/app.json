@@ -169,18 +169,7 @@
 					},
 					"displaysize":"large"
 				},
-				"message_email":{
-					"label":{
-						"en":"Email success message",
-						"is":"Velgengnis skilaboð"
-					},
-					"type":"text",
-					"default":{
-						"en":"Thank you for signing up. Please make sure to verify your address <a href='{{{verify_link}}}'>here</a> to complete your subscription.",
-						"is":"No translation available."
-					},
-					"displaysize":"large"
-				},
+
 				"message_verify":{
 					"label":{
 						"en":"Email verified message",
@@ -193,14 +182,26 @@
 					},
 					"displaysize":"large"
 				},
-				"message_error":{
+			}
+		},
+		"emails":{
+			"group_label":{
+				"en":"Email settings",
+				"is":"Velgengnis/villu skilaboð"
+			},
+			"description":{
+				"en":"Customize emails sent to people using this element. HTML and markdown are accepted.",
+				"is":"Customize emails sent to people using this element. HTML and markdown are accepted."
+			},
+			"data":{
+				"message_email":{
 					"label":{
-						"en":"Payment error message",
-						"is":"Ógilt netfang"
+						"en":"Email success message",
+						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"There was a problem with your payment. Please try again.",
+						"en":"Thank you for signing up. Please make sure to verify your address <a href='{{{verify_link}}}'>here</a> to complete your subscription.",
 						"is":"No translation available."
 					},
 					"displaysize":"large"
