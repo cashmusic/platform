@@ -32,7 +32,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     }
 }
 
-if ($_REQUEST['export']) {
+if (isset($_REQUEST['export'])) {
 
     $subscription_request = new CASHRequest(
         array(
