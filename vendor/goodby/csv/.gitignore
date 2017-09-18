@@ -1,5 +1,0 @@
-.phpmake
-/vendor
-/composer.phar
-/composer.lock
-/metrics
