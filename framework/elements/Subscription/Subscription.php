@@ -47,7 +47,7 @@ class Subscription extends ElementBase {
 
         // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
-
+        $this->element_data['shipping'] = false;
         // get connections and currency
         $this->updateElementData($subscription_data->getConnections());
         $this->updateElementData($subscription_data->getCurrency());
