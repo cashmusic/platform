@@ -6,6 +6,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use Maatwebsite\Excel\Facades\Excel;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
@@ -28,6 +29,42 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         $admin_helper->formSuccess('Success. Comped subscription added to this plan.','/commerce/subscriptions/detail/'.$request_parameters[0]);
     } else {
         $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
+    }
+}
+
+if ($_REQUEST['export']) {
+
+    $subscription_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getallsubscriptionsbyplan',
+            'id' => $request_parameters[0]
+        )
+    );
+
+    if ($data = $subscription_request->response['payload']) {
+
+        $filename = "cash-subscription-".$request_parameters[0].date('mdY', time());
+        Excel::create($filename, function($excel) use ($data, $filename) {
+
+            $excel->sheet($filename, function($sheet) use ($data) {
+                /*$sheet->setAutoSize([
+                    'A', 'F', 'H', 'I'
+                ]);
+
+                $sheet->setWidth(array(
+                    'B'     =>  60,
+                    'C'     =>  60,
+                    'G'     => 50,
+                    'I'     => 10,
+                    'J'     => 40
+
+                ));*/
+
+                $sheet->fromArray($data);
+            });
+
+        })->download('csv');
     }
 }
 
