@@ -125,6 +125,7 @@
         cm.events.remove(cm, 'checkoutdata', false);
 
         cm.events.add(cm, 'checkoutdata', function (payment) {
+            console.log("new jams");
             var f = document.createElement('form');
             f.method = 'post';
             f.action = '';
