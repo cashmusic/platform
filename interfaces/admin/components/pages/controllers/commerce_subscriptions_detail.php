@@ -22,9 +22,22 @@ if (isset($_REQUEST['export'])) {
         )
     );
 
-    if ($data = $subscription_request->response['payload']) {
+    if ($subscribers = $subscription_request->response['payload']) {
 
         $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
+        $data = [];
+        foreach($subscribers as $subscriber) {
+            $subscription_date = date('m-d-Y', $subscriber['start_date']);
+            $formatted_data = array_merge($subscriber['data']['shipping_info'], $subscriber['data']['customer']);
+
+            $data[] = array_merge(
+                $formatted_data,
+                [
+                    'status'=>$subscriber['status'],
+                    'total_paid_to_date'=>$subscriber['total_paid_to_date'],
+                    'subscriber_since'=>$subscription_date
+                ]);
+        }
 
         CASHSystem::outputArrayToCSV($data, true, $filename);
     }
