@@ -50,14 +50,22 @@
     <div class="pure-u-1-2" style="padding-right: 15px;">
         <div style="margin-bottom: 5px;"><small>Filter by status</small></div>
 
-        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="lists" style="width:100%; margin-top:0px;">
-            <select name="filter" id="filter">
+        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="filter_form" style="width:100%; margin-top:0px;">
+            <select name="search" id="filter">
                 <option value="all">all</option>
                 <option value="active">active</option>
                 <option value="canceled">canceled</option>
                 <option value="created">signup error</option>
                 <option value="comped">comped</option>
             </select>
+            <script>
+                $(function() {
+                    $("#filter").change(function(e) {
+                        var form = $(this).parents('form:first');
+                        form.submit();
+                    });
+                });
+            </script>
         </form>
     </div>
 
