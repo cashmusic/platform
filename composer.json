@@ -20,7 +20,8 @@
         "doctrine/migrations": "^1.5",
         "usmanhalalit/pixie": "^2.0",
         "codeception/codeception": "^2.3",
-        "league/oauth2-server": "^6.0"
+        "league/oauth2-server": "^6.0",
+        "maatwebsite/excel": "^2.1"
     },
     "autoload": {
         "psr-4": {
