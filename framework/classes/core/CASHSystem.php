@@ -936,7 +936,7 @@ abstract class CASHSystem  {
 	 */
 
 	public static function outputArrayToCSV($array, $header=false, $filename='export.csv', $delimiter=';') {
-		CASHSystem::dd($array);
+
 		if (is_array($array) && count($array) > 0) {
 			header("Content-Type:application/csv");
 			header("Content-Disposition:attachment;filename=$filename");
