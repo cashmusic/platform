@@ -6,6 +6,8 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
@@ -24,7 +26,12 @@ if (isset($_REQUEST['export'])) {
 
         $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
 
-        CASHSystem::outputArrayToCSV($data, true, $filename);
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+
+        $exporter->export('php://output', $data);
+
+        //CASHSystem::outputArrayToCSV($data, true, $filename);
     }
 }
 
