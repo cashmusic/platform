@@ -16,6 +16,7 @@
         </div>
     {{/form_result}}
     <div class="main-settings">
+    {{#shipping}}
     {{#address}}
     <h3>Shipping Address</h3>
     <p>
@@ -27,6 +28,7 @@
         {{customer_city}}, {{customer_region}} {{customer_postalcode}} {{customer_countrycode}}
     </p>
     {{/address}}
+    {{/shipping}}
 
     <a href="#" class="feed-button cm-address">Update Address</a>
         <div class="clear"></div>
