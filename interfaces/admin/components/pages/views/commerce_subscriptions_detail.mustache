@@ -60,6 +60,9 @@
             </select>
             <script>
                 $(function() {
+
+                    $('#filter option:contains("{{search}}")').prop('selected', true);
+
                     $("#filter").change(function(e) {
                         var form = $(this).parents('form:first');
                         form.submit();
