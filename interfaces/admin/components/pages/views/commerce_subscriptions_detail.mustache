@@ -53,7 +53,7 @@
         <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="filter_form" style="width:100%; margin-top:0px;">
             <select name="search" id="filter">
                 <option value="">all</option>
-                <option value="active" class="empty">active</option>
+                <option value="active">active</option>
                 <option value="canceled">canceled</option>
                 <option value="created">signup error</option>
                 <option value="comped">comped</option>
@@ -63,7 +63,7 @@
                     var filter = $("#filter");
 
                     if ('{{search}}' === '') {
-                        filter.find('option.empty').prop('selected', true);
+                        filter.find('option:eq(0)').prop('selected', true);
                     } else {
                         filter.find('option[value="{{search}}"]').prop('selected', true);
                     }
