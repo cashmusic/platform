@@ -215,6 +215,24 @@
 						"en":"Default password reset email message with {{{verify_link}}}"
 					},
 					"displaysize":"large"
+				},
+				"post_announcement":{
+					"label": {
+						"en":"New post notification email"
+					},
+					"type":"text",
+					"default":{
+						"en":"A new post has been posted on your subscription feed."
+					},
+					"displaysize":"large"
+				},
+				"email_subscribers":{
+					"label": {
+						"en":"Email all subscribers on new feed post?"
+					},
+					"type":"boolean",
+					"default": true,
+					"displaysize":"small"
 				}
 			}
 		},
