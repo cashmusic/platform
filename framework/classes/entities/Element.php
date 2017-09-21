@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Elements
  *
  * @Table(name="elements")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class Element extends EntityBase
 {
 

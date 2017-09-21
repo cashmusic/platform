@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemLockCodes
  *
  * @Table(name="system_lock_codes", indexes={@Index(name="system_lock_codes_uid", columns={"uid"}), @Index(name="system_lock_codes_user_id", columns={"user_id"})})
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemLockCode extends EntityBase
 {
 

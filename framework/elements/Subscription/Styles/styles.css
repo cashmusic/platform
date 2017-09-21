@@ -85,5 +85,8 @@ br {
 
 .feed-button:last-child {
     margin-right: 5px;
+}
 
+.no-feed {
+    margin-bottom: 200px;
 }

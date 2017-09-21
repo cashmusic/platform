@@ -6,8 +6,72 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
+// export
+if (isset($_REQUEST['export'])) {
+
+    $subscription_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getallsubscriptionsbyplan',
+            'id' => $request_parameters[0]
+        )
+    );
+
+    if ($subscribers = $subscription_request->response['payload']) {
+
+        $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
+        $data = [];
+        foreach($subscribers as $subscriber) {
+            $subscription_date = date('m-d-Y', $subscriber['start_date']);
+            $formatted_data = array_merge($subscriber['data']['shipping_info'], $subscriber['data']['customer']);
+
+            $data[] = array_merge(
+                $formatted_data,
+                [
+                    'status'=>$subscriber['status'],
+                    'total_paid_to_date'=>$subscriber['total_paid_to_date'],
+                    'subscriber_since'=>$subscription_date
+                ]);
+        }
+/*
+ * [customer_shipping_name] => Thomas Filepp
+            [customer_address1] => 123 22j1jsjsjs
+            [customer_address2] =>
+            [customer_city] => Portland
+            [customer_region] => OR
+            [customer_postalcode] => 97202
+            [customer_countrycode] =>
+            [customer_email] => tom+fooo@paperscissorsandglue.com
+            [customer_name] => Thomas FIFLIFP
+            [customer_first_name] => Thomas
+            [customer_last_name] => FIFLIFP
+            [status] => active
+            [total_paid_to_date] => 12
+            [subscriber_since] => 08-25-2017
+ */
+        CASHSystem::outputArrayToCSV($data, [
+            'Shipping Name',
+            'Shipping Address 1',
+            'Shipping Address 2',
+            'Shipping City',
+            'Shipping Region',
+            'Shipping Postal',
+            'Shipping Country',
+            'Email',
+            'Full Name',
+            'First Name',
+            'Last Name',
+            'Subscription Status',
+            'Total Paid To Date',
+            'Subscriber Since'
+        ], $filename);
+    }
+}
 
 // comped subscription
 if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
@@ -29,8 +93,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     } else {
         $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
     }
-
-
 }
     $settings_request = new CASHRequest(
         array(
@@ -74,6 +136,26 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
     }
 
+
+// searching for a subscriber
+$cash_admin->page_data['display_search'] = "";
+if (!empty($_REQUEST['search'])) {
+    $cash_admin->page_data['search'] = trim($_REQUEST['search']);
+
+    if (!in_array($_REQUEST['search'], ['active', 'canceled', 'created', 'failed', 'comped'])) {
+        $cash_admin->page_data['display_search'] = trim($_REQUEST['search']);
+    }
+
+    $subscription_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'searchsubscriptionsbyplan',
+            'id' => $request_parameters[0],
+            'search' => $cash_admin->page_data['search']
+        )
+    );
+
+} else {
     $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
@@ -81,6 +163,8 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
             'id' => $request_parameters[0]
         )
     );
+}
+
 
     if ($subscription_request->response['payload']) {
 

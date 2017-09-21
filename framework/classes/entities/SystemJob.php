@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemJobs
  *
  * @Table(name="system_jobs")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemJob extends EntityBase
 {
 

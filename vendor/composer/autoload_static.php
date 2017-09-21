@@ -100,6 +100,7 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
             'DrewM\\MailChimp\\' => 16,
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\DBAL\\Migrations\\' => 25,
+            'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
@@ -297,6 +298,10 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
         array (
             0 => __DIR__ . '/..' . '/doctrine/migrations/lib/Doctrine/DBAL/Migrations',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
@@ -459,10 +464,6 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
-            ),
-            'Doctrine\\Common\\Inflector\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
             'Doctrine\\Common\\Collections\\' => 
             array (
@@ -929,6 +930,7 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
         'CASHMusic\\Entities\\Asset' => __DIR__ . '/../..' . '/framework/classes/entities/Asset.php',
         'CASHMusic\\Entities\\AssetAnalytic' => __DIR__ . '/../..' . '/framework/classes/entities/AssetAnalytic.php',
         'CASHMusic\\Entities\\AssetAnalyticsBasic' => __DIR__ . '/../..' . '/framework/classes/entities/AssetAnalyticsBasic.php',
+        'CASHMusic\\Entities\\CASHEntityRepository' => __DIR__ . '/../..' . '/framework/classes/entities/CASHEntityRepository.php',
         'CASHMusic\\Entities\\CASHRepository' => __DIR__ . '/../..' . '/framework/classes/entities/CASHRepository.php',
         'CASHMusic\\Entities\\CalendarEvent' => __DIR__ . '/../..' . '/framework/classes/entities/CalendarEvent.php',
         'CASHMusic\\Entities\\CalendarGuestlist' => __DIR__ . '/../..' . '/framework/classes/entities/CalendarGuestlist.php',

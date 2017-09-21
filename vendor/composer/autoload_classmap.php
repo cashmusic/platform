@@ -456,6 +456,7 @@ return array(
     'CASHMusic\\Entities\\Asset' => $baseDir . '/framework/classes/entities/Asset.php',
     'CASHMusic\\Entities\\AssetAnalytic' => $baseDir . '/framework/classes/entities/AssetAnalytic.php',
     'CASHMusic\\Entities\\AssetAnalyticsBasic' => $baseDir . '/framework/classes/entities/AssetAnalyticsBasic.php',
+    'CASHMusic\\Entities\\CASHEntityRepository' => $baseDir . '/framework/classes/entities/CASHEntityRepository.php',
     'CASHMusic\\Entities\\CASHRepository' => $baseDir . '/framework/classes/entities/CASHRepository.php',
     'CASHMusic\\Entities\\CalendarEvent' => $baseDir . '/framework/classes/entities/CalendarEvent.php',
     'CASHMusic\\Entities\\CalendarGuestlist' => $baseDir . '/framework/classes/entities/CalendarGuestlist.php',

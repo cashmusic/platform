@@ -62,6 +62,19 @@ class CASHEntity
 
     /**
      * @param $entity
+     * @param $values
+     * @param bool $force_array
+     * @param null $order_by
+     * @param null $limit
+     * @param null $offset
+     * @return mixed
+     */
+    public function search($entity, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
+        return $entity::search($this->em, $values, $force_array, $order_by, $limit, $offset);
+    }
+
+    /**
+     * @param $entity
      * @param null $limit
      * @param null $order_by
      * @param null $offset

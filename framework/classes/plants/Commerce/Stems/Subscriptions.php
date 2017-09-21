@@ -13,7 +13,7 @@ use Exception;
 
 trait Subscriptions {
     /* Subscription specific stuff */
-
+    protected $status = ['active', 'canceled', 'created', 'failed', 'comped'];
     protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount=0, $flexible_price=false, $recurring=true, $suggested_price=false, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
@@ -109,6 +109,58 @@ trait Subscriptions {
 
     public function getAllSubscriptionsByPlan($id, $limit=false) {
         if ($members = $this->orm->findWhere(CommerceSubscriptionMember::class, ['subscription_id'=>$id], true)) {
+
+            $subscribers = [];
+            foreach ($members as $key=>$member) {
+
+                $subscribers[$key] = $member->toArray();
+
+                if ($user = $member->customer()) {
+                    $subscribers[$key]['email_address'] = $user->email_address;
+                }
+            }
+
+            return $subscribers;
+        }
+
+        return false;
+    }
+
+    public function searchSubscriptionsByPlan($id, $search, $limit=false) {
+
+        $members = false;
+        if (in_array($search, $this->status)) {
+            $search = ['status' => $search];
+            $members = $this->orm->search(CommerceSubscriptionMember::class, ['subscription_id'=>$id], $search, true);
+        } else {
+            // we assume they're searching by email or name, since it's not in the status array
+            try {
+                $subscribers = $this->db->table('people')
+                    ->select(['commerce_subscriptions_members.id', $this->db->raw('(MATCH (people.first_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE) * 3) +
+            (MATCH (people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)*2 +
+            MATCH (people.last_name) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)) AS totalScore')])
+                    ->join('commerce_subscriptions_members', function($table) use ($id)
+                    {
+                        $table->on('commerce_subscriptions_members.user_id', '=', 'people.id');
+                        $table->on('commerce_subscriptions_members.subscription_id', '=',  $this->db->raw($id));
+                    })->
+                    where($this->db->raw('MATCH (people.first_name, people.last_name, people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)'))
+                    ->orderBy('totalScore', 'DESC')->get();
+            } catch (Exception $e) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+
+            $subscriber_user_ids = [];
+            if (is_array($subscribers)) {
+                foreach ($subscribers as $subscriber) {
+                    $subscriber_user_ids[] = $subscriber->id;
+                }
+
+                $members = $this->orm->find(CommerceSubscriptionMember::class, $subscriber_user_ids);
+            }
+        }
+
+        if ($members) {
 
             $subscribers = [];
             foreach ($members as $key=>$member) {

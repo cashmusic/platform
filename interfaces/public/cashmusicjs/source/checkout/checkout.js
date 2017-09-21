@@ -508,7 +508,8 @@
             }
         },
 
-        begin: function (options,source) {
+        begin: function (options,source,event_override) {
+            console.log(event_override);
             if (cm.embedded) {
                 cm.events.fire(cm,'begincheckout',options);
             } else {
@@ -538,7 +539,13 @@
                                    cm.storage['checkoutdata']['stripe'] = response.id;
                                    cm.storage['checkoutdata']['name']   = e.detail['name'];
                                    cm.storage['checkoutdata']['email']  = e.detail['email'];
-                                   cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+
+                                   if (event_override) {
+                                       cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+                                   } else {
+                                       cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+                                   }
+
                                    cm.overlay.reveal('<div class="cm-loading"></div>');
                                }
                           });

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemMetadata
  *
  * @Table(name="system_metadata", indexes={@Index(name="system_metadata_scope_table", columns={"scope_table_alias", "scope_table_id"})})
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemMetadata extends EntityBase
 {
 

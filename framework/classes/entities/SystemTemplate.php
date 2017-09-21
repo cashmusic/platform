@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemTemplates
  *
  * @Table(name="system_templates")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemTemplate extends EntityBase
 {
 

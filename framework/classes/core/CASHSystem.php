@@ -953,7 +953,7 @@ abstract class CASHSystem  {
 				fputcsv($f, $line, $delimiter);
 			}
 
-			return true;
+			exit;
 		}
 
 		return false;

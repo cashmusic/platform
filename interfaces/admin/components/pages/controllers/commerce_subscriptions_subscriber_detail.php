@@ -124,7 +124,7 @@ if (is_array($settings_request->response['payload'])) {
         $subscription_details = $subscriber_request->response['payload']->toArray();
 
         $data = $subscription_details['data'];
-        CASHSystem::errorLog($subscription_details);
+
         $cash_admin->page_data['subscriber'] = $subscription_details;
 
         $cash_admin->page_data['subscription_id'] = $subscription_details['subscription_id'];
@@ -143,12 +143,43 @@ if (is_array($settings_request->response['payload'])) {
             )
         );
 
+        $plan_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptionplan',
+                'user_id' => $cash_admin->effective_user_id,
+                'id' => $subscription_details['subscription_id']
+            )
+        );
+
+        if ($plan_request->response['payload']) {
+            $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
+        }
+
+
+        $settings_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'use_currency',
+                'user_id' => $cash_admin->effective_user_id
+            )
+        );
+        if ($settings_response['payload']) {
+            $current_currency = $settings_response['payload'];
+        } else {
+            $current_currency = 'USD';
+        }
+
+        $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($current_currency);
+
 
         if ($subscriber_request->response['payload']) {
             $payments = $subscriber_request->response['payload'];
 
             foreach ($payments as $payment) {
                 $payment = $payment->toArray();
+                $payment['currency'] = $cash_admin->page_data['currency'];
                 $payment['service_timestamp'] = date('m/d/Y g:i A', $payment['service_timestamp']);
                 $cash_admin->page_data['subscriptions_payment'][] = $payment;
             }

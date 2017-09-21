@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ElementsCampaigns
  *
  * @Table(name="elements_campaigns")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class ElementsCampaign extends EntityBase
 {
 

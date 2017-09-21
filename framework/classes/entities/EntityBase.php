@@ -39,7 +39,12 @@ class EntityBase extends CASHData
     public static function find($em, $id)
     {
         try {
-            $object = $em->getRepository(get_called_class())->findOneBy(['id'=>$id]);
+            if (is_array($id)) {
+                $object = $em->getRepository(get_called_class())->findById($id);
+            } else {
+                $object = $em->getRepository(get_called_class())->findOneBy(['id'=>$id]);
+            }
+
         } catch (\Exception $e) {
             CASHSystem::errorLog("Entity ".get_called_class()." Exception: ".$e->getMessage());
             CASHSystem::errorLog("Details_____");
@@ -68,7 +73,6 @@ class EntityBase extends CASHData
      */
     public static function findWhere($em, $values, $force_array=false, $order_by=null, $limit=null, $offset=null)
     {
-
         try {
             // if it's an array of ids we can try to get multiples
             if (is_array($values)) {
@@ -94,6 +98,12 @@ class EntityBase extends CASHData
         }
 
         return false;
+    }
+
+    public static function search($em, $required, $values, $force_array=false, $order_by=null, $limit=null, $offset=null) {
+
+        return $em->getRepository(get_called_class())->search($required, $values);
+
     }
 
 

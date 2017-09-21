@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemSettings
  *
  * @Table(name="system_settings")
- * @Entity @HasLifecycleCallbacks */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemSettings extends EntityBase
 {
 
