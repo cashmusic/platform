@@ -133,6 +133,7 @@ trait States
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
+                CASHSystem::errorLog($password_request->response['payload']);
                 list($this->user_id, $this->subscription_id) = $password_request->response['payload'];
 
                 $this->setLoginState();
