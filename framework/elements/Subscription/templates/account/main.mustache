@@ -206,7 +206,7 @@
                     "shipping": false,
                     "total": "{{currency}}" + parseFloat({{customer.payment}}),
                     "transaction_message": "/{{customer.interval}}"
-                }, null, checkoutdataupdatepayment);
+                }, null, "checkoutdataupdatepayment");
             });
 
             cm.loadScript(cm.path + '/checkout/checkout.js', function () {
