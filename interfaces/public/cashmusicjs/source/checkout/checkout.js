@@ -509,6 +509,7 @@
         },
 
         begin: function (options,source,event_override) {
+            console.log(event_override);
             if (cm.embedded) {
                 cm.events.fire(cm,'begincheckout',options);
             } else {
