@@ -124,7 +124,7 @@
         {{/stripe_public_key}}
         //.remove(cm, 'checkoutdata', false);
 
-        cm.events.add(cm, 'checkoutdataupdatepayment', function (payment) {
+        cm.events.add(cm, 'checkoutdata', function (payment) {
             console.log("new jams");
             var f = document.createElement('form');
             f.method = 'post';
@@ -206,7 +206,7 @@
                     "shipping": false,
                     "total": "{{currency}}" + parseFloat({{customer.payment}}),
                     "transaction_message": "/{{customer.interval}}"
-                }, null, "checkoutdataupdatepayment");
+                });
             });
 
             cm.loadScript(cm.path + '/checkout/checkout.js', function () {
