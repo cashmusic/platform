@@ -198,9 +198,6 @@ if ($cash_admin->page_data['type'] == 'file') {
             'asset_details' => $request_parameters[0]
         )
     );
-
-	CASHSystem::errorLog($fulfillment_request);
-
     if ($fulfillment_request->response['payload']) {
         $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
     }
@@ -236,6 +233,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 	}
 
 	$cash_admin->page_data['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
+	CASHSystem::errorLog($cash_admin->page_data['metadata']);
 	if (isset($cash_admin->page_data['metadata']['cover'])) {
 		if ($cash_admin->page_data['metadata']['cover']) { // effectively non-zero
 			$cover_response = $cash_admin->requestAndStore(
