@@ -243,6 +243,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 			);
 
 			CASHSystem::errorLog($cover_response);
+
 			if ($cover_response['payload']) {
 				$cover_asset = $cover_response['payload']->toArray();
 				$cover_url_response = $cash_admin->requestAndStore(
