@@ -245,19 +245,19 @@ if ($cash_admin->page_data['type'] == 'file') {
 			CASHSystem::errorLog($cover_response);
 
 			if ($cover_response['payload']) {
-				$cover_asset = $cover_response['payload']->toArray();
-				$cover_url_response = $cash_admin->requestAndStore(
+				$cover_asset = $cover_response['payload'];
+				/*$cover_url_response = $cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'asset',
 						'cash_action' => 'getasseturl',
-						'connection_id' => $cover_asset['connection_id'],
+						'connection_id' => $cover_asset->connection_id,
 						'user_id' => $admin_helper->getPersistentData('cash_effective_user'),
-						'asset_location' => $cover_asset['location'],
+						'asset_location' => $cover_asset->location,
 						'inline' => true
 					)
-				);
-				if ($cover_url_response['payload']) {
-					$cash_admin->page_data['cover_url'] = $cover_url_response['payload'];
+				);*/
+				if (isset($cover_asset->location)) {
+					$cash_admin->page_data['cover_url'] = $cover_asset->location;
 					$cash_admin->page_data['cover_asset_id'] = $cash_admin->page_data['metadata']['cover'];
 				}
 			}
