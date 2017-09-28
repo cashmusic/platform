@@ -133,6 +133,8 @@ $asset_response = $cash_admin->requestAndStore(
 	)
 );
 
+CASHSystem::errorLog($asset_response['payload']->toArray());
+
 $asset = $asset_response['payload']->toArray();
 
 if ($asset) {
