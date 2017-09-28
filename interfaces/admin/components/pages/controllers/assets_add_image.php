@@ -47,7 +47,10 @@ if (isset($_POST['doassetadd'])) {
 			// found it. now we can overwrite or extend the original metadata
 			if ($asset_response['payload']) {
 				// modify the existing chunk o metadata
-				$new_metadata = $asset_response['payload']['metadata'];
+				$asset = $asset_response['payload'];
+				if (is_cash_model($asset)) $asset = $asset->toArray();
+
+				$new_metadata = $asset['metadata'];
 				$new_metadata['cover'] = $add_response['payload'];
 
 				// make it public
