@@ -275,7 +275,11 @@ CREATE TABLE `commerce_subscriptions_members` (
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `people_subscr_user_id` (`user_id`),
-  KEY `people_subscr_id` (`subscription_id`)
+  KEY `people_subscr_id` (`subscription_id`),
+  FULLTEXT(email_address, first_name, last_name),
+  FULLTEXT(email_address),
+  FULLTEXT(first_name),
+  FULLTEXT(last_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `commerce_orders`;
