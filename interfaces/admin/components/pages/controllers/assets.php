@@ -122,19 +122,9 @@ if (is_array($releases_response['payload'])) {
 				);
 				if ($cover_response['payload']) {
 					$cover_asset = $cover_response['payload'];
-					$cover_asset = $cover_asset->toArray();
-					$cover_url_response = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'asset',
-							'cash_action' => 'getasseturl',
-							'connection_id' => $cover_asset['connection_id'],
-							'user_id' => $admin_helper->getPersistentData('cash_effective_user'),
-							'asset_location' => $cover_asset['location'],
-							'inline' => true
-						)
-					);
-					if ($cover_url_response['payload']) {
-						$asset['cover_url'] = $cover_url_response['payload'];
+
+					if (isset($cover_asset->location)) {
+						$asset['cover_url'] = $cover_asset->location;
 					}
 				}
 			}
