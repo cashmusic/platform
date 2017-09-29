@@ -359,7 +359,7 @@ class CommercePlant extends PlantBase {
                 if ($unfulfilled_only == 1) {
                     $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
                 } else {
-                    $query = $query->where('commerce_orders.fulfilled', ">=", $unfulfilled_only)->orderBy("commerce_orders.id", "DESC");
+                    $query = $query->orderBy("commerce_orders.id", "DESC");
                 }
             }
 

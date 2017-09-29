@@ -390,9 +390,9 @@ if (is_array($orders_response['payload'])) {
 
 	$cash_admin->page_data['has_orders'] = false;
 
+    $cash_admin->page_data['test'] = json_encode($all_order_details);
 
 	if (count($all_order_details) > 0) {
-		$cash_admin->page_data['test'] = json_encode($all_order_details);
 	$cash_admin->page_data['has_orders'] = true;
 		if (count($all_order_details) > 10) {
 			$cash_admin->page_data['show_pagination'] = true;
