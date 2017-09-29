@@ -97,8 +97,6 @@ $settings_response = $cash_admin->requestAndStore(
 	)
 );
 
-CASHSystem::errorLog($settings_response);
-
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
@@ -130,6 +128,7 @@ if (is_array($allstripe)) {
 		$stripe[$stripeq->id] = $stripeq->name;
 	}
 }
+CASHSystem::errorLog($allstripe);
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
 
 
