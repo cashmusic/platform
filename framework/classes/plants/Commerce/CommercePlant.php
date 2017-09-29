@@ -322,8 +322,6 @@ class CommercePlant extends PlantBase {
         }
 
 
-        CASHSystem::errorLog(func_get_args());
-
         try {
             // gets multiple orders with all information
             if (!$deep) {
