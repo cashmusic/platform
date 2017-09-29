@@ -130,16 +130,18 @@ if (is_array($allstripe)) {
 }
 
 $stripe = array_unique($stripe);
-
+$change_default = false;
 // there's no default stripe set... see if we've got connections and set the default to the latest connection
 if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
-
+	$change_default = true;
 	// stripe
     end($stripe);
     $newest_stripe_connection = key($stripe);
 
     $stripe_selected = $newest_stripe_connection;
+}
 
+if ($change_default) {
     $cash_admin->requestAndStore(
         array(
             'cash_request_type' => 'system',
@@ -148,13 +150,11 @@ if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && c
             'value' => array(
                 'pp_default' => $pp_default,
                 'pp_micro' => $pp_micro,
-                'stripe_default' => $newest_stripe_connection
+                'stripe_default' => $stripe_selected
             ),
             'user_id' => $cash_admin->effective_user_id
         )
     );
-
-
 }
 
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
