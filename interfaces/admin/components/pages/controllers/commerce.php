@@ -97,6 +97,8 @@ $settings_response = $cash_admin->requestAndStore(
 	)
 );
 
+CASHSystem::errorLog($settings_response);
+
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
