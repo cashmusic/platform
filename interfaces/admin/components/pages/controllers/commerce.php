@@ -131,8 +131,9 @@ if (is_array($allstripe)) {
 
 $stripe = array_unique($stripe);
 $change_default = false;
+
 // there's no default stripe set... see if we've got connections and set the default to the latest connection
-if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
+if ((!array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 	$change_default = true;
 	// stripe
     end($stripe);
