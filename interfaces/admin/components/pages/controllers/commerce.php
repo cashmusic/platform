@@ -129,8 +129,8 @@ if (is_array($allstripe)) {
 	}
 }
 
+$stripe = array_unique($stripe);
 
-CASHSystem::errorLog($stripe);
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
 
 
