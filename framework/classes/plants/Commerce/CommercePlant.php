@@ -375,7 +375,7 @@ class CommercePlant extends PlantBase {
                 // loop through and parse all transactions
                 if (is_array($result)) {
                     foreach ($result as &$order) {
-                        $order = $order->toArray(); // cast array wizard spell
+                        $order = json_decode(json_encode($order), true); // cast array wizard spell
 
                         if ($transaction_data = $this->parseTransactionData($order['data_returned'], $order['data_sent'])) {
 
@@ -402,7 +402,7 @@ class CommercePlant extends PlantBase {
                         $order->order_contents = json_decode($order->order_contents, true);
                     }
 
-                    $order = $order->toArray(); // cast array wizard spell
+                    $order = json_decode(json_encode($order), true); // cast array wizard spell
                 }
             }
         }
