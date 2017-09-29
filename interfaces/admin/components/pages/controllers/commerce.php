@@ -309,8 +309,6 @@ if (!$cash_admin->page_data['connection']) {
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
-
-
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 			$item_price = 0;
