@@ -380,6 +380,7 @@ if (is_array($orders_response['payload'])) {
                 );
             } else {
 				//if empty
+
                 $all_order_details[] = array(
                     'id' => $o['id'],
                     'number' => '#' . str_pad($o['id'], 6, 0, STR_PAD_LEFT),
