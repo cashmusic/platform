@@ -129,8 +129,8 @@ if (is_array($allstripe)) {
 	}
 }
 
-// there's no default strupe set... see if we've got connections and set the default to the latest connection
-if (($stripe_selected == 0) && count($stripe) > 0) {
+// there's no default stripe set... see if we've got connections and set the default to the latest connection
+if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 
 	// stripe
     end($stripe);
