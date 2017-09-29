@@ -320,7 +320,8 @@ class CommercePlant extends PlantBase {
         } else {
             $limit = false;
         }
-        
+
+
         CASHSystem::errorLog(func_get_args());
 
         try {
