@@ -240,8 +240,8 @@ $order_request = array(
 	'cash_request_type' => 'commerce',
 	'cash_action' => 'getordersforuser',
 	'user_id' => $cash_admin->effective_user_id,
-	'max_returned' => 11,
-	'skip' => ($cash_admin->page_data['current_page'] - 1) * 10,
+	'max_returned' => 20,
+	'skip' => ($cash_admin->page_data['current_page'] - 1) * 19,
 	'deep' => true
 );
 
