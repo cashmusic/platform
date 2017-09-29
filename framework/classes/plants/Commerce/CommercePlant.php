@@ -347,7 +347,7 @@ class CommercePlant extends PlantBase {
 
             $query = $query->where('commerce_orders.user_id', '=', $user_id);
 
-            if ($since_date) {
+            if ($since_date > 0) {
                 $query = $query->where('commerce_orders.creation_date', ">", $since_date);
             }
 
