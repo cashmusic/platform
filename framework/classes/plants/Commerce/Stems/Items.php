@@ -198,6 +198,7 @@ trait Items {
             foreach($items as $key=>$item) {
 
                 $result[$key] = $item->toArray();
+                $result[$key]['image_url'] = false;
 
                 if ($descriptive_asset = $item->descriptiveAsset()) {
                     if (isset($descriptive_asset->location)) {
