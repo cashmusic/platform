@@ -129,6 +129,8 @@ if (is_array($allstripe)) {
 	}
 }
 
+$stripe = array_unique($stripe);
+
 // there's no default stripe set... see if we've got connections and set the default to the latest connection
 if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 
@@ -154,8 +156,6 @@ if (($stripe_selected == 0 || !array_key_exists($stripe_selected, $stripe)) && c
 
 
 }
-
-$stripe = array_unique($stripe);
 
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
 
