@@ -112,7 +112,7 @@ class AssetPlant extends PlantBase {
 							}
 						}
 
-						CASHSystem::errorLog($final_assets);
+						CASHSystem::errorLog("assets final count " .count($final_assets));
 
 						if (count($final_assets)) {
 							$result = $final_assets;
