@@ -87,12 +87,11 @@ class AssetPlant extends PlantBase {
 		}
 
 		CASHSystem::errorLog($asset_details);
-
+        CASHSystem::errorLog(gettype($asset_details));
 		// test that getInfo returned results
 		if ($asset_details !== false) {
 
 			//vestigial mess
-			CASHSystem::errorLog(gettype($asset_details));
 			if (is_cash_model($asset_details)) {
                 $asset_details = $asset_details->toArray();
 			}
