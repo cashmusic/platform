@@ -73,7 +73,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getStoredAssets($asset_details,$type='fulfillment',$session_id=false) {
 		$result = false; // default return
-
+		CASHSystem::errorLog("getStoredAssets");
 		// i have no idea why this is
 		if (is_array($asset_details) && count($asset_details) == 1
 			&& is_numeric($asset_details[0])) {
@@ -84,6 +84,8 @@ class AssetPlant extends PlantBase {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
+
+		CASHSystem::errorLog($asset_details);
 
 		// test that getInfo returned results
 		if ($asset_details) {
