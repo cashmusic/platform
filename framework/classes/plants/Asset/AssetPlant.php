@@ -86,8 +86,10 @@ class AssetPlant extends PlantBase {
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
 
+		CASHSystem::errorLog($asset_details);
+
 		// test that getInfo returned results
-		if ($asset_details) {
+		if ($asset_details !== false) {
 
 			//vestigial mess
 			if (is_cash_model($asset_details)) {
