@@ -93,6 +93,8 @@ class AssetPlant extends PlantBase {
                 $asset_details = $asset_details->toArray();
 			}
 
+			CASHSystem::errorLog($asset_details);
+
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
 			} elseif ($asset_details['type'] == 'release') {
@@ -112,6 +114,8 @@ class AssetPlant extends PlantBase {
 								$final_assets[] = $fulfillment_asset->toArray();
 							}
 						}
+
+						CASHSystem::errorLog($final_assets);
 
 						if (count($final_assets)) {
 							$result = $final_assets;
