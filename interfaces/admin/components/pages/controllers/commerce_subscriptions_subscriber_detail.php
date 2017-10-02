@@ -117,7 +117,7 @@ if (is_array($settings_request->response['payload'])) {
             'id' => $request_parameters[0]
         )
     );
-    CASHSystem::errorLog($subscriber_request);
+
     if ($subscriber_request->response['payload']) {
 
         // get subscription details

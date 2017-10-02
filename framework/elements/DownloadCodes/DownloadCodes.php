@@ -34,6 +34,8 @@ class DownloadCodes extends ElementBase {
 			// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
 			$this->element_data['asset_id'] = $this->original_response['payload'];
 
+            CASHSystem::errorLog($this->original_response);
+
 			if ($this->element_data['asset_id'] != 0) {
 				// get all fulfillment assets
 				$fulfillment_request = new CASHRequest(
