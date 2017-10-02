@@ -249,6 +249,7 @@ class AssetPlant extends PlantBase {
 
             return $asset;
 		} else {
+			CASHSystem::errorLog($asset);
 			return false;
 		}
 	}

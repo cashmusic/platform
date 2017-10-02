@@ -871,7 +871,7 @@ class SystemPlant extends PlantBase {
 					$lock_code->save();
 
 					if ($lock_code) {
-						return $lock_code->id;
+						return $lock_code->scope_table_id;
 					} else {
 						return false;
 					}
