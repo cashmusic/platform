@@ -878,7 +878,7 @@ class SystemPlant extends PlantBase {
 				} else {
 					// allow retries for four hours after claim
 					if (($lock_code->claim_date + 14400) > time()) {
-						return $lock_code->id;
+						return $lock_code->scope_table_id;
 					} else {
 						return false;
 					}
