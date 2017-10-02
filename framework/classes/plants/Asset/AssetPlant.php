@@ -73,7 +73,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getStoredAssets($asset_details,$type='fulfillment',$session_id=false) {
 		$result = false; // default return
-		CASHSystem::errorLog("getStoredAssets");
+		CASHSystem::errorLog("getStoredAssets $asset_details");
 
 		// i have no idea why this is
 		if (is_array($asset_details) && count($asset_details) == 1
