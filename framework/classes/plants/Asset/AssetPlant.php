@@ -73,7 +73,6 @@ class AssetPlant extends PlantBase {
 
 	protected function getStoredAssets($asset_details,$type='fulfillment',$session_id=false) {
 		$result = false; // default return
-		CASHSystem::errorLog("getStoredAssets $asset_details");
 
 		// i have no idea why this is
 		if (is_array($asset_details) && count($asset_details) == 1
@@ -85,9 +84,6 @@ class AssetPlant extends PlantBase {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
-
-		CASHSystem::errorLog($asset_details);
-        CASHSystem::errorLog(gettype($asset_details));
 		// test that getInfo returned results
 		if ($asset_details !== false) {
 
@@ -95,8 +91,6 @@ class AssetPlant extends PlantBase {
 			if (is_cash_model($asset_details)) {
                 $asset_details = $asset_details->toArray();
 			}
-
-			CASHSystem::errorLog($asset_details);
 
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
