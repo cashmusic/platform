@@ -383,10 +383,16 @@ class Store extends ElementBase {
 										'session_id' => $this->session_id
 									)
 								);
+								CASHSystem::errorLog($fulfillment_request->response);
+								CASHSystem::errorLog("count ### " .count($fulfillment_request->response));
+
 								if ($fulfillment_request->response['payload']) {
 									$i['digital_fulfillment_details'] = new ArrayIterator($fulfillment_request->response['payload']);
 								}
 							}
+
+							CASHSystem::errorLog($i['digital_fulfillment_details']);
+
 							if (!$this->element_data['has_physical'] && $i['physical_fulfillment']) {
 								$this->element_data['has_physical'] = true;
 							}
