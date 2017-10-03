@@ -195,7 +195,7 @@ abstract class ElementBase extends CASHData {
 
         $template = $dir . $template_name;
 
-        if (!file_exists(CASH_PLATFORM_ROOT . '/' . $template_name . ".mustache")) {
+        if (!file_exists(CASH_PLATFORM_ROOT . '/' . $dir. $template_name . ".mustache")) {
             $this->element_data['error_message'] = "Template $template_name not found.";
         }
 
