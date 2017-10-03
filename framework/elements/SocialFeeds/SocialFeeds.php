@@ -74,38 +74,41 @@ class SocialFeeds extends ElementBase {
 		$raw_feeds['tumblr'] = $tumblr_feeds;
 
 		CASHSystem::errorLog($raw_feeds);
+		try {
+            if ($feedcount) {
+                $formatted_feed = array();
 
-		if ($feedcount) {
-			$formatted_feed = array();
+                foreach ($raw_feeds['twitter'] as $feed) {
+                    foreach ($feed as $tweet) {
 
-			foreach ($raw_feeds['twitter'] as $feed) {
-				foreach ($feed as $tweet) {
+                        $formatted_feed[strtotime($tweet->created_at)] = array(
+                            'type' => 'twitter',
+                            'markup' => $this->mustache->render("tweet", $tweet)
+                        );
+                    }
+                }
 
-					$formatted_feed[strtotime($tweet->created_at)] = array(
-						'type' => 'twitter',
-						'markup' => $this->mustache->render("tweet",$tweet)
-					);
-				}
-			}
+                foreach ($raw_feeds['tumblr'] as $feed) {
+                    foreach ($feed as $post) {
+                        $formatted_feed[$post['unix-timestamp']] = array(
+                            'type' => 'tumblr',
+                            'markup' => $this->mustache->render('tumblrpost_' . $post['type'], $post)
+                        );
+                    }
 
-			foreach ($raw_feeds['tumblr'] as $feed) {
-				foreach ($feed as $post) {
-					$formatted_feed[$post['unix-timestamp']] = array(
-						'type' => 'tumblr',
-						'markup' => $this->mustache->render('tumblrpost_' . $post['type'],$post)
-					);
-				}
+                }
 
-			}
+                krsort($formatted_feed);
+                $formatted_feed = array_slice($formatted_feed, 0, $this->options['post_limit'], true);
 
-			krsort($formatted_feed);
-			$formatted_feed = array_slice($formatted_feed,0,$this->options['post_limit'],true);
-
-			$this->element_data['raw_feeds'] = $raw_feeds;
-			$this->element_data['formatted_feed'] = new ArrayIterator($formatted_feed);
-		} else {
-			// no dates matched
-			$this->element_data['error_message'] =  'There are no posts to display right now.';
+                $this->element_data['raw_feeds'] = $raw_feeds;
+                $this->element_data['formatted_feed'] = new ArrayIterator($formatted_feed);
+            } else {
+                // no dates matched
+                $this->element_data['error_message'] = 'There are no posts to display right now.';
+            }
+        } catch (\Exception $e) {
+			CASHSystem::errorLog($e->getMessage());
 		}
 
         CASHSystem::errorLog("3 formatted");
