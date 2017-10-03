@@ -165,7 +165,7 @@ abstract class ElementBase extends CASHData {
 
 	public function getTemplate($template_name) {
         $dir = 'elements/' . $this->extending_class . '/templates/';
-
+		CASHSystem::errorLog($dir);
         // shared templates override
 		/*if (strpos($template_name,"shared/") !== false) {
             $dir = 'elements/Shared/Templates/';
