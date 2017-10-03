@@ -96,8 +96,6 @@ class SocialFeeds extends ElementBase {
 
 			}
 
-			CASHSystem::errorLog("3 formatted");
-
 			krsort($formatted_feed);
 			$formatted_feed = array_slice($formatted_feed,0,$this->options['post_limit'],true);
 
@@ -107,6 +105,9 @@ class SocialFeeds extends ElementBase {
 			// no dates matched
 			$this->element_data['error_message'] =  'There are no posts to display right now.';
 		}
+
+        CASHSystem::errorLog("3 formatted");
+
 		return $this->element_data;
 	}
 } // END class
