@@ -73,7 +73,6 @@ class SocialFeeds extends ElementBase {
 		$raw_feeds['twitter'] = $twitter_feeds;
 		$raw_feeds['tumblr'] = $tumblr_feeds;
 
-		CASHSystem::errorLog($raw_feeds);
 		try {
             if ($feedcount) {
                 $formatted_feed = array();
@@ -83,7 +82,8 @@ class SocialFeeds extends ElementBase {
 
                         $formatted_feed[strtotime($tweet->created_at)] = array(
                             'type' => 'twitter',
-                            'markup' => $this->mustache->render("tweet", $tweet)
+                            'markup' => $this->mustache->render(
+                            	$this->getTemplate("tweet"), $tweet)
                         );
                     }
                 }
@@ -92,7 +92,8 @@ class SocialFeeds extends ElementBase {
                     foreach ($feed as $post) {
                         $formatted_feed[$post['unix-timestamp']] = array(
                             'type' => 'tumblr',
-                            'markup' => $this->mustache->render('tumblrpost_' . $post['type'], $post)
+                            'markup' => $this->mustache->render(
+                                $this->getTemplate('tumblrpost_' . $post['type']), $post)
                         );
                     }
 
