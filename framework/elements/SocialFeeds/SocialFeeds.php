@@ -54,8 +54,6 @@ class SocialFeeds extends ElementBase {
 			}
 		}
 
-		CASHSystem::errorLog("1 twitter");
-
 		if (isset($this->options['tumblr'])) {
 			if (is_array($this->options['tumblr'])) {
 				foreach($this->options['tumblr'] as $feedname => $feed) {
@@ -67,8 +65,6 @@ class SocialFeeds extends ElementBase {
 				}
 			}
 		}
-
-		CASHSystem::errorLog("2 tumblr");
 
 		$raw_feeds['twitter'] = $twitter_feeds;
 		$raw_feeds['tumblr'] = $tumblr_feeds;
@@ -110,8 +106,6 @@ class SocialFeeds extends ElementBase {
         } catch (\Exception $e) {
 			CASHSystem::errorLog($e->getMessage());
 		}
-
-        CASHSystem::errorLog("3 formatted");
 
 		return $this->element_data;
 	}
