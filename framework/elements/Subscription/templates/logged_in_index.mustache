@@ -12,11 +12,14 @@
 <div class="test-buttons"></div>
 {{/firstuse}}
 
-{{^show_feed}}
+{{^firstuse}}
+    {{^show_feed}}
     <div class="item cm-audio no-feed">
         <p>Thanks for joining the {{subscription_name}}. You can change your settings via the <em>Account Settings</em> button.</p>
     </div>
-{{/show_feed}}
+    {{/show_feed}}
+{{/firstuse}}
+
 {{#show_feed}}
 {{^items}}
     <div class="item cm-audio">
