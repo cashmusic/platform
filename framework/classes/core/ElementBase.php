@@ -149,8 +149,6 @@ abstract class ElementBase extends CASHData {
             $this->element_data['template'] = $this->getTemplate('default');
         }
 
-        CASHSystem::errorLog($this->element_data['template']);
-
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}

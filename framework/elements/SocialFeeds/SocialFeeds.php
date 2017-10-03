@@ -83,7 +83,7 @@ class SocialFeeds extends ElementBase {
                         $formatted_feed[strtotime($tweet->created_at)] = array(
                             'type' => 'twitter',
                             'markup' => $this->mustache->render(
-                            	$this->getTemplate("tweet"), $tweet)
+                            	$this->getTemplate("tweet").".mustache", $tweet)
                         );
                     }
                 }
