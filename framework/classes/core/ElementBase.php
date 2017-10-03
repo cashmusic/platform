@@ -184,6 +184,32 @@ abstract class ElementBase extends CASHData {
         return false;
 	}
 
+	public function renderTemplate($template_name, $data) {
+        //$template = $this->getTemplate($template_name);
+
+        $dir = 'elements/' . $this->extending_class . '/templates/';
+        // shared templates override
+        /*if (strpos($template_name,"shared/") !== false) {
+            $dir = 'elements/Shared/Templates/';
+        }*/
+
+        $template = $dir . $template_name;
+
+        if (!file_exists(CASH_PLATFORM_ROOT . '/' . $template_name . ".mustache")) {
+            $this->element_data['error_message'] = "Template $template_name not found.";
+        }
+
+        if (!isset($this->mustache)) {
+            $this->mustache = new \Mustache_Engine(array(
+                'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/'.$dir),
+                'shared' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/elements/Shared/Templates/')
+            ));
+		}
+        $markup = $this->mustache->render($template,$data);
+
+        return $markup;
+	}
+
 	public function getAppData() {
 		if (file_exists(CASHSystem::getElementDirectory($this->type) . '/app.json')) {
 			$app_json = json_decode(file_get_contents(CASHSystem::getElementDirectory($this->type) . '/app.json'),true);
