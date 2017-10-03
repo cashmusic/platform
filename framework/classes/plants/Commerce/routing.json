@@ -58,7 +58,7 @@
 				"GET":{
 					"description":"Get an order by id.",
 					"plantfunction":"getOrder",
-					"authrequired":false
+					"authrequired":true
 				},
 				"PATCH":{
 					"description":"Modify an existing order.",
