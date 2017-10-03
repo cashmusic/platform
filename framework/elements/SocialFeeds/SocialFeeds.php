@@ -73,6 +73,8 @@ class SocialFeeds extends ElementBase {
 		$raw_feeds['twitter'] = $twitter_feeds;
 		$raw_feeds['tumblr'] = $tumblr_feeds;
 
+		CASHSystem::errorLog($raw_feeds);
+
 		if ($feedcount) {
 			$formatted_feed = array();
 
