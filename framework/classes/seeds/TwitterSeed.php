@@ -39,6 +39,7 @@ class TwitterSeed extends SeedBase {
 		if ($user_id && !$connection_id) {
 			$connection = new CASHConnection($user_id);
 			$result = $connection->getConnectionsByType($this->settings_type);
+			CASHSystem::errorLog($result);
 			if (is_array($result)) {
 				$connection_id = $result->id;
 			}
