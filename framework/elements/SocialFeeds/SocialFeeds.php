@@ -53,6 +53,9 @@ class SocialFeeds extends ElementBase {
 				}
 			}
 		}
+
+		CASHSystem::errorLog("1 twitter");
+
 		if (isset($this->options['tumblr'])) {
 			if (is_array($this->options['tumblr'])) {
 				foreach($this->options['tumblr'] as $feedname => $feed) {
@@ -64,6 +67,8 @@ class SocialFeeds extends ElementBase {
 				}
 			}
 		}
+
+		CASHSystem::errorLog("2 tumblr");
 
 		$raw_feeds['twitter'] = $twitter_feeds;
 		$raw_feeds['tumblr'] = $tumblr_feeds;
@@ -90,6 +95,8 @@ class SocialFeeds extends ElementBase {
 				}
 
 			}
+
+			CASHSystem::errorLog("3 formatted");
 
 			krsort($formatted_feed);
 			$formatted_feed = array_slice($formatted_feed,0,$this->options['post_limit'],true);
