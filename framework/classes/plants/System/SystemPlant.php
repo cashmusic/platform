@@ -871,14 +871,20 @@ class SystemPlant extends PlantBase {
 					$lock_code->save();
 
 					if ($lock_code) {
-						return $lock_code->scope_table_id;
+						return [
+							'scope_table_id' => $lock_code->scope_table_id,
+							'scope_table_alias' => $lock_code->scope_table_alias
+						];
 					} else {
 						return false;
 					}
 				} else {
 					// allow retries for four hours after claim
 					if (($lock_code->claim_date + 14400) > time()) {
-						return $lock_code->scope_table_id;
+                        return [
+                            'scope_table_id' => $lock_code->scope_table_id,
+                            'scope_table_alias' => $lock_code->scope_table_alias
+                        ];
 					} else {
 						return false;
 					}

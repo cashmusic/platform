@@ -167,8 +167,6 @@ if (!isset($_REQUEST['nooutput'])) {
                             )
                         );
 
-                        CASHSystem::errorLog($embed_data);
-
                         if ($asset = $fulfillment_request->response['payload']) {
                             /*header("Location: ".$asset_uri);
                             die();*/
