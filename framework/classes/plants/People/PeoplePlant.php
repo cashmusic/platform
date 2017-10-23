@@ -1059,7 +1059,7 @@ class PeoplePlant extends PlantBase {
                     );
 
                     if ($asset_request->response['payload']) {
-						CASHSystem::errorLog("Found an asset");
+						CASHSystem::errorLog("Found an asset // ".count($list_details['members']));
                         $add_code_request = new CASHRequest(
                             array(
                                 'cash_request_type' => 'system',
