@@ -1047,6 +1047,7 @@ class PeoplePlant extends PlantBase {
 
                 // if there's an asset id we need to look it up and pass for global merge vars
                 if ($asset) {
+                	CASHSystem::errorLog("There is an asset");
                     // lookup asset details
                     $asset_request = new CASHRequest(
                         array(
@@ -1058,7 +1059,7 @@ class PeoplePlant extends PlantBase {
                     );
 
                     if ($asset_request->response['payload']) {
-
+						CASHSystem::errorLog("Found an asset");
                         $add_code_request = new CASHRequest(
                             array(
                                 'cash_request_type' => 'system',
@@ -1071,6 +1072,7 @@ class PeoplePlant extends PlantBase {
                         );
 
 						if ($add_code_request) {
+							CASHSystem::errorLog("Lock codes yeah");
 
                             $get_code_request = new CASHRequest(
                                 array(
@@ -1120,7 +1122,7 @@ class PeoplePlant extends PlantBase {
 
                                 // there's a valid asset
                                 if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-
+									CASHSystem::errorLog("asset request + not empty codes");
                                     $code = array_pop($codes);
                                     $merge_vars[] = [
                                         'rcpt' => $subscriber['email_address'],
