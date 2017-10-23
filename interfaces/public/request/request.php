@@ -7,8 +7,6 @@ require_once(dirname(__FILE__) . '/../../../vendor/autoload.php');
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
-CASHSystem::errorLog($_SERVER['REQUEST_URI']);
-
 // pass basic no-cache headers
 header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -169,7 +167,7 @@ if (!isset($_REQUEST['nooutput'])) {
                             )
                         );
 
-                        CASHSystem::errorLog($embed_data['payload']);
+                        CASHSystem::errorLog($embed_data);
 
                         if ($asset = $fulfillment_request->response['payload']) {
                             /*header("Location: ".$asset_uri);
