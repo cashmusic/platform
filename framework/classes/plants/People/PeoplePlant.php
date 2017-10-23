@@ -1188,8 +1188,9 @@ class PeoplePlant extends PlantBase {
                             }
 
                             // there's a valid asset
+							CASHSystem::errorLog("Before check");
                             if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-
+								CASHSystem::errorLog("Valid asset and codes");
                                 $code = array_pop($codes);
                                 $merge_vars[] = [
                                     'rcpt' => $subscriber['email_address'],
