@@ -1094,6 +1094,7 @@ class PeoplePlant extends PlantBase {
 
                 // build recipient arrays
 				if (is_array($list_details)) {
+                	CASHSystem::errorLog("build recipient arrays");
 					$recipients = [];
                     $merge_vars = [];
 					$success = true;
