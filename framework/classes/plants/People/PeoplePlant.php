@@ -1088,8 +1088,8 @@ class PeoplePlant extends PlantBase {
 								$lock_codes = $lock_codes->toArray();
 							}
 
-                            if (is_array($get_code_request->response['payload'])) {
-                                $codes = array_column($get_code_request->response['payload'], 'uid');
+                            if (is_array($lock_codes)) {
+                                $codes = array_column($lock_codes, 'uid');
 							}
 						}
 
