@@ -1203,7 +1203,7 @@ class PeoplePlant extends PlantBase {
                                                 $mailing['list_id'] .
                                                 "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                 "' class='button'>Download ".
-                                                htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                htmlentities($asset_request->response['payload']->title).'</a>'
                                         ]
                                     ]
                                 ];
