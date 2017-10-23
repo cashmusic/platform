@@ -76,7 +76,6 @@ if (!isset($_REQUEST['nooutput'])) {
 
         if ($requests[0] != 'payload' || $requests[0] != 'json') {
             // open up some mustache in here:
-            include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
             $freddiemercury = new \Mustache;
         }
 
@@ -172,6 +171,8 @@ if (!isset($_REQUEST['nooutput'])) {
                                 'scope_table_id' => $scope_table_id
                             )
                         );
+
+                        CASHSystem::errorLog($fulfillment_request->response);
 
                         if ($asset = $fulfillment_request->response['payload']) {
                             /*header("Location: ".$asset_uri);
