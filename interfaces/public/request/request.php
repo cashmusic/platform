@@ -74,11 +74,6 @@ if (!isset($_REQUEST['nooutput'])) {
 
         $initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 
-        if ($requests[0] != 'payload' || $requests[0] != 'json') {
-            // open up some mustache in here:
-            $freddiemercury = new \Mustache;
-        }
-
         if ($requests[0] == 'embed' && isset($requests[1])) {
             $embed_location = false;
             $embed_geo = false;
@@ -121,7 +116,7 @@ if (!isset($_REQUEST['nooutput'])) {
                 $template = str_replace('<body>', '<body class="cm-lightboxed">', $template);
             }
 
-            $encoded_html = $freddiemercury->render($template, $embed_data);
+            $encoded_html = CASHSystem::renderMustache($template, $embed_data);
             echo $encoded_html;
         } else {
             if ($initial_page_request) {
