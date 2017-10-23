@@ -193,7 +193,7 @@ if (!isset($_REQUEST['nooutput'])) {
                         'contextual_message' => 'There was an error processing your request.'
                     );
                 }
-                $encoded_html = $freddiemercury->render($template, $embed_data);
+                $encoded_html = CASHSystem::renderMustache($template, $embed_data);
                 echo $encoded_html;
             }
         }
