@@ -1047,7 +1047,6 @@ class PeoplePlant extends PlantBase {
 
                 // if there's an asset id we need to look it up and pass for global merge vars
                 if ($asset) {
-                	CASHSystem::errorLog("There is an asset");
                     // lookup asset details
                     $asset_request = new CASHRequest(
                         array(
@@ -1059,7 +1058,6 @@ class PeoplePlant extends PlantBase {
                     );
 
                     if ($asset_request->response['payload']) {
-						CASHSystem::errorLog("Found an asset // ".count($list_details['members']));
                         $add_code_request = new CASHRequest(
                             array(
                                 'cash_request_type' => 'system',
@@ -1072,7 +1070,6 @@ class PeoplePlant extends PlantBase {
                         );
 
 						if ($add_code_request) {
-							CASHSystem::errorLog("Lock codes yeah");
 
                             $get_code_request = new CASHRequest(
                                 array(
@@ -1095,7 +1092,6 @@ class PeoplePlant extends PlantBase {
 
                 // build recipient arrays
 				if (is_array($list_details)) {
-                	CASHSystem::errorLog("build recipient arrays");
 					$recipients = [];
                     $merge_vars = [];
 					$success = true;
@@ -1123,9 +1119,7 @@ class PeoplePlant extends PlantBase {
                                 }
 
                                 // there's a valid asset
-								CASHSystem::errorLog("This is before the check");
                                 if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-									CASHSystem::errorLog("asset request + not empty codes");
 
                                     $code = array_pop($codes);
                                     $merge_vars[] = [
@@ -1138,7 +1132,7 @@ class PeoplePlant extends PlantBase {
                                                     $mailing['list_id'] .
                                                     "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                     "' class='button'>Download ".
-                                                    htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                    htmlentities($asset_request->response['payload']->title).'</a>'
                                             ]
                                         ]
                                     ];
@@ -1189,9 +1183,7 @@ class PeoplePlant extends PlantBase {
                             }
 
                             // there's a valid asset
-							CASHSystem::errorLog($codes);
                             if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-								CASHSystem::errorLog("Valid asset and codes");
                                 $code = array_pop($codes);
                                 $merge_vars[] = [
                                     'rcpt' => $subscriber['email_address'],
@@ -1209,8 +1201,6 @@ class PeoplePlant extends PlantBase {
                                 ];
                             }
                         }
-
-                        CASHSystem::errorLog($merge_vars);
 
                         if (CASHSystem::sendMassEmail(
                             $user_id,
