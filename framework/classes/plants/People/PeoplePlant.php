@@ -1083,7 +1083,7 @@ class PeoplePlant extends PlantBase {
                                     'user_id' => $mailing['user_id']
                                 )
                             );
-
+							CASHSystem::errorLog($get_code_request->response['payload']);
                             if (is_array($get_code_request->response['payload'])) {
                                 $codes = array_column($get_code_request->response['payload'], 'uid');
 							}
