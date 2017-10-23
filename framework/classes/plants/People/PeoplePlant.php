@@ -1047,7 +1047,6 @@ class PeoplePlant extends PlantBase {
 
                 // if there's an asset id we need to look it up and pass for global merge vars
                 if ($asset) {
-                	CASHSystem::errorLog("There is an asset");
                     // lookup asset details
                     $asset_request = new CASHRequest(
                         array(
@@ -1059,7 +1058,6 @@ class PeoplePlant extends PlantBase {
                     );
 
                     if ($asset_request->response['payload']) {
-						CASHSystem::errorLog("Found an asset");
                         $add_code_request = new CASHRequest(
                             array(
                                 'cash_request_type' => 'system',
@@ -1072,7 +1070,6 @@ class PeoplePlant extends PlantBase {
                         );
 
 						if ($add_code_request) {
-							CASHSystem::errorLog("Lock codes yeah");
 
                             $get_code_request = new CASHRequest(
                                 array(
@@ -1083,9 +1080,10 @@ class PeoplePlant extends PlantBase {
                                     'user_id' => $mailing['user_id']
                                 )
                             );
+                            $lock_codes = $get_code_request->response['payload'];
 
-                            if (is_array($get_code_request->response['payload'])) {
-                                $codes = array_column($get_code_request->response['payload'], 'uid');
+                            if (is_array($lock_codes)) {
+                                $codes = cash_model_column($lock_codes, 'uid');
 							}
 						}
 
@@ -1122,7 +1120,7 @@ class PeoplePlant extends PlantBase {
 
                                 // there's a valid asset
                                 if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-									CASHSystem::errorLog("asset request + not empty codes");
+
                                     $code = array_pop($codes);
                                     $merge_vars[] = [
                                         'rcpt' => $subscriber['email_address'],
@@ -1134,7 +1132,7 @@ class PeoplePlant extends PlantBase {
                                                     $mailing['list_id'] .
                                                     "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                     "' class='button'>Download ".
-                                                    htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                    htmlentities($asset_request->response['payload']->title).'</a>'
                                             ]
                                         ]
                                     ];
@@ -1186,7 +1184,6 @@ class PeoplePlant extends PlantBase {
 
                             // there's a valid asset
                             if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-
                                 $code = array_pop($codes);
                                 $merge_vars[] = [
                                     'rcpt' => $subscriber['email_address'],
@@ -1198,7 +1195,7 @@ class PeoplePlant extends PlantBase {
                                                 $mailing['list_id'] .
                                                 "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                 "' class='button'>Download ".
-                                                htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                htmlentities($asset_request->response['payload']->title).'</a>'
                                         ]
                                     ]
                                 ];
