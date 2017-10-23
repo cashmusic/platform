@@ -1209,6 +1209,8 @@ class PeoplePlant extends PlantBase {
                             }
                         }
 
+                        CASHSystem::errorLog($merge_vars);
+
                         if (CASHSystem::sendMassEmail(
                             $user_id,
                             $mailing['subject'],
