@@ -1122,6 +1122,7 @@ class PeoplePlant extends PlantBase {
                                 }
 
                                 // there's a valid asset
+								CASHSystem::errorLog("This is before the check");
                                 if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
 									CASHSystem::errorLog("asset request + not empty codes");
 
