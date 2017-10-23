@@ -1084,15 +1084,12 @@ class PeoplePlant extends PlantBase {
                                 )
                             );
                             $lock_codes = $get_code_request->response['payload'];
-							if (is_cash_model($lock_codes)) {
-								$lock_codes = $lock_codes->toArray();
+
+                            if (is_array($lock_codes)) {
+                                $codes = cash_model_column($lock_codes, 'uid');
 							}
 
 							CASHSystem::errorLog($lock_codes);
-
-                            if (is_array($lock_codes)) {
-                                $codes = array_column($lock_codes, 'uid');
-							}
 						}
 
                     }

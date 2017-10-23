@@ -925,7 +925,7 @@ class SystemPlant extends PlantBase {
             $conditions['user_id'] = $user_id;
         }
 
-        $lock_codes = $this->orm->findWhere(SystemLockCode::class, $conditions);
+        $lock_codes = $this->orm->findWhere(SystemLockCode::class, $conditions, true);
 
         if ($lock_codes) {
             return $lock_codes;
