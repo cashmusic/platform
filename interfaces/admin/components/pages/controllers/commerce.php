@@ -361,6 +361,7 @@ if (is_array($orders_response['payload'])) {
 
 			// add some formatting without reinventing the wheel
 			$current_order = array_merge($current_order, [
+                'customer_name' => $customer_name,
                 'number' => '#' . str_pad($current_order['id'], 6, 0, STR_PAD_LEFT),
                 'date' => CASHSystem::formatTimeAgo((int)$current_order['creation_date'], true),
                 'order_description' => $order_description,
@@ -370,9 +371,9 @@ if (is_array($orders_response['payload'])) {
                 'gross' => CASHSystem::getCurrencySymbol($current_order['currency']) . number_format($current_order['gross_price'], 2)
 			]);
 
-//			if (!empty($current_order['customer_shipping_name'])) {
+			//if (!empty($current_order['customer_shipping_name'])) {
                 $all_order_details[] = $current_order;
-//            }
+            //}
 		}
 
 	}
