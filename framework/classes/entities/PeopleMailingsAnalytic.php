@@ -51,14 +51,14 @@ class PeopleMailingsAnalytic extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="opens_country", type="text", length=16777215, nullable=true)
+     * @Column(name="opens_country", type="json_array", length=16777215, nullable=true)
      */
     protected $opens_country;
 
     /**
      * @var string
      *
-     * @Column(name="opens_ids", type="text", length=16777215, nullable=true)
+     * @Column(name="opens_ids", type="json_array", length=16777215, nullable=true)
      */
     protected $opens_ids;
 
@@ -72,7 +72,7 @@ class PeopleMailingsAnalytic extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="clicks_urls", type="text", length=65535, nullable=true)
+     * @Column(name="clicks_urls", type="json_array", length=65535, nullable=true)
      */
     protected $clicks_urls;
 
