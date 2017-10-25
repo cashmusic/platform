@@ -536,7 +536,6 @@ class AssetPlant extends PlantBase {
 
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
 		if ($connection = $this->getConnectionDetails($connection_id)) {
-			CASHSystem::errorLog("connection exists");
             $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 
             if (is_array($connection_type)) {
@@ -553,7 +552,6 @@ class AssetPlant extends PlantBase {
             }
 		}
 
-		CASHSystem::errorLog("connection doesn't exist");
 
 		return false;
 	}
@@ -583,21 +581,18 @@ class AssetPlant extends PlantBase {
 	 * @return string
 	 */
     protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
-    	CASHSystem::errorLog([$id, $element_id,$session_id]);
 		if ($this->getUnlockedStatus($id,$session_id)) {
-			CASHSystem::errorLog("unlocked");
 			$asset = $this->getAssetInfo($id);
-			CASHSystem::errorLog($asset);
+
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset->connection_id,
 				$asset->user_id,
 				$asset->location
 			);
 
-
 			if ($final_asset_location !== false) {
-				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
-				$this->recordAnalytics($id,$element_id);
+				/*$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
+				$this->recordAnalytics($id,$element_id);*/
 				if (!$return_only) {
                     CASHSystem::redirectToUrl($final_asset_location);
                     die();
@@ -613,7 +608,6 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		} else {
-			CASHSystem::errorLog("not unlocked");
 			if (!$return_only) {
                 // fail back to the default embed with an error string
                 CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
