@@ -308,13 +308,13 @@ if (!$cash_admin->page_data['connection']) {
 
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
-	foreach ($orders_response['payload'] as $o) {
-		if ($o['successful']) {
-			$order_date = $o['creation_date'];
+	foreach ($orders_response['payload'] as $current_order) {
+		if ($current_order['successful']) {
+			$order_date = $current_order['creation_date'];
 			$item_price = 0;
             $order_contents = [];
-			if (!empty($o['order_contents'])) {
-                $order_contents = $o['order_contents'];
+			if (!empty($current_order['order_contents'])) {
+                $order_contents = $current_order['order_contents'];
 				if (!is_array($order_contents)) {
                     $order_contents = json_decode($order_contents, true);
 				}
@@ -342,42 +342,36 @@ if (is_array($orders_response['payload'])) {
                 }
             }
 
-			if ($o['gross_price'] - $item_price) {
-				$shipping_cost = CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'] - $item_price,2);
-				$item_price = CASHSystem::getCurrencySymbol($o['currency']) . number_format($item_price,2);
+			if ($current_order['gross_price'] - $item_price) {
+				$shipping_cost = CASHSystem::getCurrencySymbol($current_order['currency']) . number_format($current_order['gross_price'] - $item_price,2);
+				$item_price = CASHSystem::getCurrencySymbol($current_order['currency']) . number_format($item_price,2);
 			} else {
 				$shipping_cost = false;
 			}
 
 			$customer_name = "";
-			if (isset($o['customer_first_name'],$o['customer_last_name'])) {
-				$customer_name = $o['customer_first_name'] . " " . $o['customer_last_name'];
+			if (isset($current_order['customer_first_name'],$current_order['customer_last_name'])) {
+				$customer_name = $current_order['customer_first_name'] . " " . $current_order['customer_last_name'];
 			}
 
+			$order_description = "";
+			if (isset($current_order['order_description'])) {
+                $order_description = str_replace("\n", ' ', $current_order['order_description']);
+			}
 
-			if (!empty($o['customer_shipping_name'])) {
-                $all_order_details[] = array(
-                    'id' => $o['id'],
-                    'customer_name' => $customer_name,
-                    'customer_shipping_name' => $o['customer_shipping_name'],
-                    'customer_email' => $o['customer_email'],
-                    'customer_address1' => $o['customer_address1'],
-                    'customer_address2' => $o['customer_address2'],
-                    'customer_city' => $o['customer_city'],
-                    'customer_region' => $o['customer_region'],
-                    'customer_postalcode' => $o['customer_postalcode'],
-                    'customer_country' => $o['customer_countrycode'],
-                    'number' => '#' . str_pad($o['id'], 6, 0, STR_PAD_LEFT),
-                    'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'], true),
-                    'order_description' => str_replace("\n", ' ', $o['order_description']),
-                    'order_contents' => ($order_contents) ? new ArrayIterator($order_contents) : false,
-                    'shipping' => $shipping_cost,
-                    'itemtotal' => $item_price,
-                    'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'], 2),
-                    'fulfilled' => $o['fulfilled'],
-                    'notes' => $o['notes'],
-                    'canceled' => $o['canceled']
-                );
+			// add some formatting without reinventing the wheel
+			$current_order = array_merge($current_order, [
+                'number' => '#' . str_pad($current_order['id'], 6, 0, STR_PAD_LEFT),
+                'date' => CASHSystem::formatTimeAgo((int)$current_order['creation_date'], true),
+                'order_description' => $order_description,
+                'order_contents' => ($order_contents) ? new ArrayIterator($order_contents) : false,
+                'shipping' => $shipping_cost,
+                'itemtotal' => $item_price,
+                'gross' => CASHSystem::getCurrencySymbol($current_order['currency']) . number_format($current_order['gross_price'], 2)
+			]);
+
+			if (!empty($current_order['customer_shipping_name'])) {
+                $all_order_details[] = $current_order;
             }
 		}
 
