@@ -315,6 +315,7 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
+
         if ($max_returned) {
             $limit = $max_returned;
         } else {
@@ -356,7 +357,7 @@ class CommercePlant extends PlantBase {
             }
 
             if (isset($unfulfilled_only)) {
-                if ($unfulfilled_only == 1) {
+                if ($unfulfilled_only == 1 || $unfulfilled_only) {
                     $query = $query->where('commerce_orders.fulfilled', "<", $unfulfilled_only)->orderBy("commerce_orders.id", "ASC");
                 } else {
                     $query = $query->orderBy("commerce_orders.id", "DESC");
