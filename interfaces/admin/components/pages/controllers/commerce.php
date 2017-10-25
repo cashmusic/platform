@@ -354,11 +354,16 @@ if (is_array($orders_response['payload'])) {
 				$customer_name = $current_order['customer_first_name'] . " " . $current_order['customer_last_name'];
 			}
 
+			$order_description = "";
+			if (isset($current_order['order_description'])) {
+                $order_description = str_replace("\n", ' ', $current_order['order_description']);
+			}
+
 			// add some formatting without reinventing the wheel
 			$current_order = array_merge($current_order, [
                 'number' => '#' . str_pad($current_order['id'], 6, 0, STR_PAD_LEFT),
                 'date' => CASHSystem::formatTimeAgo((int)$current_order['creation_date'], true),
-                'order_description' => str_replace("\n", ' ', $current_order['order_description']),
+                'order_description' => $order_description,
                 'order_contents' => ($order_contents) ? new ArrayIterator($order_contents) : false,
                 'shipping' => $shipping_cost,
                 'itemtotal' => $item_price,
