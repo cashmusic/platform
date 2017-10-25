@@ -495,6 +495,7 @@ class AssetPlant extends PlantBase {
                 $basic_analytics->total = $new_total;
                 $result = $basic_analytics->save();
 			} else {
+				// make sure we don't error out if stuff doesn't exist
                 $result = $this->orm->create(AssetAnalyticsBasic::class, [
                 	'asset_id'=>$id,
 					'total'=>1,

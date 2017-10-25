@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Asset
  *
  * @Entity @Table(name="assets", indexes={@Index(name="asst_asets_parent_id", columns={"parent_id"}), @Index(name="assets_user_id", columns={"user_id"})})
+ * @HasLifecycleCallbacks
  */
 
 class Asset extends EntityBase
@@ -106,14 +107,14 @@ class Asset extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
+     * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
     protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
     protected $modification_date = '0';
 
