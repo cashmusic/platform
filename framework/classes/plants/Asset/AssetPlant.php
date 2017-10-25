@@ -485,17 +485,21 @@ class AssetPlant extends PlantBase {
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
 
-			$basic_analytics = $this->orm->findWhere(AssetAnalyticsBasic::class, ['asset_id'=>$id] );
+			if ($basic_analytics = $this->orm->findWhere(AssetAnalyticsBasic::class, ['asset_id'=>$id])) {
+                if (!empty($basic_analytics->total)) {
+                    $new_total = $basic_analytics->total +1;
+                } else {
+                    $new_total = 1;
+                }
 
-			if (!empty($basic_analytics->total)) {
-				$new_total = $basic_analytics->total +1;
+                $basic_analytics->total = $new_total;
+                $result = $basic_analytics->save();
 			} else {
-				$new_total = 1;
-				$condition = false;
+                $result = $this->orm->create(AssetAnalyticsBasic::class, [
+                	'asset_id'=>$id,
+					'total'=>1,
+				]);
 			}
-
-            $basic_analytics->total = $new_total;
-			$result = $basic_analytics->save();
 		}
 
 		return $result;
