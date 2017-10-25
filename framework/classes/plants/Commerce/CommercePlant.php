@@ -315,6 +315,8 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
+        
+        CASHSystem::errorLog(func_get_args());
         if ($max_returned) {
             $limit = $max_returned;
         } else {
