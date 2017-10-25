@@ -580,6 +580,7 @@ class AssetPlant extends PlantBase {
 	 * @return string
 	 */
     protected function redirectToAsset($id,$element_id=0,$session_id=false,$return_only=false) {
+    	CASHSystem::errorLog([$id, $element_id,$session_id]);
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
