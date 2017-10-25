@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Asset
  *
  * @Entity @Table(name="assets", indexes={@Index(name="asst_asets_parent_id", columns={"parent_id"}), @Index(name="assets_user_id", columns={"user_id"})})
+ * @HasLifecycleCallbacks
  */
 
 class Asset extends EntityBase

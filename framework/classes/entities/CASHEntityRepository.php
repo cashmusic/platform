@@ -12,9 +12,6 @@ class CASHEntityRepository extends EntityRepository
 
     public function search(array $required_values, array $search)
     {
-        CASHSystem::errorLog($required_values);
-        CASHSystem::errorLog($search);
-
         $criteria = Criteria::create();
 
         $reqs = [];
