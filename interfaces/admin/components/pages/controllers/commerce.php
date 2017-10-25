@@ -408,5 +408,6 @@ if (is_array($orders_response['payload'])) {
  * 7. SET THE TEMPLATE AND GO!
  *
  ******************************************************************************/
+$cash_admin->page_data['output'] = json_encode($orders_response);
 $cash_admin->setPageContentTemplate('commerce');
 ?>
