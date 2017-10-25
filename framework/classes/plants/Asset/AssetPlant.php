@@ -536,6 +536,7 @@ class AssetPlant extends PlantBase {
 
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
 		if ($connection = $this->getConnectionDetails($connection_id)) {
+			CASHSystem::errorLog("connection exists");
             $connection_type = CASHSystem::getConnectionTypeSettings($connection->type);
 
             if (is_array($connection_type)) {
@@ -551,6 +552,8 @@ class AssetPlant extends PlantBase {
                 }
             }
 		}
+
+		CASHSystem::errorLog("connection doesn't exist");
 
 		return false;
 	}
@@ -591,7 +594,6 @@ class AssetPlant extends PlantBase {
 				$asset->location
 			);
 
-			CASHSystem::errorLog($final_asset_location);
 
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
