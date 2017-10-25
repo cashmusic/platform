@@ -107,7 +107,7 @@ class CommerceSubscription extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
     protected $modification_date;
 
