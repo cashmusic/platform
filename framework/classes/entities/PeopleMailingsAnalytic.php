@@ -86,14 +86,14 @@ class PeopleMailingsAnalytic extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
+     * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
     protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"})
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
     protected $modification_date = '0';
 
