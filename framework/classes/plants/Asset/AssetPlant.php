@@ -584,12 +584,14 @@ class AssetPlant extends PlantBase {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			CASHSystem::errorLog("unlocked");
 			$asset = $this->getAssetInfo($id);
-
+			CASHSystem::errorLog($asset);
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset->connection_id,
 				$asset->user_id,
 				$asset->location
 			);
+
+			CASHSystem::errorLog($final_asset_location);
 
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
