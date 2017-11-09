@@ -794,18 +794,15 @@ trait Subscriptions {
                 CASHSystem::errorLog($subscriber->toArray());
                 $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
 
-                if ($payment_details) {
+                $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
+                $subscriber_user = $subscriber->customer();
 
-                    $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
-                    $subscriber_user = $subscriber->customer();
-
-                    return [
-                        'subscriber'=>$subscriber,
-                        'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
-                        'customer'=> $customer_details,
-                        'payment'=>$payment_details
-                    ];
-                }
+                return [
+                    'subscriber'=>$subscriber,
+                    'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
+                    'customer'=> $customer_details,
+                    'payment'=> (isset($payment_details)) ? $payment_details : []
+                ];
             }
 
         }
