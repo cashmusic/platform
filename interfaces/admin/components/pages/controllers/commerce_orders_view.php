@@ -104,7 +104,7 @@ if ($request_parameters) {
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
 
 		$order_contents = $order_all_details['order_contents'];
-
+		CASHSystem::dd($order_contents);
 		$item_price = 0;
 		foreach ($order_contents as $key => $item) {
 			if (!isset($item['qty'])) {
