@@ -674,8 +674,6 @@ class StripeSeed extends SeedBase
             }
 
         } catch (Exception $e) {
-            CASHSystem::errorLog($e->getMessage());
-
             return false;
         }
 

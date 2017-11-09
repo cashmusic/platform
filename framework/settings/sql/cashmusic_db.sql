@@ -301,6 +301,16 @@ CREATE TABLE `commerce_orders` (
   `data` text NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
+  INDEX (user_id),
+  INDEX (transaction_id),
+  INDEX (custonmer_user_id),
+  INDEX (user_id, customer_user_id),
+  INDEX (user_id, transaction_id),
+  INDEX (user_id, fulfilled),
+  INDEX (user_id, creation_date),
+  INDEX (user_id, creation_date, fulfilled),
+  INDEX (user_id, creation_date, modification_date),
+  INDEX (user_id, creation_date, modification_date, fulfilled),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -323,6 +333,13 @@ CREATE TABLE `commerce_transactions` (
   `parent_id` int(11) NOT NULL DEFAULT 0,
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT '0',
+  INDEX (user_id),
+  INDEX (user_id, successful),
+  INDEX (user_id, connection_id),
+  INDEX (id, successful),
+  INDEX (id, successful),
+  INDEX (parent),
+  INDEX (parent, parent_id)
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

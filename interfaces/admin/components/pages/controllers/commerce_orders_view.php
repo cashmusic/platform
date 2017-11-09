@@ -106,25 +106,30 @@ if ($request_parameters) {
 		$order_contents = $order_all_details['order_contents'];
 
 		$item_price = 0;
-		foreach ($order_contents as $key => $item) {
-			if (!isset($item['qty'])) {
-				$item['qty'] = 1;
-			}
-			$item['price'] = $item['qty'] * $item['price'];
-			$item_price += $item['price'];
 
-			if (isset($item['variant'])) {
-				$variant_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'commerce',
-						'cash_action' => 'formatvariantname',
-						'name' => $item['variant']
-					)
-				);
-				if ($variant_response['payload']) {
-					$order_contents[$key]['variant'] = $variant_response['payload'];
-				}
-			}
+		if ($order_contents) {
+            foreach ($order_contents as $key => $item) {
+                if (!isset($item['qty'])) {
+                    $item['qty'] = 1;
+                }
+                $item['price'] = $item['qty'] * $item['price'];
+                $item_price += $item['price'];
+
+                if (isset($item['variant'])) {
+                    $variant_response = $cash_admin->requestAndStore(
+                        array(
+                            'cash_request_type' => 'commerce',
+                            'cash_action' => 'formatvariantname',
+                            'name' => $item['variant']
+                        )
+                    );
+                    if ($variant_response['payload']) {
+                        $order_contents[$key]['variant'] = $variant_response['payload'];
+                    }
+                }
+            }
+		} else {
+			$order_contents = [];
 		}
 
         $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
@@ -133,7 +138,6 @@ if ($request_parameters) {
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 
-		$shipping_address = $order_all_details['data'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		// customer
@@ -162,6 +166,8 @@ if ($request_parameters) {
 				$cash_admin->page_data['display_shipping_address'] = true;
 			}
 		}
+
+		if (count($order_contents) < 1) $cash_admin->page_data['display_shipping_address'] = true; // weird mostly testing situation
 	} else {
 		// bogus ID specified — bounce that shit
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');

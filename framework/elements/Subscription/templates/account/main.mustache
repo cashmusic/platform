@@ -46,7 +46,7 @@
     <a href="#" class="feed-button cm-amount">Change contribution amount</a>
         <div class="clear"></div>-->
 
-    <p><strong>Next renewal date</strong> {{customer.expires}}</p>
+    <p><strong>Next renewal date</strong> {{customer.expires}} {{^customer.expires}}N/A{{/customer.expires}}</p>
       <a href="#" class="feed-button cm-cancel">Cancel my subscription</a>
 
     </div>
