@@ -87,7 +87,7 @@ class Subscription extends ElementBase {
 
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
-        //$this->element_user_id = $this->element_data['user_id'];
+        $this->element_user_id = $this->element_data['user_id'];
         
         // set state and fire the appropriate method in Element\State class
         $this->router(function ($template, $values) {

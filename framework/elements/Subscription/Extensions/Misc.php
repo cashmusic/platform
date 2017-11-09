@@ -105,10 +105,10 @@ trait Misc {
                     'cash_request_type' => 'commerce',
                     'cash_action' => 'getsubscriberpaymentdetails',
                     'subscriber_id' => $subscriber_id,
-                    'user_id'=>$this->user_id
+                    'user_id'=>$this->element_user_id
                 )
             );
-            CASHSystem::errorLog([$this->user_id, $subscriber_id]);
+            CASHSystem::errorLog([$subscriber_id, $this->element_user_id]);
             CASHSystem::errorLog($payment_details_request->response);
 
             if ($payment = $payment_details_request->response['payload']){
@@ -169,7 +169,7 @@ trait Misc {
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'cancelsubscription',
                 'subscriber_id' => $subscriber_id,
-                'user_id' => $this->user_id
+                'user_id' => $this->element_user_id
             )
         );
 
