@@ -166,6 +166,8 @@ if ($request_parameters) {
 				$cash_admin->page_data['display_shipping_address'] = true;
 			}
 		}
+
+		if (count($order_contents) < 1) $cash_admin->page_data['display_shipping_address'] = true; // weird mostly testing situation
 	} else {
 		// bogus ID specified — bounce that shit
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
