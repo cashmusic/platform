@@ -791,12 +791,14 @@ trait Subscriptions {
 
         if($payment_seed = $this->getPaymentSeed($user_id)) {
             if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
-                CASHSystem::errorLog($subscriber->toArray());
+
                 $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
 
+                CASHSystem::errorLog("past payment");
                 $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
                 $subscriber_user = $subscriber->customer();
 
+                CASHSystem::errorLog("gonna return");
                 return [
                     'subscriber'=>$subscriber,
                     'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
