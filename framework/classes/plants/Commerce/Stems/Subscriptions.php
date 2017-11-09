@@ -792,18 +792,19 @@ trait Subscriptions {
         if($payment_seed = $this->getPaymentSeed($user_id)) {
             if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
 
-                $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
+                if ($subscriber->status != "comped") {
+                    $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
+                    $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
+                }
 
-                CASHSystem::errorLog("past payment");
-                $customer_details = $payment_seed->getCustomer($payment_details->customer, true);
+
                 $subscriber_user = $subscriber->customer();
 
-                CASHSystem::errorLog("gonna return");
                 return [
                     'subscriber'=>$subscriber,
-                    'user'=>(isset($subscriber_user[0])) ? $subscriber_user[0] : false,
-                    'customer'=> $customer_details,
-                    'payment'=> (isset($payment_details)) ? $payment_details : []
+                    'user'=> isset_or($subscriber_user[0], false),
+                    'customer'=> isset_or($customer_details, []),
+                    'payment'=> isset_or($payment_details, [])
                 ];
             }
 

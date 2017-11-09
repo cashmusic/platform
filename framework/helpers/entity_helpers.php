@@ -79,3 +79,14 @@ function dd($object) {
     }
     //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
 }
+
+/**
+ * Shortcut for testing isset with ternary fallback
+ *
+ * @param $value
+ * @param $fallback
+ * @return mixed
+ */
+function isset_or($value, $fallback) {
+    return (isset($value)) ? $value : $fallback;
+}
