@@ -60,3 +60,22 @@ function format_date($date, $format=false) {
 
     return date($format, $date);
 }
+
+function dd($object) {
+    if (CASH_DEBUG) {
+        $whoops = new \Whoops\Run();
+
+// Configure the PrettyPageHandler:
+        $errorPage = new \Whoops\Handler\PrettyPageHandler();
+
+        $errorPage->setPageTitle("Oh shit. It's a dd."); // Set the page's title
+        $errorPage->addDataTable("Output", ['output'=>"<pre>".print_r($object, true)."</pre>"]);
+
+        $whoops->pushHandler($errorPage);
+        $whoops->register();
+
+
+        throw new \RuntimeException("dd on ".gettype($object));
+    }
+    //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
+}

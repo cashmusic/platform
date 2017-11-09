@@ -473,7 +473,7 @@ class EntityBase extends CASHData
 
     public function dd() {
         $properties = $this->toArray();
-        CASHSystem::dd($properties);
+        dd($properties);
     }
 
     public function getFieldType($field) {

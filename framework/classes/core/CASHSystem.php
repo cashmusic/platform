@@ -1236,25 +1236,6 @@ abstract class CASHSystem  {
         //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
 	}
 
-    public static function dd($object) {
-        if (CASH_DEBUG) {
-            $whoops = new Run();
-
-// Configure the PrettyPageHandler:
-            $errorPage = new PrettyPageHandler();
-
-            $errorPage->setPageTitle("Oh shit. It's a dd."); // Set the page's title
-            $errorPage->addDataTable("Output", ['output'=>"<pre>".print_r($object, true)."</pre>"]);
-
-            $whoops->pushHandler($errorPage);
-            $whoops->register();
-
-
-            throw new \RuntimeException("dd on ".gettype($object));
-        }
-        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
-    }
-
     /**
      * To ensure compatibility with stored element names, we need to sort of manually match the element directory
      *
