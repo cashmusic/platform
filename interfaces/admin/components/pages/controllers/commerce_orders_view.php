@@ -104,27 +104,30 @@ if ($request_parameters) {
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
 
 		$order_contents = $order_all_details['order_contents'];
-		CASHSystem::dd($order_all_details);
-		$item_price = 0;
-		foreach ($order_contents as $key => $item) {
-			if (!isset($item['qty'])) {
-				$item['qty'] = 1;
-			}
-			$item['price'] = $item['qty'] * $item['price'];
-			$item_price += $item['price'];
 
-			if (isset($item['variant'])) {
-				$variant_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'commerce',
-						'cash_action' => 'formatvariantname',
-						'name' => $item['variant']
-					)
-				);
-				if ($variant_response['payload']) {
-					$order_contents[$key]['variant'] = $variant_response['payload'];
-				}
-			}
+		$item_price = 0;
+
+		if ($order_contents) {
+            foreach ($order_contents as $key => $item) {
+                if (!isset($item['qty'])) {
+                    $item['qty'] = 1;
+                }
+                $item['price'] = $item['qty'] * $item['price'];
+                $item_price += $item['price'];
+
+                if (isset($item['variant'])) {
+                    $variant_response = $cash_admin->requestAndStore(
+                        array(
+                            'cash_request_type' => 'commerce',
+                            'cash_action' => 'formatvariantname',
+                            'name' => $item['variant']
+                        )
+                    );
+                    if ($variant_response['payload']) {
+                        $order_contents[$key]['variant'] = $variant_response['payload'];
+                    }
+                }
+            }
 		}
 
         $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
