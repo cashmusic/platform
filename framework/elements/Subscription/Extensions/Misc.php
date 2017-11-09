@@ -105,7 +105,7 @@ trait Misc {
                     'cash_request_type' => 'commerce',
                     'cash_action' => 'getsubscriberpaymentdetails',
                     'subscriber_id' => $subscriber_id,
-                    'user_id'=>$this->element_user_id
+                    'user_id'=>$this->user_id
                 )
             );
             CASHSystem::errorLog($subscriber_id);
@@ -169,7 +169,7 @@ trait Misc {
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'cancelsubscription',
                 'subscriber_id' => $subscriber_id,
-                'user_id' => $this->element_user_id
+                'user_id' => $this->user_id
             )
         );
 
