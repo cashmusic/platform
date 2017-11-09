@@ -104,8 +104,8 @@ trait Misc {
                 array(
                     'cash_request_type' => 'commerce',
                     'cash_action' => 'getsubscriberpaymentdetails',
-                    'subscriber_id' => $subscriber_id
-                    //'user_id'=>$this->user_id
+                    'subscriber_id' => $subscriber_id,
+                    'user_id'=>$this->user_id
                 )
             );
             CASHSystem::errorLog([$this->user_id, $subscriber_id]);

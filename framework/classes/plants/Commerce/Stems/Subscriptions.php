@@ -791,6 +791,7 @@ trait Subscriptions {
 
         if($payment_seed = $this->getPaymentSeed($user_id)) {
             if ($subscriber = $this->getSubscriptionDetails($subscriber_id)) {
+                CASHSystem::errorLog($subscriber);
                 $payment_details = $payment_seed->getSubscription($subscriber->payment_identifier);
 
                 if ($payment_details) {
