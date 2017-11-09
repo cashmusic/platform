@@ -139,7 +139,7 @@ if ($request_parameters) {
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 
 		$shipping_address = $order_all_details['data'];
-		dd($shipping_address);
+		dd($order_all_details);
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		// customer
