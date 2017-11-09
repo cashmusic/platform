@@ -108,7 +108,7 @@ trait Misc {
                     'user_id'=>$this->user_id
                 )
             );
-            CASHSystem::errorLog($subscriber_id);
+            CASHSystem::errorLog([$this->user_id, $subscriber_id]);
             CASHSystem::errorLog($payment_details_request->response);
 
             if ($payment = $payment_details_request->response['payload']){
