@@ -133,7 +133,7 @@ if ($request_parameters) {
         $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
         $cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
-		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
+		$cash_admin->page_data['order_contents'] = (is_array($order_contents) ? new ArrayIterator($order_contents) : []);
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 
 		$shipping_address = $order_all_details['data'];
