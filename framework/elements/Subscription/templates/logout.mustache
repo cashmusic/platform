@@ -1,11 +1,13 @@
-<h2 style="text-align: center;">You're now logged out of the {{subscription_name}}!</h2>
+<h2 style="text-align: center; display: block !important;">You're now logged out of the {{subscription_name}}!</h2>
 
 <script type="text/javascript">
 
     var cm = window.cashmusic;
 
     cm.events.add(cm,'ready', function(e) {
-        window.top.location.href = "https://google.com";
+        setTimeout(function(){
+            window.top.location.href = "https://google.com";
+        }, 2000);
     });
 
 </script>
