@@ -294,7 +294,7 @@
         cm.session.start();
         cm.session.setid({"id":"{{session_id}}"});
 
-        document.querySelector('#cm-userinput-getshippingaddress-country').value = "{{customer_countrycode}}";
+        document.querySelector('#cm-userinput-getshippingaddress-country').value = "{{address.customer_countrycode}}";
 
         var feed = document.querySelector('.cm-feed');
         var logout = document.querySelector('.cm-logout');
