@@ -79,7 +79,7 @@ trait States
             $template = 'settings';
         }
 
-        $this->subscription_id = $this->sessionGet('subscription_id');
+        $this->subscription_id = $data['subscription_id'] = $this->sessionGet('subscription_id');
         $data['email'] = $this->email = $this->sessionGet("email_address");
 
         // validate the request to change things
