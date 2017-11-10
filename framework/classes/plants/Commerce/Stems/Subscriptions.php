@@ -14,6 +14,21 @@ use Exception;
 trait Subscriptions {
     /* Subscription specific stuff */
     protected $status = ['active', 'canceled', 'created', 'failed', 'comped'];
+
+    /**
+     * @param $user_id
+     * @param $plan_id
+     * @param $subscriber_id
+     */
+    public function setSubscriberSession($user_id, $plan_id, $subscriber_id)
+    {
+        $session = new CASHRequest(null);
+        $session->sessionSet("user_id", $user_id);
+        $session->sessionSet("plan_id", $plan_id);
+        $session->sessionSet("subscription_authenticated", true);
+        $session->sessionSet('subscriber_id', $subscriber_id);
+    }
+
     protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount=0, $flexible_price=false, $recurring=true, $suggested_price=false, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
@@ -508,7 +523,7 @@ trait Subscriptions {
         return true;
     }
 
-    public function loginSubscriber($email=false, $password=false, $plans=false) {
+    public function loginSubscriber($email=false, $password=false, $plans=false, $validate_new=false) {
 
         $validate_request = new CASHRequest(
             array(
@@ -535,11 +550,7 @@ trait Subscriptions {
             if (!empty($plan_id) && !empty($subscriber_id)) {
 
                 // this is a valid subscription so bust out the confetti
-                $session = new CASHRequest(null);
-                $session->sessionSet("user_id", $user_id);
-                $session->sessionSet("plan_id", $plan_id);
-                $session->sessionSet("subscription_authenticated", true);
-                $session->sessionSet('subscriber_id', $subscriber_id);
+                $this->setSubscriberSession($user_id, $plan_id, $subscriber_id);
 
                 return [$user_id, $subscriber_id];
             } else {
@@ -549,6 +560,21 @@ trait Subscriptions {
 
         // all else fail
         return "401";
+    }
+
+    public function loginSubscriberFirstUse($user_id, $plans) {
+        // this is a valid login--- so now the question is, are they an active subscriber?
+        list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
+
+        if (!empty($plan_id) && !empty($subscriber_id)) {
+
+            // this is a valid subscription so bust out the confetti
+            $this->setSubscriberSession($user_id, $plan_id, $subscriber_id);
+
+            return [$user_id, $subscriber_id];
+        } else {
+            return "401";
+        }
     }
 
     /**
@@ -801,9 +827,9 @@ trait Subscriptions {
 
                 return [
                     'subscriber'=>$subscriber,
-                    'user'=> isset_or($subscriber_user[0], false),
-                    'customer'=> isset_or($customer_details, []),
-                    'payment'=> isset_or($payment_details, [])
+                    'user'=> isset_else($subscriber_user[0], false),
+                    'customer'=> isset_else($customer_details, []),
+                    'payment'=> isset_else($payment_details, [])
                 ];
             }
 

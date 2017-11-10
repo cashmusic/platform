@@ -64,7 +64,14 @@ trait States
     private function stateSetCredentials() {
 
         $data = [];
+        $plans = false;
 
+        if (!isset($_REQUEST['plans'])) {
+            $data['error_message'] = "There was an error looking up the subscription plan.";
+            $template = 'settings';
+        } else {
+            $plans = $_REQUEST['plans'];
+        }
         // check if the passwords actually match
         if($_REQUEST['password'] != $_REQUEST['confirm_password']) {
             $data['error_message'] = "Your password confirmation doesn't match.";
@@ -92,9 +99,24 @@ trait States
             )
         );
 
-        CASHSystem::errorLog($password_request->response);
-
         if ($password_request->response['payload'] !== false) {
+
+            $first_use_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'commerce',
+                    'cash_action' => 'loginsubscriberfirstuse',
+                    'user_id' => $this->user_id,
+                    'plans' => $plans
+                )
+            );
+
+            if ($first_use_request->response['payload']) {
+                // valid login + valid subscription
+                // we need to make sure this is isolated by subscription---
+                // maybe later we can actually have subscriptions switchable
+                CASHSystem::errorLog($first_use_request->response['payload']);
+                list($this->user_id, $this->subscription_id) = $first_use_request->response['payload'];
+            }
 
             $this->setLoginState();
             $data['items'] = $this->stateLoggedInIndex(true);
