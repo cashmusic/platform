@@ -97,9 +97,8 @@
 
         if (cancel) {
 
-            document.getElementById("modal_message").innerText = "Are you sure you want to cancel?";
-
             cm.events.add(cancel, 'click', function (e) {
+                document.getElementById("modal_message").innerText = "Are you sure you want to cancel?";
                 document.getElementById("modal_dialog").style.visibility = "visible";
             });
 

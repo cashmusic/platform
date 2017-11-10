@@ -1354,6 +1354,9 @@
 					}
 				}
 			},
+            elements: {
+                selectOption: function(el,value){document.querySelector(el).value = value;}
+            }
 		};
 
 		/*

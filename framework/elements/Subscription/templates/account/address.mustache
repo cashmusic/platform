@@ -294,6 +294,10 @@
         cm.session.start();
         cm.session.setid({"id":"{{session_id}}"});
 
+        if ("{{customer_countrycode}}") {
+            cm.elements.selectOption('cm-userinput-getshippingaddress-country', "{{customer_countrycode}}");
+        }
+
         var feed = document.querySelector('.cm-feed');
         var logout = document.querySelector('.cm-logout');
 
