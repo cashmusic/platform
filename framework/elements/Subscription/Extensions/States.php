@@ -113,8 +113,8 @@ trait States
             if ($first_use_request->response['payload']) {
                 // valid login + valid subscription
                 // we need to make sure this is isolated by subscription---
-                // maybe later we can actually have subscriptions switchable
-                CASHSystem::errorLog($first_use_request->response['payload']);
+                //TODO: maybe later we can actually have subscriptions switchable
+
                 list($this->user_id, $this->subscription_id) = $first_use_request->response['payload'];
             }
 
@@ -160,8 +160,8 @@ trait States
             if ($password_request->response['payload'] != "401") {
 
                 // we need to make sure this is isolated by subscription---
-                // maybe later we can actually have subscriptions switchable
-                CASHSystem::errorLog($password_request->response['payload']);
+                //TODO: maybe later we can actually have subscriptions switchable
+
                 list($this->user_id, $this->subscription_id) = $password_request->response['payload'];
 
                 $this->setLoginState();
