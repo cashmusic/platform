@@ -46,6 +46,7 @@ trait States
 
         CASHSystem::errorLog([$subscriber_id, $data['email'], $user_request->response]);
 
+
         if ($user_request->response['payload']) {
 
             $user_data = $user_request->response['payload']['data'];
