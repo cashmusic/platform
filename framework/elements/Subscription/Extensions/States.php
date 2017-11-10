@@ -34,7 +34,7 @@ trait States
     private function stateVerified() {
 
         $data = [];
-        $subscriber_id = $this->sessionGet('subscription_id');
+        $subscriber_id = $this->subscription_id = $this->sessionGet('subscription_id');
         $data['email'] = $this->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
@@ -43,9 +43,6 @@ trait States
                 'user_id' => $subscriber_id
             )
         );
-
-        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email'], $user_request->response]);
-
 
         if ($user_request->response['payload']) {
 
@@ -82,10 +79,8 @@ trait States
             $template = 'settings';
         }
 
-        $subscriber_id = $this->sessionGet('subscription_id');
-        $data['email'] = $this->sessionGet("email_address");
-
-        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email']]);
+        $this->subscription_id = $this->sessionGet('subscription_id');
+        $data['email'] = $this->email = $this->sessionGet("email_address");
 
         // validate the request to change things
         $password_request = new CASHRequest(
