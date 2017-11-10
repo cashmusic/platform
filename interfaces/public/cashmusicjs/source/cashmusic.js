@@ -1355,7 +1355,7 @@
 				}
 			},
             elements: {
-                selectOption: function(el,value){}
+                selectOption: function(el,value){document.querySelector(el).value = value;}
             }
 		};
 
