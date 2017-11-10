@@ -44,7 +44,7 @@ trait States
             )
         );
 
-        CASHSystem::errorLog([$subscriber_id, $data['email'], $user_request->response]);
+        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email'], $user_request->response]);
 
 
         if ($user_request->response['payload']) {
@@ -81,6 +81,12 @@ trait States
             $data['error_message'] = "Minimum password lengh of 10 characters.";
             $template = 'settings';
         }
+
+        $subscriber_id = $this->sessionGet('subscription_id');
+        $data['email'] = $this->sessionGet("email_address");
+
+        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email']]);
+
         // validate the request to change things
         $password_request = new CASHRequest(
             array(
@@ -90,6 +96,8 @@ trait States
                 'password' => $_REQUEST['password']
             )
         );
+
+        CASHSystem::errorLog($password_request->response);
 
         if ($password_request->response['payload'] !== false) {
 
