@@ -41,8 +41,9 @@ use Exception;
 
 		} else {
 		    if (!isset($this->contextual_message)) $this->contextual_message = false;
+            if (!isset($this->error_code)) $this->error_code = 400;
 			return $this->response->pushResponse(
-				400,$this->request_type,$this->action,
+                $this->error_code,$this->request_type,$this->action,
 				$this->request,
 				$this->contextual_message,
 				'no action specified'
@@ -344,5 +345,19 @@ use Exception;
 			$message
 		);
 	}
+
+	/* error reporting stuff for cash request responses */
+
+    public function error($code) {
+        $this->error_code = $code;
+
+        return $this;
+    }
+
+    public function message($message) {
+        $this->contextual_message = $message;
+
+        return false;
+    }
 } // END class 
 ?>

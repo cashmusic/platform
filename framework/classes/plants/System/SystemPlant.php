@@ -612,8 +612,7 @@ class SystemPlant extends PlantBase {
 			return true;
 		}
 
-        $this->contextual_message = "No settings of type `$type` found for this user.";
-		return false;
+		return $this->error('404')->message("No settings of type `$type` found for this user.");
 	}
 
 	/**
