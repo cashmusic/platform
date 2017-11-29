@@ -604,7 +604,7 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function setSettings($user_id,$type,$value) {
-		$user_id = 9829183;
+
         $setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
