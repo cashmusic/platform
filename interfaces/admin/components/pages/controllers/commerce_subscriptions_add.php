@@ -54,7 +54,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
         $admin_helper->formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
         /*CASHSystem::redirectToUrl(CASH_ADMIN_URL."/commerce/subscriptions/detail/".$subscription_request->response['payload']['numeric_id']);*/
     } else {
-        $admin_helper->formFailure('Error. Something just didn\'t work right.<br>',"/commerce/subscriptions/");
+        $admin_helper->formFailure('Error. Something just didn\'t work right.<br>',"/commerce/");
     }
 } else {
     $cash_admin->setPageContentTemplate('commerce_subscriptions_add');
