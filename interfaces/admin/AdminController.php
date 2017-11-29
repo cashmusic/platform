@@ -33,6 +33,15 @@ class AdminController {
         include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
         $admin_primary_cash_request = CASHSystem::startUp(true);
 
+        $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+        $error_handler = new \Raven_ErrorHandler($client);
+        $error_handler->registerExceptionHandler();
+        $error_handler->registerErrorHandler();
+        $error_handler->registerShutdownFunction();
+
+        throw new \Exception("testing 123");
+
         if (CASH_DEBUG) {
             $this->setErrorHandler();
         }
