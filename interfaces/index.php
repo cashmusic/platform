@@ -31,6 +31,13 @@ require_once(__DIR__ . '/admin/constants.php');
 // launch CASH Music
 require_once($cashmusic_root);
 
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+$error_handler = new \Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
+
 // if we've got a username we need to find the id — over-write no matter what. no fallback to user id 1
 if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 	//error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
