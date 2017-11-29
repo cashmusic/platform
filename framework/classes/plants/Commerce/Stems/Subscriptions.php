@@ -34,6 +34,20 @@ trait Subscriptions {
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
+        $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+        $client->user_context(array(
+            'connection_id' => $connection_id,
+            'user_id' => $user_id,
+            'seed' => json_encode($payment_seed, JSON_PRETTY_PRINT)
+        ));
+
+        $error_handler = new \Raven_ErrorHandler($client);
+        $error_handler->registerExceptionHandler();
+        $error_handler->registerErrorHandler();
+        $error_handler->registerShutdownFunction();
+
+        throw new Exception("trace out payment seed");
         // create the plan on payment service (stripe for now) and get plan id
         if ($flexible_price) {
             $cent_amount = 1;
