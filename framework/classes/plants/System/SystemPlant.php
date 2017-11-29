@@ -604,7 +604,7 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function setSettings($user_id,$type,$value) {
-
+		$user_id = 9829183;
         $setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
@@ -612,8 +612,7 @@ class SystemPlant extends PlantBase {
 			return true;
 		}
 
-        $this->contextual_message = "No settings of type `$type` found for this user.";
-		return false;
+		return $this->error('404')->message("No settings of type `$type` found for this user.");
 	}
 
 	/**
