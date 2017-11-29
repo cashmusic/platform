@@ -35,6 +35,8 @@ class AdminController {
 
         if (CASH_DEBUG) {
             $this->setErrorHandler();
+        } else {
+            $this->setErrorReporting();
         }
 
         // make an object to use throughout the pages
@@ -348,5 +350,15 @@ class AdminController {
 
 // Register the handler with PHP, and you're set!
         $run->register();
+    }
+
+    private function setErrorReporting()
+    {
+        $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+        $error_handler = new \Raven_ErrorHandler($client);
+        $error_handler->registerExceptionHandler();
+        $error_handler->registerErrorHandler();
+        $error_handler->registerShutdownFunction();
     }
 }

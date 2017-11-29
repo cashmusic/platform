@@ -19,6 +19,13 @@ require_once('constants.php');
 
 use CASHMusic\Core\CASHAPI;
 
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+$error_handler = new \Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
+
 // push away anyone who's trying to access the controller directly
 if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header($http_codes[403], true, 403);
