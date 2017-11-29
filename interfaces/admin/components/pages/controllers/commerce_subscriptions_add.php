@@ -17,8 +17,12 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
             'user_id' => $cash_admin->effective_user_id
         )
     );
+
+    $stripe_default = false;
     if (is_array($settings_request->response['payload'])) {
-        $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+        $stripe_default = isset_else(
+            $settings_request->response['payload']['stripe_default'], false);
+
     }
 
 if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
@@ -50,7 +54,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
         $admin_helper->formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
         /*CASHSystem::redirectToUrl(CASH_ADMIN_URL."/commerce/subscriptions/detail/".$subscription_request->response['payload']['numeric_id']);*/
     } else {
-        $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$subscription_request->response['payload']);
+        $admin_helper->formFailure('Error. Something just didn\'t work right.<br>',"/commerce/subscriptions/");
     }
 } else {
     $cash_admin->setPageContentTemplate('commerce_subscriptions_add');
