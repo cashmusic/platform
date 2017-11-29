@@ -67,5 +67,7 @@ if (isset($request_parameters[0])) {
         $cash_admin->page_data['firstuse'] = true;
     }
 
+
+
     $cash_admin->setPageContentTemplate('commerce_subscriptions');
     ?>

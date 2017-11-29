@@ -24,7 +24,7 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api,$contextual_message;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api,$contextual_message, $error_code;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
