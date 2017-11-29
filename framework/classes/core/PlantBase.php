@@ -24,7 +24,7 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api,$contextual_message;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
@@ -40,9 +40,11 @@ use Exception;
             }
 
 		} else {
+		    if (!isset($this->contextual_message)) $this->contextual_message = false;
 			return $this->response->pushResponse(
 				400,$this->request_type,$this->action,
 				$this->request,
+				$this->contextual_message,
 				'no action specified'
 			);
 		}
@@ -302,7 +304,13 @@ use Exception;
                 if ($result !== false) {
                     return $this->pushSuccess($result,'success.');
                 } else {
-                    return $this->pushFailure('there was an error');
+
+                    $message = 'there was an error';
+
+                    if (isset($this->contextual_message)) {
+                        $message = $this->contextual_message;
+                    }
+                    return $this->pushFailure($message);
                 }
             } catch (Exception $e) {
                 return $this->pushFailure('corresponding class method not found, exception: ' . $e);
