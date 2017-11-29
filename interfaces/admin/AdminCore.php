@@ -125,6 +125,7 @@ class AdminCore  {
 	 * Marks an asset as a favorite
 	 *
 	 */public function favoriteAsset($asset_id) {
+	 	throw new \Exception("favorite asset?");
 		$user_settings = $this->getUserSettings();
 		if (!in_array($asset_id,$user_settings['favorite_assets'])) {
 			$user_settings['favorite_assets'][] = $asset_id;
