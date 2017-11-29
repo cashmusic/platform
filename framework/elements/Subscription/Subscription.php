@@ -21,10 +21,15 @@ class Subscription extends ElementBase {
 
 	public function getData() {
 
-        $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
+        $this->state = isset_else($_REQUEST['state'], "default");
 
-        $this->element_data['subscription_id'] = $this->sessionGet("subscription_id");
-        $this->element_data['email_address'] = $this->sessionGet("email_address");
+        $this->element_data['subscription_id'] = isset_else(
+            $this->sessionGet("subscription_id"), $this->element_data['subscription_id']
+        );
+
+        $this->element_data['email_address'] = isset_else(
+            $this->sessionGet("email_address"), $this->element_data['email']
+        );
 
         $this->element_data['currency'] = $this->getCurrency();
 

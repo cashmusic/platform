@@ -65,7 +65,6 @@ abstract class CASHSystem  {
 			}
 
 			define('CASH_DEBUG',(bool)$cash_settings['debug']);
-
 			// composer autoloader, in case we haven't loaded via controller first
 			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 

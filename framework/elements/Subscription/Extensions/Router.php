@@ -17,6 +17,7 @@ trait Router {
      */
 
     public function router($callback) {
+        //TODO: how about we abstract this out and just make some sort of object map for the states instead?
         if (!empty($this->state)) {
 
             $result = [

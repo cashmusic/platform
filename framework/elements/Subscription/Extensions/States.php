@@ -34,7 +34,7 @@ trait States
     private function stateVerified() {
 
         $data = [];
-        $subscriber_id = $this->sessionGet('subscription_id');
+        $subscriber_id = $this->subscription_id = $this->sessionGet('subscription_id');
         $data['email'] = $this->sessionGet("email_address");
         $user_request = new CASHRequest(
             array(
@@ -43,9 +43,6 @@ trait States
                 'user_id' => $subscriber_id
             )
         );
-
-        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email'], $user_request->response]);
-
 
         if ($user_request->response['payload']) {
 
@@ -67,7 +64,14 @@ trait States
     private function stateSetCredentials() {
 
         $data = [];
+        $plans = false;
 
+        if (!isset($_REQUEST['plans'])) {
+            $data['error_message'] = "There was an error looking up the subscription plan.";
+            $template = 'settings';
+        } else {
+            $plans = $_REQUEST['plans'];
+        }
         // check if the passwords actually match
         if($_REQUEST['password'] != $_REQUEST['confirm_password']) {
             $data['error_message'] = "Your password confirmation doesn't match.";
@@ -82,10 +86,8 @@ trait States
             $template = 'settings';
         }
 
-        $subscriber_id = $this->sessionGet('subscription_id');
-        $data['email'] = $this->sessionGet("email_address");
-
-        CASHSystem::errorLog([$this->element_user_id , $this->user_id, $subscriber_id, $data['email']]);
+        $this->subscription_id = $data['subscription_id'] = $this->sessionGet('subscription_id');
+        $data['email'] = $this->email = $this->sessionGet("email_address");
 
         // validate the request to change things
         $password_request = new CASHRequest(
@@ -97,9 +99,24 @@ trait States
             )
         );
 
-        CASHSystem::errorLog($password_request->response);
-
         if ($password_request->response['payload'] !== false) {
+
+            $first_use_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'commerce',
+                    'cash_action' => 'loginsubscriberfirstuse',
+                    'user_id' => $this->user_id,
+                    'plans' => $plans
+                )
+            );
+
+            if ($first_use_request->response['payload']) {
+                // valid login + valid subscription
+                // we need to make sure this is isolated by subscription---
+                //TODO: maybe later we can actually have subscriptions switchable
+
+                list($this->user_id, $this->subscription_id) = $first_use_request->response['payload'];
+            }
 
             $this->setLoginState();
             $data['items'] = $this->stateLoggedInIndex(true);
@@ -143,8 +160,8 @@ trait States
             if ($password_request->response['payload'] != "401") {
 
                 // we need to make sure this is isolated by subscription---
-                // maybe later we can actually have subscriptions switchable
-                CASHSystem::errorLog($password_request->response['payload']);
+                //TODO: maybe later we can actually have subscriptions switchable
+
                 list($this->user_id, $this->subscription_id) = $password_request->response['payload'];
 
                 $this->setLoginState();

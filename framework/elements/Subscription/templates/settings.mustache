@@ -14,6 +14,9 @@
     <input type="hidden" name="cash_request_type" value="commerce">
     <input type="hidden" name="cash_action" value="updatesubscription">
     <input type="hidden" name="state" value="set_credentials">
+    {{#all_plans}}
+        <input type="hidden" name="plans[]" value="{{plan_id}}" />
+    {{/all_plans}}
     <button class="cm-update-settings">Save settings</button>
 </form>
 
