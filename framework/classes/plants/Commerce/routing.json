@@ -538,6 +538,15 @@
 				"direct"
 			]
 		},
+		"loginsubscriberfirstuse": {
+			"description": "Login subscriber for first use.",
+			"plantfunction": "loginSubscriberFirstUse",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
 		"getsubscriberpaymentdetails": {
 			"description": "Get subscriber's payment details.",
 			"plantfunction": "getSubscriberPaymentDetails",

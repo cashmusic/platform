@@ -71,6 +71,7 @@
 
 .main-settings p {
     margin: 15px 0px 5px 0px;
+    text-align: left !important;
 }
 
 .clear {

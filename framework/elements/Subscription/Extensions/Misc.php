@@ -55,7 +55,7 @@ trait Misc {
                     $data['error_message'] = "We couldn't find your user.";
                 }
             } else {
-                $data['error_message'] = "Something went wrong.";
+                $data['error_message'] = "We couldn't find that validation request. Have you already set your subscription password?";
             }
 
             return $data;

@@ -1,1 +1,13 @@
-<h2 style="text-align: center;">{{message}}</h2>
+<h2 style="text-align: center; display: block !important; font-weight:normal">Logging out now...</h2>
+
+<script type="text/javascript">
+
+    var cm = window.cashmusic;
+
+    cm.events.add(cm,'ready', function(e) {
+        setTimeout(function(){
+            window.top.location.href = "{{element_url}}";
+        }, 2000);
+    });
+
+</script>

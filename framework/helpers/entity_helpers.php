@@ -87,6 +87,6 @@ function dd($object) {
  * @param $fallback
  * @return mixed
  */
-function isset_or($value, $fallback) {
+function isset_else($value, $fallback) {
     return (isset($value)) ? $value : $fallback;
 }
