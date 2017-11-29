@@ -1346,8 +1346,6 @@ class CommercePlant extends PlantBase {
             return false; // no default PP shit set
         }
 
-
-
         //TODO: this should be dynamic
         $payment_seed = new StripeSeed($user_id, $connection_id);
 
