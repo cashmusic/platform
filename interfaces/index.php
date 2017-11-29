@@ -26,7 +26,7 @@ use CASHMusic\Core\CASHSystem;
  */
 
 $user_id = false;
-require_once(__DIR__ . '/admin/constants.php');
+require_once(__DIR__ . '/admin/conswtants.php');
 
 // launch CASH Music
 require_once($cashmusic_root);

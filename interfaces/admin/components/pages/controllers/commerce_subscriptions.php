@@ -37,10 +37,10 @@ if (isset($request_parameters[0])) {
             'user_id' => $cash_admin->effective_user_id
         )
     );
-    if (is_array($settings_request->response['payload'])) {
-        $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-    }
 
+    $stripe_default = isset_else($settings_request->response['payload']['stripe_default'], false);
+
+    $cash_admin->page_data['payment_method'] = $stripe_default; //TODO: dynamic
 // plan index
     $subscription_request = new CASHRequest(
         array(

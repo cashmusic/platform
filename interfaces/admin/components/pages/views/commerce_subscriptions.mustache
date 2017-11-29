@@ -40,6 +40,11 @@
 {{^plans}}
 	<div class="empty"><p>{{copy_no_plans}}</p></div><!--empty-->
 {{/plans}}
+    {{#payment_method}}
+        <a class='button lightboxed' href="{{www_path}}/commerce/subscriptions/add">{{copy_add_plan}}</a>
+    {{/payment_method}}
 
-    <a class='button lightboxed' href="{{www_path}}/commerce/subscriptions/add">{{copy_add_plan}}</a>
+    {{^payment_method}}
+        <p>You need to add a Stripe connection in order to add a new subscription plan.</p>
+    {{/payment_method}}
 {{/firstuse}}
