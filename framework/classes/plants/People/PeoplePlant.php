@@ -880,7 +880,14 @@ class PeoplePlant extends PlantBase {
     	$user = $this->orm->findWhere(People::class, ['username' => trim(strtolower($username))]);
 
 		if ($user) {
-			return $user->id;
+
+			if (is_array($user)) $user = $user[0];
+			if (is_cash_model($user)) {
+                return $user->id;
+			} else {
+				return $this->error(400)->message('Invalid result returned from People lookup.');
+			}
+
 		} else {
 			return false;
 		}
