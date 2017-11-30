@@ -21,16 +21,14 @@ trait Variants {
             $variant_ids = array();
 
             foreach ($variants as $attributes => $quantity) {
-                CASHSystem::errorLog([$attributes, $quantity]);
                 try {
                     $variant = $this->orm->create(CommerceItemVariant::class, [
                         'item_id' => $item_id,
                         'user_id' => $item_details['user_id'],
-                        'attributes' => $attributes,
+                        'attributes' => json_decode($attributes, true),
                         'quantity' => $quantity
                     ]);
 
-                    CASHSystem::errorLog($variant);
                 } catch (Exception $e) {
                     CASHSystem::errorLog($e->getMessage());
                 }
