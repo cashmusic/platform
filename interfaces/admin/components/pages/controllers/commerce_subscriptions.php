@@ -11,9 +11,6 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 $effective_user_id = $admin_helper->getPersistentData('cash_effective_user');
 
-$test = json_encode(get_defined_vars(), JSON_PRETTY_PRINT);
-$cash_admin->page_data['test'] = $test;
-
 if (isset($request_parameters[0])) {
     if ($request_parameters[0] == "delete") {
         $subscription_request = new CASHRequest(
