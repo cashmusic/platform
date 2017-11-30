@@ -29,7 +29,7 @@ class AdminPlant extends PlantBase
     }
 
     public function getSchema($table) {
-        $user = $this->orm->findWhere(SystemSettings::class, ['user_id'=>$table] );
+        $user = $this->db->query('describe system_settings')->get();
         return $user;
     }
 }
