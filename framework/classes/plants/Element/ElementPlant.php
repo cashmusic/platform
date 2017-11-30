@@ -444,8 +444,6 @@ class ElementPlant extends PlantBase {
 
                     if (is_array($result)) {
                         $result = $result[0];
-                    } else {
-                        $result = $result->toArray();
                     }
 
                     $data = [];
