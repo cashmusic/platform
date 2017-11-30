@@ -27,7 +27,7 @@ $analytics = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
-
+dd($analytics['payload']);
 if (is_array($analytics['payload'])) {
 	$cash_admin->page_data['total_views'] = $analytics['payload']->total;
 
