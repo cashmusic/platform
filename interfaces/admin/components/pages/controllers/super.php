@@ -26,6 +26,11 @@ $get_user = new CASHRequest(
     )
 );
 
-$cash_admin->page_data['data'] =  json_encode($get_user->response['payload'], JSON_PRETTY_PRINT);
+$bar = [];
+foreach ($get_user->response['payload'] as $foo) {
+    $bar[] = json_encode($foo->toArray(), JSON_PRETTY_PRINT);
 
+}
+
+$cash_admin->page_data['data'] = $bar;
 $cash_admin->setPageContentTemplate('super');
