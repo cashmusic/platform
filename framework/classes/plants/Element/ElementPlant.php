@@ -449,6 +449,7 @@ class ElementPlant extends PlantBase {
                     }
 
                     $data = [];
+                    dd($result);
                     if (is_array($result->data)) $data = $result->data;
 
                     $data['total'] = $result->total;
