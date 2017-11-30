@@ -16,6 +16,7 @@ use CASHMusic\Seeds\S3Seed;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Pixie\Exception;
+use CASHMusic\Entities\SystemSettings;
 
 class AdminPlant extends PlantBase
 {
@@ -28,7 +29,7 @@ class AdminPlant extends PlantBase
     }
 
     public function getSchema($table) {
-        $user = $this->orm->findWhere(People::class, ['id'=>$table] );
+        $user = $this->orm->findWhere(SystemSettings::class, ['user_id'=>$table] );
         return $user->toArray();
     }
 }
