@@ -346,7 +346,18 @@ use Exception;
 		);
 	}
 
-	/* error reporting stuff for cash request responses */
+	/*
+	 * CASHRequest response building
+	 * Errors: return $this->error('404')->message("No settings of type `$type` found for this user.");
+	 * Otherwise we need to work in responses so they return substantive data
+	 */
+
+	//TODO: need to put together a proper positive response chain, as well
+    public function response($code) {
+        $this->code = $code;
+
+        return $this;
+    }
 
     public function error($code) {
         $this->error_code = $code;
