@@ -68,6 +68,7 @@ trait Variants {
             $attributes = array();
             foreach ($item_variants as $item) {
                 // first try json_decode
+                dd($item);
                 $attribute_array = $item->attributes;
                 if (!is_array($attribute_array)) {
                     // old style keys, so format them to match JSON
