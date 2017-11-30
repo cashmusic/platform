@@ -198,6 +198,7 @@ trait Items {
             foreach($items as $key=>$item) {
 
                 $result[$key] = $item->toArray();
+                CASHSystem::errorLog($result[$key]);
                 $result[$key]['image_url'] = false;
 
                 if ($descriptive_asset = $item->descriptiveAsset()) {
@@ -221,9 +222,6 @@ trait Items {
                 }
             }
         }
-
-
-        CASHSystem::errorLog($result);
 
         return $result;
     }
