@@ -26,6 +26,6 @@ $get_user = new CASHRequest(
     )
 );
 
-$cash_admin->page_data['data'] =  json_encode($get_user->response, JSON_PRETTY_PRINT);
+$cash_admin->page_data['data'] =  $get_user->response;
 
 $cash_admin->setPageContentTemplate('super');
