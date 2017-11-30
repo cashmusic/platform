@@ -145,8 +145,8 @@ if ($request_parameters) {
 		if (!empty($order_all_details['customer_shipping_name'])) {
 			$customer_name = $order_all_details['customer_shipping_name'];
 		} else {
-			$customer_name = isset_else($order_all_details['customer_name'], false);
-			
+			$customer_name = (isset($order_all_details['customer_name'])) ? $order_all_details['customer_name'] : false;
+
 		}
 
 		$cash_admin->page_data['customer_name'] = $customer_name;
