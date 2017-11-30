@@ -193,7 +193,6 @@ trait Items {
         $items = $this->orm->findWhere(CommerceItem::class, ['user_id'=>$user_id], true);
 
         $result = [];
-        CASHSystem::errorLog($items);
 
         if ($with_variants) {
             foreach($items as $key=>$item) {
@@ -222,6 +221,9 @@ trait Items {
                 }
             }
         }
+
+
+        CASHSystem::errorLog($result);
 
         return $result;
     }
