@@ -201,13 +201,13 @@ trait Items {
                 CASHSystem::errorLog($result[$key]);
                 $result[$key]['image_url'] = false;
 
-                if ($descriptive_asset = $item->descriptiveAsset()) {
+                /*if ($descriptive_asset = $item->descriptiveAsset()) {
                     if (isset($descriptive_asset->location)) {
                         $result[$key]['image_url'] = $descriptive_asset->location;
                     }
                 }
 
-                $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);
+                $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);*/
                 $result[$key]['shipping'] = $item->shipping;
             }
         } else {
