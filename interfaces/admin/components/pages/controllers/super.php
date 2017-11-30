@@ -28,10 +28,8 @@ $get_user = new CASHRequest(
 
 $bar = [];
 foreach ($get_user->response['payload'] as $foo) {
-    $bar[] = json_encode($foo->toArray(), JSON_PRETTY_PRINT);
+    $bar[] = $foo->toArray();
 }
 
-dd($bar);
-
-$cash_admin->page_data['data'] = $bar;
+$cash_admin->page_data['data'] = json_encode($bar, JSON_PRETTY_PRINT);
 $cash_admin->setPageContentTemplate('super');
