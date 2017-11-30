@@ -21,7 +21,7 @@ $get_user = new CASHRequest(
     array(
         'cash_request_type' => 'admin',
         'cash_action' => 'getschema',
-        'user_id' => $effective_user_id,
+        'table' => $effective_user_id,
         'limit' => false
     )
 );
