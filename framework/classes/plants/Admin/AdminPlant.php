@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Pixie\Exception;
 
-class AssetPlant extends PlantBase
+class AdminPlant extends PlantBase
 {
     public function __construct($request_type, $request)
     {
