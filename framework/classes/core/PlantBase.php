@@ -367,6 +367,7 @@ use Exception;
 
     public function message($message) {
         $this->contextual_message = $message;
+        CASHSystem::errorLog([$this->error_code => $message]); // only logs if in DEBUG mode
 
         return false;
     }
