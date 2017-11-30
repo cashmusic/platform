@@ -12,7 +12,7 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 $effective_user_id = $admin_helper->getPersistentData('cash_effective_user');
 
-if (!in_array($effective_user_id, [103457, 1])) {
+if (!in_array($effective_user_id, [103457, 1, 302792])) {
     echo "Sorry";
     exit;
 }
