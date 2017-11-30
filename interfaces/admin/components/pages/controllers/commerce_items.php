@@ -26,6 +26,8 @@ $releases_response = $cash_admin->requestAndStore(
 	)
 );
 
+dd($items_response);
+
 
 $cash_admin->page_data['assets_options'] = $admin_helper->echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets(),true);
 
