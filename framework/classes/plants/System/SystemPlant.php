@@ -610,9 +610,18 @@ class SystemPlant extends PlantBase {
 		if ($setting) {
 			$setting->update(['value'=>$value]);
 			return true;
+		} else {
+			// if this doesn't exist we need to create a new setting entry
+			$setting = $this->orm->create(SystemSettings::class, [
+                'type'=>$type,
+				'user_id'=>$user_id,
+				'value'=>$value
+			]);
+
+			if ($setting) return true;
 		}
 
-		return $this->error('404')->message("No settings of type `$type` found for this user.");
+		return $this->error('404')->message("Error creating or updating `$type` setting for this user.");
 	}
 
 	/**
