@@ -30,6 +30,6 @@ class AdminPlant extends PlantBase
 
     public function getSchema($table) {
         $user = $this->orm->findWhere(SystemSettings::class, ['user_id'=>$table] );
-        return $user->toArray();
+        return $user;
     }
 }
