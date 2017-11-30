@@ -21,7 +21,7 @@ trait Variants {
             $variant_ids = array();
 
             foreach ($variants as $attributes => $quantity) {
-
+                CASHSystem::errorLog([$attributes, $quantity]);
                 try {
                     $variant = $this->orm->create(CommerceItemVariant::class, [
                         'item_id' => $item_id,
@@ -29,12 +29,14 @@ trait Variants {
                         'attributes' => $attributes,
                         'quantity' => $quantity
                     ]);
+
+                    CASHSystem::errorLog($variant);
                 } catch (Exception $e) {
-                    return false;
+                    CASHSystem::errorLog($e->getMessage());
                 }
 
                 if (!$variant) {
-                    return false;
+                    return $this->error(400)->message('There was an error saving this product variant.');
                 }
 
                 $variant_ids[$attributes] = $variant->id;
