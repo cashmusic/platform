@@ -28,6 +28,7 @@ $analytics = $cash_admin->requestAndStore(
 	)
 );
 
+dd($analytics['payload']);
 
 if (is_array($analytics['payload'])) {
 	$cash_admin->page_data['total_views'] = $analytics['payload']->total;
