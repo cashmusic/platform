@@ -29,6 +29,6 @@ class AdminPlant extends PlantBase
 
     public function getSchema($table) {
         $user = $this->orm->findWhere(People::class, ['id'=>$table] );
-        return $user;
+        return $user->toJson();
     }
 }
