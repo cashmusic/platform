@@ -439,7 +439,7 @@ class ElementPlant extends PlantBase {
 			case 'elementbasics':
 
 				$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $element_id] );
-
+				CASHSystem::errorLog($result);
 				if ($result) {
 
                     if (is_array($result)) {
@@ -449,7 +449,7 @@ class ElementPlant extends PlantBase {
                     }
 
                     $data = [];
-                    dd($result);
+
                     if (is_array($result->data)) $data = $result->data;
 
                     $data['total'] = $result->total;
