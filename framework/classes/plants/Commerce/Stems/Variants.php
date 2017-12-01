@@ -58,7 +58,7 @@ trait Variants {
         }
 
         $item_variants = $this->orm->findWhere(CommerceItemVariant::class, $conditions, true);
-        
+
         if ($item_variants) {
             $variants = array(
                 'attributes' => array(),
