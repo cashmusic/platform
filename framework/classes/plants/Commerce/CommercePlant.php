@@ -985,7 +985,7 @@ class CommercePlant extends PlantBase {
                     'last_name' => $payment_details['customer_last_name'],
                     'address_country' =>
                         isset($payment_details['customer_countrycode']) ? $payment_details['customer_countrycode'] : "",
-                    'data' => ['new_subscriber' => true]
+                    'data' => ['new_subscriber' => true] //TODO: does this tie into subs?
                     )
             );
 
