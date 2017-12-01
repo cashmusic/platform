@@ -977,55 +977,56 @@ abstract class CASHSystem  {
 	}
 
 	public static function errorLog($data, $json=false, $debug=true) {
-
-		if ($debug) {
-
-            $bt = debug_backtrace();
-            $caller = array_shift($bt);
-
-
-            $debug = "(". $caller['line'] .": ".str_replace("/var/www/cash_platform/", "", $caller['file']) . ") ";
-		} else {
-			$debug = "";
-		}
-
-		switch(gettype($data)) {
-			case "string":
-			case "boolean":
-			case "integer":
-			case "double":
-				$log = $debug.":[".gettype($data)."]: " . $data;
-			break;
-
-			case "NULL":
-			case "unknown type":
-				$log = $debug.": NULL";
-			break;
-
-			case "array":
-			case "object":
-			case "resource":
-
-				if ($json) {
-                    $log = $debug.":[".gettype($data)."]: " . json_encode($data, JSON_PRETTY_PRINT);
-				} else {
-                    $log = $debug."[".gettype($data)."]: " . print_r($data, true);
-
-                }
-			break;
-
-			default:
-				$log = $debug.": no data";
-
-		}
-
 		if (CASH_DEBUG) {
-            $logger = new Logger('debug_logger');
-            $logger->pushHandler(new BrowserConsoleHandler());
-            $logger->error($debug."[".gettype($data)."]: \n".json_encode($data));
-		}
+            if ($debug) {
 
-		error_log($log);
+                $bt = debug_backtrace();
+                $caller = array_shift($bt);
+
+
+                $debug = "(" . $caller['line'] . ": " . str_replace("/var/www/cash_platform/", "", $caller['file']) . ") ";
+            } else {
+                $debug = "";
+            }
+
+            switch (gettype($data)) {
+                case "string":
+                case "boolean":
+                case "integer":
+                case "double":
+                    $log = $debug . ":[" . gettype($data) . "]: " . $data;
+                    break;
+
+                case "NULL":
+                case "unknown type":
+                    $log = $debug . ": NULL";
+                    break;
+
+                case "array":
+                case "object":
+                case "resource":
+
+                    if ($json) {
+                        $log = $debug . ":[" . gettype($data) . "]: " . json_encode($data, JSON_PRETTY_PRINT);
+                    } else {
+                        $log = $debug . "[" . gettype($data) . "]: " . print_r($data, true);
+
+                    }
+                    break;
+
+                default:
+                    $log = $debug . ": no data";
+
+            }
+
+            if (CASH_DEBUG) {
+                $logger = new Logger('debug_logger');
+                $logger->pushHandler(new BrowserConsoleHandler());
+                $logger->error($debug . "[" . gettype($data) . "]: \n" . json_encode($data));
+            }
+
+            error_log($log);
+        }
 	}
 
 	/**

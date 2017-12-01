@@ -439,7 +439,7 @@ class ElementPlant extends PlantBase {
 			case 'elementbasics':
 
 				$result = $this->orm->findWhere(ElementAnalyticBasic::class, ['element_id' => $element_id] );
-				CASHSystem::errorLog($result);
+
 				if ($result) {
 
                     if (is_array($result)) {
