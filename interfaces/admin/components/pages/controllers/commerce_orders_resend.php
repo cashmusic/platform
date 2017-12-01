@@ -29,10 +29,10 @@ $analytics = $cash_admin->requestAndStore(
 );
 
 if (is_array($analytics['payload'])) {
-	$cash_admin->page_data['total_views'] = $analytics['payload']->total;
+	$cash_admin->page_data['total_views'] = $analytics['payload']['total'];
 
 	$tmp_locations_array = array(); // temp array to combine totals by hostname
-	foreach ($analytics['payload']->locations as $location => $total) {
+	foreach ($analytics['payload']['locations'] as $location => $total) {
 		// cycle through all locations, push to temp array and combine if necessary
 		$parsed = parse_url($location);
 		// fix when &access_token is set without an initial ? query

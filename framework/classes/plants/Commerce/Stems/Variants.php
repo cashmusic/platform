@@ -21,20 +21,20 @@ trait Variants {
             $variant_ids = array();
 
             foreach ($variants as $attributes => $quantity) {
-
                 try {
                     $variant = $this->orm->create(CommerceItemVariant::class, [
                         'item_id' => $item_id,
                         'user_id' => $item_details['user_id'],
-                        'attributes' => $attributes,
+                        'attributes' => json_decode($attributes, true),
                         'quantity' => $quantity
                     ]);
+
                 } catch (Exception $e) {
-                    return false;
+                    CASHSystem::errorLog($e->getMessage());
                 }
 
                 if (!$variant) {
-                    return false;
+                    return $this->error(400)->message('There was an error saving this product variant.');
                 }
 
                 $variant_ids[$attributes] = $variant->id;
@@ -57,8 +57,8 @@ trait Variants {
             $conditions['user_id'] = $user_id;
         }
 
-        $item_variants = $this->orm->findWhere(CommerceItemVariant::class, $conditions);
-
+        $item_variants = $this->orm->findWhere(CommerceItemVariant::class, $conditions, true);
+        
         if ($item_variants) {
             $variants = array(
                 'attributes' => array(),
@@ -66,33 +66,36 @@ trait Variants {
             );
 
             $attributes = array();
+
             foreach ($item_variants as $item) {
-                // first try json_decode
-                $attribute_array = $item->attributes;
-                if (!is_array($attribute_array)) {
-                    // old style keys, so format them to match JSON
-                    $attribute_array = array();
-                    $attribute_keys = explode('+', $item->attributes);
-                    foreach ($attribute_keys as $part) {
-                        list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
-                        // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
-                        $attribute_array[$key] = $type;
+                if (is_cash_model($item)) {
+                    // first try json_decode
+                    $attribute_array = $item->attributes;
+                    if (!is_array($attribute_array)) {
+                        // old style keys, so format them to match JSON
+                        $attribute_array = array();
+                        $attribute_keys = explode('+', $item->attributes);
+                        foreach ($attribute_keys as $part) {
+                            list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
+                            // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
+                            $attribute_array[$key] = $type;
+                        }
                     }
-                }
-                foreach ($attribute_array as $key => $type) {
-                    // build the final attributes array
-                    if (!isset($attributes[$key][$type])) {
-                        $attributes[$key][$type] = 0;
+                    foreach ($attribute_array as $key => $type) {
+                        // build the final attributes array
+                        if (!isset($attributes[$key][$type])) {
+                            $attributes[$key][$type] = 0;
+                        }
+                        $attributes[$key][$type] += $item->quantity;
                     }
-                    $attributes[$key][$type] += $item->quantity;
-                }
-                if (!($item->quantity < 1 && $exclude_empties)) {
-                    $variants['quantities'][] = array(
-                        'id' => $item->id,
-                        'key' => json_encode($item->attributes),
-                        'formatted_name' => $this->formatVariantName($item->attributes),
-                        'value' => $item->quantity
-                    );
+                    if (!($item->quantity < 1 && $exclude_empties)) {
+                        $variants['quantities'][] = array(
+                            'id' => $item->id,
+                            'key' => json_encode($item->attributes),
+                            'formatted_name' => $this->formatVariantName($item->attributes),
+                            'value' => $item->quantity
+                        );
+                    }
                 }
             }
             foreach ($attributes as $key => $values) {
