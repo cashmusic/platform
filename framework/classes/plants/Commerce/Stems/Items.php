@@ -190,37 +190,41 @@ trait Items {
 
     protected function getItemsForUser($user_id,$with_variants=true) {
 
-        $items = $this->orm->findWhere(CommerceItem::class, ['user_id'=>$user_id], true);
+        try {
+            $items = $this->orm->findWhere(CommerceItem::class, ['user_id'=>$user_id], true);
 
-        $result = [];
+            $result = [];
 
-        if ($with_variants) {
-            foreach($items as $key=>$item) {
+            if ($with_variants) {
+                foreach($items as $key=>$item) {
 
-                $result[$key] = $item->toArray();
-                CASHSystem::errorLog($result[$key]);
-                $result[$key]['image_url'] = false;
+                    $result[$key] = $item->toArray();
+                    CASHSystem::errorLog($result[$key]);
+                    $result[$key]['image_url'] = false;
 
-                /*if ($descriptive_asset = $item->descriptiveAsset()) {
-                    if (isset($descriptive_asset->location)) {
-                        $result[$key]['image_url'] = $descriptive_asset->location;
+                    if ($descriptive_asset = $item->descriptiveAsset()) {
+                        if (isset($descriptive_asset->location)) {
+                            $result[$key]['image_url'] = $descriptive_asset->location;
+                        }
+                    }
+
+                    $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);
+                    $result[$key]['shipping'] = $item->shipping;
+                }
+            } else {
+                foreach($items as $key=>$item) {
+
+                    $result[$key] = $item->toArray();
+
+                    if ($descriptive_asset = $item->descriptiveAsset()) {
+                        if (isset($descriptive_asset->location)) {
+                            $result[$key]['image_url'] = $descriptive_asset->location;
+                        }
                     }
                 }
-
-                $result[$key]['variants'] = $this->getItemVariants($item->id, false, $user_id);*/
-                $result[$key]['shipping'] = $item->shipping;
             }
-        } else {
-            foreach($items as $key=>$item) {
-
-                $result[$key] = $item->toArray();
-
-                if ($descriptive_asset = $item->descriptiveAsset()) {
-                    if (isset($descriptive_asset->location)) {
-                        $result[$key]['image_url'] = $descriptive_asset->location;
-                    }
-                }
-            }
+        } catch (\Exception $e) {
+            return $this->error(400)->message($e->getMessage());
         }
 
         return $result;
