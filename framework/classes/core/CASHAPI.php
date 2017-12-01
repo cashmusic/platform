@@ -67,7 +67,7 @@ class CASHAPI
          * super garbage way of doing legacy /verbose endpoint
          */
 
-        https://staging.cashmusic.org/api/verbose/commerce/editcartshipping/element_id/5157/region/r1/session_id/08d9d35893a0dc4742ffe5437acecb781512163945?ts=1512169821995&session_id=08d9d35893a0dc4742ffe5437acecb781512163945
+        /*https://staging.cashmusic.org/api/verbose/commerce/editcartshipping/element_id/5157/region/r1/session_id/08d9d35893a0dc4742ffe5437acecb781512163945?ts=1512169821995&session_id=08d9d35893a0dc4742ffe5437acecb781512163945*/
 
         $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}][/{arg2}/{arg2_val}][/{arg3}/{arg3_val}]', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
