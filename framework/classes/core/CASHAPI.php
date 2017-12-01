@@ -101,7 +101,7 @@ class CASHAPI
 
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
-        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/', function ($request, $response, $args) use ($server, $resourceServer) {
+        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -117,7 +117,7 @@ class CASHAPI
 
         })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
 
-        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/{arg3}/{arg3_val}/', function ($request, $response, $args) use ($server, $resourceServer) {
+        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/{arg3}/{arg3_val}', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
