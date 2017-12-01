@@ -377,9 +377,9 @@ class EntityBase extends CASHData
      */
     public function getRelationship($entity, $key=false, $foreign_key=false, $scope=false, $conditions=[]) {
 
-        if (!isset($conditions['where'])) $conditions['where'] = false;
-        if (!isset($conditions['order_by'])) $conditions['order_by'] = false;
-        if (!isset($conditions['limit'])) $conditions['limit'] = false;
+        if (!isset($conditions['where'])) $conditions['where'] = [];
+        if (!isset($conditions['order_by'])) $conditions['order_by'] = [];
+        if (!isset($conditions['limit'])) $conditions['limit'] = [];
 
 
         try {
