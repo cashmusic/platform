@@ -68,33 +68,34 @@ trait Variants {
             $attributes = array();
 
             foreach ($item_variants as $item) {
-                CASHSystem::errorLog($item);
-                // first try json_decode
-                $attribute_array = $item->attributes;
-                if (!is_array($attribute_array)) {
-                    // old style keys, so format them to match JSON
-                    $attribute_array = array();
-                    $attribute_keys = explode('+', $item->attributes);
-                    foreach ($attribute_keys as $part) {
-                        list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
-                        // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
-                        $attribute_array[$key] = $type;
+                if (is_cash_model($item)) {
+                    // first try json_decode
+                    $attribute_array = $item->attributes;
+                    if (!is_array($attribute_array)) {
+                        // old style keys, so format them to match JSON
+                        $attribute_array = array();
+                        $attribute_keys = explode('+', $item->attributes);
+                        foreach ($attribute_keys as $part) {
+                            list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
+                            // weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
+                            $attribute_array[$key] = $type;
+                        }
                     }
-                }
-                foreach ($attribute_array as $key => $type) {
-                    // build the final attributes array
-                    if (!isset($attributes[$key][$type])) {
-                        $attributes[$key][$type] = 0;
+                    foreach ($attribute_array as $key => $type) {
+                        // build the final attributes array
+                        if (!isset($attributes[$key][$type])) {
+                            $attributes[$key][$type] = 0;
+                        }
+                        $attributes[$key][$type] += $item->quantity;
                     }
-                    $attributes[$key][$type] += $item->quantity;
-                }
-                if (!($item->quantity < 1 && $exclude_empties)) {
-                    $variants['quantities'][] = array(
-                        'id' => $item->id,
-                        'key' => json_encode($item->attributes),
-                        'formatted_name' => $this->formatVariantName($item->attributes),
-                        'value' => $item->quantity
-                    );
+                    if (!($item->quantity < 1 && $exclude_empties)) {
+                        $variants['quantities'][] = array(
+                            'id' => $item->id,
+                            'key' => json_encode($item->attributes),
+                            'formatted_name' => $this->formatVariantName($item->attributes),
+                            'value' => $item->quantity
+                        );
+                    }
                 }
             }
             foreach ($attributes as $key => $values) {
