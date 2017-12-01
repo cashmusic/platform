@@ -18,6 +18,13 @@ header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+$error_handler = new \Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
+
 // element style css
 //TODO:some form of caching
 if (isset($_REQUEST['element_style'])) {
