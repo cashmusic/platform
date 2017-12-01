@@ -377,6 +377,11 @@ class EntityBase extends CASHData
      */
     public function getRelationship($entity, $key=false, $foreign_key=false, $scope=false, $conditions=[]) {
 
+        if (!isset($conditions['where'])) $conditions['where'] = false;
+        if (!isset($conditions['order_by'])) $conditions['order_by'] = false;
+        if (!isset($conditions['limit'])) $conditions['limit'] = false;
+
+
         try {
             $class_fqdn = "\\CASHMusic\\Entities\\$entity";
             if (!$this->orm) $this->connectDB();
