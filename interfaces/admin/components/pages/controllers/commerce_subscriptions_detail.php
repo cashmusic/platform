@@ -28,7 +28,11 @@ if (isset($_REQUEST['export'])) {
         $data = [];
         foreach($subscribers as $subscriber) {
             $subscription_date = date('m-d-Y', $subscriber['start_date']);
-            $formatted_data = array_merge($subscriber['data']['shipping_info'], $subscriber['data']['customer']);
+            $formatted_data = $subscriber['data']['customer'];
+
+            if (isset($subscriber['data']['shipping_info']) && is_array($subscriber['data']['shipping_info'])) {
+                $formatted_data = array_merge($subscriber['data']['shipping_info'], $formatted_data);
+            }
 
             $data[] = array_merge(
                 $formatted_data,
