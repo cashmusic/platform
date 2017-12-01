@@ -983,7 +983,7 @@ class CommercePlant extends PlantBase {
                     'display_name' => $payment_details['customer_name'],
                     'first_name' => $payment_details['customer_first_name'],
                     'last_name' => $payment_details['customer_last_name'],
-                    'address_country' => $payment_details['customer_countrycode'],
+                    'address_country' => isset($payment_details['customer_countrycode']) ? $payment_details['customer_countrycode'] : "",
                     'data' => ['new_subscriber' => true]
                     )
             );
