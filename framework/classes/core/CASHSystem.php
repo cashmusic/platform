@@ -64,7 +64,7 @@ abstract class CASHSystem  {
 				define('CASH_VENUES_API', trim($cash_settings['venues_api'],'/'));
 			}
 
-			define('CASH_DEBUG',TRUE); //(bool)$cash_settings['debug']);
+			define('CASH_DEBUG',(bool)$cash_settings['debug']);
 			// composer autoloader, in case we haven't loaded via controller first
 			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 
