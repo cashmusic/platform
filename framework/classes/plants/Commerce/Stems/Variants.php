@@ -67,7 +67,7 @@ trait Variants {
 
             $attributes = array();
 
-            foreach ($item_variants as $item)
+            foreach ($item_variants as $item) {
 
                 CASHSystem::errorLog($item);
                 if (is_cash_model($item)) {
