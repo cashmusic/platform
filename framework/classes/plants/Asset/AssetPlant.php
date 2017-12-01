@@ -84,6 +84,11 @@ class AssetPlant extends PlantBase {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
+
+		if ((isset($asset_details['scope_table_alias']) && $asset_details['scope_table_alias'] == 'assets')) {
+			$asset_details = $this->getAssetInfo($asset_details['scope_table_id']);
+		}
+
 		// test that getInfo returned results
 		if ($asset_details !== false) {
 
