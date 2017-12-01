@@ -58,7 +58,7 @@ trait Variants {
         }
 
         $item_variants = $this->orm->findWhere(CommerceItemVariant::class, $conditions);
-
+        CASHSystem::errorLog($item_variants);
         if ($item_variants) {
             $variants = array(
                 'attributes' => array(),
@@ -68,8 +68,6 @@ trait Variants {
             $attributes = array();
 
             foreach ($item_variants as $item) {
-
-                CASHSystem::errorLog($item);
                 if (is_cash_model($item)) {
                     // first try json_decode
                     $attribute_array = $item->attributes;
