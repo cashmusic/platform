@@ -69,7 +69,23 @@ class CASHAPI
 
         /*https://staging.cashmusic.org/api/verbose/commerce/editcartshipping/element_id/5157/region/r1/session_id/08d9d35893a0dc4742ffe5437acecb781512163945?ts=1512169821995&session_id=08d9d35893a0dc4742ffe5437acecb781512163945*/
 
-        $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($server, $resourceServer) {
+        $api->any('/verbose/{plant}/{noun}', function ($request, $response, $args) use ($server, $resourceServer) {
+            $query_string = $request->getQueryParams();
+
+            if (isset($args['arg1'])) {
+                $query_string[$args['arg1']] = $args['arg1_val'];
+            }
+
+            if (isset($args['arg2'])) {
+                $query_string[$args['arg2']] = $args['arg2_val'];
+            }
+
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
+
+
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+
+        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
