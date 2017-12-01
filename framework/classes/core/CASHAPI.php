@@ -69,7 +69,7 @@ class CASHAPI
 
         /*https://staging.cashmusic.org/api/verbose/commerce/editcartshipping/element_id/5157/region/r1/session_id/08d9d35893a0dc4742ffe5437acecb781512163945?ts=1512169821995&session_id=08d9d35893a0dc4742ffe5437acecb781512163945*/
 
-        $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}][/{arg2}/{arg2_val}][/{arg3}/{arg3_val}]', function ($request, $response, $args) use ($server, $resourceServer) {
+        $api->any('/verbose/{plant}/{noun}[/{arg1}/{arg1_val}]', function ($request, $response, $args) use ($server, $resourceServer) {
             $query_string = $request->getQueryParams();
 
             if (isset($args['arg1'])) {
@@ -78,10 +78,6 @@ class CASHAPI
 
             if (isset($args['arg2'])) {
                 $query_string[$args['arg2']] = $args['arg2_val'];
-            }
-
-            if (isset($args['arg3'])) {
-                $query_string[$args['arg3']] = $args['arg3_val'];
             }
 
             return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
@@ -98,6 +94,26 @@ class CASHAPI
 
             if (isset($args['arg2'])) {
                 $query_string[$args['arg2']] = $args['arg2_val'];
+            }
+
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
+
+
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+
+        $api->any('/verbose/{plant}/{noun}/{arg1}/{arg1_val}/{arg2}/{arg2_val}/{arg3}/{arg3_val}/', function ($request, $response, $args) use ($server, $resourceServer) {
+            $query_string = $request->getQueryParams();
+
+            if (isset($args['arg1'])) {
+                $query_string[$args['arg1']] = $args['arg1_val'];
+            }
+
+            if (isset($args['arg2'])) {
+                $query_string[$args['arg2']] = $args['arg2_val'];
+            }
+
+            if (isset($args['arg3'])) {
+                $query_string[$args['arg3']] = $args['arg3_val'];
             }
 
             return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer, $query_string);
