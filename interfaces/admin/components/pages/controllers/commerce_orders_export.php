@@ -32,7 +32,6 @@ if (isset($_POST['export_options'])) {
 		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200') {
 
 			foreach ($orders_response['payload'] as $entry) {
-
 				$go = true;
 				if ($_POST['export_options'] == 'fulfilled') {
 					if (!isset($entry['fulfilled']) ? $entry['fulfilled'] : "") {
@@ -43,7 +42,7 @@ if (isset($_POST['export_options'])) {
 						$go = false;
 					}
 				} elseif ($_POST['export_options'] == 'digital') {
-					if (isset($entry['physical'] || !$entry['digital']) ? $entry['physical'] || !$entry['digital'] : "") {
+					if ((isset($entry['physical']) || !$entry['digital']) ? $entry['physical'] || !$entry['digital'] : "") {
 						$go = false;
 					}
 				}
