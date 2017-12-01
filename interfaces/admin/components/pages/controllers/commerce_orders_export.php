@@ -35,15 +35,15 @@ if (isset($_POST['export_options'])) {
 
 				$go = true;
 				if ($_POST['export_options'] == 'fulfilled') {
-					if (!$entry['fulfilled']) {
+					if (!isset($entry['fulfilled']) ? $entry['fulfilled'] : "") {
 						$go = false;
 					}
 				} elseif ($_POST['export_options'] == 'physical') {
-					if (!$entry['physical']) {
+					if (!isset($entry['physical']) ? $entry['physical'] : "") {
 						$go = false;
 					}
 				} elseif ($_POST['export_options'] == 'digital') {
-					if ($entry['physical'] || !$entry['digital']) {
+					if (isset($entry['physical'] || !$entry['digital']) ? $entry['physical'] || !$entry['digital'] : "") {
 						$go = false;
 					}
 				}
@@ -72,24 +72,23 @@ if (isset($_POST['export_options'])) {
 					// end TODO
 
 					try {
-                        error_log(print_r($entry, true));
                         echo '"' . str_replace('"', '""', $entry['id']) . '"';
                         echo ',"' . date('M j, Y h:iA T', $entry['creation_date']) . '"';
-                        //echo ',"' . str_replace ('"','""',$entry['transaction_description']) . '"';
+                        //echo ',"' . str_replace ('"','""',isset($entry['transaction_description']) ? $entry['transaction_description'] : "") . '"';
                         echo ',"' . str_replace('"', '""', $order_totals_description) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_shipping_name']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_email']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_first_name']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_last_name']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_address1']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_address2']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_city']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_region']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_postalcode']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_countrycode']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['customer_country']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['gross_price']) . '"';
-                        echo ',"' . str_replace('"', '""', $entry['service_fee']) . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_shipping_name']) ? $entry['customer_shipping_name'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_email']) ? $entry['customer_email'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_first_name']) ? $entry['customer_first_name'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_last_name']) ? $entry['customer_last_name'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_address1']) ? $entry['customer_address1'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_address2']) ? $entry['customer_address2'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_city']) ? $entry['customer_city'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_region']) ? $entry['customer_region'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_postalcode']) ? $entry['customer_postalcode'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_countrycode']) ? $entry['customer_countrycode'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['customer_country']) ? $entry['customer_country'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['gross_price']) ? $entry['gross_price'] : "") . '"';
+                        echo ',"' . str_replace('"', '""', isset($entry['service_fee']) ? $entry['service_fee'] : "") . '"';
                         echo ',"' . number_format($shipping_charged, 2) . '"';
                         echo "\n";
                     } catch (\Exception $e) {
