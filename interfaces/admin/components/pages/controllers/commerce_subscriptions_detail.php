@@ -35,6 +35,7 @@ if (isset($_REQUEST['export'])) {
                 $formatted_data = array_merge($subscriber['data']['shipping_info'], $formatted_data);
             }
 
+
             $data[] = array_merge(
                 $formatted_data,
                 [
