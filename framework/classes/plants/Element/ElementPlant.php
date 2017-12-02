@@ -166,7 +166,7 @@ class ElementPlant extends PlantBase {
 
 			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
 			$allmetadata = $this->getAllMetaData("elements", $id);
-			CASHSystem::errorLog($allmetadata);
+
 			// convert this to an array to work with current structure
             $element = $element->toArray();
 			if (is_array($allmetadata)) {
@@ -182,13 +182,13 @@ class ElementPlant extends PlantBase {
 									// now we loop through every sub-option in the scalar
 									if ($dataname == $suboptionname . '-clone-' . $name . '-' . $count) {
 										// found a match so overwrite
-										$the_element['options'][$name][$count][$suboptionname] = $data;
+										$element['options'][$name][$count][$suboptionname] = $data;
 									}
 								}
 							}
 						} else {
 							if ($dataname == $name) {
-								$the_element['options'][$name] = $data;
+								$element['options'][$name] = $data;
 							}
 						}
 					}
