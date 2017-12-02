@@ -166,7 +166,7 @@ class ElementPlant extends PlantBase {
 
 			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
 			$allmetadata = $this->getAllMetaData("elements", $id);
-
+			CASHSystem::errorLog($allmetadata);
 			// convert this to an array to work with current structure
             $element = $element->toArray();
 			if (is_array($allmetadata)) {
