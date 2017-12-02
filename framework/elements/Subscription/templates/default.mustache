@@ -27,7 +27,10 @@
         element.innerText = price;
         button_element.dataset.price = price;
 
-        document.querySelector("#plan_flexible_price").value = price;
+        var flexible_price = document.querySelector("#plan_flexible_price");
+        if (flexible_price) {
+            flexible_price.value = price;
+        }
 
         return price;
     }
