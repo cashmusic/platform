@@ -182,13 +182,13 @@ class ElementPlant extends PlantBase {
 									// now we loop through every sub-option in the scalar
 									if ($dataname == $suboptionname . '-clone-' . $name . '-' . $count) {
 										// found a match so overwrite
-										$the_element['options'][$name][$count][$suboptionname] = $data;
+										$element['options'][$name][$count][$suboptionname] = $data;
 									}
 								}
 							}
 						} else {
 							if ($dataname == $name) {
-								$the_element['options'][$name] = $data;
+								$element['options'][$name] = $data;
 							}
 						}
 					}
