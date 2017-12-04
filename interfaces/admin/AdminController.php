@@ -356,6 +356,16 @@ class AdminController {
     {
         $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
 
+        $client->setSendCallback(function($data) {
+            $ignore_types = array('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+
+            if (isset($data['exception']) && in_array($data['exception']['values'][0]['type'], $ignore_types))
+            {
+                return false;
+            }
+        });
+
+
         $error_handler = new \Raven_ErrorHandler($client);
         $error_handler->registerExceptionHandler();
         $error_handler->registerErrorHandler();
