@@ -84,6 +84,26 @@ trait Subscriptions {
         }
 
         if ($plan = $this->orm->findWhere(CommerceSubscription::class, $conditions)) {
+
+            // we need to try to find an element id
+
+            $element = $this->db->table('elements')
+                ->select('id')
+                ->where($this->db->raw('options LIKE \'%"plan_id":"'.$id.'"%\''));
+
+            if ($user_id) {
+               $element = $element->where('user_id', $user_id);
+            }
+
+            $element->first();
+
+            if (is_cash_model($plan)) {
+                $plan = $plan->toArray();
+
+                if (isset($element)) $plan['element_id'] = $element->id;
+            }
+
+
             return $plan;
         }
 
@@ -511,6 +531,7 @@ trait Subscriptions {
 
         $this->updateSubscription($subscription_member_id, "comped", false, false, $plan_id);
 
+        //element_url
         if (!self::sendResetValidationEmail(
             52,
             $user_id,
