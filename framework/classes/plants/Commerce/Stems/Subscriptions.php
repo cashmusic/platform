@@ -89,13 +89,7 @@ trait Subscriptions {
 
             $element = $this->db->table('elements')
                 ->select('id')
-                ->where($this->db->raw('options LIKE \'%"plan_id":"'.$id.'"%\''));
-
-            if ($user_id) {
-               $element->where('user_id', $user_id);
-            }
-
-            $element->get();
+                ->where($this->db->raw('options LIKE \'%"plan_id":"'.$id.'"%\''))->get();
 
             if (is_cash_model($plan)) {
                 $plan = $plan->toArray();
