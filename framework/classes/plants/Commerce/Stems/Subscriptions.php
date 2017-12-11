@@ -486,8 +486,29 @@ trait Subscriptions {
         return false;
     }
 
-    public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address) {
-        //
+    public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address, $element_id=false) {
+
+        if (!$element_id) {
+            return $this->error('400')
+                ->message("This plan doesn't appear to be attached to an element, so we can't send the user to a URL to finalize their subscription.");
+        }
+
+        $element_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'element',
+                'cash_action' => 'getelement',
+                'id' => $element_id
+            )
+        );
+
+        if ($element_request->response['payload']) {
+            if (isset($element_request->response['payload']['options']['element_url'])) {
+                if ($element_request->response['payload']['options']['element_url']) {
+                    $finalize_url = $element_request->response['payload']['options']['element_url'];
+                }
+            }
+        }
+
         // check if user exists by email passed, or else create a new one
         $customer = [
             'customer_email' => trim(strtolower($email_address)),
@@ -531,7 +552,7 @@ trait Subscriptions {
             52,
             $user_id,
             $email_address,
-            "https://family.cashmusic.org/",
+            $finalize_url,
             "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
             return false;
         }

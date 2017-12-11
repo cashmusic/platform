@@ -106,7 +106,8 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
             'plan_id' => $request_parameters[0],
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
-            'email_address' => $_POST['email_address']
+            'email_address' => $_POST['email_address'],
+            'element_id' =>  isset($cash_admin->page_data['plan']['element_id']) ? $cash_admin->page_data['plan']['element_id'] : false
         )
     );
 
