@@ -86,7 +86,7 @@ trait Subscriptions {
         if ($plan = $this->orm->findWhere(CommerceSubscription::class, $conditions)) {
 
             // we need to try to find an element id
-
+            CASHSystem::errorLog('options LIKE \'%"plan_id":"'.$id.'"%\'');
             $element = $this->db->table('elements')
                 ->select('id')
                 ->where($this->db->raw('options LIKE \'%"plan_id":"'.$id.'"%\''))->get();
