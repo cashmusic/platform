@@ -11,6 +11,22 @@ use Goodby\CSV\Export\Standard\ExporterConfig;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
+// get plan, including element ID
+$plan_request = new CASHRequest(
+    array(
+        'cash_request_type' => 'commerce',
+        'cash_action' => 'getsubscriptionplan',
+        'user_id' => $cash_admin->effective_user_id,
+        'id' => $request_parameters[0]
+    )
+);
+
+//CASHSystem::errorLog($plan_request->response);
+if ($plan_request->response['payload']) {
+
+    $cash_admin->page_data['plan'] = $plan_request->response['payload'];
+}
+
 // export
 if (isset($_REQUEST['export'])) {
 
@@ -90,7 +106,8 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
             'plan_id' => $request_parameters[0],
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
-            'email_address' => $_POST['email_address']
+            'email_address' => $_POST['email_address'],
+            'element_id' =>  isset($cash_admin->page_data['plan']['element_id']) ? $cash_admin->page_data['plan']['element_id'] : false
         )
     );
 
@@ -127,21 +144,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     } else {
         $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol('USD');
     }
-
-    $plan_request = new CASHRequest(
-        array(
-            'cash_request_type' => 'commerce',
-            'cash_action' => 'getsubscriptionplan',
-            'user_id' => $cash_admin->effective_user_id,
-            'id' => $request_parameters[0]
-        )
-    );
-
-    if ($plan_request->response['payload']) {
-
-        $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
-    }
-
 
 // searching for a subscriber
 $cash_admin->page_data['display_search'] = "";
