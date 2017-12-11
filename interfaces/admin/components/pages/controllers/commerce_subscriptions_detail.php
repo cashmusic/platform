@@ -21,7 +21,7 @@ $plan_request = new CASHRequest(
     )
 );
 
-CASHSystem::dd($plan_request);
+dd($plan_request);
 if ($plan_request->response['payload']) {
 
     $cash_admin->page_data['plan'] = $plan_request->response['payload'];
