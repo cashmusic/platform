@@ -4,7 +4,9 @@
 </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-2">
             <ul class="inline-subnav">
+                {{#plan.element_id}}
                 <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/create_subscriber/{{plan_id}}"><div class="icon icon-certificate"></div> Create Subscription</a></li>
+                {{/plan.element_id}}
 
                 <li><a href="javascript:window.location='{{www_path}}/commerce/subscriptions/detail/{{plan_id}}?export=true';"><div class="icon icon-user"></div> Export Subscribers</a></li>
 
