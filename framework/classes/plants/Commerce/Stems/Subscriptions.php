@@ -100,7 +100,7 @@ trait Subscriptions {
             if (is_cash_model($plan)) {
                 $plan = $plan->toArray();
 
-                if (isset($element)) $plan['element_id'] = $element->id;
+                if (isset($element)) CASHSystem::errorLog($element); //$plan['element_id'] = $element->id;
             }
 
 
