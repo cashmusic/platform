@@ -89,10 +89,11 @@ trait Subscriptions {
             CASHSystem::errorLog('options LIKE \'%"plan_id":"'.$id.'"%\'');
             $element = $this->db->table('elements')
                 ->select('id')
-                ->where($this->db->raw('options LIKE \'%"plan_id":"'.$id.'"%\''))->get();
+                ->where('options', 'LIKE', '%"plan_id":"'.$id.'"%')->get();
 
             if (is_cash_model($plan)) {
                 $plan = $plan->toArray();
+                
 
                 if (isset($element)) CASHSystem::errorLog($element); //$plan['element_id'] = $element->id;
             }
