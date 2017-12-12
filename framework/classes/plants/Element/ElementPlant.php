@@ -97,6 +97,7 @@ class ElementPlant extends PlantBase {
 				foreach ($details['data'] as $data => $values) {
 					if (isset($values['required'])) {
 						if (in_array($values['type'], ['select', 'scalar']) && $values['required'] == true) {
+							CASHSystem::errorLog($values);
 							if (is_string($values['values'])) {
 								if (substr($values['values'],0,7) == 'connect') {
 									$scope = explode('/',$values['values']);
