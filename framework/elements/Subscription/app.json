@@ -48,6 +48,10 @@
 			},
 			"data":{
 				"plans":{
+					"label":{
+						"en":"",
+						"is":""
+					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
