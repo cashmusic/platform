@@ -43,7 +43,7 @@
 				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Choose a subscription plan for this jammy.",
+				"en":"Choose a subscription plan to display for this element.",
 				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
 			},
 			"data":{
@@ -74,7 +74,7 @@
 							"displaysize":"large"
 						}
 					},
-					"required":false
+					"required":true
 				}
 			}
 		},
