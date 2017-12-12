@@ -52,10 +52,6 @@
 						"en":"Subscription Plan(s)",
 						"is":"Subscription Plan(s)"
 					},
-					"description":{
-						"en":"Choose one or more subscription plans for this element",
-						"is":"Choose one or more subscription plans for this element"
-					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
