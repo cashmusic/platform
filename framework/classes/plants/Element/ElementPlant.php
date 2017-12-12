@@ -93,7 +93,7 @@ class ElementPlant extends PlantBase {
 		}
 		if ($app_json) {
 			$failures = array();
-			dd($app_json);
+
 			foreach ($app_json['options'] as $section_name => $details) {
 				foreach ($details['data'] as $data => $values) {
 					if (isset($values['required'])) {
