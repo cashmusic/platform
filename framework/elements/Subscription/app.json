@@ -9,8 +9,8 @@
 	"details":{
 		"en":{
 			"name":"Subscription",
-			"description":"Sell an item with a single click. Great for preorders.",
-			"longdescription":"Just need to sell one thing? Set up a simple single purchase element for the commerce item of your choice.",
+			"description":"Setup a subscription service with login and protected content for subscribers.",
+			"longdescription":"Recurring subscriptions with optional subscriber's feed login.",
 			"instructions":"For physical goods, define regions and shipping costs."
 		},
 		"is":{
