@@ -48,10 +48,6 @@
 			},
 			"data":{
 				"plans":{
-					"label":{
-						"en":"Subscription Plan(s)",
-						"is":"Subscription Plan(s)"
-					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
