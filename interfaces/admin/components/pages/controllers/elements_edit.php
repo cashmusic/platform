@@ -151,6 +151,8 @@ if ($current_element) {
 	AdminHelper::controllerRedirect('/elements/');
 }
 
+$embed = CASHSystem::embedElement($current_element);
+$cash_admin->page_data['preview'] = $embed;
 $cash_admin->page_data['platform_path'] = CASH_PLATFORM_PATH;
 
 $cash_admin->setPageContentTemplate('elements_details');
