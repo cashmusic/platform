@@ -106,7 +106,7 @@ class ElementData implements DataInterface
         // get plan data or bust
         if ($plan_request->response['payload']) {
 
-            $payload = $plan_request->response['payload']->toArray();
+            $payload = $plan_request->response['payload'];
             $this->data['plan_name'] = $payload['name'];
             $this->data['interval'] = $payload['interval'];
             $this->data['plan_description'] = $payload['description'];
