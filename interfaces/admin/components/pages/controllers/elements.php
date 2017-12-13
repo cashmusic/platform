@@ -13,6 +13,8 @@ use CASHMusic\Entities\People;
  *
  ******************************************************************************/
 $current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
+$cash_admin->page_data['element_count'] = 0;
+
 if ($current_campaign !== false) {
 	$settings_request = new CASHRequest(
 		array(
