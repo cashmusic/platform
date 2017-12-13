@@ -3,6 +3,7 @@ var closure = require('gulp-closure-compiler-service');
 var jsonlint = require("gulp-jsonlint");
 var shell = require('gulp-shell');
 var argv = require('yargs').argv;
+var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 
 const debug = require('gulp-debug');
@@ -34,6 +35,14 @@ gulp.task('compile-admin', function() {
         .pipe(debug({title: 'Compile Admin JS:'}))
         .pipe(closure())
         .pipe(gulp.dest('interfaces/public/'));
+});
+
+gulp.task('compile-admin-js', function() {
+    return gulp.src(['./interfaces/admin/ui/default/assets/scripts/jquery.admin.full.js'])
+        .pipe(debug({title: 'Compile Admin Interface JS:'}))
+        .pipe(closure())
+        .pipe(rename("jquery.admin.js"))
+        .pipe(gulp.dest('./interfaces/admin/ui/default/assets/scripts/'));
 });
 
 gulp.task('jsonlint', function() {

@@ -153,7 +153,12 @@ if (is_array($settings_request->response['payload'])) {
         );
 
         if ($plan_request->response['payload']) {
-            $cash_admin->page_data['plan'] = $plan_request->response['payload']->toArray();
+            if (!is_cash_model($plan_request->response['payload'])) {
+                $plan = $plan_request->response['payload'];
+            } else {
+                $plan = $plan_request->response['payload']->toArray();
+            }
+            $cash_admin->page_data['plan'] = $plan;
         }
 
 

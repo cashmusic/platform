@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "gulp": "^3.9.1",
-    "gulp-notify": "^3.0.0"
+    "gulp-notify": "^3.0.0",
+    "gulp-rename": "^1.2.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

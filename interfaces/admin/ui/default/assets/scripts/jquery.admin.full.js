@@ -218,12 +218,12 @@ jQuery.fn.extend({
         $("#panel-filter").val('learn').attr('selected','selected');
 
         // remove any dialogs
-        $('.modallightbox').fadeOut('fast', function() {
-            $('.modallightbox').remove();
+        $('.modallightbox, .modalbg').fadeOut('fast', function() {
+            $('.modallightbox,.modalbg').remove();
         });
-        $('.modalbg').fadeOut('fast', function() {
+/*        $('.modalbg').fadeOut('fast', function() {
             $('.modalbg').remove();
-        });
+        });*/
 
         // close panel * if settings open *
         if ($("body").hasClass('settings')){
@@ -348,12 +348,12 @@ jQuery.fn.extend({
         *
         */
         //injecting dynamic code (wait for it)
-        $(document).on('click','a.injectcode',function(e) {
+        /*$(document).on('click','a.injectcode',function(e) {
             e.preventDefault();
             if ($('#template')) {
                 $('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
             }
-        });
+        });*/
 
         // hide mainmenu & tertiary panel
         $(document).on('click', '#flipback', function(e) {
@@ -736,6 +736,9 @@ jQuery.fn.extend({
         // open local (admin) links via AJAX
         // cashAdminPath is set in the main template to the www_base of the admin
         $(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
+
+            console.log(cashAdminPath);
+
             var el = $(e.currentTarget);
             if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
                 && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
