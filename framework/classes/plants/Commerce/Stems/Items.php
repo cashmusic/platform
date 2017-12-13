@@ -193,6 +193,10 @@ trait Items {
         try {
             $items = $this->orm->findWhere(CommerceItem::class, ['user_id'=>$user_id], true);
 
+            if (!$items) {
+                return $this->error(404)->message("No items found for this user.");
+            }
+
             $result = [];
 
             if ($with_variants) {

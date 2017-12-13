@@ -65,6 +65,9 @@ $elements_response = $cash_admin->requestAndStore(
 
 if (is_array($elements_response['payload'])) {
 	foreach ($elements_response['payload'] as &$element) {
+
+		if (is_cash_model($element)) $element = $element->toArray();
+
 		if ($element['modification_date'] == 0) {
 			$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
 		} else {

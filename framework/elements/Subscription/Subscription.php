@@ -45,6 +45,13 @@ class Subscription extends ElementBase {
 
         $authenticated = false;
 
+        // no plans found, this is a fatal error
+        if (!$this->element_data['plans']) {
+            $this->element_data['error_message'] = "Couldn't find a valid subscription plan.";
+            $this->setTemplate("default");
+            return $this->element_data;
+        }
+
         // get plan data based on plan ids. works for multiples
         $plans = [];
 
@@ -68,6 +75,7 @@ class Subscription extends ElementBase {
         if (!empty($this->element_data['subscription_id'])) {
             $authenticated = true;
         }
+
         // if we're logged in already, maybe show them a logout button
         if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->sessionGet('logged_in')) {
             $this->element_data['logged_in'] = true;
@@ -95,7 +103,7 @@ class Subscription extends ElementBase {
         }
 
         $this->plan_id = $plan_id;
-        $this->email_address = $this->element_data['email_address'];
+        $this->email_address = isset($this->element_data['email_address']) ? $this->element_data['email_address'] : "";
         $this->element_user_id = $this->element_data['user_id'];
         
         // set state and fire the appropriate method in Element\State class
