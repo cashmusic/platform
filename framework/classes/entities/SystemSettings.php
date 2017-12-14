@@ -51,5 +51,23 @@ class SystemSettings extends EntityBase
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
 
+    // we need to hack this for this table because the values are inconsistent--- some are JSON, some are strings/integers. 1000x bummer.
+    public function getValueAttribute() {
+        if ($value = json_decode($this->value, true)) {
+            return $value;
+        } else {
+            return trim($value, '""');
+        }
+    }
+
+    public function setValueAttribute($value) {
+        if (is_array($value) || is_cash_model($value)) {
+            if (is_cash_model($value)) $value = $value->toArray();
+            $this->value = json_encode($value);
+        } else {
+            $this->value = trim($value);
+        }
+    }
+
 }
 
