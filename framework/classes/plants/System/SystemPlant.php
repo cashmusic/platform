@@ -584,7 +584,7 @@ class SystemPlant extends PlantBase {
 	protected function getSettings($user_id,$type,$return_json=false) {
 
 		$setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
-
+		CASHSystem::errorLog($setting->toArray());
 		if ($setting) {
 			if ($return_json) {
 				return json_encode($setting->toArray());
