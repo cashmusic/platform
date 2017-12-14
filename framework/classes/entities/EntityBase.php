@@ -189,8 +189,11 @@ class EntityBase extends CASHData
      * @throws \Exception
      */
     public function update($values) {
+
+        CASHSystem::errorLog("wtf");
         if (is_array($values) && count($values) > 0) {
             foreach ($values as $key => $value) {
+                CASHSystem::errorLog($key);
                 $this->$key = $value;
             }
 
