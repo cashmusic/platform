@@ -1,59 +1,62 @@
 <?php
-function parseComments($filename) {
-	$regex = "/(?:\/\*\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)/";
-
-	if (file_exists($filename)) {
-		$file_contents = file_get_contents($filename);
-		preg_match_all($regex, $file_contents, $comments); // parse out docblocks
-		$function_names = array();
-
-		// time to find function names
-		foreach ($comments[0] as $key => $comment) {
-		    $comment_length = strlen($comment);
-			// first trim off everything before and including the current doc block
-			$file_remainder = substr($file_contents,(strpos($file_contents,$comment) + $comment_length));
-			// now find and ditch the first occurence of the function keyword
-			$file_remainder = substr($file_remainder,(strpos($file_remainder,'function ') + 9));
-			// now pare it down to the function name
-			$function_name = trim(substr($file_remainder,0,(strpos($file_remainder,'('))));
-			// yeah i know. but here's one last check so we don't get a bunch of extra stuff for abstract function names
-			$trim_for_abstract = strrpos($function_name,';');
-			if ($trim_for_abstract) {
-				$function_name = substr($function_name,0,$trim_for_abstract);
-			}
-			// finally add it to the name array
-			$function_names[] = $function_name;
-		}
-
-		// now let's merge and cleanse those so the output data makes sense
-		$return_array = array();
-		if (count($comments[0]) == count($function_names)) {
-			$replace_these = array('*/','/**',' * ','* ',' *',"\t");
-			foreach ($function_names as $key => $function) {
-				$cleansed_comment = str_replace($replace_these, '', $comments[0][$key]);
-				// remove multiple spaces
-				$cleansed_comment = preg_replace('! +!', ' ', $cleansed_comment);
-				//some last tidying up
-				$also_replace_these = array("\n\n","\n@");
-				$also_replace_these_with = array('<br /><br />','<br />@');
-				$cleansed_comment = str_replace($also_replace_these, $also_replace_these_with, $cleansed_comment);
-				$return_array[$function] = $cleansed_comment;
-			}
-			return $return_array;
-		} else {
-			// something is bad. sorry.
-			return false;
-		}
-	} else {
-		// file not found
-		return false;
-	}
-}
 
 // create an array to house all data for output to mustache, other initial variables
 namespace CASHMusic\Docs;
 
 use CASHMusic\Plants;
+
+function parseComments($filename) {
+    $regex = "/(?:\/\*\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)/";
+
+    if (file_exists($filename)) {
+        $file_contents = file_get_contents($filename);
+        preg_match_all($regex, $file_contents, $comments); // parse out docblocks
+        $function_names = array();
+
+        // time to find function names
+        foreach ($comments[0] as $key => $comment) {
+            $comment_length = strlen($comment);
+            // first trim off everything before and including the current doc block
+            $file_remainder = substr($file_contents,(strpos($file_contents,$comment) + $comment_length));
+            // now find and ditch the first occurence of the function keyword
+            $file_remainder = substr($file_remainder,(strpos($file_remainder,'function ') + 9));
+            // now pare it down to the function name
+            $function_name = trim(substr($file_remainder,0,(strpos($file_remainder,'('))));
+            // yeah i know. but here's one last check so we don't get a bunch of extra stuff for abstract function names
+            $trim_for_abstract = strrpos($function_name,';');
+            if ($trim_for_abstract) {
+                $function_name = substr($function_name,0,$trim_for_abstract);
+            }
+            // finally add it to the name array
+            $function_names[] = $function_name;
+        }
+
+        // now let's merge and cleanse those so the output data makes sense
+        $return_array = array();
+        if (count($comments[0]) == count($function_names)) {
+            $replace_these = array('*/','/**',' * ','* ',' *',"\t");
+            foreach ($function_names as $key => $function) {
+                $cleansed_comment = str_replace($replace_these, '', $comments[0][$key]);
+                // remove multiple spaces
+                $cleansed_comment = preg_replace('! +!', ' ', $cleansed_comment);
+                //some last tidying up
+                $also_replace_these = array("\n\n","\n@");
+                $also_replace_these_with = array('<br /><br />','<br />@');
+                $cleansed_comment = str_replace($also_replace_these, $also_replace_these_with, $cleansed_comment);
+                $return_array[$function] = $cleansed_comment;
+            }
+            return $return_array;
+        } else {
+            // something is bad. sorry.
+            return false;
+        }
+    } else {
+        // file not found
+        return false;
+    }
+}
+
+
 $docs_data = array();
 $current_directory = dirname(__FILE__);
 include_once($current_directory . '/../../framework/cashmusic.php');
@@ -205,7 +208,7 @@ $docs_data['page_content'] = str_replace('[PLACEHOLDER - REQUEST CONTENT IS GENE
 
 // include Mustache because you know it's time for that
 include_once($current_directory . '/../../framework/lib/mustache/Mustache.php');
-$magnumpi = new Mustache;
+$magnumpi = new \Mustache;
 
 echo $magnumpi->render(file_get_contents($current_directory . '/templates/index.mustache'), $docs_data);
 ?>
