@@ -29,7 +29,8 @@
             "CASHMusic\\Framework\\":"framework",
             "CASHMusic\\Admin\\": "interfaces/admin",
             "CASHMusic\\API\\": "interfaces/api/classes",
-            "CASHMusic\\PublicInterface\\": "interfaces"
+            "CASHMusic\\PublicInterface\\": "interfaces",
+            "CASHMusic\\Docs\\": "interfaces/docs"
         }
     },
 

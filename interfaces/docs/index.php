@@ -51,6 +51,9 @@ function parseComments($filename) {
 }
 
 // create an array to house all data for output to mustache, other initial variables
+namespace CASHMusic\Docs;
+
+use CASHMusic\Plants;
 $docs_data = array();
 $current_directory = dirname(__FILE__);
 include_once($current_directory . '/../../framework/cashmusic.php');
@@ -89,16 +92,15 @@ $all_plants = array(
 
 foreach ($all_plants as $type => $plant) {
 	$comments = parseComments($plant['filename']);
-	include_once($plant['filename']);
 
-	$plant_name = $plant['classname'];
+	$plant_name = "\\".$plant['classname'];
 	$plant = new $plant_name('direct',false);
 	$routing_table = $plant->getRoutingTable();
 	$actions = array();
 
 	foreach ($routing_table as $action => $details) {
 		// reflect the target method for each route, returning an array of params
-		$method = new ReflectionMethod($plant, $details[0]);
+		$method = new \ReflectionMethod($plant, $details[0]);
 		$params = $method->getParameters();
 		$final_parameters = array();
 		foreach ($params as $param) {

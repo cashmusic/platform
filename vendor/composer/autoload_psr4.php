@@ -44,6 +44,7 @@ return array(
     'CASHMusic\\Framework\\' => array($baseDir . '/framework'),
     'CASHMusic\\Entities\\' => array($baseDir . '/framework/classes/entities'),
     'CASHMusic\\Elements\\' => array($baseDir . '/framework/elements'),
+    'CASHMusic\\Docs\\' => array($baseDir . '/interfaces/docs'),
     'CASHMusic\\Core\\' => array($baseDir . '/framework/classes/core'),
     'CASHMusic\\Admin\\' => array($baseDir . '/interfaces/admin'),
     'CASHMusic\\API\\' => array($baseDir . '/interfaces/api/classes'),
