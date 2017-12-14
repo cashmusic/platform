@@ -45,7 +45,7 @@ if (isset($_REQUEST['fulfill'])) {
  *
  ******************************************************************************/
 if (isset($_REQUEST['currency_id'])) {
-    dd($_REQUEST);
+    CASHSystem::errorLog($_REQUEST);
 	$settings_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system',
