@@ -82,6 +82,7 @@ $settings_response = $cash_admin->requestAndStore(
 	)
 );
 
+CASHSystem::errorLog($settings_response);
 if ($settings_response['payload']) {
 	$current_currency = $settings_response['payload'];
 } else {

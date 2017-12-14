@@ -589,7 +589,6 @@ class SystemPlant extends PlantBase {
 			if ($return_json) {
 				return json_encode($setting->toArray());
 			} else {
-                CASHSystem::errorLog([$type=>$setting->value]);
 				return $setting->value;
 			}
 		} else {
