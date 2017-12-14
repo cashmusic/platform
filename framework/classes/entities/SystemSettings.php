@@ -56,7 +56,7 @@ class SystemSettings extends EntityBase
         if ($value = json_decode($this->value, true)) {
             return $value;
         } else {
-            return $value;
+            return trim($this->value, '""');
         }
     }
 
