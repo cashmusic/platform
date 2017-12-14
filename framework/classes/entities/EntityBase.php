@@ -190,11 +190,9 @@ class EntityBase extends CASHData
      */
     public function update($values) {
 
-        CASHSystem::errorLog($values);
-
         if (is_array($values) && count($values) > 0) {
             foreach ($values as $key => $value) {
-                $this->$key = $value;
+                $this->assignValue($key, $value);
             }
 
             $this->save();
@@ -287,7 +285,10 @@ class EntityBase extends CASHData
      */
     public function __set($property, $value)
     {
-        CASHSystem::errorLog("foo $property");
+        $this->assignValue($property, $value);
+    }
+
+    public function assignValue($property, $value) {
         // is fillable even set?
         if (is_array($this->fillable)) {
             // never let a property be set unless it's in $fillable array
