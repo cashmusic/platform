@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SystemSettings extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['type', 'value', 'user_id', 'creation_date', 'modification_date'];
     /**
      * @var string
      *
