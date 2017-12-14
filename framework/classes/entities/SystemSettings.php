@@ -61,6 +61,7 @@ class SystemSettings extends EntityBase
     }
 
     public function setValueAttribute($value) {
+        CASHSystem::errorLog("foo");
         if (is_array($value) || is_cash_model($value)) {
             if (is_cash_model($value)) $value = $value->toArray();
             $this->value = json_encode($value);
