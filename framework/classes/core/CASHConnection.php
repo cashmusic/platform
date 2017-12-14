@@ -95,8 +95,9 @@ use CASHMusic\Entities\SystemConnection;
 	 *
 	 * @return array
 	 */public function getAllConnectionsforUser() {
+
 		if ($this->user_id) {
-			return $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id]);
+			return $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id], true);;
 		}
 
 		return false;

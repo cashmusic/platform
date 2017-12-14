@@ -81,6 +81,7 @@ $settings_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
 if ($settings_response['payload']) {
 	$current_currency = $settings_response['payload'];
 } else {

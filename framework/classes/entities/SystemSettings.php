@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SystemSettings extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['type', 'value', 'user_id', 'creation_date', 'modification_date'];
     /**
      * @var string
      *
@@ -23,7 +23,7 @@ class SystemSettings extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="value", type="json_array", length=65535, nullable=false)
+     * @Column(name="value", type="text", length=65535, nullable=false)
      */
     protected $value;
 
@@ -50,6 +50,24 @@ class SystemSettings extends EntityBase
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;
+
+    // we need to hack this for this table because the values are inconsistent--- some are JSON, some are strings/integers. 1000x bummer.
+    public function getValueAttribute() {
+        if ($value = json_decode($this->value, true)) {
+            return $value;
+        } else {
+            return trim($this->value, '""');
+        }
+    }
+
+    public function setValueAttribute($value) {
+        if (is_array($value) || is_cash_model($value)) {
+            if (is_cash_model($value)) $value = $value->toArray();
+            $this->value = json_encode($value);
+        } else {
+            $this->value = trim($value);
+        }
+    }
 
 }
 
