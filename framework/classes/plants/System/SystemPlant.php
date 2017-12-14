@@ -604,7 +604,11 @@ class SystemPlant extends PlantBase {
 	 * @return bool
 	 */
 	protected function setSettings($user_id,$type,$value) {
-
+		CASHSystem::errorLog([
+            'type'=>$type,
+            'user_id'=>$user_id,
+            'value'=>$value
+        ]);
         $setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
