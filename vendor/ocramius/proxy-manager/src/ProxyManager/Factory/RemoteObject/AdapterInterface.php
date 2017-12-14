@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Factory\RemoteObject;
 
 /**
@@ -35,5 +33,5 @@ interface AdapterInterface
      * @param string $method
      * @param array  $params
      */
-    public function call(string $wrappedClass, string $method, array $params = []);
+    public function call($wrappedClass, $method, array $params = array());
 }

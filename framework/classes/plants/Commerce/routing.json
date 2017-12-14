@@ -1,6 +1,6 @@
 {
 	"restfulnouns":{
-		"items":{
+		"item":{
 			"verbs":{
 				"POST":{
 					"description":"Add a new item.",
@@ -58,7 +58,7 @@
 				"GET":{
 					"description":"Get an order by id.",
 					"plantfunction":"getOrder",
-					"authrequired":false
+					"authrequired":true
 				},
 				"PATCH":{
 					"description":"Modify an existing order.",
@@ -447,6 +447,13 @@
 				"direct"
 			]
 		},
+		"searchsubscriptionsbyplan": {
+			"description": "Search subscriptions by plan id.",
+			"plantfunction": "searchSubscriptionsByPlan",
+			"security": [
+				"direct"
+			]
+		},
 		"getsubscriptionplans": {
 			"description": "Get all subscription plans.",
 			"plantfunction": "getAllSubscriptionPlans",
@@ -474,6 +481,17 @@
 			"security": [
 				"direct"
 			]
+		},
+		"updatesubscriptionaddress": {
+			"description": "Update data field address for subscriber, if exists.",
+			"plantfunction": "updateSubscriptionAddress",
+			"security": [
+				"direct"
+			]
+		},
+		"updatesubscriptionpayment": {
+			"description": "Update payment method for subscriber.",
+			"plantfunction": "updateSubscriptionPayment"
 		},
 		"gettransaction": {
 			"description": "Get a transaction by id.",
@@ -517,6 +535,22 @@
 			"security": [
 				"get",
 				"post",
+				"direct"
+			]
+		},
+		"loginsubscriberfirstuse": {
+			"description": "Login subscriber for first use.",
+			"plantfunction": "loginSubscriberFirstUse",
+			"security": [
+				"get",
+				"post",
+				"direct"
+			]
+		},
+		"getsubscriberpaymentdetails": {
+			"description": "Get subscriber's payment details.",
+			"plantfunction": "getSubscriberPaymentDetails",
+			"security": [
 				"direct"
 			]
 		},

@@ -6,9 +6,7 @@
 
 <h2>{{name}}</h2>
 <p>{{description}}</p>
-
 {{#all_plans}}
-    <!-- plan {{plan_id}} values -->
     <input type="hidden" class="plan_id_per_plan" id="plan_id_{{plan_id}}" value="{{plan_id}}">
     <input type="hidden" class="plan_price_per_plan" id="plan_price_{{plan_id}}" value="{{plan_price}}">
     <input type="hidden" class="plan_minimum_price_per_plan" id="plan_minimum_price_{{plan_id}}" value="{{minimum_price}}">
@@ -18,13 +16,7 @@
 
 {{#flexible_price}}<label class="cm-add-amount">Adjust your payment amount:</label><div class="cm-store-flexible-price"><span class="cm-store-currency">{{currency}}</span><input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" ></div>{{/flexible_price}}<select name="plan_id" id="plan_id" required><option value="">Select a plan</option>{{#all_plans}}<option value="{{plan_id}}">{{plan_name}}</option>{{/all_plans}}</select><a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/<span id="plan_interval">{{plan_interval}}</span> - Subscribe</a>
 
-{{#logged_in}}
-    <a href="#" class="cm-my-account cm-secondary-link">My Account</a>
-{{/logged_in}}
-
-{{^logged_in}}
-    <a href="#" class="cm-login cm-secondary-link">Member's Login</a>
-{{/logged_in}}
+<a href="#" class="cm-login cm-secondary-link">Member's Login</a>
 
 <div style="clear:both;"></div>
 
@@ -35,7 +27,10 @@
         element.innerText = price;
         button_element.dataset.price = price;
 
-        document.querySelector("#plan_flexible_price").value = price;
+        var flexible_price = document.querySelector("#plan_flexible_price");
+        if (flexible_price) {
+            flexible_price.value = price;
+        }
 
         return price;
     }
@@ -82,12 +77,12 @@
 
     var error_messages = {
         "409": "Whoops, looks like you've already got a subscription with this email and payment method.",
-        "412": "There was an error creating your subscription. Contact info@cashmusic.org for help.",
+        "412": "There was an error creating your subscription. Contact {{contact_email}} for help.",
         "404": "The subscription plan you're trying to subscribe to does not appear to exist.",
         "402": "Sorry, the price you entered is less than the minimum subscription price.",
         "417": "Your subscription was created, but we tried to email you a verification and failed. Is this a valid email?",
-        "406": "Creation of your subscription failed. Contact info@cashmusic.org for help.",
-        "403": "We tried to create a user for you and failed. Contact info@cashmusic.org for help."
+        "406": "Creation of your subscription failed. Contact {{contact_email}} for help.",
+        "403": "We tried to create a user for you and failed. Contact {{contact_email}} for help."
     };
 
 
@@ -105,7 +100,9 @@
     {{/key}}
 
     cm.events.add(cm,'ready', function(e) {
+
         cm.session.start();
+        cm.session.setid({"id":"{{session_id}}"});
 
         var login = document.querySelector('.cm-login');
 
@@ -147,18 +144,9 @@
 
         }
 
-
         if (verification !== false) {
+            //{{subscription_id}}
             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
-        }
-
-        var account = document.querySelector('.cm-my-account');
-
-        if (account) {
-            cm.events.add(account, 'click', function (e) {
-                e.preventDefault();
-                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
-            });
         }
 
         if (flexible_price) {
@@ -217,6 +205,7 @@
 
                 f.cash_request_type.value = 'commerce';
                 f.cash_action.value = 'initiatesubscription';
+
                 {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
                 f.element_id.value = {{element_id}};
                 f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
@@ -256,6 +245,8 @@
             });
         }
 
+
+
         function initiatePayment(f) {
             cm.ajax.send(
                  '{{public_url}}/request/payload',
@@ -276,7 +267,11 @@
                  }
             );
         }
-        //
+
+        {{#logged_in}}
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+        {{/logged_in}}
+
     });
 
 }());

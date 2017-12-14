@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Core;
 
+use CASHMusic\Core\API\RoutingMiddleware;
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHResponse as CASHResponse;
 use ReflectionMethod;
@@ -23,18 +24,28 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api,$contextual_message, $error_code;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
 	 *
-	 */public function processRequest() {
+	 */public function processRequest($api=false,$http_method=false) {
+
 		if ($this->action) {
-			return $this->routeBasicRequest();
+
+		    if (!$api) {
+                return $this->routeBasicRequest();
+            } else {
+		        return $this->routeAPIRequest($http_method);
+            }
+
 		} else {
+		    if (!isset($this->contextual_message)) $this->contextual_message = false;
+            if (!isset($this->error_code)) $this->error_code = 400;
 			return $this->response->pushResponse(
-				400,$this->request_type,$this->action,
+                $this->error_code,$this->request_type,$this->action,
 				$this->request,
+				$this->contextual_message,
 				'no action specified'
 			);
 		}
@@ -45,13 +56,16 @@ use Exception;
 	 *
 	 * @param {string} $request_method - 'get'/'post'/'direct'/'commandline'
 	 * @param {array} $request - an associative array containing all request parameters
+     * @param $api boolean
 	 * @return void
 	 */protected function plantPrep($request_method,$request) {
 		$this->request_method = $request_method;
 		$this->request = $request;
+
 		if (isset($this->request['cash_action'])) {
 			$this->action = strtolower($this->request['cash_action']);
 		}
+
 		$this->response = new CASHResponse();
 		if ($this->db_required) {
 			$this->connectDB();
@@ -178,18 +192,16 @@ use Exception;
 		return $this->routing_table;
 	}
 
-	public function routeBasicRequest() {
-		if (isset($this->routing_table[$this->action])) {
-			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
-				return $this->response->pushResponse(
-					403, $this->request_type, $this->action,
-					false,
-					"please try another request method, '{$this->request_method}' is not allowed"
-				);
-			}
-			try {
-				$target_method = $this->routing_table[$this->action]['plantfunction'];
+	public function routeAPIRequest($http_method) {
 
+        $class = new \ReflectionClass($this);
+
+        list($restful_routes, $soap_routes) = RoutingMiddleware::getRoutingTables($class->getShortName());
+
+		if (isset($restful_routes[$this->action]['verbs'][$http_method])) {
+			try {
+
+				$target_method = $restful_routes[$this->action]['verbs'][$http_method]['plantfunction'];
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
 
@@ -211,7 +223,7 @@ use Exception;
 							if ($param_name == 'full_cash_request') {
 								// this is a special case. it allows us to add a required
 								// parameter called 'full_cash_request' to any method and
-								// get all of the values passed in as an array — useful 
+								// get all of the values passed in as an array — useful
 								// for parsing variable data POSTed to a request
 								$final_parameters[$param_name] = $this->request;
 							} else {
@@ -243,6 +255,77 @@ use Exception;
 		}
 	}
 
+    public function routeBasicRequest() {
+        if (isset($this->routing_table[$this->action])) {
+            if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['security'])) {
+                return $this->response->pushResponse(
+                    403, $this->request_type, $this->action,
+                    false,
+                    "please try another request method, '{$this->request_method}' is not allowed"
+                );
+            }
+            try {
+                $target_method = $this->routing_table[$this->action]['plantfunction'];
+
+                $method = new ReflectionMethod(get_class($this), $target_method);
+                $params = $method->getParameters();
+
+                $final_parameters = array();
+                foreach ($params as $param) {
+                    // $param is an instance of ReflectionParameter
+                    $param_name = $param->getName();
+                    if ($param->isOptional()) {
+                        if (isset($this->request[$param_name])) {
+                            $final_parameters[$param_name] = $this->request[$param_name];
+                        } else {
+                            $final_parameters[$param_name] = $param->getDefaultValue();
+                        }
+                    } else {
+                        // required, return failure if missing
+                        if (isset($this->request[$param_name])) {
+                            $final_parameters[$param_name] = $this->request[$param_name];
+                        } else {
+                            if ($param_name == 'full_cash_request') {
+                                // this is a special case. it allows us to add a required
+                                // parameter called 'full_cash_request' to any method and
+                                // get all of the values passed in as an array — useful
+                                // for parsing variable data POSTed to a request
+                                $final_parameters[$param_name] = $this->request;
+                            } else {
+                                return $this->pushFailure('missing required parameter: ' . $param_name);
+                            }
+                        }
+                    }
+                }
+
+                // call the method using call_user_func_array — slower than ReflectionMethod::invokeArgs
+                // but allows us to stay in $this context, calling protected methods the proper way
+                $result = call_user_func_array(array($this, $target_method), $final_parameters);
+                unset($method);
+                if ($result !== false) {
+                    return $this->pushSuccess($result,'success.');
+                } else {
+
+                    $message = 'there was an error';
+
+                    if (isset($this->contextual_message)) {
+                        $message = $this->contextual_message;
+                    }
+                    return $this->pushFailure($message);
+                }
+            } catch (Exception $e) {
+                return $this->pushFailure('corresponding class method not found, exception: ' . $e);
+            }
+        } else {
+            // not found in standard routing table
+            return $this->response->pushResponse(
+                404,$this->request_type,$this->action,
+                $this->request,
+                'unknown action'
+            );
+        }
+    }
+
 	protected function pushSuccess($payload,$message) {
 		return $this->response->pushResponse(
 			200,
@@ -262,5 +345,31 @@ use Exception;
 			$message
 		);
 	}
+
+	/*
+	 * CASHRequest response building
+	 * Errors: return $this->error('404')->message("No settings of type `$type` found for this user.");
+	 * Otherwise we need to work in responses so they return substantive data
+	 */
+
+	//TODO: need to put together a proper positive response chain, as well
+    public function response($code) {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function error($code) {
+        $this->error_code = $code;
+
+        return $this;
+    }
+
+    public function message($message) {
+        $this->contextual_message = $message;
+        CASHSystem::errorLog([$this->error_code => $message]); // only logs if in DEBUG mode
+
+        return false;
+    }
 } // END class 
 ?>

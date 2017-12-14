@@ -368,7 +368,7 @@ class Store extends ElementBase {
 
 					if ($order_details) {
 						$this->element_data['order_id'] = $order_details['id'];
-						$order_contents = json_decode($order_details['order_contents'],true);
+						$order_contents = $order_details['order_contents'];
 						$this->element_data['has_physical'] = false;
 						$this->element_data['item_subtotal'] = 0;
 						foreach ($order_contents as &$i) {
@@ -383,10 +383,12 @@ class Store extends ElementBase {
 										'session_id' => $this->session_id
 									)
 								);
+
 								if ($fulfillment_request->response['payload']) {
 									$i['digital_fulfillment_details'] = new ArrayIterator($fulfillment_request->response['payload']);
 								}
 							}
+
 							if (!$this->element_data['has_physical'] && $i['physical_fulfillment']) {
 								$this->element_data['has_physical'] = true;
 							}

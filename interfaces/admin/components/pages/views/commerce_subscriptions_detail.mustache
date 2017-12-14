@@ -4,12 +4,36 @@
 </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-2">
             <ul class="inline-subnav">
+                {{#plan.element_id}}
                 <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/create_subscriber/{{plan_id}}"><div class="icon icon-certificate"></div> Create Subscription</a></li>
+                {{/plan.element_id}}
+
+                <li><a href="javascript:window.location='{{www_path}}/commerce/subscriptions/detail/{{plan_id}}?export=true';"><div class="icon icon-user"></div> Export Subscribers</a></li>
 
                 <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/edit/{{plan_id}}"><div class="icon icon-pencil"></div> {{copy_edit_plan}}</a></li>
             </ul>
     </div><!--pure-->
 </header>
+
+{{^plan.element_id}}
+{{! ****************************************************************************
+{{
+{{  SPECIAL FIRST USE SECTION WITH CONNECTION OPTIONS
+{{
+{{  ************************************************************************* }}
+    <div class="alt callout usecolor4"><div class="callout-inner">
+        <div class="pure-u-1 pure-u-md-1">
+            <h3 class="firstuse-title">Create an element to use this subscription plan.</h3>
+        </div>
+        <div class="pure-u-1 pure-u-md-1">
+
+            <p>In order to start accepting subscriptions or to create a free comped subscription, you'll need to create a subscription element and add this plan. Then you'll be able to embed the element your site or a CASH Music page.</p>
+            <p><a href="/admin/elements/add/Subscription" class="button lightboxed">Create an element</a></p>
+        </div>
+    </div><!--callout-inner-->
+    </div><!--callout-->
+{{/plan.element_id}}
+
 {{#plan}}
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-2">
@@ -46,7 +70,55 @@
     </div><!--material-->
 {{/plan}}
 
-    <h4 class="section breaker">{{copy_subscriber_title}} ({{active_subscribers}} active, {{currency}}{{gross_active}}{{#plan}}/{{interval}}{{/plan}})</h4>
+<h4 class="section breaker">{{copy_subscriber_title}} ({{active_subscribers}} active, {{currency}}{{gross_active}}{{#plan}}/{{interval}}{{/plan}})</h4>
+<div class="pure-g">
+    <div class="pure-u-1-2" style="padding-right: 15px;">
+        <div style="margin-bottom: 5px;"><small>Filter by status</small></div>
+
+        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="filter_form" style="width:100%; margin-top:0px;">
+            <select name="search" id="filter">
+                <option value="">all</option>
+                <option value="active">active</option>
+                <option value="canceled">canceled</option>
+                <option value="created">signup error</option>
+                <option value="comped">comped</option>
+            </select>
+            <script>
+                $(function() {
+                    var filter = $("#filter");
+
+                    if ('{{search}}' === '') {
+                        filter.find('option:eq(0)').prop('selected', true);
+                    } else {
+                        filter.find('option[value="{{search}}"]').prop('selected', true);
+                    }
+
+                    filter.change(function(e) {
+                        var form = $(this).parents('form:first');
+                        form.submit();
+                    });
+                });
+            </script>
+        </form>
+    </div>
+
+    <div class="pure-u-1-2">
+
+        <div style="margin-bottom: 5px;"><small>Search by email, name, or status</small></div>
+        <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/subscriptions/detail{{#plan}}/{{id}}{{/plan}}" id="lists" style="width:100%; margin-top:0px; float:right">
+            <div class="pure-g">
+                <div class="pure-u-3-5">
+                    <input type="text" name="search" placeholder="Search subscribers" value="{{display_search}}" class="required">
+                </div>
+                <div class="pure-u-2-5">
+                    <button>Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
     
     <div class="material usecolor4" data-event-section="allfuture">
             <div class="pure-u-1 pure-u-md-1-2"><h5 class="">{{label_subscriber_name}}</h5></div>
@@ -58,6 +130,12 @@
                 <li class="subscriber"><a class="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{subscriber_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
                 <div class="pure-u-1 pure-u-md-1-6">{{start_date}}</div><div class="pure-u-1 pure-u-md-1-6"><strong>{{status}}</strong></div><div class="pure-u-1 pure-u-md-1-6"><strong>{{currency}}{{total_paid_to_date}}</strong></div></a>
                 </li><!--subscriber-->
+            {{/subscriptions}}
+
+            {{^subscriptions}}
+                <li class="subscriber">
+                    <p>No subscribers found.</p>
+                </li>
             {{/subscriptions}}
         </ul>
     </div><!--material-->

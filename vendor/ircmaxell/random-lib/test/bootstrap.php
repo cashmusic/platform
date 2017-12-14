@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
 /**
  * Bootstrap the library.  This registers a simple autoloader for autoloading
  * classes
@@ -10,12 +20,12 @@
  *
  * @category   PHPPasswordLib
  * @package    test
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @license    http://www.gnu.org/licenses/lgpl-2.1.html LGPL v 2.1
  */
-
 namespace RandomLibTest;
 
 ini_set('memory_limit', '1G');
@@ -46,4 +56,3 @@ spl_autoload_register(function ($class) {
 define('PATH_ROOT', dirname(__DIR__));
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
-

@@ -49,9 +49,8 @@ If you use Composer, these dependencies should be handled automatically. If you 
 Simple usage looks like:
 
 ```php
-\Stripe\Stripe::setApiKey('d8e8fca2dc0f896fd7cb4cb0031ba249');
-$myCard = array('number' => '4242424242424242', 'exp_month' => 8, 'exp_year' => 2018);
-$charge = \Stripe\Charge::create(array('card' => $myCard, 'amount' => 2000, 'currency' => 'usd'));
+\Stripe\Stripe::setApiKey('sk_test_BQokikJOvBiI2HlWgH4olfQ2');
+$charge = \Stripe\Charge::create(array('amount' => 2000, 'currency' => 'usd', 'source' => 'tok_189fqt2eZvKYlo2CTGBeg6Uq' ));
 echo $charge;
 ```
 
@@ -67,8 +66,7 @@ This legacy version may be included via `require_once("/path/to/stripe-php/lib/S
 
 ```php
 Stripe::setApiKey('d8e8fca2dc0f896fd7cb4cb0031ba249');
-$myCard = array('number' => '4242424242424242', 'exp_month' => 8, 'exp_year' => 2018);
-$charge = Stripe_Charge::create(array('card' => $myCard, 'amount' => 2000, 'currency' => 'usd'));
+$charge = Stripe_Charge::create(array('source' => 'tok_XXXXXXXX', 'amount' => 2000, 'currency' => 'usd'));
 echo $charge;
 ```
 
@@ -106,9 +104,19 @@ $curl = new \Stripe\HttpClient\CurlClient(array(CURLOPT_PROXY => 'proxy.local:80
 
 Alternately, a callable can be passed to the CurlClient constructor that returns the above array based on request inputs. See `testDefaultOptions()` in `tests/CurlClientTest.php` for an example of this behavior. Note that the callable is called at the beginning of every API request, before the request is sent.
 
+### Configuring a Logger
+
+The library does minimal logging, but it can be configured
+with a [`PSR-3` compatible logger][psr3] so that messages
+end up there instead of `error_log`:
+
+```php
+\Stripe\Stripe::setLogger($logger);
+```
+
 ### SSL / TLS compatibility issues
 
-Stripe's API now requires that [all connections use TLS 1.2](https://stripe.com/blog/upgrading-tls). Some systems (most notably some older CentOS and RHEL versions) are capable of using TLS 1.2 but will use TLS 1.0 or 1.1 by default. In this case, you'd get an `invalid_request_error` with the following error message: "Stripe no longer supports API requests made with TLS 1.0. Please initiate HTTPS connections with TLS 1.2 or later. You can learn more about this at https://stripe.com/blog/upgrading-tls.".
+Stripe's API now requires that [all connections use TLS 1.2](https://stripe.com/blog/upgrading-tls). Some systems (most notably some older CentOS and RHEL versions) are capable of using TLS 1.2 but will use TLS 1.0 or 1.1 by default. In this case, you'd get an `invalid_request_error` with the following error message: "Stripe no longer supports API requests made with TLS 1.0. Please initiate HTTPS connections with TLS 1.2 or later. You can learn more about this at [https://stripe.com/blog/upgrading-tls](https://stripe.com/blog/upgrading-tls).".
 
 The recommended course of action is to [upgrade your cURL and OpenSSL packages](https://support.stripe.com/questions/how-do-i-upgrade-my-stripe-integration-from-tls-1-0-to-tls-1-2#php) so that TLS 1.2 is used by default, but if that is not possible, you might be able to solve the issue by setting the `CURLOPT_SSLVERSION` option to either `CURL_SSLVERSION_TLSv1` or `CURL_SSLVERSION_TLSv1_2`:
 
@@ -152,3 +160,5 @@ The method should be called once, before any request is sent to the API. The sec
 ### SSL / TLS configuration option
 
 See the "SSL / TLS compatibility issues" paragraph above for full context. If you want to ensure that your plugin can be used on all systems, you should add a configuration option to let your users choose between different values for `CURLOPT_SSLVERSION`: none (default), `CURL_SSLVERSION_TLSv1` and `CURL_SSLVERSION_TLSv1_2`.
+
+[psr3]: http://www.php-fig.org/psr/psr-3/

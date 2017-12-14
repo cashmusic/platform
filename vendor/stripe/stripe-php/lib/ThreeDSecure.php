@@ -13,6 +13,18 @@ class ThreeDSecure extends ApiResource
     }
 
     /**
+     * @param array|string $id The ID of the 3DS auth to retrieve, or an
+     *     options array contianing an `id` key.
+     * @param array|string|null $options
+     *
+     * @return ThreeDSecure
+     */
+    public static function retrieve($id, $options = null)
+    {
+        return self::_retrieve($id, $options);
+    }
+
+    /**
      * @param array|null $params
      * @param array|string|null $opts
      *

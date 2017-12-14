@@ -37,10 +37,10 @@ class AppIdentityCredentialsOnAppEngineTest extends \PHPUnit_Framework_TestCase
 
 class AppIdentityCredentialsGetCacheKeyTest extends \PHPUnit_Framework_TestCase
 {
-    public function testShouldNotBeEmpty()
+    public function testShouldBeEmpty()
     {
         $g = new AppIdentityCredentials();
-        $this->assertNotEmpty($g->getCacheKey());
+        $this->assertEmpty($g->getCacheKey());
     }
 }
 

@@ -2,25 +2,54 @@
 
 namespace CASHMusic\Elements\Subscription;
 
+use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
+use CASHMusic\Elements\Subscription\Extensions\Misc;
+use CASHMusic\Elements\Subscription\Extensions\Router;
+use CASHMusic\Elements\Subscription\Extensions\States;
 
 class Subscription extends ElementBase {
+
+    use Router;
+    use States;
+    use Misc;
+
+    protected $state, $plan_id, $email_address, $element_user_id, $subscription_id;
 	public $type = 'subscription';
 	public $name = 'Subscription';
 
 	public function getData() {
 
-        $this->element_data['subscriber_id'] = ($this->sessionGet("subscription_id")) ? $this->sessionGet("subscription_id") : false;
-        $this->element_data['email_address'] = ($this->sessionGet("email_address")) ? $this->sessionGet("email_address") : false;
+        $this->state = isset($_REQUEST['state']) ? $_REQUEST['state'] : "default";
 
-        $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
+        if ($subscription_id = $this->sessionGet("subscription_id")) {
+            $this->element_data['subscription_id'] = $subscription_id;
+        }
+
+        if ($email_address = $this->sessionGet("email_address")) {
+            $this->element_data['email_address'] = $email_address;
+        } else {
+            if (isset($this->element_data['email'])) {
+                $this->element_data['email_address'] = $this->element_data['email'];
+            }
+        }
+
+        $this->element_data['currency'] = $this->getCurrency();
+
+        if (!$plan_id = $this->sessionGet("plan_id")) {
+            $plan_id = false;
+        }
 
         $this->element_data['logged_in'] = false;
 
         $authenticated = false;
-        if (!empty($this->element_data['subscriber_id']) || $this->sessionGet('logged_in')) {
-            $authenticated = true;
+
+        // no plans found, this is a fatal error
+        if (!$this->element_data['plans']) {
+            $this->element_data['error_message'] = "Couldn't find a valid subscription plan.";
+            $this->setTemplate("default");
+            return $this->element_data;
         }
 
         // get plan data based on plan ids. works for multiples
@@ -40,12 +69,15 @@ class Subscription extends ElementBase {
         $this->updateElementData($subscription_data->getCurrency());
 
         if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
-            $this->setError("No valid payment connection found.");
+            //return false; // no valid payment found error
         }
 
-        //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
-        // if we're logged in already, show them the my account button instead of login
-        if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
+        if (!empty($this->element_data['subscription_id'])) {
+            $authenticated = true;
+        }
+
+        // if we're logged in already, maybe show them a logout button
+        if (in_array($plan_id, $this->element_data['plans']) && $authenticated || $this->sessionGet('logged_in')) {
             $this->element_data['logged_in'] = true;
         }
 
@@ -56,82 +88,50 @@ class Subscription extends ElementBase {
             if ($plan['flexible_price'] == 1) $this->element_data['flexible_price'] = true;
         }
 
-        // check if $_REQUEST['key'] is set and do thingss
+        // check if $_REQUEST['key'] is set and do verify-y things
         $this->updateElementData(
             $this->processVerificationKey()
         );
 
-        if (!empty($_REQUEST['state'])) {
+        // form submission handling.
+        $this->checkRequestForFormSubmission();
 
-            // set state and fire the appropriate method in Element\State class
-            $subscription_state = new ElementState(
-                $this->element_data,
-                $plan_id,
-                $this->session_id
-            );
-
-            $subscription_state->router(function ($template, $values) {
-                $this->setTemplate($template);
-                $this->updateElementData($values);
-            });
-
-
+        if (!empty($this->element_data['subscription_id'])) {
+            $this->user_id = $this->element_data['subscription_id'];
+        } else {
+            if ($session_user_id = $this->sessionGet("subscription_id")) $this->user_id = $session_user_id;
         }
+
+        $this->plan_id = $plan_id;
+        $this->email_address = isset($this->element_data['email_address']) ? $this->element_data['email_address'] : "";
+        $this->element_user_id = $this->element_data['user_id'];
+        
+        // set state and fire the appropriate method in Element\State class
+        $this->router(function ($template, $values) {
+            $this->setTemplate($template);
+            $this->updateElementData($values);
+        });
 
 		return $this->element_data;
 	}
 
-	private function processVerificationKey() {
-
-        $data = [];
-
-        if (!empty($_REQUEST['key'])) {
-            $validate_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'system',
-                    'cash_action' => 'validateresetflag',
-                    'address' => $_REQUEST['address'],
-                    'key' => $_REQUEST['key']
-                )
-            );
-
-            if ($validate_request->response['payload']) {
-
-                $data['key'] = true;
-                $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
-
-                if (empty($email)) {
-                    $data['error_message'] = "Something went wrong.";
-
-                    return $data;
-                }
-
-                $user_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'people',
-                        'cash_action' => 'getuseridforaddress',
-                        'address' => $email
-                    )
-                );
-
-                $data['email_address'] = $email;
-                $this->sessionSet("email_address", $email);
-
-                if ($user_request->response['payload']) {
-                    //$data['user_id'] = $user_request->response['payload'];
-                    $data['subscriber_id'] = $user_request->response['payload'];
-                    $this->sessionSet("subscription_id", $data['subscriber_id']);
-
-                    //$this->element_data['subscriber_id'] = $user_request->response['payload'];
-                } else {
-                    $data['error_message'] = "We couldn't find your user.";
-                }
-            } else {
-                $data['error_message'] = "Something went wrong.";
-            }
-
-            return $data;
+    private function getCurrency()
+    {
+        $currency_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'use_currency',
+                'user_id' => $this->element_data['user_id']
+            )
+        );
+        if ($currency_request->response['payload']) {
+            $currency = $currency_request->response['payload'];
+        } else {
+            $currency = 'USD';
         }
+
+        return CASHSystem::getCurrencySymbol($currency);
     }
 } // END class
 ?>

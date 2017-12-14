@@ -6,6 +6,10 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
 use Exception;
+use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -61,9 +65,6 @@ abstract class CASHSystem  {
 			}
 
 			define('CASH_DEBUG',(bool)$cash_settings['debug']);
-			// set up auto-load
-			//spl_autoload_register('CASHSystem::autoloadClasses');
-
 			// composer autoloader, in case we haven't loaded via controller first
 			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 
@@ -949,7 +950,7 @@ abstract class CASHSystem  {
 				fputcsv($f, $line, $delimiter);
 			}
 
-			return true;
+			exit;
 		}
 
 		return false;
@@ -975,34 +976,57 @@ abstract class CASHSystem  {
 		return $file;
 	}
 
-	public static function errorLog($data, $json=true) {
-		switch(gettype($data)) {
-			case "string":
-			case "boolean":
-			case "integer":
-			case "double":
-				error_log("### errorLog (".gettype($data).") -> " . $data);
-				return true;
-			break;
+	public static function errorLog($data, $json=false, $debug=true) {
+		if (CASH_DEBUG) {
+            if ($debug) {
 
-			case "NULL":
-			case "unknown type":
-				error_log("### errorLog -> NULL");
-				return true;
-			break;
+                $bt = debug_backtrace();
+                $caller = array_shift($bt);
 
-			case "array":
-			case "object":
-			case "resource":
-                error_log("### errorLog (".gettype($data).") -> " . ($json) ? json_encode($data) : print_r($data, true));
-				return true;
-			break;
 
-			default:
-				error_log("### errorLog -> no data");
-				return true;
+                $debug = "(" . $caller['line'] . ": " . str_replace("/var/www/cash_platform/", "", $caller['file']) . ") ";
+            } else {
+                $debug = "";
+            }
 
-		}
+            switch (gettype($data)) {
+                case "string":
+                case "boolean":
+                case "integer":
+                case "double":
+                    $log = $debug . ":[" . gettype($data) . "]: " . $data;
+                    break;
+
+                case "NULL":
+                case "unknown type":
+                    $log = $debug . ": NULL";
+                    break;
+
+                case "array":
+                case "object":
+                case "resource":
+
+                    if ($json) {
+                        $log = $debug . ":[" . gettype($data) . "]: " . json_encode($data, JSON_PRETTY_PRINT);
+                    } else {
+                        $log = $debug . "[" . gettype($data) . "]: " . print_r($data, true);
+
+                    }
+                    break;
+
+                default:
+                    $log = $debug . ": no data";
+
+            }
+
+            if (CASH_DEBUG) {
+                $logger = new Logger('debug_logger');
+                $logger->pushHandler(new BrowserConsoleHandler());
+                $logger->error($debug . "[" . gettype($data) . "]: \n" . json_encode($data));
+            }
+
+            error_log($log);
+        }
 	}
 
 	/**
@@ -1210,25 +1234,6 @@ abstract class CASHSystem  {
         //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
 	}
 
-    public static function dd($object) {
-        if (CASH_DEBUG) {
-            $whoops = new Run();
-
-// Configure the PrettyPageHandler:
-            $errorPage = new PrettyPageHandler();
-
-            $errorPage->setPageTitle("Oh shit. It's a dd."); // Set the page's title
-            $errorPage->addDataTable("Output", ['output'=>"<pre>".print_r($object, true)."</pre>"]);
-
-            $whoops->pushHandler($errorPage);
-            $whoops->register();
-
-
-            throw new \RuntimeException("dd on ".gettype($object));
-        }
-        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
-    }
-
     /**
      * To ensure compatibility with stored element names, we need to sort of manually match the element directory
      *
@@ -1273,8 +1278,8 @@ abstract class CASHSystem  {
         $connection_id = false;
 
         // if a viable connection, set connection id with user connection
-        if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-            $connection_id = $mandrill[0]['id'];
+        if (is_array($mandrill) && !empty($mandrill->id)) {
+            $connection_id = $mandrill->id;
         }
 
         $system_connections = CASHSystem::getSystemSettings('system_connections');
@@ -1367,6 +1372,14 @@ abstract class CASHSystem  {
         $string[0] = strtolower($string[0]);
 
         return $string;
+    }
+
+    public static function arrayWrap($object) {
+        if (gettype($object) == "object") {
+            $object = [$object];
+        }
+
+        return $object;
     }
 } // END class
 ?>

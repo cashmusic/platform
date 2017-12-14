@@ -48,7 +48,7 @@ you're building an application that uses Google Compute Engine.
 
 To use `Application Default Credentials`, You first need to download a set of
 JSON credentials for your project. Go to **APIs & Auth** > **Credentials** in
-the [Google Developers Console](developer console) and select
+the [Google Developers Console][developer console] and select
 **Service account** from the **Add credentials** dropdown.
 
 > This file is your *only copy* of these credentials. It should never be
@@ -68,7 +68,7 @@ putenv('GOOGLE_APPLICATION_CREDENTIALS=/path/to/my/credentials.json');
 
 Before making your API call, you must be sure the API you're calling has been
 enabled. Go to **APIs & Auth** > **APIs** in the
-[Google Developers Console](developer console) and enable the APIs you'd like to
+[Google Developers Console][developer console] and enable the APIs you'd like to
 call. For the example below, you must enable the `Drive API`.
 
 #### Call the APIs
@@ -95,7 +95,7 @@ $stack->push($middleware);
 // create the HTTP client
 $client = new Client([
   'handler' => $stack,
-  'base_url' => 'https://www.googleapis.com',
+  'base_uri' => 'https://www.googleapis.com',
   'auth' => 'google_auth'  // authorize all requests
 ]);
 
@@ -106,18 +106,23 @@ $response = $client->get('drive/v2/files');
 print_r((string) $response->getBody());
 ```
 
-## What about auth in google-apis-php-client?
+##### Guzzle 5 Compatibility
 
-The goal is for auth done by
-[google-apis-php-client][google-apis-php-client] to be be performed
-by this library.
+If you are using [Guzzle 5][Guzzle 5], replace the `create middleware` and
+`create the HTTP Client` steps with the following:
 
-Eventually, google-apis-php-client should have a dependency on this library.
-At the moment, there is no ETA for this, a key prequisite being for google-apis-php-client
-itself take a dependency on [Guzzle][Guzzle] so that it can use the Guzzle
-subscribers that this package provides. That's currently [being discussed](http://github.com/google/google-api-php-client#473).
-This package's availability should make that transition simpler as there is one
-less thing that need to be handled.
+```php
+// create the HTTP client
+$client = new Client([
+  'base_url' => 'https://www.googleapis.com',
+  'auth' => 'google_auth'  // authorize all requests
+]);
+
+// create subscriber
+$subscriber = ApplicationDefaultCredentials::getSubscriber($scopes);
+$client->getEmitter()->attach($subscriber);
+
+```
 
 ## License
 
@@ -141,4 +146,5 @@ about the client or APIs on [StackOverflow](http://stackoverflow.com).
 [contributing]: https://github.com/google/google-auth-library-php/tree/master/CONTRIBUTING.md
 [copying]: https://github.com/google/google-auth-library-php/tree/master/COPYING
 [Guzzle]: https://github.com/guzzle/guzzle
+[Guzzle 5]: http://docs.guzzlephp.org/en/5.3
 [developer console]: https://console.developers.google.com

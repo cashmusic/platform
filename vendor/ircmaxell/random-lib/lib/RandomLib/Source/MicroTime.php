@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
 /**
  * The Microtime Random Number Source
  *
@@ -11,15 +21,17 @@
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ *
  * @version    Build @@version@@
  */
-
 namespace RandomLib\Source;
 
 use SecurityLib\Strength;
+use SecurityLib\Util;
 
 /**
  * The Microtime Random Number Source
@@ -31,33 +43,29 @@ use SecurityLib\Strength;
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-final class MicroTime implements \RandomLib\Source {
+final class MicroTime extends \RandomLib\AbstractSource
+{
 
     /**
      * A static counter to ensure unique hashes and prevent state collisions
+     *
      * @var int A counter
      */
     private static $counter = null;
 
     /**
      * The current state of the random number generator.
+     *
      * @var string The state of the PRNG
      */
     private static $state = '';
 
-    /**
-     * Return an instance of Strength indicating the strength of the source
-     *
-     * @return Strength An instance of one of the strength classes
-     */
-    public static function getStrength() {
-        return new Strength(Strength::VERYLOW);
-    }
-
-    public function __construct() {
+    public function __construct()
+    {
         $state = self::$state;
         if (function_exists('posix_times')) {
             $state .= serialize(posix_times());
@@ -74,9 +82,9 @@ final class MicroTime implements \RandomLib\Source {
         $state      .= count(debug_backtrace(false));
         self::$state = hash('sha512', $state, true);
         if (is_null(self::$counter)) {
-            list( , self::$counter) = unpack("i", substr(self::$state, 0, 4));
-            $seed = $this->generate(strlen(dechex(PHP_INT_MAX)));
-            list( , self::$counter) = unpack("i", $seed);
+            list(, self::$counter) = unpack("i", Util::safeSubstr(self::$state, 0, 4));
+            $seed = $this->generate(Util::safeStrlen(dechex(PHP_INT_MAX)));
+            list(, self::$counter) = unpack("i", $seed);
         }
     }
 
@@ -87,7 +95,8 @@ final class MicroTime implements \RandomLib\Source {
      *
      * @return string A string of the requested size
      */
-    public function generate($size) {
+    public function generate($size)
+    {
         $result      = '';
         $seed        = microtime() . memory_get_usage();
         self::$state = hash('sha512', self::$state . $seed, true);
@@ -105,21 +114,23 @@ final class MicroTime implements \RandomLib\Source {
             self::$state = hash('sha512', $seed, true);
             /**
              * We only use the first 8 bytes here to prevent exposing the state
-             * in its entirety, which could potentially expose other random 
+             * in its entirety, which could potentially expose other random
              * generations in the future (in the same process)...
              */
-            $result .= substr(self::$state, 0, 8);
+            $result .= Util::safeSubstr(self::$state, 0, 8);
         }
-        return substr($result, 0, $size);
+
+        return Util::safeSubstr($result, 0, $size);
     }
 
-    private static function counter() {
+    private static function counter()
+    {
         if (self::$counter >= PHP_INT_MAX) {
             self::$counter = -1 * PHP_INT_MAX - 1;
         } else {
             self::$counter++;
         }
+
         return self::$counter;
     }
-
 }

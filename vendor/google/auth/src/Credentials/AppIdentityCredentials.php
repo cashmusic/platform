@@ -51,8 +51,6 @@ use Google\Auth\CredentialsLoader;
  */
 class AppIdentityCredentials extends CredentialsLoader
 {
-    const cacheKey = 'GOOGLE_AUTH_PHP_APPIDENTITY';
-
     /**
      * Result of fetchAuthToken.
      *
@@ -139,10 +137,13 @@ class AppIdentityCredentials extends CredentialsLoader
     }
 
     /**
+     * Caching is handled by the underlying AppIdentityService, return empty string
+     * to prevent caching.
+     *
      * @return string
      */
     public function getCacheKey()
     {
-        return self::cacheKey;
+        return '';
     }
 }

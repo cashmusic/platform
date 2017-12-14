@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Factory\RemoteObject\Adapter;
 
 /**
@@ -31,8 +29,8 @@ class Soap extends BaseAdapter
     /**
      * {@inheritDoc}
      */
-    protected function getServiceName(string $wrappedClass, string $method) : string
+    protected function getServiceName($wrappedClass, $method)
     {
-        return $method;
+        return (string) $method;
     }
 }

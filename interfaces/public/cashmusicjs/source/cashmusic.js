@@ -12,7 +12,7 @@
  * Copyright (c) 2016, CASH Music
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
+ * Redstribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * Redistributions of source code must retain the above copyright notice, this list
@@ -617,6 +617,24 @@
 				}
 				return(false);
 			},
+            // simple redirect function, for logouts and stuff
+            redirect: function(destination, delay, reload) {
+				if (delay === null) {
+					delay = 0;
+				}
+
+                setTimeout(function(){
+                    // window.top for top level reload/redirect
+                	if (reload === true) {
+                        self.location.reload();
+                    } else {
+                        self.location = destination;
+					}
+
+                }, delay);
+
+                return true;
+            },
 
 			/***************************************************************************************
  			 *
@@ -990,7 +1008,7 @@
 						// a new session id. that will stop this block from executing a second time
 						cm.sessionid = false;
 						// okay so no GET and no localstorage. ask the serversessionstart
-						var endpoint = cm.path.replace('public','api')+'/verbose/system/startjssession';
+						var endpoint = cm.path.replace('public','api')+'/system/startjssession';
 						endpoint += '?ts=' + new Date().getTime();
 						// fire off the ajax call
 						cm.ajax.send(
@@ -999,9 +1017,10 @@
 							function(r) {
 								if (r) {
 									var rp = JSON.parse(r);
-									var session_data = JSON.parse(rp.payload);
+									var session_data = JSON.parse(rp.data);
+
 									cm.session.setid(session_data);
-									cm.events.fire(cm,'sessionstarted',rp.payload);
+									cm.events.fire(cm,'sessionstarted',rp.data);
 								}
 							},
 							function(r) {
@@ -1179,7 +1198,18 @@
 						}
 					}
 				},
+				confirm: function(innerContent,wrapClass,message) {
 
+
+                    var r = window.confirm(message);
+                    if (r === true) {
+                        this.reveal(innerContent, wrapClass);
+                    } else {
+
+                        console.log("nope")
+                    	return false;
+                    }
+				},
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;
@@ -1324,6 +1354,9 @@
 					}
 				}
 			},
+            elements: {
+                selectOption: function(el,value){document.querySelector(el).value = value;}
+            }
 		};
 
 		/*

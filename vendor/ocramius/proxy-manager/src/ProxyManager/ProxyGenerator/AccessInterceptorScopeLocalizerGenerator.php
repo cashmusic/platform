@@ -16,17 +16,13 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\ProxyGenerator;
 
 use ProxyManager\Generator\Util\ClassGeneratorUtils;
-use ProxyManager\Proxy\AccessInterceptorInterface;
 use ProxyManager\ProxyGenerator\AccessInterceptor\MethodGenerator\SetMethodPrefixInterceptor;
 use ProxyManager\ProxyGenerator\AccessInterceptor\MethodGenerator\SetMethodSuffixInterceptor;
 use ProxyManager\ProxyGenerator\AccessInterceptor\PropertyGenerator\MethodPrefixInterceptors;
-use ProxyManager\ProxyGenerator\AccessInterceptor\PropertyGenerator\MethodSuffixInterceptors;
-use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\BindProxyProperties;
+use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\Constructor;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\InterceptedMethod;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\MagicClone;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\MagicGet;
@@ -34,7 +30,6 @@ use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\MagicSet;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\MagicSleep;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\MagicUnset;
-use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\StaticProxyConstructor;
 use ProxyManager\ProxyGenerator\Assertion\CanProxyAssertion;
 use ProxyManager\ProxyGenerator\Util\ProxiedMethodsFilter;
 use ReflectionClass;
@@ -62,9 +57,9 @@ class AccessInterceptorScopeLocalizerGenerator implements ProxyGeneratorInterfac
         CanProxyAssertion::assertClassCanBeProxied($originalClass, false);
 
         $classGenerator->setExtendedClass($originalClass->getName());
-        $classGenerator->setImplementedInterfaces([AccessInterceptorInterface::class]);
+        $classGenerator->setImplementedInterfaces(array('ProxyManager\\Proxy\\AccessInterceptorInterface'));
         $classGenerator->addPropertyFromGenerator($prefixInterceptors = new MethodPrefixInterceptors());
-        $classGenerator->addPropertyFromGenerator($suffixInterceptors = new MethodSuffixInterceptors());
+        $classGenerator->addPropertyFromGenerator($suffixInterceptors = new MethodPrefixInterceptors());
 
         array_map(
             function (MethodGenerator $generatedMethod) use ($originalClass, $classGenerator) {
@@ -72,15 +67,20 @@ class AccessInterceptorScopeLocalizerGenerator implements ProxyGeneratorInterfac
             },
             array_merge(
                 array_map(
-                    $this->buildMethodInterceptor($prefixInterceptors, $suffixInterceptors),
+                    function (ReflectionMethod $method) use ($prefixInterceptors, $suffixInterceptors) {
+                        return InterceptedMethod::generateMethod(
+                            new MethodReflection($method->getDeclaringClass()->getName(), $method->getName()),
+                            $prefixInterceptors,
+                            $suffixInterceptors
+                        );
+                    },
                     ProxiedMethodsFilter::getProxiedMethods(
                         $originalClass,
-                        ['__get', '__set', '__isset', '__unset', '__clone', '__sleep']
+                        array('__get', '__set', '__isset', '__unset', '__clone', '__sleep')
                     )
                 ),
-                [
-                    new StaticProxyConstructor($originalClass, $prefixInterceptors, $suffixInterceptors),
-                    new BindProxyProperties($originalClass, $prefixInterceptors, $suffixInterceptors),
+                array(
+                    new Constructor($originalClass, $prefixInterceptors, $suffixInterceptors),
                     new SetMethodPrefixInterceptor($prefixInterceptors),
                     new SetMethodSuffixInterceptor($suffixInterceptors),
                     new MagicGet($originalClass, $prefixInterceptors, $suffixInterceptors),
@@ -89,21 +89,8 @@ class AccessInterceptorScopeLocalizerGenerator implements ProxyGeneratorInterfac
                     new MagicUnset($originalClass, $prefixInterceptors, $suffixInterceptors),
                     new MagicSleep($originalClass, $prefixInterceptors, $suffixInterceptors),
                     new MagicClone($originalClass, $prefixInterceptors, $suffixInterceptors),
-                ]
+                )
             )
         );
-    }
-
-    private function buildMethodInterceptor(
-        MethodPrefixInterceptors $prefixInterceptors,
-        MethodSuffixInterceptors $suffixInterceptors
-    ) : callable {
-        return function (ReflectionMethod $method) use ($prefixInterceptors, $suffixInterceptors) : InterceptedMethod {
-            return InterceptedMethod::generateMethod(
-                new MethodReflection($method->getDeclaringClass()->getName(), $method->getName()),
-                $prefixInterceptors,
-                $suffixInterceptors
-            );
-        };
     }
 }

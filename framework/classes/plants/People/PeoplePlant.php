@@ -20,7 +20,13 @@ namespace CASHMusic\Plants\People;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Entities\Element;
+use CASHMusic\Entities\PeopleList;
+use CASHMusic\Entities\PeopleListsMember;
+use CASHMusic\Entities\PeopleMailing;
+use CASHMusic\Entities\PeopleMailingsAnalytic;
 use CASHMusic\Seeds\MailchimpSeed;
+use CASHMusic\Entities\People;
 
 class PeoplePlant extends PlantBase {
 
@@ -32,38 +38,10 @@ class PeoplePlant extends PlantBase {
 	}
 
 	/**
-	 * Store keyed data in a user's data field
-	 *
-	 * @return bool
-	 */protected function storeUserData($user_id,$key,$value) {
-		$user = $this->getUser($user_id);
-		if (!is_array($user)) { return false; }
-		$userdata = $user['data'];
-		if (!is_array($userdata)) {
-			$userdata = array();
-		}
-		$userdata[$key] = $value;
-		$userdataJSON = json_encode($userdata);
-		$result = $this->db->setData(
-			'users',
-			array(
-				'data' => $userdataJSON
-			),
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
-	}
-
-	/**
 	 * Get recent activity for a given user. (list joins and orders) —
 	 * if since_date isn't set it will default to two weeks from now.
 	 *
-	 * @return bool
+	 * @return array|bool
 	 */protected function getRecentActivity($user_id,$since_date=0) {
 		if ($since_date == 0) {
 			$since_date = time() - 60480;
@@ -82,190 +60,19 @@ class PeoplePlant extends PlantBase {
 		$return_array['orders'] = $order_request->response['payload'];
 
 		// get list activity (new joins)
-		$result = $this->db->getData(
-			'PeoplePlant_getRecentActivity',
-			false,
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				),
-				"since_date" => array(
-					"condition" => ">",
-					"value" => $since_date
-				)
-			)
-		);
+
+		$result = $this->db->table('people_lists_members')
+			->selectDistinct('people_lists_members.list_id')
+            ->select([$this->db->raw("COUNT(people_lists_members.list_id) AS total"), "people_lists.name"])
+			->join('people_lists', 'people_lists_members.list_id', '=', 'people_lists.id')
+			->where('people_lists.user_id', $user_id)
+		    ->where('people_lists_members.active', 1)
+			->where('people_lists_members.creation_date', '>', $since_date)
+			->groupBy('people_lists_members.list_id')->get();
+
 		$return_array['lists'] = $result;
 
 		return $return_array;
-	}
-
-	/**
-	 * Adds a new contact to the system
-	 *
-	 * @return id|false
-	 */protected function addContact(
-			$email_address,
-			$user_id,
-			$first_name='',
-			$last_name='',
-			$organization='',
-			$address_line1='',
-			$address_line2='',
-			$address_city='',
-			$address_region='',
-			$address_postalcode='',
-			$address_country='',
-			$phone='',
-			$notes='',
-			$links=''
-		)
-	 {
-		$result = $this->db->setData(
-			'contacts',
-			array(
-				'email_address' => $email_address,
-				'user_id' => $user_id,
-				'first_name' => $first_name,
-				'last_name' => $last_name,
-				'organization' => $organization,
-				'address_line1' => $address_line1,
-				'address_line2' => $address_line2,
-				'address_city' => $address_city,
-				'address_region' => $address_region,
-				'address_postalcode' => $address_postalcode,
-				'address_country' => $address_country,
-				'phone' => $phone,
-				'notes' => json_encode($notes),
-				'links' => json_encode($links)
-			)
-		);
-		return $result;
-	}
-
-	/**
-	 * Adds a new contact to the system
-	 *
-	 * @return id|false
-	 */protected function editContact(
-			$id,
-			$email_address=false,
-			$first_name=false,
-			$last_name=false,
-			$organization=false,
-			$address_line1=false,
-			$address_line2=false,
-			$address_city=false,
-			$address_region=false,
-			$address_postalcode=false,
-			$address_country=false,
-			$phone=false,
-			$notes=false,
-			$links=false,
-			$user_id=false
-		)
-	 {
-		$final_edits = array_filter(
-			array(
-				'email_address' => $email_address,
-				'first_name' => $first_name,
-				'last_name' => $last_name,
-				'organization' => $organization,
-				'address_line1' => $address_line1,
-				'address_line2' => $address_line2,
-				'address_city' => $address_city,
-				'address_region' => $address_region,
-				'address_postalcode' => $address_postalcode,
-				'address_country' => $address_country,
-				'phone' => $phone,
-				'notes' => $notes,
-				'links' => $links
-			),
-            function($value) {
-                return CASHSystem::notExplicitFalse($value);
-            }
-		);
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->setData(
-			'contacts',
-			$final_edits,
-			$condition
-		);
-		return $result;
-	}
-
-	protected function getContact($id,$user_id=false) {
-		$result = $this->db->getData(
-			'contacts',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			),
-			false,
-			'last_name ASC'
-		);
-		if ($result) {
-			if (!$user_id) {
-				return $result[0];
-			} else {
-				if ($result[0]['user_id'] == $user_id) {
-					return $result[0];
-				} else {
-					return false;
-				}
-			}
-		} else {
-			return false;
-		}
-	}
-
-	protected function getContactsByInitials($user_id,$initial) {
-		$result = $this->db->getData(
-			'contacts',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				),
-				"last_name" => array(
-					"condition" => "LIKE",
-					"value" => $initial . '%'
-				)
-			),
-			false,
-			'last_name ASC'
-		);
-		return $result;
-	}
-
-	protected function getContactInitials($user_id) {
-		$result = $this->db->getData(
-			'PeoplePlant_getContactInitials',
-			false,
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
 	}
 
 	/**
@@ -288,14 +95,8 @@ class PeoplePlant extends PlantBase {
 		}
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			if ($element_id) {
-				$element_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'element',
-						'cash_action' => 'getelement',
-						'id' => $element_id
-					)
-				);
-				$do_not_verify = (bool) $element_request->response['payload']['options']['do_not_verify'];
+				$element = $this->orm->find(Element::class, $element_id );
+				$do_not_verify = (bool) $element->options['do_not_verify'];
 			} else {
 				$do_not_verify = false;
 			}
@@ -330,12 +131,12 @@ class PeoplePlant extends PlantBase {
 		if ($result) {
 			$list_details = $this->getList($list_id);
 			if ($user_id) {
-				if ($list_details['user_id'] != $user_id) {
+				if ($list_details->user_id != $user_id) {
 					return false;
 				}
 			}
 			$payload_data = array(
-				'details' => $list_details,
+				'details' => $list_details->toArray(),
 				'members' => $result
 			);
 			return $payload_data;
@@ -353,20 +154,19 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
 	 */protected function addList($name,$user_id,$description='',$connection_id=0) {
-		$result = $this->db->setData(
-			'people_lists',
-			array(
-				'name' => $name,
-				'description' => $description,
-				'user_id' => $user_id,
-				'connection_id' => $connection_id
-			)
-		);
+		$result = $this->orm->create(PeopleList::class, [
+            'name' => $name,
+            'description' => $description,
+            'user_id' => $user_id,
+            'connection_id' => $connection_id
+        ]);
+
 		if ($result) {
-			$list_id = $result;
-			$this->manageWebhooks($list_id,'add');
+			$this->manageWebhooks($result->id,'add');
+            return $result->id;
+		} else {
+			return false;
 		}
-		return $result;
 	}
 
 	/**
@@ -377,40 +177,44 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */protected function editList($list_id,$name=false,$description=false,$connection_id=false,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $list_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$final_edits = array_filter(
-			array(
-				'name' => $name,
-				'description' => $description,
-				'connection_id' => $connection_id
-			),
+	 */
+	protected function editList($list_id,$name=false,$description=false,$connection_id=false,$user_id=false) {
+
+        $final_edits = array_filter(
+            array(
+                'name' => $name,
+                'description' => $description,
+                'connection_id' => $connection_id
+            ),
             function($value) {
                 return CASHSystem::notExplicitFalse($value);
             }
-		);
-		$result = $this->db->setData(
-			'people_lists',
-			$final_edits,
-			$condition
-		);
-		if ($result && $connection_id) {
+        );
+
+        try {
+            if ($user_id) {
+                $list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
+            } else {
+                $list = $this->orm->find(PeopleList::class, $list_id );
+            }
+
+            if ($list) {
+                $list->update($final_edits);
+			}
+
+        } catch (\Exception $e) {
+            if (CASH_DEBUG) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+            return false;
+        }
+
+		if ($list && $connection_id) {
 			// remove then add id connection_id has changed
 			$this->manageWebhooks($list_id,'remove');
 			$this->manageWebhooks($list_id,'add');
 		}
-		return $result;
+		return $list;
 	}
 
 	/**
@@ -418,68 +222,64 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {int} $list_id - the list
 	 * @return bool
-	 */protected function deleteList($list_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $list_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+	 */
+	protected function deleteList($list_id,$user_id=false) {
+
+		try {
+			if ($user_id) {
+				$list = $this->orm->delete(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id] );
+			} else {
+				$list = $this->orm->delete(PeopleList::class, ['id'=>$list_id] );
+			}
+
+		} catch (\Exception $e) {
+			if (CASH_DEBUG) {
+				CASHSystem::errorLog($e->getMessage());
+			}
+			return false;
 		}
-		$result = $this->db->deleteData(
-			'people_lists',
-			$condition
-		);
-		if ($result) {
+
+		if ($list) {
 			$this->manageWebhooks($list_id,'remove');
 			// check and make sure that the list has addresses associated
 			if ($this->getUsersForList($list_id)) {
 				// it does? delete them
-				$result = $this->db->deleteData(
-					'list_members',
-					array(
-						'list_id' => array(
-							'condition' => '=',
-							'value' => $list_id
-						)
-					)
-				);
+                $result = $this->db->table('people_lists_members')->where('list_id', $list_id)->delete();
 			}
+
+			return true;
+		} else {
+			return false;
 		}
-		return $result;
+
 	}
 
 	protected function getConnectionAPI($list_id) {
-		$list_info     = $this->getList($list_id);
-		// settings are called connections now
-		$connection_id = $list_info['connection_id'];
-		$user_id       = $list_info['user_id'];
+		if ($list_info = $this->getList($list_id)) {
+			$list_info = $list_info->toArray();
+			// settings are called connections now
+			$connection_id = $list_info['connection_id'];
+			$user_id       = $list_info['user_id'];
 
-		// if there is an external connection
-		if ($connection_id) {
-			$connection_type = $this->getConnectionType($connection_id);
-			switch($connection_type) {
-				case 'com.mailchimp':
-					//
-					//
-					//
+			// if there is an external connection
+			if ($connection_id) {
+				$connection_type = $this->getConnectionType($connection_id);
+				switch($connection_type) {
+					case 'com.mailchimp':
+						//
+						//
+						//
 
-					$mc = new MailchimpSeed($user_id, $connection_id);
-					return array('connection_type' => $connection_type, 'api' => $mc);
-					break;
-				default:
-					// unknown type
-					return false;
+						$mc = new MailchimpSeed($user_id, $connection_id);
+						return array('connection_type' => $connection_type, 'api' => $mc);
+						break;
+					default:
+						// unknown type
+						return false;
+				}
 			}
-		} else {
-			// no connection, return false
-			return false;
 		}
+
 	}
 
 	protected function manageWebhooks($list_id,$action='add') {
@@ -576,18 +376,21 @@ class PeoplePlant extends PlantBase {
 			$query_limit = "$start,$limit";
 		}
 
-		$result = $this->db->getData(
-			'PeoplePlant_getUsersForList',
-			false,
-			array(
-				"list_id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			),
-			$query_limit,
-			'l.creation_date DESC' //this fix is less than ideal because it references the query alias l. ...but whatevs
-		);
+		try {
+    	$query = $this->db->table('people')
+			->select(['people.id', 'people.email_address', 'people.display_name', 'people.first_name', 'people.last_name', 'people.address_postalcode', 'people_lists_members.initial_comment', 'people_lists_members.additional_data', 'people_lists_members.active', 'people_lists_members.verified', 'people_lists_members.creation_date'])
+			->join('people_lists_members', 'people_lists_members.user_id', '=', 'people.id', 'LEFT OUTER')
+			->where('people_lists_members.list_id', $list_id)
+			->where('people_lists_members.active', 1)
+			->orderBy("people_lists_members.creation_date", "DESC");
+
+    		if ($query_limit) $query = $query->limit($query_limit);
+
+			$result = $query->get();
+		} catch (\Exception $e) {
+			CASHSystem::errorLog($e->getMessage());
+		}
+
 		return $result;
 	}
 
@@ -597,16 +400,9 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $user_id - the user
 	 * @return array|false
 	 */protected function getListsForUser($user_id) {
-		$result = $this->db->getData(
-			'people_lists',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
+
+		$result = $this->orm->findWhere(PeopleList::class, ['user_id'=>$user_id], true);
+
 		return $result;
 	}
 
@@ -615,28 +411,20 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {int} $list_id -     the id of the list
 	 * @return array|false
-	 */protected function getList($list_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $list_id
-			)
-		);
+	 */
+	protected function getList($list_id,$user_id=false) {
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
+			$list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id, 'user_id'=>$user_id]);
+		} else {
+            $list = $this->orm->findWhere(PeopleList::class, ['id'=>$list_id]);
 		}
-		$result = $this->db->getData(
-			'people_lists',
-			'*',
-			$condition
-		);
-		if ($result) {
-			return $result[0];
+
+		if ($list) {
+			return $list;
+		} else {
+            return false;
 		}
-		return $result;
 	}
 
 	/**
@@ -646,21 +434,21 @@ class PeoplePlant extends PlantBase {
 	 */protected function getAnalytics($analtyics_type,$user_id=0,$list_id=false) {
 		switch (strtolower($analtyics_type)) {
 			case 'listmembership':
-				$result = $this->db->getData(
-					'PeoplePlant_getAnalytics_listmembership',
-					false,
-					array(
-						"list_id" => array(
-							"condition" => "=",
-							"value" => $list_id
-						)
-					)
-				);
+
+                $result = $this->db->table('people_lists_members')
+					->select([
+						$this->db->raw('COUNT(*) AS total'),
+						$this->db->raw('COUNT(CASE WHEN active = 1 THEN 1 END) AS active'),
+						$this->db->raw('COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive'),
+						$this->db->raw('COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week')])
+					->where("list_id", $list_id)->get();
+
 				if ($result) {
 					return $result[0];
 				}
 				break;
 		}
+
 		return false;
 	}
 
@@ -674,23 +462,13 @@ class PeoplePlant extends PlantBase {
 	/**
 	 * Gets details for an individual user
 	 *
-	 */protected function getUser($user_id) {
-		$result = $this->db->getData(
-			'users',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		if ($result) {
-			$return = $result[0];
-			$return['data'] = json_decode($return['data'],true);
-			return $return;
+	 */
+	protected function getUser($user_id) {
+
+	 	if ($user = $this->orm->find(People::class, $user_id)) {
+	 		return $user->toArray();
 		} else {
-			return false;
+	 		return false;
 		}
 	}
 
@@ -737,6 +515,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$take_action = 'addandemail';
 			}
+
 			if ($take_action) {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
@@ -758,6 +537,7 @@ class PeoplePlant extends PlantBase {
 							'address_postalcode' => $postal_code
 						)
 					);
+
 					if ($addlogin_request->response['status_code'] == 200) {
 						$user_id = $addlogin_request->response['payload'];
 					} else {
@@ -766,40 +546,35 @@ class PeoplePlant extends PlantBase {
 				}
 				if ($user_id) {
 					if ($take_action != 'onlyemail') {
-						$result = $this->db->setData(
-							'list_members',
-							array(
-								'user_id' => $user_id,
-								'list_id' => $list_id,
-								'initial_comment' => $initial_comment,
-								'additional_data' => $additional_data,
-								'verified' => 0,
-								'active' => 1
-							)
-						);
+
+						$result = $this->orm->create(PeopleListsMember::class, [
+                            'user_id' => $user_id,
+                            'list_id' => $list_id,
+                            'initial_comment' => $initial_comment,
+                            'additional_data' => $additional_data,
+                            'verified' => 0,
+                            'active' => 1
+                        ]);
+
 					} else {
 						$result = true;
 					}
 
+					if (!$user = $this->orm->find(People::class, $user_id)) {
+						return false;
+					}
+
 					// update this data cuz yeah
 					if (isset($first_name) || isset($last_name) || isset($postal_code)) {
-                        $result = $this->db->setData(
-                            'users',
-                            array(
-                                'first_name' => $first_name,
-                                'last_name' => $last_name,
-                                'address_postalcode' => $postal_code
-                            ),
-                            array(
-                                'id' => array(
-                                    'condition' => '=',
-                                    'value' => $user_id
-                                )
-                            )
-                        );
+
+						$user->update([
+                            'first_name' => $first_name,
+                            'last_name' => $last_name,
+                            'address_postalcode' => $postal_code
+						]);
                     }
 
-					if ($result && !$request_from_service) {
+					if ($user && !$request_from_service) {
 						if ($do_not_verify) {
 							$api_connection = $this->getConnectionAPI($list_id);
 							if ($api_connection) {
@@ -822,6 +597,7 @@ class PeoplePlant extends PlantBase {
 								$verification_url = CASHSystem::getCurrentURL();
 							}
 							$verification_url .= '?cash_request_type=people&cash_action=verifyaddress&address=' . urlencode($address) . '&list_id=' . $list_id . '&verification_code=' . $verification_code . $extra_querystring;
+
 							CASHSystem::sendEmail(
 								'Complete sign-up for: ' . $list_details['name'],
 								$list_details['user_id'],
@@ -846,51 +622,29 @@ class PeoplePlant extends PlantBase {
 
 		$address_insert = [];
 		foreach ($addresses as $address) {
-            $address_insert[] =
-				"(" .
-					implode(",",['"'.trim($address).'"', '"'.trim($address).'"', '"'.md5(rand(23456,9876541)).'"', '"bulk_import"', time()])
-				.")";
+            $address_insert[] = [
+				'email_address' => trim($address),
+				'username' => trim($address),
+				'password'=> md5(rand(23456,9876541)),
+				'organization' => 'bulk_import',
+				'creation_date' => time()
+			];
 		}
 
-		$address_insert = implode(",", $address_insert);
-
 		// bulk create users
-        $create_users = $this->db->setData(
-            'users',
-            [
-                'fields' => array(
-                    'email_address',
-                    'username',
-                    'password',
-                    'data',
-                    'creation_date',
-                ),
-                'data' => $address_insert
-            ],
-            false,
-            true // insert ignore
-        );
+		$create_users = $this->db->table('people')->insertIgnore($address_insert);
 
         if ($create_users) {
             // query users with "bulk_import" as data field.
-			$get_created_users = $this->db->getData(
-                'users',
-                'id,email_address',
-                array(
-                    "data" => array(
-                        "condition" => "=",
-                        "value" => "bulk_import"
-                    )
-                )
-            );
+			$get_created_users = $this->orm->findWhere(People::class, ['organization' => 'bulk_import'] );
 
             $created_user_ids = [];
             $created_user_emails = [];
 
             // stash user ids and emails.
 			foreach ($get_created_users as $user) {
-                $created_user_ids[] = $user['id'];
-                $created_user_emails[] = $user['email_address'];
+                $created_user_ids[] = $user->id;
+                $created_user_emails[] = $user->email_address;
 			}
 
             // compare emails with original $addresses array.
@@ -900,19 +654,11 @@ class PeoplePlant extends PlantBase {
 				// let's double check that these are valid emails, save a query
                 $remaining_emails = filter_var_array($remaining_emails,FILTER_VALIDATE_EMAIL);
 
-                error_log(json_encode($remaining_emails));
-
                 if (count($remaining_emails) > 0) {
-                    $get_existing_users = $this->db->getData(
-                        'users',
-                        'id',
-                        array(
-                            "email_address" => array(
-                                "condition" => "IN",
-                                "value" => $remaining_emails
-                            )
-                        )
-                    );
+                	$get_existing_users = $this->db->table('people')
+						->select('id')
+						->whereIn('email_address', $remaining_emails)
+						->get();
 
                     if ($get_existing_users) {
                         foreach ($get_existing_users as $user) {
@@ -921,66 +667,40 @@ class PeoplePlant extends PlantBase {
 					}
 				}
 			}
-
 			return $created_user_ids;
 		} else {
         	return false;
 		}
-
-		return false;
 	}
 
 	protected function addBulkListMembers($user_ids, $list_id) {
-        // bulk create list member entries
-        if (count($user_ids) > 0) {
 
-            error_log("created user ids ".count($user_ids));
+        // bulk create list member entries
+		$create_list_members = false;
+        if (count($user_ids) > 0) {
 
             $list_members = [];
             foreach ($user_ids as $user_id) {
-                $list_members[] =
-                    "(" .
-                    implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
-                    .")";
+                $list_members[] = [
+                    'user_id' => $user_id,
+                    'list_id' => $list_id,
+                    'creation_date' => time()
+				];
             }
 
-            $list_members = implode(",", $list_members);
-
-            $create_list_members = $this->db->setData(
-                'list_members',
-                [
-                    'fields' => array(
-                        'user_id',
-                        'list_id',
-                        'creation_date'
-                    ),
-                    'data' => $list_members
-                ],
-                false,
-                true // insert ignore
-            );
+            $create_list_members = $this->db->table('people_list_members')->insert($list_members);
         }
 
-        $remove_tag = $this->db->setData(
-        	'users',
-			array(
-				'data'=>""
-			),
-            array(
-                "data" => array(
-                    "condition" => "=",
-                    "value" => "bulk_import"
-                )
-            )
-		);
+        $remove_tag = $this->db->table('people')
+			->where('list_id', $list_id)
+			->where('organization', 'bulk_import')
+			->update(['organization'=>'']);
 
         if ($create_list_members) {
             return true;
         } else {
             return false;
         }
-
-
 	}
 
 	/**
@@ -995,19 +715,12 @@ class PeoplePlant extends PlantBase {
 		$membership_info = $this->getAddressListInfo($address,$list_id);
 		if ($membership_info) {
 			if ($membership_info['active']) {
-				$result = $this->db->setData(
-					'list_members',
-					array(
-						'active' => 0
-					),
-					array(
-						"id" => array(
-							"condition" => "=",
-							"value" => $membership_info['id']
-						)
-					)
-				);
-				if (!$result) {
+
+				$list_member = $this->orm->find(PeopleListsMember::class, $membership_info['id'] );
+				$list_member->active = 0;
+				$list_member->save();
+
+				if (!$list_member) {
 					return false; // couldn't remove from the list
 				}
 			}
@@ -1025,7 +738,7 @@ class PeoplePlant extends PlantBase {
 					// TODO: try again?
 				}
 			}
-			// useer marked inactive, webhook removal attempts made
+			// user marked inactive, webhook removal attempts made
 			return true;
 		} else {
 			// true for successful removal. user was never part of our list,
@@ -1053,23 +766,16 @@ class PeoplePlant extends PlantBase {
 		$verification_code = time();
 		$user_id = $this->getUserIDForAddress($address);
 		if ($user_id) {
-			$result = $this->db->setData(
-				'list_members',
-				array(
-					'verification_code' => $verification_code
-				),
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					),
-					"list_id" => array(
-						"condition" => "=",
-						"value" => $list_id
-					)
-				)
-			);
-			if ($result) {
+
+            $list_member = $this->orm->findWhere(PeopleListsMember::class, [
+                'user_id'=>$user_id,
+                'list_id'=>$list_id
+            ]);
+
+            $list_member->verification_code = $verification_code;
+            $list_member->save();
+
+			if ($list_member) {
 				return $verification_code;
 			}
 		}
@@ -1084,56 +790,34 @@ class PeoplePlant extends PlantBase {
 				$address_info = $this->getAddressListInfo($address,$list_id);
 				return $address_info['id'];
 			} else {
-				$result = $this->db->getData(
-					'list_members',
-					'id',
-					array(
-						"user_id" => array(
-							"condition" => "=",
-							"value" => $user_id
-						),
-						"verification_code" => array(
-							"condition" => "=",
-							"value" => $verification_code
-						),
-						"list_id" => array(
-							"condition" => "=",
-							"value" => $list_id
-						)
-					)
-				);
-				if ($result) {
-					$id = $result[0]['id'];
-					$result = $this->db->setData(
-						'list_members',
-						array(
-							'verified' => 1
-						),
-						array(
-							"id" => array(
-								"condition" => "=",
-								"value" => $id
-							)
-						)
-					);
-					if ($result) {
-						$api_connection = $this->getConnectionAPI($list_id);
-						$rc             = -1;
-						if ($api_connection) {
-							// connection found, api instantiated
-							switch($api_connection['connection_type']) {
-								case 'com.mailchimp':
-									$mc = $api_connection['api'];
-									// TODO: this is currently hardcoded to require a double opt-in
-									$rc = $mc->listSubscribe($address, array('double_optin' => false));
-									break;
-							}
-							if (!$rc) {
-								// TODO: try again?
-							}
+
+                $list_member = $this->orm->findWhere(PeopleListsMember::class, [
+                    'user_id'=>$user_id,
+                    'list_id'=>$list_id,
+                    'verification_code'=>$verification_code
+                ]);
+
+				if ($list_member) {
+
+					$list_member->verified = 1;
+					$list_member->save();
+
+					$api_connection = $this->getConnectionAPI($list_id);
+					$rc             = -1;
+					if ($api_connection) {
+						// connection found, api instantiated
+						switch($api_connection['connection_type']) {
+							case 'com.mailchimp':
+								$mc = $api_connection['api'];
+								// TODO: this is currently hardcoded to require a double opt-in
+								$rc = $mc->listSubscribe($address, array('double_optin' => false));
+								break;
 						}
-						return $id;
+						if (!$rc) {
+							// TODO: try again?
+						}
 					}
+					return $list_member->id;
 				}
 			}
 		}
@@ -1148,22 +832,13 @@ class PeoplePlant extends PlantBase {
 	 */protected function getAddressListInfo($address,$list_id) {
 		$user_id = $this->getUserIDForAddress($address);
 		if ($user_id) {
-			$result = $this->db->getData(
-				'list_members',
-				'*',
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					),
-					"list_id" => array(
-						"condition" => "=",
-						"value" => $list_id
-					)
-				)
-			);
-			if ($result) {
-				$return_array = $result[0];
+			$member = $this->orm->findWhere(PeopleListsMember::class, [
+                'user_id' => $user_id,
+                'list_id' => $list_id
+            ]);
+
+			if ($member) {
+				$return_array = $member->toArray();
 				$return_array['email_address'] = $address;
 				return $return_array;
 			} else {
@@ -1179,22 +854,16 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {string} $address -  the email address in question
 	 * @return id|false
-	 */protected function getUserIDForAddress($address,$with_security_credentials=false) {
-		$result = $this->db->getData(
-			'users',
-			'id,is_admin,api_key,api_secret',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
-		if ($result) {
+	 */
+	protected function getUserIDForAddress($address,$with_security_credentials=false) {
+
+	 	$user = $this->orm->findWhere(People::class, ['email_address' => trim($address)]);
+
+		if ($user) {
 			if ($with_security_credentials) {
-				return $result[0];
+				return $user->toArray();
 			} else {
-				return $result[0]['id'];
+				return $user->id;
 			}
 		} else {
 			return false;
@@ -1207,18 +876,18 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @return id|false
 	 */protected function getUserIDForUsername($username) {
-		$result = $this->db->getData(
-			'users',
-			'id',
-			array(
-				"username" => array(
-					"condition" => "=",
-					"value" => strtolower($username)
-				)
-			)
-		);
-		if ($result) {
-			return $result[0]['id'];
+
+    	$user = $this->orm->findWhere(People::class, ['username' => trim(strtolower($username))]);
+
+		if ($user) {
+
+			if (is_array($user)) $user = $user[0];
+			if (is_cash_model($user)) {
+                return $user->id;
+			} else {
+				return $this->error(400)->message('Invalid result returned from People lookup.');
+			}
+
 		} else {
 			return false;
 		}
@@ -1238,7 +907,7 @@ class PeoplePlant extends PlantBase {
 		$user_id = $this->getUserIDForAddress($address);
 		$list_info = $this->getList($list_id) ;
 		$user_list_info = $this->getAddressListInfo($address,$list_id);
-		if ($list_info['user_id'] == $user_id) {
+		if ($list_info->user_id == $user_id) {
 			// user is the owner of the list, set validate to true
 			$validate = true;
 		}
@@ -1285,60 +954,51 @@ class PeoplePlant extends PlantBase {
 	 */
 	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='',$asset=false) {
 		// insert
-		$result = $this->db->setData(
-			'mailings',
-			array(
-				'user_id' => $user_id,
-				'list_id' => $list_id,
-				'connection_id' => $connection_id,
-				'template_id' => $template_id,
-				'subject' => $subject,
-				'from_name' => $from_name,
-				'html_content' => $html_content,
-				'text_content' => $text_content,
-				'send_date' => 0
-			)
-		);
+
+		$mailing = $this->orm->create(PeopleMailing::class, [
+            'user_id' => $user_id,
+            'list_id' => $list_id,
+            'connection_id' => $connection_id,
+            'template_id' => $template_id,
+            'subject' => $subject,
+            'from_name' => $from_name,
+            'html_content' => $html_content,
+            'text_content' => $text_content,
+            'send_date' => 0
+        ]);
 
 		// asset metadata
 		if ($asset) {
-            $this->setMetaData("mailings",$result,$user_id,"asset_id",$asset);
+            $this->setMetaData("mailings",$mailing->id,$user_id,"asset_id",$asset);
 		}
 
-		if ($result) {
+		if ($mailing) {
 			// setup analytics for this mailing
-			$this->db->setData(
-				'mailings_analytics',
-				array(
-					'mailing_id' => $result,
-					'sends' => 0,
-					'opens_total' => 0,
-					'opens_unique' => 0,
-					'opens_mobile' => 0,
-					'opens_country' => '{}',
-					'opens_ids' => '[]',
-					'clicks' => 0,
-					'clicks_urls' => '{}',
-					'failures' => 0
-				)
-			);
+			$analytics = $this->orm->create(PeopleMailingsAnalytic::class, [
+                'mailing_id' => $mailing->id,
+                'sends' => 0,
+                'opens_total' => 0,
+                'opens_unique' => 0,
+                'opens_mobile' => 0,
+                'opens_country' => '{}',
+                'opens_ids' => '[]',
+                'clicks' => 0,
+                'clicks_urls' => '{}',
+                'failures' => 0
+            ]);
 		}
-		return $result;
+
+		return $mailing->id;
 	}
 
 	protected function editMailing($mailing_id,$send_date=false,$subject=false,$html_content=false,$text_content=false,$user_id=false,$from_name=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $mailing_id
-			)
-		);
+
 		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
+            $mailing = $this->orm->findWhere(PeopleMailing::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
+        } else {
+            $mailing = $this->orm->find(PeopleMailing::class, $mailing_id );
+        }
+
 		$final_edits = array_filter(
 			array(
 				'subject' => $subject,
@@ -1351,34 +1011,24 @@ class PeoplePlant extends PlantBase {
                 return CASHSystem::notExplicitFalse($value);
             }
 		);
-		$result = $this->db->setData(
-			'mailings',
-			$final_edits,
-			$condition
-		);
-		return $result;
+
+		if ($mailing->update($final_edits)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	protected function getMailing($mailing_id,$user_id=false) {
-		$condition = array(
-			"id" => array(
-				"condition" => "=",
-				"value" => $mailing_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->getData(
-			'mailings',
-			'*',
-			$condition
-		);
-		if ($result) {
-			return $result[0];
+
+        if ($user_id) {
+            $mailing = $this->orm->findWhere(PeopleMailing::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
+        } else {
+            $mailing = $this->orm->find(PeopleMailing::class, $mailing_id );
+        }
+
+		if ($mailing) {
+			return $mailing->toArray();
 		} else {
 			return false;
 		}
@@ -1397,24 +1047,8 @@ class PeoplePlant extends PlantBase {
 		$mailing = $this->getMailing($mailing_id,$user_id);
 		if ($mailing) {
 			if ($mailing['send_date'] == 0) {
-				$list_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'people',
-						'cash_action' => 'viewlist',
-						'list_id' => $mailing['list_id'],
-						'user_id' => $mailing['user_id'],
-						'unlimited' => true
-					)
-				);
 
-				        if (CASH_DEBUG) {
-				                    error_log(
-				                        'list request '.
-										$mailing['list_id']
-				                    );
-				                }
-
-				$list_details = $list_request->response['payload'];
+				$list_details = $this->viewList($mailing['list_id'], true, $mailing['user_id']);
 
                 $merge_vars = [];
 
@@ -1431,7 +1065,6 @@ class PeoplePlant extends PlantBase {
                     );
 
                     if ($asset_request->response['payload']) {
-
                         $add_code_request = new CASHRequest(
                             array(
                                 'cash_request_type' => 'system',
@@ -1454,15 +1087,15 @@ class PeoplePlant extends PlantBase {
                                     'user_id' => $mailing['user_id']
                                 )
                             );
+                            $lock_codes = $get_code_request->response['payload'];
 
-                            if (is_array($get_code_request->response['payload'])) {
-                                $codes = array_column($get_code_request->response['payload'], 'uid');
+                            if (is_array($lock_codes)) {
+                                $codes = cash_model_column($lock_codes, 'uid');
 							}
 						}
 
                     }
                 }
-
 
                 // build recipient arrays
 				if (is_array($list_details)) {
@@ -1506,7 +1139,7 @@ class PeoplePlant extends PlantBase {
                                                     $mailing['list_id'] .
                                                     "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                     "' class='button'>Download ".
-                                                    htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                    htmlentities($asset_request->response['payload']->title).'</a>'
                                             ]
                                         ]
                                     ];
@@ -1540,6 +1173,8 @@ class PeoplePlant extends PlantBase {
 
                     } else {
                         foreach ($list_details['members'] as $subscriber) {
+
+                            $subscriber = json_decode(json_encode($subscriber), true);
                             if ($subscriber['active']) {
                                 if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
                                     $subscriber['display_name'] = $subscriber['email_address'];
@@ -1556,7 +1191,6 @@ class PeoplePlant extends PlantBase {
 
                             // there's a valid asset
                             if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-
                                 $code = array_pop($codes);
                                 $merge_vars[] = [
                                     'rcpt' => $subscriber['email_address'],
@@ -1568,7 +1202,7 @@ class PeoplePlant extends PlantBase {
                                                 $mailing['list_id'] .
                                                 "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                 "' class='button'>Download ".
-                                                htmlentities($asset_request->response['payload']['title']).'</a>'
+                                                htmlentities($asset_request->response['payload']->title).'</a>'
                                         ]
                                     ]
                                 ];
@@ -1605,25 +1239,23 @@ class PeoplePlant extends PlantBase {
 	}
 
 	protected function getMailingAnalytics($mailing_id,$user_id=false) {
-		$condition = array(
-			"mailing_id" => array(
-				"condition" => "=",
-				"value" => $mailing_id
-			)
-		);
-		if ($user_id) {
-			$condition['user_id'] = array(
-				"condition" => "=",
-				"value" => $user_id
-			);
-		}
-		$result = $this->db->getData(
-			'mailings_analytics',
-			'*',
-			$condition
-		);
-		if ($result) {
-			return $result[0];
+
+        try {
+            if ($user_id) {
+                $analytic = $this->orm->findWhere(PeopleMailingsAnalytic::class, ['id'=>$mailing_id, 'user_id'=>$user_id] );
+            } else {
+                $analytic = $this->orm->find(PeopleMailingsAnalytic::class, $mailing_id );
+            }
+
+        } catch (\Exception $e) {
+            if (CASH_DEBUG) {
+                CASHSystem::errorLog($e->getMessage());
+            }
+            return false;
+        }
+
+		if ($analytic) {
+			return $analytic->toArray();
 		} else {
 			return false;
 		}
@@ -1694,26 +1326,21 @@ class PeoplePlant extends PlantBase {
 				$analytics['clicks']++;
 				$analytics['clicks_urls'] = json_encode($current_clicks_urls);
 			}
-			$this->db->setData(
-				'mailings_analytics',
-				array(
-					'sends' => $analytics['sends'],
-					'opens_total' => $analytics['opens_total'],
-					'opens_unique' => $analytics['opens_unique'],
-					'opens_mobile' => $analytics['opens_mobile'],
-					'opens_country' => $analytics['opens_country'],
-					'opens_ids' => $analytics['opens_ids'],
-					'clicks' => $analytics['clicks'],
-					'clicks_urls' => $analytics['clicks_urls'],
-					'failures' => $analytics['failures']
-				),
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $analytics['id']
-					)
-				)
-			);
+
+			$analytic = $this->orm->find(PeopleMailingsAnalytic::class, $analytics['id'] );
+
+			$analytic->update([
+                'sends' => $analytics['sends'],
+                'opens_total' => $analytics['opens_total'],
+                'opens_unique' => $analytics['opens_unique'],
+                'opens_mobile' => $analytics['opens_mobile'],
+                'opens_country' => $analytics['opens_country'],
+                'opens_ids' => $analytics['opens_ids'],
+                'clicks' => $analytics['clicks'],
+                'clicks_urls' => $analytics['clicks_urls'],
+                'failures' => $analytics['failures']
+			]);
+
 			return true;
 		} else {
 			return false;

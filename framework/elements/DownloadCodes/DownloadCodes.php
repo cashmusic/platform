@@ -20,6 +20,7 @@ namespace CASHMusic\Elements\DownloadCodes;
 
 use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
 use ArrayIterator;
 
 class DownloadCodes extends ElementBase {
@@ -31,7 +32,8 @@ class DownloadCodes extends ElementBase {
 			$this->element_data['error_message'] = 'That code is not valid or has already been used.';
 		} elseif ($this->status_uid == 'asset_redeemcode_200') {
 			// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
-			$this->element_data['asset_id'] = $this->original_response['payload']['scope_table_id'];
+			$this->element_data['asset_id'] = $this->original_response['payload'];
+
 			if ($this->element_data['asset_id'] != 0) {
 				// get all fulfillment assets
 				$fulfillment_request = new CASHRequest(
@@ -42,6 +44,10 @@ class DownloadCodes extends ElementBase {
 						'session_id' => $this->session_id
 					)
 				);
+
+				CASHSystem::errorLog($fulfillment_request->response);
+
+
 				if ($fulfillment_request->response['payload']) {
 					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
 				}

@@ -70,13 +70,13 @@ class NormalizerFormatter implements FormatterInterface
             return $data;
         }
 
-        if (is_array($data) || $data instanceof \Traversable) {
+        if (is_array($data)) {
             $normalized = array();
 
             $count = 1;
             foreach ($data as $key => $value) {
                 if ($count++ >= 1000) {
-                    $normalized['...'] = 'Over 1000 items, aborting normalization';
+                    $normalized['...'] = 'Over 1000 items ('.count($data).' total), aborting normalization';
                     break;
                 }
                 $normalized[$key] = $this->normalize($value);
@@ -127,10 +127,27 @@ class NormalizerFormatter implements FormatterInterface
             'file' => $e->getFile().':'.$e->getLine(),
         );
 
+        if ($e instanceof \SoapFault) {
+            if (isset($e->faultcode)) {
+                $data['faultcode'] = $e->faultcode;
+            }
+
+            if (isset($e->faultactor)) {
+                $data['faultactor'] = $e->faultactor;
+            }
+
+            if (isset($e->detail)) {
+                $data['detail'] = $e->detail;
+            }
+        }
+
         $trace = $e->getTrace();
         foreach ($trace as $frame) {
             if (isset($frame['file'])) {
                 $data['trace'][] = $frame['file'].':'.$frame['line'];
+            } elseif (isset($frame['function']) && $frame['function'] === '{closure}') {
+                // We should again normalize the frames, because it might contain invalid items
+                $data['trace'][] = $frame['function'];
             } else {
                 // We should again normalize the frames, because it might contain invalid items
                 $data['trace'][] = $this->toJson($this->normalize($frame), true);
@@ -185,7 +202,7 @@ class NormalizerFormatter implements FormatterInterface
      * Handle a json_encode failure.
      *
      * If the failure is due to invalid string encoding, try to clean the
-     * input and encode again. If the second encoding iattempt fails, the
+     * input and encode again. If the second encoding attempt fails, the
      * inital error is not encoding related or the input can't be cleaned then
      * raise a descriptive exception.
      *

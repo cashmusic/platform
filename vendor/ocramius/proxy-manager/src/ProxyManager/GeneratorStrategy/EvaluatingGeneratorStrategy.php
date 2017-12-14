@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\GeneratorStrategy;
 
 use Zend\Code\Generator\ClassGenerator;
@@ -48,7 +46,7 @@ class EvaluatingGeneratorStrategy implements GeneratorStrategyInterface
      *
      * {@inheritDoc}
      */
-    public function generate(ClassGenerator $classGenerator) : string
+    public function generate(ClassGenerator $classGenerator)
     {
         $code = $classGenerator->generate();
 
@@ -57,7 +55,6 @@ class EvaluatingGeneratorStrategy implements GeneratorStrategyInterface
             $fileName = sys_get_temp_dir() . '/EvaluatingGeneratorStrategy.php.tmp.' . uniqid('', true);
 
             file_put_contents($fileName, "<?php\n" . $code);
-            /* @noinspection PhpIncludeInspection */
             require $fileName;
             unlink($fileName);
 

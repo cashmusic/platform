@@ -580,16 +580,13 @@ class OAuth2 implements FetchAuthTokenInterface
     {
         $opts = array_merge([
             'extensionParams' => [],
-            'refresh_token' => null,
             'access_token' => null,
             'id_token' => null,
-            'expires' => null,
             'expires_in' => null,
             'expires_at' => null,
             'issued_at' => null,
         ], $config);
 
-        $this->setExpiresAt($opts['expires']);
         $this->setExpiresAt($opts['expires_at']);
         $this->setExpiresIn($opts['expires_in']);
         // By default, the token is issued at `Time.now` when `expiresIn` is set,
@@ -600,7 +597,12 @@ class OAuth2 implements FetchAuthTokenInterface
 
         $this->setAccessToken($opts['access_token']);
         $this->setIdToken($opts['id_token']);
-        $this->setRefreshToken($opts['refresh_token']);
+        // The refresh token should only be updated if a value is explicitly
+        // passed in, as some access token responses do not include a refresh
+        // token.
+        if (array_key_exists('refresh_token', $opts)) {
+            $this->setRefreshToken($opts['refresh_token']);
+        }
     }
 
     /**

@@ -12,16 +12,6 @@
 				</ul>
 		</div><!--pure-->
 </header>
-
-			{{#platform_type_single}}
-			<div class="pure-u-1">
-				<div class="embedpanel">
-					<strong class="fadedtext codelabel">{{copy_php}}</strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
-					<strong class="fadedtext codelabel">{{copy_wordpress}}</strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
-				</div><!--embedding-->
-			</div><!--pure-->
-			{{/platform_type_single}}
-
 			<div class="pure-u-1">
 				<div class="embedpanel">
 
@@ -45,13 +35,19 @@
 						</div><!--pure-->
 					</div><!--snapshot-->
 					{{/location_analytics}}
-					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
-                    <!--<script src="{{public_url}}/cashmusic.js" data-element="{{id}}"></script>-->
-					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
+<!--                    <div class="pure-u-2-3">
+                        <p class="codelabel"><strong>Embed preview</strong>&nbsp;<span class="fadedtext">(beta)</span></p>
+                        <br><br>
+                        <script src="{{public_url}}/cashmusic.js" data-element="{{id}}"></script>
 
-                    <!--<script src="{{public_url}}/cashmusic.js" data-element="{{id}}"></script>-->
+                    </div>-->
+                    <div class="pure-u-1">
+                        <p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
+                        <!--<script src="{{public_url}}/cashmusic.js" data-element="{{id}}"></script>-->
 
-					<code><div class="codearea" contenteditable="true">&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;</div></code>
+                        <code><div class="codearea" contenteditable="true">&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;</div></code>
+                    </div>
+
 
 
 				</div><!--embedding-->

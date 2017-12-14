@@ -2,14 +2,16 @@
 
 namespace CASHMusic\Entities;
 
+use CASHMusic\Core\CASHDBAL;
+
 /**
  * @Entity(repositoryClass="CASHMusic\Entities\CASHRepository")
  * @Table(name="people")
- */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 
 class People extends EntityBase {
 
-    protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data'];
+    protected $fillable = ['username', 'email_address', 'last_name', 'password', 'data', 'is_admin'];
 
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
@@ -35,7 +37,9 @@ class People extends EntityBase {
     /** @Column(type="string") **/
     protected $password;
 
-    /** @Column(type="json_array", nullable=true) **/
+    /** @var array
+     *
+     * @Column(type="json_array", nullable=true) **/
     protected $data;
 
     /** @Column(type="string", nullable=true) **/
@@ -68,19 +72,28 @@ class People extends EntityBase {
     /** @Column(type="string", nullable=true) **/
     protected $api_secret;
 
-    /** @Column(type="integer", nullable=true) **/
+    /** @Column(type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"}) **/
     protected $creation_date;
 
-    /** @Column(type="integer", nullable=true) **/
+    /** @Column(type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"}) **/
     protected $modification_date;
 
     public function setPasswordAttribute($value) {
         $this->password = md5($value);
     }
 
+/*    public function getDataAttribute() {
+            if (empty($this->data) || gettype($this->data) == "string") return array();
+            return $this->data;
+    }*/
+
     /* relationships */
     public function assets($where=false, $limit=false, $order_by=false) {
         return $this->hasMany("Asset", "id", "user_id", $where, $limit, $order_by);
+    }
+
+    public function elements($where=false, $limit=false, $order_by=false) {
+        return $this->hasMany("Element", "id", "user_id", $where, $limit, $order_by);
     }
 
     public function lists($conditions=false) {
@@ -101,5 +114,9 @@ class People extends EntityBase {
 
     public function basicAnalytics($conditions=false) {
         return $this->hasOne("PeopleAnalyticsBasic", "id", "user_id");
+    }
+
+    public function setEmail($email) {
+        $this->email_address = $email;
     }
 }

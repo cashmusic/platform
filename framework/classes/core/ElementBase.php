@@ -54,9 +54,6 @@ abstract class ElementBase extends CASHData {
 			$session_id = $this->startSession();
 
 			$this->session_id = $session_id['id'];
-
-			CASHSystem::errorLog("started new session");
-			CASHSystem::errorLog("new session id is ".$this->session_id);
 		}
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
@@ -87,11 +84,13 @@ abstract class ElementBase extends CASHData {
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
-		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php')) {
-			include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-			$this->mustache = new \Mustache;
-		}
-		// check for an init() in the defined element. if it exists, call it
+
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/')
+        ));
+
+
+        // check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
 			$this->init();
 		}
@@ -143,14 +142,20 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getMarkup() {
-		if ($this->template == 'default') {
-			$this->element_data['template'] = $this->getTemplate('default');
-		}
 		$this->getData(); // call getData() first as it not only sets data but the correct template
+
+        if ($this->template == 'default') {
+
+            $this->element_data['template'] = $this->getTemplate('default');
+        }
+
 		if ($this->error) {
 			$this->element_data['error_message'] = $this->error;
 		}
-		return $this->mustache->render($this->element_data['template'],$this->element_data);
+
+		$markup = $this->mustache->render($this->element_data['template'],$this->element_data);
+
+		return $markup;
 	}
 
 	public function setTemplate($template_name) {
@@ -158,12 +163,51 @@ abstract class ElementBase extends CASHData {
 		$this->element_data['template'] = $this->getTemplate($template_name);
 	}
 
-	public function getTemplate() {
-		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template  . '.mustache')) {
-			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template . '.mustache');
-		} else {
-			return false;
+	public function getTemplate($template_name) {
+        $dir = 'elements/' . $this->extending_class . '/templates/';
+        // shared templates override
+		/*if (strpos($template_name,"shared/") !== false) {
+            $dir = 'elements/Shared/Templates/';
+		}*/
+
+        $template = $dir . $template_name;
+
+        $this->mustache = new \Mustache_Engine(array(
+            'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/'.$dir),
+			'shared' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/elements/Shared/Templates/')
+        ));
+
+        if (file_exists(CASH_PLATFORM_ROOT . '/' . $template . ".mustache")) {
+            return $template_name;
+        }
+
+        return false;
+	}
+
+	public function renderTemplate($template_name, $data) {
+        //$template = $this->getTemplate($template_name);
+
+        $dir = 'elements/' . $this->extending_class . '/templates/';
+        // shared templates override
+        /*if (strpos($template_name,"shared/") !== false) {
+            $dir = 'elements/Shared/Templates/';
+        }*/
+
+        $template = $dir . $template_name;
+
+        if (!file_exists(CASH_PLATFORM_ROOT . '/' . $dir. $template_name . ".mustache")) {
+            $this->element_data['error_message'] = "Template $template_name not found.";
+        }
+
+        if (!isset($this->mustache)) {
+            $this->mustache = new \Mustache_Engine(array(
+                'loader' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/'.$dir),
+                'shared' => new \Mustache_Loader_FilesystemLoader(CASH_PLATFORM_ROOT . '/elements/Shared/Templates/')
+            ));
 		}
+        $markup = $this->mustache->render($template,$data);
+
+        return $markup;
 	}
 
 	public function getAppData() {

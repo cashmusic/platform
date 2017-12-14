@@ -3,6 +3,13 @@
 namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHDBA;
+use CASHMusic\Entities\EntityBase;
+use PDO;
+use CASHMusic\Entities\SystemConnection;
+use CASHMusic\Entities\SystemMetadata;
+use CASHMusic\Entities\SystemSession;
+
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
  * data handling, provides a CASHDBA object as $this->db, and provides functions
@@ -24,6 +31,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
  */
 abstract class CASHData {
 	protected $db = false,
+			  $orm = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
 			  $cash_session_id = null,
@@ -42,16 +50,27 @@ abstract class CASHData {
 	 * opens the appropriate connection
 	 *
 	 * @return void
-	 */protected function connectDB() {
+	 */
+	protected function connectDB() {
 		$cash_db_settings = CASHSystem::getSystemSettings();
-		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
-		$this->db = new CASHDBA(
-			$cash_db_settings['hostname'],
-			$cash_db_settings['username'],
-			$cash_db_settings['password'],
-			$cash_db_settings['database'],
-			$cash_db_settings['driver']
+
+		$config = array(
+			'driver'    => $cash_db_settings['driver'], // Db driver
+			'host'      => $cash_db_settings['hostname'],
+			'database'  => $cash_db_settings['database'],
+			'username'  => $cash_db_settings['username'],
+			'password'  => $cash_db_settings['password']
 		);
+
+		/*'options' => [
+                PDO::ATTR_PERSISTENT => true
+			]*/
+
+		$connection = new \Pixie\Connection('mysql', $config);
+		if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+
+		// piggyback the PDO to Doctrine so we're using the same connection
+		if (empty($this->orm)) $this->orm = new CASHEntity($this->db->pdo());
 	}
 
 	/**
@@ -72,20 +91,16 @@ abstract class CASHData {
 	 */protected function resetSession() {
 		if ($this->sessionGet('session_id','script')) {
 			$session_id = $this->sessionGet('session_id','script');
-			if (!$this->db) $this->connectDB();
-			$this->db->setData(
-				'sessions',
-				array(
-					'data' => json_encode(array()),
-					'expiration_date' => time() + $this->cash_session_timeout
-				),
-				array(
-					'session_id' => array(
-						'condition' => '=',
-						'value' => $session_id
-					)
-				)
-			);
+			if (!$this->orm) $this->connectDB();
+
+			$session = $this->orm->findWhere(SystemSession::class,
+				['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+			$session->update(array(
+                'data' => [],
+                'expiration_date' => time() + $this->cash_session_timeout
+            ));
+
 			$GLOBALS['cashmusic_script_store'] = array();
 			$this->sessionSet('session_id',$session_id,'script');
 		} else {
@@ -104,13 +119,14 @@ abstract class CASHData {
 		$expiration = false;
 		$generate_key = false;
 		$previous_session = false;
-		if (!$this->db) $this->connectDB();
+		if (!$this->orm) $this->connectDB();
 		if ($force_session_id) {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
 		if (!$this->sessionGet('start_time','script') || $force_session_id) {
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
+
 			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
 				// found session data, check expiration
 				if ($current_session['expiration_date'] < time()) {
@@ -125,24 +141,21 @@ abstract class CASHData {
 			} else {
 				$session_id = $this->getSessionID();
 			}
+
 			if ($session_id) {
-				$session_exists = $this->db->getData(
-					'sessions',
-					'id',
-					array(
-						"session_id" => array(
-							"condition" => "=",
-							"value" => $session_id
-						)
-					)
-				);
+                $session_exists = $this->orm->findWhere(
+                    SystemSession::class,        // ORM entity class
+                    ['session_id'=>$session_id], // where params
+                    false,                       // force an array returned if one result
+                    ['id'=>'DESC'],              // order by
+                    1,                           // limit
+                    0                            // offset
+                );
+
 				if ($session_exists) {
 					// if there is an existing session that's not expired, use it
 					$previous_session = array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
+						'session_id' => $session_id
 					);
 				}
 			} else {
@@ -159,20 +172,21 @@ abstract class CASHData {
 			);
 			if (!$current_session['persistent']) {
 				// no existing session, set up empty data
-				$session_data['data'] = json_encode(array(
-					'created' => time()
-				));
+				$session_data['data'] = array(
+                    'created' => time()
+                );
 			}
 			// set the session info
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
 
 			// set the database session data
-			$this->db->setData(
-				'sessions',
-				$session_data,
-				$previous_session
-			);
+			if (!$previous_session) {
+                $session = $this->orm->create(SystemSession::class, $session_data);
+			} else {
+				$session = $this->orm->findWhere(SystemSession::class, $previous_session);
+				$session->update($session_data);
+			}
 
 			if (!$sandbox && !$force_session_id) {
 				// set the client-side cookie
@@ -210,20 +224,14 @@ abstract class CASHData {
 		}
 		$session_id = $this->getSessionID();
 		if ($session_id) {
-			if (!$this->db) $this->connectDB();
-			$result = $this->db->getData(
-				'sessions',
-				'data,expiration_date',
-				array(
-					"session_id" => array(
-						"condition" => "=",
-						"value" => $session_id
-					)
-				)
-			);
-			if ($result) {
-				$return_array['persistent'] = json_decode($result[0]['data'],true);
-				$return_array['expiration_date'] = $result[0]['expiration_date'];
+			if (!$this->orm) $this->connectDB();
+
+            $session = $this->orm->findWhere(SystemSession::class,
+                ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+			if ($session) {
+				$return_array['persistent'] = $session->data;
+				$return_array['expiration_date'] = $session->expiration_date;
 			}
 		}
 		return $return_array;
@@ -280,26 +288,24 @@ abstract class CASHData {
 			$session_id = $this->getSessionID();
 			if ($session_id) {
 				$session_data = $this->getAllSessionData();
+
 				if (!$session_data['persistent']) {
 					$this->resetSession();
 					$session_data['persistent'] = array();
 				}
 				$session_data['persistent'][(string)$key] = $value;
 				$expiration = time() + $this->cash_session_timeout;
-				if (!$this->db) $this->connectDB();
-				$this->db->setData(
-					'sessions',
-					array(
-						'expiration_date' => $expiration,
-						'data' => json_encode($session_data['persistent'])
-					),
-					array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
-					)
-				);
+				if (!$this->orm) $this->connectDB();
+
+                $session = $this->orm->findWhere(SystemSession::class,
+                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+                $session->update(array(
+                    'expiration_date' => $expiration,
+                    'data' => $session_data['persistent']
+                ));
+
+
 				return true;
 				// ERROR LOGGING
 				// error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
@@ -323,6 +329,7 @@ abstract class CASHData {
 	 */public function sessionGet($key,$scope='persistent') {
 		if ($scope == 'persistent') {
 			$session_data = $this->getAllSessionData();
+
 			if (isset($session_data['persistent'][(string)$key])) {
 
 				// ERROR LOGGING
@@ -361,19 +368,12 @@ abstract class CASHData {
 				unset($session_data['persistent'][(string)$key]);
 				$session_id = $this->getSessionID();
 				$expiration = time() + $this->cash_session_timeout;
-				$this->db->setData(
-					'sessions',
-					array(
-						'expiration_date' => $expiration,
-						'data' => json_encode($session_data['persistent'])
-					),
-					array(
-						'session_id' => array(
-							'condition' => '=',
-							'value' => $session_id
-						)
-					)
-				);
+
+                $session = $this->orm->findWhere(SystemSession::class,
+                    ['session_id'=>$session_id], false, ['id'=>'DESC'], 1);
+
+                $session->update(['expiration_date'=>$expiration, 'data'=>$session_data['persistent']]);
+
 			}
 		} else {
 			if (isset($GLOBALS['cashmusic_script_store'][(string)$key])) {
@@ -413,79 +413,62 @@ abstract class CASHData {
 			$data_key_exists = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key);
 			if ($data_key == 'tag' || !$data_key_exists) {
 				// no matching tag or key, so we can just create a new one
-				$result = $this->db->setData(
-					'metadata',
-					array(
-						'scope_table_alias' => $scope_table_alias,
-						'scope_table_id' => $scope_table_id,
-						'type' => $data_key,
-						'value' => $data_value,
-						'user_id' => $user_id
-					)
-				);
+
+                $result = $this->orm->create(SystemMetadata::class,
+                    array(
+                        'scope_table_alias' => $scope_table_alias,
+                        'scope_table_id' => $scope_table_id,
+                        'type' => $data_key,
+                        'value' => $data_value,
+                        'user_id' => $user_id
+                    	)
+					);
+
 			} else {
 				// key already exists and isn't a tag, so we need to edit the value
-				$result = $this->db->setData(
-					'metadata',
-					array(
-						'value' => $data_value
-					),
-					array(
-						'id' => array(
-							'condition' => '=',
-							'value' => $data_key_exists[0]['id']
-						)
-					)
-				);
+
+				if (is_array($data_key_exists)) {
+					$data_key_exists = $data_key_exists[0];
+				}
+
+				$result = $data_key_exists->update(['value'=>$data_value]);
+
 			}
 			return $result;
 		} else {
 			// exact match: metadata exists as requested. return true
-			return $selected_tag['id'];
+			if (!$selected_tag instanceof EntityBase) {
+                return $selected_tag[0]->id;
+			}
+
+			return $selected_tag->id;
 		}
 	}
 
 	public function getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value=false) {
 		// set up options for the query. leave off $data_value to widen the results
 		// by default
-		$options_array = array(
-			"scope_table_alias" => array(
-				"condition" => "=",
-				"value" => $scope_table_alias
-			),
-			"scope_table_id" => array(
-				"condition" => "=",
-				"value" => $scope_table_id
-			),
-			"type" => array(
-				"condition" => "=",
-				"value" => $data_key
-			),
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			)
+		$conditions = array(
+			"scope_table_alias" => $scope_table_alias,
+			"scope_table_id" => $scope_table_id,
+			"type" => $data_key,
+			"user_id" => $user_id
 		);
 		// if $data_value is set, add it to the options for refined search (tags)
 		if ($data_value) {
-			$options_array['value'] = array(
-				"condition" => "=",
-				"value" => $data_value
-			);
+			$conditions['value'] = $data_value;
 		}
-		// do the query
-		$result = $this->db->getData(
-			'metadata',
-			'*',
-			$options_array
-		);
-		if ($result) {
+
+        $metadata = $this->orm->findWhere(SystemMetadata::class,
+            $conditions, true);
+
+		if ($metadata) {
 			if ($data_value && $data_key != 'tag') {
 				// $data_value means a unique set, give direct access to array
-				return $result[0];
+				return $metadata[0];
 			} else {
 				// without $data_value set there could be multiple results (tags only)
-				return $result;
+				return $metadata;
 			}
 		} else {
 			return false;
@@ -493,92 +476,82 @@ abstract class CASHData {
 	}
 
 	public function removeMetaData($metadata_id) {
-		$result = $this->db->deleteData(
-			'metadata',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $metadata_id
-				)
-			)
-		);
+
+		$result = $this->orm->delete(SystemMetadata::class, ['id'=>$metadata_id]);
+
 		return $result;
 	}
 
 	public function removeAllMetaData($scope_table_alias,$scope_table_id,$user_id=false,$ignore_or_match='match',$data_key=false) {
 		// set table / id up front. if no user is specified it will remove ALL
 		// metadata for a given table+id — used primarily when deleting the parent item
-		$conditions_array = array(
-			'scope_table_alias' => array(
-				'condition' => '=',
-				'value' => $scope_table_alias
-			),
-			'scope_table_id' => array(
-				'condition' => '=',
-				'value' => $scope_table_id
-			)
-		);
+
+        $query = $this->db->table('system_metadata')
+            ->where('scope_table_alias', $scope_table_alias)
+            ->where('scope_table_id', $scope_table_id);
+
 		if ($user_id) {
 			// if a $user_id is present refine the search
 			$conditions_array['user_id'] = array(
 				'condition' => '=',
 				'value' => $user_id
 			);
+
+			$query = $query->where('user_id', $user_id);
 		}
-		if ($data_key) {
-			$key_condition = "=";
-			if ($ignore_or_match = 'ignore') {
-				$key_condition = "!=";
-			}
-			$conditions_array['type'] = array(
-				"condition" => $key_condition,
-				"value" => $data_key
-			);
-		}
-		$result = $this->db->deleteData(
-			'metadata',
-			$conditions_array
-		);
-		return $result;
+
+        if ($data_key) {
+            if ($ignore_or_match == 'ignore') {
+                $query = $query->whereNot("type", $data_key);
+            } else {
+                $query = $query->where("type", $data_key);
+            }
+        }
+
+        if ($query->delete()) {
+		    return true;
+        }
+
+		return false;
 	}
 
 	public function getAllMetaData($scope_table_alias,$scope_table_id,$data_key=false,$ignore_or_match='match') {
-		$options_array = array(
-			"scope_table_alias" => array(
-				"condition" => "=",
-				"value" => $scope_table_alias
-			),
-			"scope_table_id" => array(
-				"condition" => "=",
-				"value" => $scope_table_id
-			)
-		);
+
 		// most $data_keys will be unique per user per table+id, but tags need multiple
 		// so we'll add a filter. pass 'tag' as the final option to getAllMetaData
 		// to get an array of all tag rows for a single table+id
-		if ($data_key) {
-			$key_condition = "=";
-			if ($ignore_or_match == 'ignore') {
-				$key_condition = "!=";
+
+        try {
+            $query = $this->db->table('system_metadata')
+				->where('scope_table_alias', $scope_table_alias)
+                ->where('scope_table_id', $scope_table_id);
+
+            if ($data_key) {
+
+                if ($ignore_or_match == 'ignore') {
+                    $query = $query->whereNot("type", $data_key);
+                } else {
+                    $query = $query->where("type", $data_key);
+				}
+            }
+
+            $metadata = $query->get();
+
+		} catch (\Exception $e) {
+        	if (CASH_DEBUG) {
+        		CASHSystem::errorLog("Missing a metadata relationship on this entity model class.");
 			}
-			$options_array['type'] = array(
-				"condition" => $key_condition,
-				"value" => $data_key
-			);
+        	return false;
 		}
-		$result = $this->db->getData(
-			'metadata',
-			'*',
-			$options_array
-		);
-		if ($result) {
+
+		if ($metadata) {
 			$return_array = array();
-			foreach ($result as $row) {
+			foreach ($metadata as $row) {
 				if ($data_key == 'tag' && $ignore_or_match == 'match') {
-					$return_array[] = $row['value'];
+					$return_array[] = $row->value;
 				} else {
-					if ($row['type'] !== 'tag') {
-						$return_array[$row['type']] = $row['value'];
+					if ($row->type !== 'tag') {
+						$return_array[$row->type] = $row->value;
 					}
 				}
 			}
@@ -765,22 +738,14 @@ abstract class CASHData {
 	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
-	 */public function getConnectionDetails($connection_id) {
-		$result = $this->db->getData(
-			'connections',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $connection_id
-				)
-			)
-		);
-		if ($result) {
-			return $result[0];
-		} else {
-			return false;
+	 */
+	public function getConnectionDetails($connection_id) {
+
+	 	if ($connection = $this->orm->find(SystemConnection::class, $connection_id)) {
+	 		return $connection;
 		}
+
+		return false;
 	}
 
 	/**
@@ -790,12 +755,9 @@ abstract class CASHData {
 	 */protected function getConnectionType($connection_id) {
 		$result = $this->getConnectionDetails($connection_id);
 		if ($result) {
-			return $result['type'];
-		} else {
-			return false;
+			return $result->type;
 		}
+    	return false;
 	}
-
-
 } // END class
 ?>

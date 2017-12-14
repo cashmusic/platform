@@ -240,6 +240,8 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 	$settings_for_user = $page_data_object->getAllConnectionsforUser();
 	if (is_array($settings_for_user)) {
 		foreach ($settings_for_user as $key => $data) {
+
+			if (is_object($data)) $data = $data->toArray();
 			$cash_admin->page_data['state_markup'] .= '<div class="callout">'
 				. '<h6>' . $data['name'] . '</h6>';
 
@@ -262,7 +264,9 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 				. '</div>';
 		}
 	} else {
-		$cash_admin->page_data['state_markup'] .= '<p><strong>No settings have been added.</strong></p>';
+
+
+		$cash_admin->page_data['state_markup'] .= '<p><strong>No connections have been added.</strong></p>';
 	}
 }
 

@@ -9,13 +9,15 @@ use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
+$effective_user_id = $admin_helper->getPersistentData('cash_effective_user');
+
 if (isset($request_parameters[0])) {
     if ($request_parameters[0] == "delete") {
         $subscription_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'deletesubscriptionplan',
-                'user_id' => $cash_admin->effective_user_id,
+                'user_id' => $effective_user_id,
                 'id' => $request_parameters[1]
             )
         );
@@ -34,19 +36,19 @@ if (isset($request_parameters[0])) {
             'cash_request_type' => 'system',
             'cash_action' => 'getsettings',
             'type' => 'payment_defaults',
-            'user_id' => $cash_admin->effective_user_id
+            'user_id' => $effective_user_id
         )
     );
-    if (is_array($settings_request->response['payload'])) {
-        $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-    }
 
+    $stripe_default = isset_else($settings_request->response['payload']['stripe_default'], false);
+
+    $cash_admin->page_data['payment_method'] = $stripe_default; //TODO: dynamic
 // plan index
     $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'getsubscriptionplans',
-            'user_id' => $cash_admin->effective_user_id,
+            'user_id' => $effective_user_id,
             'limit' => false
         )
     );
@@ -61,6 +63,8 @@ if (isset($request_parameters[0])) {
     if (!$cash_admin->page_data['connection']) {
         $cash_admin->page_data['firstuse'] = true;
     }
+
+
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions');
     ?>

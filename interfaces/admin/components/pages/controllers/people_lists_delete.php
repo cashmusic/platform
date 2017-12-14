@@ -23,11 +23,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 	if ($delete_response['status_uid'] == 'people_deletelist_200') {
-		if (isset($_REQUEST['redirectto'])) {
-			$admin_helper->formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
-		} else {
-			$admin_helper->formSuccess('Success. Deleted.','/people/lists/');
-		}
+        $admin_helper->formSuccess('Success. Deleted.','/people/');
 	}
 }
 $cash_admin->page_data['title'] = 'People: Delete list';

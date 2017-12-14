@@ -3,7 +3,7 @@
 /*
  * This file is part of Mustache.php.
  *
- * (c) 2010-2015 Justin Hileman
+ * (c) 2010-2017 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -75,7 +75,7 @@ class Mustache_Compiler
     /**
      * Helper function for walking the Mustache token parse tree.
      *
-     * @throws Mustache_Exception_SyntaxException upon encountering unknown token types.
+     * @throws Mustache_Exception_SyntaxException upon encountering unknown token types
      *
      * @param array $tree  Parse tree of Mustache tokens
      * @param int   $level (default: 0)
@@ -191,7 +191,6 @@ class Mustache_Compiler
             {
                 $this->lambdaHelper = new Mustache_LambdaHelper($this->mustache, $context);
                 $buffer = \'\';
-                $newContext = array();
         %s
 
                 return $buffer;
@@ -207,7 +206,6 @@ class Mustache_Compiler
             public function renderInternal(Mustache_Context $context, $indent = \'\')
             {
                 $buffer = \'\';
-                $newContext = array();
         %s
 
                 return $buffer;
@@ -240,9 +238,10 @@ class Mustache_Compiler
         $blockFunction = $context->findInBlock(%s);
         if (is_callable($blockFunction)) {
             $buffer .= call_user_func($blockFunction, $context);
-        } else {%s
-        }
+        %s}
     ';
+
+    const BLOCK_VAR_ELSE = '} else {%s';
 
     /**
      * Generate Mustache Template inheritance block variable PHP source.
@@ -261,10 +260,15 @@ class Mustache_Compiler
     {
         $id = var_export($id, true);
 
-        return sprintf($this->prepare(self::BLOCK_VAR, $level), $id, $this->walk($nodes, $level));
+        $else = $this->walk($nodes, $level);
+        if ($else !== '') {
+            $else = sprintf($this->prepare(self::BLOCK_VAR_ELSE, $level + 1, false, true), $else);
+        }
+
+        return sprintf($this->prepare(self::BLOCK_VAR, $level), $id, $else);
     }
 
-    const BLOCK_ARG = '$newContext[%s] = array($this, \'block%s\');';
+    const BLOCK_ARG = '%s => array($this, \'block%s\'),';
 
     /**
      * Generate Mustache Template inheritance block argument PHP source.
@@ -285,7 +289,7 @@ class Mustache_Compiler
         $keystr = var_export($key, true);
         $id = var_export($id, true);
 
-        return sprintf($this->prepare(self::BLOCK_ARG, 1), $id, $key);
+        return sprintf($this->prepare(self::BLOCK_ARG, $level), $id, $key);
     }
 
     const BLOCK_FUNCTION = '
@@ -326,6 +330,7 @@ class Mustache_Compiler
         private function section%s(Mustache_Context $context, $indent, $value)
         {
             $buffer = \'\';
+
             if (%s) {
                 $source = %s;
                 $result = call_user_func($value, $source, %s);
@@ -360,11 +365,10 @@ class Mustache_Compiler
      * @param string   $otag    Current Mustache opening tag
      * @param string   $ctag    Current Mustache closing tag
      * @param int      $level
-     * @param bool     $arg     (default: false)
      *
      * @return string Generated section PHP source code
      */
-    private function section($nodes, $id, $filters, $start, $end, $otag, $ctag, $level, $arg = false)
+    private function section($nodes, $id, $filters, $start, $end, $otag, $ctag, $level)
     {
         $source   = var_export(substr($this->source, $start, $end - $start), true);
         $callable = $this->getCallable();
@@ -384,15 +388,11 @@ class Mustache_Compiler
             $this->sections[$key] = sprintf($this->prepare(self::SECTION), $key, $callable, $source, $helper, $delims, $this->walk($nodes, 2));
         }
 
-        if ($arg === true) {
-            return $key;
-        } else {
-            $method  = $this->getFindMethod($id);
-            $id      = var_export($id, true);
-            $filters = $this->getFilters($filters, $level);
+        $method  = $this->getFindMethod($id);
+        $id      = var_export($id, true);
+        $filters = $this->getFilters($filters, $level);
 
-            return sprintf($this->prepare(self::SECTION_CALL, $level), $id, $method, $id, $filters, $key);
-        }
+        return sprintf($this->prepare(self::SECTION_CALL, $level), $id, $method, $id, $filters, $key);
     }
 
     const INVERTED_SECTION = '
@@ -454,12 +454,17 @@ class Mustache_Compiler
     }
 
     const PARENT = '
-        %s
-
-        if ($parent = $this->mustache->LoadPartial(%s)) {
-            $context->pushBlockContext($newContext);
+        if ($parent = $this->mustache->loadPartial(%s)) {
+            $context->pushBlockContext(array(%s
+            ));
             $buffer .= $parent->renderInternal($context, $indent);
             $context->popBlockContext();
+        }
+    ';
+
+    const PARENT_NO_CONTEXT = '
+        if ($parent = $this->mustache->loadPartial(%s)) {
+            $buffer .= $parent->renderInternal($context, $indent);
         }
     ';
 
@@ -477,11 +482,14 @@ class Mustache_Compiler
     {
         $realChildren = array_filter($children, array(__CLASS__, 'onlyBlockArgs'));
 
+        if (empty($realChildren)) {
+            return sprintf($this->prepare(self::PARENT_NO_CONTEXT, $level), var_export($id, true));
+        }
+
         return sprintf(
             $this->prepare(self::PARENT, $level),
-            $this->walk($realChildren, $level),
             var_export($id, true),
-            var_export($indent, true)
+            $this->walk($realChildren, $level + 1)
         );
     }
 
@@ -490,7 +498,7 @@ class Mustache_Compiler
      *
      * @param array $node
      *
-     * @return bool True if $node is a block arg token.
+     * @return bool True if $node is a block arg token
      */
     private static function onlyBlockArgs(array $node)
     {
@@ -618,7 +626,7 @@ class Mustache_Compiler
     /**
      * Select the appropriate Context `find` method for a given $id.
      *
-     * The return value will be one of `find`, `findDot` or `last`.
+     * The return value will be one of `find`, `findDot`, `findAnchoredDot` or `last`.
      *
      * @see Mustache_Context::find
      * @see Mustache_Context::findDot

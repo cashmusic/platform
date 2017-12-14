@@ -67,6 +67,7 @@ if ($current_element) {
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
+
 		$cash_admin->page_data['total_views'] = 0;
 		if (is_array($analytics['payload'])) {
 			$cash_admin->page_data['total_views'] = CASHSystem::formatCount($analytics['payload']['total']);
@@ -138,9 +139,10 @@ if ($current_element) {
 				'id' => $current_element['id']
 			)
 		);
+
 		if ($campaign_response['payload']) {
-			$cash_admin->page_data['campaign_id'] = $campaign_response['payload']['id'];
-			$cash_admin->page_data['campaign_title'] = $campaign_response['payload']['title'];
+			$cash_admin->page_data['campaign_id'] = $campaign_response['payload']->id;
+			$cash_admin->page_data['campaign_title'] = $campaign_response['payload']->title;
 		}
 	} else {
 		AdminHelper::controllerRedirect('/elements/');

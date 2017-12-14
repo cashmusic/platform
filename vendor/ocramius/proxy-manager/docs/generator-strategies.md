@@ -1,7 +1,3 @@
----
-title: Generator strategies
----
-
 # Generator strategies
 
 ProxyManager allows you to generate classes based on generator strategies and a

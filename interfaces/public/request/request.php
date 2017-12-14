@@ -17,6 +17,25 @@ header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+$error_handler = new \Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
+
+// element style css
+//TODO:some form of caching
+if (isset($_REQUEST['element_style'])) {
+    header("Content-Type: text/css");
+    header("X-Content-Type-Options: nosniff");
+    $root = realpath(dirname(__FILE__) . '/../../../framework');
+
+    if (file_exists($root ."/". $_REQUEST['element_style']))
+    echo CASHSystem::getFileContents($root ."/". $_REQUEST['element_style'], true);
+    exit;
+}
 if (!isset($_REQUEST['nooutput'])) {
     $requests = false;
     if (isset($_GET['p'])) {
@@ -62,12 +81,6 @@ if (!isset($_REQUEST['nooutput'])) {
 
         $initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 
-        if ($requests[0] != 'payload' || $requests[0] != 'json') {
-            // open up some mustache in here:
-            include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-            $freddiemercury = new \Mustache;
-        }
-
         if ($requests[0] == 'embed' && isset($requests[1])) {
             $embed_location = false;
             $embed_geo = false;
@@ -110,7 +123,7 @@ if (!isset($_REQUEST['nooutput'])) {
                 $template = str_replace('<body>', '<body class="cm-lightboxed">', $template);
             }
 
-            $encoded_html = $freddiemercury->render($template, $embed_data);
+            $encoded_html = CASHSystem::renderMustache($template, $embed_data);
             echo $encoded_html;
         } else {
             if ($initial_page_request) {
@@ -192,7 +205,7 @@ if (!isset($_REQUEST['nooutput'])) {
                         'contextual_message' => 'There was an error processing your request.'
                     );
                 }
-                $encoded_html = $freddiemercury->render($template, $embed_data);
+                $encoded_html = CASHSystem::renderMustache($template, $embed_data);
                 echo $encoded_html;
             }
         }

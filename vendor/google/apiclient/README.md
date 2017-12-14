@@ -2,6 +2,9 @@
 
 # Google APIs Client Library for PHP #
 
+## Library maintenance
+This client library is supported but in maintenance mode only.  We are fixing necessary bugs and adding essential features to ensure this library continues to meet your needs for accessing Google APIs.  Non-critical issues will be closed.  Any issue may be reopened if it is causing ongoing problems.
+
 ## Description ##
 The Google API Client Library enables you to work with Google APIs such as Google+, Drive, or YouTube on your server.
 
@@ -10,6 +13,9 @@ This library is in Beta. We're comfortable enough with the stability and feature
 
 ## Requirements ##
 * [PHP 5.4.0 or higher](http://www.php.net/)
+
+## Google Cloud Platform APIs
+If you're looking to call the **Google Cloud Platform** APIs, you will want to use the [Google Cloud PHP](https://github.com/googlecloudplatform/google-cloud-php) library instead of this one.
 
 ## Developer Documentation ##
 http://developers.google.com/api-client-library/php
@@ -83,27 +89,36 @@ foreach ($results as $item) {
 
 > An example of this can be seen in [`examples/simple-file-upload.php`](examples/simple-file-upload.php).
 
-**NOTE:** If you are using Google App Engine or Google Compute Engine, you can skip steps 1-3, as Application Default Credentials are included automatically when `useApplicationDefaultCredentials` is called.
-
 1. Follow the instructions to [Create Web Application Credentials](https://developers.google.com/api-client-library/php/auth/web-app#creatingcred)
 1. Download the JSON credentials
-1. Set the path to these credentials using the `GOOGLE_APPLICATION_CREDENTIALS` environment variable:
-
-    ```php
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json');
-    ```
-
-1. Tell the Google client to use your service account credentials to authenticate:
+1. Set the path to these credentials using `Google_Client::setAuthConfig`:
 
     ```php
     $client = new Google_Client();
-    $client->useApplicationDefaultCredentials();
+    $client->setAuthConfig('/path/to/client_credentials.json');
     ```
 
-1. If you have delegated domain-wide access to the service account and you want to impersonate a user account, specify the email address of the user account using the method setSubject:
+1. Set the scopes required for the API you are going to call
 
     ```php
-    $   client->setSubject($user_to_impersonate);
+    $client->addScope(Google_Service_Drive::DRIVE);
+    ```
+
+1. Set your application's redirect URI
+
+    ```php
+    // Your redirect URI can be any registered URI, but in this example
+    // we redirect back to this same page
+    $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+    $client->setRedirectUri($redirect_uri);
+    ```
+
+1. In the script handling the redirect URI, exchange the authorization code for an access token:
+
+    ```php
+    if (isset($_GET['code'])) {
+        $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    }
     ```
 
 ### Authentication with Service Accounts ###
@@ -166,7 +181,7 @@ Using this library, the same call would look something like this:
 
 ```php
 // create the datastore service class
-$datastore = new Google_Service_Datastore($client)
+$datastore = new Google_Service_Datastore($client);
 
 // build the query - this maps directly to the JSON
 $query = new Google_Service_Datastore_Query([
@@ -189,11 +204,11 @@ $request = new Google_Service_Datastore_RunQueryRequest(['query' => $query]);
 $response = $datastore->projects->runQuery('YOUR_DATASET_ID', $request);
 ```
 
-However, as each property of the JSON API has a corresponding generated class, the above code could also be written lile this:
+However, as each property of the JSON API has a corresponding generated class, the above code could also be written like this:
 
 ```php
 // create the datastore service class
-$datastore = new Google_Service_Datastore($client)
+$datastore = new Google_Service_Datastore($client);
 
 // build the query
 $request = new Google_Service_Datastore_RunQueryRequest();
@@ -294,17 +309,17 @@ One additional step is required in Charles to view SSL requests. Go to **Charles
 
 YouTube: https://github.com/youtube/api-samples/tree/master/php
 
+## How Do I Contribute? ##
+
+Please see the [contributing](CONTRIBUTING.md) page for more information. In particular, we love pull requests - but please make sure to sign the [contributor license agreement](https://developers.google.com/api-client-library/php/contribute).
+
 ## Frequently Asked Questions ##
 
 ### What do I do if something isn't working? ###
 
 For support with the library the best place to ask is via the google-api-php-client tag on StackOverflow: http://stackoverflow.com/questions/tagged/google-api-php-client
 
-If there is a specific bug with the library, please [file a issue](/Google/google-api-php-client/issues) in the Github issues tracker, including an example of the failing code and any specific errors retrieved. Feature requests can also be filed, as long as they are core library requests, and not-API specific: for those, refer to the documentation for the individual APIs for the best place to file requests. Please try to provide a clear statement of the problem that the feature would address.
-
-### How do I contribute? ###
-
-We accept contributions via Github Pull Requests, but all contributors need to be covered by the standard Google Contributor License Agreement. You can find links, and more instructions, in the documentation: https://developers.google.com/api-client-library/php/contribute
+If there is a specific bug with the library, please [file a issue](https://github.com/google/google-api-php-client/issues) in the Github issues tracker, including an example of the failing code and any specific errors retrieved. Feature requests can also be filed, as long as they are core library requests, and not-API specific: for those, refer to the documentation for the individual APIs for the best place to file requests. Please try to provide a clear statement of the problem that the feature would address.
 
 ### I want an example of X! ###
 
@@ -330,7 +345,7 @@ $opt_params = array(
 
 ### How do I set a field to null? ###
 
-The library strips out nulls from the objects sent to the Google APIs as its the default value of all of the uninitialised properties. To work around this, set the field you want to null to Google_Model::NULL_VALUE. This is a placeholder that will be replaced with a true null when sent over the wire.
+The library strips out nulls from the objects sent to the Google APIs as its the default value of all of the uninitialized properties. To work around this, set the field you want to null to `Google_Model::NULL_VALUE`. This is a placeholder that will be replaced with a true null when sent over the wire.
 
 ## Code Quality ##
 

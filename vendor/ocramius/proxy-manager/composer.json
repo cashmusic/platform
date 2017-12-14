@@ -15,26 +15,24 @@
         {
             "name":     "Marco Pivetta",
             "email":    "ocramius@gmail.com",
-            "homepage": "http://ocramius.github.io/"
+            "homepage": "http://ocramius.github.com/"
         }
     ],
     "require": {
-        "php":                       "7.0.0 - 7.0.5 || ^7.0.7",
-        "zendframework/zend-code":   "3.0.0 - 3.0.2 || ^3.0.4",
-        "ocramius/package-versions": "^1.0"
+        "php":                     ">=5.3.3",
+        "zendframework/zend-code": ">2.2.5,<3.0"
     },
     "require-dev": {
         "ext-phar":                    "*",
-        "phpunit/phpunit":             "^5.4.6",
-        "squizlabs/php_codesniffer":   "^2.6.0",
-        "couscous/couscous":           "^1.4.0",
-        "phpbench/phpbench":            "^0.11.2"
+        "phpunit/phpunit":             "~4.0",
+        "squizlabs/php_codesniffer":   "1.5.*"
     },
     "suggest": {
+        "zendframework/zend-stdlib":   "To use the hydrator proxy",
         "ocramius/generated-hydrator": "To have very fast object to array to object conversion for ghost objects",
-        "zendframework/zend-xmlrpc":   "To have the XmlRpc adapter (Remote Object feature)",
-        "zendframework/zend-json":     "To have the JsonRpc adapter (Remote Object feature)",
-        "zendframework/zend-soap":     "To have the Soap adapter (Remote Object feature)"
+        "zendframework/zend-xmlrpc": "To have the XmlRpc adapter (Remote Object feature)",
+        "zendframework/zend-json": "To have the JsonRpc adapter (Remote Object feature)",
+        "zendframework/zend-soap": "To have the Soap adapter (Remote Object feature)"
     },
     "autoload": {
         "psr-0": {
@@ -43,14 +41,13 @@
     },
     "autoload-dev": {
         "psr-0": {
-            "ProxyManagerBench\\": "tests",
             "ProxyManagerTest\\": "tests",
             "ProxyManagerTestAsset\\": "tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

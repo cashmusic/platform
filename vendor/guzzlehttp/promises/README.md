@@ -96,7 +96,7 @@ $promise->resolve('reader.');
 ## Promise forwarding
 
 Promises can be chained one after the other. Each then in the chain is a new
-promise. The return value of of a promise is what's forwarded to the next
+promise. The return value of a promise is what's forwarded to the next
 promise in the chain. Returning a promise in a `then` callback will cause the
 subsequent promises in the chain to only be fulfilled when the returned promise
 has been fulfilled. The next promise in the chain will be invoked with the
@@ -315,8 +315,11 @@ A promise has the following methods:
 
 - `then(callable $onFulfilled, callable $onRejected) : PromiseInterface`
   
-  Creates a new promise that is fulfilled or rejected when the promise is
-  resolved.
+  Appends fulfillment and rejection handlers to the promise, and returns a new promise resolving to the return value of the called handler.
+
+- `otherwise(callable $onRejected) : PromiseInterface`
+  
+  Appends a rejection handler callback to the promise, and returns a new promise resolving to the return value of the callback if it is called, or to its original fulfillment value if the promise is instead fulfilled.
 
 - `wait($unwrap = true) : mixed`
 

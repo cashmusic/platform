@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * The RandomLib library for securely generating random numbers and strings in PHP
+ *
+ * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
+ * @copyright  2011 The Authors
+ * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version    Build @@version@@
+ */
+
 /**
  * The Rand Random Number Source
  *
@@ -11,12 +21,13 @@
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @copyright  2011 The Authors
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ *
  * @version    Build @@version@@
  */
-
 namespace RandomLib\Source;
 
 use SecurityLib\Strength;
@@ -31,17 +42,20 @@ use SecurityLib\Strength;
  * @category   PHPCryptLib
  * @package    Random
  * @subpackage Source
+ *
  * @author     Anthony Ferrara <ircmaxell@ircmaxell.com>
  * @codeCoverageIgnore
  */
-class Rand implements \RandomLib\Source {
+class Rand extends \RandomLib\AbstractSource
+{
 
     /**
      * Return an instance of Strength indicating the strength of the source
      *
-     * @return Strength An instance of one of the strength classes
+     * @return \SecurityLib\Strength An instance of one of the strength classes
      */
-    public static function getStrength() {
+    public static function getStrength()
+    {
         // Detect if Suhosin Hardened PHP patch is applied
         if (defined('S_ALL')) {
             return new Strength(Strength::LOW);
@@ -57,12 +71,13 @@ class Rand implements \RandomLib\Source {
      *
      * @return string A string of the requested size
      */
-    public function generate($size) {
+    public function generate($size)
+    {
         $result = '';
         for ($i = 0; $i < $size; $i++) {
             $result .= chr((rand() ^ rand()) % 256);
         }
+
         return $result;
     }
-
 }

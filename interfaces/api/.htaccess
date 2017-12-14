@@ -10,10 +10,10 @@ RewriteBase /api
 Options +FollowSymlinks
 Options -Indexes
 
+SetEnvIf Authorization "(.*)" HTTP_AUTHENTICATION=$1
+
 # add a slash to root requests
 RewriteRule ^api$ api/ [R]
-
-# create controller redirects
 
 # no GET querystring
 RewriteCond %{REQUEST_FILENAME} !-s

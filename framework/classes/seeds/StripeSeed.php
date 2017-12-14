@@ -26,6 +26,7 @@ use AdamPaterson\OAuth2\Client\Provider\Stripe as StripeOAuth;
 use Stripe\Account;
 use Stripe\BalanceTransaction as BalanceTransaction;
 use Stripe\Charge;
+use Stripe\Customer;
 use Stripe\Error as StripeError;
 use Stripe\Event;
 use Stripe\Plan as Plan;
@@ -71,17 +72,6 @@ class StripeSeed extends SeedBase
 
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
-
-            if (CASH_DEBUG) {
-               error_log(
-                  'Initiated StripeSeed with: '
-                  . '$this->client_id='            . (string)$this->client_id
-                  . ', $this->client_secret='      . (string)$this->client_secret
-                  . ', $this->publishable_key='    . (string)$this->publishable_key
-                  . ', $this->access_token='       . (string)$this->access_token
-                  . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
-               );
-            }
 
             Stripe::setApiKey($this->access_token);
         } else {
@@ -295,9 +285,7 @@ class StripeSeed extends SeedBase
     protected function setErrorMessage($msg)
     {
         $this->error_message = $msg;
-        if (CASH_DEBUG) {
-          error_log($this->error_message);
-       }
+        CASHSystem::errorLog($msg);
     }
 
     /**
@@ -330,18 +318,6 @@ class StripeSeed extends SeedBase
      * @return array|bool
      */
     public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='usd') {
-
-      if (CASH_DEBUG) {
-         error_log(
-            'Called StripeSeed::doPayment with: '
-            . '$total_price='       . (string)$total_price
-            . ', $description='     . (string)$description
-            . ', $token='           . (string)$token
-            . ', $email_address='   . (string)$email_address
-            . ', $customer_name='   . (string)$customer_name
-            . ', $currency='        . (string)$currency
-         );
-      }
 
     if (!empty($token)) {
 
@@ -408,7 +384,7 @@ class StripeSeed extends SeedBase
                 'transaction_description' => '',
                 'customer_email' => $email_address,
                 'customer_first_name' => $full_name[0],
-                'customer_last_name' => $full_name[1],
+                'customer_last_name' => (isset($full_name[1])) ? $full_name[1] : '',
                 'customer_name' => $customer_name,
 
                 'customer_phone' => '',
@@ -528,11 +504,7 @@ class StripeSeed extends SeedBase
             }
 
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -551,11 +523,7 @@ class StripeSeed extends SeedBase
             Stripe::setApiKey($this->access_token);
             $plan = Plan::retrieve($plan_id);
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -584,12 +552,7 @@ class StripeSeed extends SeedBase
                     "id" => $sku)
             );
         } catch(Exception $e) {
-                if (CASH_DEBUG) {
-                    error_log(
-                        "StripeSeed->createSubscriptionPlan error: \n".
-                        $e->getMessage()
-                    );
-                }
+            CASHSystem::errorLog($e->getMessage());
 
             //TODO: if plan exists we should return it maybe
 
@@ -627,11 +590,7 @@ class StripeSeed extends SeedBase
         try {
             $plan->save();
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -653,11 +612,7 @@ class StripeSeed extends SeedBase
         try {
             $plan->delete();
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -674,16 +629,34 @@ class StripeSeed extends SeedBase
             ]);
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
 
         return $subscriptions;
+    }
+
+    public function getCustomer($customer_id, $format=false) {
+        try {
+            Stripe::setApiKey($this->access_token);
+
+            if(!$customer = Customer::retrieve($customer_id)) {
+                return false;
+            }
+
+        } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
+
+            return false;
+        }
+
+        if (!$format) {
+            return $customer;
+        } else {
+            return $this->formatCustomer($customer);
+        }
+
     }
 
     /**
@@ -695,15 +668,12 @@ class StripeSeed extends SeedBase
 
         try {
             Stripe::setApiKey($this->access_token);
-            $subscription = Subscription::retrieve($subscription_id);
 
-        } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
+            if(!$subscription = Subscription::retrieve($subscription_id)) {
+                return false;
             }
 
+        } catch (Exception $e) {
             return false;
         }
 
@@ -742,6 +712,7 @@ class StripeSeed extends SeedBase
                 "source" => $token
             ));
         } catch (Exception $e) {
+            CASHSystem::errorLog($e->getMessage());
             return false;
         }
 
@@ -771,9 +742,7 @@ class StripeSeed extends SeedBase
 
         } catch (Exception $e) {
             //if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
+            CASHSystem::errorLog($e->getMessage());
             //}
 
             return false;
@@ -804,11 +773,7 @@ class StripeSeed extends SeedBase
             $subscription->save();
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -823,8 +788,6 @@ class StripeSeed extends SeedBase
     public function cancelSubscription($subscription_id) {
         // first we need to retrieve the subscription by id
         if (!$subscription = $this->getSubscription($subscription_id)) {
-
-            error_log("not getting anything back");
             return false;
         }
 
@@ -833,11 +796,7 @@ class StripeSeed extends SeedBase
             $subscription->cancel();
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
-                error_log(
-                    print_r($e->getMessage())
-                );
-            }
+            CASHSystem::errorLog($e->getMessage());
 
             return false;
         }
@@ -861,5 +820,41 @@ class StripeSeed extends SeedBase
         return $this->api->call('webhooks/transaction', $_params);
     }
 
+    public function formatCustomer($customer) {
+        if (is_object($customer))
+            /*
+ * customer->sources->data[0]->brand
+customer->sources->data[0]->exp_month
+customer->sources->data[0]->exp_year
+customer->sources->data[0]->last4
+
+customer->subscriptions->data [loop] ->id
+->current_period_end
+->items->data[0]->quantity
+
+ */
+            $brand = $expiry = $last_four = $expires = $payment = $interval = false;
+            if (isset($customer->sources->data[0])) {
+            $source = $customer->sources->data[0];
+
+            $brand = $source->brand;
+            $expiry = $source->exp_month ."/".$source->exp_year;
+            $last_four = $source->last4;
+
+            //TODO: we're assuming right now a customer will only be on one plan for the subscription provider, but this should change based on sub
+
+            if (isset($customer->subscriptions->data[0])) {
+                $subscription = $customer->subscriptions->data[0];
+                $expires = date('F jS, Y', $subscription->current_period_end);
+                //TODO: also should not just be assuming this is dollars or euro
+                $payment = money_format('%i', $subscription->items->data[0]->quantity/100);
+                $interval = $subscription->items->data[0]->plan->interval;
+            }
+
+            return compact('brand', 'expiry', 'last_four', 'expires', 'payment', 'interval');
+        }
+
+        return false;
+    }
 
 } // END class

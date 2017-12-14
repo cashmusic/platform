@@ -84,9 +84,9 @@ class ApplicationDefaultCredentials
         array $cacheConfig = null,
         CacheItemPoolInterface $cache = null
     ) {
-        $creds = self::getCredentials($scope, $httpHandler);
+        $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache);
 
-        return new AuthTokenSubscriber($creds, $cacheConfig, $cache, $httpHandler);
+        return new AuthTokenSubscriber($creds, $cacheConfig);
     }
 
     /**
@@ -112,9 +112,9 @@ class ApplicationDefaultCredentials
         array $cacheConfig = null,
         CacheItemPoolInterface $cache = null
     ) {
-        $creds = self::getCredentials($scope, $httpHandler);
+        $creds = self::getCredentials($scope, $httpHandler, $cacheConfig, $cache);
 
-        return new AuthTokenMiddleware($creds, $cacheConfig, $cache, $httpHandler);
+        return new AuthTokenMiddleware($creds, $cacheConfig);
     }
 
     /**
@@ -127,25 +127,38 @@ class ApplicationDefaultCredentials
      * @param string|array scope the scope of the access request, expressed
      *   either as an Array or as a space-delimited String.
      * @param callable $httpHandler callback which delivers psr7 request
+     * @param array $cacheConfig configuration for the cache when it's present
+     * @param CacheItemPoolInterface $cache
      *
      * @return CredentialsLoader
      *
      * @throws DomainException if no implementation can be obtained.
      */
-    public static function getCredentials($scope = null, callable $httpHandler = null)
-    {
+    public static function getCredentials(
+        $scope = null,
+        callable $httpHandler = null,
+        array $cacheConfig = null,
+        CacheItemPoolInterface $cache = null
+    ) {
+        $creds = null;
         $jsonKey = CredentialsLoader::fromEnv()
             ?: CredentialsLoader::fromWellKnownFile();
+
         if (!is_null($jsonKey)) {
-            return CredentialsLoader::makeCredentials($scope, $jsonKey);
+            $creds = CredentialsLoader::makeCredentials($scope, $jsonKey);
+        } elseif (AppIdentityCredentials::onAppEngine() && !GCECredentials::onAppEngineFlexible()) {
+            $creds = new AppIdentityCredentials($scope);
+        } elseif (GCECredentials::onGce($httpHandler)) {
+            $creds = new GCECredentials();
         }
-        if (AppIdentityCredentials::onAppEngine()) {
-            return new AppIdentityCredentials($scope);
+
+        if (is_null($creds)) {
+            throw new \DomainException(self::notFound());
         }
-        if (GCECredentials::onGce($httpHandler)) {
-            return new GCECredentials();
+        if (!is_null($cache)) {
+            $creds = new FetchAuthTokenCache($creds, $cacheConfig, $cache);
         }
-        throw new \DomainException(self::notFound());
+        return $creds;
     }
 
     private static function notFound()

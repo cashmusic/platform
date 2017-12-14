@@ -2,7 +2,6 @@
 namespace Aws\Ssm;
 
 use Aws\AwsClient;
-use Aws\IdempotencyTokenMiddleware;
 
 /**
  * Amazon EC2 Simple Systems Manager client.
@@ -23,6 +22,8 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \GuzzleHttp\Promise\Promise createMaintenanceWindowAsync(array $args = [])
  * @method \Aws\Result createPatchBaseline(array $args = [])
  * @method \GuzzleHttp\Promise\Promise createPatchBaselineAsync(array $args = [])
+ * @method \Aws\Result createResourceDataSync(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise createResourceDataSyncAsync(array $args = [])
  * @method \Aws\Result deleteActivation(array $args = [])
  * @method \GuzzleHttp\Promise\Promise deleteActivationAsync(array $args = [])
  * @method \Aws\Result deleteAssociation(array $args = [])
@@ -33,8 +34,12 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \GuzzleHttp\Promise\Promise deleteMaintenanceWindowAsync(array $args = [])
  * @method \Aws\Result deleteParameter(array $args = [])
  * @method \GuzzleHttp\Promise\Promise deleteParameterAsync(array $args = [])
+ * @method \Aws\Result deleteParameters(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise deleteParametersAsync(array $args = [])
  * @method \Aws\Result deletePatchBaseline(array $args = [])
  * @method \GuzzleHttp\Promise\Promise deletePatchBaselineAsync(array $args = [])
+ * @method \Aws\Result deleteResourceDataSync(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise deleteResourceDataSyncAsync(array $args = [])
  * @method \Aws\Result deregisterManagedInstance(array $args = [])
  * @method \GuzzleHttp\Promise\Promise deregisterManagedInstanceAsync(array $args = [])
  * @method \Aws\Result deregisterPatchBaselineForPatchGroup(array $args = [])
@@ -109,10 +114,14 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \GuzzleHttp\Promise\Promise getMaintenanceWindowExecutionAsync(array $args = [])
  * @method \Aws\Result getMaintenanceWindowExecutionTask(array $args = [])
  * @method \GuzzleHttp\Promise\Promise getMaintenanceWindowExecutionTaskAsync(array $args = [])
+ * @method \Aws\Result getParameter(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getParameterAsync(array $args = [])
  * @method \Aws\Result getParameterHistory(array $args = [])
  * @method \GuzzleHttp\Promise\Promise getParameterHistoryAsync(array $args = [])
  * @method \Aws\Result getParameters(array $args = [])
  * @method \GuzzleHttp\Promise\Promise getParametersAsync(array $args = [])
+ * @method \Aws\Result getParametersByPath(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise getParametersByPathAsync(array $args = [])
  * @method \Aws\Result getPatchBaseline(array $args = [])
  * @method \GuzzleHttp\Promise\Promise getPatchBaselineAsync(array $args = [])
  * @method \Aws\Result getPatchBaselineForPatchGroup(array $args = [])
@@ -129,6 +138,8 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \GuzzleHttp\Promise\Promise listDocumentsAsync(array $args = [])
  * @method \Aws\Result listInventoryEntries(array $args = [])
  * @method \GuzzleHttp\Promise\Promise listInventoryEntriesAsync(array $args = [])
+ * @method \Aws\Result listResourceDataSync(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise listResourceDataSyncAsync(array $args = [])
  * @method \Aws\Result listTagsForResource(array $args = [])
  * @method \GuzzleHttp\Promise\Promise listTagsForResourceAsync(array $args = [])
  * @method \Aws\Result modifyDocumentPermission(array $args = [])
@@ -147,6 +158,8 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \GuzzleHttp\Promise\Promise registerTaskWithMaintenanceWindowAsync(array $args = [])
  * @method \Aws\Result removeTagsFromResource(array $args = [])
  * @method \GuzzleHttp\Promise\Promise removeTagsFromResourceAsync(array $args = [])
+ * @method \Aws\Result sendAutomationSignal(array $args = [])
+ * @method \GuzzleHttp\Promise\Promise sendAutomationSignalAsync(array $args = [])
  * @method \Aws\Result sendCommand(array $args = [])
  * @method \GuzzleHttp\Promise\Promise sendCommandAsync(array $args = [])
  * @method \Aws\Result startAutomationExecution(array $args = [])
@@ -168,50 +181,4 @@ use Aws\IdempotencyTokenMiddleware;
  * @method \Aws\Result updatePatchBaseline(array $args = [])
  * @method \GuzzleHttp\Promise\Promise updatePatchBaselineAsync(array $args = [])
  */
-class SsmClient extends AwsClient
-{
-    public static function getArguments()
-    {
-        $args = parent::getArguments();
-        return $args + [
-            'idempotency_auto_fill' => [
-                'type'    => 'config',
-                'valid'   => ['bool'],
-                'doc'     => 'Set to false to disable SDK to populate parameters that'
-                    . ' enabled \'idempotencyToken\' trait with a random UUID v4'
-                    . ' value on your behalf. Using default value \'true\' still allows'
-                    . ' parameter value to be overwritten when provided. Note:'
-                    . ' auto-fill only works when cryptographically secure random'
-                    . ' bytes generator functions(random_bytes, openssl_random_pseudo_bytes'
-                    . ' or mcrypt_create_iv) can be found.',
-                'default' => true,
-            ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * In addition to the options available to
-     * {@see Aws\AwsClient::__construct}, SsmClient accepts the following
-     * options:
-     *
-     * - idempotency_auto_fill: (bool) Set to false to disable SDK to populate
-     *   parameters that enabled 'idempotencyToken' trait with a default UUID v4
-     *   value on your behalf. Using default value 'true' still allows parameter
-     *   value to be overwritten when provided.
-     *
-     * @param array $args
-     */
-    public function __construct(array $args)
-    {
-        parent::__construct($args);
-        if ($this->getConfig('idempotency_auto_fill')) {
-            $stack = $this->getHandlerList();
-            $stack->prependInit(
-                IdempotencyTokenMiddleware::wrap($this->getApi()),
-                'ssm.idempotency_auto_fill'
-            );
-        }
-    }
-}
+class SsmClient extends AwsClient {}

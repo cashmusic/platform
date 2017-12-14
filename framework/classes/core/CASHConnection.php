@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Entities\SystemConnection;
 
 /**
  * CASHConnection stores and retrieves 3rd party API connection settings from the
@@ -94,21 +95,12 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	 *
 	 * @return array
 	 */public function getAllConnectionsforUser() {
+
 		if ($this->user_id) {
-			$result = $this->db->getData(
-				'connections',
-				'*',
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
-				)
-			);
-			return $result;
-		} else {
-			return false;
+			return $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id], true);;
 		}
+
+		return false;
 	}
 
 	/**
@@ -130,58 +122,38 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 			$connection_id = $id_override;
 		}
 		if ($connection_id) {
-			$result = $this->db->getData(
-				'connections',
-				'name,data,creation_date',
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $connection_id
-					),
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
-				)
-			);
-			if ($result) {
-				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])),true);
-				$this->connection_name = $result[0]['name'];
-				$this->creation_date = $result[0]['creation_date'];;
+
+			$connection = $this->orm->findWhere(SystemConnection::class, ['user_id'=>$this->user_id, 'id'=>$connection_id]);
+
+			if ($connection) {
+				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($connection->data)),true);
+				$this->connection_name = $connection->name;
+				$this->creation_date = $connection->creation_date;
 				return $this->settings;
-			} else {
-				return false;
 			}
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
 	 *
 	 * @return settings obj
 	 */public function getConnectionsByType($settings_type) {
-		$result = $this->db->getData(
-			'connections',
-			'*',
-			array(
-				"type" => array(
-					"condition" => "=",
-					"value" => $settings_type
-				),
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $this->user_id
-				)
-			)
-		);
-		return $result;
+
+	 	if ($connections = $this->orm->findWhere(SystemConnection::class,
+			['type'=>$settings_type, 'user_id'=>$this->user_id], true)) {
+	 		return $connections;
+		}
+
+		return false;
+
 	}
 
 	/**
 	 * Returns the decoded JSON for the specified connection scope
 	 *
-	 * @return settings obj
+	 * @return array|bool
 	 */public function getConnectionsByScope($scope) {
 		$connection_types_data = $this->getConnectionTypes($scope);
 		$applicable_settings_array = false;
@@ -191,7 +163,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 		if (is_array($all_connections)) {
 			foreach ($all_connections as $key => $data) {
 				if (is_array($connection_types_data)) {
-					if (array_key_exists($data['type'],$connection_types_data)) {
+					if (array_key_exists($data->type,$connection_types_data)) {
 						$filtered_connections[] = $data;
 					}
 				}
@@ -200,12 +172,15 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 
 		if (count($filtered_connections)) {
 			foreach ($filtered_connections as &$connection) {
+
+				$connection = $connection->toArray();
 				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])),true);
 			}
+
 			return $filtered_connections;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -226,30 +201,37 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
-	 */public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
-		$settings_data = json_encode($settings_data);
-		if ($connection_id) {
-			$settings_condition = array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $connection_id
-				)
+	 */
+	public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
+	 	$settings_data = json_encode($settings_data);
+
+	 	if ($connection_id) {
+			$settings = $this->orm->find(SystemConnection::class, $connection_id);
+
+			$settings->update(
+                array(
+                    'name' => $settings_name,
+                    'type' => $settings_type,
+                    'user_id' => $this->user_id,
+                    'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+                )
 			);
 		} else {
-			$settings_condition = false;
+			$settings = $this->orm->create(SystemConnection::class,
+                array(
+                    'name' => $settings_name,
+                    'type' => $settings_type,
+                    'user_id' => $this->user_id,
+                    'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+                )
+			);
 		}
 
-		$result = $this->db->setData(
-			'connections',
-			array(
-				'name' => $settings_name,
-				'type' => $settings_type,
-				'user_id' => $this->user_id,
-				'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
-			),
-			$settings_condition
-		);
-		return $result;
+		if (isset($settings->id)) {
+	 		return $settings->id;
+		}
+
+		return false;
 	}
 
 	/**
@@ -280,47 +262,14 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	 *
 	 * @param {int} connection_id
 	 * @return boolean
-	 */public function deleteSettings($connection_id) {
-		$result = $this->db->deleteData(
-			'connections',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $connection_id
-				)
-			)
-		);
-		return $result;
-	}
+	 */
+	public function deleteSettings($connection_id) {
 
-	/**
-	 * Ensures that the specified name / type combination is unique per user
-	 *
-	 * @return boolean
-	 */private function checkUniqueName($settings_name,$settings_type) {
-		$result = $this->db->getData(
-			'connections',
-			'name',
-			array(
-				'type' => array(
-					'condition' => '=',
-					'value' => $settings_type
-				),
-				'name' => array(
-					'condition' => '=',
-					'value' => $settings_name
-				),
-				'user_id' => array(
-					'condition' => '=',
-					'value' => $this->user_id
-				)
-			)
-		);
-		if ($result) {
-			return false;
-		} else {
+		if ($this->orm->delete(SystemConnection::class, ['id'=>$connection_id])) {
 			return true;
 		}
+
+		return false;
 	}
 } // END class
 ?>

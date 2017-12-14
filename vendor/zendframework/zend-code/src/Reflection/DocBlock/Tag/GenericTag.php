@@ -95,7 +95,7 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
      */
     public function __toString()
     {
-        return 'DocBlock Tag [ * @' . $this->name . ' ]' . "\n";
+        return 'DocBlock Tag [ * @' . $this->name . ' ]' . PHP_EOL;
     }
 
     /**

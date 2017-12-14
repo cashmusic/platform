@@ -1,0 +1,54 @@
+<?php
+namespace CASHMusic\Entities;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * SystemProcesses
+ *
+ * @Table(name="system_processes")
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
+class SystemProcess extends EntityBase
+{
+
+    protected $fillable = ['data', 'job_id', 'name'];
+    /**
+     * @var string
+     *
+     * @Column(name="data", type="blob", length=16777215, nullable=true)
+     */
+    protected $data;
+
+    /**
+     * @var integer
+     *
+     * @Column(name="job_id", type="integer", nullable=false)
+     */
+    protected $job_id;
+
+    /**
+     * @var string
+     *
+     * @Column(name="name", type="string", length=255, nullable=false)
+     */
+    protected $name;
+
+    /**
+     * @var integer
+     *
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
+     */
+    protected $modification_date;
+
+    /**
+     * @var integer
+     *
+     * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
+     */
+    protected $creation_date;
+
+    /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
+    protected $id;
+}
+

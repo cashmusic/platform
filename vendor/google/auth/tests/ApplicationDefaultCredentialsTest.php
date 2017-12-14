@@ -175,6 +175,52 @@ class ADCGetMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 }
 
+class ADCGetCredentialsAppEngineTest extends BaseTest
+{
+    private $originalHome;
+    private $originalServiceAccount;
+
+    protected function setUp()
+    {
+        // set home to be somewhere else
+        $this->originalHome = getenv('HOME');
+        putenv('HOME=' . __DIR__ . '/not_exist_fixtures');
+
+        // remove service account path
+        $this->originalServiceAccount = getenv(ServiceAccountCredentials::ENV_VAR);
+        putenv(ServiceAccountCredentials::ENV_VAR);
+    }
+
+    protected function tearDown()
+    {
+        // removes it if assigned
+        putenv('HOME=' . $this->originalHome);
+        putenv(ServiceAccountCredentials::ENV_VAR . '=' . $this->originalServiceAccount);
+    }
+
+    public function testAppEngineStandard()
+    {
+        $_SERVER['SERVER_SOFTWARE'] = 'Google App Engine';
+        $this->assertInstanceOf(
+            'Google\Auth\Credentials\AppIdentityCredentials',
+            ApplicationDefaultCredentials::getCredentials()
+        );
+    }
+
+    public function testAppEngineFlexible()
+    {
+        $_SERVER['SERVER_SOFTWARE'] = 'Google App Engine';
+        $_SERVER['GAE_VM'] = 'true';
+        $httpHandler = getHandler([
+            buildResponse(200, [GCECredentials::FLAVOR_HEADER => 'Google']),
+        ]);
+        $this->assertInstanceOf(
+            'Google\Auth\Credentials\GCECredentials',
+            ApplicationDefaultCredentials::getCredentials(null, $httpHandler)
+        );
+    }
+}
+
 // @todo consider a way to DRY this and above class up
 class ADCGetSubscriberTest extends BaseTest
 {

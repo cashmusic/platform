@@ -35,6 +35,8 @@ class AdminController {
 
         if (CASH_DEBUG) {
             $this->setErrorHandler();
+        } else {
+            $this->setErrorReporting();
         }
 
         // make an object to use throughout the pages
@@ -88,7 +90,6 @@ class AdminController {
         }
 
         if (!$logged_in) {
-
             // check for signup
             $cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 
@@ -99,6 +100,7 @@ class AdminController {
             $cash_admin->page_data['login_message'] = 'OK';
             if (isset($_POST['login'])) {
                 $login_details = $admin_helper->doLogin($_POST['address'],$_POST['password'],true,false);
+
                 if ($login_details !== false) {
                     $admin_primary_cash_request->startSession();
                     $admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
@@ -134,6 +136,7 @@ class AdminController {
         $cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
         if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_') && $logged_in) {
             $parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
+
             if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
                 define('BASE_PAGENAME', $parsed_request);
                 $include_filename = BASE_PAGENAME.'.php';
@@ -347,5 +350,25 @@ class AdminController {
 
 // Register the handler with PHP, and you're set!
         $run->register();
+    }
+
+    private function setErrorReporting()
+    {
+        $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
+
+        $client->setSendCallback(function($data) {
+            $ignore_types = array('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+
+            if (isset($data['exception']) && in_array($data['exception']['values'][0]['type'], $ignore_types))
+            {
+                return false;
+            }
+        });
+
+
+        $error_handler = new \Raven_ErrorHandler($client);
+        $error_handler->registerExceptionHandler();
+        $error_handler->registerErrorHandler();
+        $error_handler->registerShutdownFunction();
     }
 }

@@ -46,6 +46,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
                     'list_id' => $request_parameters[0]
                 )
             );
+
             if ($add_response['payload']) {
                 $total_added++;
             }
@@ -67,9 +68,10 @@ $current_response = $cash_admin->requestAndStore(
 		'list_id' => $request_parameters[0]
 	)
 );
-$cash_admin->page_data['ui_title'] = '' . $current_response['payload']['name'] . '';
 
-$current_list = $current_response['payload'];
+$current_list = $current_response['payload']->toArray();
+
+$cash_admin->page_data['ui_title'] = '' . $current_list['name'] . '';
 
 $cash_admin->page_data['no_selected_connection'] = true;
 if (is_array($current_list)) {

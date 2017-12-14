@@ -1,10 +1,12 @@
 <?php
 namespace Aws\S3;
 
+use Aws\Api\Parser\PayloadParserTrait;
 use Aws\CacheInterface;
 use Aws\CommandInterface;
 use Aws\LruArrayCache;
 use Aws\MultiRegionClient as BaseClient;
+use Aws\Exception\AwsException;
 use Aws\S3\Exception\PermanentRedirectException;
 use GuzzleHttp\Promise;
 
@@ -162,9 +164,7 @@ use GuzzleHttp\Promise;
  */
 class S3MultiRegionClient extends BaseClient implements S3ClientInterface
 {
-    use S3ClientTrait {
-        determineBucketRegionAsync as private lookupBucketRegion;
-    }
+    use S3ClientTrait;
 
     /** @var CacheInterface */
     private $cache;
@@ -172,7 +172,11 @@ class S3MultiRegionClient extends BaseClient implements S3ClientInterface
     public static function getArguments()
     {
         $args = parent::getArguments();
-        $args['region']['default'] = 'us-east-1';
+        $regionDef = $args['region'] + ['default' => function (array &$args) {
+            $availableRegions = array_keys($args['partition']['regions']);
+            return end($availableRegions);
+        }];
+        unset($args['region']);
 
         return $args + [
             'bucket_region_cache' => [
@@ -181,6 +185,7 @@ class S3MultiRegionClient extends BaseClient implements S3ClientInterface
                 'doc' => 'Cache of regions in which given buckets are located.',
                 'default' => function () { return new LruArrayCache; },
             ],
+            'region' => $regionDef,
         ];
     }
 
@@ -188,27 +193,69 @@ class S3MultiRegionClient extends BaseClient implements S3ClientInterface
     {
         parent::__construct($args);
         $this->cache = $this->getConfig('bucket_region_cache');
+
+        $this->getHandlerList()->prependInit(
+            $this->determineRegionMiddleware(),
+            'determine_region'
+        );
     }
 
-    public function executeAsync(CommandInterface $c)
+    private function determineRegionMiddleware()
     {
-        return Promise\coroutine(function () use ($c) {
-            if ($region = $this->cache->get($this->getCacheKey($c['Bucket']))) {
-                $c = $this->getRegionalizedCommand($c, $region);
-            }
-
-            try {
-                yield parent::executeAsync($c);
-            } catch (PermanentRedirectException $e) {
-                if (empty($c['Bucket'])) {
-                    throw $e;
+        return function (callable $handler) {
+            return function (CommandInterface $command) use ($handler) {
+                $cacheKey = $this->getCacheKey($command['Bucket']);
+                if (
+                    empty($command['@region']) &&
+                    $region = $this->cache->get($cacheKey)
+                ) {
+                    $command['@region'] = $region;
                 }
-                $region = (yield $this->lookupBucketRegion($c['Bucket']));
-                $this->cache->set($this->getCacheKey($c['Bucket']), $region);
-                $c = $this->getRegionalizedCommand($c, $region);
-                yield parent::executeAsync($c);
-            }
-        });
+
+                return Promise\coroutine(function () use (
+                    $handler,
+                    $command,
+                    $cacheKey
+                ) {
+                    try {
+                        yield $handler($command);
+                    } catch (PermanentRedirectException $e) {
+                        if (empty($command['Bucket'])) {
+                            throw $e;
+                        }
+                        $result = $e->getResult();
+                        $region = null;
+                        if (isset($result['@metadata']['headers']['x-amz-bucket-region'])) {
+                            $region = $result['@metadata']['headers']['x-amz-bucket-region'];
+                            $this->cache->set($cacheKey, $region);
+                        } else {
+                            $region = (yield $this->determineBucketRegionAsync(
+                                $command['Bucket']
+                            ));
+                        }
+
+                        $command['@region'] = $region;
+                        yield $handler($command);
+                    } catch (AwsException $e) {
+                        if ($e->getAwsErrorCode() === 'AuthorizationHeaderMalformed') {
+                            $region = $this->determineBucketRegionFromExceptionBody(
+                                $e->getResponse()->getBody()
+                            );
+                            if (!empty($region)) {
+                                $this->cache->set($cacheKey, $region);
+
+                                $command['@region'] = $region;
+                                yield $handler($command);
+                            } else {
+                                throw $e;
+                            }
+                        } else {
+                            throw $e;
+                        }
+                    }
+                });
+            };
+        };
     }
 
     public function createPresignedRequest(CommandInterface $command, $expires)
@@ -241,22 +288,21 @@ class S3MultiRegionClient extends BaseClient implements S3ClientInterface
 
     public function determineBucketRegionAsync($bucketName)
     {
-        if ($cached = $this->cache->get($this->getCacheKey($bucketName))) {
+        $cacheKey = $this->getCacheKey($bucketName);
+        if ($cached = $this->cache->get($cacheKey)) {
             return Promise\promise_for($cached);
         }
 
-        return $this->lookupBucketRegion($bucketName)
-            ->then(function ($region) use ($bucketName) {
-                $this->cache->set($this->getCacheKey($bucketName), $region);
+        /** @var S3ClientInterface $regionalClient */
+        $regionalClient = $this->getClientFromPool();
+        return $regionalClient->determineBucketRegionAsync($bucketName)
+            ->then(
+                function ($region) use ($cacheKey) {
+                    $this->cache->set($cacheKey, $region);
 
-                return $region;
-            });
-    }
-
-    private function getRegionalizedCommand(CommandInterface $command, $region)
-    {
-        return $this->getClientFromPool($region)
-            ->getCommand($command->getName(), $command->toArray());
+                    return $region;
+                }
+            );
     }
 
     private function getCacheKey($bucketName)

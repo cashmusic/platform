@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Inflector\Util;
 
 /**
@@ -36,7 +34,7 @@ class ParameterEncoder
      *
      * @return string
      */
-    public function encodeParameters(array $parameters) : string
+    public function encodeParameters(array $parameters)
     {
         return base64_encode(serialize($parameters));
     }

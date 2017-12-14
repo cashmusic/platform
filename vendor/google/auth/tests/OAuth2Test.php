@@ -726,6 +726,37 @@ class OAuth2FetchAuthTokenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('an_id_token', $o->getIdToken());
         $this->assertEquals('a_refresh_token', $o->getRefreshToken());
     }
+
+    public function testUpdatesTokenFieldsOnFetchMissingRefreshToken()
+    {
+        $testConfig = $this->fetchAuthTokenMinimal;
+        $testConfig['refresh_token'] = 'a_refresh_token';
+        $wanted_updates = [
+            'expires_at' => '1',
+            'expires_in' => '57',
+            'issued_at' => '2',
+            'access_token' => 'an_access_token',
+            'id_token' => 'an_id_token',
+        ];
+        $json = json_encode($wanted_updates);
+        $httpHandler = getHandler([
+            buildResponse(200, [], Psr7\stream_for($json)),
+        ]);
+        $o = new OAuth2($testConfig);
+        $this->assertNull($o->getExpiresAt());
+        $this->assertNull($o->getExpiresIn());
+        $this->assertNull($o->getIssuedAt());
+        $this->assertNull($o->getAccessToken());
+        $this->assertNull($o->getIdToken());
+        $this->assertEquals('a_refresh_token', $o->getRefreshToken());
+        $tokens = $o->fetchAuthToken($httpHandler);
+        $this->assertEquals(1, $o->getExpiresAt());
+        $this->assertEquals(57, $o->getExpiresIn());
+        $this->assertEquals(2, $o->getIssuedAt());
+        $this->assertEquals('an_access_token', $o->getAccessToken());
+        $this->assertEquals('an_id_token', $o->getIdToken());
+        $this->assertEquals('a_refresh_token', $o->getRefreshToken());
+    }
 }
 
 class OAuth2VerifyIdTokenTest extends \PHPUnit_Framework_TestCase
@@ -774,7 +805,7 @@ class OAuth2VerifyIdTokenTest extends \PHPUnit_Framework_TestCase
         $o = new OAuth2($testConfig);
         $jwtIdToken = $this->jwtEncode($origIdToken, $this->privateKey, 'RS256');
         $o->setIdToken($jwtIdToken);
-        $o->verifyIdToken($this->publicKey);
+        $o->verifyIdToken($this->publicKey, ['RS256']);
     }
 
     /**
@@ -793,7 +824,7 @@ class OAuth2VerifyIdTokenTest extends \PHPUnit_Framework_TestCase
         $o = new OAuth2($testConfig);
         $jwtIdToken = $this->jwtEncode($origIdToken, $this->privateKey, 'RS256');
         $o->setIdToken($jwtIdToken);
-        $o->verifyIdToken($this->publicKey);
+        $o->verifyIdToken($this->publicKey, ['RS256']);
     }
 
     public function testShouldReturnAValidIdToken()

@@ -16,13 +16,10 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Factory;
 
 use ProxyManager\Configuration;
 use ProxyManager\Generator\ClassGenerator;
-use ProxyManager\ProxyGenerator\ProxyGeneratorInterface;
 use ProxyManager\Version;
 use ReflectionClass;
 
@@ -44,7 +41,7 @@ abstract class AbstractBaseFactory
      *
      * @var string[]
      */
-    private $checkedClasses = [];
+    private $checkedClasses = array();
 
     /**
      * @param \ProxyManager\Configuration $configuration
@@ -56,35 +53,27 @@ abstract class AbstractBaseFactory
 
     /**
      * Generate a proxy from a class name
-     *
-     * @param string  $className
-     * @param mixed[] $proxyOptions
-     *
+     * @param  string $className
      * @return string proxy class name
      */
-    protected function generateProxy(string $className, array $proxyOptions = []) : string
+    protected function generateProxy($className)
     {
         if (isset($this->checkedClasses[$className])) {
             return $this->checkedClasses[$className];
         }
 
-        $proxyParameters = [
+        $proxyParameters = array(
             'className'           => $className,
             'factory'             => get_class($this),
-            'proxyManagerVersion' => Version::getVersion(),
-        ];
+            'proxyManagerVersion' => Version::VERSION
+        );
         $proxyClassName  = $this
             ->configuration
             ->getClassNameInflector()
             ->getProxyClassName($className, $proxyParameters);
 
         if (! class_exists($proxyClassName)) {
-            $this->generateProxyClass(
-                $proxyClassName,
-                $className,
-                $proxyParameters,
-                $proxyOptions
-            );
+            $this->generateProxyClass($proxyClassName, $className, $proxyParameters);
         }
 
         $this
@@ -95,35 +84,29 @@ abstract class AbstractBaseFactory
         return $this->checkedClasses[$className] = $proxyClassName;
     }
 
-    abstract protected function getGenerator() : ProxyGeneratorInterface;
+    /**
+     * @return \ProxyManager\ProxyGenerator\ProxyGeneratorInterface
+     */
+    abstract protected function getGenerator();
 
     /**
      * Generates the provided `$proxyClassName` from the given `$className` and `$proxyParameters`
-     *
-     * @param string  $proxyClassName
-     * @param string  $className
-     * @param array   $proxyParameters
-     * @param mixed[] $proxyOptions
+     * @param string $proxyClassName
+     * @param string $className
+     * @param array  $proxyParameters
      *
      * @return void
      */
-    private function generateProxyClass(
-        string $proxyClassName,
-        string $className,
-        array $proxyParameters,
-        array $proxyOptions = []
-    ) {
+    private function generateProxyClass($proxyClassName, $className, array $proxyParameters)
+    {
         $className = $this->configuration->getClassNameInflector()->getUserClassName($className);
         $phpClass  = new ClassGenerator($proxyClassName);
 
-        $this->getGenerator()->generate(new ReflectionClass($className), $phpClass, $proxyOptions);
+        $this->getGenerator()->generate(new ReflectionClass($className), $phpClass);
 
         $phpClass = $this->configuration->getClassSignatureGenerator()->addSignature($phpClass, $proxyParameters);
 
-        $this->configuration->getGeneratorStrategy()->generate($phpClass, $proxyOptions);
-
-        $autoloader = $this->configuration->getProxyAutoloader();
-
-        $autoloader($proxyClassName);
+        $this->configuration->getGeneratorStrategy()->generate($phpClass);
+        $this->configuration->getProxyAutoloader()->__invoke($proxyClassName);
     }
 }

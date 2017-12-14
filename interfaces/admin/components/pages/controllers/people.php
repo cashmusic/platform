@@ -95,6 +95,9 @@ $cash_admin->page_data['all_mass_services'] = new ArrayIterator($all_mass_servic
 if (is_array($list_response['payload'])) {
 
 	foreach ($list_response['payload'] as &$list) {
+	    // convert from entity object
+        $list = $list->toArray();
+
 		$list_analytics = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'people', 
@@ -104,9 +107,10 @@ if (is_array($list_response['payload'])) {
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
-		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
-		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
-		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+
+		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']->active);
+		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']->inactive);
+		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']->last_week);
 	
 		// now make some data points for the page
 		if ($list['analytics_last_week'] > 0) {
@@ -128,17 +132,21 @@ $user_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
+$session_news = false;
 if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
+    $session_news = $admin_helper->getActivity($current_userdata);
 }
 
-$session_news = $admin_helper->getActivity($current_userdata);
+
 if ($session_news) {
 	// now set up page variables
 	$total_new = false;
 	if (is_array($session_news['activity']['lists'])) {
 		$total_new = false;
 		foreach ($session_news['activity']['lists'] as &$list_stats) {
+		    CASHSystem::errorLog($list_stats);
 			$total_new = $total_new + $list_stats['total'];
 			if ($list_stats['total'] == 1) {
 				$list_stats['singular'] = true;

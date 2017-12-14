@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\Autoloader;
 
 /**
@@ -35,5 +33,5 @@ interface AutoloaderInterface
      *
      * @return bool
      */
-    public function __invoke(string $className) : bool;
+    public function __invoke($className);
 }

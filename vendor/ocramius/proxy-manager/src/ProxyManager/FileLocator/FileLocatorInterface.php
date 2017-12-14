@@ -16,8 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager\FileLocator;
 
 /**
@@ -35,5 +33,5 @@ interface FileLocatorInterface
      *
      * @return string
      */
-    public function getProxyFileName(string $className) : string;
+    public function getProxyFileName($className);
 }

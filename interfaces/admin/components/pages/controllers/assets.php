@@ -35,14 +35,15 @@ $playlists_response = $cash_admin->requestAndStore(
 	)
 );
 */
+
 $files_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset',
-		'cash_action' => 'getassetsforuser',
-		'type' => 'file',
-		'parent_id' => 0,
-		'user_id' => $user_id
-	)
+    array(
+        'cash_request_type' => 'asset',
+        'cash_action' => 'getassetsforuser',
+        'type' => 'file',
+        'parent_id' => 0,
+        'user_id' => $user_id
+    )
 );
 
 // we need to get all items for the user to determine if an asset is monetized
@@ -99,6 +100,10 @@ if (is_array($releases_response['payload'])) {
 		$cash_admin->page_data['two_remaining'] = true;
 	}
 	foreach ($releases_response['payload'] as &$asset) {
+
+        $asset = $asset->toArray();
+        //$asset['metadata'] = json_decode($asset['metadata'], true);
+
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
@@ -117,18 +122,9 @@ if (is_array($releases_response['payload'])) {
 				);
 				if ($cover_response['payload']) {
 					$cover_asset = $cover_response['payload'];
-					$cover_url_response = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'asset',
-							'cash_action' => 'getasseturl',
-							'connection_id' => $cover_asset['connection_id'],
-							'user_id' => $admin_helper->getPersistentData('cash_effective_user'),
-							'asset_location' => $cover_asset['location'],
-							'inline' => true
-						)
-					);
-					if ($cover_url_response['payload']) {
-						$asset['cover_url'] = $cover_url_response['payload'];
+
+					if (isset($cover_asset->location)) {
+						$asset['cover_url'] = $cover_asset->location;
 					}
 				}
 			}
@@ -193,6 +189,8 @@ if (is_array($playlists_response['payload'])) {
 if (is_array($files_response['payload'])) {
 	$files_response['payload'] = array_reverse($files_response['payload']); // newest first
 	foreach ($files_response['payload'] as &$asset) {
+        $asset = $asset->toArray();
+
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {

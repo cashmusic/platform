@@ -15,33 +15,22 @@
 namespace CASHMusic\API;
 
 require_once(dirname(__FILE__) . '/../../vendor/autoload.php');
+require_once('constants.php');
 
-use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\CASHAPI;
 
-$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
-// env settings allow use on multi-server, multi-user instances
-if ($cash_settings) {
-	// thanks to json_decode this will be null if the
-	if (isset($cash_settings['platforminitlocation'])) {
-		$cashmusic_root = str_replace('/cashmusic.php', '', $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation']);
-	}
-}
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');
 
-CASHSystem::startUp();
+$error_handler = new \Raven_ErrorHandler($client);
+$error_handler->registerExceptionHandler();
+$error_handler->registerErrorHandler();
+$error_handler->registerShutdownFunction();
 
 // push away anyone who's trying to access the controller directly
 if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header($http_codes[403], true, 403);
 	exit;
 } else {
-	// instantiate the API, pass the request from .htaccess to it
-	if (!isset($_REQUEST['p'])) {
-		$final_request = '/';
-	} else {
-		$final_request = $_REQUEST['p'];
-	}
-
-	new APICore($final_request);
-	exit;
+	return new CASHAPI();
 }
 ?>

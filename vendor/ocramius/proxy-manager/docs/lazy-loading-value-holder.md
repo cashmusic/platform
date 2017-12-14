@@ -1,7 +1,3 @@
----
-title: Lazy Loading Value Holder Proxy
----
-
 # Lazy Loading Value Holder Proxy
 
 A lazy loading value holder proxy is a virtual proxy that wraps and lazily initializes a "real" instance of the proxied
@@ -70,7 +66,7 @@ class HeavyComplexObject
     }
 
     public function doFoo() {
-        echo 'OK!';
+        echo "OK!"
     }
 }
 ```
@@ -93,7 +89,7 @@ $initializer = function (& $wrappedObject, LazyLoadingInterface $proxy, $method,
     return true; // confirm that initialization occurred correctly
 };
 
-$proxy = $factory->createProxy('MyApp\HeavyComplexObject', $initializer);
+$instance = $factory->createProxy('MyApp\HeavyComplexObject', $initializer);
 ```
 
 You can now simply use your object as before:
@@ -114,20 +110,20 @@ The initializer closure signature should be as following:
  *                             set it to your real object
  * @var object  $proxy         the instance proxy that is being initialized
  * @var string  $method        the name of the method that triggered lazy initialization
- * @var array   $parameters    an ordered list of parameters passed to the method that
+ * @var string  $parameters    an ordered list of parameters passed to the method that
  *                             triggered initialization, indexed by parameter name
  * @var Closure $initializer   a reference to the property that is the initializer for the
  *                             proxy. Set it to null to disable further initialization
  *
  * @return bool true on success
  */
-$initializer = function (& $wrappedObject, $proxy, $method, array $parameters, & $initializer) {};
+$initializer = function (& $wrappedObject, $proxy, $method, $parameters, & $initializer) {};
 ```
 
 The initializer closure should usually be coded like following:
 
 ```php
-$initializer = function (& $wrappedObject, $proxy, $method, array $parameters, & $initializer) {
+$initializer = function (& $wrappedObject, $proxy, $method, $parameters, & $initializer) {
     $newlyCreatedObject = new Foo(); // instantiation logic
     $newlyCreatedObject->setBar('baz') // instantiation logic
     $newlyCreatedObject->setBat('bam') // instantiation logic
@@ -201,13 +197,6 @@ You can also generate proxies from an interface FQCN. By proxying an interface, 
 methods defined by the interface itself, even if the `wrappedObject` implements more methods. This will anyway save
 some memory since the proxy won't contain useless inherited properties.
 
-## Known limitations
-
- * methods using `func_get_args()`, `func_get_arg()` and `func_num_arg()` will not function properly
-   for parameters that are not part of the proxied object interface: use 
-   [variadic arguments](http://php.net/manual/en/functions.arguments.php#functions.variable-arg-list)
-   instead.
-
 ## Tuning performance for production
 
-See [Tuning ProxyManager for Production](tuning-for-production.md).
+See [Tuning ProxyManager for Production](https://github.com/Ocramius/ProxyManager/blob/master/docs/tuning-for-production.md).

@@ -8,18 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
  * PeopleAnalyticsBasic
  *
  * @Table(name="people_analytics_basic")
- * @Entity
- */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class PeopleAnalyticsBasic extends EntityBase
 {
 
-    protected $fillable;
+    protected $fillable = ['user_id', 'total'];
     /**
      * @var integer
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId = '0';
+    protected $user_id = '0';
 
     /**
      * @var integer
@@ -31,16 +30,16 @@ class PeopleAnalyticsBasic extends EntityBase
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate = '0';
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

@@ -5,8 +5,8 @@ use Aws\AwsClient;
 use Aws\Api\Service;
 use Aws\Api\DocModel;
 use Aws\Api\ApiProvider;
-use Aws\IdempotencyTokenMiddleware;
 use Aws\PresignUrlMiddleware;
+
 /**
  * Client used to interact with Amazon EC2.
  *
@@ -442,14 +442,28 @@ use Aws\PresignUrlMiddleware;
  * @method \GuzzleHttp\Promise\Promise associateSubnetCidrBlockAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result associateVpcCidrBlock(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise associateVpcCidrBlockAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result createDefaultVpc(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise createDefaultVpcAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result createEgressOnlyInternetGateway(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise createEgressOnlyInternetGatewayAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result createFpgaImage(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise createFpgaImageAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result createNetworkInterfacePermission(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise createNetworkInterfacePermissionAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result deleteEgressOnlyInternetGateway(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise deleteEgressOnlyInternetGatewayAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result deleteNetworkInterfacePermission(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise deleteNetworkInterfacePermissionAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result describeEgressOnlyInternetGateways(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise describeEgressOnlyInternetGatewaysAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result describeElasticGpus(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise describeElasticGpusAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result describeFpgaImages(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise describeFpgaImagesAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result describeIamInstanceProfileAssociations(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise describeIamInstanceProfileAssociationsAsync(array $args = []) (supported in versions 2016-11-15)
+ * @method \Aws\Result describeNetworkInterfacePermissions(array $args = []) (supported in versions 2016-11-15)
+ * @method \GuzzleHttp\Promise\Promise describeNetworkInterfacePermissionsAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result describeVolumesModifications(array $args = []) (supported in versions 2016-11-15)
  * @method \GuzzleHttp\Promise\Promise describeVolumesModificationsAsync(array $args = []) (supported in versions 2016-11-15)
  * @method \Aws\Result disassociateIamInstanceProfile(array $args = []) (supported in versions 2016-11-15)
@@ -467,39 +481,6 @@ use Aws\PresignUrlMiddleware;
  */
 class Ec2Client extends AwsClient
 {
-    public static function getArguments()
-    {
-        $args = parent::getArguments();
-        return $args + [
-            'idempotency_auto_fill' => [
-                'type'    => 'config',
-                'valid'   => ['bool'],
-                'doc'     => 'Set to false to disable SDK to populate parameters that'
-                    . ' enabled \'idempotencyToken\' trait with a random UUID v4'
-                    . ' value on your behalf. Using default value \'true\' still allows'
-                    . ' parameter value to be overwritten when provided. Note:'
-                    . ' auto-fill only works when cryptographically secure random'
-                    . ' bytes generator functions(random_bytes, openssl_random_pseudo_bytes'
-                    . ' or mcrypt_create_iv) can be found.',
-                'default' => true,
-            ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * In addition to the options available to
-     * {@see Aws\AwsClient::__construct}, Ec2Client accepts the following
-     * options:
-     *
-     * - idempotency_auto_fill: (bool) Set to false to disable SDK to populate
-     *   parameters that enabled 'idempotencyToken' trait with a default UUID v4
-     *   value on your behalf. Using default value 'true' still allows parameter
-     *   value to be overwritten when provided.
-     *
-     * @param array $args
-     */
     public function __construct(array $args)
     {
         $args['with_resolved'] = function (array $args) {
@@ -520,13 +501,6 @@ class Ec2Client extends AwsClient
         };
 
         parent::__construct($args);
-        if ($this->getConfig('idempotency_auto_fill')) {
-            $stack = $this->getHandlerList();
-            $stack->prependInit(
-                IdempotencyTokenMiddleware::wrap($this->getApi()),
-                'ec2.idempotency_auto_fill'
-            );
-        }
     }
 
     /**

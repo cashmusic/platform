@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SystemAnalytics
  *
  * @Table(name="system_analytics")
- * @Entity
- */
+ * @Entity(repositoryClass="CASHMusic\Entities\CASHEntityRepository") @HasLifecycleCallbacks */
 class SystemAnalytics extends EntityBase
 {
 
@@ -33,7 +32,7 @@ class SystemAnalytics extends EntityBase
      *
      * @Column(name="primary_value", type="string", length=255, nullable=false)
      */
-    protected $primaryValue;
+    protected $primary_value;
 
     /**
      * @var string
@@ -47,35 +46,35 @@ class SystemAnalytics extends EntityBase
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
-    protected $userId;
+    protected $user_id;
 
     /**
      * @var string
      *
      * @Column(name="scope_table_alias", type="text", length=65535, nullable=true)
      */
-    protected $scopeTableAlias;
+    protected $scope_table_alias;
 
     /**
      * @var integer
      *
      * @Column(name="scope_table_id", type="integer", nullable=true)
      */
-    protected $scopeTableId;
+    protected $scope_table_id;
 
     /**
      * @var integer
      *
-     * @Column(name="creation_date", type="integer", nullable=true)
+     * @Column(name="creation_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $creationDate;
+    protected $creation_date;
 
     /**
      * @var integer
      *
-     * @Column(name="modification_date", type="integer", nullable=true)
+     * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
-    protected $modificationDate;
+    protected $modification_date;
 
     /** @Id @Column(type="integer") @GeneratedValue(strategy="AUTO") **/
     protected $id;

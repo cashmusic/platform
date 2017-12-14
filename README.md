@@ -1,5 +1,3 @@
-[![Funded by The Shuttleworth Foundation](https://cloud.githubusercontent.com/assets/368640/11352290/6d23f2fe-91f0-11e5-9104-53eab0a36abe.jpg)](https://www.shuttleworthfoundation.org/)
-
 # CASH Music Platform
 
 The CASH Music platform gives everyone access to tools that let them manage, 
@@ -11,21 +9,7 @@ installers, an admin webapp, APIs, demos, and a full suite of tests.
 
 [![Build Status](https://secure.travis-ci.org/cashmusic/platform.svg)](http://travis-ci.org/cashmusic/platform)
 
-  
-## Get up and running
-
-All you need to get started is [VirtualBox](https://www.virtualbox.org/wiki/Downloads), 
-[Vagrant 1.4+](http://www.vagrantup.com/downloads.html), and this repo. Just fork, install
-VirtualBox and Vagrant, then open a terminal window and in the repo directory type:
-
-```bash
-vagrant up
-```  
-
-Vagrant will fire up a VM, set up Apache, install the platform, and start serving a 
-special dev website with tools, docs, and a live instance of the platform — all mapped 
-right to localhost:8888.
-
+ 
 ![Dev site included in repo](https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/special/docs/dev_screenshot.jpg)
 
 

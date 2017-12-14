@@ -7,7 +7,7 @@
         "php": ">=5.3"
     },
     "autoload": {
-        "psr-0": { "SecurityLib\SecurityLib": "" }
+        "psr-0": { "SecurityLib\\SecurityLib": "" }
     },
-    "target-dir": "SecurityLib\SecurityLib"
+    "target-dir": "SecurityLib\\SecurityLib"
 }

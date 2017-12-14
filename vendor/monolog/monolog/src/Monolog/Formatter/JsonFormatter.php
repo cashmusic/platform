@@ -12,6 +12,7 @@
 namespace Monolog\Formatter;
 
 use Exception;
+use Throwable;
 
 /**
  * Encodes whatever record data is passed to it as json
@@ -27,6 +28,7 @@ class JsonFormatter extends NormalizerFormatter
 
     protected $batchMode;
     protected $appendNewline;
+
     /**
      * @var bool
      */
@@ -34,6 +36,7 @@ class JsonFormatter extends NormalizerFormatter
 
     /**
      * @param int $batchMode
+     * @param bool $appendNewline
      */
     public function __construct($batchMode = self::BATCH_MODE_JSON, $appendNewline = true)
     {
@@ -152,7 +155,7 @@ class JsonFormatter extends NormalizerFormatter
             return $normalized;
         }
 
-        if ($data instanceof Exception) {
+        if ($data instanceof Exception || $data instanceof Throwable) {
             return $this->normalizeException($data);
         }
 
@@ -170,7 +173,7 @@ class JsonFormatter extends NormalizerFormatter
     protected function normalizeException($e)
     {
         // TODO 2.0 only check for Throwable
-        if (!$e instanceof Exception && !$e instanceof \Throwable) {
+        if (!$e instanceof Exception && !$e instanceof Throwable) {
             throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.get_class($e));
         }
 
@@ -186,6 +189,9 @@ class JsonFormatter extends NormalizerFormatter
             foreach ($trace as $frame) {
                 if (isset($frame['file'])) {
                     $data['trace'][] = $frame['file'].':'.$frame['line'];
+                } elseif (isset($frame['function']) && $frame['function'] === '{closure}') {
+                    // We should again normalize the frames, because it might contain invalid items
+                    $data['trace'][] = $frame['function'];
                 } else {
                     // We should again normalize the frames, because it might contain invalid items
                     $data['trace'][] = $this->normalize($frame);

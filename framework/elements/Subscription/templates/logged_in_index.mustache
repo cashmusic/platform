@@ -1,12 +1,26 @@
-
 <div class="cm-sub-logo"></div>
+
 <div id="cm-subscription-feed">
+    <div class="account-settings">
+        <a href="#" class="feed-button cm-logout">Logout</a>
+        <a href="#" class="feed-button cm-account-settings">Account Settings</a>
+
+    </div>
 {{#firstuse}} 
-<h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
+<h1 class="cm-success-title">Welcome to the {{subscription_name}}!</h1>
 <div class="cm-verify">{{{message_verify}}}</div>
 <div class="test-buttons"></div>
 {{/firstuse}}
 
+{{^firstuse}}
+    {{^show_feed}}
+    <div class="item cm-audio no-feed">
+        <p>Thanks for joining the {{subscription_name}}. You can change your settings via the <em>Account Settings</em> button.</p>
+    </div>
+    {{/show_feed}}
+{{/firstuse}}
+
+{{#show_feed}}
 {{^items}}
     <div class="item cm-audio">
         <p>There are currently no posts for this subscription feed.</p>
@@ -31,11 +45,10 @@
         {{/fulfillment_assets}}
     </div>
 {{/items}}
+{{/show_feed}}
 
 </div><!--cm-subscription-feed-->
 
-
-{{#firstuse}}
 <script type="text/javascript">
 
 var cm = window.cashmusic;
@@ -44,20 +57,37 @@ cm.events.add(cm,'ready', function(e) {
 
     cm.session.start();
 
+    var account_settings = document.querySelector('.cm-account-settings');
+    var logout = document.querySelector('.cm-logout');
+
+    if (account_settings) {
+        cm.events.add(account_settings, 'click', function (e) {
+            e.preventDefault();
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"account_settings"});
+        });
+    }
+
+    if (logout) {
+        cm.events.add(logout, 'click', function (e) {
+            e.preventDefault();
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logout"});
+        });
+    }
+
+    {{#firstuse}}
     cm.loadScript(cm.path + '/share/share-buttons.js', function () {
         cm.shareButtons.buildButtons(
             ".test-buttons",
             {
-                'title':'Join the CASH Music Family.',
-                'description':'Support musicians. Vote on what we create. Receive monthly music. Access our exclusive store. We fight for musicians because art is too important to let corporations lead the way. Let’s build a better future together.',
-                'caption':'CASH Music is a nonprofit empowering artists through open tools & knowledge.',
-                'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
-                'url':'https://family.cashmusic.org',
-                'tags':"CASH Music,Run the jewels,non-profit,musicians"
+                'title':'Join the {{subscription_name}}.',
+                'description':'{{subscription_description}}',
+                'caption':'{{subscription_description}}',
+                'url':'{{element_url}}',
+                'tags':"{{subscription_name}},subscription"
             }
         );
     });
+    {{/firstuse}}
 });
 
 </script>
-{{/firstuse}}

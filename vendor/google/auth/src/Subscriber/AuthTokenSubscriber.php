@@ -17,12 +17,10 @@
 
 namespace Google\Auth\Subscriber;
 
-use Google\Auth\CacheTrait;
 use Google\Auth\FetchAuthTokenInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
-use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * AuthTokenSubscriber is a Guzzle Subscriber that adds an Authorization header
@@ -33,19 +31,10 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * Requests will be accessed with the authorization header:
  *
- * 'Authorization' 'Bearer <value of auth_token>'
+ * 'authorization' 'Bearer <value of auth_token>'
  */
 class AuthTokenSubscriber implements SubscriberInterface
 {
-    use CacheTrait;
-
-    const DEFAULT_CACHE_LIFETIME = 1500;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
-
     /**
      * @var callable
      */
@@ -57,11 +46,6 @@ class AuthTokenSubscriber implements SubscriberInterface
     private $fetcher;
 
     /**
-     * @var array
-     */
-    private $cacheConfig;
-
-    /**
      * @var callable
      */
     private $tokenCallback;
@@ -70,28 +54,17 @@ class AuthTokenSubscriber implements SubscriberInterface
      * Creates a new AuthTokenSubscriber.
      *
      * @param FetchAuthTokenInterface $fetcher is used to fetch the auth token
-     * @param array $cacheConfig configures the cache
-     * @param CacheItemPoolInterface $cache (optional) caches the token.
      * @param callable $httpHandler (optional) http client to fetch the token.
      * @param callable $tokenCallback (optional) function to be called when a new token is fetched.
      */
     public function __construct(
         FetchAuthTokenInterface $fetcher,
-        array $cacheConfig = null,
-        CacheItemPoolInterface $cache = null,
         callable $httpHandler = null,
         callable $tokenCallback = null
     ) {
         $this->fetcher = $fetcher;
         $this->httpHandler = $httpHandler;
         $this->tokenCallback = $tokenCallback;
-        if (!is_null($cache)) {
-            $this->cache = $cache;
-            $this->cacheConfig = array_merge([
-                'lifetime' => self::DEFAULT_CACHE_LIFETIME,
-                'prefix' => '',
-            ], $cacheConfig);
-        }
     }
 
     /**
@@ -111,11 +84,7 @@ class AuthTokenSubscriber implements SubscriberInterface
      *
      *   $config = [..<oauth config param>.];
      *   $oauth2 = new OAuth2($config)
-     *   $subscriber = new AuthTokenSubscriber(
-     *       $oauth2,
-     *       ['prefix' => 'OAuth2::'],
-     *       $cache = new Memcache()
-     *   );
+     *   $subscriber = new AuthTokenSubscriber($oauth2);
      *
      *   $client = new Client([
      *      'base_url' => 'https://www.googleapis.com/taskqueue/v1beta2/projects/',
@@ -135,28 +104,14 @@ class AuthTokenSubscriber implements SubscriberInterface
             return;
         }
 
-        // Use the cached value if its available.
-        //
-        // TODO: correct caching; update the call to setCachedValue to set the expiry
-        // to the value returned with the auth token.
-        //
-        // TODO: correct caching; enable the cache to be cleared.
-        $cached = $this->getCachedValue();
-        if (!empty($cached)) {
-            $request->setHeader('Authorization', 'Bearer ' . $cached);
-
-            return;
-        }
-
         // Fetch the auth token.
         $auth_tokens = $this->fetcher->fetchAuthToken($this->httpHandler);
         if (array_key_exists('access_token', $auth_tokens)) {
-            $request->setHeader('Authorization', 'Bearer ' . $auth_tokens['access_token']);
-            $this->setCachedValue($auth_tokens['access_token']);
+            $request->setHeader('authorization', 'Bearer ' . $auth_tokens['access_token']);
 
             // notify the callback if applicable
             if ($this->tokenCallback) {
-                call_user_func($this->tokenCallback, $this->getFullCacheKey(), $auth_tokens['access_token']);
+                call_user_func($this->tokenCallback, $this->fetcher->getCacheKey(), $auth_tokens['access_token']);
             }
         }
     }

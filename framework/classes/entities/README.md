@@ -24,7 +24,7 @@ Every entity class should have a protected property `$fillable`, which the magic
 
 Find a model by unique id.
 
-`$asset = Asset::find(5);`
+`$asset = $this->orm->find(Asset::class, 5 );`
 
 ## {EntityName}::all($limit=null, $order_by=null, $offset=null)
 
@@ -63,7 +63,7 @@ Delete a model by unique id.
 Save and persist changes to a loaded entity to the database.
 
 ```
-$asset = Asset::find(5);
+$asset = $this->orm->find(Asset::class, 5 );
 
 $asset->property = "foo";
 $asset->save();
@@ -97,7 +97,7 @@ public function lists($conditions=false) {
 Then you can get the related objects when you call a related entity:
 
 ```
-$user = People::find(1);
+$user = $this->orm->find(People::class, 1 );
 
 foreach($user->lists() as $list) {
   echo $list->name;

@@ -14,6 +14,7 @@ $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
  *
  ******************************************************************************/
 $effective_user = $cash_admin->effective_user_id;
+
 if ($request_parameters) {
 	/****************************************************************************
 	 *
@@ -91,7 +92,6 @@ if ($request_parameters) {
 		)
 	);
 	$order_all_details = $order_details_response['payload'];
-
 	if ($order_all_details['user_id'] == $effective_user) {
 		// format all the details into easy mustache variables
 		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
@@ -103,28 +103,33 @@ if ($request_parameters) {
 		$order_all_details['order_connection_details'] = $admin_helper->getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
 
-		$order_contents = json_decode($order_all_details['order_contents'],true);
+		$order_contents = $order_all_details['order_contents'];
 
 		$item_price = 0;
-		foreach ($order_contents as $key => $item) {
-			if (!isset($item['qty'])) {
-				$item['qty'] = 1;
-			}
-			$item['price'] = $item['qty'] * $item['price'];
-			$item_price += $item['price'];
 
-			if (isset($item['variant'])) {
-				$variant_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'commerce',
-						'cash_action' => 'formatvariantname',
-						'name' => $item['variant']
-					)
-				);
-				if ($variant_response['payload']) {
-					$order_contents[$key]['variant'] = $variant_response['payload'];
-				}
-			}
+		if ($order_contents) {
+            foreach ($order_contents as $key => $item) {
+                if (!isset($item['qty'])) {
+                    $item['qty'] = 1;
+                }
+                $item['price'] = $item['qty'] * $item['price'];
+                $item_price += $item['price'];
+
+                if (isset($item['variant'])) {
+                    $variant_response = $cash_admin->requestAndStore(
+                        array(
+                            'cash_request_type' => 'commerce',
+                            'cash_action' => 'formatvariantname',
+                            'name' => $item['variant']
+                        )
+                    );
+                    if ($variant_response['payload']) {
+                        $order_contents[$key]['variant'] = $variant_response['payload'];
+                    }
+                }
+            }
+		} else {
+			$order_contents = [];
 		}
 
         $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
@@ -133,7 +138,6 @@ if ($request_parameters) {
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 
-		$shipping_address = $order_all_details['data'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		// customer
@@ -141,7 +145,8 @@ if ($request_parameters) {
 		if (!empty($order_all_details['customer_shipping_name'])) {
 			$customer_name = $order_all_details['customer_shipping_name'];
 		} else {
-			$customer_name = $order_all_details['customer_name'];
+			$customer_name = (isset($order_all_details['customer_name'])) ? $order_all_details['customer_name'] : false;
+
 		}
 
 		$cash_admin->page_data['customer_name'] = $customer_name;
@@ -162,6 +167,8 @@ if ($request_parameters) {
 				$cash_admin->page_data['display_shipping_address'] = true;
 			}
 		}
+
+		if (count($order_contents) < 1) $cash_admin->page_data['display_shipping_address'] = true; // weird mostly testing situation
 	} else {
 		// bogus ID specified — bounce that shit
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');

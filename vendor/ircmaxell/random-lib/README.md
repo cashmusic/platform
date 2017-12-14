@@ -1,10 +1,20 @@
 RandomLib
 =========
 
+[![Build Status](https://travis-ci.org/ircmaxell/RandomLib.svg?branch=master)](https://travis-ci.org/ircmaxell/RandomLib)
+
 A library for generating random numbers and strings of various strengths.
 
 This library is useful in security contexts.
 
+Install
+-------
+
+Via Composer
+
+```sh
+$ composer require ircmaxell/random-lib
+```
 
 Usage
 -----
@@ -98,7 +108,7 @@ each allowed character.
 
 If no character list is specified, the following list of characters is used:
 
-    0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./
+    0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/
 
 **Examples:**
 
@@ -127,3 +137,8 @@ Community
 
 If you have questions or want to help out, join us in the **#php.security**
 channel on **irc.freenode.net**.
+
+Security Vulnerabilities
+========================
+
+If you have found a security issue, please contact the author directly at [me@ircmaxell.com](mailto:me@ircmaxell.com).

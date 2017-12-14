@@ -24,7 +24,7 @@ use CASHMusic\Core\SeedBase;
 
 class SoundScanSeed extends SeedBase
 {
-    private $chain_number, $account_number, $end_date, $orders, $report_type, $ftp_domain, $ftp_user, $ftp_password, $filename;
+    private $chain_number, $account_number, $end_date, $orders, $report_type, $ftp_domain, $ftp_user, $ftp_password, $filename, $total_items;
     public $report;
 
     public function __construct($orders, $end_date, $report_type) {
@@ -70,7 +70,7 @@ class SoundScanSeed extends SeedBase
             error_log(
                 "Couldn't find Soundscan settings"
             );
-            return false;
+
         }
     }
 
@@ -100,7 +100,7 @@ class SoundScanSeed extends SeedBase
             // first 2 characters of each line are record type "M3"
             // loop through each order and dump UPC and zip
             // end each line with sale ("S") or return ("R")
-            $this->report .= "M3" . $order['upc'] . $this->stripPostalCode($order['postal']). "S\n";
+            $this->report .= "M3" . $order['upc'] . $this->stripPostalCode($order['shipping_postal']). "S\n";
         }
 
         return $this;
@@ -213,14 +213,14 @@ class SoundScanSeed extends SeedBase
     }
 
     private function formatDigitalOrders() {
-
+        $orders_formatted = [];
         foreach ($this->orders as $order) {
             // album(A) or single(S), ISRC/UPC, zip (no +4. first 5 digits only), price (4 digits in pennies)
             $orders_formatted[] = [
                 'A',
-                $order['upc'],
-                $order['postal'],
-                $order['price']
+                $order->upc,
+                $order->postal,
+                $order->price
             ];
         }
 
@@ -228,7 +228,15 @@ class SoundScanSeed extends SeedBase
     }
 
     private function stripPostalCode($postal) {
-        // USA USA USA USA USA USA!!!!
-        return substr($postal, 0, 5);
+
+        $postal = trim($postal);
+
+        if (preg_match("/([A-Z])\w+/", $postal)) {
+            // CANADA CANADA CANADA
+            return substr($postal, 0, 7);
+        } else {
+            // USA USA USA USA USA USA!!!!
+            return substr($postal, 0, 5);
+        }
     }
 }

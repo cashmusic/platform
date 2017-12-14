@@ -8,18 +8,17 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$effective_user_id = $admin_helper->getPersistentData('cash_effective_user');
+$settings_request = new CASHRequest(
+    array(
+        'cash_request_type' => 'system',
+        'cash_action' => 'getsettings',
+        'type' => 'payment_defaults',
+        'user_id' => $effective_user_id
+    )
+);
 
-    $settings_request = new CASHRequest(
-        array(
-            'cash_request_type' => 'system',
-            'cash_action' => 'getsettings',
-            'type' => 'payment_defaults',
-            'user_id' => $cash_admin->effective_user_id
-        )
-    );
-    if (is_array($settings_request->response['payload'])) {
-        $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-    }
+$stripe_default = isset_else($settings_request->response['payload']['stripe_default'], false);
 
 if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
 
@@ -28,11 +27,11 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'createsubscriptionplan',
-            'user_id' => $cash_admin->effective_user_id,
+            'user_id' => $effective_user_id,
             'connection_id' => $stripe_default,
             'plan_name' => $_POST['name'],
             'description' => $_POST['description'],
-            'sku' => "cash_".$cash_admin->effective_user_id."_".uniqid(),
+            'sku' => "cash_".$effective_user_id."_".uniqid(),
             'amount' => $_POST['price'],
             'flexible_price' => (isset($_POST['flexible_price'])) ? true : false,
             'recurring' => (isset($_POST['recurring'])) ? true : false,
@@ -50,7 +49,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
         $admin_helper->formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
         /*CASHSystem::redirectToUrl(CASH_ADMIN_URL."/commerce/subscriptions/detail/".$subscription_request->response['payload']['numeric_id']);*/
     } else {
-        $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$subscription_request->response['payload']);
+        $admin_helper->formFailure('Error. Something just didn\'t work right.<br>',"/commerce/");
     }
 } else {
     $cash_admin->setPageContentTemplate('commerce_subscriptions_add');

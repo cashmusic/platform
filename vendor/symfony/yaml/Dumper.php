@@ -41,6 +41,8 @@ class Dumper
      * Sets the indentation.
      *
      * @param int $num The amount of spaces to use for indentation of nested nodes
+     *
+     * @deprecated since version 3.1, to be removed in 4.0. Pass the indentation to the constructor instead.
      */
     public function setIndentation($num)
     {
@@ -81,15 +83,20 @@ class Dumper
 
         $output = '';
         $prefix = $indent ? str_repeat(' ', $indent) : '';
+        $dumpObjectAsInlineMap = true;
 
-        if ($inline <= 0 || !is_array($input) || empty($input)) {
+        if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($input instanceof \ArrayObject || $input instanceof \stdClass)) {
+            $dumpObjectAsInlineMap = empty((array) $input);
+        }
+
+        if ($inline <= 0 || (!is_array($input) && $dumpObjectAsInlineMap) || empty($input)) {
             $output .= $prefix.Inline::dump($input, $flags);
         } else {
-            $isAHash = Inline::isHash($input);
+            $dumpAsMap = Inline::isHash($input);
 
             foreach ($input as $key => $value) {
                 if ($inline >= 1 && Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && is_string($value) && false !== strpos($value, "\n")) {
-                    $output .= sprintf("%s%s%s |\n", $prefix, $isAHash ? Inline::dump($key, $flags).':' : '-', '');
+                    $output .= sprintf("%s%s%s |\n", $prefix, $dumpAsMap ? Inline::dump($key, $flags).':' : '-', '');
 
                     foreach (preg_split('/\n|\r\n/', $value) as $row) {
                         $output .= sprintf("%s%s%s\n", $prefix, str_repeat(' ', $this->indentation), $row);
@@ -98,11 +105,17 @@ class Dumper
                     continue;
                 }
 
-                $willBeInlined = $inline - 1 <= 0 || !is_array($value) || empty($value);
+                $dumpObjectAsInlineMap = true;
+
+                if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($value instanceof \ArrayObject || $value instanceof \stdClass)) {
+                    $dumpObjectAsInlineMap = empty((array) $value);
+                }
+
+                $willBeInlined = $inline - 1 <= 0 || !is_array($value) && $dumpObjectAsInlineMap || empty($value);
 
                 $output .= sprintf('%s%s%s%s',
                     $prefix,
-                    $isAHash ? Inline::dump($key, $flags).':' : '-',
+                    $dumpAsMap ? Inline::dump($key, $flags).':' : '-',
                     $willBeInlined ? ' ' : "\n",
                     $this->dump($value, $inline - 1, $willBeInlined ? 0 : $indent + $this->indentation, $flags)
                 ).($willBeInlined ? "\n" : '');

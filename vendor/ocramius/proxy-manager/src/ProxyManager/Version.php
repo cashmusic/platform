@@ -16,11 +16,7 @@
  * and is licensed under the MIT license.
  */
 
-declare(strict_types=1);
-
 namespace ProxyManager;
-
-use PackageVersions\Versions;
 
 /**
  * Version class - to be adjusted when a new release is created.
@@ -32,21 +28,12 @@ use PackageVersions\Versions;
  */
 final class Version
 {
+    const VERSION = '1.0.0';
+
     /**
      * Private constructor - this class is not meant to be instantiated
      */
     private function __construct()
     {
-    }
-
-    /**
-     * Retrieves the package version in the format <detected-version>@<commit-hash>,
-     * where the detected version is what composer could detect.
-     *
-     * @return string
-     */
-    public static function getVersion() : string
-    {
-        return Versions::getVersion('ocramius/proxy-manager');
     }
 }

@@ -89,6 +89,8 @@ $links_response = $cash_admin->requestAndStore(
 if (is_array($links_response['payload'])) {
 	$links_response['payload'] = array_reverse($links_response['payload']); // newest first
 	foreach ($links_response['payload'] as &$link) {
+
+        $link = $link->toArray();
 		$link['descriptor_string'] = 'added: ' . CASHSystem::formatTimeAgo($link['creation_date']);
 		$link['publishing_date'] = CASHSystem::formatTimeAgo($link['metadata']['publishing_date']);
 	}

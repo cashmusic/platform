@@ -62,6 +62,8 @@ if (isset($_POST['doaccountchange'])) {
 			}
 		}
 		$change_response = $cash_admin->requestAndStore($changes);
+        CASHSystem::errorLog($changes);
+		CASHSystem::errorLog($change_response);
 		if ($change_response['payload'] !== false) {
 			if (isset($changes['address'])) {
 				$admin_primary_cash_request->sessionSet('cash_effective_user_email',$changes['address']);
@@ -103,7 +105,6 @@ $user_response = $cash_admin->requestAndStore(
 	)
 );
 
-
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
@@ -115,7 +116,7 @@ $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions
 	$cash_admin->page_data['language']
 );
 
-if (!empty($current_userdata['payload'])) {
+if (!empty($user_response['payload'])) {
 	if (isset($_POST['dolanguagechange'])) {
 		if (isset($cash_admin->page_data['language'])) {
 			$admin_helper->formSuccess('Success. Language changed.');

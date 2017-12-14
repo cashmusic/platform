@@ -121,10 +121,13 @@ if (is_array($settings_request->response['payload'])) {
     if ($subscriber_request->response['payload']) {
 
         // get subscription details
-        $data = json_decode($subscriber_request->response['payload'][0]['data'], true);
-        $cash_admin->page_data['subscriber'] = $subscriber_request->response['payload'][0];
+        $subscription_details = $subscriber_request->response['payload']->toArray();
 
-        $cash_admin->page_data['subscription_id'] = $subscriber_request->response['payload'][0]['subscription_id'];
+        $data = $subscription_details['data'];
+
+        $cash_admin->page_data['subscriber'] = $subscription_details;
+
+        $cash_admin->page_data['subscription_id'] = $subscription_details['subscription_id'];
 
         $cash_admin->page_data['subscriber']['creation_date'] = date("F jS, Y", $cash_admin->page_data['subscriber']['creation_date']);
         $cash_admin->page_data['customer'] = $data['customer'];
@@ -140,12 +143,48 @@ if (is_array($settings_request->response['payload'])) {
             )
         );
 
+        $plan_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptionplan',
+                'user_id' => $cash_admin->effective_user_id,
+                'id' => $subscription_details['subscription_id']
+            )
+        );
+
+        if ($plan_request->response['payload']) {
+            if (!is_cash_model($plan_request->response['payload'])) {
+                $plan = $plan_request->response['payload'];
+            } else {
+                $plan = $plan_request->response['payload']->toArray();
+            }
+            $cash_admin->page_data['plan'] = $plan;
+        }
+
+
+        $settings_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'use_currency',
+                'user_id' => $cash_admin->effective_user_id
+            )
+        );
+        if ($settings_response['payload']) {
+            $current_currency = $settings_response['payload'];
+        } else {
+            $current_currency = 'USD';
+        }
+
+        $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($current_currency);
+
 
         if ($subscriber_request->response['payload']) {
             $payments = $subscriber_request->response['payload'];
 
             foreach ($payments as $payment) {
-
+                $payment = $payment->toArray();
+                $payment['currency'] = $cash_admin->page_data['currency'];
                 $payment['service_timestamp'] = date('m/d/Y g:i A', $payment['service_timestamp']);
                 $cash_admin->page_data['subscriptions_payment'][] = $payment;
             }

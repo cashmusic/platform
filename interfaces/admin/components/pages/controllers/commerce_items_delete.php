@@ -21,6 +21,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 			'id' => $request_parameters[0]
 		)
 	);
+
 	if ($item_delete_response['status_uid'] == 'commerce_deleteitem_200') {
 		$admin_helper->formSuccess('Success. Deleted.','/commerce/items/');
 	}
