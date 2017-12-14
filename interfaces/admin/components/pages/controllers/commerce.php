@@ -44,6 +44,7 @@ if (isset($_REQUEST['fulfill'])) {
  * 3. SECTION SETTINGS
  *
  ******************************************************************************/
+dd($_REQUEST);
 if (isset($_REQUEST['currency_id'])) {
 	$settings_response = $cash_admin->requestAndStore(
 		array(
