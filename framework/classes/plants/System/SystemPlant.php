@@ -608,11 +608,9 @@ class SystemPlant extends PlantBase {
         $setting = $this->orm->findWhere(SystemSettings::class, ['type'=>$type,'user_id'=>$user_id] );
 
 		if ($setting) {
-			CASHSystem::errorLog("exists");
 			$setting->update(['value'=>$value]);
 			return true;
 		} else {
-			CASHSystem::errorLog("doesnt exist");
 			// if this doesn't exist we need to create a new setting entry
 			$setting = $this->orm->create(SystemSettings::class, [
                 'type'=>$type,

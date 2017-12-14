@@ -284,6 +284,7 @@ class EntityBase extends CASHData
      */
     public function __set($property, $value)
     {
+        CASHSystem::errorLog("foo $property");
         // is fillable even set?
         if (is_array($this->fillable)) {
             // never let a property be set unless it's in $fillable array
