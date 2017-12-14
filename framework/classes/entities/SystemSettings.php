@@ -23,7 +23,7 @@ class SystemSettings extends EntityBase
     /**
      * @var string
      *
-     * @Column(name="value", type="json_array", length=65535, nullable=false)
+     * @Column(name="value", type="text", length=65535, nullable=false)
      */
     protected $value;
 
