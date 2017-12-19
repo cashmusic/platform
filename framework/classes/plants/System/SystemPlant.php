@@ -353,6 +353,7 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */protected function setLoginCredentials($user_id,$address=false,$password=false,$username=false,$is_admin=false,$display_name=false,$url=false) {
 
+	 	CASHSystem::errorLog("setLoginCredentials");
 		if ($password) {
 			$password_hash = $this->generatePasswordHash($password);
 		}
@@ -416,7 +417,7 @@ class SystemPlant extends PlantBase {
 				}
 			}
 		}
-
+		CASHSystem::errorLog($credentials);
 		if (count($credentials)) {
 
             // reset the data field for subscriptions
