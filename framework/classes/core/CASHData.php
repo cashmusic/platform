@@ -59,7 +59,10 @@ abstract class CASHData {
 			'host'      => $cash_db_settings['hostname'],
 			'database'  => $cash_db_settings['database'],
 			'username'  => $cash_db_settings['username'],
-			'password'  => $cash_db_settings['password']
+			'password'  => $cash_db_settings['password'],
+            'options' => [
+                PDO::ATTR_PERSISTENT => true
+            ]
 		);
 
 		/*'options' => [
