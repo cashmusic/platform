@@ -78,9 +78,9 @@ class People extends EntityBase {
     /** @Column(type="integer", nullable=true, options={"default": "UNIX_TIMESTAMP()"}) **/
     protected $modification_date;
 
-    public function setPasswordAttribute($value) {
+    /*public function setPasswordAttribute($value) {
         $this->password = md5($value);
-    }
+    }*/
 
 /*    public function getDataAttribute() {
             if (empty($this->data) || gettype($this->data) == "string") return array();
