@@ -28,7 +28,6 @@ class AuthMiddleware extends ResourceServerMiddleware
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         if ($request->getAttribute('auth_required') === true) {
-            CASHSystem::errorLog("this no");
             return parent::__invoke($request, $response, $next);
             // else set authed true
         }
