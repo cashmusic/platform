@@ -37,9 +37,10 @@
 				<tr>
 					<th scope="col">{{copy_email}}</th>
 					<th scope="col">{{copy_name}}</th>
-                    <th scope="col">Postal code</th>
+                    <th scope="col">Postal</th>
 					<th scope="col">{{copy_joined}}</th>
 					<th scope="col">{{copy_comment}}</th>
+                    <th scope="col">Geo data</th>
 				</tr>
 			</thead>
 
@@ -51,6 +52,13 @@
                 <td>{{address_postalcode}}</td>
 				<td>{{formatted_date}}</td>
 				<td>{{initial_comment}}</td>
+
+                <td>
+                {{#geo}}
+                    {{city}}<br>{{region}}<br>{{countryname}}
+                {{/geo}}
+                    </td>
+
 			</tr>
 			{{/list_members}}
 			</tbody>

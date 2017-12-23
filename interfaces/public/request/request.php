@@ -174,12 +174,19 @@ if (!isset($_REQUEST['nooutput'])) {
                             )
                         );
 
-                        if ($asset = $fulfillment_request->response['payload']) {
+                        if ($assets = $fulfillment_request->response['payload']) {
                             /*header("Location: ".$asset_uri);
                             die();*/
+                            $asset_link = "";
+                            foreach($assets as $asset) {
+                                $asset_link .= '
+<a class="cm-download-button" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a>';
+                            }
+
                             $embed_data = array(
                                 'contextual_name' => 'Your Download',
-                                'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p><a class="cm-download-button" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a><p><small>For all questions contact the vendor that sent this download.</small></p>'
+                                'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p>
+'.$asset_link.'<p><small>For all questions contact the vendor that sent this download.</small></p>'
                             );
 
 

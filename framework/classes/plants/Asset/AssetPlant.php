@@ -18,7 +18,6 @@
 
 namespace CASHMusic\Plants\Asset;
 
-use CASHMusic\Core\CASHDBAL;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
@@ -29,9 +28,6 @@ use CASHMusic\Entities\AssetAnalyticsBasic;
 use CASHMusic\Entities\People;
 use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Seeds\S3Seed;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
-use Pixie\Exception;
 
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
@@ -83,10 +79,6 @@ class AssetPlant extends PlantBase {
 		if (!is_array($asset_details)) {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
-		} else {
-            if ((isset($asset_details['scope_table_alias']) && $asset_details['scope_table_alias'] == 'assets')) {
-                $asset_details = $this->getAssetInfo($asset_details['scope_table_id']);
-            }
 		}
 
 		// test that getInfo returned results
