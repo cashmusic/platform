@@ -53,7 +53,7 @@ abstract class CASHSystem  {
 			$root = realpath(dirname(__FILE__) . '/../..');
 			if (!defined('CASH_PLATFORM_ROOT')) define('CASH_PLATFORM_ROOT', $root);
 			$cash_settings = CASHSystem::getSystemSettings();
-			define('CASH_API_URL', trim($cash_settings['apilocation']));
+			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
             define('CASH_API_KEY_PUB', trim($cash_settings['api_key_pub']));
             define('CASH_API_KEY_PRIV', trim($cash_settings['api_key_priv']));
 
