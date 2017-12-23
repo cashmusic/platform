@@ -17,8 +17,6 @@ namespace CASHMusic\API;
 require_once(dirname(__FILE__) . '/../../vendor/autoload.php');
 require_once('constants.php');
 
-echo realpath($_SERVER["DOCUMENT_ROOT"]); exit;
-
 use CASHMusic\Core\CASHAPI;
 
 $client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de:8466fc4fbb444580be84cb39d3d5ede9@sentry.io/252348');

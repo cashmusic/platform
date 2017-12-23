@@ -54,9 +54,8 @@ abstract class CASHSystem  {
 			if (!defined('CASH_PLATFORM_ROOT')) define('CASH_PLATFORM_ROOT', $root);
 			$cash_settings = CASHSystem::getSystemSettings();
 			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
-
-            define('CASH_API_KEY_PUB', trim(realpath($cash_settings['api_key_pub']),'/'));
-            define('CASH_API_KEY_PRIV', trim(realpath($cash_settings['api_key_priv']),'/'));
+            define('CASH_API_KEY_PUB', trim("../../..".$cash_settings['api_key_pub'],'/'));
+            define('CASH_API_KEY_PRIV', trim("../../..".$cash_settings['api_key_priv'],'/'));
 
 			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
 			define('CASH_PUBLIC_URL',str_replace('/api','/public',CASH_API_URL));
