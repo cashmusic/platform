@@ -223,10 +223,9 @@ class CASHAPI
 
         $resourceServer = new \League\OAuth2\Server\ResourceServer(
             $accessTokenRepository,
-            CASH_PLATFORM_ROOT . "/settings/keys/public.key"
+            CASH_API_KEY_PUB
         );
 
-        $privateKey = CASH_PLATFORM_ROOT . "/settings/keys/private.key";
         $encryptionKey = 'X7jv9J1UcOE00EgRGzcJJ6boPXFASE3idhwPUoWsw5k=';
 
         // Setup the authorization server
@@ -234,7 +233,7 @@ class CASHAPI
             $clientRepository,
             $accessTokenRepository,
             $scopeRepository,
-            $privateKey,
+            CASH_API_KEY_PRIV,
             $encryptionKey
         );
 

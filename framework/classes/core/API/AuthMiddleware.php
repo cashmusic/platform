@@ -19,7 +19,7 @@ class AuthMiddleware extends ResourceServerMiddleware
 
     public function __construct(AccessTokenRepository $accessTokenRepository) {
         $server = new ResourceServer(
-            $accessTokenRepository, CASH_PLATFORM_ROOT . "/settings/keys/public.key"
+            $accessTokenRepository, CASH_API_KEY_PUB
         );
 
         parent::__construct($server);
