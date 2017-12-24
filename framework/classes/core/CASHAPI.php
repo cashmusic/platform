@@ -63,6 +63,42 @@ class CASHAPI
 
         });*/
 
+        $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
+
+            try {
+                $server->enableGrantType(
+                    new ClientCredentialsGrant(),
+                    new \DateInterval('PT1H') // access tokens will expire after 1 hour
+                );
+
+                // Try to respond to the request
+                return $server->respondToAccessTokenRequest($request, $response);
+
+            } catch (\League\OAuth2\Server\Exception\OAuthServerException $exception) {
+
+                // All instances of OAuthServerException can be formatted into a HTTP response
+                return $exception->generateHttpResponse($response);
+
+            } catch (\Exception $exception) {
+
+                // Unknown exception
+                $body = new Stream('php://temp', 'r+');
+                $body->write($exception->getMessage());
+                return $response->withStatus(500)->withBody($body);
+
+            }
+        });
+
+        $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
+
+            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer);
+
+            // if we get here return 404
+        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
+
+        /*$api->options('/{routes:.+}', function ($request, $response, $args) {
+            return $response;
+        });*/
         /**
          * super garbage way of doing legacy /verbose endpoint
          */
@@ -141,43 +177,6 @@ class CASHAPI
          * end garbage
          */
 
-        $api->post('/access_token', function (ServerRequestInterface $request, ResponseInterface $response) use ($api, $server) {
-
-            try {
-                $server->enableGrantType(
-                    new ClientCredentialsGrant(),
-                    new \DateInterval('PT1H') // access tokens will expire after 1 hour
-                );
-
-                // Try to respond to the request
-                return $server->respondToAccessTokenRequest($request, $response);
-
-            } catch (\League\OAuth2\Server\Exception\OAuthServerException $exception) {
-
-                // All instances of OAuthServerException can be formatted into a HTTP response
-                return $exception->generateHttpResponse($response);
-
-            } catch (\Exception $exception) {
-
-                // Unknown exception
-                $body = new Stream('php://temp', 'r+');
-                $body->write($exception->getMessage());
-                return $response->withStatus(500)->withBody($body);
-
-            }
-        });
-
-        $api->any('/{plant}/{noun}[/{origin}/{type}]', function ($request, $response, $args) use ($server, $resourceServer) {
-
-            return CASHAPI::parseRequestAndResponse($request, $response, $args, $resourceServer);
-
-            // if we get here return 404
-        })->add(new OptionsMiddleware())->add(new AuthMiddleware($accessTokenRepository))->add(new RoutingMiddleware());
-
-        /*$api->options('/{routes:.+}', function ($request, $response, $args) {
-            return $response;
-        });*/
-
         $api->run();
     }
 
@@ -225,7 +224,6 @@ class CASHAPI
             $accessTokenRepository,
             CASH_API_KEY_PUB
         );
-
         $encryptionKey = 'X7jv9J1UcOE00EgRGzcJJ6boPXFASE3idhwPUoWsw5k=';
 
         // Setup the authorization server
