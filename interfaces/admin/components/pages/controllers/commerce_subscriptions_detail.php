@@ -38,6 +38,8 @@ if (isset($_REQUEST['export'])) {
         )
     );
 
+    var_dump($subscription_request->response);
+
     if ($subscribers = $subscription_request->response['payload']) {
 
         $filename = "cash-subscription-export-".$request_parameters[0].date('mdY', time()).".csv";
