@@ -174,8 +174,6 @@ if (!empty($_REQUEST['search'])) {
 }
 
 
-var_dump($subscription_request->response);
-
     if ($subscription_request->response['payload']) {
 
         foreach ($subscription_request->response['payload'] as $subscription) {
