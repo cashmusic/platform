@@ -202,9 +202,9 @@ class CASHAPI
             $response = [
                 'status' => 404,
                 'status_uid' => "general_404",
-                'status_message' => "Route not found, or server error",
-                'error_name' => "There was an error while getting a response",
-                'error_message' => "The request failed."
+                'status_message' => "Route not found",
+                'error_name' => "Route not found",
+                'error_message' => "Looks like we couldn't find that route. Check the parameters and try again?"
             ];
         }
 

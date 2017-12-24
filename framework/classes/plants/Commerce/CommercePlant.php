@@ -1436,8 +1436,6 @@ class CommercePlant extends PlantBase {
                 CASHSystem::errorLog("not valid json");
                 return false; // not valid json?
             }
-
-            //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 $payment_status = "failed";
                 $plan_amount = 0;
@@ -1502,6 +1500,7 @@ class CommercePlant extends PlantBase {
 
                 if ($event->type == "invoice.payment_failed") $payment_status = "failed";
                 if ($event->type == "customer.subscription.deleted") $payment_status = "canceled";
+
                 if ($event->type == "customer.subscription.updated") {
                     // this is a lapsed account
                     if (!empty($event->data->object->status == "unpaid")) {
@@ -1520,8 +1519,6 @@ class CommercePlant extends PlantBase {
                                 return false;
                             }
                         }
-
-
                     }
                 }
                 $status = $payment_status;

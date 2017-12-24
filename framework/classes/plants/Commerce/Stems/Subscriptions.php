@@ -61,7 +61,7 @@ trait Subscriptions {
             return ['id'=>$sku, 'numeric_id'=>$plan->id];
         }
 
-        return false;
+        return $this->error('400')->message("There was an error while trying to create the subscription plan `$plan_name`");
     }
 
     public function getAllSubscriptionPlans($user_id, $limit=false) {
@@ -70,7 +70,7 @@ trait Subscriptions {
             return $plans;
         }
 
-        return false;
+        return $this->error('404')->message("No subscription plans found.");
     }
 
     public function getSubscriptionPlan($id, $user_id=false) {
@@ -93,7 +93,6 @@ trait Subscriptions {
             if (is_cash_model($plan)) {
                 $plan = $plan->toArray();
 
-
                 if (isset($element->id)) $plan['element_id'] = $element->id;
             }
 
@@ -101,7 +100,8 @@ trait Subscriptions {
             return $plan;
         }
 
-        return false;
+        return $this->error('404')->message("Subscription plan not found.");
+
     }
 
     public function getSubscriptionPlanBySku($sku) {
@@ -110,7 +110,7 @@ trait Subscriptions {
             return $plan;
         }
 
-        return false;
+        return $this->error('404')->message("Subscription plan not found.");
     }
 
     public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $flexible_price=false, $suggested_price=false, $physical=false) {
@@ -133,7 +133,8 @@ trait Subscriptions {
                 }
             }
         }
-        return false;
+
+        return $this->error('400')->message("Update of subscription failed.");
     }
 
     public function getAllSubscriptionsByPlan($id, $limit=false) {
@@ -149,7 +150,7 @@ trait Subscriptions {
                 }
             }
 
-            return $subscribers;
+            return $this->error('404')->message("No subscribers found for this plan.");
         }
 
         return false;
@@ -176,7 +177,7 @@ trait Subscriptions {
                     where($this->db->raw('MATCH (people.first_name, people.last_name, people.email_address) AGAINST ("'.$this->db->raw($search).'" IN BOOLEAN MODE)'))
                     ->orderBy('totalScore', 'DESC')->get();
             } catch (Exception $e) {
-                CASHSystem::errorLog($e->getMessage());
+                return $this->error('400')->message("There was an error while searching subscriptions.");
             }
 
             $subscriber_user_ids = [];
@@ -204,7 +205,7 @@ trait Subscriptions {
             return $subscribers;
         }
 
-        return false;
+        return $this->error('404')->message("No subscription members found for the criteria `$search`");
     }
 
     public function deleteSubscriptionPlan($user_id, $id) {
@@ -215,7 +216,7 @@ trait Subscriptions {
             }
         }
 
-        return false;
+        return $this->error('400')->message("Failed while trying to delete this subscription plan.");
     }
 
     public function getSubscriptionDetails($id, $user_id=false) {
@@ -235,7 +236,7 @@ trait Subscriptions {
             return $member;
         }
 
-        return false;
+        return $this->error('404')->message("Subscription not found.");
     }
 
     public function subscriptionExists($user_id, $subscription_id) {
@@ -244,7 +245,7 @@ trait Subscriptions {
             return $subscription;
         }
 
-        return false;
+        return $this->error('404')->message("Subscription not found.");
     }
 
     public function getSubscriptionTransactions($id) {
@@ -253,7 +254,7 @@ trait Subscriptions {
             return $transactions;
         }
 
-        return false;
+        return $this->error('404')->message("Subscription transactions not found.");
     }
 
     public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
@@ -264,14 +265,14 @@ trait Subscriptions {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
-            if (empty($subscription_plan)) return "404";
+            if (empty($subscription_plan)) return "404"; //return $this->error('404')->message("Subscription plan not found.");
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
             if ($subscription_plan->flexible_price == 1) {
 
                 // make sure price is equal or greater than minimum
                 ###ERROR: price is less than minimum
-                if ($price < $subscription_plan->price) return "402";
+                if ($price < $subscription_plan->price) return "402"; //return $this->error('402')->message("Subscription plan not found.");
 
                 $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
             }
@@ -452,7 +453,7 @@ trait Subscriptions {
             }
         }
 
-        return false;
+        return $this->error('404')->message("Subscription member not found.");
     }
 
     public function cancelSubscription($user_id, $subscriber_id) {
@@ -467,11 +468,10 @@ trait Subscriptions {
                 return true;
             }
         } else {
-            return true; // whatevers for now i guess
+            return true; //TODO: we need to handle a failure in a better way
         }
 
-
-        return false;
+        return $this->error('400')->message("Failed while trying to cancel this subscription.");
     }
 
     public function deleteSubscription($id, $subscription_id) {
@@ -482,7 +482,7 @@ trait Subscriptions {
             }
         }
 
-        return false;
+        return $this->error('400')->message("Failed while deleting this subscription.");
     }
 
     public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address, $element_id=false) {
@@ -527,7 +527,7 @@ trait Subscriptions {
         if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
 
         } else {
-            return false;
+            return $this->error('400')->message("Failed while creating a new user for this subscriber.");
         }
         $subscription_member_id = false;
         // manually create a new subscription and set to comped
@@ -539,7 +539,7 @@ trait Subscriptions {
                 $data)
             ) {
                 ###ERROR: error creating membership
-                return false;
+                return $this->error('400')->message("Failed while creating new subscription membership.");
             }
 
         }
@@ -553,7 +553,7 @@ trait Subscriptions {
             $email_address,
             $finalize_url,
             "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
-            return false;
+            return $this->error('400')->message("Failed while sending initial comped subscription email.");
         }
 
         return true;
@@ -681,7 +681,7 @@ trait Subscriptions {
             return $gross_income;
         }
 
-        return false;
+        return $this->error('404')->message("No subscription stats found.");
     }
 
     public function getSubscriberCount($plan_id) {
@@ -700,7 +700,7 @@ trait Subscriptions {
             }
         }
 
-        return false;
+        return $this->error('404')->message("No subscribers found.");
     }
 
     /**
@@ -722,7 +722,7 @@ trait Subscriptions {
                 'data' => $data
             ]);
         } catch (Exception $e) {
-            return false;
+            return $this->error('400')->message("Failed while creating a subscription member.");
         }
 
         return $member->id;
@@ -732,10 +732,8 @@ trait Subscriptions {
     public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false, $finalize_url=false) {
         $this->startSession($session_id);
         if (!$element_id) {
-            return false;
+            return $this->error('402')->message("No element found for this subscription.");
         } else {
-
-            // do shit
 
             $user_id = CASHSystem::getUserIdByElement($element_id);
 
@@ -746,20 +744,19 @@ trait Subscriptions {
                 $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
                 $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
             } else {
-                return false; // no default PP shit set
+                return $this->error('400')->message("Couldn't find a default payment method.");
             }
 
             $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
             if (!class_exists($seed_class)) {
                 $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
-                return false;
+                return $this->error('400')->message("Couldn't find payment type $seed_class.");
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
             $response = $this->createSubscription($element_id,$user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url);
 
             return $response;
-
         }
 
     }
@@ -871,7 +868,8 @@ trait Subscriptions {
 
         }
 
-        return false;
+        return $this->error('400')->message("Couldn't find valid payment type.");
+
     }
 
     public function updateSubscriptionPayment() {
