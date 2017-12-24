@@ -860,9 +860,9 @@ trait Subscriptions {
 
                 return [
                     'subscriber'=>$subscriber,
-                    'user'=> isset_else($subscriber_user[0], false),
-                    'customer'=> isset_else($customer_details, []),
-                    'payment'=> isset_else($payment_details, [])
+                    'user'=> isset($subscriber_user[0]) ? $subscriber_user[0] : false,
+                    'customer'=> isset($customer_details) ? $customer_details : [],
+                    'payment'=> isset($payment_details) ? $payment_details : []
                 ];
             }
 
