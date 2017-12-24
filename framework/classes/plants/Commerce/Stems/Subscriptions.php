@@ -150,10 +150,10 @@ trait Subscriptions {
                 }
             }
 
-            return $this->error('404')->message("No subscribers found for this plan.");
+            return $subscribers;
         }
 
-        return false;
+        return $this->error('404')->message("No subscribers found for this plan.");
     }
 
     public function searchSubscriptionsByPlan($id, $search, $limit=false) {
