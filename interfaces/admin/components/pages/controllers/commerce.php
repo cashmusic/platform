@@ -73,7 +73,9 @@ if (isset($_REQUEST['currency_id'])) {
 	}
 }
 // now get the current currency setting
-$settings_response = $admin_request->request('system')->action('getsettings')->with([
+$settings_response = $admin_request
+	->request('system')
+	->action('getsettings')->with([
     'type' => 'use_currency',
     'user_id' => $cash_admin->effective_user_id
 ])->get();
@@ -86,7 +88,9 @@ if ($settings_response['payload']) {
 }
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
 // current paypal
-$settings_response = $admin_request->request('system')->action('getsettings')->with([
+$settings_response = $admin_request
+	->request('system')
+	->action('getsettings')->with([
     'type' => 'payment_defaults',
     'user_id' => $cash_admin->effective_user_id
 ])->get();
@@ -137,7 +141,9 @@ if ((!array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 }
 
 if ($change_default) {
-    $admin_request->request('system')->action('setsettings')->with([
+    $admin_request
+		->request('system')
+		->action('setsettings')->with([
         'type' => 'payment_defaults',
         'value' => array(
             'pp_default' => $pp_default,
@@ -158,7 +164,9 @@ if (isset($_REQUEST['region1'])) {
 		'region2' => $_REQUEST['region2']
 	);
 
-    $settings_response = $admin_request->request('system')->action('getsettings')->with([
+    $settings_response = $admin_request
+		->request('system')
+		->action('getsettings')->with([
         'type' => 'regions',
         'value' => $regions,
         'user_id' => $cash_admin->effective_user_id
@@ -169,7 +177,9 @@ if (isset($_REQUEST['region1'])) {
 	}
 }
 // now get the current setting
-$settings_response = $admin_request->request('system')->action('getsettings')->with([
+$settings_response = $admin_request
+	->request('system')
+	->action('getsettings')->with([
     'type' => 'regions',
     'user_id' => $cash_admin->effective_user_id
 ])->get();
@@ -239,7 +249,9 @@ if ($filter == 'byitem') {
 	$cash_admin->page_data['filter_item_id'] = $order_request['item_id'];
 }
 
-$orders_response = $admin_request->request('commerce')->action('getordersforuser')->with($order_request)->get();
+$orders_response = $admin_request
+	->request('commerce')
+	->action('getordersforuser')->with($order_request)->get();
 
 /*******************************************************************************
  *
@@ -311,7 +323,9 @@ if (is_array($orders_response['payload'])) {
 
                     if (isset($item['variant'])) {
 
-                        $variant_response = $admin_request->request('commerce')->action('formatvariantname')->with([
+                        $variant_response = $admin_request
+							->request('commerce')
+							->action('formatvariantname')->with([
                             'name' => $item['variant']
                         ])->get();
 
@@ -355,10 +369,7 @@ if (is_array($orders_response['payload'])) {
                 $all_order_details[] = $current_order;
             //}
 		}
-
 	}
-
-
 
 	$cash_admin->page_data['has_orders'] = false;
 
