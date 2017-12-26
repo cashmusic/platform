@@ -8,7 +8,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 if (isset($_POST['doitemadd'])) {
 	// do the actual list add stuffs...

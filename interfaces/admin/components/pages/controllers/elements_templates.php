@@ -8,7 +8,7 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // first handle add
 if (isset($_POST['dotemplateset'])) {

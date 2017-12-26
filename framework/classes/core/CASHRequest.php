@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHDaemon as CASHDaemon;
+use CASHMusic\Core\Traits\RequestWrapper;
 
 /**
  * The CASHRequest / CASHResponse relationship is the core of the CASH framework.
@@ -24,8 +25,9 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
  *
  */class CASHRequest extends CASHData {
 	public static $version = 9;
+    use RequestWrapper;
 
-	protected $request_method,
+    protected $request_method,
 			  $plant_array=array(),
 			  $total_requests = 0,
 			  $plant,

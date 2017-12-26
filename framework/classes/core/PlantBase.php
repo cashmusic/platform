@@ -5,6 +5,7 @@ namespace CASHMusic\Core;
 use CASHMusic\Core\API\RoutingMiddleware;
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHResponse as CASHResponse;
+use CASHMusic\Core\Traits\RequestWrapper;
 use ReflectionMethod;
 use Exception;
 
@@ -24,6 +25,9 @@ use Exception;
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
+
+    use RequestWrapper;
+
 	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table,$repository,$api,$contextual_message, $error_code, $pdo;
 
 	/**

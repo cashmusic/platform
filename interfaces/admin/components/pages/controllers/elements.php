@@ -12,7 +12,7 @@ use CASHMusic\Entities\People;
  * 1. HANDLE CAMPAIGN SELECTION / DRAW SELECTOR
  *
  ******************************************************************************/
-$current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
+$current_campaign = $admin_request->sessionGet('current_campaign');
 $cash_admin->page_data['element_count'] = 0;
 
 if ($current_campaign !== false) {
@@ -26,12 +26,12 @@ if ($current_campaign !== false) {
 	);
 	if ($settings_request->response['payload']) {
 		$current_campaign = $settings_request->response['payload'];
-		$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+		$admin_request->sessionSet('current_campaign',$current_campaign);
 	}
 }
 if (isset($_POST['current-campaign'])) {
 	$current_campaign = $_POST['current-campaign'];
-	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+	$admin_request->sessionSet('current_campaign',$current_campaign);
 	$settings_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'system',

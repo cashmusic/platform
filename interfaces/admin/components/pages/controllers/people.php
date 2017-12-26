@@ -16,7 +16,7 @@ $list_response = $cash_admin->requestAndStore(
 	)
 );
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 //people list connection or list present?
 $cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('lists') || $list_response['payload'];

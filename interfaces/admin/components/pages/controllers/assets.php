@@ -12,7 +12,7 @@ use CASHMusic\Admin\AdminHelper;
 
 $user_id = $cash_admin->effective_user_id;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(

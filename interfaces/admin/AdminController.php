@@ -10,6 +10,7 @@ use Whoops\Handler\JsonResponseHandler;
 
 
 class AdminController {
+
     public function __construct()
     {
 
@@ -31,7 +32,7 @@ class AdminController {
 // load CASHSystem and set admin_primary_cash_request to the first CASHRequest set
 //include_once(dirname(CASH_PLATFORM_PATH) . '/classes/core/CASHSystem.php');
         include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-        $admin_primary_cash_request = CASHSystem::startUp(true);
+        $admin_request = CASHSystem::startUp(true);
 
         if (CASH_DEBUG) {
             $this->setErrorHandler();
@@ -40,9 +41,9 @@ class AdminController {
         }
 
         // make an object to use throughout the pages
-        $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
+        $cash_admin = new AdminCore($admin_request->sessionGet('cash_effective_user'),$admin_request);
 
-        $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+        $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
         $cash_admin->mustache_groomer = new \Mustache;
         $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
@@ -80,7 +81,7 @@ class AdminController {
          * page so we show the proper status, etc.
          *
          ***************************************************************************************************/
-        $logged_in = $admin_primary_cash_request->sessionGet('cash_actual_user');
+        $logged_in = $admin_request->sessionGet('cash_actual_user');
 
         if ($logged_in) {
             // set language session
@@ -94,7 +95,7 @@ class AdminController {
             $cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 
             // delete/clear sessions
-            $admin_primary_cash_request->sessionClearAll();
+            $admin_request->sessionClearAll();
 
             $cash_admin->page_data['loginstatus'] = ' login';
             $cash_admin->page_data['login_message'] = 'OK';
@@ -102,12 +103,12 @@ class AdminController {
                 $login_details = $admin_helper->doLogin($_POST['address'],$_POST['password'],true,false);
 
                 if ($login_details !== false) {
-                    $admin_primary_cash_request->startSession();
-                    $admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
-                    $admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
+                    $admin_request->startSession();
+                    $admin_request->sessionSet('cash_actual_user',$login_details);
+                    $admin_request->sessionSet('cash_effective_user',$login_details);
                     $cash_admin->effective_user_id = $login_details;
                     $address = $_POST['address'];
-                    $admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
+                    $admin_request->sessionSet('cash_effective_user_email',$address);
                     $cash_admin->page_data['initiallogin'] = true;
                     $logged_in = $login_details;
 
@@ -115,7 +116,7 @@ class AdminController {
                     $cash_admin->runAtLogin();
 
                 } else {
-                    $admin_primary_cash_request->sessionClearAll();
+                    $admin_request->sessionClearAll();
                     $cash_admin->page_data['login_message'] = 'Try Again.';
                     $cash_admin->page_data['login_error'] = true;
                 }
@@ -216,12 +217,12 @@ class AdminController {
             $current_settings = $cash_admin->getUserSettings();
 
             // we need a session
-            $admin_primary_cash_request->startSession();
-            $cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
+            $admin_request->startSession();
+            $cash_admin->page_data['user_email'] = $admin_request->sessionGet('cash_effective_user_email');
 
             // store the current route in session
             if (strpos(REQUESTED_ROUTE,'/settings') === false && strpos(REQUESTED_ROUTE,'/account') === false) {
-                $cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionSet('last_route',REQUESTED_ROUTE);
+                $cash_admin->page_data['user_email'] = $admin_request->sessionSet('last_route',REQUESTED_ROUTE);
             }
         }
 
@@ -258,7 +259,7 @@ class AdminController {
             }
         }
 // set empty uid/code, then set if found
-        $last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
+        $last_reponse = $admin_request->sessionGetLastResponse();
         $cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
         $cash_admin->page_data['status_uid'] = (is_array($last_reponse)) ? $last_reponse['status_uid']: '';
 // figure out the section color and current section name:

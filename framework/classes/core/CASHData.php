@@ -66,7 +66,7 @@ abstract class CASHData {
             ]
 		);
 
-		if (isset($this->pdo)) {
+		if (isset($this->pdo) && !empty($this->pdo)) {
 			// PDO dependency injection
 			$connection = new DatabaseConnection($this->pdo);
 		} else {

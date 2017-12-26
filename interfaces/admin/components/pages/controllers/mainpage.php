@@ -217,7 +217,7 @@ if (!$whatsnew) {
 
 
 // what about regions, currency, and commerce?
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 $connections = $admin_helper->getConnectionsByScope('commerce');
 if ($connections) {

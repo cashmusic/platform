@@ -14,7 +14,7 @@ use CASHMusic\Entities\CommerceOrder;
  * 1. SET UP SCRIPT VARIABLES
  *
  ******************************************************************************/
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 $page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 
@@ -73,14 +73,11 @@ if (isset($_REQUEST['currency_id'])) {
 	}
 }
 // now get the current currency setting
-$settings_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getsettings',
-		'type' => 'use_currency',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$settings_response = $admin_request->request('system')->action('getsettings')->with([
+    'type' => 'use_currency',
+    'user_id' => $cash_admin->effective_user_id
+])->get();
+
 
 if ($settings_response['payload']) {
 	$current_currency = $settings_response['payload'];
@@ -89,14 +86,10 @@ if ($settings_response['payload']) {
 }
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
 // current paypal
-$settings_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getsettings',
-		'type' => 'payment_defaults',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$settings_response = $admin_request->request('system')->action('getsettings')->with([
+    'type' => 'payment_defaults',
+    'user_id' => $cash_admin->effective_user_id
+])->get();
 
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
@@ -144,19 +137,15 @@ if ((!array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 }
 
 if ($change_default) {
-    $cash_admin->requestAndStore(
-        array(
-            'cash_request_type' => 'system',
-            'cash_action' => 'setsettings',
-            'type' => 'payment_defaults',
-            'value' => array(
-                'pp_default' => $pp_default,
-                'pp_micro' => $pp_micro,
-                'stripe_default' => $stripe_selected
-            ),
-            'user_id' => $cash_admin->effective_user_id
-        )
-    );
+    $admin_request->request('system')->action('setsettings')->with([
+        'type' => 'payment_defaults',
+        'value' => array(
+            'pp_default' => $pp_default,
+            'pp_micro' => $pp_micro,
+            'stripe_default' => $stripe_selected
+        ),
+        'user_id' => $cash_admin->effective_user_id
+    ])->get();
 }
 
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
@@ -168,28 +157,22 @@ if (isset($_REQUEST['region1'])) {
 		'region1' => $_REQUEST['region1'],
 		'region2' => $_REQUEST['region2']
 	);
-	$settings_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'regions',
-			'value' => $regions,
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-	if ($settings_response['payload']) {
+
+    $settings_response = $admin_request->request('system')->action('getsettings')->with([
+        'type' => 'regions',
+        'value' => $regions,
+        'user_id' => $cash_admin->effective_user_id
+    ])->get();
+
+    if ($settings_response['payload']) {
         $admin_helper->formSuccess('Success.','/commerce/');
 	}
 }
 // now get the current setting
-$settings_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getsettings',
-		'type' => 'regions',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$settings_response = $admin_request->request('system')->action('getsettings')->with([
+    'type' => 'regions',
+    'user_id' => $cash_admin->effective_user_id
+])->get();
 
 if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
@@ -238,14 +221,11 @@ if ($request_parameters) {
 }
 
 $order_request = array(
-	'cash_request_type' => 'commerce',
-	'cash_action' => 'getordersforuser',
 	'user_id' => $cash_admin->effective_user_id,
 	'max_returned' => 20,
 	'skip' => ($cash_admin->page_data['current_page'] - 1) * 16,
 	'deep' => true
 );
-
 
 if ($cash_admin->page_data['no_filter']) {
 	$order_request['unfulfilled_only'] = 1;
@@ -259,7 +239,8 @@ if ($filter == 'byitem') {
 	$cash_admin->page_data['filter_item_id'] = $order_request['item_id'];
 }
 
-$orders_response = $cash_admin->requestAndStore($order_request);
+$orders_response = $admin_request->request('commerce')->action('getordersforuser')->with($order_request)->get();
+
 /*******************************************************************************
  *
  * 5. GET ALL VALID SERVICE CONNECTIONS FOR FIRST-USE
@@ -329,13 +310,11 @@ if (is_array($orders_response['payload'])) {
                     $item_price += $item['qty'] * $item['price'];
 
                     if (isset($item['variant'])) {
-                        $variant_response = $cash_admin->requestAndStore(
-                            array(
-                                'cash_request_type' => 'commerce',
-                                'cash_action' => 'formatvariantname',
-                                'name' => $item['variant']
-                            )
-                        );
+
+                        $variant_response = $admin_request->request('commerce')->action('formatvariantname')->with([
+                            'name' => $item['variant']
+                        ])->get();
+
                         if ($variant_response['payload']) {
                             $order_contents[$key]['variant'] = $variant_response['payload'];
                         }

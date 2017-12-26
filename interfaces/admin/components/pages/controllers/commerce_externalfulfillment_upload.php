@@ -8,7 +8,7 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 use CASHMusic\Seeds\ExternalFulfillmentSeed;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // process uploads and shit
 if (!empty($_FILES)) {

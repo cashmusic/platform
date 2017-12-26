@@ -10,7 +10,7 @@ use ArrayIterator;
 use CASHMusic\Seeds\ExternalFulfillmentSeed;
 use CASHMusic\Seeds\SoundScanSeed;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 /**
  * Commerce external fulfillment index controller
  * All we're doing here is showing the existing jobs and giving them a "create job" button

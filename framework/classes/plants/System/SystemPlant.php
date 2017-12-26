@@ -198,8 +198,6 @@ class SystemPlant extends PlantBase {
                 		CASHSystem::errorLog($e->getMessage());
 					}
 
-                    error_log('update last login');
-
                     if (!$people_analytics_basic) {
 
                         try {

@@ -51,6 +51,9 @@ trait RequestWrapper
         //TODO: right now we're passing the whole request back...
         //TODO: honestly we should only pass failures back with more info
         //TODO: otherwise WTF let's just give them the data...
-        return $request;
+        if (isset($request->response)) {
+            return $request->response;
+        }
+        return false;
     }
 }

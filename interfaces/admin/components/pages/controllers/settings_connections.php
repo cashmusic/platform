@@ -8,7 +8,7 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 use CASHMusic\Core\CASHConnection;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 $page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_types_data = $page_data_object->getConnectionTypes();

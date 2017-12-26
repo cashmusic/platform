@@ -7,7 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // parsing posted data:
 if (isset($_POST['docampaignadd'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['docampaignadd'])) {
 
 	if ($add_response['payload']) {
 		// make the new campaign selected
-		$admin_primary_cash_request->sessionSet('current_campaign',$add_response['payload']);
+		$admin_request->sessionSet('current_campaign',$add_response['payload']);
 
 		$settings_request = new CASHRequest(
 			array(

@@ -9,7 +9,7 @@ use CASHMusic\Admin\AdminHelper;
 use Goodby\CSV\Export\Standard\Exporter;
 use Goodby\CSV\Export\Standard\ExporterConfig;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // get plan, including element ID
 $plan_request = new CASHRequest(

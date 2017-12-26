@@ -28,9 +28,9 @@ class AdminHelper  {
 
 	public function __construct(&$cash_request_dependency=false, &$cash_admin_dependency=false) {
 
-        global $admin_primary_cash_request, $cash_admin;
+        global $admin_request, $cash_admin;
 
-		$this->cash_request = (!empty($cash_request_dependency)) ? $cash_request_dependency : $admin_primary_cash_request;
+		$this->cash_request = (!empty($cash_request_dependency)) ? $cash_request_dependency : $admin_request;
 		$this->cash_admin = (!empty($cash_admin_dependency)) ? $cash_admin_dependency : $cash_admin;
 	}
 

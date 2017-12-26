@@ -19,7 +19,7 @@ if (isset($_POST['doaccountchange'])) {
 		)
 	);
 
-    $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+    $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 	if (!$valid_user_response['payload']) {
 		$admin_helper->formFailure('Error. There was a problem with your password. Please try again.');
@@ -66,7 +66,7 @@ if (isset($_POST['doaccountchange'])) {
 		CASHSystem::errorLog($change_response);
 		if ($change_response['payload'] !== false) {
 			if (isset($changes['address'])) {
-				$admin_primary_cash_request->sessionSet('cash_effective_user_email',$changes['address']);
+				$admin_request->sessionSet('cash_effective_user_email',$changes['address']);
 			}
 			$admin_helper->formSuccess('Success. All changed.');
 		} else {

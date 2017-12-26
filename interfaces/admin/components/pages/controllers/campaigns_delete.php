@@ -7,7 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
@@ -33,7 +33,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		// if there's at least one remaining, select it
 		if (count($campaigns_response['payload'])) {
 			$current_campaign = $campaigns_response['payload'][count($campaigns_response['payload']) - 1]['id'];
-			$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+			$admin_request->sessionSet('current_campaign',$current_campaign);
 
 			$settings_request = new CASHRequest(
 				array(

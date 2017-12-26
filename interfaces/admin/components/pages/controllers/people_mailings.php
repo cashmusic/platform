@@ -19,15 +19,15 @@ $mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : false;
 $asset_id = !empty($_POST['attached_asset']) ? $_POST['attached_asset'] : false;
 $test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
 
-$persisted_values = $admin_primary_cash_request->sessionGet("mailing_data");
+$persisted_values = $admin_request->sessionGet("mailing_data");
 
-$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+$admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // send a test email
 if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
 
     // save values in session for persistence
-    $admin_primary_cash_request->sessionSet("mailing_data", [
+    $admin_request->sessionSet("mailing_data", [
         'template_id' => $template_id,
         'html_content' => $html_content,
         'subject' => $subject,
@@ -234,7 +234,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
     );
 
     // we don't need this session data anymore.
-    $admin_primary_cash_request->sessionClear("mailing_data");
+    $admin_request->sessionClear("mailing_data");
 
 	if ($mailing_result) {
 		$admin_helper->formSuccess('Success. The mail is queued and sending now.','/people/mailings/');
