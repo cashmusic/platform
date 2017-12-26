@@ -29,8 +29,9 @@ class CalendarPlant extends PlantBase {
 
     protected $venues_api;
 
-	public function __construct($request_type,$request) {
+	public function __construct($request_type,$request,$pdo=false) {
 		$this->request_type = 'calendar';
+		$this->pdo = $pdo;
 		$this->venues_api = CASH_VENUES_API;
 
         $this->getRoutingTable();

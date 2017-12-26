@@ -30,8 +30,9 @@ use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Seeds\S3Seed;
 
 class AssetPlant extends PlantBase {
-	public function __construct($request_type,$request) {
+	public function __construct($request_type,$request,$pdo=false) {
 		$this->request_type = 'asset';
+		$this->pdo = $pdo; // dependency injection
         $this->getRoutingTable();
 
 		$this->plantPrep($request_type,$request);

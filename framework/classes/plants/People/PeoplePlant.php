@@ -30,8 +30,9 @@ use CASHMusic\Entities\People;
 
 class PeoplePlant extends PlantBase {
 
-	public function __construct($request_type,$request) {
+	public function __construct($request_type,$request,$pdo) {
 		$this->request_type = 'people';
+		$this->pdo = $pdo;
         $this->getRoutingTable();
 
 		$this->plantPrep($request_type,$request);

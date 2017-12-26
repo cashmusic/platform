@@ -34,8 +34,9 @@ class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
 
-	public function __construct($request_type,$request) {
+	public function __construct($request_type,$request,$pdo) {
 		$this->request_type = 'element';
+		$this->pdo = $pdo;
         $this->getRoutingTable();
 
 		$this->buildElementsArray();

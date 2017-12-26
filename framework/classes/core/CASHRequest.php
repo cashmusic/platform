@@ -30,6 +30,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			  $total_requests = 0,
 			  $plant,
 			  $user,
+              $pdo,
               $api = false;
 	public $request = false,
 		   $response;
@@ -44,13 +45,14 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * @param $authorized_user boolean
 	 * @param $api boolean
 	 */
-	public function __construct($direct_request=false,$method='direct',$authorized_user=false,$api=false,$http_method=false) {
+	public function __construct($direct_request=false,$method='direct',$authorized_user=false,$api=false,$http_method=false,$pdo=false) {
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
 			$this->request_method = $method;
 			$this->user = $authorized_user;
 			$this->api = $api;
+			$this->pdo = $pdo;
 		} else {
 			if ($direct_request !== null) {
 				// use an environment variable so we only run the detected request once
@@ -87,7 +89,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 					$directory = str_replace("Plant", "", $this->plant_array[$requested_plant]).'\\';
 
 					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
-					$this->plant = new $class_name($this->request_method,$this->request);
+					$this->plant = new $class_name($this->request_method,$this->request, $this->pdo);
 					$this->response = $this->plant->processRequest($this->api, $http_method);
 				}
 			}

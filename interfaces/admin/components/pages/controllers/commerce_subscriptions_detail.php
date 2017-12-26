@@ -60,22 +60,7 @@ if (isset($_REQUEST['export'])) {
                     'subscriber_since'=>$subscription_date
                 ]);
         }
-/*
- * [customer_shipping_name] => Thomas Filepp
-            [customer_address1] => 123 22j1jsjsjs
-            [customer_address2] =>
-            [customer_city] => Portland
-            [customer_region] => OR
-            [customer_postalcode] => 97202
-            [customer_countrycode] =>
-            [customer_email] => tom+fooo@paperscissorsandglue.com
-            [customer_name] => Thomas FIFLIFP
-            [customer_first_name] => Thomas
-            [customer_last_name] => FIFLIFP
-            [status] => active
-            [total_paid_to_date] => 12
-            [subscriber_since] => 08-25-2017
- */
+
         CASHSystem::outputArrayToCSV($data, [
             'Shipping Name',
             'Shipping Address 1',

@@ -45,9 +45,10 @@ class CommercePlant extends PlantBase {
 
     protected $subscription_active_status, $request_type, $routing_table;
 
-    public function __construct($request_type,$request) {
+    public function __construct($request_type,$request,$pdo=false) {
 
         $this->request_type = 'commerce';
+        $this->pdo = $pdo;
         $this->getRoutingTable();
 
         $this->plantPrep($request_type,$request);

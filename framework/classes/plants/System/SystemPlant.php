@@ -39,8 +39,9 @@ class SystemPlant extends PlantBase {
 		'code_break' => array(2,3,3,4,4,4,5)
 	);
 
-	public function __construct($request_type,$request) {
+	public function __construct($request_type,$request,$pdo) {
 		$this->request_type = 'system';
+		$this->pdo = $pdo;
         $this->getRoutingTable();
 
 		// get global salt for hashing

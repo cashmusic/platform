@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHDBA;
+use CASHMusic\Core\Database\DatabaseConnection;
 use CASHMusic\Entities\EntityBase;
 use PDO;
 use CASHMusic\Entities\SystemConnection;
@@ -65,14 +66,16 @@ abstract class CASHData {
             ]
 		);
 
-		/*'options' => [
-                PDO::ATTR_PERSISTENT => true
-			]*/
+		if (isset($this->pdo)) {
+			// PDO dependency injection
+			$connection = new DatabaseConnection($this->pdo);
+		} else {
+            $connection = new \Pixie\Connection('mysql', $config);
+		}
 
-		$connection = new \Pixie\Connection('mysql', $config);
-		if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+        if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
 
-		// piggyback the PDO to Doctrine so we're using the same connection
+        // piggyback the PDO to Doctrine so we're using the same connection
 		if (empty($this->orm)) $this->orm = new CASHEntity($this->db->pdo());
 	}
 
