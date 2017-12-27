@@ -24,14 +24,14 @@ $page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_ef
  *
  ******************************************************************************/
 if (isset($_REQUEST['fulfill'])) {
-	$order_details_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'commerce',
-			'cash_action' => 'editorder',
-			'id' => $_REQUEST['fulfill'],
-			'fulfilled' => 1
-		)
-	);
+    $order_details_response = $admin_request
+        ->request('commerce')
+        ->action('editorder')
+        ->with([
+            'id' => $_REQUEST['fulfill'],
+            'fulfilled' => 1
+        ])->get();
+
 	if ($request_parameters) {
 		$addtourl = implode('/',$request_parameters);
 	} else {
@@ -75,10 +75,11 @@ if (isset($_REQUEST['currency_id'])) {
 // now get the current currency setting
 $settings_response = $admin_request
 	->request('system')
-	->action('getsettings')->with([
-    'type' => 'use_currency',
-    'user_id' => $cash_admin->effective_user_id
-])->get();
+	->action('getsettings')
+    ->with([
+        'type' => 'use_currency',
+        'user_id' => $cash_admin->effective_user_id
+    ])->get();
 
 
 if ($settings_response['payload']) {
@@ -90,10 +91,11 @@ $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($c
 // current paypal
 $settings_response = $admin_request
 	->request('system')
-	->action('getsettings')->with([
-    'type' => 'payment_defaults',
-    'user_id' => $cash_admin->effective_user_id
-])->get();
+	->action('getsettings')
+    ->with([
+        'type' => 'payment_defaults',
+        'user_id' => $cash_admin->effective_user_id
+    ])->get();
 
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
@@ -143,15 +145,16 @@ if ((!array_key_exists($stripe_selected, $stripe)) && count($stripe) > 0) {
 if ($change_default) {
     $admin_request
 		->request('system')
-		->action('setsettings')->with([
+		->action('setsettings')
+        ->with([
         'type' => 'payment_defaults',
-        'value' => array(
-            'pp_default' => $pp_default,
-            'pp_micro' => $pp_micro,
-            'stripe_default' => $stripe_selected
-        ),
-        'user_id' => $cash_admin->effective_user_id
-    ])->get();
+            'value' => array(
+                'pp_default' => $pp_default,
+                'pp_micro' => $pp_micro,
+                'stripe_default' => $stripe_selected
+            ),
+            'user_id' => $cash_admin->effective_user_id
+        ])->get();
 }
 
 $cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
@@ -166,11 +169,12 @@ if (isset($_REQUEST['region1'])) {
 
     $settings_response = $admin_request
 		->request('system')
-		->action('getsettings')->with([
-        'type' => 'regions',
-        'value' => $regions,
-        'user_id' => $cash_admin->effective_user_id
-    ])->get();
+		->action('setsettings')
+        ->with([
+            'type' => 'regions',
+            'value' => $regions,
+            'user_id' => $cash_admin->effective_user_id
+        ])->get();
 
     if ($settings_response['payload']) {
         $admin_helper->formSuccess('Success.','/commerce/');
@@ -180,9 +184,9 @@ if (isset($_REQUEST['region1'])) {
 $settings_response = $admin_request
 	->request('system')
 	->action('getsettings')->with([
-    'type' => 'regions',
-    'user_id' => $cash_admin->effective_user_id
-])->get();
+        'type' => 'regions',
+        'user_id' => $cash_admin->effective_user_id
+    ])->get();
 
 if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
@@ -230,12 +234,12 @@ if ($request_parameters) {
 	$cash_admin->page_data['no_filter'] = true;
 }
 
-$order_request = array(
+$order_request = [
 	'user_id' => $cash_admin->effective_user_id,
 	'max_returned' => 20,
 	'skip' => ($cash_admin->page_data['current_page'] - 1) * 16,
 	'deep' => true
-);
+];
 
 if ($cash_admin->page_data['no_filter']) {
 	$order_request['unfulfilled_only'] = 1;
@@ -251,7 +255,8 @@ if ($filter == 'byitem') {
 
 $orders_response = $admin_request
 	->request('commerce')
-	->action('getordersforuser')->with($order_request)->get();
+	->action('getordersforuser')
+    ->with($order_request)->get();
 
 /*******************************************************************************
  *
@@ -325,9 +330,10 @@ if (is_array($orders_response['payload'])) {
 
                         $variant_response = $admin_request
 							->request('commerce')
-							->action('formatvariantname')->with([
-                            'name' => $item['variant']
-                        ])->get();
+							->action('formatvariantname')
+                            ->with([
+                                'name' => $item['variant']
+                            ])->get();
 
                         if ($variant_response['payload']) {
                             $order_contents[$key]['variant'] = $variant_response['payload'];
