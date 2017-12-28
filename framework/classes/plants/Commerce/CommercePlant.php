@@ -44,8 +44,6 @@ class CommercePlant extends PlantBase {
     use Transactions;
     use Variants;
 
-    use RequestWrapper;
-
     protected $subscription_active_status, $request_type, $routing_table;
 
     public function __construct($request_type,$request,$pdo=false) {

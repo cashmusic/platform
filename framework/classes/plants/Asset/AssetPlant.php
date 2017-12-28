@@ -22,6 +22,7 @@ use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Core\Traits\RequestWrapper;
 use CASHMusic\Entities\Asset;
 use CASHMusic\Entities\AssetAnalytic;
 use CASHMusic\Entities\AssetAnalyticsBasic;
@@ -30,6 +31,9 @@ use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Seeds\S3Seed;
 
 class AssetPlant extends PlantBase {
+
+	use RequestWrapper;
+
 	public function __construct($request_type,$request,$pdo=false) {
 		$this->request_type = 'asset';
 		$this->pdo = $pdo; // dependency injection
@@ -101,9 +105,7 @@ class AssetPlant extends PlantBase {
 
 						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
 
-
 							if (is_array($fulfillment_id)) $fulfillment_id = array_pop($fulfillment_id);
-
 
 							if ($fulfillment_asset = $this->getAssetInfo($fulfillment_id)) {
 								$final_assets[] = $fulfillment_asset->toArray();
@@ -691,16 +693,15 @@ class AssetPlant extends PlantBase {
 		if ($asset) {
 			$user_id = $asset->user_id;
 
-			$add_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'system',
-					'cash_action' => 'addlockcode',
-					'scope_table_alias' => 'assets',
-					'scope_table_id' => $asset_id,
-					'user_id' => $user_id
-				)
-			);
-			return $add_request->response['payload'];
+			$add_request = $this->request('system')
+								->action('addlockcode')
+								->with([
+									'scope_table_alias' => 'assets',
+									'scope_table_id' => $asset_id,
+									'user_id' => $user_id
+								])->get();
+
+			return $add_request['payload'];
 		}
 		return false;
 	}
@@ -710,18 +711,16 @@ class AssetPlant extends PlantBase {
         if ($asset) {
             $user_id = $asset->user_id;
 
-            $add_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'system',
-                    'cash_action' => 'addbulklockcodes',
-                    'scope_table_alias' => 'assets',
-                    'scope_table_id' => $asset_id,
-                    'user_id' => $user_id,
-					'count' => $code_count
-                )
-            );
+            $add_request = $this->request('system')
+								->action('addbulklockcodes')
+								->with([
+									'scope_table_alias' => 'assets',
+									'scope_table_id' => $asset_id,
+									'user_id' => $user_id,
+									'count' => $code_count
+								])->get();
 
-            return $add_request->response['payload'];
+            return $add_request['payload'];
         }
         return false;
     }
@@ -735,28 +734,26 @@ class AssetPlant extends PlantBase {
 	 * @return bool
 	 */protected function redeemLockCode($code,$user_id=false,$element_id=false) {
 			if (!$user_id && $element_id) {
-				$element_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'element',
-						'cash_action' => 'getelement',
-						'id' => $element_id
-					)
-				);
-				if ($element_request->response['payload']) {
-					$user_id = $element_request->response['payload']['user_id'];
+
+				$element_request = $this->request('element')
+										->action('getelement')
+										->with(['id' => $element_id])->get();
+
+				if ($element_request['payload']) {
+					$user_id = $element_request['payload']['user_id'];
 				}
 			}
 			if ($user_id) {
-				$redeem_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'system',
-						'cash_action' => 'redeemlockcode',
-						'code' => $code,
-						'scope_table_alias' => 'assets',
-						'user_id' => $user_id
-					)
-				);
-				return $redeem_request->response['payload'];
+
+				$redeem_request = $this->request('system')
+										->action('redeemlockcode')
+										->with([
+											'code' => $code,
+											'scope_table_alias' => 'assets',
+											'user_id' => $user_id
+										])->get();
+
+				return $redeem_request['payload'];
 			} else {
 				return false;
 			}
