@@ -18,6 +18,7 @@
 
 namespace CASHMusic\Plants\Commerce;
 
+use CASHMusic\Core\Traits\RequestWrapper;
 use CASHMusic\Plants\Commerce\Stems\Fulfillment;
 use CASHMusic\Plants\Commerce\Stems\Items;
 use CASHMusic\Plants\Commerce\Stems\Subscriptions;
@@ -43,6 +44,8 @@ class CommercePlant extends PlantBase {
     use Transactions;
     use Variants;
 
+    use RequestWrapper;
+
     protected $subscription_active_status, $request_type, $routing_table;
 
     public function __construct($request_type,$request,$pdo=false) {
@@ -57,10 +60,9 @@ class CommercePlant extends PlantBase {
     }
 
     protected function addToCart($item_id,$element_id,$item_variant=false,$price=false,$session_id=false) {
-         $r = new CASHRequest();
-         $r->startSession($session_id);
+        $session = $this->session($session_id);
 
-         $cart = $r->sessionGet('cart');
+        $cart = $session->sessionGet('cart');
          if (!$cart) {
             $cart = array(
                $element_id => array(
@@ -85,15 +87,14 @@ class CommercePlant extends PlantBase {
             'qty'		 	 => $qty
          );
 
-         $r->sessionSet('cart', $cart);
+         $session->sessionSet('cart', $cart);
          return $cart[$element_id];
     }
 
     protected function editCartQuantity($item_id,$element_id,$qty,$item_variant='',$session_id=false) {
-        $r = new CASHRequest();
-        $r->startSession($session_id);
+        $session = $this->session($session_id);
 
-        $cart = $r->sessionGet('cart');
+        $cart = $session->sessionGet('cart');
         if (!$cart) {
             return false;
         } else {
@@ -110,16 +111,15 @@ class CommercePlant extends PlantBase {
             } else {
                 $cart[$element_id][$item_id.$item_variant]['qty'] = $qty;
             }
-            $r->sessionSet('cart', $cart);
+            $session->sessionSet('cart', $cart);
             return $cart[$element_id];
         }
     }
 
     protected function editCartShipping($element_id,$region='r1',$session_id=false) {
-        $r = new CASHRequest();
-        $r->startSession($session_id);
+        $session = $this->session($session_id);
 
-        $cart = $r->sessionGet('cart');
+        $cart = $session->sessionGet('cart');
         if (!$cart) {
             return false;
         } else {
@@ -129,27 +129,27 @@ class CommercePlant extends PlantBase {
         }
 
         $cart[$element_id]['shipto'] = $region;
-        $r->sessionSet('cart', $cart);
+        $session->sessionSet('cart', $cart);
         return $cart[$element_id];
     }
 
     protected function emptyCart($element_id,$session_id=false) {
-         $r = new CASHRequest();
-         $r->startSession($session_id);
-         $cart = $r->sessionGet('cart');
+        $session = $this->session($session_id);
+
+        $cart = $session->sessionGet('cart');
          if ($cart) {
             if (isset($cart[$element_id])) {
                unset($cart[$element_id]);
-               $r->sessionSet('cart', $cart);
+               $session->sessionSet('cart', $cart);
             }
          }
          return true;
     }
 
     protected function getCart($element_id,$session_id=false) {
-        $r = new CASHRequest();
-        $r->startSession($session_id);
-        $cart = $r->sessionGet('cart');
+        $session = $this->session($session_id);
+
+        $cart = $session->sessionGet('cart');
         if ($cart) {
            if (isset($cart[$element_id])) {
              return $cart[$element_id];
@@ -244,18 +244,17 @@ class CommercePlant extends PlantBase {
                     }
                 }
 
-                if (is_array($transaction_data)) {
-                    $order = array_merge($order,$transaction_data);
+                if (isset($transaction_data)) {
+                    if (is_array($transaction_data)) {
+                        $order = array_merge($order,$transaction_data);
+                    }
                 }
 
-                $user_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'people',
-                        'cash_action' => 'getuser',
-                        'user_id' => $order['customer_user_id']
-                    )
-                );
-                $order['customer_details'] = $user_request->response['payload'];
+                $user_request = $this->request('people')
+                                    ->action('getuser')
+                                    ->with(['user_id' => $order['customer_user_id']])->get();
+
+                $order['customer_details'] = $user_request['payload'];
             }
 
             return $order;
@@ -322,7 +321,6 @@ class CommercePlant extends PlantBase {
         } else {
             $limit = false;
         }
-
 
         try {
             // gets multiple orders with all information
@@ -418,14 +416,12 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getOrdersByCustomer($user_id,$customer_email) {
-        $user_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'people',
-                'cash_action' => 'getuseridforaddress',
-                'address' => $customer_email
-            )
-        );
-        $customer_id = $user_request->response['payload'];
+
+        $user_request = $this->request('people')
+        							->action('getuseridforaddress')
+                                    ->with(['address' => $customer_email])->get();
+
+        $customer_id = $user_request['payload'];
 
         try {
             $orders = $this->orm->findWhere(CommerceOrder::class, ['user_id'=>$user_id, 'customer_user_id'=>$customer_id] );
@@ -799,16 +795,16 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getCurrencyForUser($user_id) {
-        $currency_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'getsettings',
-                'type' => 'use_currency',
-                'user_id' => $user_id
-            )
-        );
-        if ($currency_request->response['payload']) {
-            $currency = $currency_request->response['payload'];
+
+        $currency_request = $this->request('system')
+        							->action('getsettings')
+                                    ->with([
+                                        'type' => 'use_currency',
+                                        'user_id' => $user_id
+                                    ])->get();
+
+        if ($currency_request['payload']) {
+            $currency = $currency_request['payload'];
         } else {
             $currency = 'USD';
         }
@@ -963,34 +959,33 @@ class CommercePlant extends PlantBase {
 
     protected function getOrCreateUser($payment_details) {
         // let's try to find this user id via email
-        $user_request = new CASHRequest(
-            array('cash_request_type' => 'people',
-                'cash_action' => 'getuseridforaddress',
-                'address' => $payment_details['customer_email'])
-        );
+        $user_request = $this->request('people')
+                            ->action('getuseridforaddress')
+                            ->with([
+                                'address' => $payment_details['customer_email']
+                            ])->get();
 
-        $user_id = $user_request->response['payload'];
+        $user_id = $user_request['payload'];
 
         // no dice, so let's make them feel welcome and create an account
         if (!$user_id) {
 
-            $user_request = new CASHRequest(
-                array('cash_request_type' => 'system',
-                    'cash_action' => 'addlogin',
-                    'address' => $payment_details['customer_email'],
-                    'password' => time(),
-                    'username' => preg_replace('/\s+/', '', $payment_details['customer_first_name'] . $payment_details['customer_last_name']),
-                    'is_admin' => 0,
-                    'display_name' => $payment_details['customer_name'],
-                    'first_name' => $payment_details['customer_first_name'],
-                    'last_name' => $payment_details['customer_last_name'],
-                    'address_country' =>
-                        isset($payment_details['customer_countrycode']) ? $payment_details['customer_countrycode'] : "",
-                    'data' => ['new_subscriber' => true] //TODO: does this tie into subs?
-                    )
-            );
+            $user_request = $this->request('system')
+                                ->action('addlogin')
+                                ->with([
+                                    'address' => $payment_details['customer_email'],
+                                    'password' => time(),
+                                    'username' => preg_replace('/\s+/', '', $payment_details['customer_first_name'] . $payment_details['customer_last_name']),
+                                    'is_admin' => 0,
+                                    'display_name' => $payment_details['customer_name'],
+                                    'first_name' => $payment_details['customer_first_name'],
+                                    'last_name' => $payment_details['customer_last_name'],
+                                    'address_country' =>
+                                        isset($payment_details['customer_countrycode']) ? $payment_details['customer_countrycode'] : "",
+                                    'data' => ['new_subscriber' => true] //TODO: does this tie into subs?
+                                ])->get();
 
-            $user_id = $user_request->response['payload'];
+            $user_id = $user_request['payload'];
         }
 
         if (!$user_id) {
@@ -1096,31 +1091,24 @@ class CommercePlant extends PlantBase {
         try {
             $personalized_message = '';
             if ($order_details['element_id']) {
-                $element_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'element',
-                        'cash_action' => 'getelement',
-                        'id' => $order_details['element_id']
-                    )
-                );
+                $element_request = $this->request('element')
+                                        ->action('getelement')
+                                        ->with(['id' => $order_details['element_id']])->get();
 
-                if ($element_request->response['payload']) {
-                    if (isset($element_request->response['payload']['options']['message_email'])) {
-                        if ($element_request->response['payload']['options']['message_email']) {
-                            $personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
+                if ($element_request['payload']) {
+                    if (isset($element_request['payload']['options']['message_email'])) {
+                        if ($element_request['payload']['options']['message_email']) {
+                            $personalized_message = $element_request['payload']['options']['message_email'] . "\n\n";
                         }
                     }
                 }
             }
 
             if ($order_details['digital']) {
-                $addcode_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'element',
-                        'cash_action' => 'addlockcode',
-                        'element_id' => $order_details['element_id']
-                    )
-                );
+
+                $addcode_request = $this->request('element')
+                							->action('addlockcode')
+                                            ->with(['element_id' => $order_details['element_id']])->get();
 
                 if (!$finalize_url) {
                     $finalize_url = CASHSystem::getCurrentURL();
@@ -1132,7 +1120,7 @@ class CommercePlant extends PlantBase {
                     $order_details['customer_details']['email_address'],
                     $personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
                     . $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n"
-                    . "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+                    . "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request['payload']
                     . '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($order_details['customer_details']['email_address']) . '&order_id=' . $order_details['id'] . ')',
                     'Thank you.'
                 );
@@ -1239,24 +1227,6 @@ class CommercePlant extends PlantBase {
     //	case 'transactions':
        if (!$date_low) $date_low = 201243600;
        if (!$date_high) $date_high = time();
-       $result = $this->db->getData(
-           'CommercePlant_getAnalytics_transactions',
-           false,
-           array(
-               "user_id" => array(
-                   "condition" => "=",
-                   "value" => $user_id
-               ),
-               "date_low" => array(
-                   "condition" => "=",
-                   "value" => $date_low
-               ),
-               "date_high" => array(
-                   "condition" => "=",
-                   "value" => $date_high
-               )
-           )
-       );
 
      $result = $this->db->table('commerce_transactions')
          ->select(['SUM(gross_price as total_gross', 'COUNT(id) AS total_transactions'])
@@ -1311,18 +1281,16 @@ class CommercePlant extends PlantBase {
 
     public function getElementData($element_id, $user_id) {
 
-        $element_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'element',
-                'cash_action' => 'getelement',
-                'id' => $element_id,
-                'user_id'   => $user_id
-            )
-        );
+        $element_request = $this->request('element')
+                                ->action('getelement')
+                                ->with([
+                                    'id' => $element_id,
+                                    'user_id'   => $user_id
+                                ])->get();
 
-        if (!empty($element_request->response['payload'])) {
+        if (!empty($element_request['payload'])) {
 
-            return $element_request->response['payload'];
+            return $element_request['payload'];
         } else {
             return false;
         }
@@ -1363,6 +1331,13 @@ class CommercePlant extends PlantBase {
                 'user_id' => $user_id
             )
         );
+
+        /*$settings_request = $this->request('system')
+        							->action('getsettings')
+                                    ->with([
+                                        'type' => 'payment_defaults',
+                                        'user_id' => $user_id
+                                    ])->get();*/
 
         if (is_array($settings_request->response['payload'])) {
 
@@ -1480,16 +1455,12 @@ class CommercePlant extends PlantBase {
             if (!is_cash_model($customer)) return false; // this is not an existing customer
 
             // get customer email
-            $user_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'people',
-                    'cash_action' => 'getuser',
-                    'user_id' => $customer->user_id
-                )
-            );
+            $user_request = $this->request('people')
+            							->action('getuser')
+                                        ->with(['user_id' => $customer->user_id])->get();
 
-            if ($user_request->response['payload']) {
-                $email_address = $user_request->response['payload']['email_address'];
+            if ($user_request['payload']) {
+                $email_address = $user_request['payload']['email_address'];
             }
 
             if ($event->type == "invoice.payment_succeeded") {

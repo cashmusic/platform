@@ -30,10 +30,7 @@ trait RequestWrapper
 
     public function get($argument=false) {
 
-        $pdo = false;
-        if (isset($this->db) && method_exists($this->db, "pdo")) {
-            $pdo = $this->db->pdo();
-        }
+        $pdo = $this->getPDOConnection();
 
         $request_array = [
             'cash_request_type' => $this->request_plant,
@@ -55,5 +52,35 @@ trait RequestWrapper
             return $request->response;
         }
         return false;
+    }
+
+    public function session($session_id=false) {
+
+        $pdo = $this->getPDOConnection();
+
+        try {
+            $request = new CASHRequest(false, 'direct', false, false, false, $pdo);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        if (isset($request)) {
+            $request->sessionStart($session_id);
+            return $request;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    private function getPDOConnection()
+    {
+        $pdo = false;
+        if (isset($this->db) && method_exists($this->db, "pdo")) {
+            $pdo = $this->db->pdo();
+        }
+        return $pdo;
     }
 }

@@ -45,29 +45,29 @@ if (isset($_REQUEST['fulfill'])) {
  *
  ******************************************************************************/
 if (isset($_REQUEST['currency_id'])) {
-	$settings_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'use_currency',
-			'value' => $_REQUEST['currency_id'],
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
 
-	$settings_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'payment_defaults',
-			'value' => array(
-				'pp_default' => $_REQUEST['paypal_default_id'],
-				'pp_micro' => $_REQUEST['paypal_micropayment_id'],
-				'stripe_default' => $_REQUEST['stripe_default']
-			),
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
+    $currency_response = $admin_request
+        ->request('system')
+        ->action('setsettings')
+        ->with([
+            'type' => 'use_currency',
+            'value' => $_REQUEST['currency_id'],
+            'user_id' => $cash_admin->effective_user_id
+        ])->get();
+
+    $settings_response = $admin_request
+        ->request('system')
+        ->action('setsettings')
+        ->with([
+            'type' => 'payment_defaults',
+            'value' => array(
+                'pp_default' => $_REQUEST['paypal_default_id'],
+                'pp_micro' => $_REQUEST['paypal_micropayment_id'],
+                'stripe_default' => $_REQUEST['stripe_default']
+            ),
+            'user_id' => $cash_admin->effective_user_id
+        ])->get();
+
 	if ($settings_response['payload']) {
         $admin_helper->formSuccess('Success.','/commerce/');
 	}
@@ -80,7 +80,6 @@ $settings_response = $admin_request
         'type' => 'use_currency',
         'user_id' => $cash_admin->effective_user_id
     ])->get();
-
 
 if ($settings_response['payload']) {
 	$current_currency = $settings_response['payload'];

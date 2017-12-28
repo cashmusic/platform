@@ -14,8 +14,8 @@ $admin_helper = new AdminHelper($admin_request, $cash_admin);
  *
  ******************************************************************************/
 $effective_user = $cash_admin->effective_user_id;
-
-if ($request_parameters) {
+//dd($request_parameters);
+if (is_array($request_parameters)) {
 	/****************************************************************************
 	 *
 	 * 2. FOUND (AT LEAST) AN ORDER ID, FIRST LOOK FOR ACTION PARAMS
@@ -24,51 +24,49 @@ if ($request_parameters) {
 
 	// receipt request requested
 	if (isset($_POST['resend_store_url'])) {
-		$resend_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'sendorderreceipt',
+
+		$admin_request->request('commerce')
+			->action('sendorderreceipt')
+			->with([
 				'id' => $request_parameters[0],
 				'finalize_url' => $_POST['resend_store_url']
-			)
-		);
+			])->get();
+
 		$admin_helper->formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
 	// edit order notes
 	if (isset($_POST['ordernotes'])) {
-		$order_details_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'editorder',
+
+		$admin_request->request('commerce')
+			->action('editorder')
+			->with([
 				'id' => $request_parameters[0],
 				'notes' => $_POST['ordernotes']
-			)
-		);
+			])->get();
+
 		$admin_helper->formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
 	// mark order as fulfilled
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[1] == 'fulfilled') {
-			$order_details_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'commerce',
-					'cash_action' => 'editorder',
-					'id' => $request_parameters[0],
-					'fulfilled' => 1
-				)
-			);
+
+            $admin_request->request('commerce')
+                ->action('editorder')
+                ->with([
+                    'id' => $request_parameters[0],
+                    'fulfilled' => 1
+                ])->get();
+
 			$admin_helper->formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
 		}  else if ($request_parameters[1] == 'cancel') {
 
-			$order_cancel_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'commerce',
-					'cash_action' => 'cancelorder',
-					'order_id' => $request_parameters[0]
-				)
-			);
+            $order_cancel_response = $admin_request->request('commerce')
+                ->action('cancelorder')
+                ->with([
+                    'order_id' => $request_parameters[0]
+                ])->get();
 
 			if ($order_cancel_response['payload']) {
 				$admin_helper->formSuccess('Order cancelled.','/commerce/orders/view/' . $request_parameters[0]);
@@ -83,15 +81,15 @@ if ($request_parameters) {
 	 * 3. GET ORDER DETAILS AND FORMAT RETURN
 	 *
 	 ***************************************************************************/
-	$order_details_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'commerce',
-			'cash_action' => 'getorder',
-			'id' => $request_parameters[0],
-			'deep' => true
-		)
-	);
+	$order_details_response = $admin_request->request('commerce')
+								->action('getorder')
+	                            ->with([
+                                    'id' => $request_parameters[0],
+                                    'deep' => true
+								])->get();
+
 	$order_all_details = $order_details_response['payload'];
+
 	if ($order_all_details['user_id'] == $effective_user) {
 		// format all the details into easy mustache variables
 		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
@@ -116,13 +114,14 @@ if ($request_parameters) {
                 $item_price += $item['price'];
 
                 if (isset($item['variant'])) {
-                    $variant_response = $cash_admin->requestAndStore(
-                        array(
-                            'cash_request_type' => 'commerce',
-                            'cash_action' => 'formatvariantname',
-                            'name' => $item['variant']
-                        )
-                    );
+
+                    //TODO: is this necessary?
+                    $variant_response = $admin_request->request('commerce')
+                    							->action('formatvariantname')
+                                                ->with([
+                                                    'name' => $item['variant']
+												])->get();
+
                     if ($variant_response['payload']) {
                         $order_contents[$key]['variant'] = $variant_response['payload'];
                     }

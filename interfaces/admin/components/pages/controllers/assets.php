@@ -15,15 +15,15 @@ $user_id = $cash_admin->effective_user_id;
 $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 // get all assets for page
-$releases_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset',
-		'cash_action' => 'getassetsforuser',
-		'type' => 'release',
-		'parent_id' => 0,
-		'user_id' => $user_id
-	)
-);
+$releases_response = $admin_request
+    ->request('asset')
+    ->action('getassetsforuser')
+    ->with([
+        'type' => 'release',
+        'parent_id' => 0,
+        'user_id' => $user_id
+    ])->get();
+
 /*
 $playlists_response = $cash_admin->requestAndStore(
 	array(
