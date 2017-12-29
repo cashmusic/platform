@@ -22,7 +22,7 @@ trait Subscriptions {
      */
     public function setSubscriberSession($user_id, $plan_id, $subscriber_id)
     {
-        $session = new CASHRequest(null);
+        $session = $this->session(null);
         $session->sessionSet("user_id", $user_id);
         $session->sessionSet("plan_id", $plan_id);
         $session->sessionSet("subscription_authenticated", true);
@@ -492,18 +492,14 @@ trait Subscriptions {
                 ->message("This plan doesn't appear to be attached to an element, so we can't send the user to a URL to finalize their subscription.");
         }
 
-        $element_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'element',
-                'cash_action' => 'getelement',
-                'id' => $element_id
-            )
-        );
+        $element_request = $this->request('element')
+                                ->action('getelement')
+                                ->with(['id' => $element_id])->get();
 
-        if ($element_request->response['payload']) {
-            if (isset($element_request->response['payload']['options']['element_url'])) {
-                if ($element_request->response['payload']['options']['element_url']) {
-                    $finalize_url = $element_request->response['payload']['options']['element_url'];
+        if ($element_request['payload']) {
+            if (isset($element_request['payload']['options']['element_url'])) {
+                if ($element_request['payload']['options']['element_url']) {
+                    $finalize_url = $element_request['payload']['options']['element_url'];
                 }
             }
         }
@@ -561,24 +557,22 @@ trait Subscriptions {
 
     public function loginSubscriber($email=false, $password=false, $plans=false, $validate_new=false) {
 
-        $validate_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'validatelogin',
-                'address' => $email,
-                'password' => $password,
-                'keep_session' => true
-            )
-        );
+        $validate_request = $this->request('system')
+                                ->action('validatelogin')
+                                ->with([
+                                    'address' => $email,
+                                    'password' => $password,
+                                    'keep_session' => true
+                                ])->get();
 
         // email or password are not set so bail, or they're set but they don't validate
-        if ( (!$email || !$password || !$plans) || !$validate_request->response['payload'] ) {
+        if ( (!$email || !$password || !$plans) || !$validate_request['payload'] ) {
             return "401";
         }
 
-        if ($validate_request->response['payload']) {
+        if ($validate_request['payload']) {
 
-            $user_id = $validate_request->response['payload'];
+            $user_id = $validate_request['payload'];
 
             // this is a valid login--- so now the question is, are they an active subscriber?
             list($plan_id, $subscriber_id) = $this->validateSubscription($user_id, $plans);
@@ -809,7 +803,6 @@ trait Subscriptions {
      */
     public static function createValidateCustomerURL($email_address)
     {
-
         $reset_key = new CASHRequest(
             array(
                 'cash_request_type' => 'system',

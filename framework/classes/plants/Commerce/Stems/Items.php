@@ -33,17 +33,14 @@ trait Items {
         } else {
             // if there's no descriptive asset we can try pulling the cover from the fulfillment asset
             if (empty($descriptive_asset)) {
-                $request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'asset',
-                        'cash_action' => 'getasset',
-                        'id' => $fulfillment_asset
-                    )
-                );
+
+                $request = $this->request('asset')
+                                ->action('getasset')
+                                ->with(['id' => $fulfillment_asset])->get();
 
                 // we've got the request, we need to make sure the properties actually exist
 
-                $fulfillment_asset_data = $request->response['payload'];
+                $fulfillment_asset_data = $request['payload'];
                 if (is_array($fulfillment_asset_data->metadata)
                     && isset($fulfillment_asset_data->metadata['cover'])
                 ) {
@@ -277,37 +274,32 @@ trait Items {
                 $html_message = CASHSystem::parseMarkdown($message);
 
                 if ($include_download) {
-                    $asset_request = new CASHRequest(
-                        array(
-                            'cash_request_type' => 'asset',
-                            'cash_action' => 'getasset',
-                            'id' => $item_details['fulfillment_asset']
-                        )
-                    );
 
-                    if ($asset_request->response['payload']) {
+                    $asset_request = $this->request('asset')
+                                        ->action('getasset')
+                                        ->with(['id' => $item_details['fulfillment_asset']])->get();
+
+                    if ($asset_request['payload']) {
                         $unlock_suffix = 1;
                         $all_assets = array();
-                        if ($asset_request->response['payload']['type'] == 'file') {
+                        if ($asset_request['payload']['type'] == 'file') {
                             $message .= "\n\n" . 'Download *|ITEMNAME|*: at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
                             $html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
                             $all_assets[] = array(
                                 'id' => $item_details['fulfillment_asset'],
-                                'name' => $asset_request->response['payload']['title']
+                                'name' => $asset_request['payload']['title']
                             );
 
                         } else {
                             $message .= "\n\n" . '*|ITEMNAME|*:' . "\n\n";
                             $html_message .= "\n\n" . '<p><b>*|ITEMNAME|*:</b></p>';
-                            $fulfillment_request = new CASHRequest(
-                                array(
-                                    'cash_request_type' => 'asset',
-                                    'cash_action' => 'getfulfillmentassets',
-                                    'asset_details' => $asset_request->response['payload']
-                                )
-                            );
-                            if ($fulfillment_request->response['payload']) {
-                                foreach ($fulfillment_request->response['payload'] as $asset) {
+
+                            $fulfillment_request = $this->request('asset')
+                                                    ->action('getfulfillmentassets')
+                                                    ->with(['asset_details' => $asset_request['payload']])->get();
+
+                            if ($fulfillment_request['payload']) {
+                                foreach ($fulfillment_request['payload'] as $asset) {
                                     $all_assets[] = array(
                                         'id' => $asset['id'],
                                         'name' => $asset['title']
@@ -329,20 +321,17 @@ trait Items {
                         foreach ($recipients as $recipient) {
 
                             foreach ($all_assets as $asset) {
-                                $addcode_request = new CASHRequest(
-                                    array(
-                                        'cash_request_type' => 'asset',
-                                        'cash_action' => 'addlockcode',
-                                        'asset_id' => $asset['id']
-                                    )
-                                );
+
+                                $addcode_request = $this->request('asset')
+                                                        ->action('addlockcode')
+                                                        ->with(['asset_id' => $asset['id']])->get();
                                 $all_vars[] = array(
                                     'name' => 'assetname'.$unlock_suffix,
                                     'content' => $asset['name']
                                 );
                                 $all_vars[] = array(
                                     'name' => 'unlockcode'.$unlock_suffix,
-                                    'content' => $addcode_request->response['payload']
+                                    'content' => $addcode_request['payload']
                                 );
 
                                 // replace asset name
@@ -364,13 +353,13 @@ trait Items {
                                 $recipient_message = str_replace
                                 (
                                     '*|UNLOCKCODE'.$unlock_suffix.'|*',
-                                    $addcode_request->response['payload'],
+                                    $addcode_request['payload'],
                                     $recipient_message
                                 );
 
                                 $unlock_suffix++;
                             }
-                            if ($addcode_request->response['payload']) {
+                            if ($addcode_request['payload']) {
                                 $merge_vars[] = array(
                                     'rcpt' => $recipient['email'],
                                     'vars' => $all_vars
