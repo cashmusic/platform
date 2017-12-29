@@ -50,15 +50,14 @@ class PeoplePlant extends PlantBase {
 		// create an array to return
 		$return_array = array();
 		// get orders for the timeframe
-		$order_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'getordersforuser',
-				'user_id' => $user_id,
-				'since_date' => $since_date
-			)
-		);
-		$return_array['orders'] = $order_request->response['payload'];
+		$order_request = $this->request('commerce')
+		                        ->action('getordersforuser')
+		                        ->with([
+                                    'user_id' => $user_id,
+                                    'since_date' => $since_date
+								])->get();
+
+		$return_array['orders'] = $order_request['payload'];
 
 		// get list activity (new joins)
 
@@ -539,8 +538,8 @@ class PeoplePlant extends PlantBase {
 						)
 					);
 
-					if ($addlogin_request->response['status_code'] == 200) {
-						$user_id = $addlogin_request->response['payload'];
+					if ($addlogin_request['status_code'] == 200) {
+						$user_id = $addlogin_request['payload'];
 					} else {
 						return false;
 					}
@@ -919,19 +918,19 @@ class PeoplePlant extends PlantBase {
 			}
 		}
 		if ($validate) {
-			$login_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'system',
-					'cash_action' => 'validatelogin',
-					'address' => $address,
-					'password' => $password,
-					'verified_address' => $verified_address,
-					'browserid_assertion' => $browserid_assertion,
-					'require_admin' => false,
-					'element_id' => $element_id
-				)
-			);
-			if ($login_request->response['payload'] !== false) {
+
+			$login_request = $this->request('system')
+			                        ->action('validatelogin')
+			                        ->with([
+                                        'address' => $address,
+                                        'password' => $password,
+                                        'verified_address' => $verified_address,
+                                        'browserid_assertion' => $browserid_assertion,
+                                        'require_admin' => false,
+                                        'element_id' => $element_id
+									])->get();
+
+			if ($login_request['payload'] !== false) {
 				return true;
 			} else {
 				return false;
@@ -1056,39 +1055,34 @@ class PeoplePlant extends PlantBase {
                 // if there's an asset id we need to look it up and pass for global merge vars
                 if ($asset) {
                     // lookup asset details
-                    $asset_request = new CASHRequest(
-                        array(
-                            'cash_request_type' => 'asset',
-                            'cash_action' => 'getasset',
-                            'id' => $asset,
-                            'user_id' => $mailing['user_id']
-                        )
-                    );
+                    $asset_request = $this->request('asset')
+                                            ->action('getasset')
+                                            ->with([
+                                                'id' => $asset,
+                                                'user_id' => $mailing['user_id']
+											])->get();
 
-                    if ($asset_request->response['payload']) {
-                        $add_code_request = new CASHRequest(
-                            array(
-                                'cash_request_type' => 'system',
-                                'cash_action' => 'addbulklockcodes',
-                                'scope_table_alias' => 'mailings',
-                                'scope_table_id' => $mailing_id,
-								'user_id' => $mailing['user_id'],
-								'count' => count($list_details['members'])
-                            )
-                        );
+                    if ($asset_request['payload']) {
+
+                        $add_code_request = $this->request('system')
+                                                ->action('addbulklockcodes')
+                                                ->with([
+                                                    'scope_table_alias' => 'mailings',
+                                                    'scope_table_id' => $mailing_id,
+                                                    'user_id' => $mailing['user_id'],
+                                                    'count' => count($list_details['members'])
+												])->get();
 
 						if ($add_code_request) {
+                            $get_code_request = $this->request('system')
+                                                    ->action('getlockcodes')
+                                                    ->with([
+                                                        'scope_table_alias' => 'mailings',
+                                                        'scope_table_id' => $mailing_id,
+                                                        'user_id' => $mailing['user_id']
+													])->get();
 
-                            $get_code_request = new CASHRequest(
-                                array(
-                                    'cash_request_type' => 'system',
-                                    'cash_action' => 'getlockcodes',
-                                    'scope_table_alias' => 'mailings',
-                                    'scope_table_id' => $mailing_id,
-                                    'user_id' => $mailing['user_id']
-                                )
-                            );
-                            $lock_codes = $get_code_request->response['payload'];
+                            $lock_codes = $get_code_request['payload'];
 
                             if (is_array($lock_codes)) {
                                 $codes = cash_model_column($lock_codes, 'uid');
@@ -1127,7 +1121,7 @@ class PeoplePlant extends PlantBase {
                                 }
 
                                 // there's a valid asset
-                                if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+                                if ($asset_request['payload'] && !empty($codes) && is_array($codes)) {
 
                                     $code = array_pop($codes);
                                     $merge_vars[] = [
@@ -1140,7 +1134,7 @@ class PeoplePlant extends PlantBase {
                                                     $mailing['list_id'] .
                                                     "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                     "' class='button'>Download ".
-                                                    htmlentities($asset_request->response['payload']->title).'</a>'
+                                                    htmlentities($asset_request['payload']->title).'</a>'
                                             ]
                                         ]
                                     ];
@@ -1191,7 +1185,7 @@ class PeoplePlant extends PlantBase {
                             }
 
                             // there's a valid asset
-                            if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+                            if ($asset_request['payload'] && !empty($codes) && is_array($codes)) {
                                 $code = array_pop($codes);
                                 $merge_vars[] = [
                                     'rcpt' => $subscriber['email_address'],
@@ -1203,7 +1197,7 @@ class PeoplePlant extends PlantBase {
                                                 $mailing['list_id'] .
                                                 "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                                 "' class='button'>Download ".
-                                                htmlentities($asset_request->response['payload']->title).'</a>'
+                                                htmlentities($asset_request['payload']->title).'</a>'
                                         ]
                                     ]
                                 ];
