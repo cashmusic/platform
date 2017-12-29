@@ -18,14 +18,24 @@ function formatEventOutput(&$response) {
 		$event['formatted_date'] = date('d M',$event['date']);
 
 		// format location
-		if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+		if (isset($event['venue_country'])) {
+            if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
+                $event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+            } else {
+                $event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+            }
 		} else {
-			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+            $event['venue_country'] = "";
 		}
-		if ($event['event_location'] == ', ') {
-			$event['event_location'] = '';
+
+		if (isset($event['event_location'])) {
+            if ($event['event_location'] == ', ') {
+                $event['event_location'] = '';
+            }
+		} else {
+            $event['event_location'] = "";
 		}
+
 
 	}
 }
