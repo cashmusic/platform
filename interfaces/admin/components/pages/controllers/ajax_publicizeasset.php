@@ -10,14 +10,14 @@ use CASHMusic\Admin\AdminHelper;
 
 
 if (isset($request_parameters[0])) {
-	$success_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'makepublic',
-			'id' => $request_parameters[0],
-            'commit' => true
-		)
-	);
+
+    $success_response = $admin_request->request('asset')
+                            ->action('makepublic')
+                            ->with([
+                                'id' => $request_parameters[0],
+                                'commit' => true
+                            ])->get();
+
 	if ($success_response['payload']) {
 		echo json_encode(array(
 			'success' => true,

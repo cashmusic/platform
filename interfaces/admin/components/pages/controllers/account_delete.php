@@ -10,13 +10,11 @@ use CASHMusic\Admin\AdminHelper;
 $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
-	$delete_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'deletelogin',
-			'address' => $admin_request->sessionGet('cash_effective_user_email')
-		)
-	);
+
+	$delete_response = $admin_request->request('system')
+	                        ->action('deletelogin')
+	                        ->with(['address' => $admin_request->sessionGet('cash_effective_user_email')])->get();
+
 	if ($delete_response['status_uid'] == 'system_deletelogin_200') {
 
 		$admin_helper->formSuccess('Success. Deleted.','/logout/');

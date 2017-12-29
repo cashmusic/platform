@@ -26,14 +26,13 @@ use CASHMusic\Admin\AdminHelper;
 	}
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[0] == 'venues') {
-			$matchingvenues_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'calendar', 
-					'cash_action' => 'findvenues',
-					'query' => $request_parameters[1],
-                    'user_id' => $cash_admin->effective_user_id
-				)
-			);
+
+			$matchingvenues_response = $admin_request->request('calendar')
+			                        ->action('findvenues')
+			                        ->with([
+                                        'query' => $request_parameters[1],
+                                        'user_id' => $cash_admin->effective_user_id
+                                    ])->get();
 
 			if (is_array($matchingvenues_response['payload'])) {
 				$options_array = array();

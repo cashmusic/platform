@@ -10,14 +10,13 @@ use CASHMusic\Admin\AdminHelper;
 
 
 if (isset($_REQUEST['connection_id']) && isset($_REQUEST['filename'])) {
-	$success_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'finalizeupload',
-			'connection_id' => $_REQUEST['connection_id'],
-			'filename' => $_REQUEST['filename']
-		)
-	);
+    
+	$success_response = $admin_request->request('asset')
+	                        ->action('finalizeupload')
+	                        ->with([
+                                'connection_id' => $_REQUEST['connection_id'],
+                                'filename' => $_REQUEST['filename']
+                            ])->get();
 	if ($success_response['payload']) {
 		echo '{"success":"true"}';
 	} else {

@@ -8,16 +8,15 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
 if (isset($_POST['doaccountchange'])) {
-	$valid_user_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'validatelogin',
-			'address' => $_POST['email_address'],
-			'password' => $_POST['password'],
-			'require_admin' => true,
-			'keep_session' => true
-		)
-	);
+
+	$valid_user_response = $admin_request->request('system')
+	                        ->action('validatelogin')
+	                        ->with([
+                                'address' => $_POST['email_address'],
+                                'password' => $_POST['password'],
+                                'require_admin' => true,
+                                'keep_session' => true
+							])->get();
 
     $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
@@ -25,8 +24,6 @@ if (isset($_POST['doaccountchange'])) {
 		$admin_helper->formFailure('Error. There was a problem with your password. Please try again.');
 	} else {
 		$changes = array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'setlogincredentials',
 			'user_id' => $cash_admin->effective_user_id
 		);
 		if (isset($_POST['new_email_address'])) { 
@@ -61,9 +58,11 @@ if (isset($_POST['doaccountchange'])) {
 				$changes['password'] = $_POST['new_password'];
 			}
 		}
-		$change_response = $cash_admin->requestAndStore($changes);
-        CASHSystem::errorLog($changes);
-		CASHSystem::errorLog($change_response);
+
+        $change_response = $admin_request->request('system')
+                                ->action('setlogincredentials')
+                                ->with($changes)->get();
+
 		if ($change_response['payload'] !== false) {
 			if (isset($changes['address'])) {
 				$admin_request->sessionSet('cash_effective_user_email',$changes['address']);
@@ -76,13 +75,10 @@ if (isset($_POST['doaccountchange'])) {
 }
 
 $effective_user = $cash_admin->effective_user_id;
-$user_request = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getuser',
-		'user_id' => $effective_user
-	)
-);
+
+$user_request = $admin_request->request('people')
+                        ->action('getuser')
+                        ->with(['user_id' => $effective_user])->get();
 
 if (is_array($user_request['payload'])) {
 	$cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
@@ -97,13 +93,9 @@ if (is_array($user_request['payload'])) {
 }
 
 // get username and any user data
-$user_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$user_response = $admin_request->request('people')
+                        ->action('getuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
@@ -126,20 +118,13 @@ if (!empty($user_response['payload'])) {
 	}
 }
 
-
-$api_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getapicredentials',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$api_response = $admin_request->request('system')
+                        ->action('getapicredentials')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 if ($api_response['payload']) {
 	$cash_admin->page_data['api_credentials'] = $api_response['payload']['api_key'];
 }
-
-
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
