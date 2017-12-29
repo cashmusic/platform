@@ -37,14 +37,12 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 					$username_success = false;
 					$final_username = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['username']));
 					if (!empty($final_username)) {
-						$username_request = new CASHRequest(
-							array(
-								'cash_request_type' => 'people',
-								'cash_action' => 'getuseridforusername',
-								'username' => $final_username
-							)
-						);
-						if ($username_request->response['payload']) {
+
+						$username_request = $admin_request->request('people')
+						                        ->action('getuseridforusername')
+						                        ->with(['username' => $final_username])->get();
+
+						if ($username_request['payload']) {
 							$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
 						} else {
 							$username_success = true;
@@ -53,28 +51,23 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
 					}
 
-					$add_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'system',
-							'cash_action' => 'addlogin',
-							'address' => $_POST['address'],
-							'password' => $_POST['password'],
-							'is_admin' => 0,
-							'username' => $final_username,
-							'data' => array('agreed_terms' => time())
-						)
-					);
+					$add_request = $admin_request->request('system')
+					                        ->action('addlogin')
+					                        ->with([
+                                                'address' => $_POST['address'],
+                                                'password' => $_POST['password'],
+                                                'is_admin' => 0,
+                                                'username' => $final_username,
+                                                'data' => array('agreed_terms' => time())
+											])->get();
 
-					$reset_key = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'system',
-							'cash_action' => 'setresetflag',
-							'address' => $_POST['address']
-						)
-					);
+					$reset_key = $admin_request->request('system')
+					                        ->action('setresetflag')
+					                        ->with(['address' => $_POST['address']])->get();
+
 					$reset_key = $reset_key['payload'];
 
-					if ($add_request->response['payload']) {
+					if ($add_request['payload']) {
 						CASHSystem::sendEmail(
 							'Your CASH Music account is ready',
 							false,
@@ -103,13 +96,10 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 } else if (substr(trim($_REQUEST['p'],'/'),0,13) == 'resetpassword') {
 	if (isset($_POST['dopasswordreset'])) {
 		if (filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
-			$reset_key = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'system',
-					'cash_action' => 'setresetflag',
-					'address' => $_POST['address']
-				)
-			);
+			$reset_key = $admin_request->request('system')
+			                        ->action('setresetflag')
+			                        ->with(['address' => $_POST['address']])->get();
+
 			$reset_key = $reset_key['payload'];
 			if ($reset_key) {
 				$reset_message = 'A password reset was requested for this email address. If you didn\'t request the '
@@ -144,14 +134,14 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 } else {
 	// this for returning password reset people:
 	if (substr(trim($_REQUEST['p'],'/'),0,11) == 'setpassword') {
-		$valid_key = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'validateresetflag',
-				'address' => $_GET['address'],
-				'key' => $_GET['key']
-			)
-		);
+
+		$valid_key = $admin_request->request('system')
+		                        ->action('validateresetflag')
+		                        ->with([
+                                    'address' => $_GET['address'],
+                                    'key' => $_GET['key']
+								])->get();
+
 		if ($valid_key) {
 			$cash_admin->page_data['reset_key'] = $_GET['key'];
 			$cash_admin->page_data['reset_email'] = $_GET['address'];
@@ -161,32 +151,29 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 
 	if (substr(trim($_REQUEST['p'],'/'),0,6) == 'verify') {
 		if (isset($_GET['key'])) {
-			$valid_key = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'system',
-					'cash_action' => 'validateresetflag',
-					'address' => $_GET['address'],
-					'key' => $_GET['key']
-				)
-			);
+
+			$valid_key = $admin_request->request('system')
+			                        ->action('validateresetflag')
+			                        ->with([
+                                        'address' => $_GET['address'],
+                                        'key' => $_GET['key']
+									])->get();
 
 			if ($valid_key) {
-				$id_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'people',
-						'cash_action' => 'getuseridforaddress',
-						'address' => $_GET['address']
-					)
-				);
+
+				$id_response = $admin_request->request('people')
+				                        ->action('getuseridforaddress')
+				                        ->with(['address' => $_GET['address']])->get();
+
 				if ($id_response['payload']) {
-					$change_response = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'system',
-							'cash_action' => 'setlogincredentials',
-							'user_id' => $id_response['payload'],
-							'is_admin' => 1
-						)
-					);
+
+					$change_response = $admin_request->request('system')
+					                        ->action('setlogincredentials')
+					                        ->with([
+                                                'user_id' => $id_response['payload'],
+                                                'is_admin' => 1
+											])->get();
+
 					if ($change_response['payload'] !== false) {
 						// mark user as logged in
 						$admin_request->startSession();
@@ -209,33 +196,30 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 
 	// and this for the actual password reset after return folks submit the reset form:
 	if (isset($_POST['finalizepasswordreset'])) {
-		$valid_key = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'validateresetflag',
-				'address' => $_POST['address'],
-				'key' => $_POST['key']
-			)
-		);
+
+		$valid_key = $admin_request->request('system')
+		                        ->action('validateresetflag')
+		                        ->with([
+                                    'address' => $_POST['address'],
+                                    'key' => $_POST['key']
+								])->get();
+
 		if ($valid_key) {
-			$id_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getuseridforaddress',
-					'address' => $_POST['address']
-				)
-			);
+            $id_response = $admin_request->request('people')
+                ->action('getuseridforaddress')
+                ->with(['address' => $_POST['address']])->get();
+
 			if ($id_response['payload']) {
-				$change_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system',
-						'cash_action' => 'setlogincredentials',
-						'user_id' => $id_response['payload'],
-						'address' => $_POST['address'],
-						'password' => $_POST['new_password'],
-						'is_admin' => 1
-					)
-				);
+
+				$change_response = $admin_request->request('system')
+				                        ->action('setlogincredentials')
+				                        ->with([
+                                            'user_id' => $id_response['payload'],
+                                            'address' => $_POST['address'],
+                                            'password' => $_POST['new_password'],
+                                            'is_admin' => 1
+										])->get();
+
 				if ($change_response['payload'] !== false) {
 					$admin_helper->formSuccess('Successfully changed the password. Go ahead and log in.','/');
 				} else {

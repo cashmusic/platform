@@ -19,31 +19,26 @@ if (isset($_POST['doassetadd'])) {
 		}
 	}
 
-	$add_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset',
-			'cash_action' => 'addasset',
-			'title' => '',
-			'description' => '',
-			'parent_id' => $parent_id,
-			'connection_id' => $_POST['connection_id'],
-			'location' => $_POST['asset_location'],
-			'user_id' => $cash_admin->effective_user_id,
-			'type' => 'image'
-		)
-	);
+	$add_response = $admin_request->request('asset')
+	                        ->action('addasset')
+	                        ->with([
+                                'title' => '',
+                                'description' => '',
+                                'parent_id' => $parent_id,
+                                'connection_id' => $_POST['connection_id'],
+                                'location' => $_POST['asset_location'],
+                                'user_id' => $cash_admin->effective_user_id,
+                                'type' => 'image'
+							])->get();
 
 	if ($add_response['payload']) {
 		// check for metadata settings
 		if ($_POST['parent_type'] == 'release') {
 			// try getting the parent asset
-			$asset_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'getasset',
-					'id' => $_POST['parent_id']
-				)
-			);
+			$asset_response = $admin_request->request('asset')
+			                        ->action('getasset')
+			                        ->with(['id' => $_POST['parent_id']])->get();
+
 			// found it. now we can overwrite or extend the original metadata
 			if ($asset_response['payload']) {
 				// modify the existing chunk o metadata
@@ -54,51 +49,44 @@ if (isset($_POST['doassetadd'])) {
 				$new_metadata['cover'] = $add_response['payload'];
 
 				// make it public
-				$edit_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'asset',
-						'cash_action' => 'makepublic',
-						'id' => $add_response['payload'],
-						'commit' => true,
-						'user_id' => $cash_admin->effective_user_id
-					)
-				);
+				$edit_response = $admin_request->request('asset')
+				                        ->action('makepublic')
+				                        ->with([
+                                            'id' => $add_response['payload'],
+                                            'commit' => true,
+                                            'user_id' => $cash_admin->effective_user_id
+										])->get();
 
 				// now make the actual edits
-				$edit_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'asset',
-						'cash_action' => 'editasset',
-						'id' => $_POST['parent_id'],
-						'user_id' => $cash_admin->effective_user_id,
-						'metadata' => $new_metadata
-					)
-				);
+				$edit_response = $admin_request->request('asset')
+				                        ->action('editasset')
+				                        ->with([
+                                            'id' => $_POST['parent_id'],
+                                            'user_id' => $cash_admin->effective_user_id,
+                                            'metadata' => $new_metadata
+										])->get();
 			}
 			$admin_helper->formSuccess('Success.','/assets/edit/' . $_POST['parent_id']);
 		}
 		if ($_POST['parent_type'] == 'item') {
 			// make it public
-			$edit_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'makepublic',
-					'id' => $add_response['payload'],
-					'commit' => true,
-					'user_id' => $cash_admin->effective_user_id
-				)
-			);
+			$edit_response = $admin_request->request('asset')
+			                        ->action('makepublic')
+			                        ->with([
+                                        'id' => $add_response['payload'],
+                                        'commit' => true,
+                                        'user_id' => $cash_admin->effective_user_id
+									])->get();
 
 			// tell the item to use the asset
-			$item_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'commerce',
-					'cash_action' => 'edititem',
-					'id' => $_POST['parent_id'],
-					'descriptive_asset' => $add_response['payload'],
-					'user_id' => $cash_admin->effective_user_id
-				)
-			);
+			$item_response = $admin_request->request('commerce')
+			                        ->action('edititem')
+			                        ->with([
+                                        'id' => $_POST['parent_id'],
+                                        'descriptive_asset' => $add_response['payload'],
+                                        'user_id' => $cash_admin->effective_user_id
+									])->get();
+			
 			$admin_helper->formSuccess('Success.','/commerce/items/edit/' . $_POST['parent_id']);
 		}
 	} else {

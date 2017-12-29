@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Core\Traits;
 use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
 
 /**
  * Created by PhpStorm.
@@ -65,7 +66,7 @@ trait RequestWrapper
         }
 
         if (isset($request)) {
-            $request->sessionStart($session_id);
+            $request->startSession($session_id);
             return $request;
         }
 

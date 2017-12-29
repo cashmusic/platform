@@ -40,15 +40,13 @@ function formatEventOutput(&$response) {
 	}
 }
 
-$thisweek_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-		'cutoff_date_low' => strtotime("monday this week"),
-		'cutoff_date_high' => strtotime("sunday this week 11:59PM")
-	)
-);
+$thisweek_response = $admin_request->request('calendar')
+                        ->action('getevents')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'cutoff_date_low' => strtotime("monday this week"),
+                            'cutoff_date_high' => strtotime("sunday this week 11:59PM")
+						])->get();
 
 // this week
 if (is_array($thisweek_response['payload'])) {
@@ -65,14 +63,12 @@ if (isset($unpublished_response) && is_array($unpublished_response['payload'])) 
 
 $event = "";
 // Archive events
-$allpast_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-		'visible_event_types' => 'archive'
-	)
-);
+$allpast_response = $admin_request->request('calendar')
+                        ->action('getevents')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'visible_event_types' => 'archive'
+						])->get();
 
 if (is_array($allpast_response['payload'])) {
     formatEventOutput($allpast_response);
@@ -81,22 +77,17 @@ if (is_array($allpast_response['payload'])) {
 }
 
 // Upcoming events
-$allfuture_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-		'visible_event_types' => 'upcoming'
-	)
-);
+$allfuture_response = $admin_request->request('calendar')
+                        ->action('getevents')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'visible_event_types' => 'upcoming'
+						])->get();
 
 if (is_array($allfuture_response['payload'])) {
-
     formatEventOutput($allfuture_response);
-
 	$cash_admin->page_data['events_allfuture'] = new ArrayIterator($allfuture_response['payload']);
 }
-
 
 $cash_admin->page_data['options_venues'] = $admin_helper->echoFormOptions('venues',0,false,true);
 

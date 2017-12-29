@@ -8,15 +8,11 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
-$list_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getlistsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-
 $admin_helper = new AdminHelper($admin_request, $cash_admin);
+
+$list_response = $admin_request->request('people')
+    ->action('getlistsforuser')
+    ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 //people list connection or list present?
 $cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('lists') || $list_response['payload'];
@@ -98,15 +94,13 @@ if (is_array($list_response['payload'])) {
 	    // convert from entity object
         $list = $list->toArray();
 
-		$list_analytics = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'getanalytics',
-				'analtyics_type' => 'listmembership',
-				'list_id' => $list['id'],
-				'user_id' => $cash_admin->effective_user_id
-			)
-		);
+		$list_analytics = $admin_request->request('people')
+		                        ->action('getanalytics')
+		                        ->with([
+                                    'analtyics_type' => 'listmembership',
+                                    'list_id' => $list['id'],
+                                    'user_id' => $cash_admin->effective_user_id
+                                ])->get();
 
 		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']->active);
 		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']->inactive);
@@ -125,13 +119,9 @@ if (is_array($list_response['payload'])) {
 	$cash_admin->page_data['lists_all'] = new ArrayIterator(array_reverse($list_response['payload']));
 }
 
-$user_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$user_response = $admin_request->request('people')
+                        ->action('getuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 $session_news = false;
 if (is_array($user_response['payload'])) {

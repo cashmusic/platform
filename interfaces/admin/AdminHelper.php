@@ -66,14 +66,13 @@ class AdminHelper  {
                 $session_language = 'en';
 
 				if (!empty($this->cash_admin->effective_user_id)) {
-                    $language_response = $this->cash_admin->requestAndStore(
-                        array(
-                            'cash_request_type' => 'system',
-                            'cash_action' => 'getsettings',
-                            'user_id' => $this->cash_admin->effective_user_id,
-                            'type' => 'language'
-                        )
-                    );
+
+                    $language_response = $this->cash_admin->request('system')
+                                            ->action('getsettings')
+                                            ->with([
+                                                'user_id' => $this->cash_admin->effective_user_id,
+                                                'type' => 'language'
+											])->get();
 
                     if ($language_response['payload']) {
                         $session_language = $language_response['payload'];
@@ -90,15 +89,13 @@ class AdminHelper  {
 			$session_language = $set_language;
 
 			// set in the database as well
-			$language_change_response = $this->cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'system',
-					'cash_action' => 'setsettings',
-					'user_id' => $this->cash_admin->effective_user_id,
-					'type' => 'language',
-					'value' => $session_language
-				)
-			);
+			$language_change_response = $this->cash_request->request('system')
+			                        ->action('setsettings')
+			                        ->with([
+                                        'user_id' => $this->cash_admin->effective_user_id,
+                                        'type' => 'language',
+                                        'value' => $session_language
+									])->get();
 
 			if (!$language_change_response['payload']) {
 				// danger will robinson

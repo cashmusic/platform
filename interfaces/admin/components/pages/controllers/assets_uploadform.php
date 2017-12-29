@@ -12,15 +12,13 @@ if (isset($request_parameters[0])) {
 
     $cash_admin->page_data['acl'] = (!empty($_REQUEST['acl'])) ? $_REQUEST['acl'] : "private";
 
-	$param_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'getuploadparameters',
-			'connection_id' => $request_parameters[0],
-			'user_id' => $cash_admin->effective_user_id,
-            'acl' => $cash_admin->page_data['acl']
-		)
-	);
+	$param_response = $admin_request->request('asset')
+	                        ->action('getuploadparameters')
+	                        ->with([
+                                'connection_id' => $request_parameters[0],
+                                'user_id' => $cash_admin->effective_user_id,
+                                'acl' => $cash_admin->page_data['acl']
+                            ])->get();
 
 	if (is_array($param_response['payload'])) {
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$param_response['payload']);

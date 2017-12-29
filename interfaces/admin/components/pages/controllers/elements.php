@@ -16,31 +16,30 @@ $current_campaign = $admin_request->sessionGet('current_campaign');
 $cash_admin->page_data['element_count'] = 0;
 
 if ($current_campaign !== false) {
-	$settings_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'getsettings',
-			'type' => 'selected_campaign',
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-	if ($settings_request->response['payload']) {
-		$current_campaign = $settings_request->response['payload'];
+
+	$settings_request = $admin_request->request('system')
+	                        ->action('getsettings')
+	                        ->with([
+                                'type' => 'selected_campaign',
+                                'user_id' => $cash_admin->effective_user_id
+							])->get();
+
+	if ($settings_request['payload']) {
+		$current_campaign = $settings_request['payload'];
 		$admin_request->sessionSet('current_campaign',$current_campaign);
 	}
 }
 if (isset($_POST['current-campaign'])) {
 	$current_campaign = $_POST['current-campaign'];
 	$admin_request->sessionSet('current_campaign',$current_campaign);
-	$settings_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'selected_campaign',
-			'value' => $current_campaign,
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
+
+	$settings_request = $admin_request->request('system')
+	                        ->action('setsettings')
+	                        ->with([
+                                'type' => 'selected_campaign',
+                                'value' => $current_campaign,
+                                'user_id' => $cash_admin->effective_user_id
+							])->get();
 }
 
 if (!$current_campaign) {
@@ -52,32 +51,24 @@ if ($current_campaign == -1) {
 }
 $cash_admin->page_data['selected_campaign']	= $current_campaign;
 
-
 /*******************************************************************************
  *
  * 2. PULL USERNAME, BASIC INFORMATION
  *
  ******************************************************************************/
-$user_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people',
-		'cash_action' => 'getuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$user_response = $admin_request->request('people')
+                        ->action('getuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
+
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
 }
 
 // get all campaigns
-$campaigns_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element',
-		'cash_action' => 'getcampaignsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$campaigns_response = $admin_request->request('element')
+                        ->action('getcampaignsforuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 $total_campaigns = count($campaigns_response['payload']);
 // set all campaigns as a mustache var
@@ -85,13 +76,10 @@ if ($campaigns_response['payload']) {
 	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 }
 
-$all_elements_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element',
-		'cash_action' => 'getelementsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$all_elements_response = $admin_request->request('element')
+                        ->action('getelementsforuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
+
 if (!is_array($all_elements_response['payload'])) {
 	$all_elements_response['payload'] = array();
 }
@@ -125,13 +113,9 @@ if (is_array($campaigns_response['payload'])) {
 			$campaign_elements = array_merge($campaign->elements,$campaign_elements);
 			if ($campaign->id == $current_campaign) {
 
-				$elements_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'element',
-						'cash_action' => 'getelementsforcampaign',
-						'id' => $campaign->id
-					)
-				);
+				$elements_response = $admin_request->request('element')
+				                        ->action('getelementsforcampaign')
+				                        ->with(['id' => $campaign->id])->get();
 			}
 		}
 		// add campaign to dropdown options

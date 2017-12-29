@@ -9,12 +9,9 @@ use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
-$types_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element',
-		'cash_action' => 'getsupportedtypes'
-	)
-);
+$types_response = $admin_request->request('element')
+                        ->action('getsupportedtypes')->get();
+
 $supported_elements = $types_response['payload'];
 
 if ($request_parameters) {
@@ -35,14 +32,12 @@ if ($request_parameters) {
 		// Not a completed add, so let's show the form
 
 		// first check for requirements
-		$requirements_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'element',
-				'cash_action' => 'checkuserrequirements',
-				'user_id' => $cash_admin->effective_user_id,
-				'element_type' => $element_addtype
-			)
-		);
+		$requirements_response = $admin_request->request('element')
+		                        ->action('checkuserrequirements')
+		                        ->with([
+                                    'user_id' => $cash_admin->effective_user_id,
+                                    'element_type' => $element_addtype
+								])->get();
 
 		$app_json = AdminHelper::getElementAppJSON($element_addtype);
 		if ($requirements_response['payload'] === true) {

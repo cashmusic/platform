@@ -18,14 +18,12 @@ if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 	if ($_REQUEST['add_codes_qty'] > 0) {
 		$total_added = 0;
 
-        $addcode_response = $cash_admin->requestAndStore(
-            array(
-                'cash_request_type' => 'asset',
-                'cash_action' => 'addbulklockcodes',
-                'asset_id' => $request_parameters[0],
-                'code_count' => $_POST['add_codes_qty']
-            )
-        );
+        $addcode_response = $admin_request->request('asset')
+                                ->action('addbulklockcodes')
+                                ->with([
+                                    'asset_id' => $request_parameters[0],
+                                    'code_count' => $_POST['add_codes_qty']
+								])->get();
 
         if ($addcode_response['payload']) {
             $total_added = $_POST['add_codes_qty'];
@@ -37,14 +35,14 @@ if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 
 $asset_codes = false;
 if ($request_parameters[0]) {
-	$getcodes_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'getlockcodes',
-			'scope_table_alias' => 'assets',
-			'scope_table_id' => $request_parameters[0]
-		)
-	);
+
+	$getcodes_response = $admin_request->request('system')
+	                        ->action('getlockcodes')
+	                        ->with([
+                                'scope_table_alias' => 'assets',
+                                'scope_table_id' => $request_parameters[0]
+							])->get();
+
 	$asset_codes = $getcodes_response['payload'];
 }
 if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
@@ -100,22 +98,20 @@ if (isset($_POST['doassetedit'])) {
 		);
 	}
 
-	$edit_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset',
-			'cash_action' => 'editasset',
-			'id' => $request_parameters[0],
-			'user_id' => $user_id,
-			'title' => $_POST['asset_title'],
-			'description' => $asset_description,
-			'location' => $asset_location,
-			'connection_id' => $connection_id,
-			'parent_id' => $asset_parent,
-			'type' => $_POST['asset_type'],
-			'tags' => $metadata_and_tags['tags_details'],
-			'metadata' => $metadata
-		)
-	);
+	$edit_response = $admin_request->request('asset')
+	                        ->action('editasset')
+	                        ->with([
+                                'id' => $request_parameters[0],
+                                'user_id' => $user_id,
+                                'title' => $_POST['asset_title'],
+                                'description' => $asset_description,
+                                'location' => $asset_location,
+                                'connection_id' => $connection_id,
+                                'parent_id' => $asset_parent,
+                                'type' => $_POST['asset_type'],
+                                'tags' => $metadata_and_tags['tags_details'],
+                                'metadata' => $metadata
+							])->get();
 
 	if (!$edit_response['payload']) {
 		$cash_admin->page_data['error_message'] = "Error editing asset. Please try again";
@@ -125,13 +121,9 @@ if (isset($_POST['doassetedit'])) {
 }
 
 // Get the current asset details:
-$asset_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset',
-		'cash_action' => 'getasset',
-		'id' => $request_parameters[0]
-	)
-);
+$asset_response = $admin_request->request('asset')
+                        ->action('getasset')
+                        ->with(['id' => $request_parameters[0]])->get();
 
 $asset = $asset_response['payload']->toArray();
 
@@ -189,41 +181,36 @@ if ($cash_admin->page_data['type'] == 'file') {
 		$cash_admin->page_data['show_make_public'] = true;
 	}
 
-    $fulfillment_request = new CASHRequest(
-        array(
-            'cash_request_type' => 'asset',
-            'cash_action' => 'getfulfillmentassets',
-            'asset_details' => $request_parameters[0]
-        )
-    );
-    if ($fulfillment_request->response['payload']) {
-        $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+	$fulfillment_request = $admin_request->request('asset')
+	                        ->action('getfulfillmentassets')
+	                        ->with(['asset_details' => $request_parameters[0]])->get();
+
+    if ($fulfillment_request['payload']) {
+        $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request['payload']);
     }
 
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
 } else if ($cash_admin->page_data['type'] == 'release') {
-	$fulfillment_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset',
-			'cash_action' => 'getfulfillmentassets',
-			'asset_details' => $asset
-		)
-	);
+
+	$fulfillment_response = $admin_request->request('asset')
+	                        ->action('getfulfillmentassets')
+	                        ->with(['asset_details' => $asset])->get();
+
 	if ($fulfillment_response['payload']) {
 		$cash_admin->page_data['fulfillment_files'] = new ArrayIterator($fulfillment_response['payload']);
 	}
 
 	if (isset($cash_admin->page_data['metadata']['private'])) {
 		if (count($cash_admin->page_data['metadata']['private'])) {
-			$private_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'getfulfillmentassets',
-					'asset_details' => $asset,
-					'type' => 'private'
-				)
-			);
+
+			$private_response = $admin_request->request('asset')
+			                        ->action('getfulfillmentassets')
+			                        ->with([
+                                        'asset_details' => $asset,
+                                        'type' => 'private'
+									])->get();
+
 			if ($private_response['payload']) {
 				$cash_admin->page_data['private_files'] = new ArrayIterator($private_response['payload']);
 			}
@@ -234,13 +221,12 @@ if ($cash_admin->page_data['type'] == 'file') {
 
 	if (isset($cash_admin->page_data['metadata']['cover'])) {
 		if ($cash_admin->page_data['metadata']['cover']) { // effectively non-zero
-			$cover_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset',
-					'cash_action' => 'getasset',
-					'id' => $cash_admin->page_data['metadata']['cover']
-				)
-			);
+
+			$cover_response = $admin_request->request('asset')
+			                        ->action('getasset')
+			                        ->with([
+                                        'id' => $cash_admin->page_data['metadata']['cover']
+									])->get();
 
 			if ($cover_response['payload']) {
 				$cover_asset = $cover_response['payload'];

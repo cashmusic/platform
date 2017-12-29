@@ -13,31 +13,26 @@ $admin_helper = new AdminHelper($admin_request, $cash_admin);
 if (isset($_POST['doassetadd'])) {
 	
 	$effective_user = $cash_admin->effective_user_id;
-	$add_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'addasset',
-			'title' => $_POST['asset_title'],
-			'description' => $_POST['asset_description'],
-			'parent_id' => $_POST['parent_id'],
-			'connection_id' => $_POST['connection_id'],
-			'location' => $_POST['asset_location'],
-			'user_id' => $effective_user,
-			'type' => $_POST['asset_type']
-		)
-	);
+	$add_response = $admin_request->request('asset')
+	                        ->action('addasset')
+	                        ->with([
+                                'title' => $_POST['asset_title'],
+                                'description' => $_POST['asset_description'],
+                                'parent_id' => $_POST['parent_id'],
+                                'connection_id' => $_POST['connection_id'],
+                                'location' => $_POST['asset_location'],
+                                'user_id' => $effective_user,
+                                'type' => $_POST['asset_type']
+                            ])->get();
 
 	if ($add_response['payload']) {
 		// check for metadata settings
 		if (isset($_POST['metadata_command']) && isset($_POST['metadata_name'])) {
 			// try getting the parent asset
-			$asset_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset', 
-					'cash_action' => 'getasset',
-					'id' => $_POST['parent_id']
-				)
-			);
+			$asset_response = $admin_request->request('asset')
+			                        ->action('getasset')
+			                        ->with(['id' => $_POST['parent_id']])->get();
+
 			// found it. now we can overwrite or extend the original metadata
 			if ($asset_response['payload']) {
 				// modify the existing chunk o metadata
@@ -58,15 +53,13 @@ if (isset($_POST['doassetadd'])) {
 				}
 				// now make the actual edits
 				$effective_user = $cash_admin->effective_user_id;
-				$edit_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'asset', 
-						'cash_action' => 'editasset',
-						'id' => $_POST['parent_id'],
-						'user_id' => $effective_user,
-						'metadata' => $new_metadata
-					)
-				);
+				$edit_response = $admin_request->request('asset')
+				                        ->action('editasset')
+				                        ->with([
+                                            'id' => $_POST['parent_id'],
+                                            'user_id' => $effective_user,
+                                            'metadata' => $new_metadata
+                                        ])->get();
 			}
 		}
 		$admin_helper->formSuccess('Success. Asset added. Feel free to start adding details.','/assets/edit/' . $add_response['payload']);

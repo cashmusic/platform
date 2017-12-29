@@ -5,6 +5,7 @@ namespace CASHMusic\Admin;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+use CASHMusic\Core\Traits\RequestWrapper;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 

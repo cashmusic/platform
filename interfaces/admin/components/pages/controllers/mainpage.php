@@ -20,13 +20,9 @@ use CASHMusic\Seeds\ExternalFulfillmentSeed;
  ******************************************************************************/
 
 // get username and any user data
-$user_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people',
-		'cash_action' => 'getuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$user_response = $admin_request->request('people')
+                        ->action('getuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 $cash_admin->page_data['last_login'] = 0;
 
@@ -76,16 +72,14 @@ $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','h
  ******************************************************************************/
 
 // GET ACTIVITY FOR LISTS AND ORDERS
-$activity_request = new CASHRequest(
-	array(
-		'cash_request_type' => 'people',
-		'cash_action' => 'getrecentactivity',
-		'user_id' => $cash_admin->effective_user_id,
-		'since_date' => $cash_admin->page_data['last_login']
-	)
-);
+$activity_request = $admin_request->request('people')
+                        ->action('getrecentactivity')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'since_date' => $cash_admin->page_data['last_login']
+						])->get();
 
-$activity = $activity_request->response['payload'];
+$activity = $activity_request['payload'];
 
 // PARSE ACTIVITY FOR LISTS
 $cash_admin->page_data['delta_lists'] = false;
@@ -112,25 +106,24 @@ if ($activity['orders']) {
 
 // GET ALL LISTS AND MEMBERSHIP STATS
 $cash_admin->page_data['all_lists'] = false;
-$list_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people',
-		'cash_action' => 'getlistsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+
+$list_response = $admin_request->request('people')
+                        ->action('getlistsforuser')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id
+						])->get();
+
 if (is_array($list_response['payload'])) {
 	foreach ($list_response['payload'] as &$list) {
 		$list = $list->toArray();
-		$list_analytics = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'people',
-				'cash_action' => 'getanalytics',
-				'analtyics_type' => 'listmembership',
-				'list_id' => $list['id'],
-				'user_id' => $cash_admin->effective_user_id
-			)
-		);
+
+		$list_analytics = $admin_request->request('people')
+		                        ->action('getanalytics')
+		                        ->with([
+                                    'analtyics_type' => 'listmembership',
+                                    'list_id' => $list['id'],
+                                    'user_id' => $cash_admin->effective_user_id
+								])->get();
 
         $list_analytics = json_decode(json_encode($list_analytics['payload']), true);
 
@@ -143,15 +136,15 @@ if (is_array($list_response['payload'])) {
 
 // FIND UNFULFILLED ORDERS
 $cash_admin->page_data['unfulfilled_orders'] = false;
-$orders_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'commerce',
-		'cash_action' => 'getordersforuser',
-		'user_id' => $cash_admin->effective_user_id,
-		'unfulfilled_only' => 1,
-		'deep' => true
-	)
-);
+
+$orders_response = $admin_request->request('commerce')
+                        ->action('getordersforuser')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'unfulfilled_only' => 1,
+                            'deep' => true
+						])->get();
+
 if (is_array($orders_response)) {
 	//error_log(json_encode($orders_response));
 	$cash_admin->page_data['unfulfilled_orders'] = count($orders_response['payload']);
@@ -170,46 +163,41 @@ if (is_array($orders_response)) {
 // we'll check for elements, and show the tour if none are present
 $cash_admin->page_data['show_tour'] = false;
 $cash_admin->page_data['first_use'] = false;
-$elements_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element',
-		'cash_action' => 'getelementsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+
+$elements_response = $admin_request->request('element')
+                        ->action('getelementsforuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
+
 if (!$elements_response['payload']) {
 	$cash_admin->page_data['show_tour'] = true;
 	$cash_admin->page_data['first_use'] = true;
 }
 
 // SHOULD WE SHOW A WELCOME BACK MESSAGE?
-$r = new CASHRequest();
-$r->startSession();
-$whatsnew = $r->sessionGet('whatsnew');
+$session = $admin_request->session();
+
+$whatsnew = $session->sessionGet('whatsnew');
 if (!$whatsnew) {
-	$settings_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'getsettings',
-			'type' => 'showafnews',
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
+	$settings_response = $admin_request->request('system')
+	                        ->action('getsettings')
+	                        ->with([
+                                'type' => 'showafnews',
+                                'user_id' => $cash_admin->effective_user_id
+							])->get();
+
 	if (!$settings_response['payload']) {
 		if (!$cash_admin->page_data['first_use']) {
 			$cash_admin->page_data['show_whatsnew'] = true;
-			$r->sessionSet('whatsnew', true);
+			$session->sessionSet('whatsnew', true);
 		}
 		// set this for later. we'll be able to reuse.
-		$settings_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'setsettings',
-				'type' => 'showafnews',
-				'value' => time(),
-				'user_id' => $cash_admin->effective_user_id
-			)
-		);
+		$settings_response = $admin_request->request('system')
+		                        ->action('setsettings')
+		                        ->with([
+                                    'type' => 'showafnews',
+                                    'value' => time(),
+                                    'user_id' => $cash_admin->effective_user_id
+								])->get();
 	}
 } else {
 	$cash_admin->page_data['show_whatsnew'] = true;
@@ -221,14 +209,14 @@ $admin_helper = new AdminHelper($admin_request, $cash_admin);
 
 $connections = $admin_helper->getConnectionsByScope('commerce');
 if ($connections) {
-	$settings_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'getsettings',
-			'type' => 'regions',
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
+
+	$settings_response = $admin_request->request('system')
+	                        ->action('getsettings')
+	                        ->with([
+                                'type' => 'regions',
+                                'user_id' => $cash_admin->effective_user_id
+							])->get();
+
 	if (!$settings_response['payload']) {
 		$cash_admin->page_data['show_commerce_settings'] = true;
 	}

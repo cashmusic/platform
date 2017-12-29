@@ -525,18 +525,16 @@ class PeoplePlant extends PlantBase {
 						$name = trim($first_name . ' ' . $last_name);
 					}
 
-					$addlogin_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'system',
-							'cash_action' => 'addlogin',
-							'address' => $address,
-							'password' => md5(rand(23456,9876541)),
-							'display_name' => $name,
-							'first_name' => $first_name,
-							'last_name' => $last_name,
-							'address_postalcode' => $postal_code
-						)
-					);
+					$addlogin_request = $this->request('system')
+					                        ->action('addlogin')
+					                        ->with([
+                                                'address' => $address,
+                                                'password' => md5(rand(23456,9876541)),
+                                                'display_name' => $name,
+                                                'first_name' => $first_name,
+                                                'last_name' => $last_name,
+                                                'address_postalcode' => $postal_code
+											])->get();
 
 					if ($addlogin_request['status_code'] == 200) {
 						$user_id = $addlogin_request['payload'];

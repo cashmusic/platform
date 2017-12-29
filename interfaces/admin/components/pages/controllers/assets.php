@@ -36,24 +36,18 @@ $playlists_response = $cash_admin->requestAndStore(
 );
 */
 
-$files_response = $cash_admin->requestAndStore(
-    array(
-        'cash_request_type' => 'asset',
-        'cash_action' => 'getassetsforuser',
-        'type' => 'file',
-        'parent_id' => 0,
-        'user_id' => $user_id
-    )
-);
+$files_response = $admin_request->request('asset')
+                        ->action('getassetsforuser')
+                        ->with([
+                            'type' => 'file',
+                            'parent_id' => 0,
+                            'user_id' => $user_id
+						])->get();
 
 // we need to get all items for the user to determine if an asset is monetized
-$items_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'commerce',
-		'cash_action' => 'getitemsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
+$items_response = $admin_request->request('commerce')
+                        ->action('getitemsforuser')
+                        ->with(['user_id' => $cash_admin->effective_user_id])->get();
 
 //Commerce connection, release or files present?
 $cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload'];
@@ -113,13 +107,10 @@ if (is_array($releases_response['payload'])) {
 		$asset['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
 		if (isset($asset['metadata']['cover'])) {
 			if ($asset['metadata']['cover']) { // effectively non-zero
-				$cover_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'asset',
-						'cash_action' => 'getasset',
-						'id' => $asset['metadata']['cover']
-					)
-				);
+				$cover_response = $admin_request->request('asset')
+				                        ->action('getasset')
+				                        ->with(['id' => $asset['metadata']['cover']])->get();
+
 				if ($cover_response['payload']) {
 					$cover_asset = $cover_response['payload'];
 
