@@ -172,10 +172,8 @@ class SystemPlant extends PlantBase {
                 'client_proxy' => $ip_and_proxy['proxy'],
                 'login_method' => $login_method
 			]);
-
-			error_log('create people analytic');
-
 		}
+
 		// basic logging happens for full or basic
 		if ($record_type == 'full' || $record_type == 'basic') {
                 if ($people_analytics_basic = $this->orm->findWhere(PeopleAnalyticsBasic::class,
@@ -233,20 +231,19 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='',$address_postalcode='') {
 
-		$id_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people',
-				'cash_action' => 'getuseridforaddress',
-				'with_security_credentials' => true,
-				'address' => $address
-			)
-		);
-		if ($id_request->response['payload']) {
+		$id_request = $this->request('people')
+		                        ->action('getuseridforaddress')
+		                        ->with([
+                                    'with_security_credentials' => true,
+                                    'address' => $address
+								])->get();
+
+		if ($id_request['payload']) {
 			// if we're adding an admin login and the user isn't currently an admin, edit:
-			if ($is_admin && !$id_request->response['payload']['is_admin']) {
+			if ($is_admin && !$id_request['payload']['is_admin']) {
 				// add admin status:
 
-				$user = $this->orm->find(People::class, $id_request->response['payload']['id']);
+				$user = $this->orm->find(People::class, $id_request['payload']['id']);
 				$user->is_admin = $is_admin;
 				$user->save();
 
@@ -254,14 +251,16 @@ class SystemPlant extends PlantBase {
 				if (!$user) {
 					return false;
 				}
-				if (!trim($id_request->response['payload']['api_key'])) {
+
+				if (!trim($id_request['payload']['api_key'])) {
 					// if the API key is empty then set credentials:
-					$this->setAPICredentials($id_request->response['payload']['id']);
+					$this->setAPICredentials($id_request['payload']['id']);
 				}
-				return $id_request->response['payload']['id'];
+
+				return $id_request['payload']['id'];
 			} else {
 				// return the id as success
-				return $id_request->response['payload']['id'];
+				return $id_request['payload']['id'];
 			}
 		}
 
@@ -317,15 +316,12 @@ class SystemPlant extends PlantBase {
 
 			// get all lists via PeoplePlant and delete them properly. this means we'll
 			// also remove any list members and webhooks associated with them
-			$lists_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getlistsforuser',
-					'user_id' => $user->id
-				)
-			);
-			if ($lists_request->response['payload']) {
-				foreach ($lists_request->response['payload'] as $list) {
+			$lists_request = $this->request('people')
+			                        ->action('getlistsforuser')
+			                        ->with(['user_id' => $user->id])->get();
+
+			if ($lists_request['payload']) {
+				foreach ($lists_request['payload'] as $list) {
 					$list_delete_request = new CASHRequest(
 						array(
 							'cash_request_type' => 'people',
@@ -358,14 +354,12 @@ class SystemPlant extends PlantBase {
 
 		$credentials = array();
 		if ($address) {
-			$email_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getuseridforaddress',
-					'address' => $address
-				)
-			);
-			if (!$email_request->response['payload']) {
+
+			$email_request = $this->request('people')
+			                        ->action('getuseridforaddress')
+			                        ->with(['address' => $address])->get();
+
+			if (!$email_request['payload']) {
 				// only go if not found. if it's found and different, then we can't have that email.
 				// if it's found but the same, then why bother changing?
 				$credentials['email_address'] = $address;
@@ -385,14 +379,12 @@ class SystemPlant extends PlantBase {
 			$credentials['url'] = $url;
 		}
 		if ($username) {
-			$id_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getuseridforusername',
-					'username' => $username
-				)
-			);
-			if (!$id_request->response['payload']) {
+
+			$id_request = $this->request('people')
+			                        ->action('getuseridforusername')
+			                        ->with(['username' => $username])->get();
+
+			if (!$id_request['payload']) {
 				// only go if not found. same reasons as above. seriously. you know what i'm saying.
 				$credentials['username'] = $username;
 			} else {
@@ -400,7 +392,7 @@ class SystemPlant extends PlantBase {
 				// have a little work. check for admin status, erase the old name if not an admin then
 				// mark the change as okay and move on.
 
-				$user = $this->orm->find(People::class, $id_request->response['payload']);
+				$user = $this->orm->find(People::class, $id_request['payload']);
 
 				if ($user) {
 					// we've found someone with this username already
