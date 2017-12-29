@@ -68,8 +68,10 @@ abstract class CASHData {
 
 		if (isset($this->pdo) && !empty($this->pdo)) {
 			// PDO dependency injection
+			CASHSystem::errorLog("PDO: reuse");
 			$connection = new DatabaseConnection($this->pdo);
 		} else {
+			CASHSystem::errorLog("PDO: new connection");
             $connection = new \Pixie\Connection('mysql', $config);
 		}
 

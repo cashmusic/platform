@@ -744,7 +744,6 @@ class AssetPlant extends PlantBase {
 				}
 			}
 			if ($user_id) {
-
 				$redeem_request = $this->request('system')
 										->action('redeemlockcode')
 										->with([

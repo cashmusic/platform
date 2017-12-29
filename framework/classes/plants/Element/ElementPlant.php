@@ -125,16 +125,15 @@ class ElementPlant extends PlantBase {
 											break;
 									}
 									if ($action_name) {
-										$requirements_request = new CASHRequest(
-											array(
-												'cash_request_type' => $plant_name,
-												'cash_action' => $action_name,
-												'user_id' => $user_id,
-												'parent_id' => 0
-											)
-										);
 
-										if (!$requirements_request->response['payload']) {
+										$requirements_request = $this->request($plant_name)
+																	->action($action_name)
+																	->with([
+																		'user_id' => $user_id,
+																		'parent_id' => 0
+																	])->get();
+
+										if (!$requirements_request['payload']) {
 											$failures[] = $values['values'];
 										}
 									}
@@ -212,16 +211,16 @@ class ElementPlant extends PlantBase {
 				return $element['template_id'];
 			} else {
 				if ($element['template_id']) {
-					$template_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'system',
-							'cash_action' => 'gettemplate',
-							'template_id' => $element['template_id'],
-							'all_details' => 1
-						)
-					);
-					if ($template_request->response['payload']) {
-						$template = $template_request->response['payload']['template'];
+
+					$template_request = $this->request('system')
+					                        ->action('gettemplate')
+					                        ->with([
+                                                'template_id' => $element['template_id'],
+                                                'all_details' => 1
+											])->get();
+
+					if ($template_request['payload']) {
+						$template = $template_request['payload']['template'];
 					} else {
 						$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 					}
@@ -553,15 +552,15 @@ class ElementPlant extends PlantBase {
 	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return string|false
 	 */protected function addLockCode($element_id){
-		$add_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'addlockcode',
-				'scope_table_alias' => 'elements',
-				'scope_table_id' => $element_id
-			)
-		);
-		return $add_request->response['payload'];
+
+		$add_request = $this->request('system')
+		                        ->action('addlockcode')
+		                        ->with([
+                                    'scope_table_alias' => 'elements',
+                                    'scope_table_id' => $element_id
+								])->get();
+
+		return $add_request['payload'];
 	}
 
 	/**
@@ -571,16 +570,16 @@ class ElementPlant extends PlantBase {
 	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return bool
 	 */protected function redeemLockCode($code,$element_id) {
-		$redeem_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'redeemlockcode',
-				'code' => $code,
-				'scope_table_alias' => 'elements',
-				'scope_table_id' => $element_id
-			)
-		);
-		return $redeem_request->response['payload'];
+
+		$redeem_request = $this->request('system')
+		                        ->action('redeemlockcode')
+		                        ->with([
+                                    'code' => $code,
+                                    'scope_table_alias' => 'elements',
+                                    'scope_table_id' => $element_id
+								])->get();
+
+		return $redeem_request['payload'];
 	}
 
 	/*
