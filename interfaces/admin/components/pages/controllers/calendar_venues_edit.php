@@ -10,22 +10,22 @@ use CASHMusic\Admin\AdminHelper;
 $admin_helper = new AdminHelper($admin_request, $cash_admin);
 // parsing posted data:
 if (isset($_POST['dovenueedit'])) {
-	$edit_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar', 
-			'cash_action' => 'editvenue',
-			'venue_id' => $request_parameters[0],
-			'name' => $_POST['venue_name'],
-			'city' => $_POST['venue_city'],
-			'region' => $_POST['venue_region'],
-			'country' => $_POST['venue_country'],
-			'address1' => $_POST['venue_address1'],
-			'address2' => $_POST['venue_address2'],
-			'postalcode' => $_POST['venue_postalcode'],
-			'url' => $_POST['venue_url'],
-			'phone' => $_POST['venue_phone']
-		)
-	);
+
+	$edit_response = $admin_request->request('calendar')
+	                        ->action('editvenue')
+	                        ->with([
+                                'venue_id' => $request_parameters[0],
+                                'name' => $_POST['venue_name'],
+                                'city' => $_POST['venue_city'],
+                                'region' => $_POST['venue_region'],
+                                'country' => $_POST['venue_country'],
+                                'address1' => $_POST['venue_address1'],
+                                'address2' => $_POST['venue_address2'],
+                                'postalcode' => $_POST['venue_postalcode'],
+                                'url' => $_POST['venue_url'],
+                                'phone' => $_POST['venue_phone']
+                            ])->get();
+
 	if ($edit_response['status_uid'] == 'calendar_editvenue_200') {
 		$admin_helper->formSuccess('Success. Edited.','/calendar/venues/' . $edit_response['payload']->id);
 	} else {
@@ -33,14 +33,9 @@ if (isset($_POST['dovenueedit'])) {
 	}
 }
 
-	
-$current_venue_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'getvenue',
-		'venue_id' => $request_parameters[0]
-	)
-);
+$current_venue_response = $admin_request->request('calendar')
+                        ->action('getvenue')
+                        ->with(['venue_id' => $request_parameters[0]])->get();
 
 $current_venue = $current_venue_response['payload'];
 if (is_array($current_venue)) {

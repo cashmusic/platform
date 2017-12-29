@@ -22,22 +22,22 @@ if (isset($_POST['dovenueadd'])) {
 	if (isset($_POST['venue_postalcode'])) { $addvenue_postalcode = $_POST['venue_postalcode']; }
 	if (isset($_POST['venue_url'])) { $addvenue_url = $_POST['venue_url']; }
 	if (isset($_POST['venue_phone'])) { $addvenue_phone = $_POST['venue_phone']; }
-	$add_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar', 
-			'cash_action' => 'addvenue',
-			'name' => $_POST['venue_name'],
-			'city' => $_POST['venue_city'],
-			'region' => $_POST['venue_region'],
-			'country' => $_POST['venue_country'],
-			'address1' => $addvenue_address1,
-			'address2' => $addvenue_address2,
-			'postalcode' => $addvenue_postalcode,
-			'url' => $addvenue_url,
-			'phone' => $addvenue_phone,
-            'user_id' => $cash_admin->effective_user_id
-		)
-	);
+
+	$add_response = $admin_request->request('calendar')
+	                        ->action('addvenue')
+	                        ->with([
+                                'name' => $_POST['venue_name'],
+                                'city' => $_POST['venue_city'],
+                                'region' => $_POST['venue_region'],
+                                'country' => $_POST['venue_country'],
+                                'address1' => $addvenue_address1,
+                                'address2' => $addvenue_address2,
+                                'postalcode' => $addvenue_postalcode,
+                                'url' => $addvenue_url,
+                                'phone' => $addvenue_phone,
+                                'user_id' => $cash_admin->effective_user_id
+                            ])->get();
+
 	if ($add_response['payload']) {
 		$admin_helper->formSuccess('Success. Venue added.','/calendar/venues/' . $add_response['payload']);
 	} else {

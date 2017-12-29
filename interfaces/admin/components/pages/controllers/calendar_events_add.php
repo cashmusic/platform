@@ -18,19 +18,18 @@ if (isset($_POST['doeventadd'])) {
 	$eventiscancelled = 0;
 	if (isset($_POST['event_ispublished'])) { $eventispublished = 1; }
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
-	$add_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar',
-			'cash_action' => 'addevent',
-			'date' => strtotime($_POST['event_date']),
-			'venue_id' => $_POST['event_venue'],
-			'comment' => $_POST['event_comment'],
-			'purchase_url' => $_POST['event_purchase_url'],
-			'published' => $eventispublished,
-			'cancelled' => $eventiscancelled,
-			'user_id' => $effective_user,
-		)
-	);
+
+	$add_response = $admin_request->request('calendar')
+	                        ->action('addevent')
+	                        ->with([
+                                'date' => strtotime($_POST['event_date']),
+                                'venue_id' => $_POST['event_venue'],
+                                'comment' => $_POST['event_comment'],
+                                'purchase_url' => $_POST['event_purchase_url'],
+                                'published' => $eventispublished,
+                                'cancelled' => $eventiscancelled,
+                                'user_id' => $effective_user
+							])->get();
 
 	if ($add_response['payload']) {
 		$admin_helper->formSuccess('Success. Event added.','/calendar/');

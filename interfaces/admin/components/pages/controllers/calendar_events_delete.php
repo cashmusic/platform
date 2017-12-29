@@ -15,13 +15,11 @@ if (!$request_parameters) {
 
 
 if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
-	$event_delete_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'calendar',
-			'cash_action' => 'deleteevent',
-			'event_id' => $request_parameters[0]
-		)
-	);
+
+	$event_delete_request = $admin_request->request('calendar')
+	                        ->action('deleteevent')
+	                        ->with(['event_id' => $request_parameters[0]])->get();
+
 	if ($event_delete_request->response['status_uid'] == 'calendar_deleteevent_200') {
 			$admin_helper->formSuccess('Success. Deleted.','/calendar/');
 		} else {

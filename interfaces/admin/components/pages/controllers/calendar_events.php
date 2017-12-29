@@ -31,15 +31,13 @@ function formatEventOutput(&$response) {
 
 $event = "";
 // Archive events
-$allpast_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => 1,
-		'visible_event_types' => 'archive'
-	)
-);
+$allpast_response = $admin_request->request('calendar')
+                        ->action('getevents')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'published_status' => 1,
+                            'visible_event_types' => 'archive'
+                        ])->get();
 
 if (is_array($allpast_response['payload'])) {
     formatEventOutput($allpast_response);
@@ -49,15 +47,13 @@ if (is_array($allpast_response['payload'])) {
 
 
 // Upcoming events
-$allfuture_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => 1,
-		'visible_event_types' => 'upcoming'
-	)
-);
+$allfuture_response = $admin_request->request('calendar')
+                        ->action('getevents')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'published_status' => 1,
+                            'visible_event_types' => 'upcoming'
+                        ])->get();
 
 
 if (is_array($allfuture_response['payload'])) {

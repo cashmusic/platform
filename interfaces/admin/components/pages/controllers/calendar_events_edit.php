@@ -17,19 +17,19 @@ if (isset($_POST['doeventedit'])) {
 	$eventiscancelled = 0;
 	if (isset($_POST['event_ispublished'])) { $eventispublished = 1; }
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
-	$edit_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar',
-			'cash_action' => 'editevent',
-			'date' => strtotime($_POST['event_date']),
-			'venue_id' => $_POST['event_venue'],
-			'comment' => $_POST['event_comment'],
-			'purchase_url' => $_POST['event_purchase_url'],
-			'published' => $eventispublished,
-			'cancelled' => $eventiscancelled,
-			'event_id' => $event_id,
-		)
-	);
+
+	$edit_response = $admin_request->request('calendar')
+	                        ->action('editevent')
+	                        ->with([
+                                'date' => strtotime($_POST['event_date']),
+                                'venue_id' => $_POST['event_venue'],
+                                'comment' => $_POST['event_comment'],
+                                'purchase_url' => $_POST['event_purchase_url'],
+                                'published' => $eventispublished,
+                                'cancelled' => $eventiscancelled,
+                                'event_id' => $event_id
+							])->get();
+
 	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
 		$admin_helper->formSuccess('Success. Edited.','/calendar/');
 	} else {
@@ -37,26 +37,18 @@ if (isset($_POST['doeventedit'])) {
 	}
 }
 
-$event_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevent',
-		'event_id' => $request_parameters[0]
-	)
-);
+$event_response = $admin_request->request('calendar')
+                        ->action('getevent')
+                        ->with(['event_id' => $request_parameters[0]])->get();
 
 $current_event = $event_response['payload'];
 
 if (is_array($current_event)) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_event);
 
-	$venue_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar',
-			'cash_action' => 'getvenue',
-			'venue_id' => $current_event['venue_id']
-		)
-	);
+	$venue_response = $admin_request->request('calendar')
+	                        ->action('getvenue')
+	                        ->with(['venue_id' => $current_event['venue_id']])->get();
 
 	$venue_details = $venue_response['payload'];
 	if ($venue_details) {

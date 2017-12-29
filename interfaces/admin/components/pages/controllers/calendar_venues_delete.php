@@ -13,15 +13,11 @@ if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/calendar/venues/');
 }
 
-
 if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
-	$venue_delete_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'calendar', 
-			'cash_action' => 'deletevenue',
-			'venue_id' => $request_parameters[0]
-		)
-	);
+
+	$venue_delete_request = $admin_request->request('calendar')
+	                        ->action('deletevenue')
+	                        ->with(['venue_id' => $request_parameters[0]])->get();
 
 	if ($venue_delete_request->response['status_uid'] == 'calendar_deletevenue_200') {
 		$admin_helper->formSuccess('Success. Deleted.','/calendar/venues/' . $venue_delete_request->response['payload']);

@@ -23,14 +23,12 @@ function formatVenueOutput(&$response) {
 	}
 }
 
-$venues_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'getallvenues',
-		'user_id' => $cash_admin->effective_user_id,
-		'visible_event_types' => 'upcoming'
-	)
-);
+$venues_response = $admin_request->request('calendar')
+                        ->action('getallvenues')
+                        ->with([
+                            'user_id' => $cash_admin->effective_user_id,
+                            'visible_event_types' => 'upcoming'
+                        ])->get();
 
 if (is_array($venues_response['payload'])) {
 	formatVenueOutput($venues_response);
