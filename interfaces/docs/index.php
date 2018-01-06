@@ -1,9 +1,17 @@
 <?php
 
 // create an array to house all data for output to mustache, other initial variables
-namespace CASHMusic\Docs;
 
-use CASHMusic\Plants;
+require_once(__DIR__ . '/constants.php');
+require_once($root.'/../../vendor/autoload.php');
+
+
+use CASHMusic\Plants\Asset\AssetPlant;
+use CASHMusic\Plants\Calendar\CalendarPlant;
+use CASHMusic\Plants\Commerce\CommercePlant;
+use CASHMusic\Plants\Element\ElementPlant;
+use CASHMusic\Plants\People\PeoplePlant;
+use CASHMusic\Plants\System\SystemPlant;
 
 function parseComments($filename) {
     $regex = "/(?:\/\*\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)/";
@@ -68,42 +76,43 @@ $all_requests_menu = '<li>Request types:</li>';
 // ALL THE PLANTS!!!
 $all_plants = array(
 	'system' => array(
-		'classname' => 'SystemPlant',
+		'classname' => 'System\SystemPlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/SystemPlant.php'
 	),
 	'asset' =>  array(
-		'classname' => 'AssetPlant',
+		'classname' => 'Asset\AssetPlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/AssetPlant.php'
 	),
 	'people' =>  array(
-		'classname' => 'PeoplePlant',
+		'classname' => 'People\PeoplePlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/PeoplePlant.php'
 	),
 	'commerce' =>  array(
-		'classname' => 'CommercePlant',
+		'classname' => 'Commerce\CommercePlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/CommercePlant.php'
 	),
 	'calendar' =>  array(
-		'classname' => 'CalendarPlant',
+		'classname' => 'Calendar\CalendarPlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/CalendarPlant.php'
 	),
 	'element' =>  array(
-		'classname' => 'ElementPlant',
+		'classname' => 'Element\ElementPlant',
 		'filename' => $current_directory . '/../../framework/classes/plants/ElementPlant.php'
 	)
 );
 
 foreach ($all_plants as $type => $plant) {
 	$comments = parseComments($plant['filename']);
+    $namespace = '\CASHMusic\Plants\\';
 
-	$plant_name = "\\".$plant['classname'];
+	$plant_name = $namespace.$plant['classname'];
 	$plant = new $plant_name('direct',false);
 	$routing_table = $plant->getRoutingTable();
 	$actions = array();
 
 	foreach ($routing_table as $action => $details) {
-		// reflect the target method for each route, returning an array of params
-		$method = new \ReflectionMethod($plant, $details[0]);
+        // reflect the target method for each route, returning an array of params
+		$method = new \ReflectionMethod($plant, $details['plantfunction']);
 		$params = $method->getParameters();
 		$final_parameters = array();
 		foreach ($params as $param) {
