@@ -1,6 +1,16 @@
 RewriteEngine On
 RewriteBase /
-Options +FollowSymlinks
+<IfModule mod_version.c>
+	<IfVersion >= 2.4>
+		Options +SymlinksIfOwnerMatch
+	</IfVersion>
+	<IfVersion < 2.4>
+		Options +FollowSymlinks
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+		Options +FollowSymlinks
+</IfModule>
 Options -Indexes
 
 # COMPRESSION
