@@ -18,6 +18,12 @@
 			"description":"Veldu þessa einingu ef þú vilt selja einn hlut. Hentugt fyrir forpantanir. ",
 			"longdescription":"Langar bara að selja einn hlut? Settu upp einfalda verslunar einingu fyrir stakan hlut að eigin vali.",
 			"instructions":"Þessi eining hefur verið afskrifuð. Hún mun halda áfram að virka, en íhugaðu að skipta yfir í Stök Kaup einingu."
+		},
+		"es":{
+			"name":"Compra Digital",
+			"description":"Elige este elemento si estás buscando vender un artículo. Genial para hacer pedidos. ",
+			"longdescription":"¿Sólo quieres vender una cosa? Establece una compra individual simple para el artículo comercial de tu elección.",
+			"instructions":"Este tipo de elemento está depreciado. Continuará funcionando, pero considera migrar al elemento Compra Individual."
 		}
 	},
 	"copy":{
@@ -28,23 +34,30 @@
 		"is":{
 			"buy":"Kaupa Núna",
 			"flexibleprice_suffix":"eða meira"
+		},
+		"es":{
+			"buy":"Comprar Ahora",
+			"flexibleprice_suffix":"o más"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"These are the basic settings for this element.",
-				"is":"Þetta eru grunn stillingar einingarinnar."
+				"is":"Þetta eru grunn stillingar einingarinnar.",
+				"es":"Estos son los ajustes básicos para este elemento."
 			},
 			"data":{
 				"item_id":{
 					"label":{
 						"en":"Item for sale",
-						"is":"Hlutur til sölu"
+						"is":"Hlutur til sölu",
+						"es":"Artículo a la venta"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -54,7 +67,8 @@
 				"connection_id":{
 					"label":{
 						"en":"Commerce connection to use",
-						"is":"Kaupsýslutenging sem skal nota"
+						"is":"Kaupsýslutenging sem skal nota",
+						"es":"Conexión de comercio a usarse"
 					},
 					"type":"select",
 					"values":"connections/commerce",
@@ -65,34 +79,40 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"es":"Mensajes de éxito/error"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"es":"Personaliza los mensajes mostrados a las personas que usan este elemento."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"es":"Mensaje de éxito"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
-						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk.",
+						"es":"¡Gracias! Aquí está tu descarga. Usuarios de dispositivos móviles, revisen su bandeja de entrada y correo no deseado para obtener un enlace de descarga."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"es":"Mensaje de correo inválido"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"es":"Hubo un error procesando tu pago. Por favor recarga e intenta de nuevo."
 					},
 					"displaysize":"medium"
 				}
