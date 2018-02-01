@@ -18,28 +18,38 @@
 			"description":"Notað til að sýna texta, html, eða markdown.",
 			"longdescription":"Klippa-líma framtíðarinnar! Reyndar, bara venjulegt klippa-líma. Ómerkilegt, en gagnlegt.",
 			"instructions":"Skrifaðu. Vistaði. Búið."
+		},
+		"es":{
+			"name":"Texto simple",
+			"description":"Usa texto común, html, o markdown.",
+			"longdescription":"¡El futuro del copiar-pegar! En realidad sólo copiar-pegar, regular. Aburrido, pero útil.",
+			"instructions":"Escribe. Guarda. Eso es todo."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"The Content",
-				"is":"Efnið"
+				"is":"Efnið",
+				"es":"El Contenido"
 			},
 			"description":{
 				"en":"Type what you want to appear. Plain text or markdown.",
-				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown"
+				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown",
+				"es":"Escribe lo que quieres que aparezca. Texto simple o markdown."
 			},
 			"data":{
 				"storedcotent":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"es":"Contenido"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"es":""
 					},
 					"required":true,
 					"displaysize":"large"
