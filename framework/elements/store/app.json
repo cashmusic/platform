@@ -18,6 +18,12 @@
 			"description":"Hannaðu þína verslun",
 			"longdescription":"Seldu hluti og/eða stafræn niðurhöl á heimasíðu þinni. Bættu við eins miklum varning og þú vilt selja. Við tökum ekki hluta af ágóðanum.",
 			"instructions":"...."
+		},
+		"es":{
+			"name":"Tienda",
+			"description":"Arma tu tienda.",
+			"longdescription":"Vende artículos físicos y/o digitales en tu sitio web. Agrega tantos artículos comerciales como desees vender. No tomamos una fracción.",
+			"instructions":"...."
 		}
 	},
 	"copy":{
@@ -50,23 +56,41 @@
 			"pleaseselect":"Veldu svæði",
 			"qty":"Magn",
 			"checkout":"Ganga frá kaupum"
+		},
+		"es":{
+			"cart":"Agrega al carrito",
+			"flexibleprice_suffix":"o más",
+			"choose_variants":"Escoge una opción primero",
+			"choose_verb":"Escoge",
+			"added":"¡Agregado al carrito!",
+			"unavailable":"Lo sentimos, este artículo no está disponible actualmente.",
+			"emptycart":"Tu carrito está vacío.",
+			"subtotal":"Subtotal",
+			"total":"Total",
+			"shipping":"Envío",
+			"pleaseselect":"Seleccionar región de envío",
+			"qty":"CANT",
+			"checkout":"Comenzar registro"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
-				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota."
+				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota.",
+				"es":"Escoge un artículo del inventario para vender y una conexión comercial para usar."
 			},
 			"data":{
 				"layout":{
 					"label":{
 						"en":"Layout type",
-						"is":"Tegund umbrots"
+						"is":"Tegund umbrots",
+						"es":"Tipo de diseño"
 					},
 					"type":"select",
 					"values":{
@@ -80,19 +104,22 @@
 				"featured_items":{
 					"label":{
 						"en":"Featured items",
-						"is":"Sérkynntir hlutir"
+						"is":"Sérkynntir hlutir",
+						"es":"Artículos destacados"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new featured item",
-						"is":"Bæta við nýjum sérkynntum hlut"
+						"is":"Bæta við nýjum sérkynntum hlut",
+						"es":"Añadir un nuevo artículo destacado"
 					},
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
-								"is":"Valinn hlutur"
+								"is":"Valinn hlutur",
+								"es":"Artículo seleccionado",
 							},
 							"type":"select",
 							"values":"commerce/items",
