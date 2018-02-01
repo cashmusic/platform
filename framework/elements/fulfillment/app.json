@@ -12,6 +12,12 @@
 			"description":"Digital fulfillment for crowdfunding.",
 			"longdescription":"This element takes CSV exports from Kickstarter and similar services and delivers digital assets per tier.",
 			"instructions":"After creating a new fulfillment job, upload crowdfunding exports and assign downloads / UPC codes per tier."
+		},
+		"es":{
+			"name":"Cumplimiento de Terceros",
+			"description":"Cumplimiento digital para crowdfunding.",
+			"longdescription":"Este elemento toma las exportaciones CSV de Kickstarter y servicios similares y entrega activos digitales por nivel.",
+			"instructions":"Después de crear un nuevo trabajo de cumplimiento, carga las exportaciones de crowdfunding y asigna descargas / códigos UPC por nivel."
 		}
 	},
 	"copy":{
@@ -22,35 +28,49 @@
 			"button":"Set location and claim download",
 			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
 			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
+		},
+		"es":{
+			"location_required":"Para obtener tu descarga, por favor dinos tu código postal y país",
+			"country_selector":"Por favor escoge tu país",
+			"postal_code":"Ingresa tu código postal",
+			"button":"Establecer una ubicación y reclamar descarga",
+			"location_error":"Por favor asegúrate de que has seleccionado un país válido y has ingresado tu código postal.",
+			"invalid_code":"Lo sentimos, pero este código/enlace único ya ha sido utilizado o es inválido." 
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"es":"Ajustes principales"
 			},
 			"description":{
-				"en":"Set the messages that you want your backers to see before and after they redeem their code."
+				"en":"Set the messages that you want your backers to see before and after they redeem their code.",
+				"es":"Configura los mensajes que quieres que tus patrocinadores vean antes y después de canjear su código."
 			},
 			"data":{
 				"message_landing":{
 					"label":{
-						"en":"Landing message - (shown to users without a code - can include html)"
+						"en":"Landing message - (shown to users without a code - can include html)",
+						"es":"Mensaje de inicio - (se muestra a los usuarios sin un código - puede incluir html)"
 					},
 					"type":"text",
 					"default":{
-						"en":"Are you a backer? Please check your email for instructions and a download link."
+						"en":"Are you a backer? Please check your email for instructions and a download link.",
+						"es":"¿Eres un patrocinador? Por favor, revisa tu correo electrónico para ver obtener instrucciones y un enlace de descarga."
 					},
 					"required":true,
 					"displaysize":"large"
 				},
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"es":"Mensaje de éxito"
 					},
 					"type":"text",
 					"default":{
 						"en":""
+						"es":""
 					},
 					"required":true,
 					"displaysize":"medium"
