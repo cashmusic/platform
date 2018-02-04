@@ -18,47 +18,60 @@
 			"description":"Skapaðu straum fyrir Twitter og/eða Tumblr strauma.",
 			"longdescription":"Blandaðu saman eins mörgum straumum og þig lystir, síaðu Twitter eftir orðum eða slepptu @-svörum, og síaðu Tumblr eftir færslutegundum",
 			"instructions":"Þetta er bilað."
+		},
+		"es":{
+			"name":"Feeds Sociales",
+			"description":"Has un solo feed desde tus feeds de Twitter y/o Tumblr.",
+			"longdescription":"Combina cualquier número de feeds, filtrando Twitter por palabras claves o excluyendo respuestas @, y filtrando Tumblr por tipo de publicación.",
+			"instructions":"Esto está básicamente roto."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Instructions or clarifications that should appear with this group.",
-				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp."
+				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp.",
+				"es":"Instrucciones o clarificaciones que deberían aparecer en este grupo."
 			},
 			"data":{
 				"twitter":{
 					"label":{
 						"en":"Twitter",
-						"is":"Twitter"
+						"is":"Twitter",
+						"es":"Twitter"
 					},
 					"description":{
 						"en":"You'll need to add a Twitter connection for tweets to appear in your feed.",
-						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum."
+						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum.",
+						"es":"Necesitarás agregar una conexión de Twitter para que aparezcan tweets en tu feed."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Twitter feed",
-						"is":"Bæta við nýjum Twitter straum"
+						"is":"Bæta við nýjum Twitter straum",
+						"es":"Agregar un nuevo feed de Twitter"
 					},
 					"values":{
 						"twitterusername":{
 							"label":{
 								"en":"Username",
-								"is":"Notandanafn"
+								"is":"Notandanafn",
+								"es":"Nombre de Usuario"
 							},
 							"type":"text",
 							"displaysize":"small"
 						},
 						"twitterfiltertype":{
 							"label":{
-								"en":"Fliter by",
-								"is":"Sía samkvæmt"
+								"en":"Filter by",
+								"is":"Sía samkvæmt",
+								"es":"Filtrar por"
 							},
 							"type":"select",
 							"values":{
@@ -72,7 +85,8 @@
 						"twitterfiltervalue":{
 							"label":{
 								"en":"Filter value",
-								"is":"Sía gildi"
+								"is":"Sía gildi",
+								"es":"Filtrar valor"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -80,7 +94,8 @@
 						"twitterhidereplies":{
 							"label":{
 								"en":"Hide replies",
-								"is":"Fela svör"
+								"is":"Fela svör",
+								"es":"Ocultar respuestas"
 							},
 							"type":"boolean",
 							"default":true,
@@ -92,23 +107,27 @@
 				"tumblr":{
 					"label":{
 						"en":"Tumblr",
-						"is":"Tumblr"
+						"is":"Tumblr",
+						"es":"Tumblr"
 					},
 					"description":{
 						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off.",
-						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund."
+						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund.",
+						"es":"No es necesaria ninguna conexión para traer publicaciones de Tumblr. Sólo añade una URL, selecciona los tipos de publicaciones, y estás listo."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Tumblr URL",
-						"is":"Bættu við nýrri Tumblr slóð"
+						"is":"Bættu við nýrri Tumblr slóð",
+						"es":"Agregar una nueva URL de Tumblr"
 					},
 					"values":{
 						"tumblrurl":{
 							"label":{
 								"en":"Tumblr URL",
-								"is":"Tumblr slóð"
+								"is":"Tumblr slóð",
+								"es":"URL de Tumblr"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -116,11 +135,13 @@
 						"tumblrtag":{
 							"label":{
 								"en":"Filter by tag",
-								"is":"Sía samkvæmt merki"
+								"is":"Sía samkvæmt merki",
+								"es":"Filtrar por etiqueta"
 							},
 							"placeholder":{
-				            "en":"Do not filter",
-							"is":"Ekki sía"
+				            			"en":"Do not filter",
+								"is":"Ekki sía",
+								"es":"No filtrar"
 				          },
 							"type":"text",
 							"displaysize":"small"
@@ -128,7 +149,8 @@
 						"post_types":{
 							"label":{
 								"en":"Post types",
-								"is":"Færslutegundir"
+								"is":"Færslutegundir",
+								"es":"Post types"
 							},
 							"type":"options",
 							"displaysize":"large",
@@ -136,7 +158,8 @@
 								"regular":{
 									"label":{
 										"en":"regular",
-										"is":"venjuleg"
+										"is":"venjuleg",
+										"es":"regular"
 									},
 									"type":"boolean",
 									"default":true,
@@ -145,7 +168,8 @@
 								"photo":{
 									"label":{
 										"en":"photo",
-										"is":"mynd"
+										"is":"mynd",
+										"es":"foto"
 									},
 									"type":"boolean",
 									"default":true,
@@ -154,7 +178,8 @@
 								"video":{
 									"label":{
 										"en":"video",
-										"is":"myndband"
+										"is":"myndband",
+										"es":"video"
 									},
 									"type":"boolean",
 									"default":true,
@@ -163,7 +188,8 @@
 								"link":{
 									"label":{
 										"en":"link",
-										"is":"hlekkur"
+										"is":"hlekkur",
+										"es":"enlace"
 									},
 									"type":"boolean",
 									"default":true,
@@ -172,7 +198,8 @@
 								"audio":{
 									"label":{
 										"en":"audio",
-										"is":"hljóð"
+										"is":"hljóð",
+										"es":"audio"
 									},
 									"type":"boolean",
 									"default":true,
@@ -181,7 +208,8 @@
 								"quote":{
 									"label":{
 										"en":"quote",
-										"is":"tilvitnun"
+										"is":"tilvitnun",
+										"es":"cita"
 									},
 									"type":"boolean",
 									"default":false,
@@ -190,7 +218,8 @@
 								"answer":{
 									"label":{
 										"en":"answer",
-										"is":"svar"
+										"is":"svar",
+										"es":"respuesta"
 									},
 									"type":"boolean",
 									"default":false,
@@ -204,7 +233,8 @@
 				"post_limit":{
 					"label":{
 						"en":"Post Limit",
-						"is":"Færsluhámark"
+						"is":"Færsluhámark",
+						"es":"Límite de Publicación"
 					},
 					"type":"number",
 					"default":"40",

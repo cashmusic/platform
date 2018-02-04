@@ -18,6 +18,12 @@
 			"description":"Fáðu netfang, gefðu niðurhal (eða ekki).",
 			"longdescription":"Þessi eining getur verið notuð sem netfang-fyrir-niðurhal kynning, eða sem útfæranlegt innfellingar tæki til netfangasöfnunar.",
 			"instructions":"Settu eign á 'ekkert' fyrir einfalda netfanga söfnun, eða veldu eign til að notast við netfang-fyrir-niðurhal."
+		},
+		"es":{
+			"name":"Recopilación de Correos Electrónicos",
+			"description":"Recopila una dirección de correo, entrega una descarga (o no).",
+			"longdescription":"Este elemento se puede utilizar como una promoción de descargas por correo o como un widget personalizable de recopilación de correos electrónicos.",
+			"instructions":"Deja el activo configurado como 'ninguno' para la recopilación directa de correos, o elige un activo objetivo para descargarlo por correo electrónico."
 		}
 	},
 	"copy":{
@@ -29,24 +35,32 @@
 		"is":{
 			"signup":"Skráðu mig",
 			"verify":"Athugaðu pósthólfið þitt eftir póst með niðurhals hlekk."
+		},
+		"es":{
+			"signup":"inscríbeme",
+			"verify":"Revisa en tu bandeja de entrada en busca de un correo de verificación con el enlace de descarga",
+			"redirecterror":"Hubo un error reclamando tu activo. Por favor recarga e intenta de nuevo."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Select a target mailing list and an asset to give away (if you want).",
-				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt)."
+				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt).",
+				"es":"Selecciona una lista de correos de destino y un activo para regalar (si lo deseas)."
 
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"es":"Lista de correos de destino"
 
 					},
 					"type":"select",
@@ -57,7 +71,8 @@
 				"asset_id":{
 					"label":{
 						"en":"The downloadable asset",
-						"is":"Eign til niðurhals"
+						"is":"Eign til niðurhals",
+						"es":"El activo descargable"
 					},
 					"type":"select",
 					"values":"assets",
@@ -66,7 +81,8 @@
 				"do_not_verify":{
 					"label":{
 						"en":"Skip email verification (recommended)",
-						"is":"Sleppa netfanga staðfestingu (mælt með)"
+						"is":"Sleppa netfanga staðfestingu (mælt með)",
+						"es":"Salta la verificación de correo (recomendado)"
 					},
 					"type":"boolean",
 					"default":true,
@@ -77,59 +93,69 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"es":"Mensajes de éxito/error"
 
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"es":"Personaliza los mensajes mostrados a las personas que usan este elemento."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"es":"Mensaje de éxito"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thanks! You're all signed up.",
-						"is":"Takk fyrir! Skráning tókst."
+						"is":"Takk fyrir! Skráning tókst.",
+						"es":"¡Gracias! Estás inscrito."
 					},
 					"displaysize":"medium"
 				},
 				"message_invalid_email":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"es":"Mensaje de correo inválido"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sorry, that email address wasn't valid. Please try again.",
-						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur."
+						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur.",
+						"es":"Lo sentimos, esa dirección de correo no fue válida. Por favor intenta de nuevo."
 					},
 					"displaysize":"medium"
 				},
 				"message_privacy":{
 					"label":{
 						"en":"Privacy message",
-						"is":"Friðhelgis skilaboð"
+						"is":"Friðhelgis skilaboð",
+						"es":"Mensaje privado"
 					},
 					"type":"text",
 					"default":{
 						"en":"We won't share, sell, or be jerks with your email address.",
-						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt."
+						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt.",
+						"es":"No compartiremos, venderemos ni seremos patanes con tu dirección de correo electrónico"
 					},
 					"displaysize":"medium"
 				},
 				"message_verification":{
 					"label":{
 						"en":"Address verification message (only if verifying)",
-						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)"
+						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)",
+						"es":"Mensaje de verificación de dirección (sólo si está verificando)"
 					},
 					"type":"text",
 					"default":{
 						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)",
-						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)"
+						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)",
+						"es":"Debes verificar tu dirección de correo electrónico para continuar. Un correo ha sido enviado. Has clic en el enlace provisto para confirmar membresía. (Si no ves el correo, revisa tu carpeta de SPAM.)"
 					},
 					"displaysize":"medium"
 				}
@@ -138,34 +164,40 @@
 		"interface":{
 			"group_label":{
 				"en":"Customize signup form",
-				"is":"Sérsníða skráningar eyðublað"
+				"is":"Sérsníða skráningar eyðublað",
+				"es":"Personalizar formulario de inscripción"
 			},
 			"description":{
 				"en":"Change placeholder and text in the form shown to the public.",
-				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi."
+				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi.",
+				"es":"Cambia el marcador y el texto en el formulario mostrado al público."
 			},
 			"data":{
 				"placeholder_text":{
 					"label":{
 						"en":"Email form placeholder text",
-						"is":"Staðgengilstexti netfanga eyðublaðs"
+						"is":"Staðgengilstexti netfanga eyðublaðs",
+						"es":"Texto del marcador de correo electrónico"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"es":""
 					},
 					"displaysize":"small"
 				},
 				"button_text":{
 					"label":{
 						"en":"Text for submit button",
-						"is":"Texti fyrir senda takka"
+						"is":"Texti fyrir senda takka",
+						"en":"Texto para el botón de ingreso"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sign me up",
-						"is":"Skráðu mig"
+						"is":"Skráðu mig",
+						"es":"Inscríbeme"
 					},
 					"displaysize":"small"
 				}
@@ -174,17 +206,20 @@
 		"datacollection":{
 			"group_label":{
 				"en":"Data collection options",
-				"is":"Gagnasöfnunarstillingar"
+				"is":"Gagnasöfnunarstillingar",
+				"es":"Opciones de recolección de datos"
 			},
 			"description":{
 				"en":"Add a checkbox for age verification, agreeing to terms, etc.",
-				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis."
+				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis.",
+				"en":"Añade una casilla de verificación para confirmación de edad, acuerdo de los términos, etc."
 			},
 			"data":{
 				"agree_checkbox":{
 					"label":{
 						"en":"Show agreement checkbox",
-						"is":"Sýna samþykkis gátreit"
+						"is":"Sýna samþykkis gátreit",
+						"es":"Mostrar casilla de verificación del acuerdo"
 					},
 					"type":"boolean",
 					"default":false,
@@ -193,12 +228,14 @@
 				"agree_message":{
 					"label":{
 						"en":"Message to show (I agree...)",
-						"is":"Skilaboð til að sýna (Ég samþykki...)"
+						"is":"Skilaboð til að sýna (Ég samþykki...)",
+						"es":"Mensaje para mostrar (Estoy de acuerdo...)"
 					},
 					"type":"text",
 					"default":{
 						"en":"I checked the checkbox!",
-						"is":"Ég fyllti inn gátreitinn!"
+						"is":"Ég fyllti inn gátreitinn!",
+						"es":"¡He verificado la casilla!"
 					},
 					"displaysize":"small"
 				}

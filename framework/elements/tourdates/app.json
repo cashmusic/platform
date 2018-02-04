@@ -18,23 +18,32 @@
 			"description":"Sýndu dagsetningar úr dagatalinu þínu.",
 			"longdescription":"Síur leyfa þér að setja upp dagsetningar liðinna jafnt og komandi tónleika. Þessi eining mun uppfæra sig sjálfvirkt er dagsetningar renna úr gildi eða færast í geymslu.",
 			"instructions":"Allar dag og tímasetningar eru í tímabelti tónleikastaðs."
+		},
+		"es":{
+			"name":"Fechas de Tour",
+			"description":"Lista las fechas desde tu calendario.",
+			"longdescription":"Los filtros te permiten establecer archivos tourdate así como próximos espectáculos. El elemento se actualizará automáticamente conforme las fechas expiren o se muevan a un archivo.",
+			"instructions":"Todas las fechas y horarios están en el huso horario de su lugar de concierto."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Customize how many dates you want to display and what type of events to show.",
-				"is":"Sérsníddu hversu margar dagsetningar eru sýndar, og hvaða tegundur af tónleikum."
+				"is":"Sérsníddu hversu margar dagsetningar eru sýndar, og hvaða tegundur af tónleikum.",
+				"es":"Personaliza cuántas fechas quieres visualizar y qué tipo de eventos mostrar."
 			},
 			"data":{
 				"max_display_dates":{
 					"label":{
 						"en":"Max display dates",
-						"is":"Hámark fjölda dagsetninga"
+						"is":"Hámark fjölda dagsetninga",
+						"es":"Fechas máximas de visualización"
 					},
 					"type":"number",
 					"default":"25",
@@ -42,7 +51,8 @@
 				},
 				"date_format":{
 					"label":{
-						"en":"How should dates be formatted?"
+						"en":"How should dates be formatted?",
+						"es":"¿Cómo deberían ser los formatos de fecha?"
 					},
 					"type":"select",
 					"values":{
@@ -56,7 +66,8 @@
 				"visible_event_types":{
 					"label":{
 						"en":"What events should display?",
-						"is":"Hverskonar tónleika skal sýna?"
+						"is":"Hverskonar tónleika skal sýna?",
+						"es":"¿Qué eventos deberían mostrarse?"
 					},
 					"type":"select",
 					"values":{

@@ -18,27 +18,37 @@
 			"description":"Leyfa fólki að skrá sig inn og fá aðgang að sér efni",
 			"longdescription":"Þessi eining leyfir þér að deila efni til sérstaks hóps af fólki með almennu lykilorði. Til dæmis fyrir aðdáendaklúbb, fjölmiðla, og fleira.",
 			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
+		},
+		"es":{
+			"name":"Área de Miembros",
+			"description":"Permite a una lista iniciar sesión y obtener contenido exclusivo.",
+			"longdescription":"Este elemento te permite compartir contenido con una lista específica usando un contraseña universal. Piensa en un club de fans, prensa, y más.",
+			"instructions":"Escoge una lista contra la cual verificar, personalizar usando marcados, y opcionalmente añadir una contraseña universal a este elemento."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
-				"is":"Veldu hóp"
+				"is":"Veldu hóp",
+				"es":"Escoge una lista y define una contraseña para ella que será utilizada para desbloquear el contenido de este elemento"
 			},
 			"data":{
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"es":"Contraseña"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til að opna aðgang að efni"
+						"is":"Lykilorð eða frasi til að opna aðgang að efni",
+						"es":"Una contraseña o frase para desbloquear el contenido"
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -46,7 +56,8 @@
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"es":"Lista de correos de destino"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -56,12 +67,14 @@
 				"secure_content":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"es":"Contenido"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"es":""
 					},
 					"displaysize":"large"
 				}
