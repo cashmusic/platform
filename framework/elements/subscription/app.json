@@ -20,10 +20,10 @@
 			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
 		},
 		"es":{
-			"name":"Subscription",
-			"description":"Sell an item with a single click. Great for preorders.",
-			"longdescription":"Just need to sell one thing? Set up a simple single purchase element for the commerce item of your choice.",
-			"instructions":"For physical goods, define regions and shipping costs."
+			"name":"Subscripción",
+			"description":"Vende un artículo con sólo un clic. Genial para hacer pedidos.",
+			"longdescription":"¿Sólo quieres vender una cosa? Establece una compra individual simple para el artículo comercial de tu elección.",
+			"instructions":"Para bienes físicos, define regiones y costos de envío."
 		}
 	},
 	"copy":{
@@ -42,11 +42,11 @@
 			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
 		},
 		"es":{
-			"flexibleprice_suffix":"or more",
-			"choose_variants":"Choose an option first",
-			"choose_verb":"Choose",
-			"buy":"Buy now",
-			"unavailable":"Sorry, this item is currently unavailable."
+			"flexibleprice_suffix":"o más",
+			"choose_variants":"Escoge una opción primero",
+			"choose_verb":"Escoge",
+			"buy":"Comprar ahora",
+			"unavailable":"Lo sentimos, este artículo no está disponible actualmente."
 		}
 	},
 	"options":{
@@ -54,19 +54,19 @@
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar",
-				"es":"Main settings"
+				"es":"Ajustes principales"
 			},
 			"description":{
 				"en":"Choose a subscription plan for this jammy.",
 				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota.",
-				"es":"Choose a subscription plan for this jammy."
+				"es":"Escoge un plan de subscripción para este jammy."
 			},
 			"data":{
 				"plan_id":{
 					"label":{
 						"en":"Subscription plan",
 						"is":"Hlutur til sölu",
-						"es":"Subscription plan"
+						"es":"Plan de subscripción"
 					},
 					"type":"select",
 					"values":"commerce/subscriptions",
@@ -79,25 +79,25 @@
 			"group_label":{
 				"en":"Success/error messages",
 				"is":"Velgengnis/villu skilaboð",
-				"es":"Success/error messages"
+				"es":"Mensajes de éxito/error"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
-				"es":"Customize messages shown to people using this element."
+				"es":"Personaliza los mensajes mostrados a las personas que usan este elemento."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð",
-						"es":"Success message"
+						"es":"Mensaje de éxito"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
 						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk.",
-						"es":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link."
+						"es":"¡Gracias! Aquí está tu descarga. Usuarios de dispositivos móviles, revisen su bandeja de entrada y correo no deseado para obtener un enlace de descarga."
 					},
 					"displaysize":"medium"
 				},
@@ -105,13 +105,13 @@
 					"label":{
 						"en":"Invalid email message",
 						"is":"Ógilt netfang",
-						"es":"Invalid email message"
+						"es":"Mensaje de correo inválido"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
 						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
-						"es":"There was an error processing your payment. Please reload and try again."
+						"es":"Hubo un error procesando tu pago. Por favor recarga e intenta de nuevo."
 					},
 					"displaysize":"medium"
 				}
