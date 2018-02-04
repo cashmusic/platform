@@ -1,0 +1,135 @@
+{
+	"account":
+		{"page_name":"Your account", "menu_icon":""},
+	"account/delete":
+		{"page_name":"Delete account", "menu_icon":"", "hide":true},
+		
+		
+	"assets":
+		{"page_name":"Assets", "menu_icon":"", "tagline":"your releases, playlists, and files"},
+		
+	"calendar":
+		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
+	"calendar/events":
+		{"page_name":"Events", "menu_icon":"calendar", "hide":true},
+	"calendar/events/add":
+		{"page_name":"Add event", "menu_icon":""},
+	"calendar/events/edit":
+		{"page_name":"Edit event", "menu_icon":""},
+	"calendar/venues":
+    	{"page_name":"Venues", "menu_icon":"map" },
+	"calendar/venues/add":
+		{"page_name":"Add venue", "menu_icon":""},
+	"calendar/venues/delete":
+		{"page_name":"Delete venue", "menu_icon":""},
+	"calendar/venues/edit":
+		{"page_name":"Edit venue", "menu_icon":""},
+		
+	
+	"campaigns":
+		{"page_name":"Campaigns", "menu_icon":""},
+	"campaigns/add":
+		{"page_name":"Add a campaign", "menu_icon":"plus"},
+	"campaigns/delete":
+		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
+	"campaigns/edit":
+		{"page_name":"Edit campaign", "menu_icon":"", "hide":true},
+	"campaigns/archive":
+		{"page_name":"Archive", "menu_icon":"", "hide":true},
+	"campaigns/publish":
+		{"page_name":"Publish campaign", "menu_icon":"", "hide":true},
+
+
+	"commerce":
+		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
+	"commerce/items":
+		{"page_name":"Inventory", "menu_icon":"barcode"},
+	"commerce/items/delete":
+		{"page_name":"Delete item", "menu_icon":""},
+	"commerce/items/edit":
+		{"page_name":"Edit item", "menu_icon":""},
+	"commerce/items/add":
+		{"page_name":"Add an item", "menu_icon":""},
+	"commerce/subscriptions":
+		{"page_name":"Subscriptions", "menu_icon":"recurring", "tagline":"Member subscriptions", "beta":true},
+	"commerce/externalfulfillment":
+		{"page_name":"3rd Party fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
+	"commerce/export":
+		{"page_name":"Export orders", "menu_icon":"dwnld","add_class":"lightboxed"},
+	"commerce/orders/view":
+		{"page_name":"Order details", "menu_icon":""},
+	
+		
+		
+	"elements":
+		{"page_name":"Elements", "menu_icon":""},
+	"elements/add":
+		{"page_name":"Add elements", "menu_icon":"plus" },
+	"elements/delete":
+		{"page_name":"Delete element", "menu_icon":"", "hide":true},
+	"elements/edit":
+		{"page_name":"Edit element", "menu_icon":"", "hide":true},
+	"elements/preview":
+		{"page_name":"Preview element", "menu_icon":"", "hide":true},
+	"elements/stats":
+		{"page_name":"Statistics element", "menu_icon":"", "hide":true},
+	"elements/templates":
+		{"page_name":"Page/embed templates", "menu_icon":"list" },
+	"elements/templates/add":
+		{"page_name":"Add a template", "menu_icon":"", "hide":true},
+	"elements/templates/edit":
+		{"page_name":"Edit template", "menu_icon":"", "hide":true},
+	"elements/templates/delete":
+		{"page_name":"Delete template", "menu_icon":"", "hide":true},
+		
+		
+	"error":
+		{"page_name":"Page not found", "menu_icon":""},
+		
+		
+	"help":
+		{"page_name":"Help", "menu_icon":""},
+		
+		
+	"licenses":
+		{"page_name":"Open source licenses", "menu_icon":""},		
+		
+	"mainpage":
+		{"page_name":"Main page", "menu_icon":""},
+		
+		
+	"people":
+		{"page_name":"People", "menu_icon":"", "tagline":"lists and contacts"},
+	"people/contacts":
+		{"page_name":"Contacts", "menu_icon":""},
+	"people/lists/add":
+		{"page_name":"Add list", "menu_icon":""},
+	"people/lists/delete":
+		{"page_name":"Delete list", "menu_icon":""},
+	"people/lists/edit":
+		{"page_name":"Edit list", "menu_icon":""},
+	"people/lists/export":
+		{"page_name":"Export list", "menu_icon":""},
+	"people/lists/view":
+		{"page_name":"List details", "menu_icon":""},
+	"people/mailings":
+		{"page_name":"Mail campaigns", "menu_icon":"airplane","beta":true},
+	"people/press":
+		{"page_name":"Press coverage", "menu_icon":"paperclip" },
+
+
+	"privacy":
+		{"page_name":"Privacy policy", "menu_icon":""},
+		
+		
+	"settings":
+		{"page_name":"System settings", "menu_icon":""},
+	"settings/connections":
+		{"page_name":"Connections", "menu_icon":"cog" },
+	"settings/update":
+		{"page_name":"System update", "menu_icon":"arrw-up" },
+
+
+	"terms":
+		{"page_name":"Terms of service", "menu_icon":""}
+}
