@@ -1,0 +1,14 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"version":"Current platform version:",
+            "upgrade":"Upgrade available:",
+            "no":"No",
+            "yes":"Yes",
+            "launch":"Launch the system update tool"
+
+}
+}

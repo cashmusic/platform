@@ -1,0 +1,29 @@
+{
+	"pagetip": "",
+	"learn": "<p>This is where you’ll find basic information on your subscriptions.</p>",
+	"related":{},
+	"labels":{
+		"name":"Subscription name",
+		"price":"Price",
+		"interval":"Interval",
+		"subscriber_name":"Subscriber",
+		"subscriber_email":"Email",
+		"subscriber_start_date":"Subscribed on",
+		"subscriber_end_date":"End date",
+		"subscriber_total":"Total paid to date",
+		"subscriber_status":"Status",
+		"subscription_creation":"Creation date",
+		"status":"Status",
+		"payment_date":"Date",
+		"payment_connection_type":"Connection type",
+		"payment_status":"Status",
+		"payment_amount":"Amount"
+	},
+	"tooltips":{},
+	"copy":{
+		"cancel":"Cancel subscription",
+		"payment_history":"Payment history"
+	}
+}
+
+
