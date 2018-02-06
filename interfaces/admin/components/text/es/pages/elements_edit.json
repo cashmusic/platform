@@ -1,0 +1,22 @@
+{
+	"pagetip":"",
+	"learn":"<p>Elements are the customizable tools that allow you to connect with your audience. Email collection, sales, tour dates, and much more.</p> <p>Any individual element can be embedded on any site by simple copy/paste or you can add several elements to your CASH music page and publish it as a single page.</p><p>Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published/embedded them.</p>",
+	"related":{},
+	"labels":{"embed_style":"Embed style:"
+
+   },
+	"tooltips":{},
+	"copy":{"total_unique_views":"Total Unique Views",
+            "top_embed_locations":"Top Embed Locations ",
+            "view_detailed_statistics":"View detailed statistics",
+						"view_element_settings":"Edit settings",
+            "php":"PHP: ",
+            "wordpress":"WordPress: ",
+            "html5_embed_code":"HTML5 embed code: ",
+            "embed_anywhere":"(Embed anywhere)",
+            "preview_element":"Preview element",
+            "edit_custom_embed":"Edit custom embed",
+            "button_change_style":"Change style",
+            "element_settings":"Element Settings"
+}
+}

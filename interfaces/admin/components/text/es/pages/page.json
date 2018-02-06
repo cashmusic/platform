@@ -1,0 +1,35 @@
+{
+	"pagetip":"",
+	"learn":"<p>This is a simple web page that can host all of your elements. Once you've created one or more elements you can embed them on this page. <p>Here's how: Click the 'Edit' button. In the edit window, place your cursor after <strong>id=\"mainspc\"</strong>. Then click the plus sign next to one of the elements you've already created to add that element to your page. <p>To add a title and text to the page, add a 'Plain Text' Element. <p>The URL (internet address) of this page is based on your CASH Music username.</p>",
+	"related":{
+		"cashmusic.org":"http://cashmusic.org/",
+		"CASH help/support site":"http://help.cashmusic.org/"
+	},
+	"labels":{"selected_campaign":"Selected Campaign:"
+
+   },
+	"tooltips":{},
+	"copy":{
+		"activity_subnav":"Activity",
+		"elements_subnav":"Elements",
+	   "page_edit":"Edit",
+		 "page_view":"View page",
+	   "edit":"Edit",
+	   "delete":"Delete",
+	   "public_page":"Your page is live at:",
+	   "change_username":"Change Username",
+	   "public_not_live":"Your page will appear at:",
+	   "publish_settings":"Publish Settings",
+	   "publish_a_campaign":"Publish a campaign",
+	   "publish_campaign_info":"Publishing a campaign sets it live as your public page, using the theme you've set above.",
+	   "published":"Published:",
+	   "unpublish_all":"None (Unpublish all)",
+		 "firstuse_title":"To get online quickly, create a simple page here.",
+		 "firstuse_body_1":"Choose a theme, create the page, and start adding elements.",
+		 "firstuse_body_2":"You must create elements (on the Elements tab above) in order to have something to put in this page.",
+		 "firstuse_body_3":"To add a title and some text, create a \"plain text\" element.",
+		 "replace_new_page":"Replace with a new page",
+		"page_theme":"Start building a new page",
+		"preview":"Preview page"
+	}
+}

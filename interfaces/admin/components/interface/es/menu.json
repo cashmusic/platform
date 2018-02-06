@@ -1,0 +1,135 @@
+{
+	"account":
+		{"page_name":"Tu cuenta", "menu_icon":""},
+	"account/delete":
+		{"page_name":"Borrar cuenta", "menu_icon":"", "hide":true},
+		
+		
+	"assets":
+		{"page_name":"Activos", "menu_icon":"", "tagline":"tus lanzamientos, listas de reproducción y archivos"},
+		
+	"calendar":
+		{"page_name":"Calendario", "menu_icon":"", "tagline":"shows y conciertos"},
+	"calendar/events":
+		{"page_name":"Eventos", "menu_icon":"calendar", "hide":true},
+	"calendar/events/add":
+		{"page_name":"Agregar evento", "menu_icon":""},
+	"calendar/events/edit":
+		{"page_name":"Editar evento", "menu_icon":""},
+	"calendar/venues":
+    	{"page_name":"Conciertos", "menu_icon":"map" },
+	"calendar/venues/add":
+		{"page_name":"Agregar concierto", "menu_icon":""},
+	"calendar/venues/delete":
+		{"page_name":"Eliminar concierto", "menu_icon":""},
+	"calendar/venues/edit":
+		{"page_name":"Editar concierto", "menu_icon":""},
+		
+	
+	"campaigns":
+		{"page_name":"Campañas", "menu_icon":""},
+	"campaigns/add":
+		{"page_name":"Agregar una campaña", "menu_icon":"plus"},
+	"campaigns/delete":
+		{"page_name":"Eliminar campaña", "menu_icon":"", "hide":true},
+	"campaigns/edit":
+		{"page_name":"Editar campaña", "menu_icon":"", "hide":true},
+	"campaigns/archive":
+		{"page_name":"Archivo", "menu_icon":"", "hide":true},
+	"campaigns/publish":
+		{"page_name":"Publicar campaña", "menu_icon":"", "hide":true},
+
+
+	"commerce":
+		{"page_name":"Comercio", "menu_icon":"", "tagline":"pedidos y artículos a la venta"},
+	"commerce/items":
+		{"page_name":"Inventario", "menu_icon":"barcode"},
+	"commerce/items/delete":
+		{"page_name":"Eliminar artículo", "menu_icon":""},
+	"commerce/items/edit":
+		{"page_name":"Editar artículo", "menu_icon":""},
+	"commerce/items/add":
+		{"page_name":"Agregar un artículo", "menu_icon":""},
+	"commerce/subscriptions":
+		{"page_name":"Subscripciones", "menu_icon":"recurring", "tagline":"Subscripciones de miembros", "beta":true},
+	"commerce/externalfulfillment":
+		{"page_name":"Cumplimiento de terceros", "menu_icon":"fulfilment", "tagline":"Importar pedidos externos", "beta":true},
+	"commerce/export":
+		{"page_name":"Exportar pedidos", "menu_icon":"dwnld","add_class":"lightboxed"},
+	"commerce/orders/view":
+		{"page_name":"Detalles de orden", "menu_icon":""},
+	
+		
+		
+	"elements":
+		{"page_name":"Elementos", "menu_icon":""},
+	"elements/add":
+		{"page_name":"Agregar elemento", "menu_icon":"plus" },
+	"elements/delete":
+		{"page_name":"Eliminar elemento", "menu_icon":"", "hide":true},
+	"elements/edit":
+		{"page_name":"Editar elemento", "menu_icon":"", "hide":true},
+	"elements/preview":
+		{"page_name":"Vista previa de elemento", "menu_icon":"", "hide":true},
+	"elements/stats":
+		{"page_name":"Estadísticas de elemento", "menu_icon":"", "hide":true},
+	"elements/templates":
+		{"page_name":"Plantillas de página/inserción", "menu_icon":"list" },
+	"elements/templates/add":
+		{"page_name":"Agregar una plantilla", "menu_icon":"", "hide":true},
+	"elements/templates/edit":
+		{"page_name":"Editar plantilla", "menu_icon":"", "hide":true},
+	"elements/templates/delete":
+		{"page_name":"Eliminar plantilla", "menu_icon":"", "hide":true},
+		
+		
+	"error":
+		{"page_name":"Página no encontrada", "menu_icon":""},
+		
+		
+	"help":
+		{"page_name":"Ayuda", "menu_icon":""},
+		
+		
+	"licenses":
+		{"page_name":"Licencias de código abierto", "menu_icon":""},				
+		
+	"mainpage":
+		{"page_name":"Página principal", "menu_icon":""},
+		
+		
+	"people":
+		{"page_name":"Personas", "menu_icon":"", "tagline":"listas y contactos"},
+	"people/contacts":
+		{"page_name":"Contactos", "menu_icon":""},
+	"people/lists/add":
+		{"page_name":"Agregar lista", "menu_icon":""},
+	"people/lists/delete":
+		{"page_name":"Eliminar lista", "menu_icon":""},
+	"people/lists/edit":
+		{"page_name":"Editar lista", "menu_icon":""},
+	"people/lists/export":
+		{"page_name":"Exportar lista", "menu_icon":""},
+	"people/lists/view":
+		{"page_name":"Detalles de lista", "menu_icon":""},
+	"people/mailings":
+		{"page_name":"Enviar campañas por correo", "menu_icon":"airplane","beta":true},
+	"people/press":
+		{"page_name":"Cobertura de prensa", "menu_icon":"paperclip" },
+
+
+	"privacy":
+		{"page_name":"Política de privacidad", "menu_icon":""},
+		
+		
+	"settings":
+		{"page_name":"Ajustes del sistema", "menu_icon":""},
+	"settings/connections":
+		{"page_name":"Conexiones", "menu_icon":"cog" },
+	"settings/update":
+		{"page_name":"Actualizar sistema", "menu_icon":"arrw-up" },
+
+
+	"terms":
+		{"page_name":"términos de uso", "menu_icon":""}
+}
