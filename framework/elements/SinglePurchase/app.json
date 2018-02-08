@@ -18,6 +18,12 @@
 			"description":"Seldu hlut með einum smelli. Frábært fyrir forpantanir",
 			"longdescription":"Þarftu bara að selja einn hlut? Settu upp einfalda kaup einingu fyrir stök kaup á hlut af þínu vali.",
 			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
+		},
+		"tl":{
+			"name":"Isahang Pagbili",
+			"description":"Ibinibenta ang isang aytem sa isang click. Mabuti para sa mga pre-order.",
+			"longdescription":"Gusto lamang magbenta ng isang bagay? Gumawa ng isang elemento sa isang simpleng isahang pagbili para sa komersyong item na iyong napili.",
+			"instructions":"Para sa mga pisikal na bilihin, tukuyin ang mga rehiyon at mga bayad sa paghahatid."
 		}
 	},
 	"copy":{
@@ -34,23 +40,33 @@
 			"choose_verb":"Veldu",
 			"buy":"Kaupa núna",
 			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
+		},
+		"tl":{
+			"flexibleprice_suffix":"o marami pa",
+			"choose_variants":"Pumili muna ng isang opsyon",
+			"choose_verb":"Pumili",
+			"buy":"Bumili na",
+			"unavailable":"Paumanhin, wala na ang aytem na ito."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
-				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
+				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota.",
+				"tl":"Pumili ng isang inventory na aytem na ibebenta at komersyong koneksyon na gagamitin."
 			},
 			"data":{
 				"item_id":{
 					"label":{
 						"en":"Item for sale",
-						"is":"Hlutur til sölu"
+						"is":"Hlutur til sölu",
+						"tl":"Aytem na ibebenta"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -62,34 +78,40 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"tl":"Tagumpay/kamalian na mga mensahe"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"tl":"Baguhin ang mga mensaheng ipinapakita sa mga tao gamit ang elementong ito."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"tl":"Mensahe ng tagumpay",
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
-						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk.",
+						"tl":"Salamat! Narito ang iyong download. Mga mobile na user, tingnan ang iyong inbox at mga spam folder para sa isang download link."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"tl":"Maling email na mensahe"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"tl":"May mali sa pagpoproseso ng iyong bayad. Paki-reload at subukan ulit."
 					},
 					"displaysize":"medium"
 				}
