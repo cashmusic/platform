@@ -18,23 +18,32 @@
 			"description":"Sýndu dagsetningar úr dagatalinu þínu.",
 			"longdescription":"Síur leyfa þér að setja upp dagsetningar liðinna jafnt og komandi tónleika. Þessi eining mun uppfæra sig sjálfvirkt er dagsetningar renna úr gildi eða færast í geymslu.",
 			"instructions":"Allar dag og tímasetningar eru í tímabelti tónleikastaðs."
+		},
+		"tl":{
+			"name":"Mga Petsa ng Tour",
+			"description":"Ilista ang mga petsa mula sa iyong kalendaryo.",
+			"longdescription":"Ang mga filter ay nagse-setup ng iyong tourdate na mga archive kabilang na ang nalalapit na mga palabas. Awtomatikong ina-update ng elemento ang kanyang sarili habang nae-expire ang petsa o inilipat sa isang archive.",
+			"instructions":"Ang lahat ng mga petsa at oras ay nasa timezone ng kanilang venue."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Customize how many dates you want to display and what type of events to show.",
-				"is":"Sérsníddu hversu margar dagsetningar eru sýndar, og hvaða tegundur af tónleikum."
+				"is":"Sérsníddu hversu margar dagsetningar eru sýndar, og hvaða tegundur af tónleikum.",
+				"tl":"Baguhin kung ilang mga petsa ang gusto mong ipapakita at kung anong uri ng mga panyayari ang ipapalabas."
 			},
 			"data":{
 				"max_display_dates":{
 					"label":{
 						"en":"Max display dates",
-						"is":"Hámark fjölda dagsetninga"
+						"is":"Hámark fjölda dagsetninga",
+						"tl":"Pinakamaraming ipapakitang mga petsa"
 					},
 					"type":"number",
 					"default":"25",
@@ -42,7 +51,8 @@
 				},
 				"date_format":{
 					"label":{
-						"en":"How should dates be formatted?"
+						"en":"How should dates be formatted?",
+						"tl":"Paano dapat pino-format ang mga petsa?"
 					},
 					"type":"select",
 					"values":{
@@ -56,7 +66,8 @@
 				"visible_event_types":{
 					"label":{
 						"en":"What events should display?",
-						"is":"Hverskonar tónleika skal sýna?"
+						"is":"Hverskonar tónleika skal sýna?",
+						"tl":"Anong mga pangyayari ang dapat ipapakita?"
 					},
 					"type":"select",
 					"values":{
