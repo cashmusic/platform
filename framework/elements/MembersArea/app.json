@@ -18,27 +18,37 @@
 			"description":"Leyfa fólki að skrá sig inn og fá aðgang að sér efni",
 			"longdescription":"Þessi eining leyfir þér að deila efni til sérstaks hóps af fólki með almennu lykilorði. Til dæmis fyrir aðdáendaklúbb, fjölmiðla, og fleira.",
 			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
+		},
+		"tl":{
+			"name":"Lugar ng mga Miyembro",
+			"description":"Pinapayagan ang isang listahan na mag-log in at kumuha ng eksklusibong nilalaman.",
+			"longdescription":"Ang elementong ito ay pinapahintulutan kang ibahagi ang nilalaman sa isang tiyak na listahan na may pangkalahatang password. Isipin ang fan club, press at marami pa.",
+			"instructions":"Pumili ng listahan na papatunayan, baguhin gamit ang markup, at opsyonal na magdagdag ng pagkalahatang password para sa elementong ito."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
-				"is":"Veldu hóp"
+				"is":"Veldu hóp",
+				"tl":"Pumili ng isang listahan at ilarawan ang isang password para gamitin nila sa pagbukas sa nilalaman ng elementong ito."
 			},
 			"data":{
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"tl":"Password"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til að opna aðgang að efni"
+						"is":"Lykilorð eða frasi til að opna aðgang að efni",
+						"tl":"Isang password o parirala sa pagbukas sa nilalaman"
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -46,7 +56,8 @@
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"tl":"Target na listahan ng papadalhan"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -56,12 +67,14 @@
 				"secure_content":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"tl":"Nilalaman"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"tl":""
 					},
 					"displaysize":"large"
 				}
