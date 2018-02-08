@@ -1,46 +1,46 @@
-Connections are basically API wrappers — an abstracted way for us to connect to third
-party services, categorize their offering, and define the data we need to store to make
-each one work. (Tokens, settings, etc.)
+Ang mga koneksyon ay mga API wrapper — isang natatagong paraan upang makakonekta tayo sa pangatlong
+partido na mga serbisyo, pagsama-samahin ang mga inaalok, at tukuyin ang mga datos na dapat iponin upang gawin
+ang trabaho ng bawat isa. (Mga token, setting, atbp.)
 
-Defining a connection happens in two different files:
+Ang paglalarawan sa koneksyon ay nangyayari sa dalawang magkaibang mga file:
 
- 1. A definition JSON in **/framework/settings/connections**
- 2. A Seed Class in **/framework/classes/seeds**
+ 1. Isang definition JSON sa **/framework/settings/connections**
+ 2. Isang Seed Class sa **/framework/classes/seeds**
 
-The connection is defined in JSON and should look something like this:
+Ang koneksyon ay tinutukoy sa JSON at dapat mukhang ganito:
 
  <script src="https://gist.github.com/jessevondoom/2908c44b88db934aeec5.js"></script>
 
-It needs a name, description, unique type, and you must define the classname of the seed
-used with the connection. There's an option for scope. This lets us narrow the connection
-type so we can show connections contextually in the admin app and beyond. (Currently, the
-scope types have been chosen fairly arbitrarily, though we need to define them better going
-forward.) Lastly, there's an array listing compatibility — does the connection work in 
-single-user mode, multi-user mode, or both?
+Kailangan nito ng pangalan, deskripsyon, natatanging uri, at dapat ilarawan mo ang classname ng seed na
+ginamit sa koneksyon. May isang pagpipilian para sa saklaw. Pinapayagan tayong pakitirin ang uri ng koneksyon
+upang maipapakita natin ang koneksyon sa kontekstwal na paraan sa admin app at lagpas pa. (Kasalukuyan, ang mga
+uri ng saklaw ay patas na napipili, kahit na kailangang tukuyin natin sila them na mas maayos na kumukilos
+paunahan.) Sa huli, may isang listahan ng listing compatibility — ginagawa ang trabahong koneksyon sa 
+single-user mode, multi-user mode, o dalawa?
 
-Note that you can define different data needed for single-user and multi-user versions
-of the connection. (We frown on storing keys/secrets in multi-user mode.)
+Tandaan na pwede mong ilarawan ang iba't ibang mga datos na kinakailangan para sa bersyon iisa at maramihan ang gumagamit.
+sa koneksyon. (Hindi namin gusto ang pagtatago ng mga key/secret sa multi-user mode.)
 
-#### The Seed class
-In the larger scheme of the platform, Plants handle requests while Seeds handle specific 
-functionality — mostly in the form of connecting to third party APIs. Because seeds are 
-supposed to be flexible, they're pretty arbitrary in structure, but you'll notice a bunch
-of common functions between similar seeds — check seeds for S3 and Google Drive. 
+####  Ang Seed class
+Sa mas malaking skema ng plataporma, ang mga planta ay naghahawak sa mga hiling habang ang mga seed ay humahawak sa tiyak na
+functionality — karamihan sa anyo ng pagkonekta sa pangatlong partido na mga API. Dahil ang mga seed ay
+inaasahang maging flexible, talagang arbitraryo sila sa istraktura, pero makakapansin ka ng maraming
+mga karaniwang gamit sa pagitan ng magkakaparehong mga seed — tingnan ang mga seed para sa S3 at Google Drive. 
 
-We'll be defining this more concretely on a scope-by-scope basis soon, but for now please 
-look for similar services and pattern after them. We want as much uniformity as we can get 
-at the seed level so we can abstract as much as possible at the plant level.
+Ilalarawan natin ito sa mas konkretong paraan sa isang saklaw-saklaw na basehan, pero sa ngayon, mangyaring 
+maghanap ng kaparehong mga serbisyo at pattern pagkatapos sa kanila. Gusto namin ng mas maraming pagkakapareho 
+sa antas ng seed upang makakaintindi tayo ng lubos mula sa antas ng planta.
 
-Any connection supporting an OAuth style redirect (generally in multi-user mode) will need
-to have these two functions defined:
+Ang kahit anong koneksyong sumusuporta sa OAuth style redirect (kadalasan sa multi-user na mode) ay mangangailangang
+ang dalawang function na ito ay natiyak:
 
  - getRedirectMarkup($data=false)
  - handleRedirectReturn($data=false)
 
-The getRedirectMarkup will handle any logic needed to present the user with a redirect 
-link, and the handleRedirectReturn will deal with the returned token and complete the 
-connection process.
+Ang getRedirectMarkup ay maghahawak sa kahit anong lohikang kailangan upang makapaghayag sa sa gumagamit ng isang redirect na 
+link, at ang handleRedirectReturn ay magsasaklaw sa mga binabalik na mga token at kompletohin ang 
+proseso ng koneksyon.
 
-Any data like application-level keys that need to be stored to initiate OAuth requests 
-can be stored in **/framework/settings/connections.json**. See template at 
+Ang kahit anong datos tulad ng application-level na mga key na kailangang imbakin upang simulan ang mga OAuth requests 
+ay pwedeng iponin sa **/framework/settings/connections.json**. Tingnan ang template sa
 /framework/settings/_connections.json for a quick example.
