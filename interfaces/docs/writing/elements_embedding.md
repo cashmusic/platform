@@ -1,30 +1,30 @@
-We use our (tiny) custom javascript library, [cashmusic.js](http://cashmusic.github.io/cashmusic.js/), 
-to create iframe embeds for elements. They can be styled to match any site with full user control over
-CSS and markup. Embedding is pretty straightforward and happens with a single copy and paste code.
+Ginagamit namin ang (munting) karaniwang javascript na library, [cashmusic.js](http://cashmusic.github.io/cashmusic.js/), 
+upang lumikha ng mga iframe embed para sa mga elemento. Pwede silang i-istilo upang matumbasan ang kahit anong sayt na may buong kontrol ng tagagamit
+sa CSS at markup. Ang pag-e-embed ay direktahan at nangyayari sa isang kopya at paste code.
 
-In a basic example, an element is embedded in place by id only:
+Sa isang simpleng halimbawa, ang isang elemento ay may naka-embed na id lamang:
 
 <script src="https://gist.github.com/jessevondoom/5856499.js"></script>
 
-Endpoint and id are always required, but you can also choose to have the element 
-appear in an overlay (lightboxed.) A lightboxed element will create a link inline 
-with the caption passed in to the window.cashmusic.embed function. You can also 
-pass in an object specifying size and position of the element inside the overlay. 
+Ang endpoint at id ay palaging kinakailangan, pero pwede mo ring piliin na magpapakita ang isang elemento 
+na naka-overlay (naka-lightbox.) Ang isang naka-lightbox na elemento ay maglilikha ng isang link sa linya 
+ng kapsyon na ipinasa sa window.cashmusic.embed na function. Pwede ka ring 
+pumasa sa isang bagay na tinutukoy ang sukat at posisyon ng elemento sa loob ng overlay. 
 
-For embed calls after page load, provide a target element as the final argument to 
-window.cashmusic.embed. This will place the embed, iframe or lightbox link, inside 
-the first matching element. The target should be a string that will work with 
-document.querySelector, like "#id", "#id .class", or similar.
+Para sa embed na mga tawag pagkatapos ng pag-load ng pahina, maglaan ng isang target na elemento bilang huling argumento sa
+window.cashmusic.embed. Ilalagay nito ang embed, iframe o lightbox na link, sa loob
+ng unang tumugmang elemento. Ang target ay dapat isang string na gumagana sa
+document.querySelector, katulad ng "#id", "#id .class", o kapareho nito.
 
-For styling, all iframe embeds are placed in a &lt;div&gt; classed with "cashmusic embed" 
-and lightboxed embed links are placed in a &lt;span&gt; classed "cashmusic embed".
+Sa pag-iistilo, lahat ng mga iframe embed ay inilalagay sa isang &lt;div&gt; na naklase kasama ang "cashmusic embed" 
+at ang naka-lightbox na mga embed link ay inilalagay sa isang &lt;span&gt; na naklase sa "cashmusic embed".
 
-An example with all options:
+Isang halimbawa kasama ang lahat ng mga opsyon:
 
 <script src="https://gist.github.com/jessevondoom/5860605.js"></script>
 
-We're also working on a new JSON object based embed call. It's mostly for clear 
-formatting, but you'll notice a new CSS override option not available by the 
-standard method. More on that soon...
+Nagtatrabaho rin kami sa isang JSON na object nakabase sa embed call. Kadalasan ito ay para sa malinaw na
+formatting, pero mapapansin mo ang isang bagong CSS override na opsyon na hindi gumagana  sa
+istandard na pamamaraan. Mas marami pa sa ganyan sa hinaharap...
 
 <script src="https://gist.github.com/jessevondoom/ccfb4f71f7a905d82470.js"></script>
