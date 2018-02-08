@@ -1,15 +1,15 @@
-The admin app for the platform (**/interfaces/admin**) is a fairly straight-forward MVC-style webapp 
-built with a front controller, individual controllers for each route, mustache views, and using the 
-framework for the model instead of a traditional database layer. Basically it's dog-fooding the PHP 
-core but building a much more complex app than a simple element. 
+Ang admin app para sa plataporma na (**/interfaces/admin**) ay isang direktang MVC na istilong webapp 
+na ginawa kasama ang isang front controller, isa-isang individual na kontroller para sa bawat ruta, mga mustache view, at gamit ang 
+balangkas para sa modelo sa halip na tradisyonal na layer ng database. Sa madaling salita, isa itong dog-fooding sa PHP 
+na core pero nagtatayo ng mas komplikadong app kaysa isang simpleng elemento. 
 
-In terms of structure, it's fairly simple: 
+Sa batayang pangbalangkas, simple lamang ito: 
 
- - Settings are stored in the **constants.php** file
- - The .htaccess pushes all traffic through the **controller.php** file
- - Each route has a controller in **/components/pages/controllers** and after doing any logic the 
- controller calls a mustache template view from **/components/pages/views**
- - The main page UI is stored in mustache templates in **/ui/default**
+ - Ang mga setting ay inipon sa **constants.php** na file
+ - Ang .htaccess ay nagpipilit sa lahat ng trapik sa pamamagitan ng **controller.php** na file
+ - Ang bawat ruta ay may controller sa **/components/pages/controllers** at pagkatapos gumawa ng kahit anong lohika, 
+tinawag ng controller ang isang mustache template view mula sa **/components/pages/views**
+ - Ang pangunahing pahina ng UI ay nakaimbak sa mga mustache template sa **/ui/default**
 
-It shouldn't be lost that the admin app is structured to mirror the CASH Request/Response types — this is 
-very much on purpose with the goal of getting musicians and developers speaking the same language. 
+Hindi dapat mawala na ang admin na app ay nakabalangkas upang masasalamin ang mga uri ng CASH Request/Response — ito ay 
+talagang nasa misyong magsalita ang mga musikero at tagabuo ng iisang wika.
