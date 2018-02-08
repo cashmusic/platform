@@ -18,28 +18,38 @@
 			"description":"Notað til að sýna texta, html, eða markdown.",
 			"longdescription":"Klippa-líma framtíðarinnar! Reyndar, bara venjulegt klippa-líma. Ómerkilegt, en gagnlegt.",
 			"instructions":"Skrifaðu. Vistaði. Búið."
+		},
+		"tl":{
+			"name":"Simpleng Teksto",
+			"description":"Ginagamit sa pagpakita ng mga teksto, html o markdown.",
+			"longdescription":"Ang kinabukasan ng copy-and-paste! Sa aktwal copy-and-paste lang, regular. Boring pero mahalaga.",
+			"instructions":"I-type. I-seyb. Iyon lang."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"The Content",
-				"is":"Efnið"
+				"is":"Efnið",
+				"tl":"Ang Nilalaman"
 			},
 			"description":{
 				"en":"Type what you want to appear. Plain text or markdown.",
-				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown"
+				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown",
+				"tl":"I-type kung ano ang gusto mong lumabas. Simpleng teksto o markdown."
 			},
 			"data":{
 				"storedcotent":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"tl":"Nilalaman"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"tl":""
 					},
 					"required":true,
 					"displaysize":"large"
