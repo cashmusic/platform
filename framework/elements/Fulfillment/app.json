@@ -12,6 +12,12 @@
 			"description":"Digital fulfillment for crowdfunding.",
 			"longdescription":"This element takes CSV exports from Kickstarter and similar services and delivers digital assets per tier.",
 			"instructions":"After creating a new fulfillment job, upload crowdfunding exports and assign downloads / UPC codes per tier."
+		},
+		"tl":{
+			"name":"Pangatlong Partido na Pagtupad",
+			"description":"Digital na pagpapatupad ng crowdfunding",
+			"longdescription":"Ang elementong ito ay kumukuha ng mga CSV export mula Kickstarter at kaparehong mga serbisyo at naghahatid ng mga digital asset kada tier",
+			"instructions":"Pagkatapos gumawa ng trabahong pagpapatupad, mag-upload ng mga crowdfunding na export at maglaan ng mga download / UPC na code kada tier."
 		}
 	},
 	"copy":{
@@ -22,31 +28,44 @@
 			"button":"Set location and claim download",
 			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
 			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
+		},
+		"tl":{
+			"location_required":"Upang makuha ang iyong download, mangyaring sabihin sa amin ang iyong postal code at bansa.",
+			"country_selector":"Piliin ang iyong bansa",
+			"postal_code":"Ilagay ang iyong postal code",
+			"button":"Itakda ang lokasyon at kunin ang iyong download",
+			"location_error":"Siguraduhing napili mo ang isang tamang bansa at inilagay ang tamang postal code.",
+			"invalid_code":"Paumanhin, pero ang natatanging code/link na ito ay nagamit na o hindi tama." 
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
-				"en":"Set the messages that you want your backers to see before and after they redeem their code."
+				"en":"Set the messages that you want your backers to see before and after they redeem their code.",
+				"tl":"Itakda ang mga mensahe na gusto mong makita ng iyong mga backer bago at pagkatapos nilang i-redeem ang kanilang code."
 			},
 			"data":{
 				"message_landing":{
 					"label":{
-						"en":"Landing message - (shown to users without a code - can include html)"
+						"en":"Landing message - (shown to users without a code - can include html)",
+						"tl":"Landing na mensahe - (ipinapakita sa mga user na walang isang code - pwedeng isali ang html)"
 					},
 					"type":"text",
 					"default":{
-						"en":"Are you a backer? Please check your email for instructions and a download link."
+						"en":"Are you a backer? Please check your email for instructions and a download link.",
+						"tl":"Backer ka ba? Pakitingnan ang iyong email para sa mga hakbang at isang download link."
 					},
 					"required":true,
 					"displaysize":"large"
 				},
 				"show_message":{
 					"label":{
-						"en":"Show landing message on element embed"
+						"en":"Show landing message on element embed",
+						"tl":"Nagpapakita ng landing na mensahe sa elementong na-embed"
 					},
 					"type":"boolean",
 					"default":true,
@@ -55,11 +74,13 @@
 
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"tl":"Mensahe ng Tagumpay"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"tl":""
 					},
 					"required":true,
 					"displaysize":"medium"
