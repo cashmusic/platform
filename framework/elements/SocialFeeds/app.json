@@ -18,39 +18,51 @@
 			"description":"Skapaðu straum fyrir Twitter og/eða Tumblr strauma.",
 			"longdescription":"Blandaðu saman eins mörgum straumum og þig lystir, síaðu Twitter eftir orðum eða slepptu @-svörum, og síaðu Tumblr eftir færslutegundum",
 			"instructions":"Þetta er bilað."
+		},
+		"tl":{
+			"name":"Mga Social Feed",
+			"description":"Gumawa ng isang feed mula sa iyong Twitter at/o Tumblr na mga feed.",
+			"longdescription":"Pagsama-samahin ang kahit ilang mga feed, na nahahasa ang Twitter gamit ang keyword o hindi isasali ang @-replies, at paghahasa sa Tumblr gamit ang uri ng lathala.",
+			"instructions":"Ito ay putol."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Instructions or clarifications that should appear with this group.",
-				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp."
+				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp.",
+				"tl":"Ang mga hakbang o klaripikasyon na dapat makikita kasama ang grupong ito."
 			},
 			"data":{
 				"twitter":{
 					"label":{
 						"en":"Twitter",
-						"is":"Twitter"
+						"is":"Twitter",
+						"tl":"Twitter"
 					},
 					"description":{
 						"en":"You'll need to add a Twitter connection for tweets to appear in your feed.",
-						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum."
+						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum.",
+						"tl":"Kailangan mong magdagdag ng isang koneksyon sa Twitter para makita ang mga tweet sa iyong feed."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Twitter feed",
-						"is":"Bæta við nýjum Twitter straum"
+						"is":"Bæta við nýjum Twitter straum",
+						"tl":"Magdagdag ng isang bagong Twitter na feed"
 					},
 					"values":{
 						"twitterusername":{
 							"label":{
 								"en":"Username",
-								"is":"Notandanafn"
+								"is":"Notandanafn",
+								"tl":"Pangalan ng Tagagamit"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -58,7 +70,8 @@
 						"twitterfiltertype":{
 							"label":{
 								"en":"Fliter by",
-								"is":"Sía samkvæmt"
+								"is":"Sía samkvæmt",
+								"tl":"Hasain gamit ang"
 							},
 							"type":"select",
 							"values":{
@@ -72,7 +85,8 @@
 						"twitterfiltervalue":{
 							"label":{
 								"en":"Filter value",
-								"is":"Sía gildi"
+								"is":"Sía gildi",
+								"tl":"Halaga ng paghahasa"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -80,7 +94,8 @@
 						"twitterhidereplies":{
 							"label":{
 								"en":"Hide replies",
-								"is":"Fela svör"
+								"is":"Fela svör",
+								"tl":"Itago ang mga sagot"
 							},
 							"type":"boolean",
 							"default":true,
@@ -92,23 +107,27 @@
 				"tumblr":{
 					"label":{
 						"en":"Tumblr",
-						"is":"Tumblr"
+						"is":"Tumblr",
+						"tl":"Tumblr"
 					},
 					"description":{
 						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off.",
-						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund."
+						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund.",
+						"tl":"Walang koneksyon na kailangan upang makahila ng mga Tumblr na lathala. Magdagdag lamang ng isang URL, pumili ng mga uri ng lathala, at tapos ka na."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Tumblr URL",
-						"is":"Bættu við nýrri Tumblr slóð"
+						"is":"Bættu við nýrri Tumblr slóð",
+						"tl":"Magdagdag ng bagong URL"
 					},
 					"values":{
 						"tumblrurl":{
 							"label":{
 								"en":"Tumblr URL",
-								"is":"Tumblr slóð"
+								"is":"Tumblr slóð",
+								"tl":"Tumblr na URL"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -116,7 +135,8 @@
 						"tumblrtag":{
 							"label":{
 								"en":"Filter by tag",
-								"is":"Sía samkvæmt merki"
+								"is":"Sía samkvæmt merki",
+								"tl":"Hasain gamit ang tag"
 							},
 							"placeholder":{
 				            "en":"Do not filter",
@@ -128,7 +148,8 @@
 						"post_types":{
 							"label":{
 								"en":"Post types",
-								"is":"Færslutegundir"
+								"is":"Færslutegundir",
+								"tl":"Mga Uri ng Lathala"
 							},
 							"type":"options",
 							"displaysize":"large",
@@ -136,7 +157,8 @@
 								"regular":{
 									"label":{
 										"en":"regular",
-										"is":"venjuleg"
+										"is":"venjuleg",
+										"tl":"regular"
 									},
 									"type":"boolean",
 									"default":true,
@@ -145,7 +167,8 @@
 								"photo":{
 									"label":{
 										"en":"photo",
-										"is":"mynd"
+										"is":"mynd",
+										"tl":"larawan"
 									},
 									"type":"boolean",
 									"default":true,
@@ -154,7 +177,8 @@
 								"video":{
 									"label":{
 										"en":"video",
-										"is":"myndband"
+										"is":"myndband",
+										"tl":"video"
 									},
 									"type":"boolean",
 									"default":true,
@@ -163,7 +187,8 @@
 								"link":{
 									"label":{
 										"en":"link",
-										"is":"hlekkur"
+										"is":"hlekkur",
+										"tl":"link"
 									},
 									"type":"boolean",
 									"default":true,
@@ -172,7 +197,8 @@
 								"audio":{
 									"label":{
 										"en":"audio",
-										"is":"hljóð"
+										"is":"hljóð",
+										"tl":"tunog"
 									},
 									"type":"boolean",
 									"default":true,
@@ -181,7 +207,8 @@
 								"quote":{
 									"label":{
 										"en":"quote",
-										"is":"tilvitnun"
+										"is":"tilvitnun",
+										"tl":"quote"
 									},
 									"type":"boolean",
 									"default":false,
@@ -190,7 +217,8 @@
 								"answer":{
 									"label":{
 										"en":"answer",
-										"is":"svar"
+										"is":"svar",
+										"tl":"sagot"
 									},
 									"type":"boolean",
 									"default":false,
@@ -205,6 +233,7 @@
 					"label":{
 						"en":"Post Limit",
 						"is":"Færsluhámark"
+						"tl":"Limit ng lathala"
 					},
 					"type":"number",
 					"default":"40",
