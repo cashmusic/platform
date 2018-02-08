@@ -18,23 +18,32 @@
 			"description":"Leyfa hóp að skrá sig inn og hlaða niður öruggri eign.",
 			"longdescription":"Þetta leyfir þér að gefa niðurhal til ákveðin hóps af innskráðu fólki.",
 			"instructions":"Veldu hóp til að leyfa niðurhal, eign til þess að hala niður, og ef þú vilt, víðvært lykilorð fyrir þessa einingu."
+		},
+		"tl":{
+			"name":"Ligtas na Download",
+			"description":"Payagan ang isang listahan sa pag-log in at mag-download ng isang ligtas na asset.",
+			"longdescription":"Pinapayagan ka nitong magbigay ng isang download sa isang tiyak na listahan lamang ng mga tao sa isang log-in na basehan.",
+			"instructions":"Pumili ng isang listahan na papatunayan, isang asset para sa download, at opsyonal na magdagdag ng pangkalahatang password para sa elementong ito."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Choose a list and an asset for the download.",
-				"is":"Veldu hóp og eign fyrir niðurhalið."
+				"is":"Veldu hóp og eign fyrir niðurhalið.",
+				"tl":"Pumili ng isang listahan at isang asset para sa download."
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valinn póstlisti"
+						"is":"Valinn póstlisti",
+						"tl":"Target na listahan ng papadalhan"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -44,7 +53,8 @@
 				"asset_id":{
 					"label":{
 						"en":"The downloadable asset",
-						"is":"Eign til niðurhals"
+						"is":"Eign til niðurhals",
+						"is":"Ang mada-download na asset"
 					},
 					"type":"select",
 					"values":"assets",
@@ -56,33 +66,39 @@
 		"additional":{
 			"group_label":{
 				"en":"Additional settings",
-				"is":"Aðrar stillingar"
+				"is":"Aðrar stillingar",
+				"tl":"Mga karagdagang setting"
 			},
 			"description":{
 				"en":"Customize messages, define a universal password, or set it to skip login entirely.",
-				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna."
+				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna.",
+				"tl":"Baguhin ang mga mensahe, magtiyak ng isang pangkalahatang password, o itakda ito na kaligtaan ang buong login."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"tl":"Mensahe ng tagumpay"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"tl":""
 					},
 					"displaysize":"medium"
 				},
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"tl":"Password"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til þess að aflæsa efni"
+						"is":"Lykilorð eða frasi til þess að aflæsa efni",
+						"tl":"Isang password o parirala upang mabuksan ang nilalaman",
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -90,7 +106,8 @@
 				"skip_login":{
 					"label":{
 						"en":"Do not require login",
-						"is":"Ekki krefjast innskráningu"
+						"is":"Ekki krefjast innskráningu",
+						"tl":"Huwag kakailanganin ang login"
 					},
 					"type":"boolean",
 					"default":true,
