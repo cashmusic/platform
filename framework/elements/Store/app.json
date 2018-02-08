@@ -18,7 +18,13 @@
 			"description":"Hannaðu þína verslun",
 			"longdescription":"Seldu hluti og/eða stafræn niðurhöl á heimasíðu þinni. Bættu við eins miklum varning og þú vilt selja. Við tökum ekki hluta af ágóðanum.",
 			"instructions":"...."
-		}
+		},
+		"tl":{
+			"name":"Tindahin",
+			"description":"Itayo ang iyong tindahan.",
+			"longdescription":"Magbenta ng pisikal at/o mga digital na aytem sa iyong websayt. Magdagdag ng maraming mga aytem na gusto mong ibenta. Hindi kami kumukuha ng kapiraso.",
+			"instructions":"...."
+		
 	},
 	"copy":{
 		"en":{
@@ -50,23 +56,41 @@
 			"pleaseselect":"Veldu svæði",
 			"qty":"Magn",
 			"checkout":"Ganga frá kaupum"
+		},
+		"tl":{
+			"cart":"Idagdag sa kariton",
+			"flexibleprice_suffix":"o marami pa",
+			"choose_variants":"Pumili muna ng opsyon",
+			"choose_verb":"Pumili",
+			"added":"Naidagdag na sa kariton!",
+			"unavailable":"Paumanhin, wala nang item na ganito.",
+			"emptycart":"Walang laman ang iyong kariton.",
+			"subtotal":"Subtotal",
+			"total":"Kabuuan",
+			"shipping":"Paghahatid",
+			"pleaseselect":"Pumili ng hahatirang rehiyon",
+			"qty":"QTY",
+			"checkout":"Simulan ang pagkuha"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"tl":"Pangunahing mga setting"
 			},
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
-				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota."
+				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota.",
+				"tl":"Pumili ng inventory na aytem na ibebenta at komersyong koneksyon na gagamitin."
 			},
 			"data":{
 				"layout":{
 					"label":{
 						"en":"Layout type",
-						"is":"Tegund umbrots"
+						"is":"Tegund umbrots",
+						"tl":"Uri ng pagkaayos"
 					},
 					"type":"select",
 					"values":{
@@ -80,19 +104,22 @@
 				"featured_items":{
 					"label":{
 						"en":"Featured items",
-						"is":"Sérkynntir hlutir"
+						"is":"Sérkynntir hlutir",
+						"tl":"Tampok na mga aytem"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new featured item",
-						"is":"Bæta við nýjum sérkynntum hlut"
+						"is":"Bæta við nýjum sérkynntum hlut",
+						"tl":"Magdagdag ng bagong tampok na aytem"
 					},
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
-								"is":"Valinn hlutur"
+								"is":"Valinn hlutur",
+								"tl":"Napiling aytem"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -105,19 +132,22 @@
 				"additional_items":{
 					"label":{
 						"en":"Additional items",
-						"is":"Auka hlutir"
+						"is":"Auka hlutir",
+						"tl":"Karagdagang mga aytem"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add another item",
-						"is":"Bæta við öðrum hlut"
+						"is":"Bæta við öðrum hlut",
+						"tl":"Magdagdag ng iba pang aytem"
 					},
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
-								"is":"Valinn hlutur"
+								"is":"Valinn hlutur",
+								"tl":"Napiling aytem"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -127,12 +157,14 @@
 						"tags":{
 							"label":{
 								"en":"Tags (optional)",
-								"is":"Merki (valfrjálst)"
+								"is":"Merki (valfrjálst)",
+								"tl":"Mga tag (opsyonal)"
 							},
 							"type":"text",
 							"default":{
 								"en":"",
-								"is":""
+								"is":"",
+								"tl":""
 							},
 							"displaysize":"small"
 						}
@@ -144,35 +176,41 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"tl":"Tagumpay/kamalian na mga mensahe"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"tl":"Baguhin ang mga mensahe na ipinapakita sa mga tao gamit ang elementong ito."
 
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengis skilaboð"
+						"is":"Velgengis skilaboð",
+						"tl":"Mensahe ng tagumpay"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page.",
-						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu."
+						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu.",
+						"tl":"Salamat! Tingnan ang iyong inbox at mga spam folder para sa resibo at link pabalik sa pahinang ito."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt tölvupóstskeyti"
+						"is":"Ógilt tölvupóstskeyti",
+						"tl":"Maling email na mensahe"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"tl":"May isang kamalian sa pagpoproseso ng iyong bayad. Mangyaring mag-reload at subukan ulit."
 
 					},
 					"displaysize":"medium"
@@ -180,12 +218,14 @@
 				"message_email":{
 					"label":{
 						"en":"Personalized email message",
-						"is":"Persónumiðað tölvupóstskeyti"
+						"is":"Persónumiðað tölvupóstskeyti",
+						"tl":"Pinipersonal na email na menshae"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"tl":""
 					},
 					"displaysize":"medium"
 				}
