@@ -1,9 +1,9 @@
-###Commerce Settings
+### Pengaturan Niaga
 
-Before you can sell anything through the platform you will need to set up your Commerce settings. 
+Sebelum Anda dapat menjual apapun melalui platform yang Anda perlukan untuk menyiapkan setelan Niaga Anda.
 
-Click **Commerce** in the main menu. If you haven't yet connected your payment options you'll need to do that now. Once those are set up, open **Commerce settings** and set your primary currency and select the PayPal and/or Stripe email addresses associated with your accounts from the dropdown menus. Once those are set up hit **Save sales settings.**
+Klik **Commerce** di menu utama. Jika Anda belum menghubungkan opsi pembayaran, Anda harus melakukannya sekarang. Setelah mereka disiapkan, buka **Commerce settings** dan tetapkan mata uang primer Anda dan pilih alamat email PayPal dan / atau Stripe yang terkait dengan akun Anda dari menu drop-down. Setelah dipasang, pilih Simpan pengaturan penjualan. **
 
- Next select the **Shipping regions** tab. We give you two options for shipping. You can choose to set it up however you like but we suggest you select your home country (or the country where your merchandise is being shipped from) as Region 1 and the rest of the world as Region 2. Hit **Set shipping regions.**
+Selanjutnya pilih tab **Shipping regions**. Kami memberikan dua pilihan untuk pengiriman. Anda dapat memilih untuk memasangnya namun Anda suka tapi kami sarankan Anda memilih negara asal Anda (atau negara tempat barang dagangan Anda dikirimkan) sebagai Wilayah 1 dan seluruh dunia sebagai Wilayah 2. Tekan **Setel daerah pengiriman.**
 
- Now you're all ready to start adding items to sell! 
+Sekarang Anda semua siap untuk mulai menambahkan barang untuk dijual!
