@@ -1,28 +1,28 @@
-One of our goals is for this to run in as many places as possible, so we've worked
-hard to keep the requirements minimal:
+Isa sa aming mga layunin ay ang patakbuhin ito sa pinakamaraming posibleng mga lugar, kaya pinagtatrabahuan namin ito
+nang maigi upang panatilihin na kaunti lamang ang mga kinakailangan:
 
  * PHP 5.4+
- * PDO (a default) and MySQL OR SQLite
- * mod_rewrite (for admin app)
- * fopen wrappers OR cURL
+ * PDO (isang default) at MySQL OR SQLite
+ * mod_rewrite (para sa admin na app)
+ * fopen na mga wrapper OR cURL
 
-For local testing and development all you need to get started is
+Para sa lokal na pagsusuri at paglilinang, ang mga kailangan mo upang makapagsimula ay
 [VirtualBox](https://www.virtualbox.org/wiki/Downloads),
-[Vagrant 1.4+](http://www.vagrantup.com/downloads.html), and this repo. Just fork, install
-VirtualBox and Vagrant, then open a terminal window and in the repo directory type:
+[Vagrant 1.4+](http://www.vagrantup.com/downloads.html), at ang repo na ito. I-fork lang, i-install ang
+VirtualBox and Vagrant, pagkatapos ay buksan ang isang terminal na window at magtype sa direktoryo ng repo ng:
 
 ```
 vagrant up
 ```  
 
-Vagrant will fire up a VM, set up Apache, install the platform, and start serving a
-special dev website with tools, docs, and a live instance of the platform — all mapped
-right to **http://localhost:8888**.
+Pupukawin ng Vagrant ang isang VM, mag-set up ng Apache, i-install ang plataporma, at simulang maglingkod ng isang
+espesyal na dev websayt na may mga kasangkapan, mga dokumento, at isang buhay na instance ng plataporma — lahat nakamapa
+sa **http://localhost:8888**.
 
-![Dev site included in repo](https://static-cashmusic.netdna-ssl.com/www/img/platform/v9.png)
+![Ang dev na sayt ay isinali sa repo](https://static-cashmusic.netdna-ssl.com/www/img/platform/v9.png)
 
-If you want to go beyond the basic setup included wth our vagrant scripts, you'll nbeed to
-edit the **/framework/settings/cashmusic.ini.php** file. We include a template
-(cashmusic_template.ini.php) and the settings are pretty straightforward. You can change
-database settings, modify default system salt for password security, set timezone and
-email settings, and switch between single or multi-user mode.
+Kung gusto mong lumagpas sa simpleng setup na nilalaman ng aming mga vagrant na script, kakailanganin mong
+baguhin ang **/framework/settings/cashmusic.ini.php** na file. Isinama namin ang isang template
+(cashmusic_template.ini.php) at ang mga setting ay talagang direktahan. Pwede mong baguhin ang
+mga setting ng database, palitan ang default ang sistemang salt para password na seguridad, i-set timezone at
+mga email na setting, at lumipat sa pagitan ng isahan o maramihang-tagagamit na modo.
