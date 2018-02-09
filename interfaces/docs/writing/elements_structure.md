@@ -1,56 +1,56 @@
-Each element is essentially a bundle all to itself, with three main parts:
+Ang isang elemento ay isang bundle lahat sa kanyang sarili na may tatlong mga bahagi:
 
-  1. An **app.json** definition file that defines element messages and data to be stored
-  2. A Class file with logic and states for the element
-  3. A folder of mustache templates (markup views for every state)
+  1. Isang **app.json** na paglalarawang file na tinutukoy ang maga elementong mensahe at datos na iiponin
+  2. Isang Class na file na may mga lohika at mga estado para sa elemento
+  3. Isang folder ng mga mustache template (mga markup view para sa bawat estado)
 
-Data and settings for each instance of an element are stored as encrypted JSON in the database, 
-and defined in an element's **app.json** file. The app.json file defines all details like title
-and description of the element, instructions, and the data structure along with labels, messages,
-etc. A detailed sample file is better than a description here:
+Ang mga datos at setting para sa bawat instance ng isang elemento ay nakaimbak nilang na-encrypt na JSON sa database, 
+at inilalarawan sa **app.json** na file ng elemento. Ang app.json na file ay naglalarawan sa lahat ng mga detalye tulad ng titulo
+at deskripsyon ng elemento, mga instruksyon, at istraktura ng data kasama ang mga lebel, mensahe,
+atbp. Ang isang detalyadong halimbawang file ay mas mabuti sa isang deskripsyon dito:
 
 <script src="https://gist.github.com/jessevondoom/f471efa218a7ce78fa13.js"></script>
 
-The options define what can be set in the element admin, what options will be present and 
-expected, and provide default values, etc. 
+Ang mga opsyon ay naglalarawan sa kung ano ang ma-set sa elementong admin, anong mga opsyon ang naroon at 
+inaasahan, at magbigay ng default na mga halaga, atbp. 
 
-The allowed types for options are:
+Ang mga pinapayagang uri ng opsyon ay:
   
-  - select
-    - values (required)
+  - pumili
+  - mga halaga (kailangan)
   - boolean
-  - number
-  - text
+  - numero
+  - teksto
   - markup
   
-And every option can also contain:
+At ang bawat opsyon ay naglalaman ng:
 
-  - required
+  - kinakailaangan
   - default
   - displaysize
   - helptext
   - placeholder
 
 
-#### The main element class
-The main element class file extends the ElementBase class, automating most of the state
-management and template selection you'll need. The logic can be as complex as necessary,  
-but in the end the goal is to define some data into **$this->element_data** and return 
-it as the output of the getData() function. Whatever you define will be added to the 
-stored data and accessible in your mustache templates. 
+#### Ang pangunahing elementong class
+Ang pangunahing elementong class na nagpapahaba sa ElementBase na class, na pinapadali ang karamihan sa mga 
+pamamahala ng mga estado at pagpili ng template na kailangan mo. Ang lohika ay maaaring maging komplikado kung kinakailangan,  
+pero sa katapusan, ang layunin ay ilarawan ang mga datos sa**$this->element_data** at ibalik 
+ito bilang output ng getData() na function. Ano man ang inilalarawan mo ay maidadagdag sa  
+nakaimbak na datos at maa-access sa iyong mga mustache template.
 
-In the example below, note that we use the **$this->setTemplate()** function to choose
-a template other than the (required) default.mustache file. This is based on filenames in
-the template folder, and controlled by state — the CASH Response UID returned the the last
-request. So if the element contains a form that triggers a CASH Request via GET or POST
+Sa halimbawa sa ibaba, tandaan na ginagamit natin ang **$this->setTemplate()** na function sa pagpili
+sa isang template na hindi ang (kinakailangang) default.mustache na file. Ito ay nakabase sa mga filename sa
+template na folder, at kinokontrol ng estado — ibinalik ng CASH Response UID ang huling
+hiling. Kaya kapag ang isang elemento ay naglalaman ng isang form na nagpapagana sa isang CASH Request gamit ang GET o POST
 the element responds, sets its internal state, and your getData() function does some magic
-based on state before returning the data needed to render your embed.
+base sa estado bago ibinablik ang kinakailangang datos sa pag-render ng iyong embed.
 
-By separating the getData from rendering output we allow elements to work at all states on
-a purely data level — leaving room in the future for mobile app support, etc. But for now
-the data is combined with the mustache template you choose to render HTML in the browser. 
+Sa paghihiwalay ng getData mula sa rendering output, pinapahintulutan natin ang mga elemento na gumana sa lahat ng mga estado sa
+isang malinaw na antas ng datos — hinayaan ang room sa hinaharap para sa suporta sa mobile app, atbp. Pero sa ngayon,
+ang datos is ay sinasama sa mustache template na napili mong i-render sa HTML sa browser. 
 
 <script src="https://gist.github.com/jessevondoom/39eaf1bb6fb84b5c1cd9.js"></script>
 
-This is just a starting point. For more examples see the **/framework/classes/elements**
-directory in the main platform repo.
+Simula pa lang ito. Sa marami pang mga halimbawa, tingnan ang **/framework/classes/elements**
+na direktoryo sa pangunahing repo ng plataporma.
