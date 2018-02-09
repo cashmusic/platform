@@ -1,9 +1,9 @@
-###Commerce Settings
+###Mga Setting ng Komersyo
 
-Before you can sell anything through the platform you will need to set up your Commerce settings. 
+Bago ka makapagbenta sa plataporma,kailangan mong i-set ang iyong mga setting ng Komersyo. 
 
-Click **Commerce** in the main menu. If you haven't yet connected your payment options you'll need to do that now. Once those are set up, open **Commerce settings** and set your primary currency and select the PayPal and/or Stripe email addresses associated with your accounts from the dropdown menus. Once those are set up hit **Save sales settings.**
+I-click ang **Commerce** sa pangunahing menu. Kung hindi mo pa nakonekta ang iyong mga opsyon sa pagbayad, kakailanganin mong gawin ito ngayon. Kapag naka-set na ang mga ito, buksan ang **Commerce settings** at i-set ang iyong pangunahing pera at pillin ang PayPal at/o Stripe na mga email address na nauugnay sa iyong mga account mula sa mga dropdown menu. Kapag na-set mo na ang mga ito, pindutin ang **Save sales settings.**
 
- Next select the **Shipping regions** tab. We give you two options for shipping. You can choose to set it up however you like but we suggest you select your home country (or the country where your merchandise is being shipped from) as Region 1 and the rest of the world as Region 2. Hit **Set shipping regions.**
+Pagkatapos, piliin ang **Shipping regions** na tab. Bibigyan ka nito ng dalawang pagpipiliin sa pagpapadala. Makakapili kang i-set up ito sa paraang gusto mo pero iminumungkahi namin na piliin ang iyong pinanggalingang bansa (o ang bansa kung saan kinukuha ang iyong kalakal) bilang Rehiyon 1 at ang ibang parte ng mundo bilang Rehiyon 2. Pindutin ang **Set shipping regions.**
 
- Now you're all ready to start adding items to sell! 
+ Ngayon handa ka nang magdagdag ng mga aytem na ibebenta! 
