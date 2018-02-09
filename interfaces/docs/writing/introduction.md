@@ -1,32 +1,32 @@
-The CASH Music platform gives all musicians access to tools that let them manage,
-promote, and sell their music online — all owned and controlled themselves.
+Ang CASH Music na plataporma ay nagbibigay sa lahat ng mga musikero ng access sa mga kasangkapang tumutulong sa pamamahala,
+pagtatampok, at pagbebenta ng kanilang musika sa online — lahat pagmamay-ari at kinokontrol nila.
 
-Everything is modular. We built up around a PHP core. The admin app, API, and each
-element are separate applications that work together to form a full platform. We've
-built around the concept of cooperation, so we've abstracted all third party services
-so artists can easily change mailing providers, payment processors, etc. And we've kept
-dependencies as lightweight as possible so functionality can play well with other
-apps like WordPress, Drupal, etc.
+Ang lahat ay modyular. Nagtatayo kami sa palibot ng isang PHP core. Ang admin na app, API, at bawat
+elemento ay magkaibangg mga aplikasyon na sabay-sabay na gumagana upang makagawa ng isang buong plataporma. May
+nalikha sa palibot ng konsepto ng kooperasyon, kaya isinali namin ang lahat ng mga pangatlong partido na serbisyo
+upang ang mga makata ay madaling makapagbago ng mga tagabigay ng pagpapadalang serbisyo, mga tagaproseso ng bayad, atbp. At naitago namin
+ang mga dependency na mas magaan upang ang functionality ay gagana nang maayos kasama ang mga
+app katulad sa WordPress, Drupal, atbp.
 
-We host a free (now and forever) version of the CASH Music platform at **cashmusic.org**
-or the whole thing can be downloaded and installed on your own server. A few simple
-changes to settings switch the platform from single-user mode to mutli-user (hosted)
-mode.
+Naghost kami ng libre (ngayon at magpakailanman) na bersyon ng CASH Music na plataporma sa **cashmusic.org**
+o ang buong bagay ay pwedeng i-download at i-install sa iyong server. Ang ilang simpleng
+mga pagbabago sa mga setting ang sasalin sa plataporma mula isahang-tagagamit na modo papuntang mmaramihang-tagagamit (naka-host) na
+modo.
 
-In short: the CASH Music platform was built to create possibilies for artists on the
-open web.
+Sa maikling salita: ang CASH Music na plataporma ay ginawa upang lumikha ng mga posibilidad para sa mga makata sa
+bukas na web.
 
-In these docs we'll cover:
+Sa mga dokumentong ito, tatalakayin natin ang:
 
- * Working directly with the PHP Core
- * Our APIs (verbose and RESTful)
- * Defining connections to third party services
- * Building elements (custom workflow for embeds)
- * Working with our admin app
+ * Direktang pagtatrabaho gamit ang PHP Core
+ * Aming mga API (verbose and RESTful)
+ * Pagtitiyak sa mga koneksyon sa pangatlong partido na maga serbisyo
+ * Paglilikha ng mga elemento (karaniwang workflow para sa mga embed)
+ * Pagtatrabaho sa ating admin na app
 
 ------------------------------
 
-###Useful Links
+###Mahahalagang mga Link
 
 <a href="http://github.com/cashmusic" class="button">Github</a> /
 <a href="http://twitter.com/cashmusic" class="button">Twitter</a> /
