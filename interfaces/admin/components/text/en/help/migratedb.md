@@ -1,20 +1,20 @@
-When you first install the platform the installer creates and configures a **SQLite** database for you. 
-SQLite means we don't need to know any database server information and can get people up and playing 
-with the platform quickly. But for performance it lags behind **MySQL** a fair bit as the database grows. 
+Ketika Anda pertama kali menginstal platform installer menciptakan dan mengkonfigurasi database ** ** SQLite untuk Anda.
+SQLite berarti kita tidak perlu mengetahui informasi server database dan bisa membuat orang aktif dan bermain
+dengan platform cepat. Tapi untuk performa yang tertinggal * MySQL ** sedikit adil saat database tumbuh.
 
-If you're building things for production we recommend you migrate to a MySQL database, and we've 
-included a migration tool so it'll be as easy as knowing your settings. Where and how you get your 
-settings is different from host to host, but generally you'll find MySQL information in whatever 
-host administration panel you log in to. 
+Jika Anda sedang membangun barang untuk produksi, sebaiknya Anda pindah ke database MySQL, dan sudah
+termasuk alat migrasi sehingga akan semudah mengetahui pengaturan Anda. Dimana dan bagaimana anda mendapatkan
+Settingnya berbeda dengan host to host, tapi umumnya anda akan menemukan informasi MySQL dalam apapun
+panel administrasi host yang Anda masuki.
 
-You'll need: 
+Kamu akan membutuhkan:
 
- - The MySQL server address
- - a username
- - a password
- - the name of an empty database you can use
+ - Alamat server MySQL
+ - nama pengguna
+ - kata sandi
+ - nama database kosong yang bisa anda gunakan
 
-Once you have everything just open up the CASH Admin, login, and hover over your email address under 
-the main menu. You'll see a "System Settings" option. Click that, and in the left column you'll see 
-your current database type, and if that's SQLite you'll also see a form that lets you put in your 
-database server settings and migrate. 
+Setelah Anda memiliki segalanya, buka saja CASH Admin, login, dan arahkan kursor ke alamat email Anda di bawah
+menu utama Anda akan melihat opsi "Pengaturan Sistem". Klik itu, dan di kolom kiri Anda akan melihat
+tipe database Anda saat ini, dan jika itu SQLite Anda juga akan melihat formulir yang memungkinkan Anda memasukkannya ke dalam
+pengaturan server database dan bermigrasi.
