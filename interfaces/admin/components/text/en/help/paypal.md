@@ -1,10 +1,10 @@
-###Add a payment connection
+### Tambahkan koneksi pembayaran
 
 
-Connecting your CASH Music account to your PayPal and/or Stripe accounts makes it possible for you to sell both digital and physical merchandise. It's easy and both only require a few quick steps.
+Menghubungkan akun Musik KAS ke akun PayPal dan/atau Stripe memungkinkan Anda menjual barang dagangan digital maupun fisik. Mudah dan keduanya hanya membutuhkan beberapa langkah cepat.
 
-Select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button. 
+Pilih ikon **roda gigi** <i class = "icon icon-cog"> </i> dari pojok kanan atas untuk membuka pengaturan akun Anda. Klik tombol **Connections**.
 
-To set up PayPal select the **PayPal** button. You'll be prompted for your PayPal business account email address. Once you're entered it, click **Add The Connection**, and you're all set! 
+Untuk mengatur PayPal pilih tombol **PayPal**. Anda akan diminta memasukkan alamat email akun bisnis PayPal Anda. Setelah Anda memasukkannya, klik **Add the Connection**, dan Anda sudah siap!
 
-To add Stripe simply select the **Stripe** button under Connections. It will push you to their site to log in. If you do not yet have a Stripe account you can set one up there. Stripe will allow you to take credit cards on your site directly. 
+Untuk menambahkan Stripe cukup pilih tombol **Stripe** di bawah Connections. Ini akan mendorong Anda ke situs mereka untuk masuk. Jika Anda belum memiliki akun Stripe, Anda dapat menetapkannya di sana. Stripe akan memungkinkan Anda untuk mengambil kartu kredit di situs Anda secara langsung.
