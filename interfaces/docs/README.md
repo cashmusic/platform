@@ -1,60 +1,60 @@
-# CASH Music Platform #
-At the heart of the CASH Music platform is a transactional framework tailored 
-specifically to music promotion, sales, and digital distribution. We've abstracted 
-things like data access, asset storage, and third party API management leaving 
-both developers and end users with clean and intuitive workflows that mirror one
-another. 
+# Ang CASH Music na Plataporma #
+Sa puso ng CASH Music na plataporma ay isang transakyunal na balangkas na binuo 
+para sa pagtatampok ng mga musika, pagbebenta, at digital na distribusyon. Naisali namin ang 
+mga bagay tulad ng access sa datos, imbakan ng asset, at pangatlong partido na pamamahala ng API management na binibigyan ang
+mga tagabuo at mga panghuling tagagamit ng malinis at matalinong mga workflow na sumasalamin sa
+bawat isa. 
 
-For end users we've built a standalone administration webapp that interacts with
-the framework to allow no-code access to all of the functionality of the CASH
-platform. A simple and secure login, a few web forms, and guided help on every 
-page is all that stands between someone looking to bring new functionality to
-their site. Even the embedding process is as little as copying a code in WordPress,
-or cutting and pasting 2 simple lines of PHP. 
+Para sa mga panghuling tagagamit, nagtatayo kami ng nakakapag-isang administrasyon na webapp na nakikipag-interak sa
+balangkas upang payagan ang access na walang code sa lahat ng functionality ng CASH na
+plataporma. Ang isang simple at ligtas na login, ilang mga web na form, at gabay na tulong sa bawat
+pahina ay kabuuan ng namamagitan sa isang taong naghahanap na magdagdag ng bagong functionality sa
+kanilang sayt. Kahit ang proseso sa pag-embed ay kasindali ng pagkopya ng code sa WordPress,
+o pagputol at paglagay ng dalawang simpleng linya ng PHP. 
 
-Developers follow a familiar Request/Response pattern, interacting with a local 
-Request object that's loosely modeled after RESTful patterns. High level workflows
-are defined as "Elements" in the framework, allowing access to complex trasactions
-with a simple request. Each element contains a series of more granular requests
-working off of concept abstractions called "Plants." Similar to a factory/worker
-pattern, Plants spawn specific functionality by way of objects called "Seeds," 
-which contain specific functionality to access third-party services, specific 
-libraries, etc. 
+Ang mga tagabuo ay sumusunod sa isang pamilyar na Kahilingan/Kasagutan na pattern, na nakikipag-interak sa lokal na 
+Kahilingang bagay na hindi masyadong namodelo sa mga RESTful na pattern. Ang mataas na antas na mga workflow
+ay tinutukoy bilang "Elements" sa balangkas, at pinapayagan ang access sa komplikadong mga transaksyon
+gamit ang isang simpleng kahilingan. Ang bawat elemento ay naglalaman ng isang serye ng mga pinong kahilingan
+na ginawa mula sa konsepto ng abstraksyon na tinatawag na "Plants." Katulad sa isang pabrika/trabahante na
+pattern, ang mga Plant ay naglilikha ng mga functionality sa pamamagitan ng mga bagay na tinatawag na "Seeds," 
+na naglalaman ng tiyak na functionality upang ma-access ang pangatlong partido na mga serbisyo, tiyak na mga 
+library, atbp. 
 
-All concepts in the framework are broken down into the categories of:
+Ang lahat ng mga konsepto sa balangkas ay hinahati-hati sa mga kategoryang:
 
-- System
-- Elements
-- Assets
-- People
-- Commerce
-- Calendar
+- Sistema
+- Mga elemento
+- Mga asset
+- Mga tao
+- Komersyo
+- Kalendaryo
 
-Those are the six plants present in the framework, and they represent the spectrum
-of CASHRequest calls. Similarly, the end user is presented with a menu containing:
-Elements, Assets, People, Commerce, and Calendar — with the ability to change some
-system-wide settings, account details, etc. 
+Iyon ang anim na mga planta na matatagpuan sa balangkas, at nirerepresenta nila ang spectrum
+ng CASHRequest na mga tawag. Sa katulad na paraan, ang panghuling tagagamit ay pinakikitaan ng isang menu na naglalaman ng:
+Mga Elemento, Mga Asset, Mga Tao, Komersyo at Kalendaryo — na may kakayahang baguhin ang ilang
+sistemang-malawakan na mga setting, detalye ng account, atbp. 
 
-These structures mirror one another on purpose, allowing artists and end users to
-speak the same language as developers. At the same time, there is amble flexibility
-in the framework to allow for deep customization, easy third-party API definition, 
-new and custom elements, etc. 
+Ang mga istrakturang ito ay sadyang nagsasalamin sa isa't isa, at pinapahintulutan ang mga makata at panghuling tagagamit na
+magsalita ng kaparehong wika ng mga tagabuo. Sa parehong pagkakataon, may isang amble flexibility
+sa balangkas upang payagan ang malalimang pagbabago, madaling pagtitiyak sa pangatlong partido na API, 
+bago at mga karaniwang elemento, atbp. 
 
 
-NEW STRUCTURE:
+BAGONG ISTRAKTURA:
 
-I.		Introduction
+I.		Introduksyon
 			a. Setup
-			b. Code Standards
+			b. Mga Code na Istandard
 II.		PHP Core
-			a. Request/response format
-			b. Authorization model
-			c. Requests
-III. 	API
-			a. Verbose API
-			b. RESTful API
-IV.		Elements
-			a. Structure and coding
-			b. Embedding
-V.		Connections
+			a. Kahilingan/Kasagutan na pormat
+			b. Modelo ng pag-awtorisa
+			c. Mga Kahilingan
+III. 		API
+			a. Verbose na API
+			b. RESTful na API
+IV.		Mga Elemento
+			a. Istraktura at pagko-code
+			b. Pag-e-embed
+V.		Mga Koneksyon
 VI.		Admin
