@@ -1,15 +1,15 @@
-###Set up an email-for-download element
+### Mengatur elemen email untuk unduh
 
-Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform.
+Menghubungkan langsung ke penggemar sangat penting dan milis Anda adalah salah satu cara terbaik untuk mempertahankan hubungan tersebut. Ini adalah salah satu alat yang paling populer di platform kami.
 
-What you’ll need:
+Apa yang Anda butuhkan:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- A file or release set up in **Assets**, with fulfillment files attached
-- An email list either created or connected in the **People** section
+- Sambungan penyimpanan - kami merekomendasikan akun Amazon S3 untuk keandalan
+- File atau rilis yang disiapkan di **Assets**, dengan file pemenuhan terlampir
+- Daftar email dibuat atau dihubungkan di bagian ** People **
 
-Once your download and list are set up, head to your main page and click on the **Elements** tab. Click on **Add element** and select **Email Collection**. Choose the list you'd like people to sign up to from the dropdown menu. Then, select the asset you'd like to offer for download (or none if you're not offering one.) Give the element a name for your own internal reference. To edit the default messages click on the **Element Settings** button.
+Setelah daftar unduhan dan daftar Anda disiapkan, kunjungi halaman utama Anda dan klik pada tab **Elements**. Klik **Tambahkan elemen** dan pilih **Koleksi Email**. Pilih daftar yang Anda inginkan untuk masuk dari menu tarik-turun. Kemudian, pilih aset yang ingin Anda tawarkan untuk diunduh (atau tidak jika Anda tidak menawarkannya.) Beri nama elemen untuk referensi internal Anda sendiri. Untuk mengedit pesan default klik tombol **Element Settings**.
 
-Note the **Skip email verification** checkbox. If this box is left unchecked, then anyone signing up will be emailed to confirm the address is legitimate. Be sure to check your email settings in the system settings menu. If you check the box, you are essentially trusting that any email addresses given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
+Perhatikan kotak centang **Skip email verification**. Jika kotak ini dibiarkan dicentang, maka siapa saja yang mendaftar akan diemailkan untuk mengkonfirmasi alamat yang sah. Pastikan untuk memeriksa pengaturan email Anda di menu pengaturan sistem. Jika Anda mencentang kotaknya, pada dasarnya Anda mempercayai bahwa alamat email yang diberikan sah. Anda akan mendapatkan lebih banyak pendaftaran, tapi dengan lebih sedikit jaminan bahwa mereka legit.
 
-Once the element is created, either embed it on your site or add it to your CASH Music page and publish.
+Setelah elemen dibuat, sertakan juga di situs Anda atau tambahkan ke laman Musik KASH dan publikasikan.
