@@ -1,7 +1,7 @@
-**Asset:** A file or release to be used with an element for fulfillment, etc. So this will be stuff like digital music, photos, video, etc. You don't have to 
+**Aset:** File atau rilis untuk digunakan dengan elemen untuk pemenuhan, dll. Jadi, ini akan menjadi barang seperti musik digital, foto, video, dll. Anda tidak perlu
 
-**Campaigns:** Campaigns are there to help you organize your projects, releases, and/or experiments. Basically anything that you want to build with the CASH platform all starts here. You can have as many campaigns as you like, however keep in mind you can only publish one page at a time on our hosted site. Any element of a campaign can be emdedded wherever you like across the web. 
+**Kampanye:** Kampanye ada untuk membantu Anda mengatur proyek, rilis, dan / atau eksperimen Anda. Pada dasarnya apapun yang ingin Anda bangun dengan platform CASH semuanya dimulai di sini. Anda dapat memiliki sebanyak mungkin kampanye yang Anda inginkan, namun ingatlah bahwa Anda hanya dapat mempublikasikan satu halaman sekaligus di situs yang dihosting. Setiap elemen kampanye dapat diluncurkan ke manapun Anda suka di seluruh web.
 
-**Connection:** Store account information for a third-party service like PayPal or S3.
+**Sambungan:** Simpan informasi akun untuk layanan pihak ketiga seperti PayPal atau S3.
 
-**Element:** Elements are the tools that power your campaigns. Everything from simple text to download codes to sales. HOT TIP: You must set up a campaign before you can access elements. Once they're set up you can easily embed an element anywhere on the web as well as on your campaign page. 
+**Elemen:** Unsur adalah alat yang memperkuat kampanye Anda. Semuanya dari teks sederhana hingga kode download sampai penjualan. TIP HOT: Anda harus membuat kampanye sebelum dapat mengakses elemen. Begitu mereka siap, Anda dapat dengan mudah menanamkan elemen di manapun di web dan juga di halaman kampanye Anda.
