@@ -1,20 +1,20 @@
-###Sell a digital download
+### Menjual unduhan digital
 
-Paid digital downloads using your own S3 and payment accounts. A simple and efficient way to sell music directly from your site.
+Download digital berbayar menggunakan akun S3 dan pembayaran Anda sendiri. Cara sederhana dan efisien untuk menjual musik langsung dari situs Anda.
 
-What you'll need:  
+Apa yang Anda butuhkan:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
-- A payment connection--such as Paypal or Stripe
+- Sambungan penyimpanan - kami merekomendasikan akun Amazon S3 untuk keandalan
+- Aset dengan file pemenuhan terlampir (host pada koneksi penyimpanan Anda)
+- Sambungan pembayaran - seperti Paypal atau Stripe
 
-Once you've set up your asset head over to the Commerce section. Click on **Inventory** in the Commerce sub menu, then click **Add an Item**. This is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. You'll also need to connect the fulfillment file that you wish to sell. If you've already set it up as an asset it will be in your dropdown menu here-- simply select the file and hit **save changes**.
+Setelah Anda menyiapkan aset Anda ke bagian Niaga. Klik pada **Inventory** di sub menu Commerce, lalu klik **Add an Item**. Di sinilah Anda akan memberikan judul dan deskripsi **public**, menetapkan harga, dan mengaktifkan harga "bayar minimal" jika Anda mau. Anda juga perlu menghubungkan file pemenuhan yang ingin Anda jual. Jika Anda sudah menyiapkannya sebagai aset, itu akan ada di menu dropdown Anda di sini - cukup pilih file dan tekan **simpan perubahan**.
 
-Once the item has been created, click on the **edit** tab to add an image. Then click on the **add/edit** image button on the left. It will prompt you to select your storage connection from a dropdown menu and then upload the image you wish your customers to see. Hit the **Save changes** button when you're done.
+Setelah item telah dibuat, klik pada tab **edi ** untuk menambahkan gambar. Kemudian klik tombol **add/edit** image di sebelah kiri. Ini akan meminta Anda untuk memilih koneksi penyimpanan Anda dari menu drop-down dan kemudian mengunggah gambar yang ingin dilihat pelanggan Anda. Tekan tombol **Save changes** setelah selesai.
 
-If this is the only thing you wish to sell, it's time to create a **Single Purchase** element. Head back over to the main page, select the **elements** tab and click **add an element**. Select **Single Purchase**. Choose the item you wish to sell from the dropdown menu and give it a name for your own reference. To edit the success/error message, click on the **Element settings** button.
+Jika ini adalah satu-satunya hal yang ingin Anda jual, saatnya menciptakan elemen **Pembelian Tunggal**. Kembali ke halaman utama, pilih tab **elements** dan klik **tambahkan elemen**. Pilih **Pembelian Tunggal**. Pilih item yang ingin Anda jual dari menu dropdown dan beri nama untuk referensi Anda sendiri. Untuk mengedit pesan sukses / kesalahan, klik tombol **Element settings**.
 
-Once the element is created, embed it on your site or on your CASH Music page, and hit **publish**.
-When a customer buys your music, they'll be sent to a confirmation page with download options. They will also get an email from you with download instructions. This is helpful in case the customer is on a tablet or phone when they buy.
+Setelah elemen dibuat, embed di situs Anda atau di laman Musik KAS Anda, dan tekan **publikasikan**.
+Saat pelanggan membeli musik Anda, mereka akan dikirim ke halaman konfirmasi dengan opsi download. Mereka juga akan mendapatkan email dari Anda dengan petunjuk download. Ini sangat membantu jika pelanggan menggunakan tablet atau telepon saat mereka membelinya.
 
-All completed orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Semua pesanan yang telah selesai akan muncul di bagian **Commerce** Anda. Anda juga dapat menemukan rincian tentang setiap pesanan, mengelola persediaan, dan pesanan ekspor kapan saja di sana.
