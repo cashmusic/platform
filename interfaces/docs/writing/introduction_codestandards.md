@@ -1,12 +1,12 @@
-When in doubt, code for legibility and easy adoption. Capitalization and CamelCase should be used 
-for class names, camelCase starting with lowercase for function names, and variable names in 
-snake_case (lowercase and underscores.) Indentation has been kept simple — a single hard tab 
-for each level, with curly brackets on the same line as the control statement.
+Kapag hindi sigurado, mag-code para sa pagkalehitibo at madaliang pagpapatupad. Ang kapitalisasyon at CamelCase ay dapat ginagamit
+sa mga pangalan ng class, camelCase na nagsisimula sa lowercase para sa mga pangalan ng function, at pangalan ng mga variable sa 
+snake_case (lowercase at mga underscore.) Ang indentasyon ay ginawang simple — isang matigas na tab 
+para sa bawat antas, na may kulot-kulot na mga braket sa kaparehong linya sa kontrol na pahayag.
 
-So a simplified file will look something like:
+Kaya ang pinasimpleng file ay magmumukhang ganito:
 
 <script src="https://gist.github.com/jessevondoom/eba22b3420410cf10724.js"></script> 
 
-Each class should have a file of it's own.
+Ang bawat klase ay dapat may isang file sa kanyang sarili.
 
-No class is final without formatted comments.
+Walang klase na tapos na na walang naka-format na mga komento.
