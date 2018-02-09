@@ -1,1 +1,1 @@
-The RESTful version of the API is still a work in progress. 
+Ang RESTful na bersyon ng API ay isa pang nagpapatuloy na trabaho. 
