@@ -1,14 +1,14 @@
-###Download codes
+### Download kode
 
-What you'll need:  
+Apa yang Anda butuhkan:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
+- Sambungan penyimpanan - kami merekomendasikan akun Amazon S3 untuk keandalan
+- Aset dengan file pemenuhan terlampir (host pada koneksi penyimpanan Anda)
 
-On the **Assets** tab, click on the **Asset settings** below your chosen asset. Type in how many download codes you'd like, and hit **Add codes** to generate them. This is also where you can export your codes to an Excel/Google Docs compatible .csv file.
+Di tab **Assets**, klik pada **Asset settings** di bawah aset pilihan Anda. Ketik jumlah kode unduhan yang Anda inginkan, dan tekan **Tambahkan kode** untuk membuatnya. Ini juga di mana Anda dapat mengekspor kode Anda ke file .csv Excel / Google Documents yang kompatibel.
 
-Now you'll need to make the redemption form so your fans can redeem their codes. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message.
+Sekarang Anda harus membuat formulir penukaran sehingga penggemar Anda dapat menukarkan kode mereka. Kembali ke halaman utama, klik pada tab **Elements**, klik **Add an Element** dan pilih **Download Codes**. Berikan nama untuk referensi internal Anda sendiri dan edit pesan sukses publik.
 
-The **Download Codes** element will work with any code you've generated for any of your assets. It knows to automatically give the correct asset to any valid codes. For this reason, make sure your success message doesn't reference a specific asset.
+Kode **Download Code** akan bekerja dengan kode yang Anda buat untuk aset Anda. Ia mengetahui secara otomatis memberikan aset yang benar ke kode yang valid. Untuk alasan ini, pastikan pesan sukses Anda tidak mengacu pada aset tertentu.
 
-Finally, either add the element to your CASH Music page or embed the element on your own site.
+Akhirnya, tambahkan elemen ke halaman Musik KAS Anda atau masukkan elemen di situs Anda sendiri.
