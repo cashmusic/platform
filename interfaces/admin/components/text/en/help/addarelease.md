@@ -1,19 +1,18 @@
-###Assets: add a release or file
+### Varlıklar: bir sürüm veya dosya ekle
 
-What you'll need:
+Neye ihtiyacınız olacak:
 
-- A storage connection, we recommend Amazon S3
+Depolama bağlantısı, Amazon S3'ü öneririz
+Yeni bir sürüm ekleme
 
-**Adding a new release**
+Devalar bölümüne geçin ve Yeni sürüm ekle'yi seçin. Ona bir başlık ve açıklama vermeniz istenecektir - yalnızca referansınız için verilmiştir. İşiniz bittiğinde Değişiklikleri kaydet'i tıklayın. Sürüm ayrıntıları sayfasında, sanatçı adını, yayınlanma tarihini, katalog numarasını ve indirilecek dosyaları eklemeye başlayabileceğiniz yer var.
 
-Head on over to the **Assets** section and select **Add a new release**. You'll be asked to give it a title and a description—this is for your reference only. When you're done, click **Save changes**. Inside the release details page is where you can specify the artist name, release date, catalog number and begin attaching files for download.
+Karşıdan yükleme dosyalarınızı sürümünüze eklemek için Bir dosya ekle'yi tıklatın. Bir kez daha bir iç adı ve açıklaması vermeniz istenecek ve ardından hangi depolama bağlantısının kullanılacağını soracak. Hangi bağlantı noktası bağlantısı? açılır menü ve bir yükleme düğmesi görünür. Dosyaları kendi sunucunuzda barındırıyorsanız, konumu belirtin (URI). İşiniz bittiğinde, Değişiklikleri kaydet'i tıklayın. Sürümünüze dönmek ve dosyaları eklemeye devam etmek için sol üst köşedeki oku tıklayın.
 
-To add fulfillment files to your release click **Attach a file**. You'll once again be asked to give it an internal name and description, and then asked which storage connection to use. Select your connection from the **Which storage connection?** dropdown menu and an upload button will appear. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.To return to your release and continue adding files, click the arrow in the upper-left-hand corner.
+Sürümünüze dosya eklemeyi bitirdiğinizde, Değişiklikleri kaydet 'i tıklayın.
 
-When you're done adding files to your release, click **Save changes**.
+İpucu: Verilen bir yayına eklediğiniz tüm dosyalar grup halinde kullanılabilir hale gelecektir. Örneğin, bir albüm sunuyorsanız ve 12 mp3 dosyası ve iki resim dosyasını eklerseniz, öğelerimizden birinden sürümüne erişen kişinin on dört dosyayı tek tek indirmesi gerekecektir. Tüm dosyalarınızı bir zip dosyasına sıkıştırmayı düşünün.
 
-**Tip**: All the files you attach to a given release will be made available as a group. For instance, if you're offering an album and attach 12 mp3 files and two artwork files, whoever accesses your release through one of our elements will have to individually download all fourteen files. Consider compressing all your files into a zip file.
+Dosya yükleniyor
 
-**Uploading a file**
-
-If you choose to add a file, you'll be prompted to give it a name and a description—this is for your reference only. If you've set up a Drive or S3 account, select it from the **Which storage connection?** dropdown menu and an upload button will appear to add your file. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.
+Bir dosya eklemeyi seçerseniz, ona bir ad ve açıklama vermeniz istenir - yalnızca referansınız için. Bir Drive veya S3 hesabı oluşturduysanız, Hangi depolama bağlantısı? açılır menü ve dosya yüklemek için bir yükleme düğmesi görünür. Dosyaları kendi sunucunuzda barındırıyorsanız, konumu belirtin (URI). İşiniz bittiğinde Değişiklikleri kaydet'i tıklayın.
