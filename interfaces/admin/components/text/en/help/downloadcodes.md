@@ -1,14 +1,14 @@
-###İndirme kodları
+###Download codes
 
-Neye ihtiyacınız olacak:
+Wat je nodig hebt is:
 
-- Depolama bağlantısı - Güvenilirlik için bir Amazon S3 hesabı öneririz
-- İlişkilendirilmiş dosyaların eklendiği bir öğe (depolama bağlantınızda barındırılır)
+- Opslagverbinding - We raden een Amazon S3-account aan voor betrouwbaarheid
+- Een item waaraan gekoppelde bestanden worden toegevoegd (gehost op uw opslagverbinding)
 
-** Öğeler ** sekmesinde, seçilen öğenizin altındaki ** Öğe ayarları ** seçeneğini tıklayın. Kaç adet karşıdan kod indirmek istediğinizi yazın ve bunları oluşturmak için ** Kodları ** ekleyin. Ayrıca, kodlarınızı Excel / Google Docs uyumlu bir .csv dosyasına aktarabileceğiniz yerdir.
+Klik op het tabblad ** Items ** op ** Iteminstellingen ** onder het geselecteerde item. Typ het aantal codes dat u wilt downloaden en voeg ** Codes ** toe om ze te maken. Het is ook waar u uw codes kunt exporteren naar een Excel / Google Docs-compatibel .csv-bestand.
 
-Artık, hayranlarınızın kodlarını kullanabilmesi için geri ödeme formunu oluşturmanız gerekecek. Ana sayfaya geri dönün, ** Elements ** sekmesini tıklayın, ** Element Ekle ** seçeneğini tıklayın ve ** Download Codes ** seçeneğini seçin. Kendi iç başvurunuz için bir ad verin ve genel başarı mesajını düzenleyin.
+Nu moet u een teruggaveformulier maken zodat uw fans uw codes kunnen gebruiken. Ga terug naar de hoofdpagina, klik op het tabblad ** Elementen **, klik op ** Element toevoegen ** en selecteer ** Codes downloaden **. Geef een naam voor uw eigen toepassing en bewerk het algemene succesbericht.
 
-** Kodları İndir ** öğesi, öğelerinizden herhangi biri için oluşturduğunuz herhangi bir kodla çalışır. Doğru varlığı otomatik olarak geçerli kodlara vermeyi bilir. Bu nedenle, başarı mesajınızın belirli bir öğeye atıfta bulunmadığından emin olun.
+** Downloadcode ** item werkt met elke code die u maakt voor uw items. Het geeft de juiste entiteit niet automatisch geldige codes. Zorg er daarom voor dat uw succesbericht niet in een bepaalde categorie valt.
 
-Son olarak, öğeyi CASH Music sayfasına ekleyin veya öğeyi kendi sitenize yerleştirin.
+Voeg ten slotte het item toe aan de CASH Music-pagina of plaats het item op uw site.
