@@ -1,22 +1,22 @@
-###Bir mağaza kurun
+###Bouw een winkel
 
-Mağaza kurmak için gereken tüm adımları atan ayrıntılı bir videoyu izleyebilirsiniz <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">buradan.</a>
+Je kunt een gedetailleerde video bekijken die alle stappen voor het opzetten van een winkel uitvoert <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">van hier.</a>
 
-Neye ihtiyacınız olacak:
+Wat je nodig hebt is:
 
-- Bir ödeme bağlantısı
-- Satmak istediğiniz herhangi bir fiziksel / dijital öğe Ticaret envanterine eklenen
+- Een betalingslink
+- Elk fysiek / digitaal item dat u wilt verkopen
 
-Ana sayfadan ** Elements ** sekmesini seçin. ** Bir öğe ekle ** seçeneğini tıklayın ve ** Mağaza ** seçin. Elemana kendi referansınız için bir isim verin; kimse bunu göremez.
+Selecteer het tabblad ** Elementen ** van de hoofdpagina. Klik op ** Een item toevoegen ** en selecteer ** Opslaan **. Geef het personeel een naam voor uw referentie; Niemand kan het zien.
 
-Şimdi, ** Öğe ayarları ** çekmecesini yeni oluşturduğunuz öğenin altındaki öğeyi açın. Oluşturmak istediğiniz mağaza stilini seçin. Varsayılan ayar, bir sütundaki tüm öğeler olacaktır. ** İki sütun ** yanardağ gibi görünür. ** Kompakt **, iki sütunun daha sıkıştırılmış halidir. Hangisini tercih ettiğinizi görmek için mağazanın geri kalanını ayarladıktan sonra istediğiniz zaman deneyebilirsiniz ve istediğiniz zaman değiştirebilirsiniz.
+Open nu het item ** Iteminstellingen ** onder het item dat u zojuist hebt gemaakt. Selecteer de winkelstijl die u wilt creëren. De standaardinstelling is alle items in een kolom. ** Twee kolommen ** zien eruit als een vulkaan. ** Compact **, de twee kolommen zijn meer gecomprimeerd. Nadat u de rest van de winkel hebt ingesteld om te zien welke u verkiest, kunt u deze op elk gewenst moment proberen en op elk gewenst moment wijzigen.
 
-Sonra, satmak istediğiniz ticaret öğelerini eklemeye başlayın. Şimdi bu mağazaya dahil etmek istediğiniz tüm öğeleri ekleyin. Onları seçtiğiniz sıra, arabada nasıl sipariş edildiği olacaktır. Örneğin, eklediğiniz ilk öğe üstte, ikincisi ikinci olacak, vb. Olacak. Sepetinin üst kısmında vurgulanmak istediğiniz yeni bir sürüm veya gömlek gibi özellikli bir öğeniz varsa, ** Yeni özellikli öğe ekle ** 'yi tıklayın ve açılır menüden seçin.
+Begin vervolgens met het toevoegen van de handelsitems die u wilt verkopen. Voeg nu alle items toe die u in deze winkel wilt opnemen. De volgorde waarin u ze kiest, is hoe u ze bestelt in de auto. Het eerste item dat u toevoegt, is bijvoorbeeld de bovenkant, de tweede is de tweede, enzovoort. Het zal zijn. Als je een uitgelicht item hebt, zoals een nieuwe versie of een shirt dat je bovenaan de winkelwagen wilt markeren, klik je op ** Nieuwe functie toevoegen ** en kies je uit het vervolgkeuzemenu.
 
-Bu adımı tamamladığınızda, müşterilerinizin siparişlerini verdikleri iletileri düzenleyebilirsiniz.
+Zodra u deze stap heeft voltooid, kunt u de bestellingen van uw klanten bewerken.
 
-İşiniz bittiğinde, sayfanın alt kısmındaki ** değişiklikleri kaydet ** seçeneğini tıklayın.
+Klik wanneer u klaar bent op ** Wijzigingen opslaan ** onder aan de pagina.
 
-Artık mağazanızı canlı yaşamaya hazırsınız. Kendi sitenize yerleştirebilir veya Kasa Müzik sayfanıza ekleyebilir ve yayınlayabilirsiniz.
+Je bent nu klaar om je leven te leven. U kunt het op uw eigen site plaatsen of u kunt uw pagina Veilige muziek toevoegen en publiceren.
 
-Tüm gelen siparişler, ** Ticaret ** bölümünde gösterilir. Her siparişle ilgili ayrıntıları bulabilir, envanteri yönetebilir ve siparişlerini istediğiniz zaman buradan verebilirsiniz.
+Alle inkomende bestellingen worden getoond in het ** Trade ** gedeelte. U kunt op elk moment details over elke bestelling vinden, voorraadbeheer en bestellingen plaatsen.
