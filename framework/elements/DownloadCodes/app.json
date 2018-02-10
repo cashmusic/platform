@@ -18,27 +18,37 @@
 			"description":"Settu upp niðurhalskóða innlausnar eyðublað.",
 			"longdescription":"Þessi eining mun sjá um innlausnir á öllum þínum niðurhalskóðum.",
 			"instructions":"Búðu til kóða fyrir eign þína á síðunni. Þessi eining býr til innlausnar eyðublað sem hægt er að nota við alla þína niðurhalskóða. Einfalt."
+		},
+		"ceb":{
+			"name":"Mga Kodigo sa Pag-download",
+			"description":"Pag-establisar og porma sa pagkuha sa download code.",
+			"longdescription":"Kini nga elemento magdumala sa pagtubos sa tanan nga imong mga code sa pag-download.",
+			"instructions":"Pagmugna og mga code alang sa imong asset sa iyang pahina. Kini nga elemento naghimo sa usa ka porma sa pagtubos nga mahimong magamit alang sa tanan sa imong mga code sa pag-download. Yano."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"ceb":"Panguna nga mga kahimtang"
 			},
 			"description":{
 				"en":"Set the message that you want your customers to see after they redeem their code.",
-				"is":"Stilltu skilaboðin sem þú vilt að viðskiptavinir þínir sjá eftir að þeir nota niðurhalskóðann sinn."
+				"is":"Stilltu skilaboðin sem þú vilt að viðskiptavinir þínir sjá eftir að þeir nota niðurhalskóðann sinn.",
+				"ceb":"Ibutang ang mensahe nga gusto nimo makita sa imong mga kustomer human nila makuha ang ilang code."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"ceb":"Mensahe sa kalampusan"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
+						"is":"",
 						"is":""
 					},
 					"required":true,
