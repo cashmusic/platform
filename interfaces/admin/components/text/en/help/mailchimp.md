@@ -1,11 +1,11 @@
-###Add a MailChimp connection
+###MailChimp bağlantısı ekleyin
 
-The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
+CASH Music platformu ve MailChimp, araçlarımızla toplanan e-posta kayıtlarını MailChimp hesabınıza doğrudan eklemek için sorunsuz bir şekilde entegre olur.
 
-From the CASH Music platform, select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button, select the MailChimp button, and then click **Connect your MailChimp account**.
+CASH Müzik platformundan, **dişli simge** seçin <i class="icon icon-cog"></i> hesap ayarlarınızı açmak için sağ üst köşeden. **Bağlantılar ** düğmesini tıklayın, MailChimp düğmesini seçin ve ardından **MailChimp hesabınızı bağla** seçeneğini tıklayın.
 
-You'll be prompted for your MailChimp username and password. Once you click submit, you'll be brought to another page and asked which of your MailChimp mailing lists you'd like to sync your CASH account with. Once you've selected the appropriate list, click **Add the Connection**, and you're done!
+MailChimp kullanıcı adınızı ve şifrenizi girmeniz istenir. Gönder'i tıkladığınızda, başka bir sayfaya getirilir ve MailChimp posta listelerinizden hangisini Kasa hesabınızı senkronize etmek istediğinizi sorarsınız. Uygun listeyi seçtikten sonra **Bağlantı Ekle** 'yi tıklayın, ardından işlem tamamlanmış demektir!
 
-If you have multiple mailing lists with MailChimp, you can keep creating new connections within CASH Music for each one. Just repeat the process, but select a different list at the last step.
+MailChimp ile birden çok posta listeniz varsa, her biri için Nakit Müzik'te yeni bağlantılar oluşturmaya devam edebilirsiniz. İşlemi tekrarlayın, ancak son adımda farklı bir liste seçin.
 
-Lastly, if you want to create a new list within MailChimp just for emails you retrieve via the platform, log into your your MailChimp account. Click **Lists** from the top menu, and click the **Create List** button in the top right-hand corner. For a more detailed walkthrough, check out <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp's article on creating a new list</a>.
+Son olarak, yalnızca platform üzerinden aldığınız e-postalar için MailChimp içinde yeni bir liste oluşturmak istiyorsanız, MailChimp hesabınıza giriş yapın. Üst menüden **Listeler** 'i tıklayın ve sağ üst köşedeki ** Oluştur Listesi ** düğmesini tıklayın. Daha detaylı bir bakış için kontrol edin <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp'in yeni liste oluşturmak için makalesi</a>.
