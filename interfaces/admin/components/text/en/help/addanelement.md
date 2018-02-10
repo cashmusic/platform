@@ -1,4 +1,4 @@
-###Bir elemanın katıştırılması
+###Bir Elemanın Katıştırılması
 
 Herhangi bir öğeyi web üzerinde herhangi bir yere yerleştirmek kolaydır. Katıştırmak istediğiniz öğeyi seçin ve panoya eklemek için katıştır simgesini <i class = "simge simgesi paylaşımı"> </ i> tıklayın. Ayrıca öğenin ayrıntılarını açabilir ve oradan kod kopyalayabilirsiniz.
 
