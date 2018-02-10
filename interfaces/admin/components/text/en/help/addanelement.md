@@ -1,10 +1,10 @@
-###Embed an element
+###Pag-embed ng isang elemento
 
-It's easy to embed any element anywhere on the web. Simply choose the element you'd like to embed and click on the embed icon <i class="icon icon-share"></i> to add it to your clipboard. You can also open up the element's details and copy the code from there.
+Madali lang mag-embed ng kahit anong elemento saanman sa web. Piliin mo lamang ang elemento na dapat mong i-embed at pindutin ang embed na icon <i class="icon icon-share"></i> at idagdag ito sa iyong clipboard. Pwede mo ring buksan ang detalye ng elemento at kopyahin ang code mula dito.
 
-Next, go to your site and paste the embed link where you want it to live. That's it. Just like you would, say, a video from YouTube or a song from SoundCloud.  
+Pagkatapos, pumunta sa iyong sayt at ilagay ang iyong embed na link kung saan mo gusto itong mabuhat. Iyon lang. Katulad ng gusto mong gawin, katulad ng, isang video mula YouTube o isang kanta mula SoundCloud.  
 
-You can embed as many of your elements as you like, on as many sites as you like. 
+Makaka-embed ka ng marami sa iyong mga elemento sa kung ilan ang gusto mo, kung saang mga sayt na nais mo. 
 
-You can also customize any of your elements whenever you want. Simply click on the element's details and edit til your heart's content. Any changes you make will be reflected across the web. 
+Maaari mo ring baguhin ang kahit alin sa iyong mga elemento kapag gusto mo. Mag-click lamang sa detalye ng elemento at i-edit ito hanggang sa gusto mo. Ang kahit anong mga pagbabago na magagawa ay makikita sa web.
 
