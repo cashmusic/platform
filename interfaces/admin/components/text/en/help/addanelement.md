@@ -1,10 +1,10 @@
-###Embed an element
+###Bir elemanın katıştırılması
 
-It's easy to embed any element anywhere on the web. Simply choose the element you'd like to embed and click on the embed icon <i class="icon icon-share"></i> to add it to your clipboard. You can also open up the element's details and copy the code from there.
+Herhangi bir öğeyi web üzerinde herhangi bir yere yerleştirmek kolaydır. Katıştırmak istediğiniz öğeyi seçin ve panoya eklemek için katıştır simgesini <i class = "simge simgesi paylaşımı"> </ i> tıklayın. Ayrıca öğenin ayrıntılarını açabilir ve oradan kod kopyalayabilirsiniz.
 
-Next, go to your site and paste the embed link where you want it to live. That's it. Just like you would, say, a video from YouTube or a song from SoundCloud.  
+Sonra, sitenize gidin ve katıştırma bağlantısını yaşamak istediğiniz yere yapıştırın. Bu kadar. Tıpkı YouTube'dan bir video veya SoundCloud'dan bir şarkı söylemek istersiniz.
 
-You can embed as many of your elements as you like, on as many sites as you like. 
+İstediğiniz kadar elementi istediğiniz kadar çok sayıda siteye katıştırabilirsiniz.
 
-You can also customize any of your elements whenever you want. Simply click on the element's details and edit til your heart's content. Any changes you make will be reflected across the web. 
+İstediğiniz zaman öğelerinden herhangi birini de özelleştirebilirsiniz. Elemanın ayrıntılarını tıklamanız ve kalbinizin içeriğine kadar düzenlemeniz yeterlidir. Yaptığınız değişiklikler web'de yansıtılacaktır.
 
