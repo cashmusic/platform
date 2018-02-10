@@ -5,7 +5,7 @@ Mağaza kurmak için gereken tüm adımları atan ayrıntılı bir videoyu izley
 Neye ihtiyacınız olacak:
 
 - Bir ödeme bağlantısı
-- Satmak istediğiniz herhangi bir fiziksel / dijital öğe Ticaret envanterine eklendi
+- Satmak istediğiniz herhangi bir fiziksel / dijital öğe Ticaret envanterine eklenen
 
 Ana sayfadan ** Elements ** sekmesini seçin. ** Bir öğe ekle ** seçeneğini tıklayın ve ** Mağaza ** seçin. Elemana kendi referansınız için bir isim verin; kimse bunu göremez.
 
