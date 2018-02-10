@@ -1,9 +1,9 @@
-###Ticaret Ayarları
+###Handelsinstellingen
 
-Platform üzerinden herhangi bir şey satmadan önce Commerce ayarlarınızı yapmanız gerekir.
+Voordat u iets op het platform verkoopt, moet u uw Commerce-instellingen maken.
 
-Ana menüde ** Ticaret ** seçeneğini tıklayın. Ödeme seçeneklerinizi henüz bağlamadıysanız, şimdi bunu yapmanız gerekir. Bunlar kurulduktan sonra ** Ticaret ayarları ** 'nı açın ve birincil para biriminizi belirleyin ve açılır menülerden hesaplarınızla ilişkili PayPal ve / veya Stripe e-posta adreslerini seçin. Bunlar kurulduktan sonra ** Kaydet satış ayarlarını ** vurun. **
+Klik in het hoofdmenu op ** Ruil **. Als u uw betalingsopties nog niet heeft gekoppeld, zou u dat nu moeten doen. Zodra deze zijn ingesteld, opent u ** Handelsinstellingen **, geeft u uw primaire valuta op en selecteert u de PayPal- en / of Stripe-e-mailadressen die aan uw rollover-menu's zijn gekoppeld. Nadat ze zijn ingesteld, slaat u ** uw verkoopinstellingen op **. **
 
-Sonra, ** Nakliye bölgeleri ** sekmesini seçin. Size nakliye için iki seçenek sunuyoruz. İstediğiniz halde onu kurmayı seçebilirsiniz, ancak kendi ülkenizi (veya malınızın gönderildiği ülkeyi), Bölge 1 olarak, dünyanın geri kalanını Bölge 2 olarak seçmenizi öneririz. ** Hit ** Nakliye bölgelerini ayarlayın. **
+Selecteer vervolgens het tabblad ** Transportzones **. We bieden u twee verzendopties. U kunt ervoor kiezen om het te vestigen als u dat wilt, maar we raden u aan om uw land (of het land waarnaar uw goederen worden verzonden) te kiezen als Regio 1 en de rest van de wereld als Regio 2. ** Druk op ** Verzendgebieden instellen. **
 
-Artık satılacak öğeleri eklemeye hazırız!
+We zijn nu klaar om items toe te voegen om te worden verkocht!
