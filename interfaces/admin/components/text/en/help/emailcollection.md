@@ -1,15 +1,15 @@
-###Set up an email-for-download element
+###İndirme için bir e-posta öğesi oluşturun
 
-Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform.
+Doğrudan hayranlarınıza bağlanmak çok önemlidir ve posta listeniz bu ilişkileri sürdürmenin en iyi yollarından biridir. Bu, platformumuzdaki en popüler araçlardan biridir.
 
-What you’ll need:
+Neye ihtiyacınız olacak:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- A file or release set up in **Assets**, with fulfillment files attached
-- An email list either created or connected in the **People** section
+- Depolama bağlantısı - Güvenilirlik için bir Amazon S3 hesabı öneririz
+- ** Varlıklar ** 'da kurulan dosya veya yayın, yerine getirme dosyaları eklendi
+- ** Kişiler ** bölümünde oluşturulan veya bağlanan bir e-posta listesi
 
-Once your download and list are set up, head to your main page and click on the **Elements** tab. Click on **Add element** and select **Email Collection**. Choose the list you'd like people to sign up to from the dropdown menu. Then, select the asset you'd like to offer for download (or none if you're not offering one.) Give the element a name for your own internal reference. To edit the default messages click on the **Element Settings** button.
+İndirme ve listeniz ayarlandıktan sonra ana sayfanıza gidin ve ** Öğeler ** sekmesini tıklayın. ** Öğe ekle ** seçeneğini tıklayın ve ** E-posta Toplama ** seçeneğini belirleyin. Açılır menüden kullanıcıların kaydolmasını istediğiniz listeyi seçin. Ardından, indirmek istediğiniz öğeyi seçin (ya teklif etmiyorsanız hiçbiri.) Öğeye kendi iç başvurunuz için bir ad verin. Varsayılan mesajları düzenlemek için ** Öğe Ayarları ** düğmesine tıklayın.
 
-Note the **Skip email verification** checkbox. If this box is left unchecked, then anyone signing up will be emailed to confirm the address is legitimate. Be sure to check your email settings in the system settings menu. If you check the box, you are essentially trusting that any email addresses given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
+** E-posta doğrulamasını atla ** onay kutusuna dikkat edin. Bu kutunun işareti kaldırılırsa, kaydolan herkes e-postayla göndererek adresin meşru olduğunu onaylar. E-posta ayarlarınızı sistem ayarları menüsünden kontrol ettiğinizden emin olun. Kutuyu işaretlerseniz, esasen verilen herhangi bir e-posta adresinin meşru olduğuna güveniyorsunuz demektir. Daha fazla kayıt olursunuz, ancak daha azıyla kayıtları okunaklı olduğunu garanti eder.
 
-Once the element is created, either embed it on your site or add it to your CASH Music page and publish.
+Eleman oluşturulduktan sonra, onu sitenize yerleştirin veya onu Kasa Müzik sayfanıza ekleyin ve yayınlayın.
