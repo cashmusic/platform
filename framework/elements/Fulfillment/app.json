@@ -15,13 +15,13 @@
 		}
 	},
 	"copy":{
-		"en":{
-			"location_required":"In order to get your download please tell us your postal code & country",
-			"country_selector":"Please choose your country",
-			"postal_code":"Enter your postal code",
-			"button":"Set location and claim download",
-			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
-			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
+		"cn":{
+			"location_required":"为了拿到你的下载，请告诉我们你的邮编&国家",
+			"country_selector":"请选择你的国家",
+			"postal_code":"请输入你的邮编",
+			"button":"设置地方并认领下载",
+			"location_error":"请确保你已经选择一个有效的国家并输入你的邮编.",
+			"invalid_code":"对不起, 但这个独特的代码/链接已经被使用或无效." 
 		}
 	},
 	"options":{
@@ -29,18 +29,27 @@
 			"group_label":{
 				"en":"Main settings"
 			},
+			"copy":{
+		"cn":{"主设置"
 			"description":{
 				"en":"Set the messages that you want your backers to see before and after they redeem their code."
 			},
+			"copy":{
+		"cn":{"设置你想要你的赞助人在他们兑换完他们的代码后要看到的信息."
 			"data":{
 				"message_landing":{
 					"label":{
 						"en":"Landing message - (shown to users without a code - can include html)"
 					},
+					},
+			"copy":{
+		"cn":{"登陆信息 - (显示给没有代码的用户 - 可以包含 html)"
 					"type":"text",
 					"default":{
 						"en":"Are you a backer? Please check your email for instructions and a download link."
 					},
+					"copy":{
+		"cn":{"你是赞助者吗？请查看你的电子邮箱里的指示和下载链接."
 					"required":true,
 					"displaysize":"large"
 				},
@@ -48,6 +57,9 @@
 					"label":{
 						"en":"Show landing message on element embed"
 					},
+							},
+			"copy":{
+		"cn":{"在元素嵌入上显示登陆信息"
 					"type":"boolean",
 					"default":true,
 					"displaysize":"large"
@@ -57,10 +69,14 @@
 					"label":{
 						"en":"Success message"
 					},
+					"copy":{
+		"cn":{"成功信息"
 					"type":"text",
 					"default":{
 						"en":""
 					},
+					"copy":{
+		"cn":{":""
 					"required":true,
 					"displaysize":"medium"
 				}

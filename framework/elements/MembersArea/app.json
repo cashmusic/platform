@@ -20,26 +20,36 @@
 			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
 		}
 	},
+	"cn":{
+			"名称":"会员区",
+			"描述":"运行一清单的用户进入并获得专有的内容.",
+			"详细描述":"该元素让你可以和指定的名单用户通过使用万能密码来分享内容. 想象追星族俱乐部, 媒体和其他.",
+			"指示":"现在要验证的一些列表用户,通过标记来定制,并可选地为此元素添加万能密码."
+		},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
+			"cn":{"主设置",
 			"description":{
 				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
 				"is":"Veldu hóp"
 			},
+			"cn":{"选择一列表，为他们定义一个密码来打开该元素的内容.",
 			"data":{
 				"alternate_password":{
 					"label":{
 						"en":"Password",
 						"is":"Lykilorð"
 					},
+					"cn":{"密码",
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
 						"is":"Lykilorð eða frasi til að opna aðgang að efni"
 					},
+					"cn":{"一个用于打开内容的密码或短语",
 					"type":"text",
 					"displaysize":"small"
 				},
@@ -48,6 +58,7 @@
 						"en":"Target mailing list",
 						"is":"Valin netfangaskrá"
 					},
+					"cn":{"目标邮寄列表",
 					"type":"select",
 					"values":"people/lists",
 					"required":true,
@@ -58,11 +69,13 @@
 						"en":"Content",
 						"is":"Efni"
 					},
+					"cn":{"内容",
 					"type":"text",
 					"default":{
 						"en":"",
 						"is":""
 					},
+					"cn":{"",
 					"displaysize":"large"
 				}
 			}
