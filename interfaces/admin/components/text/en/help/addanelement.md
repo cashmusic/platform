@@ -1,10 +1,9 @@
-###Een Element Insluiten
+### Bir Elemanın Yerleştirilmesi
 
-Het is gemakkelijk om elk item ergens op internet te plaatsen. Selecteer het item dat u wilt insluiten en klik op het insluitingspictogram <i class="icon icon-share"></i> klik op. U kunt ook de details van het item openen en de code vanaf daar kopiëren.
+Herhangi bir öğeyi web üzerinde herhangi bir yere yerleştirmek kolaydır. Katıştırmak istediğiniz öğeyi seçmeniz ve panoya eklemek için katıştır simgesini tıklamanız yeterlidir. Ayrıca öğenin ayrıntılarını açabilir ve oradan kod kopyalayabilirsiniz.
 
-Ga vervolgens naar uw site en plak de insluitingslink waar u wilt wonen. Dat is het. U wilt een video van YouTube of een nummer van SoundCloud zingen.
+Sonra, sitenize gidin ve katıştırma bağlantısını yaşamak istediğiniz yere yapıştırın. Bu kadar. Tıpkı YouTube'dan bir video veya SoundCloud'dan bir şarkı söylemek istersiniz.
 
-U kunt zoveel elementen insluiten als u wilt op zoveel sites als u maar wilt.
+İstediğiniz kadar elementi istediğiniz kadar çok sayıda siteye katıştırabilirsiniz.
 
-U kunt elk gewenst tijditem aanpassen. Je hoeft alleen maar op de details van het element te klikken en het naar de inhoud van je hart te schikken. Alle wijzigingen die u aanbrengt, worden weerspiegeld op internet.
-
+İstediğiniz zaman öğelerinden herhangi birini de özelleştirebilirsiniz. Elemanın ayrıntılarını tıklamanız ve kalbinizin içeriğine kadar düzenlemeniz yeterlidir. Yaptığınız değişiklikler web'de yansıtılacaktır.
