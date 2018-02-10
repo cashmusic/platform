@@ -1,0 +1,135 @@
+{
+	"账号":
+		{"page_name":"你的账号", "menu_icon":""},
+	"账号/删除":
+		{"page_name":"删除账号", "menu_icon":"", "隐藏":true},
+		
+		
+	"资产":
+		{"page_name":"资产", "menu_icon":"", "标语":"你的发行,播放列表,和文件"},
+		
+	"日历":
+		{"page_name":"日历", "menu_icon":"", "标语":"节目和场所"},
+	"日历/事件":
+		{"page_name":"事件", "menu_icon":"日历", "隐藏":true},
+	"日历/事件/添加":
+		{"page_name":"添加事件", "menu_icon":""},
+	"日历/事件/编辑":
+		{"page_name":"编辑事件", "menu_icon":""},
+	"日历/场所":
+    	{"page_name":"场所", "menu_icon":"地图" },
+	"日历/场所/添加":
+		{"page_name":"添加场所", "menu_icon":""},
+	"日历/场所/删除":
+		{"page_name":"删除场所", "menu_icon":""},
+	"日历/场所/编辑":
+		{"page_name":"编辑场所", "menu_icon":""},
+		
+	
+	"活动":
+		{"page_name":"活动", "menu_icon":""},
+	"活动/添加":
+		{"page_name":"添加一个活动", "menu_icon":"plus"},
+	"活动/删除":
+		{"page_name":"删除活动", "menu_icon":"", "隐藏":true},
+	"活动/编辑":
+		{"page_name":"编辑活动", "menu_icon":"", "隐藏":true},
+	"活动/归档":
+		{"page_name":"归档", "menu_icon":"", "隐藏":true},
+	"活动/公布":
+		{"page_name":"公布活动", "menu_icon":"", "隐藏":true},
+
+
+	"商务":
+		{"page_name":"商务", "menu_icon":"", "标语":"促销的订单和商品"},
+	"商务/商品":
+		{"page_name":"库存", "menu_icon":"条码标"},
+	"商务/商品/删除":
+		{"page_name":"删除商品", "menu_icon":""},
+	"商务/商品/编辑":
+		{"page_name":"编辑商品", "menu_icon":""},
+	"商务/商品/添加":
+		{"page_name":"添加一件商品", "menu_icon":""},
+	"商务/订阅":
+		{"page_name":"订阅", "menu_icon":"重复", "标语":"会员订阅", "测试版":true},
+	"商务/外部履行实现":
+		{"page_name":"集资实现", "menu_icon":"履行实现", "标语":"导入外部订单", "测试版":true},
+	"商务/导出":
+		{"page_name":"导出订单", "menu_icon":"下载","add_class":"lightboxed"},
+	"商务/订单/浏览":
+		{"page_name":"订单明细", "menu_icon":""},
+	
+		
+		
+	"元素":
+		{"page_name":"元素", "menu_icon":""},
+	"元素/添加":
+		{"page_name":"添加元素", "menu_icon":"加上" },
+	"元素/删除":
+		{"page_name":"删除元素", "menu_icon":"", "隐藏":true},
+	"元素/编辑":
+		{"page_name":"编辑元素", "menu_icon":"", "隐藏":true},
+	"元素/预览":
+		{"page_name":"预览元素", "menu_icon":"", "隐藏":true},
+	"元素/统计":
+		{"page_name":"元素统计", "menu_icon":"", "隐藏":true},
+	"元素/模板":
+		{"page_name":"页面/嵌入模板", "menu_icon":"列表" },
+	"元素/模板/添加":
+		{"page_name":"添加一个模板", "menu_icon":"", "隐藏":true},
+	"元素/模板/编辑":
+		{"page_name":"编辑模板", "menu_icon":"", "隐藏":true},
+	"元素/模板/删除":
+		{"page_name":"删除模板", "menu_icon":"", "隐藏":true},
+		
+		
+	"错误":
+		{"page_name":"未找到页面", "menu_icon":""},
+		
+		
+	"帮助":
+		{"page_name":"帮助", "menu_icon":""},
+		
+		
+	"许可":
+		{"page_name":"开源许可", "menu_icon":""},		
+		
+	"主页面":
+		{"page_name":"主页面", "menu_icon":""},
+		
+		
+	"人":
+		{"page_name":"人", "menu_icon":"", "标语":"列表和联系"},
+	"人/联系":
+		{"page_name":"联系", "menu_icon":""},
+	"人/列表/添加":
+		{"page_name":"添加列表", "menu_icon":""},
+	"人/列表/删除":
+		{"page_name":"删除列表", "menu_icon":""},
+	"人/列表/编辑":
+		{"page_name":"编辑列表", "menu_icon":""},
+	"人/列表/导出":
+		{"page_name":"导出列表", "menu_icon":""},
+	"人/列表/浏览":
+		{"page_name":"列表明细", "menu_icon":""},
+	"人/邮寄":
+		{"page_name":"邮寄活动", "menu_icon":"飞机"},
+	"人/媒体":
+		{"page_name":"媒体覆盖", "menu_icon":"报纸夹" },
+
+
+	"隐私":
+		{"page_name":"隐私条款", "menu_icon":""},
+		
+		
+	"设置":
+		{"page_name":"系统设置", "menu_icon":""},
+	"设置/连接":
+		{"page_name":"连接", "menu_icon":"齿轮" },
+	"设置/更新":
+		{"page_name":"系统更新", "menu_icon":"arrw-up" },
+
+
+	"条款":
+		{"page_name":"服务条款", "menu_icon":""}
+}

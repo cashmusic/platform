@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"name":"Name",
+		"type":"Type",
+		"page":"Page template",
+		"embed":"Embed template",
+		"default":"Default templates",
+		"template":"Template"
+	},
+	"tooltips":{},
+	"copy":{
+		"top":"Templates look like HTML because, essentially, they are. Embed templates support only a single element — the element will appear wherever you put {{{element_markup}}} in your template. Page templates can have as many elements as you like. Just paste in embed codes from the element you want. You'll find them on that element's page.",
+		"injectelements":"Press a button below to add the code for the corresponding element into the main code editor.",
+		"noelements":"Once you've added elements you'll be able to add them to your theme with the press of a button."
+	}
+}
