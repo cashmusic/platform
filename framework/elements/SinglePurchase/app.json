@@ -20,6 +20,12 @@
 			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
 		}
 	},
+	"cn":{
+			"名称":"单件购买",
+			"描述":"单击卖出一件产品. 对预购非常好.",
+			"详细描述":"只要卖一件东西吗？为你所选的商品设置一个简单的单件购买元素.",
+			"指示":"对物理商品，定义区域和运费."
+		},
 	"copy":{
 		"en":{
 			"flexibleprice_suffix":"or more",
@@ -36,22 +42,30 @@
 			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
 		}
 	},
+	"cn":{"flexibleprice_suffix":"或更多",
+			"choose_variants":"先选择一个选项",
+			"choose_verb":"选择",
+			"buy":"立即购买",
+			"unavailable":"对不起, 此商品暂时没有."
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
+			"cn":{"主设置",
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
 				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
 			},
+			"cn":{"选择一个要出售的库存商品以及要使用的商务联系.",
 			"data":{
 				"item_id":{
 					"label":{
 						"en":"Item for sale",
 						"is":"Hlutur til sölu"
 					},
+					"cn":{"要促销的商品",
 					"type":"select",
 					"values":"commerce/items",
 					"required":true,
@@ -64,21 +78,25 @@
 				"en":"Success/error messages",
 				"is":"Velgengnis/villu skilaboð"
 			},
+			"cn":{"成功/错误信息",
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
+			"cn":{"定制显示给使用该元素的人的信息.",
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð"
 					},
+					"cn":{"成功信息",
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
 						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
 					},
+					"cn":{"谢谢! 这是你的下载. 手机用户请到你的收信箱和垃圾文件夹查看一个下载链接.",
 					"displaysize":"medium"
 				},
 				"message_error":{
@@ -86,11 +104,13 @@
 						"en":"Invalid email message",
 						"is":"Ógilt netfang"
 					},
+					"cn":{"无效电子邮箱信息",
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
 						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
 					},
+					"cn":{"处理你的付款时出错. 请重新加载并再试.",
 					"displaysize":"medium"
 				}
 			}

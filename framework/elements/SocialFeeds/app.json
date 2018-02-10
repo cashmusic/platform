@@ -20,38 +20,49 @@
 			"instructions":"Þetta er bilað."
 		}
 	},
+	"cn":{
+			"名称":"社交更新",
+			"描述":"从你的推特和/或Tumblr更新发一条更新信息.",
+			"详细描述":"合并任何数量的更新, 通过关键词来过滤或排除@-replies, 通过发布类型来过滤Tumblr.",
+			"instructions":"This is basically broken."
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
+			"cn":{"主设置",
 			"description":{
 				"en":"Instructions or clarifications that should appear with this group.",
 				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp."
 			},
+			"cn":{"需要和该组一起显示的指示或澄清.",
 			"data":{
 				"twitter":{
 					"label":{
 						"en":"Twitter",
 						"is":"Twitter"
 					},
+					"cn":{"推特",
 					"description":{
 						"en":"You'll need to add a Twitter connection for tweets to appear in your feed.",
 						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum."
 					},
+					"cn":{"你将需要添加一个推特出现在你更新里的推特连接.",
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Twitter feed",
 						"is":"Bæta við nýjum Twitter straum"
 					},
+					"cn":{"添加一个新的推特更新",
 					"values":{
 						"twitterusername":{
 							"label":{
 								"en":"Username",
 								"is":"Notandanafn"
 							},
+							"cn":{"用户名",
 							"type":"text",
 							"displaysize":"small"
 						},
@@ -60,6 +71,7 @@
 								"en":"Fliter by",
 								"is":"Sía samkvæmt"
 							},
+								"cn":{"过滤由",
 							"type":"select",
 							"values":{
 								"none":"Do not filter",
@@ -74,6 +86,7 @@
 								"en":"Filter value",
 								"is":"Sía gildi"
 							},
+								"cn":{"过滤数值",
 							"type":"text",
 							"displaysize":"small"
 						},
@@ -82,6 +95,7 @@
 								"en":"Hide replies",
 								"is":"Fela svör"
 							},
+							"cn":{"隐藏回复",
 							"type":"boolean",
 							"default":true,
 							"displaysize":"large"
@@ -94,22 +108,26 @@
 						"en":"Tumblr",
 						"is":"Tumblr"
 					},
+					"cn":{"Tumblr",
 					"description":{
 						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off.",
 						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund."
 					},
+						"cn":{"要拉进Tumblr 帖子不需要连接. 仅添加一个URL, 选择帖子类型,就可以了.",
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Tumblr URL",
 						"is":"Bættu við nýrri Tumblr slóð"
 					},
+						"cn":{"添加一个新的Tumblr URL",
 					"values":{
 						"tumblrurl":{
 							"label":{
 								"en":"Tumblr URL",
 								"is":"Tumblr slóð"
 							},
+							"cn":{"Tumblr URL",
 							"type":"text",
 							"displaysize":"small"
 						},
@@ -118,10 +136,12 @@
 								"en":"Filter by tag",
 								"is":"Sía samkvæmt merki"
 							},
+							"cn":{"由标签过滤",
 							"placeholder":{
 				            "en":"Do not filter",
 							"is":"Ekki sía"
 				          },
+						  "cn":{"不要过滤",
 							"type":"text",
 							"displaysize":"small"
 						},
@@ -130,6 +150,7 @@
 								"en":"Post types",
 								"is":"Færslutegundir"
 							},
+							 "cn":{"帖子类型",
 							"type":"options",
 							"displaysize":"large",
 							"values":{
@@ -138,6 +159,7 @@
 										"en":"regular",
 										"is":"venjuleg"
 									},
+									"cn":{"定期的",
 									"type":"boolean",
 									"default":true,
 									"displaysize":"small"
@@ -147,6 +169,7 @@
 										"en":"photo",
 										"is":"mynd"
 									},
+									"cn":{"图片",
 									"type":"boolean",
 									"default":true,
 									"displaysize":"small"
@@ -156,6 +179,7 @@
 										"en":"video",
 										"is":"myndband"
 									},
+									"cn":{"视频",
 									"type":"boolean",
 									"default":true,
 									"displaysize":"small"
@@ -165,6 +189,7 @@
 										"en":"link",
 										"is":"hlekkur"
 									},
+									"cn":{"链接",
 									"type":"boolean",
 									"default":true,
 									"displaysize":"small"
@@ -174,6 +199,7 @@
 										"en":"audio",
 										"is":"hljóð"
 									},
+									"cn":{"音频",
 									"type":"boolean",
 									"default":true,
 									"displaysize":"small"
@@ -183,6 +209,7 @@
 										"en":"quote",
 										"is":"tilvitnun"
 									},
+									"cn":{"引用",
 									"type":"boolean",
 									"default":false,
 									"displaysize":"small"
@@ -192,6 +219,7 @@
 										"en":"answer",
 										"is":"svar"
 									},
+										"cn":{"回答",
 									"type":"boolean",
 									"default":false,
 									"displaysize":"small"
@@ -206,6 +234,7 @@
 						"en":"Post Limit",
 						"is":"Færsluhámark"
 					},
+					"cn":{"帖子限制",
 					"type":"number",
 					"default":"40",
 					"displaysize":"small"
