@@ -20,27 +20,36 @@
 			"instructions":"Skrifaðu. Vistaði. Búið."
 		}
 	},
+	"cn":{
+			"名称":"存文本",
+			"description":"用来显示文本，html, 或 markdown.",
+			"longdescription":"复制-粘贴的将来! 实际上只是复制-和-黏贴，定期的. 很枯糙, 但很有用.",
+			"instructions":"Type. Save. That's it."
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"The Content",
 				"is":"Efnið"
 			},
+			"cn":{"内容",
 			"description":{
 				"en":"Type what you want to appear. Plain text or markdown.",
 				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown"
 			},
+			"cn":{"输入你要显示的内容。存文本或 markdown.",
 			"data":{
 				"storedcotent":{
 					"label":{
 						"en":"Content",
 						"is":"Efni"
 					},
+					"cn":{"内容",
 					"type":"text",
 					"default":{
 						"en":"",
 						"is":""
 					},
+					"cn":{"",
 					"required":true,
 					"displaysize":"large"
 				}
