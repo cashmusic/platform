@@ -1,15 +1,15 @@
-###İndirme için bir e-posta öğesi oluşturun
+###Maak een e-mailitem om te downloaden
 
-Doğrudan hayranlarınıza bağlanmak çok önemlidir ve posta listeniz bu ilişkileri sürdürmenin en iyi yollarından biridir. Bu, platformumuzdaki en popüler araçlardan biridir.
+Rechtstreeks verbinding maken met je fans is erg belangrijk, en je maillistener is een van de beste manieren om deze relaties te onderhouden. Dit is een van de meest populaire tools op ons platform.
 
-Neye ihtiyacınız olacak:
+Wat je nodig hebt is:
 
-- Depolama bağlantısı - Güvenilirlik için bir Amazon S3 hesabı öneririz
-- ** Varlıklar ** 'da kurulan dosya veya yayın, yerine getirme dosyaları eklendi
-- ** Kişiler ** bölümünde oluşturulan veya bağlanan bir e-posta listesi
+- Opslagverbinding - We raden een Amazon S3-account aan voor betrouwbaarheid
+- ** Bestanden of publicaties geïnstalleerd in items **, fulfillment-bestanden toegevoegd
+- ** Een lijst met e-mails die zijn gemaakt of verbonden met Contactpersonen **
 
-İndirme ve listeniz ayarlandıktan sonra ana sayfanıza gidin ve ** Öğeler ** sekmesini tıklayın. ** Öğe ekle ** seçeneğini tıklayın ve ** E-posta Toplama ** seçeneğini belirleyin. Açılır menüden kullanıcıların kaydolmasını istediğiniz listeyi seçin. Ardından, indirmek istediğiniz öğeyi seçin (ya teklif etmiyorsanız hiçbiri.) Öğeye kendi iç başvurunuz için bir ad verin. Varsayılan mesajları düzenlemek için ** Öğe Ayarları ** düğmesine tıklayın.
+Nadat u uw download hebt ingesteld en beluisterd, gaat u naar uw startpagina en klikt u op het tabblad ** Invoer **. Klik op ** Item toevoegen ** en selecteer ** Verzameling per e-mail **. Selecteer in het vervolgkeuzemenu de lijst waarvoor u zich wilt aanmelden. Kies vervolgens het item dat u wilt downloaden (of geen item dat u niet wilt). Geef het item een naam voor uw interne referentie. Klik op ** Iteminstellingen ** om de standaardberichten te bewerken.
 
-** E-posta doğrulamasını atla ** onay kutusuna dikkat edin. Bu kutunun işareti kaldırılırsa, kaydolan herkes e-postayla göndererek adresin meşru olduğunu onaylar. E-posta ayarlarınızı sistem ayarları menüsünden kontrol ettiğinizden emin olun. Kutuyu işaretlerseniz, esasen verilen herhangi bir e-posta adresinin meşru olduğuna güveniyorsunuz demektir. Daha fazla kayıt olursunuz, ancak daha azıyla kayıtları okunaklı olduğunu garanti eder.
+Noteer het selectievakje ** E-mailverificatie uitschakelen **. Als dit selectievakje niet is aangevinkt, bevestigt iedereen die zich aanmeldt dat het adres legitiem is door dit te e-mailen. Controleer je e-mailinstellingen in het menu met systeeminstellingen. Als u op de doos wijst, vertrouwt u erop dat een bepaald e-mailadres legitiem is. U krijgt meer records, maar minder garandeert dat de records leesbaar zijn.
 
-Eleman oluşturulduktan sonra, onu sitenize yerleştirin veya onu Kasa Müzik sayfanıza ekleyin ve yayınlayın.
+Nadat het element is gemaakt, plaatst u het op uw site of voegt u het toe aan uw veilige muziekpagina en publiceert u het.
