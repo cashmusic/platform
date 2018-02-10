@@ -12,6 +12,12 @@
 			"description":"Digital fulfillment for crowdfunding.",
 			"longdescription":"This element takes CSV exports from Kickstarter and similar services and delivers digital assets per tier.",
 			"instructions":"After creating a new fulfillment job, upload crowdfunding exports and assign downloads / UPC codes per tier."
+		},
+		"ceb":{
+			"name":"Katumanan sa 3rd Party",
+			"description":"Digital katumanan sa crowdfunding.",
+			"longdescription":"Kini nga elemento nagkinahanglan sa mga eksport sa CSV gikan sa Kickstarter ug susama nga mga serbisyo ug naghatud sa digital assets matag tier.",
+			"instructions":"Human sa pagmugna og usa ka bag-ong katumanan nga trabaho, mag-upload sa mga paggubot sa daghang mga tawo ug i-assign ang mga download / UPC nga mga code matag tier."
 		}
 	},
 	"copy":{
@@ -22,31 +28,44 @@
 			"button":"Set location and claim download",
 			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
 			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
+		},
+		"ceb":{
+			"location_required":"Aron makuha ang imong pag-download palihug isulti kanamo ang imong postal code & nasud",
+			"country_selector":"Palihug pilia ang imong nasud",
+			"postal_code":"Pagsulod sa imong postal code",
+			"button":"Ibutang ang lokasyon ug i-download ang pag-angkon",
+			"location_error":"Palihug siguroha nga nagpili ka og balido nga nasud ug misulod sa imong postal code.",
+			"invalid_code":"Pasayloa, apan kining talagsaon nga code/link na gigamit o dili balido."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"ceb":"Panguna nga mga kahimtang"
 			},
 			"description":{
-				"en":"Set the messages that you want your backers to see before and after they redeem their code."
+				"en":"Set the messages that you want your backers to see before and after they redeem their code.",
+				"ceb":"Ibutang ang mga mensahe nga gusto nimo nga makita sa imong mga tigpaluyo sa wala pa ug human nila matubos ang ilang code."
 			},
 			"data":{
 				"message_landing":{
 					"label":{
-						"en":"Landing message - (shown to users without a code - can include html)"
+						"en":"Landing message - (shown to users without a code - can include html)",
+						"ceb":"Landing message - (gipakita sa mga tiggamit nga walay kodigo - mahimong maglakip sa html)"
 					},
 					"type":"text",
 					"default":{
-						"en":"Are you a backer? Please check your email for instructions and a download link."
+						"en":"Are you a backer? Please check your email for instructions and a download link.",
+						"ceb":"Ikaw ba usa ka tigpaluyo? Palihug susiha ang imong email alang sa mga panudlo ug usa ka link sa pag-download."
 					},
 					"required":true,
 					"displaysize":"large"
 				},
 				"show_message":{
 					"label":{
-						"en":"Show landing message on element embed"
+						"en":"Show landing message on element embed",
+						"ceb":"Ipakita ang mensahe sa landing sa elementong embed"
 					},
 					"type":"boolean",
 					"default":true,
@@ -55,11 +74,13 @@
 
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"ceb":"Mensahe sa kalampusan"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"ceb":""
 					},
 					"required":true,
 					"displaysize":"medium"
