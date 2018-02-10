@@ -1,0 +1,10 @@
+{
+	"pagetip":"Confirm to delete",
+	"learn":"",
+	"related":{},
+	"labels":{"batch":"Batch Add Email Addresses"},
+	"tooltips":{},
+	"copy":{"add_multiple":"Add multiple email addresses below. Addresses must be seperated with a comma to be added to the list correctly.",
+            "add":"Add contacts"      
+}
+}

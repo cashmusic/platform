@@ -1,0 +1,23 @@
+{
+	"pagetip": "",
+	"learn": "",
+	"related":{},
+	"labels":{
+		"plan_name":"Plan name",
+		"description":"Description",
+		"interval":"Subscription interval",
+		"price":"Price",
+		"option_day":"Day",
+		"option_week":"Week",
+		"option_month":"Month",
+		"option_year":"Year",
+		"physical":"Physical",
+		"flexible":"Allow flexible price",
+		"recurring":"Recurring Subscription"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"",
+		"add_plan":"Create a new plan"
+	}
+}
