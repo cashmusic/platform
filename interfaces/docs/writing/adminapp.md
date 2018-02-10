@@ -3,11 +3,11 @@ built with a front controller, individual controllers for each route, mustache v
 framework for the model instead of a traditional database layer. Basically it's dog-fooding the PHP 
 core but building a much more complex app than a simple element. 
 
-In terms of structure, it's fairly simple: 
+Về mặt cấu trúc, nó khá đơn giản: 
 
- - Settings are stored in the **constants.php** file
- - The .htaccess pushes all traffic through the **controller.php** file
- - Each route has a controller in **/components/pages/controllers** and after doing any logic the 
+ - Cấu hình được lưu trữ trong tập tin **constants.php**
+ - Tập tin .htaccess đẩy toàn bộ lưu lượng truy cập thông qua tập tin **controller.php**
+ - Mỗi route đều có 1 controller trong **/components/pages/controllers** và sau khi after doing any logic the 
  controller calls a mustache template view from **/components/pages/views**
  - The main page UI is stored in mustache templates in **/ui/default**
 
