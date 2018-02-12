@@ -1,0 +1,22 @@
+{
+	"页面提示":"",
+	"了解":"<p>Add/在此编辑你的账号设置.<p>吧你的主页面放在URL 部分.</p><p>你也可以删除你的账号并在下面找到你的 API key</p>",
+	"相关的":{},
+	"标签":{"new_email_address":"新的电子邮箱地址",
+            "new_username":"行的用户名 (仅限字母数字)",
+            "new_display_name":"新的显示名",
+            "new_password":"新密码 (空白 = 无变更)",
+            "password":"密码",
+            "selected_language":"现有语言"
+            },
+	"工具提示":{},
+	"复制":{"delete_warning":"删除你的账号是永久性的. 不能取消操作. 这也有点难过. 所以请非常确定你要这么做.",
+            "enter_password":"请输入你的当前密码来进行变更:",
+            "delete_account":"删除账号",
+            "api_details":"为开发员进入所使用的API细节:",
+            "button_save_changes":"保存更改",
+            "button_delete_account":"删除账号",
+            "are_you_sure":"你是否确认要删除它? 它将被永久抹去.",
+            "language_title":"语言"
+            }
+}

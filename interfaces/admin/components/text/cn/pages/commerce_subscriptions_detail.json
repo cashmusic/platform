@@ -1,0 +1,26 @@
+{
+	"pagetip": "",
+	"learn": "<p>This is where you’ll find basic information on your subscriptions.</p>",
+	"related":{},
+	"labels":{
+		"name":"Subscription name",
+		"price":"Price",
+		"interval":"Interval",
+		"subscriber_name":"Subscriber",
+		"subscriber_email":"Email",
+		"subscriber_start_date":"Start date",
+		"subscriber_end_date":"End date",
+		"subscriber_total":"Total paid to date",
+		"subscriber_status":"Status"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Subscriptions hold information about your recurring payment plans. They can be set to rebill subscribers every day,week,month, or year. You'll need a valid payment connection to get started.<span class='first-para'>Subscriptions can be changed over time so you can update what assets should be delivered to plan subscribers and how often payment and deliver should occur.</span>",
+		"add_plan":"Create a new plan",
+		"edit_plan":"Edit",
+		"delete":"Delete",
+		"subscriber_title":"Subscribers"
+	}
+}
+
+

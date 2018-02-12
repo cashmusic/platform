@@ -20,6 +20,11 @@
 			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
 		}
 	},
+	"cn":{
+			"名称":"订阅",
+			"描述":"单击卖出一件商品. 对预售非常好.",
+			"详细描述":"只要卖一件东西? 为你所选的商品设置一个简单的单件购买元素.",
+			"指示":"对于物理商品，定义区域和运费."
 	"copy":{
 		"en":{
 			"flexibleprice_suffix":"or more",
@@ -36,38 +41,49 @@
 			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
 		}
 	},
+	"cn":{"flexibleprice_suffix":"或更多",
+			"choose_variants":"先选择一个选项"
+			"choose_verb":"选择",
+			"buy":"立即购买",
+			"unavailable":"对不起, 该商品暂时没有."
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
+				"cn":{"主设置"
 			"description":{
 				"en":"Choose a subscription plan for this jammy.",
 				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
 			},
+			"cn":{"为此果酱选择一个订阅计划"
 			"data":{
 				"plans":{
 					"label":{
 						"en":"Subscription Plan(s)",
 						"is":"Subscription Plan(s)"
 					},
+					"cn":{"订阅计划"
 					"description":{
 						"en":"Choose one or more subscription plans for this element",
 						"is":"Choose one or more subscription plans for this element"
 					},
+					"cn":{"为此元素选择一个或多个订阅计划"
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new subscription plan",
 						"is":"Add a new subscription plan"
 					},
+					"cn":{"添加一个新的订阅计划"
 					"values":{
 						"plan_id":{
 							"label":{
 								"en":"Subscription plan",
 								"is":"Subscription plan"
 							},
+							"cn":{"订阅计划"
 							"type":"select",
 							"values":"commerce/subscriptions",
 							"required":true,
@@ -83,32 +99,38 @@
 				"en":"Subscription Feed",
 				"is":"Subscription Feed"
 			},
+				"cn":{"订阅更新"
 			"description":{
 				"en":"Add feed items for subscribers",
 				"is":"Add feed items for subscribers"
 			},
+					"cn":{"为订阅者添加提要条目"
 			"data":{
 				"items":{
 					"label":{
 						"en":"Feed Item",
 						"is":"Feed Item"
 					},
+						"cn":{"提要条目"
 					"description":{
 						"en":"Add a feed item to appear for subscribers on element login",
 						"is":"Add a feed item to appear for subscribers on element login"
 					},
+					"cn":{"为在元素登陆上的订阅者添加要显示的提要条目"
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new feed item",
 						"is":"Add a new feed item"
 					},
+					"cn":{"添加新的提要条目"
 					"values":{
 						"title":{
 							"label":{
 								"en":"Title",
 								"is":"Title"
 							},
+							"cn":{"标题"
 							"type":"text",
 							"displaysize":"small"
 						},
@@ -117,6 +139,7 @@
 								"en":"Item for display",
 								"is":"Item for display"
 							},
+							"cn":{"要显示的商品"
 							"type":"select",
 							"values":"commerce/items",
 							"required":true,
@@ -127,6 +150,7 @@
 								"en":"Type",
 								"is":"Type"
 							},
+							"cn":{"种类"
 							"type":"select",
 							"values":{
 								"audio":"Audio",
@@ -141,10 +165,12 @@
 								"en":"Description",
 								"is":"Description"
 							},
+							"cn":{"描述"
 							"placeholder":{
 								"en":"Description copy for the feed item",
 								"is":"Description copy for the feed item"
 							},
+							"cn":{"题要条目的描述"
 							"type":"metadata",
 							"displaysize":"large"
 						}
@@ -159,21 +185,25 @@
 				"en":"Success/error messages",
 				"is":"Velgengnis/villu skilaboð"
 			},
+				"cn":{"成功/错误信息"
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
+					"cn":{"定制显示给使用本元素的人的信息."
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð"
 					},
+						"cn":{"成功信息"
 					"type":"text",
 					"default":{
 						"en":"Thank you for signing up. Please check your inbox to verify your email & complete your subscription.",
 						"is":"No translation available."
 					},
+					"cn":{"谢谢注册. 请查看你的收信箱来验证你的电子邮箱 & 完成你的订阅."
 					"displaysize":"large"
 				},
 				"message_email":{
@@ -181,11 +211,13 @@
 						"en":"Email success message",
 						"is":"Velgengnis skilaboð"
 					},
+					"cn":{"电子邮箱成功信息"
 					"type":"text",
 					"default":{
 						"en":"Thank you for signing up. Please make sure to verify your address <a href='{{{verify_link}}}'>here</a> to complete your subscription.",
 						"is":"No translation available."
 					},
+						"cn":{"谢谢注册. 请确保验证你的地址 <a href='{{{verify_link}}}'>here</a> 来完成你的订阅.",
 					"displaysize":"large"
 				},
 				"message_verify":{
@@ -193,11 +225,13 @@
 						"en":"Email verified message",
 						"is":"Velgengnis skilaboð"
 					},
+					"cn":{"电子邮箱已验证信息"
 					"type":"text",
 					"default":{
 						"en":"You did it!",
 						"is":"No translation available."
 					},
+					"cn":{"你已做到!"
 					"displaysize":"large"
 				},
 				"message_error":{
@@ -205,21 +239,25 @@
 						"en":"Payment error message",
 						"is":"Ógilt netfang"
 					},
+					"cn":{"付款错误信息"
 					"type":"text",
 					"default":{
 						"en":"There was a problem with your payment. Please try again.",
 						"is":"No translation available."
 					},
+						"cn":{"你的付款有问题. 请重新再试."
 					"displaysize":"large"
 				},
 				"message_reset_password_email":{
 					"label": {
 						"en":"Password reset email message"
 					},
+					"cn":{"密码重设电子邮件信箱"
 					"type":"text",
 					"default":{
 						"en":"Default password reset email message with {{{verify_link}}}"
 					},
+						"cn":{"默认密码重设电子邮件信息通过 {{{verify_link}}}"
 					"displaysize":"large"
 				}
 			}
