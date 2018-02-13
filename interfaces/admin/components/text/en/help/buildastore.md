@@ -1,22 +1,22 @@
-###Build a store
+###Magtayo ng isang tindahan
 
-You can watch a detailed video taking you through all of the steps to set up a store <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">here.</a>
+Maaari mong panoorin ang isang detalyadong video na magdadala sa iyo sa lahat ng mga hakbang sa pagtayo ng isang tindaan <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">dito.</a>
 
-What you'll need:
+Ano ang kakailanganin mo:
 
-- A payment connection
-- Any physical/digital items you wish to sell added to Commerce inventory
+- Isang koneksyon sa pagbayad
+- Kahit anong pisikal/digital na aytem na gusto mong ibenta sa Komersyong inventory.
 
-From the main page select the **Elements** tab. Click **Add an element** and select **Store**. Give the element a name for your own reference--no one else will see it.
+Mula sa pangunahing pahina, piliin ang **Elements** na tab. I-click ang **Add an element** at piliin ang **Store**. Bigyan ng pangalan ang isang elemento para sa iyong batayan--walang ibang makakakita nito.
 
-Now, open the **Element settings** drawer below the store element you just created. Choose the style of store that you'd like to build. The default setting will be all your items in one column. **Two columns** is just as it sounds--side by side. **Compact** is a more compressed version of the two columns. You can try them all out once you've set the rest of the store up to see which one you prefer and can change it at any time.
+Ngayon, buksan ang **Element settings** na drawer sa ilalim ng elemento ng tindahan na kalilikha mo lang. Piliin ang istilo ng tindahan na gusto mong itayo. Ang default na setting ay nasa iisang hanay ang lahat ng iyong mga aytem. Ang **Two columns** ay kung ano ang kanyang tunog--gilid sa gilid. Ang **Compact** ay isang mas pinaliit na bersyon ng dalawang hanay. Masusubukan mo silang lahat kapag naitakda mo na ang ibang bahagi ng tindahan upang tingnan kung alin ang gusto mo at pwedeng mabago sa kahit anong panahon.
 
-Next, start adding the commerce items that you wish to sell. Now add all of the items you wish to include in this store. The order in which you select them will be how they are ordered in the cart as well. For example, the first item you add will be at the top, the second will be second, and so on. If you have a featured item, like a new release or shirt, that you'd like highlighted at the top of your cart, click on **Add a new featured item** and choose it from the dropdown menu.
+Pagkatapos, simulang magdagdag ng mga komersyong aytem na gusto mong ibenta. Ngayon idagdag mo ang lahat ng mga aytem na gusto mong isali sa tindahang ito. Ang pagsasaayos sa pagpili mo sa kanila ay gayundin ang pagsasaayos nila sa kariton. Bilang halimbawa, ang unang aytem na idinagdag mo ay nasa itaas, ang pangalawa ay nasa ikalawa, at ganoon pa. Kung mayroon kang itinatampok na aytem, katulad ng isang bagong lathala o damit, na gusto mong i-highlight sa ibabaw ng iyong kariton, mag-click sa **Add a new featured item** at piliin ito mula sa dropdown menu.
 
-Once you've finished that step, you can edit the messages that your customers will receive once they've placed their order.
+Kapag natapos mo na ang hakbang na ito, maaari mong baguhin ang mga mensahe na matatanggap ng iyong mga suki kapag inilagay na nila ang kanilang order.
 
-Make sure when you're done that you click **save changes** at the bottom of the page.
+Siguraduhing kapag tapos ka na, i-click ang **save changes** sa ibaba ng pahina.
 
-Now you're ready to make your store live. You can either embed it on your own site or add to your CASH Music page and publish.
+Ngayon, handa ka nang gawing buhay ang iyong tindahan. Maaari mong i-embed ito sa iyong sariling sayt o idagdag isa iyong CASH Music na pahina at ilathala ito.
 
-All incoming orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Lahat ng mga paparating na order ay lalabas sa iyong **Commerce** na seksyon. Makikita mo ang mga detalye sa bawat order, pamahalaan ang inventory, at i-export ang mga order doon sa kahit kailang panahon. 
