@@ -1,15 +1,15 @@
-###Set up an email-for-download element
+### Magtakda ng isang email-para-sa-download na elemento
 
-Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform.
+Ang direktang pagkonekta sa iyang mga tagatangkilik ay lubhang mahalaga at ang listahan ng papadalhan ay isa sa pinakamabuting paraan upang mapanatili ang mga relasyong iyon. Ito ang isa sa pinakasikat na kasangkapan sa ating plataporma.
 
-What you’ll need:
+Mga Kakailanganin mo:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- A file or release set up in **Assets**, with fulfillment files attached
-- An email list either created or connected in the **People** section
+- Isang koneksyon sa imbakan--nirerekomenda namin ang Amazon S3 na account para sa pagkamaaasahan.
+- Isang file o lathala na nilakha sa **Assets**, na may nakalakip na mga file sa pagpupuna
+- Isang listahan ng mga email pwedeng nilikha o konektado sa **People** seksyon
 
-Once your download and list are set up, head to your main page and click on the **Elements** tab. Click on **Add element** and select **Email Collection**. Choose the list you'd like people to sign up to from the dropdown menu. Then, select the asset you'd like to offer for download (or none if you're not offering one.) Give the element a name for your own internal reference. To edit the default messages click on the **Element Settings** button.
+Kapag ang iyong download at listahan ay nagawa na, pumunta sa pangunahing pahina at mag-click sa **Elements** na tab. Pindutin ang **Add element** at piliin ang **Email Collection**. Piliin ang listahan na gusto mong magsign up ang mga tao mula sa dropdown menu. Pagkatapos, piliin ang asset na gusto mong ialok para sa downlaod (o wala kapag wala kang inaalok) Bigyan ang elemento ng isang pangalan para sa iyong sariling panloob na batayan. Upang baguhin ang mga default na mga mensahe, magpindot sa **Element Settings** na pipindutin.
 
-Note the **Skip email verification** checkbox. If this box is left unchecked, then anyone signing up will be emailed to confirm the address is legitimate. Be sure to check your email settings in the system settings menu. If you check the box, you are essentially trusting that any email addresses given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
+Tandaang ang **Skip email verification** na checkbox. Kapag ang kahong ito ay hindi nakatsek, sinumang nagsa-sign up ay papadalhan ng email upang patunayang tama ang addrress. Siguraduhing nasuri ang iyong mga email sa setting sa pansistemang menu ng mga setting. Kapag tsinek mo ang kahon, pinagkakatiwalaan mmong ang kahit anong email address na ibinigay ay tama. Makakatanggap ka ng mas maraming mga sign-up, pero mababa ang garantiya na too sila.
 
-Once the element is created, either embed it on your site or add it to your CASH Music page and publish.
+Kapag nalikha na ang elemento, maaaring i-embed ito sa iyong sayt o idagdag ito sa iyong CASH Music na pahina at ilathala.
