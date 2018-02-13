@@ -1,26 +1,24 @@
-There's a lot in the CASH platform, and it helps to start with a few core concepts. 
+NAKİT platformunda bir çok şey var ve birkaç temel kavramla başlamak için yardımcı oluyor.
 
-First and foremost, look at the main menu and you'll see five main categories:  
+En başta ana menüye bakarsanız beş ana kategori görürsünüz:
 
-  **Main page:** This is where you'll set up your elements and track their activity. You can also publish and edit your quick one page site here, get an embed code for any element you've set up, and organize all your projects. 
+ **Ana sayfa:** Bu, öğelerinizi ayarlayacağınız ve etkinliklerini izleyeceğiniz yerdir. Ayrıca hızlı tek sayfa sitenizi buradan yayınlayabilir ve düzenleyebilir, kurduğunuz herhangi bir öğe için bir katıştırma kodu edinebilir ve tüm projelerinizi organize edebilirsiniz.
   
-  **Assets:** Files, releases, and playlists. Basically anything you'll work on or use for 
-   fulfillment somewhere else in the platform.
+ **Öğeler:** Dosyalar, bültenler ve çalma listeleri. Temelde üzerinde çalışacağınız veya kullandığınız herhangi bir şey
+    platformda başka bir yerde yerine getirme.
 
-  **People:** Email and permission lists as well as press coverage. Right now this is mainly 
-   for email lists, but this is where you'll see more social integration and tools for interacting 
-   with people — from followers to writers and fans.
+  **İnsanlar:** E-posta ve izin listelerinin yanı sıra basın bildirisi. Şu anda bu esasen
+    e-posta listeleri için, ancak burada daha fazla sosyal entegrasyon ve etkileşim için araçlar göreceksiniz
+    İnsanlarla - takipçiden yazarlara ve hayranlara.
 
-  **Commerce:** Review your orders, manage inventory, and set up new items to sell.
+ **Ticaret:** Siparişinizi inceleyin, envanteri yönetin ve satılacak yeni öğeler oluşturun.
 
-  **Calendar:** Shows and venues.
+ **Takvim:** Gösteriler ve mekanlar.
 
 
-While you explore the platform remember that you can always click the learn icon <i class="icon icon-learn"></i> to see 
-tips for the page you're on. 
+Platformu keşfederken, öğrenme simgesini her zaman tıklayabileceğinizi unutmayın <i class="icon icon-learn"></i> bulunduğunuz sayfada ipuçlarını görmek için. 
 
-Click on the gear icon <i class="icon icon-cog"></i> at any time to access system settings, edit your account,
-or add connections. 
+Sistem ayarlarına erişmek, hesabınızı düzenlemek veya bağlantı eklemek için istediğiniz zaman dişli çark simgesine tıklayın <i class="icon icon-cog"></i> 
 
-For more, follow us on Twitter as [@cashmusic](http://twitter.com/cashmusic) or follow our 
+Daha fazla bilgi için Twitter'da şu adresten bizi takip edin: [@cashmusic](http://twitter.com/cashmusic) veya blogumuzu takip edin 
 [blog](https://medium.com/cash-music/).

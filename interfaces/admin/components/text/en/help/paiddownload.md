@@ -1,20 +1,20 @@
-###Sell a digital download
+###Dijital bir indirme sat
 
-Paid digital downloads using your own S3 and payment accounts. A simple and efficient way to sell music directly from your site.
+Kendi S3 ve ödeme hesaplarınızı kullanarak dijital indirilen ödemeleri yaptınız. Doğrudan sitenizden müzik satmanın basit ve etkili bir yolu.
 
-What you'll need:  
+Neye ihtiyacınız olacak:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
-- A payment connection--such as Paypal or Stripe
+- Depolama bağlantısı - Güvenilirlik için bir Amazon S3 hesabı öneririz
+- İlişkilendirilmiş dosyaların eklendiği bir öğe (depolama bağlantınızda barındırılır)
+- Bir ödeme bağlantısı - Paypal veya Stripe gibi
 
-Once you've set up your asset head over to the Commerce section. Click on **Inventory** in the Commerce sub menu, then click **Add an Item**. This is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. You'll also need to connect the fulfillment file that you wish to sell. If you've already set it up as an asset it will be in your dropdown menu here-- simply select the file and hit **save changes**.
+Mal varlığınızı Ticaret bölümüne ayarladıktan sonra. Ticaret alt menüsünde **Envanter** seçeneğini tıklayın, ardından **Öğe Ekle** seçeneğini tıklayın. İsterseniz ona bir **genel** başlık ve açıklama koyacak, fiyatı ayarlayacak ve "en az ödeme" fiyatlandırmasını etkinleştirilecek. Satmak istediğiniz yerine getirme dosyasını da bağlamanız gerekir. Zaten bir öğe olarak ayarladıysanız, buradaki açılır menüde olacaktır - dosyayı seçin ve değişiklikleri **kaydetme** seçeneğine tıklayın.
 
-Once the item has been created, click on the **edit** tab to add an image. Then click on the **add/edit** image button on the left. It will prompt you to select your storage connection from a dropdown menu and then upload the image you wish your customers to see. Hit the **Save changes** button when you're done.
+Öğe oluşturulduktan sonra, bir resim eklemek için **düzenle** sekmesini tıklayın. Ardından, soldaki **ekle / düzenle** resmi düğmesini tıklayın. Depolama bağlantınızı bir açılır menüden seçmenizi ve ardından müşterilerinizin görmesini istediğiniz resmi yüklemenizi ister. İşiniz bittiğinde **Değişiklikleri kaydet** düğmesine basın.
 
-If this is the only thing you wish to sell, it's time to create a **Single Purchase** element. Head back over to the main page, select the **elements** tab and click **add an element**. Select **Single Purchase**. Choose the item you wish to sell from the dropdown menu and give it a name for your own reference. To edit the success/error message, click on the **Element settings** button.
+Satmak istediğiniz tek şey buysa, artık bir **Tek Satın Alma** öğesi oluşturmanın zamanı geldi. Ana sayfaya geri dönün, **öğeler** sekmesini seçin ve **öğe ekle** seçeneğini tıklayın. **Tek Satın Alma** seçeneğini belirleyin. Açılır menüden satmak istediğiniz öğeyi seçin ve kendi referansınız için bir ad verin. Başarı / hata mesajını düzenlemek için **Öğe ayarları** düğmesine tıklayın.
 
-Once the element is created, embed it on your site or on your CASH Music page, and hit **publish**.
-When a customer buys your music, they'll be sent to a confirmation page with download options. They will also get an email from you with download instructions. This is helpful in case the customer is on a tablet or phone when they buy.
+Eleman oluşturulduktan sonra, öğeyi sitenize veya CASH Müzik sayfanıza gömün ve **yayınla** ya tıklayın.
+Bir müşteri müziğinizi satın aldığında, indirme seçenekleri olan bir onay sayfasına gönderilir. Ayrıca, indirme talimatlarıyla birlikte bir e-posta da alacaklar. Bu, müşterinin satın aldığı bir tablette veya telefonda olması durumunda yararlıdır.
 
-All completed orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Tamamlanan siparişlerin tamamı **Ticaret** bölümünde gösterilir. Her siparişle ilgili ayrıntıları bulabilir, envanteri yönetebilir ve siparişlerini istediğiniz zaman buradan verebilirsiniz.
