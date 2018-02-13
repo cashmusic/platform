@@ -4,22 +4,22 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHSystem as CASHSystem;
 /**
- * 所有分支和种子课程的数据存取。 CASHData摘出部分 
- * 数据处理，规定CASHDBA 对象为$this->db, 并为所有表格提供函数 
- * 来进入元数据。
+ * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
+ * data handling, provides a CASHDBA object as $this->db, and provides functions
+ * to access metadata for all tables.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * 版权 (c) 2013, CASH Music
+ * Copyright (c) 2013, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
- * 参照 http://www.gnu.org/licenses/lgpl-3.0.html
+ * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  *
- * 该文件由John Luini 和 chime.com 慷慨赞助
- * jon luini 和 chime.com 大力支持 cashmusic 提供进一步容易使用的开源工具
- * 给音乐家所做的努力!
+ * This file is generously sponsored by John Luini and chime.com
+ * jon luini and chime.com support cashmusic's efforts towards furthering
+ * easy-to-use open source tools for musicians!
  *
  */
 abstract class CASHData {
@@ -32,14 +32,14 @@ abstract class CASHData {
 
 	/**
 	 *
-	 * 数据库连接
-	 * 创建并安装新的CASHDBA
+	 * DATABASE CONNECTION
+	 * Create and store new CASHDBA
 	 *
 	 */
 
 	/**
-	 * 从/settings/cashmusic.ini.php里摄取数据连接属性
-	 * 并打开相应的连接 
+	 * Grabs database connection properties from /settings/cashmusic.ini.php and
+	 * opens the appropriate connection
 	 *
 	 * @return void
 	 */protected function connectDB() {
@@ -56,17 +56,17 @@ abstract class CASHData {
 
 	/**
 	 *
-	 * 会话处理器 
-	 * CASH 会话管理. 使用手动执行缓存（仅会话id）
-	 * 以及数据存储来持续. 允许多个网站服务器共用单一数据后台运行。
-	 * 而且也意味着我们没有故意踩踏其他 
-	 * 应用程序的会话数据。
+	 * SESSION HANDLERS
+	 * CASH session management. Uses a manual implementaion of cookie (session id only) and
+	 * database store for persistence. Allows for multiple web servers running against a
+	 * single database back-end. Also means we don't accidentally trample another app's
+	 * session data.
 	 *
 	 */
 
 	/**
-	 * 把空白的登记（或创建空白）加入到标准的 CASH 会话.
-	 * 只有在找到现有session_id 时才重设久数据
+	 * Empties (or creates empty) entries to the standard CASH session.
+	 * Only resets persistent data if a current session_id is found
 	 *
 	 * @return boolean
 	 */protected function resetSession() {
@@ -94,12 +94,12 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 在用户机台上设置初始CASH session_id 和缓存 
+	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
 	 */public function startSession($force_session_id=false,$sandbox=false) {
-		// 如果 'session_id' 已经设置在脚本商店，那么我们已经
-		// 在此脚本里开始会话，请不要不必要地重复数据。
+		// if 'session_id' is already set in script store then we've already started
+		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
 		$expiration = false;
 		$generate_key = false;
@@ -109,10 +109,10 @@ abstract class CASHData {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
 		if (!$this->sessionGet('start_time','script') || $force_session_id) {
-			// 首先请确保我们已经有了一个有效对话 
+			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
 			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
-				// 找到会话数据，核对有效期 
+				// found session data, check expiration
 				if ($current_session['expiration_date'] < time()) {
 					$this->sessionClearAll();
 					$current_session['persistent'] = false;
@@ -137,7 +137,7 @@ abstract class CASHData {
 					)
 				);
 				if ($session_exists) {
-					// 如果有还没有过期的现有对话，请使用它
+					// if there is an existing session that's not expired, use it
 					$previous_session = array(
 						'session_id' => array(
 							'condition' => '=',
@@ -146,7 +146,7 @@ abstract class CASHData {
 					);
 				}
 			} else {
-				// 创建新对话 
+				// create a new session
 				$newsession = true;
 				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
 				$previous_session = false;
@@ -158,16 +158,16 @@ abstract class CASHData {
 				'client_proxy' => $current_ip['proxy']
 			);
 			if (!$current_session['persistent']) {
-				// 没有现成的对话，设置空白数据 
+				// no existing session, set up empty data
 				$session_data['data'] = json_encode(array(
 					'created' => time()
 				));
 			}
-			// 设置对话信息 
+			// set the session info
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
 
-			// 设置数据库对话数据 
+			// set the database session data
 			$this->db->setData(
 				'sessions',
 				$session_data,
@@ -175,9 +175,9 @@ abstract class CASHData {
 			);
 
 			if (!$sandbox && !$force_session_id) {
-				// 设置客户端缓存 
+				// set the client-side cookie
 				if (!headers_sent()) {
-					// 还没有页眉，我们可以只是把缓存发送过去 
+					// no headers yet, we can just send the cookie through
 					setcookie('cashmusic_session', $session_id, $expiration, '/');
 				}
 			}
@@ -185,7 +185,7 @@ abstract class CASHData {
 			$session_id = $this->sessionGet('session_id','script');
 		}
 
-		// 错误记录 
+		// ERROR LOGGING
 		// error_log('starting session: ' . $session_id);
 
 		return array(
@@ -196,7 +196,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 返回一系列所有现有‘持续’和‘脚本’范围数据。
+	 * Returns an array of all current 'persistent' and 'script' scoped data
 	 *
 	 * @return array
 	 */public function getAllSessionData() {
@@ -204,7 +204,7 @@ abstract class CASHData {
 			'persistent' => false,
 			'script' => false
 		);
-		// 首先添加 script-scope stuff if set:
+		// first add script-scope stuff if set:
 		if (isset($GLOBALS['cashmusic_script_store'])) {
 			$return_array['script'] = $GLOBALS['cashmusic_script_store'];
 		}
@@ -230,7 +230,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 返回CASH session_id
+	 * Returns the CASH session_id
 	 *
 	 * @return boolean
 	 */protected function getSessionID() {
@@ -241,11 +241,11 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 用新回应开取代 script-scoped 'cash_last_response'
+	 * Replaces script-scoped 'cash_last_response' with a new response
 	 *
-	 * @param {array} $response - 新的 CASHResponse
-	 * @param {boolean} $reset_session_id [default: false] - 如果是真的，那么新的 
-	 *        会话id 会产生作为保障手段
+	 * @param {array} $response - the new CASHResponse
+	 * @param {boolean} $reset_session_id [default: false] - if true a new
+	 *        session id is generated as a security measure
 	 * @return boolean
 	 */protected function sessionSetLastResponse($response) {
 		$this->sessionSet('cash_last_response',$response,'script');
@@ -253,7 +253,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 返回现有的 script-scoped 'cash_last_response'数值
+	 * Returns the current value of script-scoped 'cash_last_response'
 	 *
 	 * @return array|false
 	 */public function sessionGetLastResponse() {
@@ -261,7 +261,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 设置  script-scoped 'cash_last_response' 为假的 
+	 * Sets script-scoped 'cash_last_response' to false
 	 *
 	 * @return array|false
 	 */public function sessionClearLastResponse() {
@@ -270,10 +270,10 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 添加新数据到 CASH 会话 — 'persistent' (db)或者 'script' ($GLOBALS) 域
+	 * Adds new data to the CASH session — 'persistent' (db) or 'script' ($GLOBALS) scope
 	 *
-	 * @param {string} $key - 和新数据关联的密匙
-	 * @param {*} $value - 要安装的数据 
+	 * @param {string} $key - the key to associate with the new data
+	 * @param {*} $value - the data to store
 	 * @return boolean
 	 */public function sessionSet($key,$value,$scope='persistent') {
 		if ($scope == 'persistent') {
@@ -301,12 +301,12 @@ abstract class CASHData {
 					)
 				);
 				return true;
-				// 记录错误
+				// ERROR LOGGING
 				// error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
 			}
 			return false;
 		} else {
-			// 设域为  'script' -- 或你知道的任何东西 
+			// set scope to 'script' -- or you know, whatever
 			if (!isset($GLOBALS['cashmusic_script_store'])) {
 				$GLOBALS['cashmusic_script_store'] = array();
 			}
@@ -316,23 +316,23 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 从 CASH 会话 返回数据到‘持续’或‘脚本’($GLOBALS) 域.
+	 * Returns data from the CASH session at either 'persistent' (db) or 'script' ($GLOBALS) scope
 	 *
-	 * @param {string} $key - 和所要求的数据相关联的密匙 
+	 * @param {string} $key - the key associated with the requested data
 	 * @return *|false
 	 */public function sessionGet($key,$scope='persistent') {
 		if ($scope == 'persistent') {
 			$session_data = $this->getAllSessionData();
 			if (isset($session_data['persistent'][(string)$key])) {
 
-				// 记录错误 
+				// ERROR LOGGING
 				// $session_id = $this->getSessionID();
 				// error_log('reading ' . $key . '(' . json_encode($session_data['persistent'][(string)$key]) . ') from session: ' . $session_id);
 
 				return $session_data['persistent'][(string)$key];
 			} else {
 
-				// 记录错误 
+				// ERROR LOGGING
 				// $session_id = $this->getSessionID();
 				// error_log('reading ' . $key . '(false/empty) from session: ' . $session_id);
 
@@ -348,9 +348,9 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 从特定的密匙上移除密匙/数值输入 
+	 * Removes the key/value entry for a specified key
 	 *
-	 * @param {string} $key - 要移除的密匙 
+	 * @param {string} $key - the key to be removed
 	 * @return void
 	 */public function sessionClear($key,$scope='persistent') {
 		if ($scope == 'persistent') {
@@ -383,15 +383,15 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 在数据库中重设会话，把缓存作废 
+	 * Reset the session in the database, expire the cookie
 	 *
 	 * @return void
 	 */public function sessionClearAll() {
 		$this->resetSession();
 		// set the client-side cookie
 		if (!headers_sent()) {
-			// 如果页眉已经发送，缓存将 
-			// 在下个 sessionStart()清除
+			// if headers have already been sent the cookie will be cleared on
+			// next sessionStart()
 			if (isset($_COOKIE['cashmusic_session'])) {
 				setcookie('cashmusic_session', null, -1, '/');
 			}
@@ -400,19 +400,19 @@ abstract class CASHData {
 
 	/**
 	 *
-	 * 元数据
-	 * 元数据可以通过域表格（别名） 和 id方式被应用到任何表格 
-	 * 这些函数可以进入任何厂房.
+	 * METADATA
+	 * Metadata can be applied to any table by way of a scope table (alias) and
+	 * id. These functions make access available to all plants.
 	 *
 	 */
 
 	public function setMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value) {
-		// 试着找到准确的密匙/数值吻合 
+		// try to find an exact key/value match
 		$selected_tag = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value);
 		if (!$selected_tag) {
 			$data_key_exists = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key);
 			if ($data_key == 'tag' || !$data_key_exists) {
-				// 没有吻合的标签或密匙，因此我们可以创建一个新的 
+				// no matching tag or key, so we can just create a new one
 				$result = $this->db->setData(
 					'metadata',
 					array(
@@ -424,7 +424,7 @@ abstract class CASHData {
 					)
 				);
 			} else {
-				// 密匙已存在并不是一个标签，因此我们需要编辑数值 
+				// key already exists and isn't a tag, so we need to edit the value
 				$result = $this->db->setData(
 					'metadata',
 					array(
@@ -440,14 +440,14 @@ abstract class CASHData {
 			}
 			return $result;
 		} else {
-			// 完全吻合: 元数据如要求存在，返回到真实 
+			// exact match: metadata exists as requested. return true
 			return $selected_tag['id'];
 		}
 	}
 
 	public function getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value=false) {
-		// 为查询设置选项. 留下 $data_value 好扩大结果范围 
-		// 默认 
+		// set up options for the query. leave off $data_value to widen the results
+		// by default
 		$options_array = array(
 			"scope_table_alias" => array(
 				"condition" => "=",
@@ -466,14 +466,14 @@ abstract class CASHData {
 				"value" => $user_id
 			)
 		);
-		// 如果设置 $data_value, 把它添加到选项中进行二次检索（标签）
+		// if $data_value is set, add it to the options for refined search (tags)
 		if ($data_value) {
 			$options_array['value'] = array(
 				"condition" => "=",
 				"value" => $data_value
 			);
 		}
-		// 进行查询
+		// do the query
 		$result = $this->db->getData(
 			'metadata',
 			'*',
@@ -481,10 +481,10 @@ abstract class CASHData {
 		);
 		if ($result) {
 			if ($data_value && $data_key != 'tag') {
-				// $data_value 以为着一个独特的设置，可以直接进入数组 
+				// $data_value means a unique set, give direct access to array
 				return $result[0];
 			} else {
-				// 如何没有 $data_value 设置，会出现多个结果（仅标签）
+				// without $data_value set there could be multiple results (tags only)
 				return $result;
 			}
 		} else {
@@ -506,8 +506,8 @@ abstract class CASHData {
 	}
 
 	public function removeAllMetaData($scope_table_alias,$scope_table_id,$user_id=false,$ignore_or_match='match',$data_key=false) {
-		// 提前设置表格/id . 如果没有指出用户，则它将移除全部 
-		// 给定表格+id的元数据  — 在删除母项目时将被主要使用
+		// set table / id up front. if no user is specified it will remove ALL
+		// metadata for a given table+id — used primarily when deleting the parent item
 		$conditions_array = array(
 			'scope_table_alias' => array(
 				'condition' => '=',
@@ -519,7 +519,7 @@ abstract class CASHData {
 			)
 		);
 		if ($user_id) {
-			// 如果 存在$user_id ，再次检索 
+			// if a $user_id is present refine the search
 			$conditions_array['user_id'] = array(
 				'condition' => '=',
 				'value' => $user_id
@@ -553,9 +553,9 @@ abstract class CASHData {
 				"value" => $scope_table_id
 			)
 		);
-		// 每个用户每个表格+id 的大多数$data_keys 是独特的，但标签需要多个 
-		// 因此我们要添加一个过滤器. 通过 'tag' 作为最后的选项来取得getAllMetaData
-		// 为单个表格+id取得所有标签行数组
+		// most $data_keys will be unique per user per table+id, but tags need multiple
+		// so we'll add a filter. pass 'tag' as the final option to getAllMetaData
+		// to get an array of all tag rows for a single table+id
 		if ($data_key) {
 			$key_condition = "=";
 			if ($ignore_or_match == 'ignore') {
@@ -589,14 +589,14 @@ abstract class CASHData {
 	}
 
 	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_existing=false) {
-		// 也需要添加$ignore_or_match='match',$data_key=false 到 removeAllMetaData 上
+		// also need to add $ignore_or_match='match',$data_key=false to removeAllMetaData
 
 		if ($tags) {
 			if ($delete_existing) {
-				// 如果delete_existing 已设，移除所有标签 
+				// remove all tags if delete_existing is set
 				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
 			}
-			// 首先取得现有标签，然后移除没在列表中的那些。
+			// first get current tags and remove any that are no longer in the list
 			$current_tags = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
 			if ($current_tags) {
 				foreach ($current_tags as $tag) {
@@ -607,14 +607,14 @@ abstract class CASHData {
 					}
 				}
 			}
-			// 在所有已通过的标签上运行 setMetaData - 将编辑现有标签并添加新的
+			// run setMetaData on all passed tags - will edit existing tags and add new ones
 			foreach ($tags as $tag) {
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
 			}
 		}
 		if ($metadata) {
 			if ($delete_existing) {
-				// 如果delete_existing 已设，移除所有非标签的元数据 
+				// remove all non-tag metadata if delete_existing is set
 				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
 			}
 			$current_metadata = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
@@ -635,16 +635,16 @@ abstract class CASHData {
 
 	/**
 	 *
-	 * 更新/数据缓存
-	 * 阅读和编写数据到文件的函数 — 二者对原始数据和结构性JSON 都是很有用的.
-	 * 主要作用于从API获取更新等.
+	 * FEED/DATA CACHE STUFF
+	 * Functions to read and write data to file — useful both for raw data and
+	 * structured JSON. Primarily used for feeds from API scrapes, etc.
 	 *
 	 */
 
 	/**
-	 * 为 JSON/更新缓存准备好基础文件缓存 — 关键只是进行测试 
-	 * 来确保缓存目录存在并可书写. primeCache() 将成功
-	 * 设置 $this->cache_enabled 为真实.
+	 * Readies the basic file cache for JSON/feed caching — essentially just tests
+	 * to ensure that the cache directory exists and is writeable. primeCache() will
+	 * set $this->cache_enabled true on success.
 	 *
 	 * @return void
 	 */public function primeCache($cache_dir=false) {
@@ -693,9 +693,9 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 拿到给定缓存文件的内容. 如果$force_last 已设置，无论如何，它始终将
-	 * 忽略终结状态并只是返回数据到文件中去.
-	 * 设置$decode 将告诉它是否把数据解析为JSON.
+	 * Gets the contents of a given cache file. If $force_last is set it will
+	 * ignore expiry state and simply return the data in the file regardless.
+	 * Setting $decode will tell it to parse the data as JSON or not.
 	 *
 	 * @return string or decoded JSON object/array
 	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true, $associative=true) {
@@ -720,7 +720,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 依照已过的期间，测试是否给定的数据已经过期.
+	 * Tests whether a given set of data has expired based on the passed duration.
 	 *
 	 * @return int (remaining time in seconds) or false
 	 */private function getCacheExpirationFor($datafile, $cache_duration=600) {
@@ -734,8 +734,8 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 取一个缓存名称，数据名称和 URL — 首先找缓存数据的变量，
-	 * 然后
+	 * Takes a cache name, data name, and URL — first looks for viable cache data,
+	 * then
 	 *
 	 * @return int (remaining time in seconds) or false
 	 */public function getCachedURL($cache_name, $data_name, $data_url, $format='json', $decode=true) {
@@ -756,13 +756,13 @@ abstract class CASHData {
 
 	/**
 	 *
-	 * 连接
-	 * 取得更多的第三方连接信息
+	 * CONNECTIONS STUFF
+	 * Get more info about third-party connections
 	 *
 	 */
 
 	/**
-	 * 为connection_id 返回连接类型 
+	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
 	 */public function getConnectionDetails($connection_id) {
@@ -784,7 +784,7 @@ abstract class CASHData {
 	}
 
 	/**
-	 * 为connection_id 返回连接类型 
+	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
 	 */protected function getConnectionType($connection_id) {
@@ -797,5 +797,5 @@ abstract class CASHData {
 	}
 
 
-} // 课程结束
+} // END class
 ?>

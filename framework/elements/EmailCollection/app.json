@@ -20,12 +20,6 @@
 			"instructions":"Settu eign á 'ekkert' fyrir einfalda netfanga söfnun, eða veldu eign til að notast við netfang-fyrir-niðurhal."
 		}
 	},
-	"cn":{
-			"名称":"电子邮箱收集",
-			"描述":"收集电子邮箱地址, 给予下载 (或者不).",
-			"详细描述":"该元素可以被用作可以用电子邮箱来下载的促销或作为收集可定制电子邮箱窗口小部件.",
-			"instructions":"Leave the asset set to 'none' for just straight email collection, or choose a target asset to try email-for-download."
-		},
 	"copy":{
 		"en":{
 			"signup":"sign me up",
@@ -37,23 +31,17 @@
 			"verify":"Athugaðu pósthólfið þitt eftir póst með niðurhals hlekk."
 		}
 	},
-	"cn":{
-			"注册":"请给我注册",
-			"验证":"请查看你的收信箱，查找带有下载链接的验证电子邮件.",
-			"redirecterror":"There was an error claiming your asset. Please reload and try again."
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
-			"cn":{"主设置",
 			"description":{
 				"en":"Select a target mailing list and an asset to give away (if you want).",
 				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt)."
 
 			},
-			"cn":{"请选择一个目标邮寄列表以及要赠送的资产（如果愿意的话).",
 			"data":{
 				"email_list_id":{
 					"label":{
@@ -61,7 +49,6 @@
 						"is":"Valin netfangaskrá"
 
 					},
-					"cn":{"目标邮寄列表",
 					"type":"select",
 					"values":"people/lists",
 					"required":true,
@@ -72,7 +59,6 @@
 						"en":"The downloadable asset",
 						"is":"Eign til niðurhals"
 					},
-					"cn":{"可下载的资产",
 					"type":"select",
 					"values":"assets",
 					"displaysize":"small"
@@ -82,7 +68,6 @@
 						"en":"Skip email verification (recommended)",
 						"is":"Sleppa netfanga staðfestingu (mælt með)"
 					},
-					"cn":{"跳过电子邮箱验证 (推荐)",
 					"type":"boolean",
 					"default":true,
 					"displaysize":"large"
@@ -92,7 +77,6 @@
 						"en":"Get name with email collection?",
 						"is":"Get name with email collection?"
 					},
-					"cn":{"采集名字和电子邮箱?",
 					"type":"boolean",
 					"default":false,
 					"displaysize":"small"
@@ -102,7 +86,6 @@
 						"en":"Get postal code with email collection?",
 						"is":"Get postal code with email collection?"
 					},
-					"cn":{"采集邮编和电子邮箱?",
 					"type":"boolean",
 					"default":false,
 					"displaysize":"small"
@@ -115,25 +98,21 @@
 				"is":"Velgengnis/villu skilaboð"
 
 			},
-			"cn":{"成功/错误信息",
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
-			"cn":{"为使用该元素的人们显示定制化信息.",
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð"
 					},
-					"cn":{"成功信息",
 					"type":"text",
 					"default":{
 						"en":"Thanks! You're all signed up.",
 						"is":"Takk fyrir! Skráning tókst."
 					},
-					"cn":{"谢谢! 你已经注册完成.",
 					"displaysize":"medium"
 				},
 				"message_invalid_email":{
@@ -141,13 +120,11 @@
 						"en":"Invalid email message",
 						"is":"Ógilt netfang"
 					},
-					"cn":{"无效电子邮件信箱",
 					"type":"text",
 					"default":{
 						"en":"Sorry, that email address wasn't valid. Please try again.",
 						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur."
 					},
-					"cn":{"对不起,该电子邮箱无效. 请重新再试.",
 					"displaysize":"medium"
 				},
 				"message_privacy":{
@@ -155,13 +132,11 @@
 						"en":"Privacy message",
 						"is":"Friðhelgis skilaboð"
 					},
-					"cn":{"私人信息",
 					"type":"text",
 					"default":{
 						"en":"We won't share, sell, or be jerks with your email address.",
 						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt."
 					},
-					"cn":{"我们不会分享，卖出，或拿你的电子邮箱开玩笑.",
 					"displaysize":"medium"
 				},
 				"message_verification":{
@@ -169,13 +144,11 @@
 						"en":"Address verification message (only if verifying)",
 						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)"
 					},
-					"cn":{"地址验证信息（仅在验证时)",
 					"type":"text",
 					"default":{
 						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)",
 						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)"
 					},
-					"cn":{"你必须在继续前先验证你的电子邮箱. 已经发生一封邮件. 请点击提供的链接确认会议身份. (如果你没有看到此信息，请查看你的垃圾箱.)",
 					"displaysize":"medium"
 				}
 			}
@@ -185,25 +158,21 @@
 				"en":"Customize signup form",
 				"is":"Sérsníða skráningar eyðublað"
 			},
-			"cn":{"定制注册表格",
 			"description":{
 				"en":"Change placeholder and text in the form shown to the public.",
 				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi."
 			},
-			"cn":{"更改表格中要显示给公众的占位符和本文.",
 			"data":{
 				"placeholder_text":{
 					"label":{
 						"en":"Email form placeholder text",
 						"is":"Staðgengilstexti netfanga eyðublaðs"
 					},
-					"cn":{"电子邮件表格占位符文本",
 					"type":"text",
 					"default":{
 						"en":"Enter your email",
 						"is":"Enter your email"
 					},
-					"cn":{"请输入你的电子邮箱",
 					"displaysize":"small"
 				},
 				"button_text":{
@@ -211,13 +180,11 @@
 						"en":"Text for submit button",
 						"is":"Texti fyrir senda takka"
 					},
-					"cn":{"文本提交按钮",
 					"type":"text",
 					"default":{
 						"en":"Sign me up",
 						"is":"Skráðu mig"
 					},
-					"cn":{"请给我注册",
 					"displaysize":"small"
 				}
 			}
@@ -227,19 +194,16 @@
 				"en":"Data collection options",
 				"is":"Gagnasöfnunarstillingar"
 			},
-			"cn":{"数据收集选项",
 			"description":{
 				"en":"Add a checkbox for age verification, agreeing to terms, etc.",
 				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis."
 			},
-			"cn":{"添加一个复选框作为年龄验证，同意条款等.",
 			"data":{
 				"agree_checkbox":{
 					"label":{
 						"en":"Show agreement checkbox",
 						"is":"Sýna samþykkis gátreit"
 					},
-					"cn":{"显示同意复选框",
 					"type":"boolean",
 					"default":false,
 					"displaysize":"small"
@@ -249,13 +213,11 @@
 						"en":"Message to show (I agree...)",
 						"is":"Skilaboð til að sýna (Ég samþykki...)"
 					},
-					"cn":{"要显示的信息 (我同意...)",
 					"type":"text",
 					"default":{
 						"en":"I checked the checkbox!",
 						"is":"Ég fyllti inn gátreitinn!"
 					},
-					"cn":{"我已勾选了复选框!",
 					"displaysize":"small"
 				}
 			}
