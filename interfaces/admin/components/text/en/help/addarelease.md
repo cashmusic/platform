@@ -1,19 +1,19 @@
-###Assets: add a release or file
+###Recursos: adicionar um lançamento ou arquivo
 
-What you'll need:
+O que você vai precisar:
 
-- A storage connection, we recommend Amazon S3
+- Uma conexão de armazenamento, nós recomendamos Amazon S3
 
-**Adding a new release**
+**Adicionando um novo lançamento**
 
-Head on over to the **Assets** section and select **Add a new release**. You'll be asked to give it a title and a description—this is for your reference only. When you're done, click **Save changes**. Inside the release details page is where you can specify the artist name, release date, catalog number and begin attaching files for download.
+Vá para a sessão **Recursos** e selecione **Adicionar um novo lançamento**. Você será solicitado para dar-lhe um título e uma descrição - isso é apenas para sua referência. Quando você terminar, clique em **Salvar mudanças**. Dentro da página de detalhes do lançamento é onde você pode especificar um nome de artista, data de lançamento, número do catálogo e começar a anexar arquivos para download.
 
-To add fulfillment files to your release click **Attach a file**. You'll once again be asked to give it an internal name and description, and then asked which storage connection to use. Select your connection from the **Which storage connection?** dropdown menu and an upload button will appear. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.To return to your release and continue adding files, click the arrow in the upper-left-hand corner.
+Para adicionar arquivos de preenchimento para seu lançamento, clique em **Anexar um arquivo**. Você novamente será solicitado a dar-lhe um nome interno e uma descrição, e então perguntado sobre qual conexão de armazenamento usar. Selecione sua conexão do menu suspenso **Qual conexão de armazenamento?** e um botão de upload vai aparecer.  Se você hospeda seus arquivos em seu próprio servidor, forneça a localização (URI). Quando você finalizar, clique em **Salvar mudanças**. Para voltar ao seu lançamento e continuar adicionando arquivos, clique na flecha no canto superior esquerdo.
 
-When you're done adding files to your release, click **Save changes**.
+Quando você terminar de adicionar arquivos para seu lançamento, clique em **Salvar mudanças**.
 
-**Tip**: All the files you attach to a given release will be made available as a group. For instance, if you're offering an album and attach 12 mp3 files and two artwork files, whoever accesses your release through one of our elements will have to individually download all fourteen files. Consider compressing all your files into a zip file.
+**Dica**: Todos os arquivos que você anexar a um dado lançamento estará disponível como um grupo. Por exemplo, se você está oferecendo um álbum e anexar 12 arquivos mp3 e dois arquivos de arte, qualquer pessoa que acesse seu lançamento através de um de seus elementos terá que baixar individualmente todos os quatorze arquivos. Considere a possibilidade de comprimir todos os seus arquivos em um arquivo zip.
 
-**Uploading a file**
+**Fazendo o upload de um arquivo**
 
-If you choose to add a file, you'll be prompted to give it a name and a description—this is for your reference only. If you've set up a Drive or S3 account, select it from the **Which storage connection?** dropdown menu and an upload button will appear to add your file. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.
+Se você escolher adicionar um arquivo, será solicitado a você que dê-lhe um nome e uma descrição - isso é apenas para sua referência. Se você configurou um Drive ou uma conta S3, selecione-a do menu suspenso **Qual conexão de armazenamento?**  e um botão de upload vai aparecer para adicionar seu arquivo. Se você hospeda seus arquivos em seu próprio servidor, forneça a localização (URI). Quando você terminar, clique em **Salvar mudanças**.
