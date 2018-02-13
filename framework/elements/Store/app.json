@@ -20,11 +20,6 @@
 			"instructions":"...."
 		}
 	},
-	"cn":{
-			"名称":"商店",
-			"描述":"创建你的商店.",
-			"详细描述":"在你的网站上销售物理和/或数字商品. 添加尽可能多你想要销售的商品. 我们不会收提成.",
-			"instructions":"...."
 	"copy":{
 		"en":{
 			"cart":"Add to cart",
@@ -57,38 +52,22 @@
 			"checkout":"Ganga frá kaupum"
 		}
 	},
-	"cn":{"购物车":"添加到购物车",
-			"flexibleprice_suffix":"或更多",
-			"choose_variants":"先选择一个选项",
-			"choose_verb":"选择",
-			"added":"已添加到购物车!",
-			"unavailable":"对不起, 该商品暂时没有.",
-			"emptycart":"你的购物车是空的.",
-			"subtotal":"小计",
-			"total":"总数",
-			"shipping":"出货",
-			"pleaseselect":"选择出货区域",
-			"qty":"数量",
-			"checkout":"开始结账"
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
-			"cn":{"主设置",
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
 				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota."
 			},
-				"cn":{"选择要卖的库存产品和要使用的商务连接.",
 			"data":{
 				"layout":{
 					"label":{
 						"en":"Layout type",
 						"is":"Tegund umbrots"
 					},
-					"cn":{"布局种类",
 					"type":"select",
 					"values":{
 						"cm-default":"Default",
@@ -103,21 +82,18 @@
 						"en":"Featured items",
 						"is":"Sérkynntir hlutir"
 					},
-					"cn":{"特色商品",
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new featured item",
 						"is":"Bæta við nýjum sérkynntum hlut"
 					},
-						"cn":{"添加一个新的特色商品",
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
 								"is":"Valinn hlutur"
 							},
-							"cn":{"已选商品",
 							"type":"select",
 							"values":"commerce/items",
 							"required":false,
@@ -131,21 +107,18 @@
 						"en":"Additional items",
 						"is":"Auka hlutir"
 					},
-					"cn":{"附加商品",
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add another item",
 						"is":"Bæta við öðrum hlut"
 					},
-					"cn":{"添加另一商品",
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
 								"is":"Valinn hlutur"
 							},
-								"cn":{"已选商品",
 							"type":"select",
 							"values":"commerce/items",
 							"required":false,
@@ -156,13 +129,11 @@
 								"en":"Tags (optional)",
 								"is":"Merki (valfrjálst)"
 							},
-							"cn":{"标签 (可选)",
 							"type":"text",
 							"default":{
 								"en":"",
 								"is":""
 							},
-								"cn":{"",
 							"displaysize":"small"
 						}
 					},
@@ -175,26 +146,22 @@
 				"en":"Success/error messages",
 				"is":"Velgengnis/villu skilaboð"
 			},
-			"cn":{"成功/错误信息",
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 
 			},
-			"cn":{"定制显示给使用此元素的人的信息.",
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengis skilaboð"
 					},
-						"cn":{"成功信息",
 					"type":"text",
 					"default":{
 						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page.",
 						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu."
 					},
-					"cn":{"谢谢! 请到你的收信箱和垃圾文件夹查看发票以及回到此页面的链接.",
 					"displaysize":"medium"
 				},
 				"message_error":{
@@ -202,14 +169,12 @@
 						"en":"Invalid email message",
 						"is":"Ógilt tölvupóstskeyti"
 					},
-					"cn":{"无效电子邮件信息"
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
 						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
 
 					},
-						"cn":{"处理你的付款时出错。请重新加载并重试.",
 					"displaysize":"medium"
 				},
 				"message_email":{
@@ -217,13 +182,11 @@
 						"en":"Personalized email message",
 						"is":"Persónumiðað tölvupóstskeyti"
 					},
-						"cn":{"个性化电子邮件信息",
 					"type":"text",
 					"default":{
 						"en":"",
 						"is":""
 					},
-					"cn":{"",
 					"displaysize":"medium"
 				}
 			}

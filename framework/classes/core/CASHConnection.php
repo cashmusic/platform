@@ -6,22 +6,23 @@ use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHSystem as CASHSystem;
 
 /**
- * CASHConnection 从数据库里存储和检索第三方API连接设置。
- * API 设置的定义以JSON 平面文件格式存储在/settings/connections里。 
- * 并在该课程里读入. 实际API key和所需要的设置是以JSON格式存在在数据库里的设置表格里。
+ * CASHConnection stores and retrieves 3rd party API connection settings from the
+ * database. API settings definitions are stored as JSON flat files in /settings/connections
+ * then read in by this class. Actual API keys and needed settings are stored as JSON
+ * in the settings table in the database.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * 版权 (c) 2013, CASH Music
+ * Copyright (c) 2013, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
- * 参照 http://www.gnu.org/licenses/lgpl-3.0.html
+ * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  *
- * 该文件由Anchor Brain慷慨赞助。 
- * Anchor Brain: 总部在Providence 的一家唱片公司，他们主要发行的乐队有： 
- * Doomsday Student, What Cheer? Brigade, Six Finger Satellite. 网站: anchorbrain.com
+ * This file is generously sponsored by Anchor Brain
+ * Anchor Brain: A Providence based record label featuring releases by bands like
+ * Doomsday Student, What Cheer? Brigade, Six Finger Satellite. Website: anchorbrain.com
  *
  */class CASHConnection extends CASHData {
 	public $user_id,$connection_id,$connection_name,$creation_date;
@@ -35,15 +36,16 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 
 	/**
 	 *
-	 * 平台 / 普通用户设置
-	 * 这些功能不处理特定的设置，它们查找平台上有什么是现成的，以及为指定用户寻找各种设置等。
+	 * PLATFORM / GENERAL USER SETTINGS
+	 * These functions don't handle specific settings, rather find what's available
+	 * on a platform level, find all settings for a given user, etc.
 	 *
 	 */
 
 	/**
-	 * 查找所有 JSON 格式的设置文件, 建构类型输入的数组。
+	 * Finds all settings type JSON files, builds an array keyed by type
 	 *
-	 * @返回数组
+	 * @return array
 	 */public function getConnectionTypes($filter_by_scope=false,$force_all=false) {
 		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/connections')) {
 			$settings_types = false;
@@ -88,9 +90,9 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	}
 
 	/**
-	 * 帮指定用户返回所有设置
+	 * Returns all settings for a given user
 	 *
-	 * @返回数组
+	 * @return array
 	 */public function getAllConnectionsforUser() {
 		if ($this->user_id) {
 			$result = $this->db->getData(
@@ -111,15 +113,16 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 
 	/**
 	 *
-	 * 特定会话功能
-	 * 这些返回或设置单个设置
+	 * SPECIFIC SESSION FUNCTIONS
+	 * These return or set individual settings
 	 *
 	 */
 
 	/**
-	 * 为CASHConnection对象示例的id返回解密JSON设置。 
+	 * Returns the decoded JSON for the setting id the CASHConnection
+	 * object was instantiated with.
 	 *
-	 * @返回设置对象
+	 * @return settings obj
 	 */public function getConnectionSettings($id_override=false) {
 		if (!$id_override) {
 			$connection_id = $this->connection_id;
@@ -156,7 +159,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 
 	/**
 	 *
-	 * @返回设置对象 
+	 * @return settings obj
 	 */public function getConnectionsByType($settings_type) {
 		$result = $this->db->getData(
 			'connections',
@@ -176,9 +179,9 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	}
 
 	/**
-	 * 为特地的连接范围返回解密JSON
+	 * Returns the decoded JSON for the specified connection scope
 	 *
-	 * @返回设置对象
+	 * @return settings obj
 	 */public function getConnectionsByScope($scope) {
 		$connection_types_data = $this->getConnectionTypes($scope);
 		$applicable_settings_array = false;
@@ -206,10 +209,10 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	}
 
 	/**
-	 * 返回特定设置
+	 * Returns the specific setting
 	 *
-	 * @param {string} 设置名称
-	 * @返回设置对象
+	 * @param {string} settings name
+	 * @return settings obj
 	 */public function getSetting($setting_name) {
 		if (isset($this->settings[(string)$setting_name])) {
 			return $this->settings[(string)$setting_name];
@@ -221,7 +224,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	/**
 	 *
 	 *
-	 * @param {array} settings_data: 设置数据作为组合数组
+	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
 	 */public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
 		$settings_data = json_encode($settings_data);
@@ -252,7 +255,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	/**
 	 *
 	 *
-	 * @param {array} settings_data: 设置数据作为组合数组
+	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
 	 */public function updateSettings($settings_data) {
 		$settings_data = json_encode($settings_data);
@@ -291,7 +294,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 	}
 
 	/**
-	 * 确保每个用户有独特的指定名字/类型组合。
+	 * Ensures that the specified name / type combination is unique per user
 	 *
 	 * @return boolean
 	 */private function checkUniqueName($settings_name,$settings_type) {
@@ -319,5 +322,5 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 			return true;
 		}
 	}
-} // 课程结束
+} // END class
 ?>

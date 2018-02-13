@@ -20,31 +20,22 @@
 			"instructions":"Veldu hóp til að leyfa niðurhal, eign til þess að hala niður, og ef þú vilt, víðvært lykilorð fyrir þessa einingu."
 		}
 	},
-	"cn":{
-			"名称":"保证下载",
-			"描述":"允许一系列用户可以登陆和下载安全资产.",
-			"详细描述":"它允许你只给某些人在登陆后可以进行下载.",
-			"指示":"选择一系列用户进行验证，资产进行下载，以及为此元素选择性添加万能密码."
-		},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
 			},
-			"cn":{"主设置",
 			"description":{
 				"en":"Choose a list and an asset for the download.",
 				"is":"Veldu hóp og eign fyrir niðurhalið."
 			},
-			"cn":{"选择要下载的列表和资产.",
 			"data":{
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
 						"is":"Valinn póstlisti"
 					},
-					"cn":{"目标邮寄列表",
 					"type":"select",
 					"values":"people/lists",
 					"required":true,
@@ -55,7 +46,6 @@
 						"en":"The downloadable asset",
 						"is":"Eign til niðurhals"
 					},
-					"cn":{"可下载的资产",
 					"type":"select",
 					"values":"assets",
 					"required":true,
@@ -68,25 +58,21 @@
 				"en":"Additional settings",
 				"is":"Aðrar stillingar"
 			},
-			"cn":{"附加设置",
 			"description":{
 				"en":"Customize messages, define a universal password, or set it to skip login entirely.",
 				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna."
 			},
-			"cn":{"定制信息, 定义一个万能密码, 或者设置为完全跳过登陆.",
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð"
 					},
-					"cn":{"成功信息",
 					"type":"text",
 					"default":{
 						"en":"",
 						"is":""
 					},
-					"cn":{"",
 					"displaysize":"medium"
 				},
 				"alternate_password":{
@@ -94,12 +80,10 @@
 						"en":"Password",
 						"is":"Lykilorð"
 					},
-					"cn":{"密码",
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
 						"is":"Lykilorð eða frasi til þess að aflæsa efni"
 					},
-					"cn":{"一个密码或短词来解锁内容",
 					"type":"text",
 					"displaysize":"small"
 				},
@@ -108,7 +92,6 @@
 						"en":"Do not require login",
 						"is":"Ekki krefjast innskráningu"
 					},
-					"cn":{"不要求登陆",
 					"type":"boolean",
 					"default":true,
 					"displaysize":"small"
