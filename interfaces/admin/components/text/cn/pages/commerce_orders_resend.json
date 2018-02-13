@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"store_url":"Choose a valid store URL",
+		"error":"Can't resend",
+		"submit_button":"Send receipt"
+	},
+	"tooltips":{},
+	"copy":{
+		"instructions":"The receipt contains links back to your store — choose a link to a live page with your store element in order to proceed.",
+		"error":"It looks like you deleted the store element this order was placed with. We can't resend the receipt/downloads."
+	}
+}

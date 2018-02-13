@@ -8,7 +8,7 @@ use CASHMusic\Seeds\ExternalFulfillmentSeed;
 use CASHMusic\Seeds\SoundScanSeed;
 
 /**
- * GC and background tasks
+ * GC 和背景任务
  *
  * @package platform.org.cashmusic
  * @author CASH Music
@@ -19,20 +19,20 @@ use CASHMusic\Seeds\SoundScanSeed;
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  *
- * This file is generously sponsored by Leigh Marble
- * Leigh Marble, independent musician, Portland, OR -- www.leighmarble.com --
+ * 该文件由Leigh Marble慷慨赞助
+ * Leigh Marble, 独立音乐家, 波特兰, 俄勒冈 -- www.leighmarble.com --
  *
  */
 class CASHDaemon extends CASHData {
 	private $user_id 	= false;
 	private $history 	= false;
 	private $runtime 	= 0;
-	// define the schedule — it's a fuzzy schedule based on traffic
-	// the jobs will run ~5min early/late, depending. keep that in mind.
+	// 定义安排计划 — 计划时间是大概，主要基于交通情况，
+	// 工作可能提前/推迟 ~5 分钟，请记住.
 
-	// not necessary for these to be in the same timezone as the server
-	// but it's probably smart — otherwise the beginning/end of a day
-	// could cause some issues with the schedule runner
+	// 这那些没有和服务器在同一时区的人可能没必要关系，
+	// 但最好还是记住 — 否则对于那些遵守进度安排者来说，
+	// 每天的开始和结束可能都会导致一些问题发生。
 	private $schedule	= array(
 		"soundscan-digital" => array(
 			"type" => "friday", // lowercase day
@@ -91,51 +91,51 @@ class CASHDaemon extends CASHData {
 
 	private function runSchedule() {
 		$total_runs = count($this->history['last3_runs']);
-		// create an array of the gaps between tun times
+		// 在运行次数间创建空隙间隔数组
 		$spans = array($this->runtime - $this->history['last3_runs'][$total_runs - 1]);
 		$i = $total_runs;
 		while ($i > 1) {
 			$spans[] = $this->history['last3_runs'][$i - 1] - $this->history['last3_runs'][$i - 2];
 			$i--;
 		}
-		// assuming we have 3 last runs, we now have 3 spans. let's add a minimum span:
+		// 假设我们有上3 次运行，现在有3 个跨度。让我们添加一个最小的跨度:
 		$spans[] = 300;
-		// now let's get a max, plus, you know...a little extra
+		// 现在让我们加个max, 以及，你知道... 再多一点 
 		$max_span = floor(max($spans) * 1.15);
 
-		// last thing we need to know is what day it is (lol)
+		// 最后我们要知道的是今天是哪天（大笑）
 		$today = strtolower(date('l'));
 
 		foreach ($this->schedule as $key => $details) {
 
-			// the day wrapping sucks. sorry but it's true. we need some special checks
-			// just to even see if there's a chance  we missed a latenight task and
-			// wrapped into the next day
+			// 日总结很讨厌。对不起，但这是真的。我们需要特别核对，
+			// 来查看我们是否漏了完成深夜任务，
+			// 而要把它加到第二天去。
 			$overdue = false;
 			if (isset($this->history['last_scheduled'][$key])) {
 				if ($details['type'] == strtolower(date('l',$this->runtime - 86400)) &&
 					date('d',$this->history['last_scheduled'][$key]) !== date('d',$this->runtime - 86400)) {
-					// this if statment is ugly AF. in a nutshell:
-					// if the type is, say, 'tuesday' and $this->runtime-24 hours is ALSO 'tuesday' then
-					// check that the last known runtime day was the same day as $this->runtime
-					// if the days are not the same then it means the job never ran on the day it was
-					// supposed to (probably near midnight) so now it's overdue
+					// 概括起来，这个 if 陈述是丑陋的AF.:
+					// 如果类型是，比如说，‘周二’，那么$this->运行时间-24 小时也是'周二'，接着
+					// 核对上此制度的运行时间日期是和 $this->runtime 一样的。
+					// 如果日期不一样，那么就意味着该工单没有在它所指定的日子（可能将近半夜）运行，
+					// 因此现在已经过期了。 
 					$overdue = true;
 				}
 			}
 
 			if ($details['type'] == 'daily' || $today == $details['type'] || $overdue) {
 				$target = strtotime($details['time']);
-				// in case of first run
+				// 在第一次运行时
 				$already_run = false;
 				if (isset($this->history['last_scheduled'][$key]) && !$overdue) {
-					// if we ran the job this same day call it already run
+					// 如果在同一天运行，则称之为已运行。
 					if (date('d',$this->history['last_scheduled'][$key]) == date('d',$this->runtime)) {
 						$already_run = true;
 					}
 				}
-				// if it hasn't already been run AND we're within the max span (+15%) of
-				// the scheduled run time then we go. (the max span stuff is an attempt
+				// 如果尚未运行，并且我们在计划的运行时间的最大跨度（+15%）内，则继续
+				// (最大跨度是一次尝试
 				if ((!$already_run && ($this->runtime + $max_span) > $target) || $overdue) {
 					$this->runScheduledJob($key);
 				}
@@ -164,7 +164,7 @@ class CASHDaemon extends CASHData {
 		}
 		if ($type == 'digital') {
 
-			// translates to the previous thursday
+			// 转化到前个星期四
 			$report_end = strtotime("Yesterday 8:59PM America/Los_Angeles");
 			$report_start = ($report_end-604800);
 
@@ -185,11 +185,11 @@ class CASHDaemon extends CASHData {
 
 	/****************************************************************************
 	 *
-	 * The destructor function is where all the magic actually happens
+	 * 自毁函数是所有魔术实际发生的地方 
 	 *
-	 * 1. clean up old sessions and tokens
-	 * 2. check/run scheduled jobs
-	 * 3. update all the runtime stats/data for the daemon
+	 * 1. 清除旧的会话和令牌 
+	 * 2. 核对/运行已计划的工作 
+	 * 3. 为后台程序更新所有运行时间的状态/数据
 	 *
 	 ***************************************************************************/
 	public function __destruct() {
@@ -197,14 +197,14 @@ class CASHDaemon extends CASHData {
 			$this->clearExpiredSessions();
 			$this->clearOldTokens();
 			$this->runSchedule();
-			// update history
+			// 更新历史记录
 			$this->history['total_runs'] 		= $this->history['total_runs'] + 1;
 			$this->history['last_run'] 		= $this->runtime;
 			$this->history['last3_runs'][]	= $this->runtime;
 			if (count($this->history['last3_runs']) > 3) {
 				$this->history['last3_runs'] = array_slice($this->history['last3_runs'],-3);
 			}
-			// store settings for next run
+			// 为下次运行储存设置 
 			$history_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'system',
@@ -216,5 +216,5 @@ class CASHDaemon extends CASHData {
 			);
 		}
 	}
-} // END class
+} // 课程结束
 ?>

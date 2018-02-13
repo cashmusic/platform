@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"<p>It always helps to keep track of who’s a supporter, who might like to write a feature, and who to just ignore.</p><p>Also, very useful to have on this stuff on hand for pull quotes, press kits, and getting a booking agent.</p>",
+	"related":{},
+	"labels":{"url":"URL",
+               "tags":"Tags"
+
+   },
+	"tooltips":{},
+	"copy":{"add_new_press":"Add new press coverage",
+            "publishing_date":"Publishing date",
+            "add_tag":"+ ADD TAG",
+            "add_new_link":"Add new link",
+            "press_links":"Press links",
+            "no_press_links":"No press links have been added.",
+            "add_one":" Add one to get started."
+
+}
+}

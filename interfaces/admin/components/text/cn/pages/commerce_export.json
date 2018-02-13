@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"export":"Export Orders:",
+            "mark":" Mark exported orders as fulfilled"
+
+   },
+	"tooltips":{},
+	"copy":{"op_all":"All",
+            "op_unfulfilled":"Unfulfilled",
+            "op_fulfilled":"Fulfilled",
+            "op_physical":"Physical",
+            "op_digital":"Digital-only",
+            "button_export":"Export"
+
+
+}
+}

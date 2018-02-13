@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"<p></p>",
+	"related":{},
+	"labels":{
+		"connection_id":"Connection id",
+		"subject":"Email subject",
+		"message":"Message",
+		"include_download":"Include download"
+   },
+	"tooltips":{},
+	"copy":{
+      "button_send":"Send the email"
+	}
+}
