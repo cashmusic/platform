@@ -1,23 +1,23 @@
-# OAuth 2.0 Client
+# Klien OAuth 2.0
 
-## Provider Guide
+## Panduan Penyedia Jasa
 
-New providers may be created by copying the layout of an existing package. See
-the [list of providers](README.PROVIDERS.md) for good examples.
+Penyedia baru dapat dibuat dengan menyalin tata letak paket yang ada. Lihat
+itu [list of providers](README.PROVIDERS.md) untuk contoh yang bagus
 
-When choosing a name for your package, please don’t use the `league` vendor
-prefix, as this implies that it is officially supported. You should use your own
-username as the vendor prefix, and prepend `oauth2-` to the package name to make
-it clear that your package works with OAuth2 Client. For example, if your GitHub
-username was "santa," and you were implementing the "giftpay" OAuth2 library, a
-good name for your composer package would be `santa/oauth2-giftpay`.
+Saat memilih nama untuk paket Anda, jangan gunakan vendor `league`
+awalan, karena ini berarti secara resmi didukung. Anda harus menggunakan sendiri
+username sebagai awalan vendor, dan tambahkan `oauth2-` ke nama paket yang akan dibuat
+jelas bahwa paket Anda bekerja dengan OAuth2 Client. Misalnya, jika Anda GitHub
+nama pengguna adalah "santa", dan Anda menerapkan pustaka "giftpay" OAuth2, a
+nama baik untuk paket komposer anda adalah `santa / oauth2-giftpay`.
 
-### Implementing your own provider
+### Melaksanakan penyedia Anda sendiri
 
-If you are working with an oauth2 service not supported out-of-the-box or by an
-existing package, it is quite simple to implement your own. Simply extend
+Jika Anda bekerja dengan layanan oauth2 tidak didukung out-of-the-box atau oleh
+Paket yang ada, cukup mudah untuk mengimplementasikannya sendiri. Cukup perpanjang
 [`League\OAuth2\Client\Provider\AbstractProvider`](src/Provider/AbstractProvider.php)
-and implement the required abstract methods:
+dan menerapkan metode abstrak yang dibutuhkan:
 
 ```php
 abstract public function getBaseAuthorizationUrl();
@@ -28,20 +28,20 @@ abstract protected function checkResponse(ResponseInterface $response, $data);
 abstract protected function createResourceOwner(array $response, AccessToken $token);
 ```
 
-Each of these abstract methods contain a docblock defining their expectations
-and typical behavior. Once you have extended this class, you can simply follow
-the [usage example in the README](README.md#usage) using your new `Provider`.
+Masing-masing metode abstrak ini berisi dokblock yang menentukan harapan mereka
+dan perilaku tipikal. Setelah Anda memperpanjang kelas ini, Anda bisa langsung mengikuti
+itu [usage example in the README](README.md#usage) menggunakan yang baru `Provider`.
 
-If you wish to use the `Provider` to make authenticated requests to the 
-service, you will also need to define how you provide the token to the
-service. If this is done via headers, you should override this method:
+Jika Anda ingin menggunakan `Provider` untuk membuat permintaan otentik ke
+layanan, Anda juga perlu menentukan bagaimana Anda memberikan token ke
+layanan. Jika ini dilakukan melalui header, Anda harus mengganti metode ini:
 
 ```php
 protected function getAuthorizationHeaders($token = null);
 ```
 
-This package comes with a trait for implementing `Bearer` authorization. 
-To use this, you just need to include the trait in your `Provider` class:
+Paket ini dilengkapi dengan sifat untuk menerapkan otorisasi `Bearer`.
+Untuk menggunakan ini, Anda hanya perlu memasukkan sifat di kelas `Provider` Anda:
  
 ```php
 <?php
@@ -54,20 +54,20 @@ class SomeProvider extends AbstractProvider
 ```
 
 
-### Resource owner identifiers in access token responses
+### Pengidentifikasi pemilik sumber daya dalam respon token akses
 
-In services where the resource owner is a person, the resource owner is sometimes
-referred to as an end-user.
+Dalam layanan di mana pemilik sumber daya adalah seseorang, terkadang pemilik sumber daya
+disebut sebagai pengguna akhir.
 
-We have decided to abstract away as much of the resource owner details as possible,
-since these are not part of the OAuth 2.0 specification and are very specific to each
-service provider. This provides greater flexibility to each provider, allowing
-them to handle the implementation details for resource owners.
+Kami telah memutuskan untuk menghapus sebanyak mungkin rincian pemilik sumber daya,
+karena ini bukan bagian dari spesifikasi OAuth 2.0 dan sangat spesifik untuk masing-masing
+penyedia layanan. Ini memberikan fleksibilitas yang lebih besar untuk setiap provider, memungkinkan
+mereka untuk menangani detail implementasi bagi pemilik sumber daya.
 
-The `AbstractProvider` does not specify an access token resource owner identifier. It is
-the responsibility of the provider class to set the `ACCESS_TOKEN_RESOURCE_OWNER_ID` constant
-to the string value of the key used in the access token response to identify the
-resource owner.
+`AbstractProvider` tidak menentukan pengenal pemilik sumber daya token akses. ini
+tanggung jawab kelas penyedia untuk mengatur konstanta `ACCESS_TOKEN_RESOURCE_OWNER_ID`
+ke nilai string kunci yang digunakan dalam respon token akses untuk mengidentifikasi
+pemilik sumber daya
 
 ```php
 /**
@@ -76,21 +76,21 @@ resource owner.
 const ACCESS_TOKEN_RESOURCE_OWNER_ID = null;
 ```
 
-Once this is set on your provider, when calling `AbstractProvider::getAccessToken()`,
-the `AccessToken` returned will have its `$resourceOwnerId` property set, which you may
-retrieve by calling `AccessToken::getResourceOwnerId()`.
+Setelah ini diatur pada operator Anda, saat memanggil `AbstractProvider::getAccessToken ()`,
+`AccessToken` dikembalikan akan memiliki properti  `$resourceOwnerId` yang mungkin Anda inginkan
+ambil dengan memanggil `AccessToken::getResourceOwnerId()`.
 
-The next step is to implement the `AbstractProvider::createResourceOwner()` method. This
-method accepts as parameters a response array and an `AccessToken`. You may use
-this information in order to request resource owner details from your service and
-construct and return an object that implements
+Langkah selanjutnya adalah menerapkan `AbstractProvider::createResourceOwner()` metode. Ini
+metode menerima sebagai parameter array respon dan `AccessToken`. Anda bisa menggunakannya
+informasi ini untuk meminta rincian pemilik sumber daya dari layanan Anda dan
+membangun dan mengembalikan sebuah benda yang diimplementasikan
 [`League\OAuth2\Client\Provider\ResourceOwnerInterface`](src/Provider/ResourceOwnerInterface.php).
-This object is returned when calling `AbstractProvider::getResourceOwner()`.
+Objek ini dikembalikan saat memanggil `AbstractProvider::getResourceOwner()`.
 
-### Make your gateway official
+### Jadikan pejabat gateway anda
 
-If you want to transfer your provider to the `thephpleague` GitHub organization
-and add it to the list of officially supported providers, please open a pull
-request on the thephpleague/oauth2-client package. Before new providers will be
-accepted, they must have 100% unit test code coverage, and follow the
-conventions and code style used in other OAuth2 Client providers.
+Jika Anda ingin mentransfer penyedia Anda ke organisasi GitHub `thephpleague`
+dan menambahkannya ke daftar penyedia yang didukung secara resmi, tolong buka sebuah tarikan
+permintaan paket thephpleague/oauth2-client. Sebelum penyedia baru akan
+diterima, mereka harus memiliki cakupan kode uji 100% unit, dan ikuti
+konvensi dan gaya kode yang digunakan pada penyedia Klien OAuth2 lainnya.
