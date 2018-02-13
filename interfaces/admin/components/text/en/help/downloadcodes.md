@@ -12,7 +12,6 @@ On the **Assets** tab, click on the **Asset settings** below your chosen asset. 
 
 Sa tab nga, **Assets** , i-klik ang mga **Asset settings** sa ubos sa imong gipili nga asset. Isulat kon pila ka mga code sa pag-download ang gusto nimo, ug i-hit ang **Add codes** aron makamugna kini. Kini usab kung asa nimo ma-export ang imong mga code sa usa ka .csv file nga excel / Google Docs.
 
-
 Now you'll need to make the redemption form so your fans can redeem their codes. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message.
 
 Karon kinahanglan nimo nga himoon ang pagtubos aron ang imong mga tagal nga tag-iya makatubos sa ilang mga lagda. Balik sa main page, i-klik ang Tabs sa Mga **Elements**, i-klik ang  **Add an Element** ug pilaa ang **Download Codes**. Ihatag kini nga usa ka ngalan alang sa imong kaugalingong internal nga pakisayran ug usba ang mensahe sa kalampusan sa publiko.
