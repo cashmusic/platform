@@ -1,10 +1,10 @@
-###Embed an element
+###Incorporar um elemento
 
-It's easy to embed any element anywhere on the web. Simply choose the element you'd like to embed and click on the embed icon <i class="icon icon-share"></i> to add it to your clipboard. You can also open up the element's details and copy the code from there.
+É fácil incorporar qualquer elemento em qualquer lugar da web. Simplesmente escolha o elemento que você quer encorporar e clique no ícone de incorporar <i class="icon icon-share"></i> para adicioná-lo para sua área de transferência. Você também pode abrir os detalhes do elemento e copiar o código de lá.
 
-Next, go to your site and paste the embed link where you want it to live. That's it. Just like you would, say, a video from YouTube or a song from SoundCloud.  
+Em seguida, vá para seu site e cole o link da incorporação onde você quer que ele fique. E é isso. Bem como você desejar, digamos, um vídeo do YouTube ou uma música do SoundCloud.  
 
-You can embed as many of your elements as you like, on as many sites as you like. 
+Você pode incorporar quantos de seus elementos você quiser, em quantos sites você quiser. 
 
-You can also customize any of your elements whenever you want. Simply click on the element's details and edit til your heart's content. Any changes you make will be reflected across the web. 
+Você também pode personalizar qualquer de seus elementos sempre que quiser. Simplesmente clique nos detalhes do elemento e edite até que seu coração esteja feliz. Qualquer mudanças que você fizer serão refletidas tem toda a web. 
 

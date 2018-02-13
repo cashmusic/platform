@@ -1,135 +1,135 @@
 {
 	"account":
-		{"page_name":"Your account", "menu_icon":""},
+		{"page_name":"Sua conta", "menu_icon":""},
 	"account/delete":
-		{"page_name":"Delete account", "menu_icon":"", "hide":true},
+		{"page_name":"Apagar conta", "menu_icon":"", "hide":true},
 		
 		
 	"assets":
-		{"page_name":"Assets", "menu_icon":"", "tagline":"your releases, playlists, and files"},
+		{"page_name":"Recursos", "menu_icon":"", "tagline":"seus lançamentos, listas de reprodução e arquivos"},
 		
 	"calendar":
-		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
+		{"page_name":"Calendário", "menu_icon":"", "tagline":"shows e locais"},
 	"calendar/events":
-		{"page_name":"Events", "menu_icon":"calendar", "hide":true},
+		{"page_name":"Eventos", "menu_icon":"calendar", "hide":true},
 	"calendar/events/add":
-		{"page_name":"Add event", "menu_icon":""},
+		{"page_name":"Adicionar evento", "menu_icon":""},
 	"calendar/events/edit":
-		{"page_name":"Edit event", "menu_icon":""},
+		{"page_name":"Editar evento", "menu_icon":""},
 	"calendar/venues":
-    	{"page_name":"Venues", "menu_icon":"map" },
+    	{"page_name":"Locais", "menu_icon":"map" },
 	"calendar/venues/add":
-		{"page_name":"Add venue", "menu_icon":""},
+		{"page_name":"Adicionar local", "menu_icon":""},
 	"calendar/venues/delete":
-		{"page_name":"Delete venue", "menu_icon":""},
+		{"page_name":"Apagar local", "menu_icon":""},
 	"calendar/venues/edit":
-		{"page_name":"Edit venue", "menu_icon":""},
+		{"page_name":"Editar local", "menu_icon":""},
 		
 	
 	"campaigns":
-		{"page_name":"Campaigns", "menu_icon":""},
+		{"page_name":"Campanhas", "menu_icon":""},
 	"campaigns/add":
-		{"page_name":"Add a campaign", "menu_icon":"plus"},
+		{"page_name":"Adicionar uma campanha", "menu_icon":"plus"},
 	"campaigns/delete":
-		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
+		{"page_name":"Apagar campanha", "menu_icon":"", "hide":true},
 	"campaigns/edit":
-		{"page_name":"Edit campaign", "menu_icon":"", "hide":true},
+		{"page_name":"Editar campanha", "menu_icon":"", "hide":true},
 	"campaigns/archive":
-		{"page_name":"Archive", "menu_icon":"", "hide":true},
+		{"page_name":"Arquivo", "menu_icon":"", "hide":true},
 	"campaigns/publish":
-		{"page_name":"Publish campaign", "menu_icon":"", "hide":true},
+		{"page_name":"Publicar campanha", "menu_icon":"", "hide":true},
 
 
-	"commerce":
-		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
+		"commerce":
+		{"page_name":"Comércio", "menu_icon":"", "tagline":"pedidos ou itens à venda"},
 	"commerce/items":
-		{"page_name":"Inventory", "menu_icon":"barcode"},
+		{"page_name":"Inventário", "menu_icon":"barcode"},
 	"commerce/items/delete":
-		{"page_name":"Delete item", "menu_icon":""},
+		{"page_name":"Apagar item", "menu_icon":""},
 	"commerce/items/edit":
-		{"page_name":"Edit item", "menu_icon":""},
+		{"page_name":"Editar item", "menu_icon":""},
 	"commerce/items/add":
-		{"page_name":"Add an item", "menu_icon":""},
+		{"page_name":"Adicionar um item", "menu_icon":""},
 	"commerce/subscriptions":
-		{"page_name":"Subscriptions", "menu_icon":"recurring", "tagline":"Member subscriptions", "beta":true},
+		{"page_name":"Assinaturas", "menu_icon":"recurring", "tagline":"Assinaturas de membros", "beta":true},
 	"commerce/externalfulfillment":
-		{"page_name":"Crowdfunding Fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
+		{"page_name":"Realização de Financiamento Coletivo", "menu_icon":"fulfilment", "tagline":"Importar pedidos externos", "beta":true},
 	"commerce/export":
-		{"page_name":"Export orders", "menu_icon":"dwnld","add_class":"lightboxed"},
+		{"page_name":"Exportar pedidos", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
-		{"page_name":"Order details", "menu_icon":""},
+		{"page_name":"Detalhes do pedido", "menu_icon":""},
 	
 		
 		
 	"elements":
-		{"page_name":"Elements", "menu_icon":""},
+		{"page_name":"Elementos", "menu_icon":""},
 	"elements/add":
-		{"page_name":"Add elements", "menu_icon":"plus" },
+		{"page_name":"Adicionar elementos", "menu_icon":"plus" },
 	"elements/delete":
-		{"page_name":"Delete element", "menu_icon":"", "hide":true},
+		{"page_name":"Apagar elemento", "menu_icon":"", "hide":true},
 	"elements/edit":
-		{"page_name":"Edit element", "menu_icon":"", "hide":true},
+		{"page_name":"Editar elemento", "menu_icon":"", "hide":true},
 	"elements/preview":
-		{"page_name":"Preview element", "menu_icon":"", "hide":true},
+		{"page_name":"Pré-visualizar elemento", "menu_icon":"", "hide":true},
 	"elements/stats":
-		{"page_name":"Statistics element", "menu_icon":"", "hide":true},
+		{"page_name":"Elemento estatístico", "menu_icon":"", "hide":true},
 	"elements/templates":
-		{"page_name":"Page/embed templates", "menu_icon":"list" },
+		{"page_name":"Modelos de página/incorporação", "menu_icon":"list" },
 	"elements/templates/add":
-		{"page_name":"Add a template", "menu_icon":"", "hide":true},
+		{"page_name":"Adicionar um modelo", "menu_icon":"", "hide":true},
 	"elements/templates/edit":
-		{"page_name":"Edit template", "menu_icon":"", "hide":true},
+		{"page_name":"Editar modelo", "menu_icon":"", "hide":true},
 	"elements/templates/delete":
-		{"page_name":"Delete template", "menu_icon":"", "hide":true},
+		{"page_name":"Apagar modelo", "menu_icon":"", "hide":true},
 		
 		
 	"error":
-		{"page_name":"Page not found", "menu_icon":""},
+		{"page_name":"Página não encontrada", "menu_icon":""},
 		
 		
 	"help":
-		{"page_name":"Help", "menu_icon":""},
+		{"page_name":"Ajuda", "menu_icon":""},
 		
 		
 	"licenses":
-		{"page_name":"Open source licenses", "menu_icon":""},		
+		{"page_name":"Licenças de código aberto", "menu_icon":""},		
 		
 	"mainpage":
-		{"page_name":"Main page", "menu_icon":""},
+		{"page_name":"Página principal", "menu_icon":""},
 		
 		
 	"people":
-		{"page_name":"People", "menu_icon":"", "tagline":"lists and contacts"},
+		{"page_name":"Pessoas", "menu_icon":"", "tagline":"lists and contacts"},
 	"people/contacts":
-		{"page_name":"Contacts", "menu_icon":""},
+		{"page_name":"Contatos", "menu_icon":""},
 	"people/lists/add":
-		{"page_name":"Add list", "menu_icon":""},
+		{"page_name":"Adicionar lista", "menu_icon":""},
 	"people/lists/delete":
-		{"page_name":"Delete list", "menu_icon":""},
+		{"page_name":"Apagar lista", "menu_icon":""},
 	"people/lists/edit":
-		{"page_name":"Edit list", "menu_icon":""},
+		{"page_name":"Editar lista", "menu_icon":""},
 	"people/lists/export":
-		{"page_name":"Export list", "menu_icon":""},
+		{"page_name":"Exportar lista", "menu_icon":""},
 	"people/lists/view":
-		{"page_name":"List details", "menu_icon":""},
+		{"page_name":"Detalhes da lista", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"airplane"},
+		{"page_name":"Campanhas de correspondência", "menu_icon":"airplane"},
 	"people/press":
-		{"page_name":"Press coverage", "menu_icon":"paperclip" },
+		{"page_name":"Cobertura da imprensa", "menu_icon":"paperclip" },
 
 
 	"privacy":
-		{"page_name":"Privacy policy", "menu_icon":""},
+		{"page_name":"Políticas de privacidade", "menu_icon":""},
 		
 		
 	"settings":
-		{"page_name":"System settings", "menu_icon":""},
+		{"page_name":"Configurações do sistema", "menu_icon":""},
 	"settings/connections":
-		{"page_name":"Connections", "menu_icon":"cog" },
+		{"page_name":"Conexões", "menu_icon":"cog" },
 	"settings/update":
-		{"page_name":"System update", "menu_icon":"arrw-up" },
+		{"page_name":"Atualizar sistema", "menu_icon":"arrw-up" },
 
 
 	"terms":
-		{"page_name":"Terms of service", "menu_icon":""}
+		{"page_name":"Termos de serviço", "menu_icon":""}
 }
