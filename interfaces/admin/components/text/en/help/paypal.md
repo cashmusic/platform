@@ -1,10 +1,10 @@
-###Add a payment connection
+###Adicione uma conexão para pagamento
 
 
-Connecting your CASH Music account to your PayPal and/or Stripe accounts makes it possible for you to sell both digital and physical merchandise. It's easy and both only require a few quick steps.
+Conectar sua conta CASH Music com sua conta PayPal e/ou Stripe possibilita que você venda tanto itens digitais quanto físicos. É fácil e ambos requerem apenas alguns poucos passos.
 
-Select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button. 
+Selecione o **ícone de ferramenta** <i class="icon icon-cog"></i> do menu no canto superior direito para abrir suas configurações de conta. Clique no botão **Conexões**. 
 
-To set up PayPal select the **PayPal** button. You'll be prompted for your PayPal business account email address. Once you're entered it, click **Add The Connection**, and you're all set! 
+Para configurar PayPal, selecione o botão **PayPal**. Será solicitado o email da sua conta de negócios do PayPal. Uma vez que você digitar, clique em **Adicionar a Conexão**, e você estará pronto! 
 
-To add Stripe simply select the **Stripe** button under Connections. It will push you to their site to log in. If you do not yet have a Stripe account you can set one up there. Stripe will allow you to take credit cards on your site directly. 
+Para adicionar uma conta Stripe, selecione o botão **Stripe** sob Conexões. Isso vai te levar ao site deles para fazer login. Se você ainda não tiver uma conta Stripe, você poderá criar uma lá. Stripe permitirá que você aceite cartões de crédito diretamente em seu site. 
