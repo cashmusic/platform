@@ -1,11 +1,11 @@
-###Add a MailChimp connection
+### Tambahkan koneksi MailChimp
 
-The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
+Platform CASH Music dan MailChimp terintegrasi secara mulus untuk langsung menambahkan email sign-up yang dikumpulkan dengan alat kami ke akun MailChimp Anda.
 
-From the CASH Music platform, select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button, select the MailChimp button, and then click **Connect your MailChimp account**.
+Dari platform CASH Music, pilih ikon **roda gigi** <i class = "icon icon-cog"> </i> dari pojok kanan atas untuk membuka pengaturan akun Anda. Klik tombol **Connections**, pilih tombol MailChimp, lalu klik **Connect your MailChimp account**.
 
-You'll be prompted for your MailChimp username and password. Once you click submit, you'll be brought to another page and asked which of your MailChimp mailing lists you'd like to sync your CASH account with. Once you've selected the appropriate list, click **Add the Connection**, and you're done!
+Anda akan diminta memasukkan username dan password MailChimp Anda. Setelah Anda mengklik submit, Anda akan dibawa ke halaman lain dan menanyakan milis MailChimp mana yang ingin Anda sinkronkan dengan akun CASH Anda. Setelah Anda memilih daftar yang sesuai, klik **Add the Connection**, dan selesai!
 
-If you have multiple mailing lists with MailChimp, you can keep creating new connections within CASH Music for each one. Just repeat the process, but select a different list at the last step.
+Jika Anda memiliki beberapa milis dengan MailChimp, Anda dapat terus membuat koneksi baru dalam CASH Music untuk masing-masing mailing list. Cukup ulangi prosesnya, tapi pilih daftar yang berbeda pada langkah terakhir.
 
-Lastly, if you want to create a new list within MailChimp just for emails you retrieve via the platform, log into your your MailChimp account. Click **Lists** from the top menu, and click the **Create List** button in the top right-hand corner. For a more detailed walkthrough, check out <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp's article on creating a new list</a>.
+Terakhir, jika Anda ingin membuat daftar baru dalam MailChimp hanya untuk email yang Anda ambil melalui platform, masuk ke akun MailChimp Anda. Klik **Daftar** dari menu paling atas, dan klik tombol **Create List** di pojok kanan atas. Untuk panduan lebih terperinci, lihat artikel <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp's article on creating a new list</a>.
