@@ -1,34 +1,32 @@
-# Contributing
+# Berkontribusi
 
-Contributions are **welcome** and will be fully **credited**.
+Kontribusi adalah **selamat datang** dan akan sepenuhnya **dikreditkan**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/thephpleague/oauth2-client).
+Kami menerima kontribusi melalui Permintaan Tarik pada [Github](https://github.com/thephpleague/oauth2-client).
 
+## Tarik Permintaan
 
-## Pull Requests
+- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - Cara termudah untuk menerapkan konvensi adalah menginstal [PHP Code Sniffer](http://pear.php.net/package/PHP_CodeSniffer).
 
-- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](http://pear.php.net/package/PHP_CodeSniffer).
+- **Tambahkan tes!** - Patch Anda tidak akan diterima jika tidak ada tes.
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+- **Dokumentasikan perubahan perilaku** - Pastikan README dan dokumentasi lain yang relevan selalu terjaga.
 
-- **Document any change in behaviour** - Make sure the README and any other relevant documentation are kept up-to-date.
+- **Pertimbangkan siklus rilis kami** - Kami mencoba mengikuti SemVer. Secara acak melanggar API publik bukanlah pilihan.
 
-- **Consider our release cycle** - We try to follow SemVer. Randomly breaking public APIs is not an option.
+- **Buat cabang topik** - Jangan meminta kami untuk menarik dari cabang master anda.
 
-- **Create topic branches** - Don't ask us to pull from your master branch.
+- **Satu permintaan tarik per fitur** - Jika Anda ingin melakukan lebih dari satu hal, kirim beberapa permintaan tarik.
 
-- **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
+- **Kirimkan riwayat yang koheren** - Pastikan setiap individu melakukan permintaan tarik Anda sangat berarti. Jika Anda harus membuat beberapa perantara melakukan sementara mengembangkan, silahkan squash mereka sebelum mengirimkan.
 
-- **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
+- **Pastikan tes lulus!** - Silakan jalankan tes (lihat di bawah) sebelum mengirimkan permintaan tarik Anda, dan pastikan mereka lulus. Kami tidak akan menerima patch sampai semua tes berlalu.
 
-- **Ensure tests pass!** - Please run the tests (see below) before submitting your pull request, and make sure they pass. We won't accept a patch until all tests pass.
+- **Pastikan tidak ada pelanggaran standar pengkodean** - Silakan jalankan Kode PHP Sniffer menggunakan standar PSR-2 (lihat di bawah) sebelum mengirimkan permintaan tarik Anda. Pelanggaran akan menyebabkan kegagalan, jadi pastikan tidak ada pelanggaran. Kami tidak dapat menerima patch jika build gagal.
 
-- **Ensure no coding standards violations** - Please run PHP Code Sniffer using the PSR-2 standard (see below) before submitting your pull request. A violation will cause the build to fail, so please make sure there are no violations. We can't accept a patch if the build fails.
+## Pengujian
 
-
-## Testing
-
-The following tests must pass for a build to be considered successful. If contributing, please ensure these pass before submitting a pull request.
+Tes berikut harus lulus agar sebuah bangunan dianggap sukses. Jika berkontribusi, tolong pastikan pass ini sebelum mengajukan permintaan tarik.
 
 ``` bash
 $ ./vendor/bin/parallel-lint src test
@@ -36,4 +34,4 @@ $ ./vendor/bin/phpunit --coverage-text
 $ ./vendor/bin/phpcs src --standard=psr2 -sp
 ```
 
-**Happy coding**!
+**Selamat**!
