@@ -1,6 +1,6 @@
-# OAuth 2.0 Client
+# Klien OAuth 2.0
 
-This package makes it simple to integrate your application with [OAuth 2.0](http://oauth.net/2/) service providers.
+Paket ini memudahkan Anda mengintegrasikan aplikasi Anda dengan penyedia layanan [OAuth 2.0](http://oauth.net/2/).
 
 [![Gitter Chat](https://img.shields.io/badge/gitter-join_chat-brightgreen.svg?style=flat-square)](https://gitter.im/thephpleague/oauth2-client)
 [![Source Code](http://img.shields.io/badge/source-thephpleague/oauth2--client-blue.svg?style=flat-square)](https://github.com/thephpleague/oauth2-client)
@@ -14,46 +14,46 @@ This package makes it simple to integrate your application with [OAuth 2.0](http
 
 ---
 
-We are all used to seeing those "Connect with Facebook/Google/etc." buttons around the internet, and social network integration is an important feature of most web applications these days. Many of these sites use an authentication and authorization standard called OAuth 2.0 ([RFC 6749](http://tools.ietf.org/html/rfc6749)).
+Kita semua terbiasa melihat mereka "Terhubung dengan Facebook / Google / dll." tombol di internet, dan integrasi jaringan sosial merupakan fitur penting dari kebanyakan aplikasi web akhir-akhir ini. Banyak dari situs ini menggunakan standar otentikasi dan otorisasi yang disebut OAuth 2.0 ([RFC 6749](http://tools.ietf.org/html/rfc6749)).
 
-This OAuth 2.0 client library will work with any OAuth provider that conforms to the OAuth 2.0 standard. Out-of-the-box, we provide a `GenericProvider` that may be used to connect to any service provider that uses [Bearer tokens](http://tools.ietf.org/html/rfc6750) (see example below).
+Perpustakaan klien OAuth 2.0 ini akan bekerja sama dengan penyedia OAuth manapun yang sesuai dengan standar OAuth 2.0. Out-of-the-box, kami menyediakan `GenericProvider` yang dapat digunakan untuk terhubung ke penyedia layanan yang menggunakan [Bearer tokens](http://tools.ietf.org/html/rfc6750) (see example below).
 
-Many service providers provide additional functionality above and beyond the OAuth 2.0 standard. For this reason, this library may be easily extended and wrapped to support this additional behavior. We provide links to [all known provider clients extending this library](README.PROVIDERS.md) (i.e. Facebook, GitHub, Google, Instagram, LinkedIn, etc.). If your provider isn't in the list, feel free to add it.
+Banyak penyedia layanan menyediakan fungsionalitas tambahan di atas dan di luar standar OAuth 2.0. Untuk alasan ini, perpustakaan ini mudah diperluas dan dibungkus untuk mendukung perilaku tambahan ini. Kami menyediakan link ke [all known provider clients extending this library](README.PROVIDERS.md) (i.e. Facebook, GitHub, Google, Instagram, LinkedIn, etc.). Jika penyedia Anda tidak ada dalam daftar, silakan menambahkannya.
 
-This package is compliant with [PSR-1][], [PSR-2][], [PSR-4][], and [PSR-7][]. If you notice compliance oversights, please send a patch via pull request. If you're interesting in contributing to this library, please take a look at our [contributing guidelines](CONTRIBUTING.md).
+Paket ini sesuai dengan [PSR-1][], [PSR-2][], [PSR-4][], and [PSR-7][].Jika Anda memperhatikan kepatuhan kepatuhan, kirimkan tambalan melalui permintaan tarik. Jika Anda menarik untuk berkontribusi ke perpustakaan ini, silakan lihat di perpustakaan kami [contributing guidelines](CONTRIBUTING.md).
 
-## Requirements
+## Persyaratan
 
-The following versions of PHP are supported.
+Versi PHP berikut didukung.
 
 * PHP 5.5
 * PHP 5.6
 * PHP 7.0
 * HHVM
 
-## Providers
+## Penyedia
 
-A list of official PHP League providers, as well as third-party providers, may be found in the [providers list README](README.PROVIDERS.md).
+Daftar penyedia Liga PHP resmi, dan juga penyedia pihak ketiga, dapat ditemukan di [providers list README](README.PROVIDERS.md).
 
-To build your own provider, please refer to the [provider guide README](README.PROVIDER-GUIDE.md).
+Untuk membangun provider anda sendiri, silahkan lihat [provider guide README](README.PROVIDER-GUIDE.md).
 
-## Usage
+## Pemakaian
 
-**In most cases, you'll want to use a specific provider client library rather than this base library.**
+**Dalam kebanyakan kasus, Anda ingin menggunakan perpustakaan klien penyedia khusus daripada pustaka dasar ini.**
 
-Take a look at [README.PROVIDERS.md](README.PROVIDERS.md) to see a list of provider client libraries.
+Melihat [README.PROVIDERS.md](README.PROVIDERS.md) untuk melihat daftar perpustakaan klien penyedia.
 
-If using Composer to require a specific provider client library, you **do not need to also require this library**. Composer will handle the dependencies for you.
+Jika menggunakan Komposer untuk meminta perpustakaan klien penyedia tertentu, Anda **tidak perlu juga meminta perpustakaan ini**. Komposer akan menangani dependensi untuk Anda.
 
-### Authorization Code Grant
+### Hibah Kode Otorisasi
 
-The following example uses the out-of-the-box `GenericProvider` provided by this library. If you're looking for a specific provider (i.e. Facebook, Google, GitHub, etc.), take a look at our [list of provider client libraries](README.PROVIDERS.md). **HINT: You're probably looking for a specific provider.**
+Contoh berikut menggunakan out-of-the-box `GenericProvider` yang disediakan oleh perpustakaan ini. Jika Anda mencari penyedia tertentu (yaitu Facebook, Google, GitHub, dll.), Lihatlah kami [list of provider client libraries](README.PROVIDERS.md). **PETUNJUK: Anda mungkin mencari penyedia tertentu.**
 
-The authorization code grant type is the most common grant type used when authenticating users with a third-party service. This grant type utilizes a client (this library), a server (the service provider), and a resource owner (the user with credentials to a protected—or owned—resource) to request access to resources owned by the user. This is often referred to as _3-legged OAuth_, since there are three parties involved.
+Jenis pemberian kode otorisasi adalah jenis hibah yang paling umum digunakan saat mengautentikasi pengguna dengan layanan pihak ketiga. Jenis hibah ini menggunakan klien (perpustakaan ini), server (penyedia layanan), dan pemilik sumber daya (pengguna dengan kredensial pada sumber daya yang dilindungi atau yang dimiliki) untuk meminta akses ke sumber daya yang dimiliki oleh pengguna. Hal ini sering disebut sebagai OAuth_berkaki tiga, karena ada tiga pihak yang terlibat.
 
-The following example illustrates this using [Brent Shaffer's](https://github.com/bshaffer) demo OAuth 2.0 application named **Lock'd In**. When running this code, you will be redirected to Lock'd In, where you'll be prompted to authorize the client to make requests to a resource on your behalf.
+Contoh berikut menggambarkan hal ini dengan menggunakan aplikasi demo OAuth 2.0 [Brent Shaffer](di bawah https://github.com/bshaffer 2.0) yang bernama **Lock'd In**. Saat menjalankan kode ini, Anda akan dialihkan ke Lock'd In, di mana Anda akan diminta memberi otorisasi kepada klien untuk mengajukan permintaan ke sumber daya atas nama Anda.
 
-Now, you don't really have an account on Lock'd In, but for the sake of this example, imagine that you are already logged in on Lock'd In when you are redirected there.
+Sekarang, Anda tidak benar-benar memiliki akun di Lock'd In, tapi demi contoh ini, bayangkan Anda sudah masuk log pada Lock'd In saat Anda diarahkan ke sana.
 
 ```php
 $provider = new \League\OAuth2\Client\Provider\GenericProvider([
@@ -127,11 +127,11 @@ if (!isset($_GET['code'])) {
 }
 ```
 
-### Refreshing a Token
+### Menyegarkan Token
 
-Once your application is authorized, you can refresh an expired token using a refresh token rather than going through the entire process of obtaining a brand new token. To do so, simply reuse this refresh token from your data store to request a refresh.
+Setelah aplikasi Anda diberi wewenang, Anda dapat menyegarkan kembali token kedaluwarsa menggunakan tanda refresh daripada melalui keseluruhan proses mendapatkan token merek baru. Untuk melakukannya, cukup gunakan kembali token penyegaran dari penyimpanan data Anda untuk meminta penyegaran.
 
-_This example uses [Brent Shaffer's](https://github.com/bshaffer) demo OAuth 2.0 application named **Lock'd In**. See authorization code example above, for more details._
+_Contoh ini menggunakan [Brent Shaffer's](https://github.com/bshaffer) demo aplikasi OAuth 2.0 bernama **Lock'd In**. Lihat contoh kode otorisasi di atas, untuk lebih jelasnya._
 
 ```php
 $provider = new \League\OAuth2\Client\Provider\GenericProvider([
@@ -154,20 +154,20 @@ if ($existingAccessToken->hasExpired()) {
 }
 ```
 
-### Resource Owner Password Credentials Grant
+### Kredensial Password Pemilik Sumber Daya
 
-Some service providers allow you to skip the authorization code step to exchange a user's credentials (username and password) for an access token. This is referred to as the "resource owner password credentials" grant type.
+Beberapa penyedia layanan mengizinkan Anda melewati langkah kode otorisasi untuk menukar kredensial pengguna (nama pengguna dan kata sandi) untuk sebuah token akses. Ini disebut sebagai jenis pemberian kredensial "sumber daya pemilik sumber daya".
 
-According to [section 1.3.3](http://tools.ietf.org/html/rfc6749#section-1.3.3) of the OAuth 2.0 standard (emphasis added):
+Menurut [section 1.3.3](http://tools.ietf.org/html/rfc6749#section-1.3.3) dari standar OAuth 2.0 (penekanan ditambahkan):
 
-> The credentials **should only be used when there is a high degree of trust**
-> between the resource owner and the client (e.g., the client is part of the
-> device operating system or a highly privileged application), and when other
-> authorization grant types are not available (such as an authorization code).
+> Kredensial **hanya boleh digunakan bila ada tingkat kepercayaan yang tinggi**
+> antara pemilik sumber daya dan klien (mis., klien adalah bagian dari
+> sistem operasi perangkat atau aplikasi yang sangat istimewa), dan bila lainnya
+> jenis hibah otorisasi tidak tersedia (seperti kode otorisasi).
 
-**We do not advise using this grant type if the service provider supports the authorization code grant type (see above), as this reinforces the [password anti-pattern](https://agentile.com/the-password-anti-pattern) by allowing users to think it's okay to trust third-party applications with their usernames and passwords.**
+**Kami tidak menyarankan menggunakan jenis hibah ini jika penyedia layanan mendukung jenis pemberian kode otorisasi (lihat di atas), karena ini memperkuat [password anti-pattern](https://agentile.com/the-password-anti-pattern) dengan mengizinkan pengguna berpikir tidak apa-apa untuk mempercayai aplikasi pihak ketiga dengan nama pengguna dan kata sandi mereka.**
 
-That said, there are use-cases where the resource owner password credentials grant is acceptable and useful. Here's an example using it with [Brent Shaffer's](https://github.com/bshaffer) demo OAuth 2.0 application named **Lock'd In**. See authorization code example above, for more details about the Lock'd In demo application.
+Yang mengatakan, ada kasus penggunaan di mana kredensial kredensial sumber daya pemilik sumber dapat diterima dan berguna. Berikut adalah contoh menggunakannya dengan [Brent Shaffer's](https://github.com/bshaffer) demo aplikasi OAuth 2.0 bernama **Lock'd In**. Lihat contoh kode otorisasi di atas, untuk rincian lebih lanjut tentang aplikasi demo Lock'd In.
 
 ``` php
 $provider = new \League\OAuth2\Client\Provider\GenericProvider([
@@ -195,11 +195,11 @@ try {
 }
 ```
 
-### Client Credentials Grant
+### Hibah Kredensial Klien
 
-When your application is acting on its own behalf to access resources it controls/owns in a service provider, it may use the client credentials grant type. This is best used when the credentials for your application are stored privately and never exposed (e.g. through the web browser, etc.) to end-users. This grant type functions similarly to the resource owner password credentials grant type, but it does not request a user's username or password. It uses only the client ID and secret issued to your client by the service provider.
+Bila aplikasi Anda bertindak atas nama sendiri untuk mengakses sumber daya yang dikontrol/dimiliki di penyedia layanan, mungkin aplikasi tersebut menggunakan jenis pemberian kredensial klien. Ini paling baik digunakan bila kredensial untuk aplikasi Anda disimpan secara pribadi dan tidak pernah terpapar (misalnya melalui browser web, dsb.) Kepada pengguna akhir. Fungsi jenis hibah ini sama dengan jenis pemberian kredensial kata sandi pemilik sumber daya, tetapi tidak meminta nama pengguna atau kata sandi pengguna. Ini hanya menggunakan ID klien dan rahasia yang dikeluarkan untuk klien Anda oleh penyedia layanan.
 
-Unlike earlier examples, the following does not work against a functioning demo service provider. It is provided for the sake of example only.
+Tidak seperti contoh sebelumnya, hal berikut tidak bekerja melawan penyedia layanan demo yang berfungsi. Ini disediakan hanya untuk contoh saja.
 
 ``` php
 // Note: the GenericProvider requires the `urlAuthorize` option, even though
@@ -227,9 +227,9 @@ try {
 }
 ```
 
-### Using a proxy
+### Menggunakan proxy
 
-It is possible to use a proxy to debug HTTP calls made to a provider. All you need to do is set the `proxy` and `verify` options when creating your Provider instance. Make sure you enable SSL proxying in your proxy.
+Anda bisa menggunakan proxy untuk melakukan debug panggilan HTTP yang dilakukan ke penyedia. Yang perlu Anda lakukan adalah mengatur opsi `proxy` dan` verify` saat membuat instance Provider Anda. Pastikan Anda mengaktifkan proxy SSL di proxy Anda.
 
 ``` php
 $provider = new \League\OAuth2\Client\Provider\GenericProvider([
@@ -244,21 +244,21 @@ $provider = new \League\OAuth2\Client\Provider\GenericProvider([
 ]);
 ```
 
-## Install
+## Memasang
 
-Via Composer
+Melalui komposer
 
 ``` bash
 $ composer require league/oauth2-client
 ```
 
-## Contributing
+## Berkontribusi
 
-Please see [CONTRIBUTING](https://github.com/thephpleague/oauth2-client/blob/master/CONTRIBUTING.md) for details.
+Silahkan lihat [CONTRIBUTING](https://github.com/thephpleague/oauth2-client/blob/master/CONTRIBUTING.md) untuk rinciannya
 
-## License
+## Lisensi
 
-The MIT License (MIT). Please see [License File](https://github.com/thephpleague/oauth2-client/blob/master/LICENSE) for more information.
+Lisensi MIT (MIT). Silahkan lihat [License File](https://github.com/thephpleague/oauth2-client/blob/master/LICENSE) untuk informasi lebih lanjut.
 
 
 [PSR-1]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md
