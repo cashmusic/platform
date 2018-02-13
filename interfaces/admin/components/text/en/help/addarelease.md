@@ -1,19 +1,19 @@
-###Assets: add a release or file
+###Mga Asset: magdagdag ng isang lathala o file
 
-What you'll need:
+Ano ang kakailanganin mo:
 
-- A storage connection, we recommend Amazon S3
+- Isang koneksyon sa imbakan, inirerekomenda namin ang Amazon S3
 
-**Adding a new release**
+**Pagdaragdag ng bagong lathala**
 
-Head on over to the **Assets** section and select **Add a new release**. You'll be asked to give it a title and a description—this is for your reference only. When you're done, click **Save changes**. Inside the release details page is where you can specify the artist name, release date, catalog number and begin attaching files for download.
+Pumunta sa **Assets** na seksyon at piliin ang **Add a new release**. Pakikiusapan kang bigyan ito ng titulo at isang deskripsyon—para sa iyong batayan lamang ito. Kapag tapos ka na, i-click ang **Save changes**. Sa loob ng pahina ng detalye ng lathala maitatakda mo ang pangalan ng makata, petsa ng paglathala, numero ng katalogo at simulang ilakip ang mga file para sa download.
 
-To add fulfillment files to your release click **Attach a file**. You'll once again be asked to give it an internal name and description, and then asked which storage connection to use. Select your connection from the **Which storage connection?** dropdown menu and an upload button will appear. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.To return to your release and continue adding files, click the arrow in the upper-left-hand corner.
+Para magdagdag ng katuparang mga file para sa iyong lathala, i-click ang **Attach a file**. Pakikiusapan ka ulit nitong bigyan ng panloob na pangalan at deskripsyon, at tatanungin kung aling imbakan na koneksyon ang gagamitin. Piliin ang iyong koneksyon sa **Which storage connection?** na dropdown menu at ang isang upload na pipindutin ay lalabas. Kapag i-host mo ang mga file sa iyong sariling server, magbigay ng lokasyon (URI). Kapag tapos ka na, i-click ang **Save changes**. Upang bumalik sa iyong lathala at ipagpatuloy ang pagdagdag ng mga file, i-click ang arrow sa taas-kaliwang banda.
 
-When you're done adding files to your release, click **Save changes**.
+Kapag tapos ka nang magdagdag ng mga file sa iyong lathala, i-click ang **Save changes**.
 
-**Tip**: All the files you attach to a given release will be made available as a group. For instance, if you're offering an album and attach 12 mp3 files and two artwork files, whoever accesses your release through one of our elements will have to individually download all fourteen files. Consider compressing all your files into a zip file.
+**Tip**: Ang lahat ng mga file na iyong inilalakip sa iyong lathala ay makukuha bilang isang pangkat. Halimbawa, kapag nag-aalok ka ng isang album at naglalakip ng 12 mp3 na mga file at dalawang likhang sining na mga file, kung sino man ang nag-access sa iyong lathala gamit ang isa sa aming mga elemento ay kailangang isa-isahing i-download ang lahat ng labing-apat na mga file. Isiping paliitin ang iyong mga file sa isang zip na file.
 
-**Uploading a file**
+**Pag-upload ng isang file**
 
-If you choose to add a file, you'll be prompted to give it a name and a description—this is for your reference only. If you've set up a Drive or S3 account, select it from the **Which storage connection?** dropdown menu and an upload button will appear to add your file. If you host the files on your own server, provide the location (URI). When you're done, click **Save changes**.
+Kung nais mong magdagdag ng isang file, pakikiusapan kang bigyan ito ng pangalan at isang deskripsyon —para ito sa iyong batayan lamang. Kapag nakagawa ka na ng isang Drive o S3 na account, piliin ito mula sa **Which storage connection?** na dropdown menu at ang isang upload na pipindutin ay lalabas para idagdag ang iyong file. Kapag i-host mo ang mga file sa iyong sariling server, magbigay ng lokasyon (URI). Kapag tapos ka na, i-click ang **Save changes**.
