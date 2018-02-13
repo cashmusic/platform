@@ -18,27 +18,37 @@
 			"description":"Leyfa fólki að skrá sig inn og fá aðgang að sér efni",
 			"longdescription":"Þessi eining leyfir þér að deila efni til sérstaks hóps af fólki með almennu lykilorði. Til dæmis fyrir aðdáendaklúbb, fjölmiðla, og fleira.",
 			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
+		},
+		"ceb":{
+			"name":"Mga miyembro nga Area",
+			"description":"Tugoti ang usa ka listahan sa pag-log in ug pagkuha sa eksklusibo nga sulod.",
+			"longdescription":"Kini nga elemento makapaambit kanimo sa sulod sa usa ka piho nga lista nga adunay universal nga password. Hunahunaa ang fan club, press, ug daghan pa.",
+			"instructions":"Pagpili og usa ka lista aron pagsulbad batok, pag-adjust gamit ang markup, ug pagpili og usa ka universal nga password alang niini nga elemento."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"ceb":"Panguna nga mga kahimtang"
 			},
 			"description":{
 				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
-				"is":"Veldu hóp"
+				"is":"Veldu hóp",
+				"ceb":"Pagpili og usa ka lista ug ipasabot ang usa ka password nga ilang gamiton sa pag-unlock sa sulod niini nga elemento."
 			},
 			"data":{
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"ceb":"Password"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til að opna aðgang að efni"
+						"is":"Lykilorð eða frasi til að opna aðgang að efni",
+						"ceb":"Usa ka password o hugpong sa mga pulong aron mabuksan ang sulod"
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -46,7 +56,8 @@
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"ceb":"Target nga listahan sa mga milisya"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -56,12 +67,14 @@
 				"secure_content":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"ceb":"Kontento"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"ceb":""
 					},
 					"displaysize":"large"
 				}
