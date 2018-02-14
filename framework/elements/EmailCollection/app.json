@@ -20,6 +20,12 @@
 			"instructions":"Settu eign á 'ekkert' fyrir einfalda netfanga söfnun, eða veldu eign til að notast við netfang-fyrir-niðurhal."
 		}
 	},
+	"ceb":{
+			"name":"Pagkolekta sa Email",
+			"description":"Pagkolekta sa usa ka email address, paghatag sa usa ka pag-download (o dili).",
+			"longdescription":"Kini nga elemento pwedeng gamiton ingon nga usa ka email-for-download nga promosyon o isip usa ka customizable email collection widget.",
+			"instructions":"Biyae ang mga asset nga gikatakda sa 'walay bisan kinsa' alang lang sa pagkolekta sa email, o pagpili sa target nga asset aron sa pagsulay sa email-for-download."
+	},
 	"copy":{
 		"en":{
 			"signup":"sign me up",
@@ -29,17 +35,26 @@
 		"is":{
 			"signup":"Skráðu mig",
 			"verify":"Athugaðu pósthólfið þitt eftir póst með niðurhals hlekk."
+		
+	        },
+	      
+		"ceb":{
+			"signup":"pirmahi nako",
+			"verify":"Susiha ang imong inbox alang sa email sa pag-verify nga may link nga pag-download.",
+			"redirecterror":"Adunay sayop nga nag-angkon sa imong asset. Palihug i-reload ug suwayeg balik."
 		}
-	},
+
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
 				"is":"Aðal stillingar"
+				"ceb":"Nag-unang settings"
 			},
 			"description":{
 				"en":"Select a target mailing list and an asset to give away (if you want).",
 				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt)."
+				"ceb":"Pagpili sa target nga lista sa mailing ug usa ka asset nga ihatag (kung gusto nimo)."
 
 			},
 			"data":{
@@ -47,6 +62,7 @@
 					"label":{
 						"en":"Target mailing list",
 						"is":"Valin netfangaskrá"
+						"ceb":"Target nga listahan ng mailing"
 
 					},
 					"type":"select",
@@ -58,6 +74,7 @@
 					"label":{
 						"en":"The downloadable asset",
 						"is":"Eign til niðurhals"
+						"ceb":"Ang ma-download nga asset"
 					},
 					"type":"select",
 					"values":"assets",
@@ -67,6 +84,7 @@
 					"label":{
 						"en":"Skip email verification (recommended)",
 						"is":"Sleppa netfanga staðfestingu (mælt með)"
+						"ceb":"Laktaw sa pag-verify sa email(girekomendar)"
 					},
 					"type":"boolean",
 					"default":true,
@@ -76,6 +94,7 @@
 					"label":{
 						"en":"Get name with email collection?",
 						"is":"Get name with email collection?"
+						"ceb":"Pagkuha sa ngalan sa pagkolekta sa email?"
 					},
 					"type":"boolean",
 					"default":false,
@@ -85,6 +104,7 @@
 					"label":{
 						"en":"Get postal code with email collection?",
 						"is":"Get postal code with email collection?"
+						"ceb":"Pagkuha og postal code uban sa pagkolekta sa email?"
 					},
 					"type":"boolean",
 					"default":false,
@@ -96,22 +116,26 @@
 			"group_label":{
 				"en":"Success/error messages",
 				"is":"Velgengnis/villu skilaboð"
+				"ceb":"Mga mensahe sa kalampusan / sayup"
 
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"ceb":"Ipahiangay ang mga mensahe nga gipakita sa mga tawo nga naggamit niini nga elemento.",
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
 						"is":"Velgengnis skilaboð"
+						"ceb":"Malampuson nga mensahe"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thanks! You're all signed up.",
 						"is":"Takk fyrir! Skráning tókst."
+						"ceb":"Salamat! Kamong tanan gipirmahan."
 					},
 					"displaysize":"medium"
 				},
@@ -119,11 +143,13 @@
 					"label":{
 						"en":"Invalid email message",
 						"is":"Ógilt netfang"
+						"ceb": "Dili balido nga mensahe sa email"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sorry, that email address wasn't valid. Please try again.",
 						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur."
+						"ceb":"Pasayloa ko, kay ang email address dili balido. Palihog sulayi pag-usab.",
 					},
 					"displaysize":"medium"
 				},
@@ -131,11 +157,13 @@
 					"label":{
 						"en":"Privacy message",
 						"is":"Friðhelgis skilaboð"
+						"ceb":"PPribado nga mensahe"
 					},
 					"type":"text",
 					"default":{
 						"en":"We won't share, sell, or be jerks with your email address.",
 						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt."
+						"ceb":"Dili kami makipag-ambit, magbaligya, o mahadlok sa imong email address."
 					},
 					"displaysize":"medium"
 				},
@@ -143,11 +171,14 @@
 					"label":{
 						"en":"Address verification message (only if verifying)",
 						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)"
+						"ceb":"Pagsulud sa mensahe sa pagsulbad (kon nagpamatuod lamang)"
 					},
 					"type":"text",
 					"default":{
 						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)",
 						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)"
+						"ceb":"Kinahanglan nga imong e-verify ang imong email address aron magpadayon. Usa ka email ang gipadala. I-klik ang link nga gihatag aron makumpirma ang pagkamiyembro. (Kung dili nimo makita ang mensahe, susiha ang imong SPAM folder.
+)"
 					},
 					"displaysize":"medium"
 				}
@@ -157,21 +188,25 @@
 			"group_label":{
 				"en":"Customize signup form",
 				"is":"Sérsníða skráningar eyðublað"
+				"ceb":"ipahiangay ang pag-sign up form"
 			},
 			"description":{
 				"en":"Change placeholder and text in the form shown to the public.",
 				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi."
+				"ceb":"Usba ang placeholder ug teksto sa porma nga gipakita sa publiko."
 			},
 			"data":{
 				"placeholder_text":{
 					"label":{
 						"en":"Email form placeholder text",
 						"is":"Staðgengilstexti netfanga eyðublaðs"
+						"ceb":"Porma sa email sa placeholder"
 					},
 					"type":"text",
 					"default":{
 						"en":"Enter your email",
 						"is":"Enter your email"
+						"ceb":"Isulod imong email"
 					},
 					"displaysize":"small"
 				},
@@ -179,11 +214,13 @@
 					"label":{
 						"en":"Text for submit button",
 						"is":"Texti fyrir senda takka"
+						"ceb":"Teksto alang sa pagsumite nga buton"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sign me up",
 						"is":"Skráðu mig"
+						"ceb":"Pirmahi ako"
 					},
 					"displaysize":"small"
 				}
@@ -193,16 +230,21 @@
 			"group_label":{
 				"en":"Data collection options",
 				"is":"Gagnasöfnunarstillingar"
+				"ceb":"Mga kapilian sa pagkolekta sa datos",
+				
 			},
 			"description":{
 				"en":"Add a checkbox for age verification, agreeing to terms, etc.",
 				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis."
+				"ceb":"Idugang ang checkbox alang sa pag-verify sa edad, pag-uyon sa mga termino, ug uban pa"
+				
 			},
 			"data":{
 				"agree_checkbox":{
 					"label":{
 						"en":"Show agreement checkbox",
 						"is":"Sýna samþykkis gátreit"
+						"ceb":"Ipakita ang checkbox nga gikasabutan"
 					},
 					"type":"boolean",
 					"default":false,
@@ -212,11 +254,13 @@
 					"label":{
 						"en":"Message to show (I agree...)",
 						"is":"Skilaboð til að sýna (Ég samþykki...)"
+						"ceb":"Mensahe nge ipakita (Miuyon ako...)"
 					},
 					"type":"text",
 					"default":{
 						"en":"I checked the checkbox!",
 						"is":"Ég fyllti inn gátreitinn!"
+						"ceb":"Gisusi nako ang checkbox!"
 					},
 					"displaysize":"small"
 				}
