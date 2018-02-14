@@ -18,6 +18,12 @@
 			"description":"Veldu þessa einingu ef þú vilt selja einn hlut. Hentugt fyrir forpantanir. ",
 			"longdescription":"Langar bara að selja einn hlut? Settu upp einfalda verslunar einingu fyrir stakan hlut að eigin vali.",
 			"instructions":"Þessi eining hefur verið afskrifuð. Hún mun halda áfram að virka, en íhugaðu að skipta yfir í Stök Kaup einingu."
+		},
+		"ceb":{
+			"name":"Digital nga Pagpamalit",
+			"description":"Pilia kining butang kung gusto nimo ibaligya ang usa ka butang. Maayo alang sa preorders. ",
+			"longdescription":"Gusto lang ibaligya ang usa ka butang? Paghimo og usa ka yano nga usa ka elemento sa pagpalit alang sa komersiyo nga butang nga imong gipili.",
+			"instructions":"Ang kining elemento nga elemento gipaubos. Kini magpadayon sa pagtrabaho, apan hunahunaa ang pagbalhin ngadto sa elemento nga Single Purchase."
 		}
 	},
 	"copy":{
@@ -28,23 +34,30 @@
 		"is":{
 			"buy":"Kaupa Núna",
 			"flexibleprice_suffix":"eða meira"
+		},
+		"ceb":{
+			"buy":"Palit Karon",
+			"flexibleprice_suffix":"o labaw pa"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"ceb":"Panguna nga mga kahimtang",
 			},
 			"description":{
 				"en":"These are the basic settings for this element.",
-				"is":"Þetta eru grunn stillingar einingarinnar."
+				"is":"Þetta eru grunn stillingar einingarinnar.",
+				"ceb":"Kini ang mga batakang mga kahimanan alang niini nga elemento."
 			},
 			"data":{
 				"item_id":{
 					"label":{
 						"en":"Item for sale",
-						"is":"Hlutur til sölu"
+						"is":"Hlutur til sölu",
+						"ceb":"Item alang sa pagbaligya"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -54,7 +67,8 @@
 				"connection_id":{
 					"label":{
 						"en":"Commerce connection to use",
-						"is":"Kaupsýslutenging sem skal nota"
+						"is":"Kaupsýslutenging sem skal nota",
+						"ceb":"Koneksyon sa negosyo nga gamiton"
 					},
 					"type":"select",
 					"values":"connections/commerce",
@@ -65,34 +79,40 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"ceb":"Mga mensahe sa kalampusan / kasaypanan"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
 				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"ceb":"Ipasibo ang mga mensahe nga gipakita sa mga tawo nga naggamit niini nga elemento."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"ceb":"Mensahe sa kalampusan"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
-						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk.",
+						"ceb":"Salamat! Ania ang imong pagdownload. Ang tiggamit sa mobile magsusi sa imong inbox ug spam nga mga folder sa link sa pag-download."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"ceb":"Dili balido nga mensahe sa email"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"ceb":"Adunay sayop nga pagproseso sa imong pagbayad. Palihug i-reload ug sulayan pag-usab."
 					},
 					"displaysize":"medium"
 				}
