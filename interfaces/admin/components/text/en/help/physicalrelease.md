@@ -1,26 +1,26 @@
 
-###Selling a physical item
+###Vendendo um item físico
 
-What you'll need:
+O que você vai precisar:
 
-- A payment connection
+- Uma conexão de pagamento
 
-To get started, head over to the **Commerce** section. Next, select **Inventory** from the sub menu. Click **Add an item**, and you'll be prompted to give a **public** name and description for the item as well as price, quantity, and whether or not there's a digital fulfillment file. Be sure to check the **Physical goods?** box, and then save your changes.
+Para começar, vá para a sessão **Comércio**. Em seguida, selecione **Inventário** do submenu. Clique em **Adicionar um item**, e você será solicitado para dar um nome **público** e uma descrição para o item, assim como preço, quantidade e se tem ou não um arquivo digital de preenchimento. Certifique-se de verificar a caixa **Bens físicos?**, e então salve suas mudanças.
 
-Once the item has been made click on the **edit** tab to add an image, select shipping prices, and add options if needed.
+Uma vez que o item tenha sido feito, clique na aba **editar** para adicionar uma imagem, selecionar os preços de envio, e adicionar opções, se necessário.
 
-To add an image click on the **add/edit** image button on the left. It will prompt you to select your storage connection from a dropdown menu and upload the image you wish your customers to see. Hit the **Save changes** button when you're done.
+Para adicionar uma imagem, clique na imagem do botão **adicionar/editar** à esquerda. Você será solicitado a selecionar sua conexão de armazenamento do menu deslizante e fazer o upload da imagem que você deseja que seus clientes vejam. Aperte o botão **Salvar mudanças** quando você tiver pronto.
 
-To set the shipping prices open up the **Physical item options** section. Open **Show shipping region prices** and set the prices for purchasing one of these items as well as the second/or more price for both regions. Often it's much cheaper to send two of the same item so this is an option to give your customer a price break here. Hit **Save changes** again when you're done.
+Para colocar os preços de envio, abra a sessão **Opções para itens físicos**. Abra **Mostrar preços de envio da região** e coloque os preços pela compra de um desses itens, assim como o preço para o segundo/ou mais para todas as regiões. Quase sempre é muito mais barato enviar dois do mesmo item, então essa é uma opção para dar ao seu cliente uma quebra nesse valor aqui. Aperte **Salvar mudanças** novamente quando você estiver pronto.
 
-If you are selling anything with sizes or colors you'll need to add those here as well. Simply click **Show item options** and then enter in what you need. For example are you selling shirts with different sizes and colors? Then choose both size and color. Are you selling different colored mugs? Then just use color as the option. After you've added those you'll add inventory for each of them. Make sure and hit **Save changes** when you're done.
+Se você está vendendo qualquer coisa com tamanhos e colores diferentes, você vai precisar adicioná-los aqui também. Simplesmente clique em **Mostrar opções de itens** e então coloque o que você precisar. Por exemplo, você está vendendo camisas com tamanhos e cores diferentes? Então escolha ambos o tamanho e a cor. Você está vendendo canecas de cores diferentes? Então escolha apenas a opção cor. Após você ter adicionado isso, você vai adicionar um inventário para cada um deles. Certifique-se de aperte **Salvar mudanças** quando você estiver pronto.
 
-**Show item options** is also where you'll adjust or check inventory. The cart will NOT sell anything to your customers that's out of stock.
+**Mostrar opções de itens** também está onde você vai ajustar ou verificar inventário. O carrinho NÃO irá vender nada para seu cliente que não está em estoque.
 
-If this is the only thing you wish to sell, it's time to create a **Single Purchase** element. Head back over to the main page, select the **Elements** tab and click **Add an element**. Select **Single Purchase**. Choose the item you wish to sell from the dropdown menu and give it a name for your own reference. To edit the success/error message, click on the **Element settings** button.
+Se isso for a única coisa que você deseja vender, é hora de criar um elemento **Compra Única**. Volte para a página principal, selecione a aba **Elementos** e clique em **Adicionar um elemento**. Selecione **Compra Única**. Escolha o item que você deseja vender do menu deslizante e dê-lhe um nome para sua própria referência. Para editar as mensagens de erro/sucesso, clique no botão **Configurações de elementos**.
 
-Once the element is created and you're ready to go live, either embed it on your site or on your CASH Music page and publish.
+Uma vez que o elemento está criado e você está pronto para colocá-lo à venda, ou você incorporá-o em seu site ou em sua página CASH Music e publica.
 
-If you included a digital fulfillment file with the purchase of your physical product, the confirmation page your customer sees will include download options. They will also receive an email receipt with a link to download as well.
+Se você incluiu um arquivo digital de preenchimento com a compra de seu produto físico, a página de confirmação que seu cliente vê, irá incluir opções de download. Eles também vão receber um email com um link para download também.
 
-All orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there.
+Todos os pedidos serão mostrados em sua sessão **Comércio**. Você também pode encontrar detalhes de cada pedido, gerenciar o inventário, e exportar pedidos a qualquer momento lá.
