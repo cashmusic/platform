@@ -1,11 +1,11 @@
-###Add a MailChimp connection
+### Magdagdag ng isang MailChimp na koneksyon
 
-The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
+Ang CASH Music na plataporma at MailChimp ay nag-iintegrate ng walang pakundangan upang direktang maidagdag ang email na mga sign-up na nakolekta gamit ang aming mga kagamitan sa iyong MailChimp na account.
 
-From the CASH Music platform, select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button, select the MailChimp button, and then click **Connect your MailChimp account**.
+Mula sa CASH Music na plataporma, piliin ang **gear na icon** <i class="icon icon-cog"></i> mula sa taas-kanang sulok upang buksan ang iyong mga account na setting. Pindutin ang **Connections** na pipindutin, piliin ang pipinduting MailChimp, at i-click ang **Connect your MailChimp account**.
 
-You'll be prompted for your MailChimp username and password. Once you click submit, you'll be brought to another page and asked which of your MailChimp mailing lists you'd like to sync your CASH account with. Once you've selected the appropriate list, click **Add the Connection**, and you're done!
+Hihingian ka ng iyong MailChimp na username at password. Kapag napindot mo na ang submit, dadalhin ka sa isang pahina at tatanungin kung alin sa iyong mga MailChimp na listahan ng papadalhan na gusto mong i-sync sa iyong CASH na account. Kapag napili mo na ang tamang listahan, pindutin ang **Add the Connection**, at tapos ka na!!
 
-If you have multiple mailing lists with MailChimp, you can keep creating new connections within CASH Music for each one. Just repeat the process, but select a different list at the last step.
+Kapag may marami kang mga listahan ng papadalhan sa MailChimp, pwede kang gumawa ng marami pang bagong koneksyon sa loob ng CASH Music para sa bawat isa. Ulitin mo lang ang proseso, pero pumili ng ibang listahan sa huling hakbang.
 
-Lastly, if you want to create a new list within MailChimp just for emails you retrieve via the platform, log into your your MailChimp account. Click **Lists** from the top menu, and click the **Create List** button in the top right-hand corner. For a more detailed walkthrough, check out <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp's article on creating a new list</a>.
+Sa pagtatapos, kung gusto mong gumawa ng bagong listahan sa loob ng MailChimp para lang sa mga email na nakuha mo sa pamamagitan ng plataporma, pumasok lang sa iyong MailChimp na account. Pindutin ang **Lists** mula sa nasa taas na menu, at i-click ang **Create List** na pipindutin sa taas-kanang sulok. Para sa isang mas detalyadong pagtatalakay, tingnan ang <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">artikulo ng MailChimp sa paglikha ng bagong listahan</a>.
