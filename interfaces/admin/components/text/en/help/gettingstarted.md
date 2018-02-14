@@ -1,26 +1,24 @@
-There's a lot in the CASH platform, and it helps to start with a few core concepts. 
+Malawak ang CASH na plataporma, at nakakatulong itong simulan ang ilang mga pangunahing konsepto. 
 
-First and foremost, look at the main menu and you'll see five main categories:  
+Una sa lahat, tingnan ang pangunahing menu at makikita mo ang limang mga pangunahing kategorya:  
 
-  **Main page:** This is where you'll set up your elements and track their activity. You can also publish and edit your quick one page site here, get an embed code for any element you've set up, and organize all your projects. 
+  **Main page:** Dito mo itatayo ang iyong mga elemento at subaybayan ang kanilangm mga ginagawa. Pwede kang maglathala at baguhin ang iyong madaliang pahinang sayt dito, kumuha ng embed na code para sa kahit anong elementong naitayo mo, at ayusin ang lahat ng iyong mga proyekto. 
   
-  **Assets:** Files, releases, and playlists. Basically anything you'll work on or use for 
-   fulfillment somewhere else in the platform.
+  **Assets:** Mga file, mga lathala, at mga playlist. Kahit anong bagay na pagtatrabahuan mo o gamitin sa pagpupuna sa ibang lugar saanman sa plataporma.
 
-  **People:** Email and permission lists as well as press coverage. Right now this is mainly 
-   for email lists, but this is where you'll see more social integration and tools for interacting 
-   with people — from followers to writers and fans.
+  **People:** Ang Email at permisyon na listahan pati na ang saklaw ng medya. Sa ngayon, para ito sa mga listahan ng 
+   mga email, pero dito mo makikita ang sosyal na integrasyon at mga kasangkapan sa pag-iinterak 
+   kasama ang mga tao - mula tagasubaybay hanggang mga manunulat at mga tagatangkilik.  
 
-  **Commerce:** Review your orders, manage inventory, and set up new items to sell.
+  **Commerce:** I-review ang mga hinihingi,pamahalaan ang inventory, at magtayo ng mga bagong aytem na ibebenta.
 
-  **Calendar:** Shows and venues.
+  **Calendar:** Mga palabas at mga lugar na pangyayarihan.
 
 
-While you explore the platform remember that you can always click the learn icon <i class="icon icon-learn"></i> to see 
-tips for the page you're on. 
+Habang kinikilala mo ang plataporma, alalahaning pwede kang magpindot sa  learn icon <i class="icon icon-learn"></i> upang makita ang mga mungkahi sa pahinang pinagtatrabahuan mo. 
 
-Click on the gear icon <i class="icon icon-cog"></i> at any time to access system settings, edit your account,
-or add connections. 
+Pumindot sa gear icon <i class="icon icon-cog"></i> sa kahit anong panahon upang i-access ang mga pansistemang setting, baguhin ang iyong account,
+o magdagdag ng mga koneksyon. 
 
-For more, follow us on Twitter as [@cashmusic](http://twitter.com/cashmusic) or follow our 
+Para sa karagdagan, subaybayan kami sa Twitter bilang [@cashmusic](http://twitter.com/cashmusic) o sundan ang aming 
 [blog](https://medium.com/cash-music/).
