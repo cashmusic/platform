@@ -1,15 +1,15 @@
-###Configure um elemento email-para-download
+###Set up an email-for-download element
 
-Se conectar diretamente com seus fãs é de extrema importância e sua lista de correspondência é um dos melhores jeitos de manter esses relacionamentos. Essa é uma das ferramentas mais populares em nossa plataforma.
+Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform.
 
-O que você vai precisar:
+What you’ll need:
 
-- Uma conexão de armazenamento - recomendamos uma conta do Amazon S3 para confiabilidade
-- Um arquivo ou lançamento configurado em **Recursos**, com arquivos de preenchimento anexados
-- Uma lista de email ou criada ou conectada na sessão **Pessoas**
+- A storage connection--we recommend an Amazon S3 account for reliability
+- A file or release set up in **Assets**, with fulfillment files attached
+- An email list either created or connected in the **People** section
 
-Uma vez que seu download e lista estão configurados, vá para sua página principal e clique na aba **Elementos**. Clique em **Adicionar elemento** e selecione **Coleção de Emails**. Escolha a lista que você gostaria que as pessoas se inscrevessem a partir do menu deslizante. Então, selecione o recurso que você gostaria de oferecer para download (ou nenhum se você não está oferecendo nenhum). Dê ao elemento um nome para sua própria referência interna. Para editar as mensagens padrões, clique no botão **Configurações de elementos**.
+Once your download and list are set up, head to your main page and click on the **Elements** tab. Click on **Add element** and select **Email Collection**. Choose the list you'd like people to sign up to from the dropdown menu. Then, select the asset you'd like to offer for download (or none if you're not offering one.) Give the element a name for your own internal reference. To edit the default messages click on the **Element Settings** button.
 
-Observe a caixa de seleção **Ignorar verificação de email**. Se essa caixa for deixada desmarcada, então qualquer um se inscrevendo receberá um email para confirmar que o endereço é válido. Tenha certeza de verificar suas configurações de email no menu de configurações do sistema. Se você marcar a caixa, você está acreditando, essencialmente, que qualquer endereço de email dado é legítimo. Você receberá mais assinaturas, mas com menos garantias que elas são legítimas.
+Note the **Skip email verification** checkbox. If this box is left unchecked, then anyone signing up will be emailed to confirm the address is legitimate. Be sure to check your email settings in the system settings menu. If you check the box, you are essentially trusting that any email addresses given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
 
-Uma vez que o elemento está criado, ou você incorpora-o em seu site ou adiciona-o para sua página do CASH Music e publicar.
+Once the element is created, either embed it on your site or add it to your CASH Music page and publish.

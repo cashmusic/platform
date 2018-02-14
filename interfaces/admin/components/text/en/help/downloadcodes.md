@@ -1,14 +1,14 @@
-###Códigos de Download
+###Download codes
 
-O que você vai precisar:  
+What you'll need:  
 
-- Uma conexão de armazenamento - recomendamos uma conta do Amazon S3 para confiabilidade
-- Um recurso com arquivos de preenchimento anexados (hospedado em sua conexão de armazenamento)
+- A storage connection--we recommend an Amazon S3 account for reliability
+- An asset with attached fulfillment files (hosted on your storage connection)
 
-Na aba **Recursos**, clique em **Configurações dos recursos** abaixo de seu recurso escolhido. Digite quantos códigos de download você gostaria, e aperte **Adicionar códigos** para gerá-los Isso é também onde você pode exportar seus códigos para um arquivo .csv compatível do Excel/Google Docs.
+On the **Assets** tab, click on the **Asset settings** below your chosen asset. Type in how many download codes you'd like, and hit **Add codes** to generate them. This is also where you can export your codes to an Excel/Google Docs compatible .csv file.
 
-Agora você vai precisar fazer o formulário de resgate para que seus fãs possam resgatar os códigos deles. Volte para a página principal, clique na aba **Elementos**, clique em **Adicionar um elemento** e escolha **Códigos de Download** Dê-lhe um nome para sua própria referência interna e edite a mensagem pública de sucesso.
+Now you'll need to make the redemption form so your fans can redeem their codes. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message.
 
-Os elementos **Códigos de Download** vão funcionar com qualquer código que você gerou para qualquer um de seus recursos. Ele sabe dar automaticamente o recurso correto para quaisquer códigos válidos. Para essa sessão, esteja certo de que sua mensagem de sucesso não seja referente a um recurso específico.
+The **Download Codes** element will work with any code you've generated for any of your assets. It knows to automatically give the correct asset to any valid codes. For this reason, make sure your success message doesn't reference a specific asset.
 
-Finalmente, ou você adiciona o elemento para sua página do CASH Music ou incorpore o elemento em seu próprio site.
+Finally, either add the element to your CASH Music page or embed the element on your own site.
