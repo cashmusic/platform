@@ -1,15 +1,15 @@
 {
 	"页面提示":"",
-	"了解":"<p>如果你想要卖此发行，在你添加商店或单件购买元素前，你也必须先到商务把它输入为库存产品.</p><p>制作下载代码吗？一旦你添加了发行信息，你可以接着在资产设定中生成并导出下载代码. You don’t have to have a fulfillment file up yet to generate them which is handy if you're using them for LP's but make sure you’ve uploaded it, and made a corresponding download code redemption form element, before you start sending those codes out! Note: before you send the codes out to your fans always check one first. NEVER delete the asset associated with the download codeas as you will then invalidate all the codes. You can change files if need be but NEVER delete it, just upload another file. </p><p>You can always change any details - all linked commerce items and elements will automatically reflect the changes.</p>",
-	"related":{},
-	"labels":{
-		"which_connection":"Which storage connection?",
-      "title":"Title / Name",
-      "description":"Description",
-      "location":"Location (uri)"
+	"了解":"<p>如果你想要卖此发行，在你添加商店或单件购买元素前，你也必须先到商务把它输入为库存产品.</p><p>制作下载代码吗？一旦你添加了发行信息，你可以接着在资产设定中生成并导出下载代码. 你还不需要有履行文件来生成他们，如果你是用它们在LP 上，这是很便利的。 但请确保你已经把它上传并在你把代码发出去之前先制作一个相关的下载代码赎回表元素! 备注：在你发代码给你的歌迷前，一定要先查看清楚. 千万不要删除有下载代码的资产，否则你得作废所有的代码. 如果有需要你可以更改文件，但请务必不要删除它, 只要上传另一个文件就可以了. </p><p>你总是可以更改任何细节 - 所有连接到商品和元素的修改都会自动显示.</p>",
+	"相关的":{},
+	"标签":{
+		"which_connection":"那个存储连接?",
+      "title":"标题 / 名称",
+      "description":"描述",
+      "location":"地点 (uri)"
    },
-	"tooltips":{},
-	"copy":{
-		"upload_a_file":"Upload a file"
+	"工具提示":{},
+	"复制":{
+		"upload_a_file":"上传一个文件"
 	}
 }
