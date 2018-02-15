@@ -1,20 +1,20 @@
-###Sell a digital download
+### Magbenta ng isang digital na downlaod
 
-Paid digital downloads using your own S3 and payment accounts. A simple and efficient way to sell music directly from your site.
+Binayarang mga digital na download gamit ang iyong S3 at pambayad na mga account. Isang simple at mabisang paraan sa direktang pagbenta ng musika mula sa iyong sayt.
 
-What you'll need:  
+Mga Kakailanganin mo:  
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
-- A payment connection--such as Paypal or Stripe
+- Isang koneksyon sa imbakan--inirerekomenda namin ang isang an Amazon S3 account for reliability
+- Isang asset na may kalakip na mga file ng pagpapatupad (naka-host sa iyong koneksyon sa imbakan)
+- Isang pambayad na koneksyon--katulad ng Paypal o Stripe
 
-Once you've set up your asset head over to the Commerce section. Click on **Inventory** in the Commerce sub menu, then click **Add an Item**. This is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. You'll also need to connect the fulfillment file that you wish to sell. If you've already set it up as an asset it will be in your dropdown menu here-- simply select the file and hit **save changes**.
+Kapag na-set up mo na ang iyong asset, magpunta sa Komersyong seksyon. Pindutin ang **Inventory** sa Komersyong sub menu, pagkatapos pindutin ang **Add an Item**. Dito ka magbibigay ng **public** na titulo at deskripsyon, itakda ang presyo, at paganahin ang "pay-at-least" na pagpapresyo kung gusto mo. Kakailanganin mo ring kumonekta sa file ng pagpapatupad na gusto mong ibenta. Kung na-set up mo na ito bilang isang asset makikita ito sa iyong dropdown na menu dito-- piliin lamang ang file at pindutin ang **save changes**.
 
-Once the item has been created, click on the **edit** tab to add an image. Then click on the **add/edit** image button on the left. It will prompt you to select your storage connection from a dropdown menu and then upload the image you wish your customers to see. Hit the **Save changes** button when you're done.
+Kapag ang isang aytem ay nailikha na, pumindot sa **edit** na tab upang magdagdag ng imahe. Pagkatapos pumindot sa **add/edit** na imaheng pipindutin sa kaliwa. Pagsasabihan ka nitong piliin ang iyong koneksyon sa imbakan mula sa isang dropdown na menu at pagkatapos i-upload ang imahe na gusto mong makita ng iyong suki. Pindutin ang **Save changes** na pipindutin kapat tapos ka na.
 
-If this is the only thing you wish to sell, it's time to create a **Single Purchase** element. Head back over to the main page, select the **elements** tab and click **add an element**. Select **Single Purchase**. Choose the item you wish to sell from the dropdown menu and give it a name for your own reference. To edit the success/error message, click on the **Element settings** button.
+Kapag ito lamang ang bagay na gusto mong ibenta, panahon na para maglikha ng isanng **Single Purchase** na elemento. Bumalik sa pangunahing pahina, piliin ang **elements** na tab at pindutin ang **add an element**. Piliin ang **Single Purchase**. Piliin ang aytem na gusto mog ibenta mula dropdown na menu at bigyan ito ng pangalan upang maging iyong batayan. Upang baguhin ang mensahe ng tagumpay/kamalian, magpindot sa **Element settings** na pipindutin.
 
-Once the element is created, embed it on your site or on your CASH Music page, and hit **publish**.
-When a customer buys your music, they'll be sent to a confirmation page with download options. They will also get an email from you with download instructions. This is helpful in case the customer is on a tablet or phone when they buy.
+Kapag ang elemento ay nailikha, i-embed ito sa iyong sayt o sa iyong CASH Music na pahina, at pindutin ang **publish**.
+Kapag ang isang suki ay bumibili ng iyong musika, ipapadala sila sa isang pahina ng pagkompirma kasama ang mga opsyon sa pag-download. Makakuha din sila ng isang email mula sa iyo na may kasamang mga hakbang sa pagdownload. Nakakatulong ito sa kasong ang suki ay nasa isang tablet o telepono kapag bumibili sila.
 
-All completed orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Lahat ng mga nakompletong kahilingan ay lalabas sa iyong **Commerce** na seksyon. Makakakita ka rin ng mga detalye ukol sa bawat order, pamahalaan ang inventory, at mag-export ng mga order kahit kailan mula doon. 
