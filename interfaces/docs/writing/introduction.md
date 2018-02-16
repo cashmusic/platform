@@ -8,11 +8,11 @@ Kısacası: CASH Music platformu, açık web üzerinden artistler için imkanlar
 
 Bu dokümanlarda şunlara değineceğiz:
 
-• Doğrudan PHP Çekirdeği ile çalışmak 
-• API'lerimiz (verbose ve RESTful) 
-• Üçüncü parti hizmetlere olan bağlantıları tanımlama 
-• Öğeleri oluşturma (gömme işlemleri için özel iş akışı) 
-• Yönetici uygulamamızla çalışma
+* Doğrudan PHP Çekirdeği ile çalışmak 
+* API'lerimiz (verbose ve RESTful) 
+* Üçüncü parti hizmetlere olan bağlantıları tanımlama 
+* Öğeleri oluşturma (gömme işlemleri için özel iş akışı) 
+* Yönetici uygulamamızla çalışma
 
 ------------------------------
 
