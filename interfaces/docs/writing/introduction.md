@@ -1,11 +1,3 @@
-CASH Müzik platformu, tüm müzisyenlerin kendi müziklerini yönetebilecekleri, 
-tanıtabilecekleri ve satabilecekleri araçlara erişmelerini sağlar.
+CASH Müzik platformu, tüm müzisyenlerin kendi müziklerini yönetebilecekleri, tanıtabilecekleri ve satabilecekleri araçlara erişmelerini sağlar.
 
-Her şey modülerdir ve bir PHP çekirdeği etrafında inşa edilmiştir. Yönetici uygulaması, API 
-ve her bir öğe, tam bir platform oluşturabilmek için birlikte çalışan ayrı uygulamalardır.
-Bu platformu işbirliği konsepti etrafında inşa ettik. Bu nedenle üçüncü taraf hizmetleri 
-tümüyle soyutladık. Dolayısıyla sanatçılar e-posta sağlayıcılarını, ödeme işlemcilerini vb. 
-kolayca değiştirebilirler.
-
-
-
+Her şey modülerdir ve bir PHP çekirdeği etrafında inşa edilmiştir. Yönetici uygulaması, API ve her bir öğe, tam bir platform oluşturabilmek için birlikte çalışan ayrı uygulamalardır. Bu platformu işbirliği konsepti etrafında inşa ettik. Bu nedenle üçüncü taraf hizmetleri tümüyle soyutladık. Dolayısıyla sanatçılar e-posta sağlayıcılarını, ödeme işlemcilerini vb. kolayca değiştirebilirler. Bağımlılıkları mümkün olduğunca hafif tuttuk, böylece WordPress, Drupal vb. uygulamalarda işlevsellik açısından daha iyi olabilir.
