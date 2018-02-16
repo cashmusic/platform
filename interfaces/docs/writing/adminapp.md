@@ -1,6 +1,7 @@
 Platform yönetim uygulaması (**/interfaces/admin**) ön denetleyiciyle inşa edilmiş oldukça düz bir MVC stili web uygulamasıdır, her rota için bireysel denetleyiciler, mustache görüntülemeleri ve geleneksel veritabanı katmanı yerine model için framework kullanılır.
 
-Yapısı açısından, oldukça basit:
+Yapısı açısından, oldukça basittir:
+
 - Ayarlar **constants.php** dosyasında saklanır 
 - .htaccess tüm trafiği **controller.php** dosyası üzerinden iter
 - Her rota **/components/pages/controllers** içinde bir denetleyiciye sahiptir ve herhangi bir mantık uyguladıktan sonra denetçi, **/components/pages/views**'den bir mustache şablonu görünümünü çağırır
