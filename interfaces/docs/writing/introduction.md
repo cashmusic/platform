@@ -21,6 +21,6 @@ Bu dokümanlarda şunlara değineceğiz:
 <a href="http://github.com/cashmusic" class="button">Github</a> /
 <a href="http://twitter.com/cashmusic" class="button">Twitter</a> /
 <a href="http://www.facebook.com/cashmusic.org" class="button">Facebook</a> /
-<a href="https://groups.google.com/d/forum/cash-build" class="button">Development Group</a>
+<a href="https://groups.google.com/d/forum/cash-build" class="button">Geliştirici Ekip</a>
 
 ------------------------------
