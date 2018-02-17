@@ -2,7 +2,7 @@ Uygulamamız **/interfaces/api/** reposunda bulunan bağımsız bir uygulamadır
 
 Ana uygulama işlevselliği **/interfaces/api/classes/APICore.php** adresinde bulunan **APICore** sınıfı tarafından işlenir.
 
-Uygulama, herhangi bir istek için JSON nesneleri döndürür. **/** adresinden **/api** talep etmek basitçe sürüm numarası ile birlikte bir merhaba verir:
+Uygulama, herhangi bir istek için JSON nesneleri döndürür. **/api** konumundan **/** talep etmek basitçe sürüm numarası ile birlikte bir merhaba verir:
 
 <script src="https://gist.github.com/jessevondoom/b51b3ec5bee653d46cff.js"></script>
 
