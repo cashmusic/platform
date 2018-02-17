@@ -1,1 +1,1 @@
-The RESTful version of the API is still a work in progress. 
+API'nın RESTful sürümü halen geliştirilmekte olan bir çalışmadır.
