@@ -4,8 +4,6 @@ Yanıt nesnesi ve ücretli yükleme, JSON olarak dönenler hariç PHP çekirdeğ
 
 	/api/verbose/asset/getasset/id/2
 
-Format basittir: /verbose/**plant**/**request**/**{parameter name}**/**{parameter value}** — ona attığınız ve yanıtladığınız gibi bir çok parametre ayrıştırır:
-
 Format basittir: /verbose/**plant**/**request**/**{parameter name}**/**{parameter value}** — ona attığınız ve yanıtladığınız gibi bir çok parametreyi ayrıştıracaktır.
 
 <script src="https://gist.github.com/jessevondoom/a3d384453bf053a2ca8e.js"></script>
