@@ -1,20 +1,20 @@
-When you first install the platform the installer creates and configures a **SQLite** database for you. 
-SQLite means we don't need to know any database server information and can get people up and playing 
-with the platform quickly. But for performance it lags behind **MySQL** a fair bit as the database grows. 
+Kapag una mong na-install ang plataporma, lumilikha at nagbabago ang installer ng isang **SQLite** na database para sa iyo. 
+Ang ibig sabihin ng SQLite ay hindi natin kailangang alamin ang mga impormasyon ng pang-database na server at mapakapagtayo ang mga tao at naglalaro 
+kasama ang plataporma sa madaling paraan. Pero para sa pagganap, nagla-lag ito sa likod ng **MySQL** ng isang maliit na bahagi habang lumalawak ang database. 
 
-If you're building things for production we recommend you migrate to a MySQL database, and we've 
-included a migration tool so it'll be as easy as knowing your settings. Where and how you get your 
+Kapag nagtatayo ka ng mga bagay para sa produksyon, nirerekomentda namin na lumipat sa isang MySQL na database, at  
+naisali namin ang isang kasangkapan sa paglipat upang madali lang alamin ang iyong mga setting. Saan at kailan mo makukuha ang iyong 
 settings is different from host to host, but generally you'll find MySQL information in whatever 
-host administration panel you log in to. 
+panel ng host na pang-administrasyon na pinapasukan mo. 
 
-You'll need: 
+Kakailanganin mo ang: 
 
- - The MySQL server address
- - a username
- - a password
- - the name of an empty database you can use
+ - Address ng MySQL na server
+ - isang username
+ - isang password
+ - pangalan ng bakanteng database na magagamit mo
 
-Once you have everything just open up the CASH Admin, login, and hover over your email address under 
-the main menu. You'll see a "System Settings" option. Click that, and in the left column you'll see 
-your current database type, and if that's SQLite you'll also see a form that lets you put in your 
-database server settings and migrate. 
+Kapag nasa iyo na ang lahat, buksan lamang ang CASH Admin, pumasok, at maglakbay sa iyong email na address sa ilalim ng
+pangunahing menu. Makikita mo ang isang "System Settings" na opsyon. Pindutin ito, at sa iyong kaliwang hanay, makikita mo 
+ang uri ng iyong kasalukuyang database, at kapag SQLite ito, makikita mo rin ang isang form na nagpapahintulot sa iyo na ilagay ang iyong
+mga setting sa database na server at maglipat. 
