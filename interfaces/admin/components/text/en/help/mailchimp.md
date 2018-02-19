@@ -1,11 +1,11 @@
-###Add a MailChimp connection
+###Adicionar uma conexão MailChimp
 
-The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
+A plataforma CASH Music e MailChimp se integram perfeitamente para adicionar cadastramento de emails diretamente com suas ferramentas para sua conta MailChimp.
 
-From the CASH Music platform, select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button, select the MailChimp button, and then click **Connect your MailChimp account**.
+Direto da plataforma CASH Music, selecione o **ícone de engrenagem** <i class="icon icon-cog"></i> do canto superior direito para abrir suas configurações de conta. Clique no botão **Conexões**, selecione o botão MailChimp, e então clique **Conectar sua conta MailChimp**.
 
-You'll be prompted for your MailChimp username and password. Once you click submit, you'll be brought to another page and asked which of your MailChimp mailing lists you'd like to sync your CASH account with. Once you've selected the appropriate list, click **Add the Connection**, and you're done!
+Será solicitado que você digite seu nome de usuário e senha do MailChimp. Uma vez que você clicar em enviar, você será levado para outra página e perguntado qual de suas listas de email MailChimp você gostaria de sincronizar com sua conta CASH. Uma vez que você selecionou a lista apropriada, clique em **Adicionar a conexão**, e você estará pronto!
 
-If you have multiple mailing lists with MailChimp, you can keep creating new connections within CASH Music for each one. Just repeat the process, but select a different list at the last step.
+Se você tem múltiplas listas com MailChimp, você pode continuar criando conexões novas dentro do CASH Music para cada uma. Apenas repita o processo, mas selecione uma lista diferente no último passo.
 
-Lastly, if you want to create a new list within MailChimp just for emails you retrieve via the platform, log into your your MailChimp account. Click **Lists** from the top menu, and click the **Create List** button in the top right-hand corner. For a more detailed walkthrough, check out <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">MailChimp's article on creating a new list</a>.
+Por último, se você quer criar uma lista dentro do MailChimp, apenas para emails que você receber através da plataforma, fala login em sua conta MailChimp. Clique em **Listas** do menu superior, e clique no botão **Criar lista** no canto superior direito. Para um passo-a-passo mais detalhado, dê uma olhada em> <a href="http://kb.mailchimp.com/lists/growth/create-a-new-list/" target="_blank">Artigo do MailChimp sobre como criar uma nova lista</a>.

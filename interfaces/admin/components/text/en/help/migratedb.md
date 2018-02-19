@@ -1,20 +1,17 @@
-When you first install the platform the installer creates and configures a **SQLite** database for you. 
-SQLite means we don't need to know any database server information and can get people up and playing 
-with the platform quickly. But for performance it lags behind **MySQL** a fair bit as the database grows. 
+Quando você instala a plataforma pela primeira vez, o instalador cria e configura um banco de dados **SQLite** para você. 
+SQLite significa que nós não precisamos saber qualquer informação do servidor do banco de dados e pode colocar qualquer um usando a plataforma de forma rápida. Mas em relação á performance, ele fica bem atrás do **MySQL** de acordo com que o banco de dados cresce. 
 
-If you're building things for production we recommend you migrate to a MySQL database, and we've 
-included a migration tool so it'll be as easy as knowing your settings. Where and how you get your 
-settings is different from host to host, but generally you'll find MySQL information in whatever 
-host administration panel you log in to. 
+Se você está construindo coisas para produção, nós recomendamos que você migre para um banco de dados MySQL, e nós incluímos uma ferramenta de migração para que seja fácil como conhecer as configurações de seu sistema. Onde e como você consegue as suas
+configurações é deferente de hospedagem para hospedagem, mas geralmente você vai achar informações sobre MySQL em qualquer
+painel de administração do serviço de hospedagem que você fazer login. 
 
-You'll need: 
+Você vai precisar: 
 
- - The MySQL server address
- - a username
- - a password
- - the name of an empty database you can use
+ - O endereço do servidor MySQL
+ - um nome de usuário
+ - uma senha
+ - o nome de um banco de dados vazio que você possa usar
 
-Once you have everything just open up the CASH Admin, login, and hover over your email address under 
-the main menu. You'll see a "System Settings" option. Click that, and in the left column you'll see 
-your current database type, and if that's SQLite you'll also see a form that lets you put in your 
-database server settings and migrate. 
+Uma vez que você conseguiu tudo, abra o CASH Admin, faça seu login, e deixe o cursor sobre o seu endereço de email abaixo do menu principal. Você verá uma opção "Configurações do Sistema". Clique nela, e na coluna à esquerda você verá
+seu tipo de banco de dados atual, e se for SQLite você também verá um formulário que permite que você digite suas
+configurações do servidor do banco de dados e migre. 
