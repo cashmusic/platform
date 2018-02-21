@@ -1,19 +1,19 @@
-###Publishing your CASH Music Page
+###CASH Müzik Sayfanızı Yayınlama
 
-What you'll need:
+Neye ihtiyacınız olacak:
 
-- An element or two set up and ready to go. 
+- Bir veya iki ayarlanmış ve gitmeye hazır bir öğe:
 
-Each platform user is given a free hosted, single page site on the CASH Music server. You can add as many different elements as you like to your page. 
+Her bir platform kullanıcısına CASH Music sunucusunda ücretsiz olarak barındırılan tek sayfa sitesi verilir. Sayfanıza istediğiniz kadar çok farklı öğe ekleyebilirsiniz.
 
-To manage, edit, or publish your page simply click on the tab with its URL from the main page. Then click on **Start building a new page**. From there you can choose either a light or dark theme for your page and select **Create your page**. Once your theme is set then you may begin adding elements to your page. Simply click on the **Edit** tab. 
+Sayfanızı yönetmek, düzenlemek veya yayınlamak için, ana sayfadaki URL'siyle sekmeyi tıklamanız yeterlidir. Sonra **Yeni bir sayfa oluşturmaya başlayın** seçeneğine tıklayın. Buradan sayfanız için açık veya koyu bir tema seçebilir ve **Sayfanızı oluştur** seçeneğini belirleyebilirsiniz. Temanız ayarlandıktan sonra sayfanıza öğeler eklemeye başlayabilirsiniz. **Düzenle** sekmesini tıklamanız yeterlidir. 
 
-In the edit window, place your cursor after **id="mainspc"**. Then click the plus sign next to one of the elements you've already created to add that element to your page and hit **Save changes.** 
+Düzenleme penceresinde imlecinizi **id = "mainspc"** değerinin arkasına yerleştirin. Ardından, o öğeyi sayfanıza eklemek için daha önce oluşturduğunuz öğelerin birinin yanındaki artı işaretini tıklayın ve **Değişiklikleri kaydet** seçeneğine dokunun.
 
-You can preview your page by clicking on the **View page** button. All of your elements will be live so you can test them out before you publish your page and send it out to fans. 
+**Sayfayı göster** düğmesini tıklayarak sayfanızın önizlemesini yapabilirsiniz. Tüm öğeleriniz canlı olacak, böylece sayfanızı yayınlamadan önce test edip fanlara gönderebilirsiniz.
 
-When you're ready to go live simply move the publish slider to the right. If you'd like to unpublish move it back to the left. Easy. 
+Canlı yayına hazır olduğunuzda yayın kaydırma çubuğunu sağa kaydırın. Yayından kaldırmak isterseniz sola dönün. Kolayca. 
 
-You can edit/customize your page anytime and it will reflect those changes live. 
+Sayfanızı istediğiniz zaman düzenleyebilir/özelleştirebilirsiniz ve bu değişiklikler canlı olarak yansır.
 
 
