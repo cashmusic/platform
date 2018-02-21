@@ -1,20 +1,20 @@
 {
-	"pagetip":"",
-	"learn":"<p>Here you can add all your events - shows, in-stores, radio interviews & performances</p><p>You will need to enter in a venue first if it’s not already in our database. The good news is any time you add a venue it gets added to the big list. Which means the more people use the platform the better and more complete that database will get.</p> <p> Keep in mind that you must set up an element if you wish to publish tour dates on your page. Selecting published here makes them available to be used in a campaign element. Dates are not live until you start a campaign, select a tour date element, and then either publish your page or embed the element widget on another site.</p><p>If you already have a tour dates element up when you add more events here you will automatically publish them on your page unless you uncheck the published box. If you’re waiting to announce a show or tour make sure you uncheck published so you don’t spill the beans.</p><p>Cancelled show? Make sure and go into that event’s details and select cancelled. You can make notes in the comments section letting fans know about refunds or rescheduling.</p>",
-	"related":{},
-	"labels":{"date":"Date",
-            "venue":"Venue",
-            "comments":"Comments (Support, CD Release, etc)",
-            "ticket_purchase_url":"Ticket Purchase URL",
-            "is_it_published":"Published?",
-            "is_it_cancelled":"Cancelled?"
+	"页面提示":"",
+	"了解":"<p>在此可以添加所有事件 - 演出, 到店里, 无线电广播采访 & 表演</p><p>如果它没有在我们的数据库里，你需要先输入一个地点. 好消息是任何时候你添加了一个地点，它将被添加到大列表中. 这意味着越多人使用此平台越好，可以得到更完整的数据.</p> <p> 请记住如果你希望把巡回演出日期发布到你的页面上，你必须设置一个元素. 在此选择发布可以使它们能够在活动元素里使用. 日期不是实时直到你开始一个活动，选择巡回演出日期元素, 然后发布在你的页面或者把元素部件嵌入在另一个网站上.</p><p>当你在此添加更多事件时，如果你已经有个巡回演出日期元素，除非你不勾选发布框，你将自动把它们发布到你的页面上. 如果你还在等公布一场演出或巡回演出，请确保你不勾选发布以免提前泄密.</p><p>取消演出? 请确保进入事件细节并选择取消. 你可以在注释区备注让你的歌迷们知道退票或重新规划.</p>",
+	"相关的":{},
+	"标签":{"日期":"日期",
+            "地点":"地点",
+            "注释":"注释 (支持, CD 发行, 等)",
+            "门票_购买_url":"门票购买 URL",
+            "它_是_已发布吗":"已发布?",
+            "它_是_取消了吗":"已取消?"
 	},
-	"tooltips":{},
-	"copy":{"event_details_header":"Edit event",
-            "add_a_date":"Information about published/unpublished status and cancellation can be found in the page tips.",
-         "not_found":"Can't find the venue you're looking for? ",
-         "new_venue":"Add a new venue",
-				 "delete":"Delete event"
+	"工具提示":{},
+	"复制":{"事件_细节_页眉":"编辑事件",
+            "添加_一个_日期":"关于发布/未发布状态和取消的信息可以在页面提示里找到.",
+         "未_发现":"不能找到你想要找的地点吗? ",
+         "新_地点":"添加一个新地点",
+				 "删除":"删除事件"
 
 			 }
 }
