@@ -14,6 +14,15 @@ Bağlantı bir isme, açıklamaya ve benzersiz bir türe ihtiyaç duyar ve bağl
 Bağlantının tek kullanıcılı ve çok kullanıcılı sürümleri için gerekli farklı verileri tanımlayabileceğinizi unutmayın. (Anahtarları/sırları çok kullanıcılı modda saklamaktan çekiniyoruz.)
 
 #### Tohum sınıfı
-Çoğunlukla üçüncü parti API'lere bağlanma biçiminde, tohumlar belirli işlevleri yerine getirirken, platformun daha büyük planında bitki istekleri ele alır. tohumların esnek olması gerektiği için yapıları oldukça eğlencelidir, ancak benzer tohumlar arasında bir grup ortak işlev göreceksiniz - S3 ve Google Drive için tohumların kontrol edin.
+Çoğunlukla üçüncü parti API'lere bağlanma biçiminde, tohumlar belirli işlevleri yerine getirirken, platformun daha büyük planında istekleri bitkiler ele alır. Tohumların esnek olması gerektiği için yapıları isteğe bağlıdır, ancak benzer tohumlar arasında bir grup ortak işlev göreceksiniz - S3 ve Google Drive için tohumların kontrol edin.
 
-Bunu yakında bir kapsam bazında daha somut bir şekilde tanımlayacağız, ancak şu an için lütfen benzer hizmetlere bakın ve onlardan örnek alın. Bitki seviyesinde mümkün olduğunca soyutlayabilmemiz için tohum seviyesinde bulabildiğimiz kadar çok sayıda tekdüzelik istiyoruz.
+Bunu yakında bir kapsam içinde ve daha somut bir şekilde tanımlayacağız, ancak şu an için lütfen benzer hizmetlere bakın ve onlardan örnek alın. Bitki seviyesinde mümkün olduğunca soyutlayabilmemiz için tohum seviyesinde bulabildiğimiz kadar çok sayıda tekdüzelik istiyoruz.
+
+OAuth stili yönlendirmesini destekleyen herhangi bir bağlantı (genellikle çok kullanıcılı modda) bu iki işlevin tanımlanmasına ihtiyaç duyar:
+
+ - getRedirectMarkup($data=false)
+ - handleRedirectReturn($data=false)
+
+GetRedirectMarkup, kullanıcıya yeniden yönlendirme bağlantısı sunmak için gereken mantığı işleyebilir ve handleRedirectReturn, geri döndürülen jeton ile ilgilenir ve bağlantı işlemini tamamlar.
+
+OAuth isteklerini başlatmak için depolanması gereken uygulama düzeyindeki anahtarlar gibi tüm veriler **/framework/settings/connections.json** adresinde saklanabilir. Hızlı bir örnek için /framework/settings/_connections.json adresindeki şablona bakabilirsiniz.
