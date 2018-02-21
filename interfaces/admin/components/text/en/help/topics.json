@@ -2,79 +2,79 @@
 	"terms" : {
 		"file":"terms",
 		"compatibility":["single"],
-		"title":"Glossary"
+		"title":"Sözlük"
 	},
 
 	"s3" : {
 		"file":"s3",
 		"compatibility":["single","multi"],
-		"title":"Add an Amazon S3 connection"
+		"title":"Amazon S3 bağlantısı ekleyin"
 	},
 
 	"mailchimp" : {
 		"file":"mailchimp",
 		"compatibility":["single", "multi"],
-		"title":"Add a MailChimp connection"
+		"title":"MailChimp bağlantısı ekleyin"
 	},
 
 	"paypal" : {
 		"file":"paypal",
 		"compatibility":["single", "multi"],
-		"title":"Add your payment connections"
+		"title":"Ödeme bağlantilarinizi ekleyin"
 	},
 
 	"commerce" : {
 		"file":"commercesettings",
 		"compatibility": ["single", "multi"],	
-		"title":"Set up commerce settings"
+		"title":"Ticaret ayarlarını yapma"
 	},
 
 	"addarelease" : {
 		"file":"addarelease",
 		"compatibility":["single","multi"],
-		"title":"Add an asset"
+		"title":"Bir öğe ekle"
 	},
 	
 	"paiddownload" : {
 		"file":"paiddownload",
 		"compatibility":["single","multi"],
-		"title":"Sell a digital download"
+		"title":"Dijital bir indirmeyi sat"
 	},
 
 	"physicalrelease" : {
 		"file":"physicalrelease",
 		"compatibility":["single","multi"],
-		"title":"Sell a physical item"
+		"title":"Fiziksel bir ürün satmak"
 	},	
 
 	"store" : {
 		"file":"buildastore",
 		"compatibility": ["single", "multi"],
-		"title": "Build a store"
+		"title": "Bir mağaza kurun"
 	},
 
 	"emailcollection" : {
 		"file":"emailcollection",
 		"compatibility":["single","multi"],
-		"title":"Set up an email-for-download element"
+		"title":"İndirme için bir e-posta öğesi oluşturun"
 	},
 
 	"downloadcodes" : {
 		"file":"downloadcodes",
 		"compatibility":["single","multi"],
-		"title":"Download codes"
+		"title":"İndirme kodları"
 	}, 
 
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Embed an element"
+		"title":"Bir elemanın katıştırılması"
 	},
 
 	"publishpage" : {
 		"file":"publishpage",
 		"compatibility":["single", "multi"],
-		"title":"Publish your CASH Music page"
+		"title":"CASH Müzik sayfanızı yayınlayın"
 	}
 	
 }	
