@@ -1,20 +1,21 @@
-###Sell a digital download
+###Venda um download digital
 
-Paid digital downloads using your own S3 and payment accounts. A simple and efficient way to sell music directly from your site.
+Downloads digitais pagos usando a tua própria S3 e tua conta de pagamento. Uma forma simples e eficiente de vender música diretamente do teu site.
 
-What you'll need:  
+O que vais precisar:  
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
-- A payment connection--such as Paypal or Stripe
+- Uma conexão de armazenamento - recomendamos uma conta do Amazon S3 para confiabilidade
+- Um recurso com arquivos de preenchimento anexados (hospedado na tua conexão de armazenamento)
+- Uma conexão de pagamento - como Paypal ou Stripe
 
-Once you've set up your asset head over to the Commerce section. Click on **Inventory** in the Commerce sub menu, then click **Add an Item**. This is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. You'll also need to connect the fulfillment file that you wish to sell. If you've already set it up as an asset it will be in your dropdown menu here-- simply select the file and hit **save changes**.
+Uma vez que tenhas configurado os teus recursos, vai para a sessão Comércio. Clica em **Inventário** no submenu Comércio, e então clia em **Adicionar um item** Aqui é onde vais dar um título **público** e uma descrição, definir o preço, e habilitar a forma de cobrança "pagar-pelo-menos", se desejares. Também vais precisar de conectar o arquivo de preenchimento que tu desejas vender. Se já o configuraste como um recurso, ele vai estar no teu menu deslizante aqui - simplesmente seleciona o arquivo e carregue **guardar mudanças**.
 
-Once the item has been created, click on the **edit** tab to add an image. Then click on the **add/edit** image button on the left. It will prompt you to select your storage connection from a dropdown menu and then upload the image you wish your customers to see. Hit the **Save changes** button when you're done.
+Uma vez que o item foi criado, clica na aba **editar** para adicionar uma imagem. Então clica na imagem de botão **adicionar/editar** à esquerda. Será solicitado que seleciones a tua conexão de armazenamento do menu deslizante e então faz o upload de uma imagem que desejas que o teu cliente veja. Carrega no botão **Guardar mudanças** quando o tiveres pronto.
 
-If this is the only thing you wish to sell, it's time to create a **Single Purchase** element. Head back over to the main page, select the **elements** tab and click **add an element**. Select **Single Purchase**. Choose the item you wish to sell from the dropdown menu and give it a name for your own reference. To edit the success/error message, click on the **Element settings** button.
+Se isto for a única coisa que desejas vender, é hora de criar um elemento **Compra Única**. Volta até à página principal, seleciona a aba **elementos** e clica em **adicionar um elemento**. Seleciona **Compra Única**. Escolha o item que tu desejas vender no menu deslizante e dá-lhe um nome para a tua própria referência. Para editar as mensagens de erro/sucesso, clica no botão **Configurações de elementos**.
 
-Once the element is created, embed it on your site or on your CASH Music page, and hit **publish**.
-When a customer buys your music, they'll be sent to a confirmation page with download options. They will also get an email from you with download instructions. This is helpful in case the customer is on a tablet or phone when they buy.
+Uma vez que o elemento está criado, incorpora-o no teu site ou na tua página CASH Music, e carrega em **publicar**.
+Quando um cliente compra a tua música, ele será enviado para uma página de confirmação com opções de download. Ele também vai receber um email seu com as instruções para download. Isto é útil caso o cliente esteja num tablet ou telemóvel quando ele comprar.
 
-All completed orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Todas os pedidos concluídos serão mostrados na tua sessão **Comércio**. Também podes encontrar detalhes de cada pedido, gerir o inventário, e exportar os pedidos a qualquer momento lá. 
+
