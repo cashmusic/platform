@@ -1,1 +1,1 @@
-API'nın RESTful sürümü halen geliştirilmekte olan bir çalışmadır.
+API'nin RESTful sürümü halen geliştirilmektedir.
