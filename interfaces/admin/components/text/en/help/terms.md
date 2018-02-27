@@ -1,7 +1,7 @@
-**Asset:** A file or release to be used with an element for fulfillment, etc. So this will be stuff like digital music, photos, video, etc. You don't have to 
+**Recursos**: Um arquivo ou lançamento será usado como um elemento para preenchimento, etc. Então haverão coisas como música digital, fotos, vídeos, e etc. Você não é obrigado 
 
-**Campaigns:** Campaigns are there to help you organize your projects, releases, and/or experiments. Basically anything that you want to build with the CASH platform all starts here. You can have as many campaigns as you like, however keep in mind you can only publish one page at a time on our hosted site. Any element of a campaign can be emdedded wherever you like across the web. 
+**Campanhas**: Campanhas estão lá para ajudar você a organizar seus projetos, lançamentos, e/ou experimentos. Basicamente qualquer coisa que você queira construir com a plataforma CASH se inicia aqui. Você pode ter quantas campanhas você quiser, no entanto, tenha em mente que você só poderá publicar uma página de cada vez em seu site hospedado. Qualquer elemento de uma campanha pode ser incorporado em qualquer lugar que você deseja em torno da web. 
 
-**Connection:** Store account information for a third-party service like PayPal or S3.
+**Conexão**: Informação da conta da Loja para um serviço terceirizado, como PayPal ou S3.
 
-**Element:** Elements are the tools that power your campaigns. Everything from simple text to download codes to sales. HOT TIP: You must set up a campaign before you can access elements. Once they're set up you can easily embed an element anywhere on the web as well as on your campaign page. 
+**Elemento**: Elementos são as ferramentas que empoderam suas campanhas. Tudo, desde textos simples à códigos de download para vendas. DICA QUENTE: Você deve configurar uma campanha antes que você possa acessar elementos. Uma vez que eles estiverem configurados, você pode facilmente incorporar um elemento em qualquer lugar na web, assim como em sua página da campanha. 
