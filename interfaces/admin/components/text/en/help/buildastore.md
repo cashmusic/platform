@@ -1,22 +1,22 @@
-###Build a store
+###Montaar uma loja
 
-You can watch a detailed video taking you through all of the steps to set up a store <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">here.</a>
+Tu podes assistir a um vídeo detalhado que vai levá-lo sobre todos os passos para configurar uma loja <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">aqui.</a>
 
-What you'll need:
+O que vais precisar:
 
-- A payment connection
-- Any physical/digital items you wish to sell added to Commerce inventory
+- Uma conexão de pagamento
+- Quaisquer itens físicos/digitais que desejas vender adicionados ao inventário Comércio
 
-From the main page select the **Elements** tab. Click **Add an element** and select **Store**. Give the element a name for your own reference--no one else will see it.
+Da página principal, seleciona a aba **Elementos**. Clica em **Adicionar um elemento** e seleciona **Loja**. Dá um nome ao elemento para a tua própria referência - ninguém será capaz de vê-lo.
 
-Now, open the **Element settings** drawer below the store element you just created. Choose the style of store that you'd like to build. The default setting will be all your items in one column. **Two columns** is just as it sounds--side by side. **Compact** is a more compressed version of the two columns. You can try them all out once you've set the rest of the store up to see which one you prefer and can change it at any time.
+Agora, abre a gaveta **Configurações de elemento** abaixo do elemento loja que acabaste de criar. Escolhe o estilo de loja que gostarias de criar. As configurações padrão serão todos os teus itens numa coluna. **Duas colunas** é apenas o que parece ser -- lado a lado. **Compacto** é uma versão mais comprimida de duas colunas. Tu podes experimentar todas elas uma vez que tiveres definido a restante loja, até tu veres qual a que preferes e podes mudá-las a qualquer momento.
 
-Next, start adding the commerce items that you wish to sell. Now add all of the items you wish to include in this store. The order in which you select them will be how they are ordered in the cart as well. For example, the first item you add will be at the top, the second will be second, and so on. If you have a featured item, like a new release or shirt, that you'd like highlighted at the top of your cart, click on **Add a new featured item** and choose it from the dropdown menu.
+Em seguida, comeca a adicionar os itens do comércio que desejas vender. Agora adiciona todos os itens que desejas incluir nesta loja. A ordem que tu os selecionas será como eles ficarão ordenados também no carrinho. Por exemplo, o primeiro item que adicionares estará no topo, o segundo será o segundo e assim por diante. Se tens um item em destaque, como um novo lançamento ou camisa, que tu gostarias que estivesse destacado no topo do teu carrinho, clica em **Adicionar um novo item destacado** e escolhe-o no menu deslizante.
 
-Once you've finished that step, you can edit the messages that your customers will receive once they've placed their order.
+Uma vez terminado este passo, podes editar as mensagens que os teus clientes vão receber quando eles fizerem o pedido deles.
 
-Make sure when you're done that you click **save changes** at the bottom of the page.
+Quando terminares, certifica-te de clicar em **guardar mudanças** na parte inferior da página.
 
-Now you're ready to make your store live. You can either embed it on your own site or add to your CASH Music page and publish.
+Agora estás pronto para colocar a tua loja em funcionamento. Podes incorporá-la no teu próprio site ou adicionar à tua página CASH Music e publicar.
 
-All incoming orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+Todos os pedidos feitos serão mostrados na tua sessão **Comércio**. Também podes encontrar os detalhes de cada pedido, gerir o inventário, e exportar pedidos a qualquer momento lá. 
