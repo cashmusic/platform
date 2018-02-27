@@ -1,26 +1,25 @@
-There's a lot in the CASH platform, and it helps to start with a few core concepts. 
+Há muito na plataforma CASH, e é bom começar com alguns conceitos básicos. 
 
-First and foremost, look at the main menu and you'll see five main categories:  
+Em primeiro lugar, observa o menu principal e verás as cinco categorias principais:  
 
-  **Main page:** This is where you'll set up your elements and track their activity. You can also publish and edit your quick one page site here, get an embed code for any element you've set up, and organize all your projects. 
+  **Página principal:** Este é o local onde tu vais definir os teus elementos e acompanhar as tuas atividades. Também podes publicar e editar o teu site de uma página aqui, conseguir um código de incorporação para qualquer elemento que tenhas definido, e organizar todos os teus projetos. 
   
-  **Assets:** Files, releases, and playlists. Basically anything you'll work on or use for 
-   fulfillment somewhere else in the platform.
+  **Recursos:** Arquivos, lançamentos e listas de reprodução. Basicamente qualquer coisa que vais trabalhar ou usar para 
+   preenchimento num qualquer outro lugar na plataforma.
 
-  **People:** Email and permission lists as well as press coverage. Right now this is mainly 
-   for email lists, but this is where you'll see more social integration and tools for interacting 
-   with people — from followers to writers and fans.
+  **Pessoas:** Listas de email e permissões, assim como cobertura da imprensa. Neste momento, isto é principalmente 
+   para listas de email, mas é aqui que tu verás mais integração social e ferramentas para interagir 
+   com pessoas — de seguidores a escritores e fãs.
 
-  **Commerce:** Review your orders, manage inventory, and set up new items to sell.
+  **Comércio:** Rever os teus pedidos, gerir o inventário, e configurar os novos itens para vender.
 
-  **Calendar:** Shows and venues.
+  **Calendário:** Espetáculos e locais.
 
 
-While you explore the platform remember that you can always click the learn icon <i class="icon icon-learn"></i> to see 
-tips for the page you're on. 
+Enquanto exploras a plataforma, lembra-te que podes sempre clicar no ícone aprender <i class="icon icon-learn"></i> para ver dicas para a página em que tu te encontrar. 
 
-Click on the gear icon <i class="icon icon-cog"></i> at any time to access system settings, edit your account,
-or add connections. 
+Clica no ícone de engrenagem <i class="icon icon-cog"></i> a qualquer momento para aceder as configurações do sistema, editar a tua conta ou adicionar conexões. 
 
-For more, follow us on Twitter as [@cashmusic](http://twitter.com/cashmusic) or follow our 
+Para mais informações, siga-nos no Twitter: [@cashmusic](http://twitter.com/cashmusic) ou siga o nosso  
 [blog](https://medium.com/cash-music/).
+
