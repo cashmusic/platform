@@ -1,29 +1,29 @@
 {
-	"pagetip":"",
-	"learn":"<p>You will need to enter in a venue first if it’s not already in our database. The good news is any time you add a venue it gets added to the big list. Which means the more people use the platform the better and more complete that database will get.</p><p>Keep in mind that you must set up an element if you wish to publish tour dates on your page. Dates are not live until you start a campaign, select a tour date element, and then either publish your page or embed the element widget on another site.</p><p>If you already have a tour dates element up when you add more events here you will automatically publish them on your page unless you uncheck the published box. If you’re waiting to announce a show or tour make sure you uncheck published so you don’t spill the beans.</p><p>Cancelled show? Make sure and go into that event’s details and select cancelled. You can make notes in the comments section letting fans know about refunds or rescheduling.</p>",
-	"related":{},
-	"labels":{"date":"Date",
-            "venue":"Venue",
-            "comments":"Comments (Support, CD Release, etc)",
-            "ticket_purchase":"Ticket Purchase URL",
-            "published":"Published?",
-            "cancelled":"Cancelled?"
+	"页面提示":"",
+	"了解":"<p>如果它没有在我们的数据库里，您需要先输入一个地点.好消息是每次您添加一个新地点，它将被添加到大的列表中. 那意味着越多人使用此平台就越好。可以得到更多更完整的数据库.</p><p>请记住如果您要在您的页面上发布巡回演出日期，您必须先设置一个元素. 日期不是实时的知道您开始活动, 选择一个巡回演出日期元素, 然后发布在您的网页或把元素嵌入在另一个网站上.</p><p>如果您已经设置了一个巡回演出日期元素，当您在此添加更多元素时，除非您不选发布框，它们将自动被发布在您的网页上. 如果您还在等着宣布一场演出或者巡回演出，请确保您不勾选发布这样您不会提前泄密.</p><p>取消演出? 请确保进入事件细节并选择取消. 您可以在注释区添加备注，让您的歌迷们知道退票或重新计划.</p>",
+	"相关的":{},
+	"标签":{"日期":"日期",
+            "地点":"地点",
+            "注释":"注释 (支持, CD 发布等)",
+            "门票_购买":"门票购买URL",
+            "已发布":"已发布?",
+            "取消":"取消?"
 
 
    },
-	"tooltips":{},
-	"copy":{"quickly_details":"Quickly add a date to the system. Information about published/unpublished status and cancellation can be found in the learn section!",
-            "events_title":"Events",
-            "events_subtitle":"everything events",
-            "add_an_event":"Add an event",
-            "cant_find":"Can't find the venue you're looking for? ",
-            "add_new_venue":"Add a new venue",
-            "button_add_event":"Add event",
-            "upcoming_events":"All upcoming events",
-						"archive_events":"All past events",
-            "no_upcoming_events":"No upcoming events were found.",
-						"no_archive_events":"No past events were found.",
-						"edit":"Edit",
-						"delete":"Delete"
+	"工具提示":{},
+	"复制":{"快速_细节":"快速添加一个日期到系统里. 在了解部分可以找到关于已发布/未发布状态和取消的信息!",
+            "事件_标题":"事件",
+            "事件_子标题":"所有事件",
+            "添加_一个_事件":"添加一个事件",
+            "无法_找到":"无法找到您所要找的地点? ",
+            "添加_新的_地点":"添加一个新地点",
+            "按钮_添加_事件":"添加事件",
+            "即将到来_事件":"所有即将到来的事件",
+						"归档_事件":"所有过去事件",
+            "没有_即将到来_事件":"未找到即将到来事件.",
+						"没有_归档_事件":"未找到过去的事件.",
+						"编辑":"编辑",
+						"删除":"删除"
    }
 }
