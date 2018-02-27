@@ -1,12 +1,11 @@
 
-###Publishing your CASH Music page
+###CASH Müzik sayfanızı yayınlama
 
-Once you've added some elements and are ready to publish your page click the **edit icon**  <i class="icon icon-pencil"></i> and select **Page theme**. It'll prompt you to choose a light or dark theme for your page.
+Bazı öğeler ekledikten ve sayfanızı yayınlamaya hazır olduğunuzda **düzenleme simgesini** tıklayın.  <i class="icon icon-pencil"></i> ve **Sayfa teması** 'nı seçin. Sayfanız için açık veya koyu bir tema seçmenizi ister.
 
- Click on the campaign's **edit icon** again to open your page template. It includes an editor and some basic html code. If you're a novice and aren't sure what this code means, don't worry! We've made it really easy. Just look for a cat. There's an empty line after it. Click there.
+ Sayfa şablonunuzu açmak için kampanyanın **düzenleme simgesini** tekrar tıklayın. Bir düzenleyici ve bazı temel html kodu içeriyor. Acemi biriyseniz ve bu kodun ne anlama geldiğinden emin değilseniz endişelenmeyin! Gerçekten kolay yaptık. Sadece bir kedi arayın. Bundan sonra boş bir çizgi var. Şuraya tıklayın.
 
-All of your campaign elements are listed to the right of the template. Just click the **+** sign to embed the elements you'd like to publish on your page. You can also include any custom html or css you'd like. Once you're all done, click **Save changes**.
+Kampanyanızın tüm öğeleri şablonun sağında listelenir. Sayfanıza yayınlamak istediğiniz öğeleri yerleştirmek için **+** işaretini tıklamanız yeterlidir. İstediğiniz özel html veya css'leri de ekleyebilirsiniz. Tamamladığınızda **Değişiklikleri kaydet** seçeneğini tıklayın.
+Ana sayfanıza döndüğünüze göre, **Yayınlama Ayarları** yazan bir kutuya gelene kadar aşağı ilerleyin. Açılır menüden kampanyanızı seçin ve genel sayfanızı değiştirme konusunda emin olup olmadığınız sorulduğunda, **Evet, yapın** seçeneğini seçin.
 
-Now that you're back on your main page, scroll down until you see a box that says **Publish Settings**. Select your campaign from the drop-down menu, and when asked if you're sure about changing your public page, select **Yes, do it**.
-
-You can go back and edit your campaign at any time, add new elements, change themes - you name it.  Also, if you want to unpublish your campaign, just scroll back down to **Publish settings** and select **None** from the dropdown menu.
+Kampanyanızı istediğiniz zaman geri gönderebilir, düzenleyebilir, yeni elemanlar ekleyebilir, temaları değiştirebilirsiniz - adı yazarsınız. Ayrıca, kampanyanızı yayından kaldırmak istiyorsanız, tekrar **Yayınlama ayarları** 'na gidin ve açılır menüden **Hiçbiri**' yi seçin.
