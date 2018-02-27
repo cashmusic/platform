@@ -1,15 +1,10 @@
-The admin app for the platform (**/interfaces/admin**) is a fairly straight-forward MVC-style webapp 
-built with a front controller, individual controllers for each route, mustache views, and using the 
-framework for the model instead of a traditional database layer. Basically it's dog-fooding the PHP 
-core but building a much more complex app than a simple element. 
+Platform yönetim uygulaması (**/interfaces/admin**) ön denetleyiciyle inşa edilmiş oldukça düz bir MVC stili web uygulamasıdır, her rota için bireysel denetleyiciler, mustache görüntülemeleri ve geleneksel veritabanı katmanı yerine model için framework kullanılır.
 
-In terms of structure, it's fairly simple: 
+Yapısı açısından, oldukça basittir:
 
- - Settings are stored in the **constants.php** file
- - The .htaccess pushes all traffic through the **controller.php** file
- - Each route has a controller in **/components/pages/controllers** and after doing any logic the 
- controller calls a mustache template view from **/components/pages/views**
- - The main page UI is stored in mustache templates in **/ui/default**
+- Ayarlar **constants.php** dosyasında saklanır 
+- .htaccess tüm trafiği **controller.php** dosyası üzerinden iter
+- Her rota **/components/pages/controllers** içinde bir denetleyiciye sahiptir ve herhangi bir mantık uyguladıktan sonra denetçi, **/components/pages/views**'den bir mustache şablonu görünümünü çağırır
+- Ana sayfa UI, **/ui/default** daki mustache şablonlarında saklanır **
 
-It shouldn't be lost that the admin app is structured to mirror the CASH Request/Response types — this is 
-very much on purpose with the goal of getting musicians and developers speaking the same language. 
+Admin uygulaması NAKİT İstek/Cevap tiplerini yansıtacak şekilde yapılandırılmıştır ve kaybedilmemelidir - Bu aynı dili konuşan müzisyenleri ve geliştiricileri elde etmek gibi bir çok amaca hizmet eder.

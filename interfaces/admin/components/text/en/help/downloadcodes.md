@@ -1,14 +1,14 @@
-###Download codes
+###İndirme kodları
 
-What you'll need:  
+Neye ihtiyacınız olacak:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
+- Depolama bağlantısı - Güvenilirlik için bir Amazon S3 hesabı öneririz
+- İlişkilendirilmiş dosyaların eklendiği bir öğe (depolama bağlantınızda barındırılır)
 
-On the **Assets** tab, click on the **Asset settings** below your chosen asset. Type in how many download codes you'd like, and hit **Add codes** to generate them. This is also where you can export your codes to an Excel/Google Docs compatible .csv file.
+** Öğeler ** sekmesinde, seçilen öğenizin altındaki ** Öğe ayarları ** seçeneğini tıklayın. Kaç adet karşıdan kod indirmek istediğinizi yazın ve bunları oluşturmak için ** Kodları ** ekleyin. Ayrıca, kodlarınızı Excel / Google Docs uyumlu bir .csv dosyasına aktarabileceğiniz yerdir.
 
-Now you'll need to make the redemption form so your fans can redeem their codes. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message.
+Artık, hayranlarınızın kodlarını kullanabilmesi için geri ödeme formunu oluşturmanız gerekecek. Ana sayfaya geri dönün, ** Elements ** sekmesini tıklayın, ** Element Ekle ** seçeneğini tıklayın ve ** Download Codes ** seçeneğini seçin. Kendi iç başvurunuz için bir ad verin ve genel başarı mesajını düzenleyin.
 
-The **Download Codes** element will work with any code you've generated for any of your assets. It knows to automatically give the correct asset to any valid codes. For this reason, make sure your success message doesn't reference a specific asset.
+** Kodları İndir ** öğesi, öğelerinizden herhangi biri için oluşturduğunuz herhangi bir kodla çalışır. Doğru varlığı otomatik olarak geçerli kodlara vermeyi bilir. Bu nedenle, başarı mesajınızın belirli bir öğeye atıfta bulunmadığından emin olun.
 
-Finally, either add the element to your CASH Music page or embed the element on your own site.
+Son olarak, öğeyi CASH Music sayfasına ekleyin veya öğeyi kendi sitenize yerleştirin.

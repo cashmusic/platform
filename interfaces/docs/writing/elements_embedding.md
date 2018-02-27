@@ -1,30 +1,20 @@
-We use our (tiny) custom javascript library, [cashmusic.js](http://cashmusic.github.io/cashmusic.js/), 
-to create iframe embeds for elements. They can be styled to match any site with full user control over
-CSS and markup. Embedding is pretty straightforward and happens with a single copy and paste code.
+Öğeler için iframe gömme oluşturmak için (küçük) özel javascript kitaplığımızı [cashmusic.js](http://cashmusic.github.io/cashmusic.js/)
+CSS ve biçimlendirme üzerinde tam kullanıcı denetimi olan herhangi bir siteyle eşleşecek şekilde tasarlanabilirler. Gömme işlemi oldukça basittir ve tek bir kopyalama ve yapıştırma kodu ile olur.
 
-In a basic example, an element is embedded in place by id only:
+Basit bir örnek vermek gerekirse, bir öğe yalnızca kimliği vasıtasıyla yerleştirilir:
 
 <script src="https://gist.github.com/jessevondoom/5856499.js"></script>
 
-Endpoint and id are always required, but you can also choose to have the element 
-appear in an overlay (lightboxed.) A lightboxed element will create a link inline 
-with the caption passed in to the window.cashmusic.embed function. You can also 
-pass in an object specifying size and position of the element inside the overlay. 
+Bitiş noktası ve kimliği her zaman gereklidir, ancak öğenin bir katman ile (aydınlatılmış katman) görünmesini de seçebilirsiniz. Aydınlatılmış öğe, window.cashmusic.embed işlevine iletilen başlık ile satır içi bir bağlantı oluşturacaktır. Ayrıca, aydınlatılmış katman içindeki öğenin boyutunu ve konumunu belirten bir nesneye de geçebilirsiniz.
 
-For embed calls after page load, provide a target element as the final argument to 
-window.cashmusic.embed. This will place the embed, iframe or lightbox link, inside 
-the first matching element. The target should be a string that will work with 
-document.querySelector, like "#id", "#id .class", or similar.
+Sayfa yüklemesinden sonra gömme çağrıları için window.cashmusic.embed'in son argümanı olarak bir hedef öğe temin edin. Bu, ilk eşleşen öğenin içine gömme, iframe veya aydınlatılmış katman bağlantısı yerleştirir. Hedef, "#id", "#id .class" veya benzeri, document.querySelector ile çalışacak bir dize olmalıdır.
 
-For styling, all iframe embeds are placed in a &lt;div&gt; classed with "cashmusic embed" 
-and lightboxed embed links are placed in a &lt;span&gt; classed "cashmusic embed".
+Stil için tüm iframe yerleşimleri şuraya yerleştirilmiştir: &lt;div&gt; ve 'cashmusic embed' olarak sınıflandırılmıştır ve aydınlatılmış katman bağlantıları yerleşimleri ise şuraya yerleştirilmiş: &lt;span&gt; ve 'cashmusic embed' olarak sınıflandırılmıştır.
 
-An example with all options:
+Tüm seçenekler için bir örnek:
 
 <script src="https://gist.github.com/jessevondoom/5860605.js"></script>
 
-We're also working on a new JSON object based embed call. It's mostly for clear 
-formatting, but you'll notice a new CSS override option not available by the 
-standard method. More on that soon...
+Biz aynı zamanda gömülü çağrıya dayalı yeni bir JSON nesnesi üzerinde çalışıyoruz. Daha çok açık biçimlendirme için, fakat standart yöntem tarafından kullanılamayan yeni bir CSS geçersiz kılma seçeneği olduğunu fark edeceksiniz. Ve pek yakında daha fazlası...
 
 <script src="https://gist.github.com/jessevondoom/ccfb4f71f7a905d82470.js"></script>
