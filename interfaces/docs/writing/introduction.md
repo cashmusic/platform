@@ -1,36 +1,26 @@
-The CASH Music platform gives all musicians access to tools that let them manage,
-promote, and sell their music online — all owned and controlled themselves.
+CASH Müzik platformu, tüm müzisyenlerin kendi müziklerini yönetebilecekleri, tanıtabilecekleri ve satabilecekleri araçlara erişmelerini sağlar.
 
-Everything is modular. We built up around a PHP core. The admin app, API, and each
-element are separate applications that work together to form a full platform. We've
-built around the concept of cooperation, so we've abstracted all third party services
-so artists can easily change mailing providers, payment processors, etc. And we've kept
-dependencies as lightweight as possible so functionality can play well with other
-apps like WordPress, Drupal, etc.
+Her şey modülerdir ve bir PHP çekirdeği etrafında inşa edilmiştir. Yönetici uygulaması, API ve her bir öğe, tam bir platform oluşturabilmek için birlikte çalışan ayrı uygulamalardır. Bu platformu işbirliği konsepti etrafında inşa ettik. Bu nedenle üçüncü taraf hizmetleri tümüyle soyutladık. Dolayısıyla sanatçılar e-posta sağlayıcılarını, ödeme işlemcilerini vb. kolayca değiştirebilirler. Bağımlılıkları mümkün olduğunca hafif tuttuk, böylece WordPress, Drupal vb. uygulamalarda işlevsellik daha yüksek olabilir.
 
-We host a free (now and forever) version of the CASH Music platform at **cashmusic.org**
-or the whole thing can be downloaded and installed on your own server. A few simple
-changes to settings switch the platform from single-user mode to mutli-user (hosted)
-mode.
+CASH Müzik platformunun ücretsiz sürümünü cashmusic.org'da barındırıyoruz(şimdi ve sonsuza kadar) ya da her şey kendi sunucunuza indirilebilir ve kurulabilir. Ayarlarda yapılan birkaç basit değişiklik, platformu tek kullanıcı modundan çok kullanıcılı(barındırılan) moda geçirir.
 
-In short: the CASH Music platform was built to create possibilies for artists on the
-open web.
+Kısacası: CASH Music platformu, açık web üzerinden artistler için imkanlar yaratmak amacıyla kurulmuştur.
 
-In these docs we'll cover:
+Bu dokümanlarda şunlara değineceğiz:
 
- * Working directly with the PHP Core
- * Our APIs (verbose and RESTful)
- * Defining connections to third party services
- * Building elements (custom workflow for embeds)
- * Working with our admin app
+* Doğrudan PHP Çekirdeği ile çalışmak 
+* API'lerimiz (verbose ve RESTful) 
+* Üçüncü parti hizmetlere olan bağlantıları tanımlama 
+* Öğeleri oluşturma (gömme işlemleri için özel iş akışı) 
+* Yönetici uygulamamızla çalışma
 
 ------------------------------
 
-###Useful Links
+###Kullanışlı linkler
 
 <a href="http://github.com/cashmusic" class="button">Github</a> /
 <a href="http://twitter.com/cashmusic" class="button">Twitter</a> /
 <a href="http://www.facebook.com/cashmusic.org" class="button">Facebook</a> /
-<a href="https://groups.google.com/d/forum/cash-build" class="button">Development Group</a>
+<a href="https://groups.google.com/d/forum/cash-build" class="button">Geliştirici Ekip</a>
 
 ------------------------------

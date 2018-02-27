@@ -1,16 +1,11 @@
-The verbose API is a direct wrapper for all requests that allow the api_public or api_key 
-access methods. At the moment those are mostly limited to list signups and initiating new
-transactions, but we're working on a full authorization scheme to expand scope. 
+Verbose API, api_public veya api_key erişim yöntemlerine izin veren tüm isteklerin doğrudan paketleyicisidir. Şu anda bunlar üye kayıt listeleri ve yeni işlem başlatma ile sınırlı ancak, kapsamı genişletmek için tam bir yetkilendirme şeması üzerinde çalışıyoruz.
 
-The response object and payload are nearly identical to the return from the PHP core, 
-except returned as JSON. Making a request that doesn't allow API access will give you a
-forbidden status, but here's an example endpoint:
+Yanıt nesnesi ve ücretli yükleme, JSON olarak dönenler hariç PHP çekirdeğinin dönüşüyle hemen hemen özdeştir. API erişimine izin vermeyen bir istekte bulunmak size yasak bir statü getirecektir, ancak burada örnek bir bitiş noktası bulunmaktadır:
 
 	/api/verbose/asset/getasset/id/2
 
-The format is simple: /verbose/**plant**/**request**/**{parameter name}**/**{parameter value}**
- — it'll parse as many parameters as you throw at it and respond:
+Format basittir: /verbose/**plant**/**request**/**{parameter name}**/**{parameter value}** — ona attığınız ve yanıtladığınız gibi bir çok parametreyi ayrıştıracaktır.
 
 <script src="https://gist.github.com/jessevondoom/a3d384453bf053a2ca8e.js"></script>
 
-More about authorization methods coming soon.
+Yetkilendirme yöntemleri hakkında daha fazlası yakında eklenecektir.
