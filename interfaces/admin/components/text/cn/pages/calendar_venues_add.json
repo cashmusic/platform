@@ -1,19 +1,19 @@
 {
-	"pagetip":"",
-	"learn":"<p>The venue information you add will be shared with everyone else using the platform. Double check that you have the most up-to-date info for the venue. Also, be careful that you're not putting in the promoter's phone number and address.</p><p> The more people use the platform the bigger this venue list will get. Yay, community!</p>",
-	"related":{},
-	"labels":{"name":"Name",
-            "website":"Website",
-            "phone":"Phone",
-            "address_1":"Address 1",
-            "address_2":"Address 2",
-            "city":"City",
-            "state":"State / Province / Region",
-            "postal_code":"Postal Code",
-            "country":"Country"
+	"页面提示":"",
+	"了解":"<p>你添加的地点信息将和使用此平台的所有人共享. 再次核对确保你的地点信息是最新的. 另外，请特别小心你放的不是发起人的电话号码和地址.</p><p> 越多人使用此平台，就会得到更多的地点列表. 哇，社区的力量!</p>",
+	"相关的":{},
+	"标签":{"名字":"名字",
+            "网站":"网址",
+            "电话":"电话",
+            "地址_1":"地址 1",
+            "地址_2":"地址 2",
+            "城市":"城市",
+            "州":"州 / 省 / 地区",
+            "邮政_编码":"邮编",
+            "国家":"国家"
    },
-	"tooltips":{},
-	"copy":{"edit_venue":"Edit Venue",
-            "delete_venue":"Delete Venue"
+	"工具提示":{},
+	"复制":{"编辑_地点":"编辑地点",
+            "删除_地点":"删除一个地点"
     }
 }

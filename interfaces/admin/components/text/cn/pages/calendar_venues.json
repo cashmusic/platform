@@ -1,28 +1,28 @@
 {
-	"pagetip":"",
-	"learn":"<p>You will need to enter in a venue first if it’s not already in our database.</p>",
-	"related":{},
-	"labels":{"submit_button":"Add a venue",
-            "name":"Name",
-            "city":"City",
-            "state":"State / Province / Region",
-            "country":"Country"
+	"页面提示":"",
+	"了解":"<p>如果资料没有在数据库中，你将得先输入地点.</p>",
+	"相关的":{},
+	"标签":{"提交_按钮":"添加地点",
+            "名字":"名字",
+            "城市":"城市",
+            "州":"州 / 省 / 地区",
+            "国家":"国家"
 
 
    },
-	"tooltips":{},
-	"copy":{
-            "firstuse":"Venues is a place to add event locations that can't be found in our <a href='http://venues.cashmusic.org/' target='_blank'>venue database</a> <span class='first-para'>When you add an event to your calendar the venue field automatically searches the database as well as custom added venues here.<span>",
-            "quick_add":"Quick add a venue",
-            "quick_details":"Quickly add a venue with just the basics,",
-            "quick_details_2":" or alternatively ",
-            "quick_details_3":"add a venue with all details",
-            "add_venue":"Add venue",
-            "my_venues":"My venues",
-						"my_venues_description":"Custom added venues not found in the <a href='http://venues.cashmusic.org/' target='_blank'>CASH venue database</a>.",
-            "edit":"Edit",
-						"delete":"Delete",
-            "no_venues":"No custom venues were found."
+	"工具提示":{},
+	"复制":{
+            "第一个使用":"地点是在我们<a href='http://venues.cashmusic.org/' 目标='空白'>地点数据库</a>里添加事件地点的地方。 <span class='first-para'>当你添加一个事件到你的日历中， 地点字段自动搜索数据库以及客人自己在此处填写的地点.<span>",
+            "快速_添加":"快速添加一个地点",
+            "快速_细节":"仅用一些基础资料快速添加一个地点,",
+            "快速_细节_2":" 或一些作为一种选择 ",
+            "快速_细节_3":"提供所有详细资料来添加一个地点",
+            "添加_地点":"添加地点",
+            "我的_地点":"我的地点",
+						"我的_地点_描述":"自定义添加的地点在 <a href='http://venues.cashmusic.org/' 目标='_空白'>CASH 地点数据库里没找到</a>.",
+            "编辑":"编辑",
+						"删除":"删除",
+            "没有_地点":"未找到自定义地点."
 
 
 }
