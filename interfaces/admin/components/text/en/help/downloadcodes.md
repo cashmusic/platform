@@ -1,14 +1,14 @@
-###Download codes
+### Download de códigos
 
-What you'll need:  
+O que precisarás:
 
-- A storage connection--we recommend an Amazon S3 account for reliability
-- An asset with attached fulfillment files (hosted on your storage connection)
+- De uma conexão de armazenamento--recomendamos uma conta do Amazon S3 para obter confiabilidade
+- De um recurso com arquivos de preenchimento anexados (hospedado na tua conexão de armazenamento)
 
-On the **Assets** tab, click on the **Asset settings** below your chosen asset. Type in how many download codes you'd like, and hit **Add codes** to generate them. This is also where you can export your codes to an Excel/Google Docs compatible .csv file.
+Na aba **Ativos**, clica nas **Configurações de ativos** abaixo do teu ativo escolhido. Digita quantos códigos de download desejas, e clica em **Adicionar códigos** para gerá-los. Isto também é onde podes exportar os teus códigos para um arquivo .csv compatível com o Excel/Google Docs.
 
-Now you'll need to make the redemption form so your fans can redeem their codes. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message.
+Agora precisarás fazer o formulário de redenção para que os teus fãs possam resgatar os seus códigos. Volta para a página principal, e clica na aba **Elementos**, clica em **Adicionar um Elemento** e escolhe **Download de Códios**. Da-lhe um nome para a tua própria referência interna e edita a mensagem de sucesso público.
 
-The **Download Codes** element will work with any code you've generated for any of your assets. It knows to automatically give the correct asset to any valid codes. For this reason, make sure your success message doesn't reference a specific asset.
+O elemento **Download de Códigos** funcionará com qualquer código que tu tenhas gerado para qualquer um dos teus ativos. Ele sabe atribuir automaticamente o ativo correto a qualquer código válido. Por este motivo, verifica se a tua mensagem de sucesso não faz referência a um ativo específico.
 
-Finally, either add the element to your CASH Music page or embed the element on your own site.
+Finalmente, adiciona o elemento à tua página CASH Music ou incorpora o elemento no teu próprio site.
