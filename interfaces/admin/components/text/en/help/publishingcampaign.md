@@ -1,12 +1,12 @@
 
-###Publishing your CASH Music page
+###Publicar a tua página CASH Music
 
-Once you've added some elements and are ready to publish your page click the **edit icon**  <i class="icon icon-pencil"></i> and select **Page theme**. It'll prompt you to choose a light or dark theme for your page.
+Quando tiveres adocionado alguns elementos e estás pronto para publicar a tua página, clica no **ícone de edição** <<i class="icon icon-pencil"></i> e seleciona **Modelo da página**. Ele solicitará que tu escolhas um modelo claro ou escuro para tua página.
 
- Click on the campaign's **edit icon** again to open your page template. It includes an editor and some basic html code. If you're a novice and aren't sure what this code means, don't worry! We've made it really easy. Just look for a cat. There's an empty line after it. Click there.
+ Clica no **ícone de edição** da campanha novamente para abrires o modelo da página. Inclui um editor e algum código html básico. Se és principiante e não tens certeza do que significa este código, não te preocupes! Fizemo-lo muito fácil. Procura apenas por um gato. Há uma linha vazia depois disto. Clica aqui.
 
-All of your campaign elements are listed to the right of the template. Just click the **+** sign to embed the elements you'd like to publish on your page. You can also include any custom html or css you'd like. Once you're all done, click **Save changes**.
+Todos os elementos da tua campanha estão listados à direita do modelo. Basta clicares no sinal **+** para incorporares os elementos que gostarias de publicar na tua página. Também podes incluir qualquer html ou css personalizado que gostes. Depois de terminares, clica em **Guardar alterações**.
 
-Now that you're back on your main page, scroll down until you see a box that says **Publish Settings**. Select your campaign from the drop-down menu, and when asked if you're sure about changing your public page, select **Yes, do it**.
+Agora que estás de volta à tua página principal, role para baixo até veres uma caixa que diz **Configurações de Publicação**. Seleciona a tua campanha no menu suspenso e quando te peruntar se tens a certeza sobre como alterar a tua página pública, seleciona **Sim, faz isto**.
 
-You can go back and edit your campaign at any time, add new elements, change themes - you name it.  Also, if you want to unpublish your campaign, just scroll back down to **Publish settings** and select **None** from the dropdown menu.
+Podes voltar e editar a tua campanha a qualquer momento, adicionar novos elementos, alterar modelos - nomeia-os. Além disto, se quiseres cancelar a publicação da tua campanha, basta rolar para baixo até **Configurações de publicação** e seleciona **Nenhum** no menu suspenso.
