@@ -1,11 +1,11 @@
 {
-	"pagetip":"",
-	"learn":"<p>You can add as many elements as you need to your campaign.</p><p>Every individual element can be embedded on any site by simple copy/paste or you can add several elements to a campaign and publish it as a single page.</p><p>Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published your campaign.</p>",
-	"related":{},
-	"labels":{"name":"Name",
-            "description":"Description"
+	"页面提示":"",
+	"了解":"<p>你可以为你的活动添加尽可能多的元素.</p><p>每个元素都可以通过简单的复制/粘贴嵌入到任何网站或者你可以添加几个元素到一个活动,并以单一页面的方式发布它.</p><p>请别担心; 在你发布前没人可以看到你的资料, 你也可以在你发布活动后随时对任何元素进行编辑.</p>",
+	"相关的":{},
+	"标签":{"名字":"名字",
+            "描述":"描述"
             },
-	"tooltips":{},
-	"copy":{
+	"工具提示":{},
+	"复制":{
 	}
 }
