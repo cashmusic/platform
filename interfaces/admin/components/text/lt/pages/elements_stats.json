@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+		"statistics":" statistikos",
+      "views_by_location":"Peržiūros pagal URL",
+		"views_by_city":"Peržiūros pagal miestą",
+      "element_location":"Elemento vietos",
+		"element_city":"Peržiūrėtojų miestas",
+      "views":"Peržiūros"
+	}
+}

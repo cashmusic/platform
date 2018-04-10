@@ -1,0 +1,29 @@
+{
+	"pagetip":"",
+	"learn":"<p> Jeigu jūsų pasirodymo vieta nėra mūsų duomenų bazėje turėsite ją įvesti. Geros žinios dėl to yra, kad kai įvesite renginio vietą ji bus išsaugota mūsų didžiojoje duomenų bazėje. Tai reiškia, kad kuo daugiau žmonių naudosis mūsų platforma tuo geresnė ir didesnė mūsų duomenų bazė taps.</p><p> Prisiminkite, kad turite turėti jau sukurtą elementą jei norite publikuoti pasirodymų ir turų datas savo puslapyje. Pasirodymų datos nėra aktyvios iki kol nepradėsite kampanijos, pasirinkite turo datos elementą ir jį publikuokite savo puslapyje arba įstatykite elementą kitoje svetainėje.</p><p>Jeigu jau turite turo datos elementą paruoštą ir įstatytą kažkur, kiekvieną kartą kai pridėsite renginių į jį jie automatiškai pasirodys visuose puslapiuose kur elementas yra naudojamas, todėl atsiminkite atšaukti automatinio publikavimo pasirinkimą. Jei dar neesate paskelbes pasirodymo datos arba turo būkite atsargūs nepublikuoti to per anksti.</p><p>Atšaukėte pasirodymą? Keliaukite į to pasirodymo detales ir pasirinkite atšauktas. Komentaruose galite suteikti daugiau informacijos fanamas apie pinigų atgavimą arba nukėlimą į kitą datą.</p>",
+	"related":{},
+	"labels":{"date":"Data",
+            "venue":"Vieta",
+            "comments":"Komentarai",
+            "ticket_purchase":"Bilietų pardavimo adresas URL",
+            "published":"Publikuotas?",
+            "cancelled":"Atšauktas?"
+
+
+   },
+	"tooltips":{},
+	"copy":{"quickly_details":"Greitasis datos pridėjimas į sistemą. Informacija apie publikuotą ir nepublikuotą statusus ir atšaukimus galite rasti plačiau skiltyje",
+            "events_title":"Pasirodymai",
+            "events_subtitle":"visi pasirodymai",
+            "add_an_event":"Pridėti pasirodymą",
+            "cant_find":"Nerandate pasirodymo vietos? ",
+            "add_new_venue":"Pridėti naują vietą",
+            "button_add_event":"Pridėti pasirodymą",
+            "upcoming_events":"Visi artėjantys pasirodymai",
+						"archive_events":"Visi praėja pasirodymai",
+            "no_upcoming_events":"Nebuvo rasta artėjančių pasirodymų.",
+						"no_archive_events":"Nebuvo rasta praėjusių pasirodymų",
+						"edit":"Redaguoti",
+						"delete":"Ištrinti"
+   }
+}

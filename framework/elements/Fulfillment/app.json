@@ -12,6 +12,12 @@
 			"description":"Digital fulfillment for crowdfunding.",
 			"longdescription":"This element takes CSV exports from Kickstarter and similar services and delivers digital assets per tier.",
 			"instructions":"After creating a new fulfillment job, upload crowdfunding exports and assign downloads / UPC codes per tier."
+		},
+		"lt":{
+			"name":"Išorinių paslaugų išpildymas",
+			"description":"Virtualus išpildymas crowdundingui.",
+			"longdescription":"Šis elementas priema CSV eksportus iš Kickstarter ir panašių paslaugų ir pristato virtualias prekes priklausomai nuo pakopos.",
+			"instructions":"Sukūrus nauja išpildymo darbą, įkelkite crowdfundingo eksportus ir nustatykite parsisiuntimus / UPC kodus priklausomai nuo pakopos."
 		}
 	},
 	"copy":{
@@ -21,32 +27,45 @@
 			"postal_code":"Enter your postal code",
 			"button":"Set location and claim download",
 			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
-			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
+			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid."
+		},
+		"lt":{
+			"location_required":"Norint gauti savo atsisiuntimą įveskite jūsų pašto kodą ir šalį",
+			"country_selector":"Prašome pasirinkti savo šalį",
+			"postal_code":"Įveskite savo pašto kodą",
+			"button":"Nustatykite vietą ir atsiimkite savo atsisiuntimą",
+			"location_error":"Patikrinkite ar tikrai pasirinkote tinkamą šalį ir ar įvedėte savo pašto kodą.",
+			"invalid_code":"Atleiskite, bet šis kodas/linkas jau buvo panaudotas arba yra jau nebegaliojantis."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
-				"en":"Set the messages that you want your backers to see before and after they redeem their code."
+				"en":"Set the messages that you want your backers to see before and after they redeem their code.",
+				"lt":"Nustatykite pranešimus kuriuos norite, kad jūsų rėmėjai matytų prieš ir po kodo atsiemimo"
 			},
 			"data":{
 				"message_landing":{
 					"label":{
-						"en":"Landing message - (shown to users without a code - can include html)"
+						"en":"Landing message - (shown to users without a code - can include html)",
+						"lt":"Nusileidimo pranešimas - (rodomas naudotojams be kodo - gali pridėti html)"
 					},
 					"type":"text",
 					"default":{
-						"en":"Are you a backer? Please check your email for instructions and a download link."
+						"en":"Are you a backer? Please check your email for instructions and a download link.",
+						"lt":"Ar jūs rėmėjas? Prašome patikrinti savo elektroninį paštą paaiškinimui ir atsisiuntimo linkui."
 					},
 					"required":true,
 					"displaysize":"large"
 				},
 				"show_message":{
 					"label":{
-						"en":"Show landing message on element embed"
+						"en":"Show landing message on element embed",
+						"lt":"Rodyti nusileidimo pranešimą ant įstatyto elemento"
 					},
 					"type":"boolean",
 					"default":true,
@@ -55,11 +74,13 @@
 
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"lt":"Sekmės pranešimas"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"lt":""
 					},
 					"required":true,
 					"displaysize":"medium"

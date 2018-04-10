@@ -1,0 +1,18 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"first_variant":"Pirmo pasirinkimo pavadinimas",
+                  "second_variant":"Antro pasirinkimo pavadinimas (nebūtina)",
+                  "list_all_options":"Rodyti visas [primary_variant_name] sąrašo nuostatas",
+                  "list_all_options_2":"Rodyti visas [secondary_variant_name] sąrašo nuostatas",
+                  "thats_it":"Viskas."
+
+
+   },
+	"tooltips":{},
+	"copy":{"great":"Puiku! Kai išsaugosite savo naujos prekės nuostatas jums reikės tik nustatyti kiekius 'Konfigūruoti Prekės Nuostatas' skiltyje savo prekės puslapyje."
+
+
+}
+}

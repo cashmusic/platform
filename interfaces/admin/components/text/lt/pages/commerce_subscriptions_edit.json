@@ -1,0 +1,22 @@
+{
+	"pagetip": "",
+	"learn": "",
+	"related":{},
+	"labels":{
+		"plan_name":"Plano pavadinimas",
+		"description":"Aprašymas",
+		"interval":"Prenumeratos intervalas",
+		"price":"Kaina",
+		"physical":"Fizinis",
+		"flexible":"Leisti kintančias kainas",
+		"recurring":"Kartotinė Prenumerata"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"",
+		"add_plan":"Sukurti naują planą",
+		"save":"Išsaugoti pasikeitimus",
+		"cancel":"Atšaukti prenumeratą",
+		"edit":"Redaguoti"
+	}
+}

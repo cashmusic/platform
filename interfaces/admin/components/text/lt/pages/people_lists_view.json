@@ -1,0 +1,23 @@
+{
+	"pagetip":"",
+	"learn":"<p>Čia galite peržiūrėti naujausią informaciją apie savo pranešimų sąrašus. Galite eksportuoti, redaguoti ir ištrinti savo sąrašus.</p><p>Jei norėtumėte surinti elektroninius paštus į sąrašą savo svetainėje arba kampanijoje jums reiks susikurti elektroninių paštų surinkimo elementą pirmiausia. </p>",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"edit":"Redaguoti",
+            "export":"Eksportuoti",
+            "delete":"Ištrinti",
+            "active":"Visi aktyvūs nariai: ",
+            "inactive":"Neaktyvūs nariai: ",
+            "new_members":"Nauji nariai iš paskutinių 7 dienų: ",
+            "recently_added":"Nesenai pridėti",
+            "email":"Elektroninis Paštas",
+            "name":"Vardas",
+            "joined":"Prisijungė",
+            "comment":"Komentuoti",
+            "sorry":"Dar nėra prisijungusių narių.",
+            "sorry_2":"Atleiskite",
+            "error":"Klaida gaunant sąraša.",
+            "batch_add":"Pridėti kontaktus"
+}
+}

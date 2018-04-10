@@ -1,0 +1,13 @@
+{
+	"pagetip":"",
+	"learn":"<p>Norint batch pridėti e pašto adresus, tiesiog juos įveskite tik nepridėkite vardų. Atskirkite kiekvieną adresą kableliais arba paspaudus enter po kiekvieno.</p>",
+	"related":{},
+	"labels":{"name":"Vardas",
+            "connect":"Sujungti Su",
+            "description":"Aprašymas"
+
+   },
+	"tooltips":{},
+	"copy":{"edit":"Redaguoti - "
+}
+}

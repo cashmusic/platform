@@ -1,0 +1,30 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"mail_subject":"Pranešimo tema",
+               "from_name":"Nuo : ",
+               "use_template":"Naudoti šabloną",
+               "send_to_list":"Siūsti sąrašui",
+               "use_mass":"Naudoti masinę siuntimo jungtį",
+               "message":"Pranešimas "
+
+
+   },
+	"tooltips":{},
+	"copy":{"test_message":"Išsiūsti pranešimą tam tikram sąrašui.",
+            "firstuse":"Norite išsiūsti elektronini laišką vienam iš savo sąrašų? Puiku!<span class='first-para'>Norint pradėti jums reikia tik masinės pranešimų siuntimo jungties (Mandrill) spustelnant ant linko apačioje.</span>",
+            "youll_need":"  Jums reiks pridėti ",
+            "default":"Numatytasis (paprastas)",
+            "no_template":"Jokio šablono (pridėti visą markup)",
+            "none":"Jokio",
+            "mass_mailing":"masinė pranešimų siuntimo jungtis",
+            "to_use":" norint naudoti šį puslapį.",
+            "mass_mailing_title":"Išsiūsti kampanijas",
+            "test_message_title":"Siūsti bandomąjį pranešimą",
+            "test_label":"Siūsti bandomąjį pranešimą šiuo adresu <em>(atskirti kableliais)</em>",
+            "send_test":"Siūsti bandymo sąrašui",
+            "send_list":"Siūsti sąrašui"
+
+}
+}

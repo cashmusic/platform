@@ -1,0 +1,35 @@
+{
+	"pagetip":"",
+	"learn":"<p>Tai yra paprastas puslapis kuris gali talpinti visus jūsų elementus. Kai sukursite viena arba daugiau elementų galėsite juos įstatyti į šį puslapį. <p>Štai taip: Spustelėkite 'Redaguoti' mygtuką. Redagavimo lange užveskite savo žymeklį po <strong>id=\"mainspc\"</strong>. Tada spustelėkite pliuso ženkliuką šalia vieno iš elementų kurį jau sukūrėte norint pridėti tą elementą į savo puslapį. <p>Norint pridėti pavadinimą ir tekstą puslapiui, pridėkite 'Paprastas Tekstas' elementą. <p>URL šio puslapio remiasi jūsų CASH Music vartotojo vardu.</p>",
+	"related":{
+		"cashmusic.org":"http://cashmusic.org/",
+		"CASH help/support site":"http://help.cashmusic.org/"
+	},
+	"labels":{"selected_campaign":"Pasirinkta kampanija:"
+
+   },
+	"tooltips":{},
+	"copy":{
+		"activity_subnav":"Aktyvumas",
+		"elements_subnav":"Elementai",
+	   "page_edit":"Redaguoti",
+		 "page_view":"Peržvelgti puslapį",
+	   "edit":"Redaguoti",
+	   "delete":"Ištrinti",
+	   "public_page":"Puslapis yra matomas:",
+	   "change_username":"Keisti Vartotojo Vardą",
+	   "public_not_live":"Jūsų puslapis atsiras:",
+	   "publish_settings":"Publikavimo nuostatos",
+	   "publish_a_campaign":"Publikuoti kampaniją",
+	   "publish_campaign_info":"Publikuojant kampaniją padaro jūsų puslapį matomą viešai, naudojant tema kurią naudojate viršuje.",
+	   "published":"Publikuota:",
+	   "unpublish_all":"Nieko (Nebepublikuoti viską)",
+		 "firstuse_title":"Norint viska padaryti matoma greit, sukurkite paprastą puslapį čia.",
+		 "firstuse_body_1":"Pasirinkite temą, sukurkite puslapį, pradėkite kelti elementus.",
+		 "firstuse_body_2":"Privalote sukurti elementus (elementų skiltyje viršuje) norint kažką įdėti į šį puslapį.",
+		 "firstuse_body_3":"Norint pridėti pavadinimą ir teksto, sukurkite \"paprastas tekstas\" elementą.",
+		 "replace_new_page":"Sukeisti su nauju puslapiu",
+		"page_theme":"Pradėti kurti naują puslapį",
+		"preview":"Peržvelgti puslapį"
+	}
+}

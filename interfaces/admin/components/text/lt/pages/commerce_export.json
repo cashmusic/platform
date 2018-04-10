@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"export":"Eksportuoti užsakymus:",
+            "mark":" Pažymėti eksportuotus užsakymus kaip išpildytus"
+
+   },
+	"tooltips":{},
+	"copy":{"op_all":"Visi",
+            "op_unfulfilled":"Neišpildyti",
+            "op_fulfilled":"Išpildyti",
+            "op_physical":"Fiziniai",
+            "op_digital":"Virtualūs",
+            "button_export":"Eksportuoti"
+
+
+}
+}

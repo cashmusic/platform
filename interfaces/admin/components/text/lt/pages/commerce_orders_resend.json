@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"store_url":"Pasirinkite tinkama parduotuvės URL",
+		"error":"Neina išsiūsti dar kartą",
+		"submit_button":"Išsiūsti čekį"
+	},
+	"tooltips":{},
+	"copy":{
+		"instructions":"Čekis turi linkus atgal į jūsų parduotuvę - pasirinkite linką į puslapį su jūsų parduotuvės elementu norint tęsti.",
+		"error":"Jūs ištrynėte parduotuvės elementą su kuriuo šis užsakymas buvo užsakytas. Mes negalime išsiūsti dar kartą šio čekio/atsisiuntimų."
+	}
+}

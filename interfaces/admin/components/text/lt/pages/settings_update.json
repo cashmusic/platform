@@ -1,0 +1,14 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"version":"Dabartinė platformos versija:",
+            "upgrade":"Atnaujinimas galimas:",
+            "no":"Ne",
+            "yes":"Taip",
+            "launch":"Paleisti sistemos atnaujinimo įrankį"
+
+}
+}

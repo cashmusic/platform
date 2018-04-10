@@ -1,0 +1,29 @@
+{
+	"pagetip":"",
+	"learn":"<p>Jeigu nerandate pasirodymo vietos mūsų duomenų bazėje, pridėkite ją.</p>",
+	"related":{},
+	"labels":{"submit_button":"Pridėti pasirodymo vietą",
+            "name":"Pavadinimas",
+            "city":"Miestas",
+            "state":"Valstija / Provincija / Regionas",
+            "country":"Šalis"
+
+
+   },
+	"tooltips":{},
+	"copy":{
+            "firstuse":"Vietos yra tinkama skiltis pridėti pasirodymo vietas kurių negalite rasti mūsų<a href='http://venues.cashmusic.org/' target='_blank'>pasirodymo vietų duomenų bazėje</a> <span class='first-para'>Kai pridedate pasirodymą į savo kalendorių vietos pasirinkimas automatiškai ieškos mūsų duomenų bazėje ir rankiniu būdu pridėtas vietas.<span>",
+            "quick_add":"Greitasis pasirodymo vietos pridėjimas",
+            "quick_details":"Galite greitai pridėti pasirodymo vietą su pagrindine informacija,",
+            "quick_details_2":" arba ",
+            "quick_details_3":"pridėkite pasirodymo vietą su visa reikalinga informacija",
+            "add_venue":"Pridėti pasirodymo vietą",
+            "my_venues":"Mano pasirodym ovietos",
+						"my_venues_description":"Rankiniu būdu pridėtos pasirodymo vietos nebuvo rastos mūsų <a href='http://venues.cashmusic.org/' target='_blank'>CASH pasirodymo vietų duomenų bazėje</a>.",
+            "edit":"Redaguoti",
+						"delete":"Ištrini",
+            "no_venues":"Nebuvo rasta rankiniu būdu pridėtų pasirodymo vietų."
+
+
+}
+}

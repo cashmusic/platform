@@ -1,0 +1,29 @@
+{
+	"pagetip":"",
+	"learn":"<p>Čia galite pridėti visus savo pasirodymus - koncertus, parduotuvių pasirodymus, radijo interviu ir turus. Galite taip pat sekti kas vyksta šia savaitę ir kokių datų jūs nepublikavote dar.</p><p>Atsiminkite, kad turite paruošti elementą jei norite publikuoti turų datas savo puslapyje. Datos nebūna aktyvios kol nepasirenkate turo datos elemento ir tada arba publikuokite savo CASH Music puslapyje arba įstatykite elementą kitoje svetainėje.</p><p> Tačiau jei jau turite aktyvių turo datų elementą naujos datos bus automatiškai publikuojamos kai jas pridėsite nebent atšauksite automatinio publikavimo pasirinkimą. Jeigu dar nenorite paskelbti apie pasirodymą arba turą būtinai atšaukite automatinį publikavimą, kad nepaleistumėte šios informacijos per anksti!</p> ",
+	"related":{},
+	"labels":{"submit_button":"Pridėti pasirodymą",
+            "date":"Data",
+            "venue":"Vieta",
+            "comments":"Komentarai",
+            "ticket_purchase_url":"Bilietų Pirkimo Vieta URL"
+            },
+	"tooltips":{},
+	"copy":{
+        "calendar_title":"Kalendorius",
+        "calendar_subtitle":"Jūsų pasirodymai",
+        "upcoming_events":"Visi artėjantys pasirodymai",
+        "archive_events":"visi praėja pasirodymai",
+		"add_an_event":"Pridėti pasirodymą",
+		"firstuse":"Kalendorius yra skiltis kurioje galite įvesti artejančias turo datas, parduotuvės pasirodymus, radijo pasirodymus ir t.t. <span class='first-para'>Viskas ką norite pranešti savo fanams viename jūsų kampanijų elemente.</span>",
+        "cant_find_venue":"Nerandate pasirodymo vietos?",
+        "add_new_venue":"Pridėti naują pasirodmo vietą į savo sąrašą",
+        "this_week":"Šios savaitės pasirodymai",
+        "edit_event":"Redaguoti",
+		"delete_event":"ištrinti",
+        "no_events":"Nebuvo rasta jokių pasirodymų. Pasirodymus galite pridėti apačioje.",
+        "no_upcoming_events":"Nebuvo rasta artėjančių pasirodymų kitai savaitei.",
+        "unpublished_events":"Nepublikuoti pasirodymai",
+        "no_unpublished_events":"Nebuvo rasta nepublikuotų pasirodymų"
+   }
+}

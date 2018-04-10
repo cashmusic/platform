@@ -1,0 +1,18 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"page_templates":"Puslapio šablonai",
+            "page_templates_details":"Puslapio šablonai yra naudojami tam, kad galėtumėte publikuoti puslapį tiesiogiai iš savo CASH paskyros. Daugiau pasirinkimų rasite savo paskyros pagrindiniame puslapyje.",
+            "details":"Detailės",
+            "no_templates":"Puslapio šablonų nebuvo rasta.",
+            "embed_templates":"Įstatyti šablonus",
+            "embed_templates_details":"Įstato šablonai yra naudojami keisti HTML5 įstatų stilių jūsų elementams. Galėsite pasirinkti šabloną elementų informacijos puslapyje.",
+            "delete":" Ištrini",
+            "no_embed_templates":"Įstato šablonų nebuvo rasta."
+
+
+}
+}

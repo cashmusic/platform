@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"<p></p>",
+	"related":{},
+	"labels":{
+		"connection_id":"Jungties id",
+		"subject":"Elektroninio laiško tema",
+		"message":"Pranešimas",
+		"include_download":"Pridėti parsisiuntimą"
+   },
+	"tooltips":{},
+	"copy":{
+      "button_send":"Išsiūsti laiška"
+	}
+}

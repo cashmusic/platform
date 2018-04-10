@@ -18,27 +18,37 @@
 			"description":"Leyfa fólki að skrá sig inn og fá aðgang að sér efni",
 			"longdescription":"Þessi eining leyfir þér að deila efni til sérstaks hóps af fólki með almennu lykilorði. Til dæmis fyrir aðdáendaklúbb, fjölmiðla, og fleira.",
 			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
+		},
+		"lt":{
+			"name":"Narių Zona",
+			"description":"Leisti sąrašui prisijungti ir gauti išskirtinį turinį.",
+			"longdescription":"Šis elementas leidžia jums dalintis turiniu su specifiniu sąrašu su visuotiniu slaptažodžiu. Įsivaizduokite tai kaip fanų kluba, spaudą ir daugiau.",
+			"instructions":"Pasirinkite sąraša patvirtinti prieš tai, asmenizuoti naudojant markup ir pasirinkitinai pridėti visuotini slaptažodį šiam elementui."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
-				"is":"Veldu hóp"
+				"is":"Veldu hóp",
+				"lt":"Pasirinkite sąrašą ir aprašykite slaptažodį kurį jie galės naudoti norint pasiekti šio elemento turinį."
 			},
 			"data":{
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"lt":"Slaptažodis"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til að opna aðgang að efni"
+						"is":"Lykilorð eða frasi til að opna aðgang að efni",
+						"lt":"Slaptažodis arba frazė su kuria bus atrakintas šis turinys"
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -46,7 +56,8 @@
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"en":"Nustatytas pranešimų sąrašas"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -56,12 +67,14 @@
 				"secure_content":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"lt":"Turinys"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"lt":""
 					},
 					"displaysize":"large"
 				}

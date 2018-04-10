@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"<p>Galite pridėti kiek tik norite elementų į savo kampaniją.</p><p>Kiekvienas individualus elementas gali būti įstatytas į bet kokia svetaine naudojantis kopijuoti/įklijuoti arba galite pridėt keleta elementų į kampaniją ir publikuoti tai kaip vieną puslapį.</p><p>Nesijaudinkite niekas nematys nieko kol ne publikuosite ir visada galite redaguoti bet koki elementą po to kai publikuosite savo kampaniją.</p>",
+	"related":{},
+	"labels":{"choose_style":"Norint pradėti pasirinkite puslapio stilių",
+            "featured":"Dabar pasirinkite išskirtinį elementą su kuriuo pradėsite"
+
+            },
+	"tooltips":{},
+	"copy":{"dark_theme":"Naudoti tamsią temą",
+            "light_theme":"Naudoti šviesią temą"
+
+
+}
+}

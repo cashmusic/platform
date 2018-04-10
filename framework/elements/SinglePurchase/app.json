@@ -18,6 +18,12 @@
 			"description":"Seldu hlut með einum smelli. Frábært fyrir forpantanir",
 			"longdescription":"Þarftu bara að selja einn hlut? Settu upp einfalda kaup einingu fyrir stök kaup á hlut af þínu vali.",
 			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
+		},
+		"lt":{
+			"name":"Vienetinis pirkimas",
+			"description":"Parduokite prekę su vienu spustelėjimu. Puikus išankstiniams užsakymams.",
+			"longdescription":"Norite parduoti tik vieną prekę? Paruoškite paprastą vienetinio pirkimo elementą jūsų pasirinktai prekei.",
+			"instructions":"Fiziniems dalykams, apibūdinkite regijonus ir siuntimo kainas."
 		}
 	},
 	"copy":{
@@ -34,23 +40,33 @@
 			"choose_verb":"Veldu",
 			"buy":"Kaupa núna",
 			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
+		},
+		"lt":{
+			"flexibleprice_suffix":"arba daugiau",
+			"choose_variants":"Pasirinkite kažką primiausia",
+			"choose_verb":"Pasirinkti",
+			"buy":"Pirkti dabar",
+			"unavailable":"Atleiskite, ši prekė neparduodama šiuo metu."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
-				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
+				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota.",
+				"lt":"Pasirinkite inventoriaus prekę kuria norite parduoti ir prekybos jungtis norint naudoti."
 			},
 			"data":{
 				"item_id":{
 					"label":{
 						"en":"Item for sale",
-						"is":"Hlutur til sölu"
+						"is":"Hlutur til sölu",
+						"lt":"Prekė pardavimui"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -62,34 +78,40 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"lt":"Sekmės/klaidos pranešimai"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"lt":"Asmenizuokite pranešimus rodomus žmonėms naudojantiems šį elementą."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"lt":"Sekmės pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
-						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk.",
+						"lt":"Ačiū! Štai jūsų parsisiuntimas. Naudojantiems telefoną patikrinkite savo pranešimus ir spam aplankus norint rasti parsisiuntimo linką."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"lt":"Netinkamas e pašto pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"lt":"Įvyko klaida priėmant jūsų mokestį. Prašome perkrauti ir bandyti dar kartą."
 					},
 					"displaysize":"medium"
 				}

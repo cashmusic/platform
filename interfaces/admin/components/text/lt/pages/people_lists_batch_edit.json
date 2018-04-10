@@ -1,0 +1,10 @@
+{
+	"pagetip":"Patvirtinti, kad norite ištrinti",
+	"learn":"",
+	"related":{},
+	"labels":{"batch":"Batch Pridėti Elektroninio Pašto Adresus"},
+	"tooltips":{},
+	"copy":{"add_multiple":"Pridėti keleta elektroniniu paštų adresų. Adresai turi būti atskirti kableliais norint juos pridėti tinkamai.",
+            "add":"Pridėti kontaktus"      
+}
+}

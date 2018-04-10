@@ -1,0 +1,41 @@
+{
+	"pagetip": "",
+	"learn": "<p>Čia rasite pagrindinę informacija apie savo pabaigtus užsakymus. Spustelėkite ant detalės norint gauti daugiau informacijos apie kiekvieną užsakymą.</p><p> Ten taip pat galite ir eksportuoti savo užsakymus. Naujausi užsakymai remiasi visai praeitais užsakymais nuo jūsų paskutinio eksporto.</p>",
+	"related":{},
+	"labels":{
+		"notes": "Užrašai"
+	},
+	"tooltips":{},
+	"copy":{
+		"order_details": "Užsakymas ",
+      "order_number": "Užsakymo numeris: ",
+      "placed_on": "Gautas: ",
+      "payment_status": "Apmokėjimo statusas: ",
+      "order_fulfilled": "Užsakymas buvo išpildytas",
+      "mark_as_fulfilled": "Pažymėti kaip išpildytą",
+		"cancel": "Grąžinti pinigus ir atšaukti",
+      "customer": "Klientas: ",
+      "country": "Šalis: ",
+      "order_total": "Užsakymo suma: ",
+      "items_subtotal": "Prekių suma: ",
+      "net_total": "Net suma: ",
+      "transaction_fees": "Išorinės kompanijos pervedimo mokestis: ",
+      "total_minus_fees": "Suma atėmus jungties mokestį: ",
+      "items_included": "Įskaičiuotos prekės",
+      "qty": "Kiekis",
+      "name": "Pavadinimas",
+      "description": "Aprašymas",
+      "price": "Kaina",
+      "transaction_details": "Pervedimo informacija",
+      "connection_used": "Naudota jungtis: ",
+      "transaction_id": "Pervedimo ID: ",
+      "service_fees": "Aptarnavimo mokestis: ",
+      "data": "Duomenys išsiūsti ir gauti",
+      "data_sent_to_service": "Duomenys išsiūsti aptarnavimui",
+      "data_returned_by_service": "Duomanys grąžinti aptarnavimo",
+		"button_notes": "Redaguoti užsakymo užrašus",
+		"shipping": "Siuntimas: ",
+		"shipto": "Siūsti į: ",
+		"resend": "Išsiūsti dar kartą užsakymo čekį/parsisiuntimus"
+	}
+}

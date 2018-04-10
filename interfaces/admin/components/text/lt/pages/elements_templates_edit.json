@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"name":"Pavadinimas",
+		"type":"Tipas",
+		"page":"Puslapio šablonas",
+		"embed":"Įstato šablonas",
+		"default":"Numatytasis šablonas",
+		"template":"Šablonas"
+	},
+	"tooltips":{},
+	"copy":{
+		"top":"Šablonai atrodo kaip HTML nes jie yra panašūs. Įstato šablonai palaiko tik vieną elementą - elementas atsiras ten kur parašysite {{{element_markup}}} savo šablone. Puslapio šablonai gali turėti kiek tik norite elementų. Tiesiog įklijuokite įstato kodus iš elemento kurio norite. Juos rasite to elemento puslapyje.",
+		"injectelements":"Paspauskite apačioje norint pridėti kodą atitinkančiam elementui į pagrindinį kodo redagavimo įrankį.",
+		"noelements":"Kai pridėsite elementus galėsite pridėti juos prie savo temos su vieno mygtuko paspaudimu."
+	}
+}

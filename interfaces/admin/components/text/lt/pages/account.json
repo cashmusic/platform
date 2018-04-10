@@ -1,0 +1,22 @@
+{
+	"pagetip":"",
+	"learn":"<p>Pridėti/koreguoti jūsų varototojo nustatymus čia.<p>Pridėti jūsų namų puslapį URL vietoje.</p><p>Taip pat galite ištrinti savo paskyrą ir rasti savo API raktą apačioje</p>",
+	"related":{},
+	"labels":{"new_email_address":"Naujas E.Pašto Adresas",
+            "new_username":"Naujas Vartotojo Vardas (Tik raidės ir skaičiai)",
+            "new_display_name":"Naujas Rodomasis Vardas",
+            "new_password":"Naujas Slaptažodis (palikus tuščia nebus jokių pasikeitimų)",
+            "password":"Slaptažodis",
+            "selected_language":"Dabartinė Kalba"
+            },
+	"tooltips":{},
+	"copy":{"delete_warning":"Ištrynus savo paskyrą ji dings. Neįmanoma to atšaukti. Tai mums kelia liūdesį. Apgalvokite ar tikrai to norite.",
+            "enter_password":"Įveskite savo dabartinį slaptažodį norint vykdyti pasikeitimus:",
+            "delete_account":"Ištrini Paskyrą",
+            "api_details":"API detalės kūrėjų prisijungimui:",
+            "button_save_changes":"Išsaugoti Pasikeitimus",
+            "button_delete_account":"Ištrinti Paskyrą",
+            "are_you_sure":"Ar jūs tikrai norite tai ištrinti? Tai bus neatšaukiamai ištrinta.",
+            "language_title":"Kalba"
+            }
+}

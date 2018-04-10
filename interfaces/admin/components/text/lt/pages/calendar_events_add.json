@@ -1,0 +1,21 @@
+{
+	"pagetip":"",
+	"learn":"<p>Čia galite pridėti visus savo įvykius: pasirodymus, radijo interviu ir t.t.</p><p>Jūs turėsite įvesti pasirodymo vietą primiausia jeigu ji dar nėra įvesta į jūsų duomenų bazę. Geros naujienos yra, kad visada įvedus pasirodymo vietą ji yra įkeliama į didyjį sąrašą. Tai reiškia, kad kuo daugiau žmonių naudojasi platforma tuo geriau ir duomenu bazė taps vis pilnesnė.</p><p>Datos nėra paleidžiamos kol nėra sukurta kampanija, pasirinkite turo datos elementą ir publikuokite savo puslapį arba įstatykite elementą kitoje svetainėje. Jei jau turite turo datos elementą paruoštą visada pridedant daugiau įvykių jie automatiškai bus publikuoti jūsų puslapyje nebent atšauksite publikavimo pasirinkimą. Jei norite pranešti apie pasirodymą arba turą patikrinkite ar atšaukėte publikavimo pasirinkimą, kad per anksti neišleistumėte informacijos.</p><p>Atšaukėte pasirodymą? Keliaukite į įvykio detales ir pasirinkite atšaukimo pasirinkimą. Komentaruose galite pridėti pranešimų pranešančių fanams apie pinigų grąžinimą arba datos keitimą.</p>",
+	"related":{},
+	"labels":{
+		"date":"Data",
+      "venue":"Vieta",
+      "comments":"Komentarai",
+      "ticket_purchase_url":"Bilietų Pardavimo Adresas URL",
+      "is_it_published":"Publikuota?",
+      "is_it_cancelled":"Atšaukta?"
+   },
+	"tooltips":{},
+	"copy":{
+		"event_details_header":"Įvykio detalės",
+      "add_a_date":"Pridėkite datą į sistemą. Informacija apie statusą (publikuotas/nepublikuotas) ir atšaukimus galite rasti puslapio pagalboje.",
+      "not_found":"Nerandate pasirodymo vietos kurios ieškote? ",
+      "new_venue":"Pridėti naują vietą",
+			"delete_event":"Ištrinti įvykį"
+   }
+}

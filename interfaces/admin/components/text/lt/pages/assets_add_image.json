@@ -1,0 +1,18 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"which_connection":"Kurią talpinimo paslaugą",
+      "title":"Pavadinimas / Vardas",
+      "description":"Aprašymas",
+      "location":"Vieta (uri)"
+   },
+	"tooltips":{},
+	"copy":{
+		"upload_a_file":"Įkelti failą",
+		"intro":"Pasirinkite failų talpinimo prisijungimą (privaloma) tada įkelkite JPG/GIF/PNG failą.",
+		"add_connection":"Jokių galimų talpinimo prisijungimų nebuvo rasta. Pradėkite su",
+		"add_connection_button":"pridedamas"
+	}
+}
