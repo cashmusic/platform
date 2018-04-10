@@ -1,0 +1,24 @@
+{
+	"pagetip": "",
+	"learn": "<p>Čia rasite pagrindinę informaciją apie prenumeratas.</p>",
+	"related":{},
+	"labels":{
+		"name":"Prenumeratos pavadinimas",
+		"price":"Kaina",
+		"interval":"Intervalas",
+		"subscriber_name":"Prenumeratorius",
+		"subscriber_email":"Elektroninis Paštas",
+		"subscriber_start_date":"Pradžios data",
+		"subscriber_end_date":"Pabaigos data",
+		"subscriber_total":"Išviso sumokėta iki datos",
+		"subscriber_status":"Statusas"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Prenumeratos turi informaciją apie jūsų kartotinius apmokėjimo planus. Jie gali būti nustatyti, kad apmokęstintų jūsų prenumeratorius kiekvieną diena, savaitę, menesį arba metus. Jums reiks tinkamos apmokėjimo jungties, kad galėtumėte pradėti.<span class='first-para'>Prenumeratos gali keistis su laiku, kad galėtumėte atnaujinti kokias prekes norite siūsti plano prenumeratoriams ir kaip dažnai apmokėjimai ir siuntimai įvyktų.</span>",
+		"add_plan":"Sukūrti naują planą",
+		"edit_plan":"Redaguoti",
+		"delete":"Ištrinti",
+		"subscriber_title":"Prenumeratoriai"
+	}
+}

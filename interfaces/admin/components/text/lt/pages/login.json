@@ -1,0 +1,33 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"email":"Elektroninio pašto adresas",
+      "password":"Slaptažodis",
+      "username":"Vartotojo Vardas"
+   },
+	"tooltips":{},
+	"copy":{
+		"forgot_pass":"Pamiršote savo slaptažodį?",
+      "no_account":"Neturite paskyros? ",
+      "sign_up":"Užsiregistruokite.",
+      "its_free":" Paskyra yra nemokama ir visada tokia bus. Užsiregistruokite norėdami pradėti.",
+      "enter_email":"Įveskite elektroninį paštą apačioje. Išsiuntus patikrinkite savo e pašto dėžutę tolesnėms instrukcijoms.",
+      "its_free_2":"Visa tai yra nemokama ir visada bus. Viskas ko jums reikia norint pradėti yra suteikti mums naudojama elektroninio pašto adresą, pasirinkti vartotojo vardą ir slaptažodį.",
+      "reveal_text":"rodyti tekstą",
+      "i_read":" Perskaičiau ir sutinku su ",
+      "tos":"sąlygomis",
+      "and":" ir ",
+      "privacy":"privatumo politika",
+		"learn_about_title":"Pastatykime šviesesnę ateitį muzikai kartu.",
+		"learn_about_body":"Skaityti daugiau apie CASH Music.",
+		"community_body":"Pakalbėkite su mūsų komanda mūsų #community Slack kanale. Mes visada esame pasiruoše aptarti mūsų įrankius ir išklausyti atsiliepimų.",
+		"feature_header0":"Visi jūsų duomenys.",
+		"feature_body0":"Tiesiog prisijunkite norėdami peržiūrėti savo pranešimų sąrašus pardavimus ir daugiau. Viskas per kelis mygtuko paspaudimus.",
+		"feature_header1":"CASH music x Run The Jewels.",
+		"feature_body1":"Mūsų įrankiai sukurti bet kokio dydžio masėms. Jie sukurti tam kad galėtume leisti RTJ2, todėl nuo jūsų pirmo fano iki jūsų milijoninio mes jums padėsimė.",
+		"feature_header2":"CASH music x Bikini Kill.",
+		"feature_body2":"Sukūrėme talpinima su Bikini Kill kurį galite naudoti. Parduokite fizinius ir virtualius dalykus. Jokių papildomų mokesčių ir jokiu tarpininkų. Viskas jūsų paties svetainėje."
+	}
+}

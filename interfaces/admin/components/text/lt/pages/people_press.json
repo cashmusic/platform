@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"<p>Visada yra naudinga sekti kas yra rėmėjas, kam patiktų išskirtinė prekė ir ką tiesiog ignoruoti.</p><p>Taip pat labai naudinga turėti šiuos dalykus po ranka.</p>",
+	"related":{},
+	"labels":{"url":"URL",
+               "tags":"Tags"
+
+   },
+	"tooltips":{},
+	"copy":{"add_new_press":"Pridėti naują spaudą",
+            "publishing_date":"Publikavimo data",
+            "add_tag":"+ PRIDĖTI TAG",
+            "add_new_link":"Pridėti naują linką",
+            "press_links":"Spaudos linkai",
+            "no_press_links":"Jokių spaudos linkų nebuvo pridėta.",
+            "add_one":" Pridėkite vieną norint pradėti."
+
+}
+}

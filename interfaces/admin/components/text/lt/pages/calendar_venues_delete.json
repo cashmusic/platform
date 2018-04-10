@@ -1,0 +1,16 @@
+{
+	"pagetip":"Patvirtinkite, kad norite ištrinti.",
+	"learn":"",
+	"related":{},
+	"labels":{"name":"Pavadinimas",
+            "website":"Svetainė",
+            "phone":"Telefono numeris",
+            "address_1":"Pirmas Adresas",
+            "address_2":"Antras Adresas",
+            "city":"Mietas",
+            "state":"Valstija / Provincija / Regijonas",
+            "postal_code":"Pašto kodas",
+            "country":"Šalis"},
+	"tooltips":{},
+	"copy":{}
+}

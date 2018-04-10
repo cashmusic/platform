@@ -1,0 +1,11 @@
+{
+	"pagetip":"Patvirtinkite, kad norite ištrinti.",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+			"are_you_sure":"Ar jūs tuo užtikrintas?",
+			"button_delete_it":"Ištrinti"
+	}
+}

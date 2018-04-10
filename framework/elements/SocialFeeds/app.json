@@ -18,39 +18,51 @@
 			"description":"Skapaðu straum fyrir Twitter og/eða Tumblr strauma.",
 			"longdescription":"Blandaðu saman eins mörgum straumum og þig lystir, síaðu Twitter eftir orðum eða slepptu @-svörum, og síaðu Tumblr eftir færslutegundum",
 			"instructions":"Þetta er bilað."
+		},
+		"lt":{
+			"name":"Socialinis žiniatinklis",
+			"description":"Padarykite vieną žiniatinklį iš savo Twitter ir arba Tumblr žiniatinklių.",
+			"longdescription":"Sujunkite bet kiek žiniatinklių į vieną, filtruokite Twitter pagal raktą žodžius arba atmeskite @-replies ir filtruojant tumblr pagal pranešimų tipą.",
+			"instructions":"Tai kol kas neveikia."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Instructions or clarifications that should appear with this group.",
-				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp."
+				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp.",
+				"lt":"Instrukcijos arba paaiškinimai kurie turi atsirasti su šia grupe."
 			},
 			"data":{
 				"twitter":{
 					"label":{
 						"en":"Twitter",
-						"is":"Twitter"
+						"is":"Twitter",
+						"lt":"Twitter"
 					},
 					"description":{
 						"en":"You'll need to add a Twitter connection for tweets to appear in your feed.",
-						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum."
+						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum.",
+						"lt":"Jums reikės pridėti Twitter jungtį norint, kad šie pranešimai atsirastų žiniatiklyje."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Twitter feed",
-						"is":"Bæta við nýjum Twitter straum"
+						"is":"Bæta við nýjum Twitter straum",
+						"lt":"Pridėti naują Twitter žiniatinklį"
 					},
 					"values":{
 						"twitterusername":{
 							"label":{
 								"en":"Username",
-								"is":"Notandanafn"
+								"is":"Notandanafn",
+								"lt":"Vartotojo vardas"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -58,7 +70,8 @@
 						"twitterfiltertype":{
 							"label":{
 								"en":"Fliter by",
-								"is":"Sía samkvæmt"
+								"is":"Sía samkvæmt",
+								"lt":"Filtruoti pagal"
 							},
 							"type":"select",
 							"values":{
@@ -72,7 +85,8 @@
 						"twitterfiltervalue":{
 							"label":{
 								"en":"Filter value",
-								"is":"Sía gildi"
+								"is":"Sía gildi",
+								"lt":"Filtruoti"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -80,7 +94,8 @@
 						"twitterhidereplies":{
 							"label":{
 								"en":"Hide replies",
-								"is":"Fela svör"
+								"is":"Fela svör",
+								"lt":"Slėpti atsakymus"
 							},
 							"type":"boolean",
 							"default":true,
@@ -92,23 +107,27 @@
 				"tumblr":{
 					"label":{
 						"en":"Tumblr",
-						"is":"Tumblr"
+						"is":"Tumblr",
+						"lt":"Tumblr"
 					},
 					"description":{
 						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off.",
-						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund."
+						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund.",
+						"lt":"Jungtis norint pridėti Tumblr pranešimus nėra reikalinga. Tiesiog pridėkite URL, pasirinkite pranešimo tipus ir viskas bus paruošta."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Tumblr URL",
-						"is":"Bættu við nýrri Tumblr slóð"
+						"is":"Bættu við nýrri Tumblr slóð",
+						"lt":"Pridėti naują Tumblr URL"
 					},
 					"values":{
 						"tumblrurl":{
 							"label":{
 								"en":"Tumblr URL",
-								"is":"Tumblr slóð"
+								"is":"Tumblr slóð",
+								"lt":"Tumblr URL"
 							},
 							"type":"text",
 							"displaysize":"small"
@@ -116,11 +135,13 @@
 						"tumblrtag":{
 							"label":{
 								"en":"Filter by tag",
-								"is":"Sía samkvæmt merki"
+								"is":"Sía samkvæmt merki",
+								"lt":"Filtruoti pagal etiketes"
 							},
 							"placeholder":{
 				            "en":"Do not filter",
-							"is":"Ekki sía"
+										"is":"Ekki sía",
+										"lt":"Nefiltruoti"
 				          },
 							"type":"text",
 							"displaysize":"small"
@@ -128,7 +149,8 @@
 						"post_types":{
 							"label":{
 								"en":"Post types",
-								"is":"Færslutegundir"
+								"is":"Færslutegundir",
+								"lt":"Pranešimo tipai"
 							},
 							"type":"options",
 							"displaysize":"large",
@@ -136,7 +158,8 @@
 								"regular":{
 									"label":{
 										"en":"regular",
-										"is":"venjuleg"
+										"is":"venjuleg",
+										"lt":"paprastas"
 									},
 									"type":"boolean",
 									"default":true,
@@ -145,7 +168,8 @@
 								"photo":{
 									"label":{
 										"en":"photo",
-										"is":"mynd"
+										"is":"mynd",
+										"lt":"nuotrauka"
 									},
 									"type":"boolean",
 									"default":true,
@@ -154,7 +178,8 @@
 								"video":{
 									"label":{
 										"en":"video",
-										"is":"myndband"
+										"is":"myndband",
+										"lt":"vaizdo įrašas"
 									},
 									"type":"boolean",
 									"default":true,
@@ -163,7 +188,8 @@
 								"link":{
 									"label":{
 										"en":"link",
-										"is":"hlekkur"
+										"is":"hlekkur",
+										"lt":"linkas"
 									},
 									"type":"boolean",
 									"default":true,
@@ -172,7 +198,8 @@
 								"audio":{
 									"label":{
 										"en":"audio",
-										"is":"hljóð"
+										"is":"hljóð",
+										"lt":"garsas"
 									},
 									"type":"boolean",
 									"default":true,
@@ -181,7 +208,8 @@
 								"quote":{
 									"label":{
 										"en":"quote",
-										"is":"tilvitnun"
+										"is":"tilvitnun",
+										"lt":"citata"
 									},
 									"type":"boolean",
 									"default":false,
@@ -190,7 +218,8 @@
 								"answer":{
 									"label":{
 										"en":"answer",
-										"is":"svar"
+										"is":"svar",
+										"lt":"atsakymas"
 									},
 									"type":"boolean",
 									"default":false,
@@ -204,7 +233,8 @@
 				"post_limit":{
 					"label":{
 						"en":"Post Limit",
-						"is":"Færsluhámark"
+						"is":"Færsluhámark",
+						"lt":"Pranešimų Limitas"
 					},
 					"type":"number",
 					"default":"40",

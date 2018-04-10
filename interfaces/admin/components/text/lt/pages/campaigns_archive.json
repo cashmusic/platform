@@ -1,0 +1,14 @@
+{
+	"pagetip":"",
+	"learn":"<p>Galite pridėti kiek tik norite elementų savo kampanijai.</p><p>Kiekvienas individualus elementas gali būti įstatytas bet kokioje svetainėje naudojantis kopijuoti/įklyjuoti arba galite pridėti keletą elementų į kampaniją ir publikuoti kaip vieną puslapį.</p><p>Nesijaudinkite niekas nematys jūsų aktyvumo kol jūs visko nepubklikuosite ir visuomet galite redaguoti bet koki elementą net jeigu jau publikavote savo kampaniją.</p>",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"elements_archive":"Elementų Archyvas",
+            "no_elements_yet":"Dar nepridėjote jokių elementų.",
+            "button_add_an_element":"Pridėti elementą",
+            "delete":" Ištrinti"
+
+
+   }
+}

@@ -18,28 +18,38 @@
 			"description":"Notað til að sýna texta, html, eða markdown.",
 			"longdescription":"Klippa-líma framtíðarinnar! Reyndar, bara venjulegt klippa-líma. Ómerkilegt, en gagnlegt.",
 			"instructions":"Skrifaðu. Vistaði. Búið."
+		},
+		"lt":{
+			"name":"Paprastas Tekstas",
+			"description":"Naudojamas rodyti tekstą, html arba markdown.",
+			"longdescription":"Kopijavimo ir įklijavimo ateitis! Ištikrūjų tiesiog kopijuoti ir įklijuoti, paprasta. Nuobodu, bet naudinga.",
+			"instructions":"Parašykite. Išsaugokite. Viskas."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"The Content",
-				"is":"Efnið"
+				"is":"Efnið",
+				"en":"Turinys"
 			},
 			"description":{
 				"en":"Type what you want to appear. Plain text or markdown.",
-				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown"
+				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown",
+				"lt":"Ką norite pamatyti. Paprastą tekstą ar markdown."
 			},
 			"data":{
 				"storedcotent":{
 					"label":{
 						"en":"Content",
-						"is":"Efni"
+						"is":"Efni",
+						"lt":"Turinys"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"lt":""
 					},
 					"required":true,
 					"displaysize":"large"

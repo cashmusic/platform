@@ -1,0 +1,20 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+		"requirements_needed_title":"Jums reikia padaryti keletą dalykų prieš paruošiant šį elementą.",
+		"requirements_needed":"Prieš pradedant jums reikia pridėti:",
+		"requirement_assets":"Išleidimą arba įkelti failą",
+		"requirement_people/lists":"E. laiškų sąrašą",
+		"requirement_items":"Prekę pardavimui",
+		"requirement_commerce/items":"Prekę pardavimui",
+		"requirement_connections/commerce":"Pardavimo jungtį norint vykdyti pervedimus",
+		"author":"Autorius:",
+		"add_element":"Pridėti elementą",
+		"last_updated":"Paskutinį kartą atnaujinta: ",
+		"learn_more":"Skaityti Daugiau"
+	}
+}

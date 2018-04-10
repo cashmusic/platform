@@ -1,0 +1,15 @@
+{
+	"pagetip": "",
+	"learn": "<p>Čia rasite pagrindinę informaciją apie savo prenumeratas.</p>",
+	"related":{},
+	"labels":{
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Prenumeratos turi informaciją apie jūsų kartotinius apmokėjimo planus. Jums reiks tinkamos apmokėjimo jungties, kad galėtumėte pradėti.<span class='first-para'>Prenumeratos gali būti nustatytos, kad apmokęstintų jūsų prenumeratorius kiekvieną diena, savaitę, menesį arba metus.</span>",
+		"add_plan":"Sukurti naują planą",
+		"edit":"Redaguoti",
+		"delete":"Ištrinti",
+		"no_plans":"Jūs neturite paruoštų prenumeratos planų. Galite pradėti sukurdami vieną, žemiau."
+	}
+}

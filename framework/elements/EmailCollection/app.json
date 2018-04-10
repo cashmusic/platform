@@ -18,6 +18,12 @@
 			"description":"Fáðu netfang, gefðu niðurhal (eða ekki).",
 			"longdescription":"Þessi eining getur verið notuð sem netfang-fyrir-niðurhal kynning, eða sem útfæranlegt innfellingar tæki til netfangasöfnunar.",
 			"instructions":"Settu eign á 'ekkert' fyrir einfalda netfanga söfnun, eða veldu eign til að notast við netfang-fyrir-niðurhal."
+		},
+		"lt":{
+			"name":"Elektroninių paštų kolekcija",
+			"description":"Surinkite elektroninius paštų adresus ir duokite atsisiuntimą (arba ne).",
+			"longdescription":"Šis elementas gali būti naudojamas kaip e-paštas-atsisiuntimui reklama arba kaip asmenizuojama e paštų kolekcija.",
+			"instructions":"Palikite prekę nustatyta kaip 'nieko' norint gauti tiesiog paprastą e paštų kolekciją arba pasirinkite tam tikrą prekę norint išbandyti e-paštas-atsisiuntimui."
 		}
 	},
 	"copy":{
@@ -29,24 +35,32 @@
 		"is":{
 			"signup":"Skráðu mig",
 			"verify":"Athugaðu pósthólfið þitt eftir póst með niðurhals hlekk."
+		},
+		"lt":{
+			"signup":"užregistruokite mane",
+			"verify":"Patikrinkite savo e pašto dėžę patvirtinimo laiškui su atisiuntimo linku.",
+			"redirecterror":"Įvyko klaida atsiemant jūsų prekę. Perkraukite ir bandykite dar kartą."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Select a target mailing list and an asset to give away (if you want).",
-				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt)."
+				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt).",
+				"lt":"Pasirinkite pranešimų sąrašą ir prekę kuria norite atiduoti (jei to norite)."
 
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valin netfangaskrá"
+						"is":"Valin netfangaskrá",
+						"lt":"Pasirinktas pranešimų sąrašas"
 
 					},
 					"type":"select",
@@ -57,7 +71,8 @@
 				"asset_id":{
 					"label":{
 						"en":"The downloadable asset",
-						"is":"Eign til niðurhals"
+						"is":"Eign til niðurhals",
+						"lt":"Atsisiunčiama prekė"
 					},
 					"type":"select",
 					"values":"assets",
@@ -66,7 +81,8 @@
 				"do_not_verify":{
 					"label":{
 						"en":"Skip email verification (recommended)",
-						"is":"Sleppa netfanga staðfestingu (mælt með)"
+						"is":"Sleppa netfanga staðfestingu (mælt með)",
+						"lt":"Praleisti e pašto patvirtinimą (rekomenduojama)"
 					},
 					"type":"boolean",
 					"default":true,
@@ -75,7 +91,8 @@
 				"collect_name":{
 					"label":{
 						"en":"Get name with email collection?",
-						"is":"Get name with email collection?"
+						"is":"Get name with email collection?",
+						"lt":"Gauti vardą su e pašto kolekcija?"
 					},
 					"type":"boolean",
 					"default":false,
@@ -84,7 +101,8 @@
 				"collect_postal":{
 					"label":{
 						"en":"Get postal code with email collection?",
-						"is":"Get postal code with email collection?"
+						"is":"Get postal code with email collection?",
+						"lt":"Gauti pašto kodą su e pašto kolekcija?"
 					},
 					"type":"boolean",
 					"default":false,
@@ -95,59 +113,69 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"lt":"Sekmės/klaidos pranešimai"
 
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"lt":"Asmenizuoti pranešimus rodomus žmonėms kurie naudojasi šiuo elementu."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"lt":"Sekmės pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thanks! You're all signed up.",
-						"is":"Takk fyrir! Skráning tókst."
+						"is":"Takk fyrir! Skráning tókst.",
+						"en":"Ačiū! Jūs užregistruotas."
 					},
 					"displaysize":"medium"
 				},
 				"message_invalid_email":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt netfang"
+						"is":"Ógilt netfang",
+						"lt":"Netinkamas e pašto pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sorry, that email address wasn't valid. Please try again.",
-						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur."
+						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur.",
+						"lt":"Atleiskite, šis e paštas yra netinkamas. Bandykite dar kartą."
 					},
 					"displaysize":"medium"
 				},
 				"message_privacy":{
 					"label":{
 						"en":"Privacy message",
-						"is":"Friðhelgis skilaboð"
+						"is":"Friðhelgis skilaboð",
+						"lt":"Privatumo pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"We won't share, sell, or be jerks with your email address.",
-						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt."
+						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt.",
+						"lt":"Mes nesidaliname, neparduodame ir nedarome nieko kvailo su jūsų e pašto adresu."
 					},
 					"displaysize":"medium"
 				},
 				"message_verification":{
 					"label":{
 						"en":"Address verification message (only if verifying)",
-						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)"
+						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)",
+						"lt":"Adreso patvirtinimo pranešimas (tik jei yra patvirtinama)"
 					},
 					"type":"text",
 					"default":{
 						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)",
-						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)"
+						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)",
+						"lt":"Turite patvirtinti savo e pašto adresą norint tęsti. Laiškas buvo išsiūstas. Spustelėkite ant linko laiške norint patvirtinti narystę. (Jei nematote pranešimo patikrinkite savo SPAM aplanką.)"
 					},
 					"displaysize":"medium"
 				}
@@ -156,34 +184,40 @@
 		"interface":{
 			"group_label":{
 				"en":"Customize signup form",
-				"is":"Sérsníða skráningar eyðublað"
+				"is":"Sérsníða skráningar eyðublað",
+				"lt":"Asmenizuoti registracijos formą"
 			},
 			"description":{
 				"en":"Change placeholder and text in the form shown to the public.",
-				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi."
+				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi.",
+				"lt":"Pakeisti vietos laikiklį ir tekstą formoje kuris rodomas viešai."
 			},
 			"data":{
 				"placeholder_text":{
 					"label":{
 						"en":"Email form placeholder text",
-						"is":"Staðgengilstexti netfanga eyðublaðs"
+						"is":"Staðgengilstexti netfanga eyðublaðs",
+						"lt":"E pašto forma vietą laikančiam tekstui"
 					},
 					"type":"text",
 					"default":{
 						"en":"Enter your email",
-						"is":"Enter your email"
+						"is":"Enter your email",
+						"lt":"Įveskite savo elektroninį paštą"
 					},
 					"displaysize":"small"
 				},
 				"button_text":{
 					"label":{
 						"en":"Text for submit button",
-						"is":"Texti fyrir senda takka"
+						"is":"Texti fyrir senda takka",
+						"lt":"Tekstas išsiuntimo mygtukui"
 					},
 					"type":"text",
 					"default":{
 						"en":"Sign me up",
-						"is":"Skráðu mig"
+						"is":"Skráðu mig",
+						"lt":"Užregistruokite mane"
 					},
 					"displaysize":"small"
 				}
@@ -192,17 +226,20 @@
 		"datacollection":{
 			"group_label":{
 				"en":"Data collection options",
-				"is":"Gagnasöfnunarstillingar"
+				"is":"Gagnasöfnunarstillingar",
+				"lt":"Duomenų rinkimo nuostatos"
 			},
 			"description":{
 				"en":"Add a checkbox for age verification, agreeing to terms, etc.",
-				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis."
+				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis.",
+				"lt":"Pridėkite patvirtinimo dėžutę amžiaus patvirtinimui, sutikimui su nuostatomis ir t.t."
 			},
 			"data":{
 				"agree_checkbox":{
 					"label":{
 						"en":"Show agreement checkbox",
-						"is":"Sýna samþykkis gátreit"
+						"is":"Sýna samþykkis gátreit",
+						"lt":"Rodyti sutikimo patvirtinimo dėžutę"
 					},
 					"type":"boolean",
 					"default":false,
@@ -211,12 +248,14 @@
 				"agree_message":{
 					"label":{
 						"en":"Message to show (I agree...)",
-						"is":"Skilaboð til að sýna (Ég samþykki...)"
+						"is":"Skilaboð til að sýna (Ég samþykki...)",
+						"lt":"Pranešimas kuris bus rodomas (Aš sutinku...)"
 					},
 					"type":"text",
 					"default":{
 						"en":"I checked the checkbox!",
-						"is":"Ég fyllti inn gátreitinn!"
+						"is":"Ég fyllti inn gátreitinn!",
+						"lt":"Aš pažymėjau patvirtinimo dėžutę!"
 					},
 					"displaysize":"small"
 				}

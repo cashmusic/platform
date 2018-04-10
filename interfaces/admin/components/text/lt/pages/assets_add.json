@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"<p>Jei norite parduoti šį leidimą turite nueiti į pardavimus ir įvesti kaip inventoriaus prekę prieš pridedant į savo parduotuvę arba kaip vienetinio pirkinio elementą.</p><p>Kuriate parsisiuntimo kodus? Kai pridėsite savo leidimo informacija tada galėsite generuoti ir eksportuoti atsisiuntimo kodus prekių nuostatose. Jums nebūtina turėti išpildymo failo norint generuoti juos kas yra visai naudinga jei naudojate juos LP, bet užsitikrinkite kad juos įkėlėte ir sukūrėte atsisiuntimo kodo atsiemimo formos elementą prieš siunčiant kodus! Prieš išsiunčiant kodus savo fanams visada patikrinkite pirmą. Niekada neištrinkite prekės asocijuojamos su atsisiuntimo kodais nes tada visi kodai nustos veikti. Galite pakeisti failus jei norite, bet niekada jų netrikite, tiesiog įkelkite dar vieną failą. </p><p>Visada galite pakeisti bet kokias detales, visos sujungtos pardavimo prekės ir elementai automatiškai pasikeis su pokyčiais.</p>",
+	"related":{},
+	"labels":{
+		"which_connection":"Kurią talpinimo jungtį",
+      "title":"Pavadinimas / Vardas",
+      "description":"Aprašymas",
+      "location":"Vieta (uri)"
+   },
+	"tooltips":{},
+	"copy":{
+		"upload_a_file":"Įkelti failą"
+	}
+}

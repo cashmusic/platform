@@ -1,0 +1,27 @@
+{
+	"pagetip": "",
+	"learn": "<p>Čia rasite pagrindinę informaciją apie savo prenumeratas.</p>",
+	"related":{},
+	"labels":{
+		"name":"Prenumeratos pavadinimas",
+		"price":"Kaina",
+		"interval":"Intervalas",
+		"subscriber_name":"Prenumeratorius",
+		"subscriber_email":"Elektroninis paštas",
+		"subscriber_start_date":"Prenumeruota: ",
+		"subscriber_end_date":"Pabaigos data",
+		"subscriber_total":"Išviso sumokėta iki datos",
+		"subscriber_status":"Statusas",
+		"subscription_creation":"Sukūrimo data",
+		"status":"Statusas",
+		"payment_date":"Data",
+		"payment_connection_type":"Jungties tipas",
+		"payment_status":"Statusas",
+		"payment_amount":"Suma"
+	},
+	"tooltips":{},
+	"copy":{
+		"cancel":"Atšaukti prenumeratą",
+		"payment_history":"Mokėjimų praeitis"
+	}
+}

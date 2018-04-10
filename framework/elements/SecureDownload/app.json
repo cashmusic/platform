@@ -18,23 +18,32 @@
 			"description":"Leyfa hóp að skrá sig inn og hlaða niður öruggri eign.",
 			"longdescription":"Þetta leyfir þér að gefa niðurhal til ákveðin hóps af innskráðu fólki.",
 			"instructions":"Veldu hóp til að leyfa niðurhal, eign til þess að hala niður, og ef þú vilt, víðvært lykilorð fyrir þessa einingu."
+		},
+		"lt":{
+			"name":"Saugus atsisiuntimas",
+			"description":"Leisti sąrašui prisijungti ir parsisiūsti saugią prekę.",
+			"longdescription":"Tai leidžia suteikti prieigą atsisiuntimui tik tam tikriem sąrašam žmonių.",
+			"instructions":"Pasirinkite sąrašą norint patvirtinti prieš prekę atsisiuntimui ir pasirinktinai pridėti visuotinį slaptažodį šiam elementui."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Choose a list and an asset for the download.",
-				"is":"Veldu hóp og eign fyrir niðurhalið."
+				"is":"Veldu hóp og eign fyrir niðurhalið.",
+				"lt":"Pasirinkite sąraša ir prekę atsisiuntimui."
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
 						"en":"Target mailing list",
-						"is":"Valinn póstlisti"
+						"is":"Valinn póstlisti",
+						"lt":"Pasirinktas pranešimų sąrašas"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -44,7 +53,8 @@
 				"asset_id":{
 					"label":{
 						"en":"The downloadable asset",
-						"is":"Eign til niðurhals"
+						"is":"Eign til niðurhals",
+						"lt":"Parsisiunčiama prekė"
 					},
 					"type":"select",
 					"values":"assets",
@@ -56,33 +66,39 @@
 		"additional":{
 			"group_label":{
 				"en":"Additional settings",
-				"is":"Aðrar stillingar"
+				"is":"Aðrar stillingar",
+				"lt":"Papildomi nustatymai"
 			},
 			"description":{
 				"en":"Customize messages, define a universal password, or set it to skip login entirely.",
-				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna."
+				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna.",
+				"lt":"Asmenizuoti pranešimus, aprašyti visuotinį slaptažodį arba nustatyti, kad jis praleistų prisijungimą."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"lt":"Sekmės pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"lt":""
 					},
 					"displaysize":"medium"
 				},
 				"alternate_password":{
 					"label":{
 						"en":"Password",
-						"is":"Lykilorð"
+						"is":"Lykilorð",
+						"lt":"Slaptažodis"
 					},
 					"placeholder":{
 						"en":"A password or phrase to unlock the content",
-						"is":"Lykilorð eða frasi til þess að aflæsa efni"
+						"is":"Lykilorð eða frasi til þess að aflæsa efni",
+						"lt":"Slaptažodis arba frazė su kuria bus galima atrakinti turinį"
 					},
 					"type":"text",
 					"displaysize":"small"
@@ -90,7 +106,8 @@
 				"skip_login":{
 					"label":{
 						"en":"Do not require login",
-						"is":"Ekki krefjast innskráningu"
+						"is":"Ekki krefjast innskráningu",
+						"lt":"Nereikalauja prisijungimo"
 					},
 					"type":"boolean",
 					"default":true,

@@ -1,0 +1,80 @@
+{
+	"terms" : {
+		"file":"terms",
+		"compatibility":["single"],
+		"title":"Salygų paaiškinimai"
+	},
+
+	"s3" : {
+		"file":"s3",
+		"compatibility":["single","multi"],
+		"title":"Pridėkite Amazon S3"
+	},
+
+	"mailchimp" : {
+		"file":"mailchimp",
+		"compatibility":["single", "multi"],
+		"title":"Pridėkite MailChimp"
+	},
+
+	"paypal" : {
+		"file":"paypal",
+		"compatibility":["single", "multi"],
+		"title":"Pridėkite apmokėjimo paslaugą"
+	},
+
+	"commerce" : {
+		"file":"commercesettings",
+		"compatibility": ["single", "multi"],
+		"title":"Parduotuvės nustatymai"
+	},
+
+	"addarelease" : {
+		"file":"addarelease",
+		"compatibility":["single","multi"],
+		"title":"Pridėti turtą"
+	},
+
+	"paiddownload" : {
+		"file":"paiddownload",
+		"compatibility":["single","multi"],
+		"title":"Parduokite virtualiai atsisiunčiamą failą"
+	},
+
+	"physicalrelease" : {
+		"file":"physicalrelease",
+		"compatibility":["single","multi"],
+		"title":"Parduokite fizinę prekę"
+	},
+
+	"store" : {
+		"file":"buildastore",
+		"compatibility": ["single", "multi"],
+		"title": "Sukurkite parduotuvę"
+	},
+
+	"emailcollection" : {
+		"file":"emailcollection",
+		"compatibility":["single","multi"],
+		"title":"Paruoškite elektroninį paštą elementų parsisiuntimui"
+	},
+
+	"downloadcodes" : {
+		"file":"downloadcodes",
+		"compatibility":["single","multi"],
+		"title":"Atsisiūsti kodus"
+	},
+
+	"addanelement" : {
+		"file":"addanelement",
+		"compatibility":["single","multi"],
+		"title":"Įstatyti elementą"
+	},
+
+	"publishpage" : {
+		"file":"publishpage",
+		"compatibility":["single", "multi"],
+		"title":"Publikuoti jūsų CASH Music puslapį"
+	}
+
+}

@@ -1,0 +1,135 @@
+{
+	"account":
+		{"page_name":"Jūsų paskyra", "menu_icon":""},
+	"account/delete":
+		{"page_name":"Ištrinti paskyrą", "menu_icon":"", "hide":true},
+
+
+	"assets":
+		{"page_name":"Turtas", "menu_icon":"", "tagline":"jūsų išleistos dainos, grojaraščiai ir failai"},
+
+	"calendar":
+		{"page_name":"Kalendorius", "menu_icon":"", "tagline":"pasirodymai ir jų vietos"},
+	"calendar/events":
+		{"page_name":"Renginiai", "menu_icon":"calendar", "hide":true},
+	"calendar/events/add":
+		{"page_name":"Pridėti renginį", "menu_icon":""},
+	"calendar/events/edit":
+		{"page_name":"Redaguoti renginį", "menu_icon":""},
+	"calendar/venues":
+    	{"page_name":"Vietos", "menu_icon":"map" },
+	"calendar/venues/add":
+		{"page_name":"Pridėti vietą", "menu_icon":""},
+	"calendar/venues/delete":
+		{"page_name":"Ištrinti vietą", "menu_icon":""},
+	"calendar/venues/edit":
+		{"page_name":"Redaguoti vietą", "menu_icon":""},
+
+
+	"campaigns":
+		{"page_name":"Kampanijos", "menu_icon":""},
+	"campaigns/add":
+		{"page_name":"Pridėti kampaniją", "menu_icon":"plus"},
+	"campaigns/delete":
+		{"page_name":"Ištrinti kampaniją", "menu_icon":"", "hide":true},
+	"campaigns/edit":
+		{"page_name":"Redaguoti kampaniją", "menu_icon":"", "hide":true},
+	"campaigns/archive":
+		{"page_name":"Archyvas", "menu_icon":"", "hide":true},
+	"campaigns/publish":
+		{"page_name":"Publikuoti kampaniją", "menu_icon":"", "hide":true},
+
+
+	"commerce":
+		{"page_name":"Prekyba", "menu_icon":"", "tagline":"užsakymai ir daiktai pardavimui"},
+	"commerce/items":
+		{"page_name":"Inventorius", "menu_icon":"barcode"},
+	"commerce/items/delete":
+		{"page_name":"Ištrinti daiktą", "menu_icon":""},
+	"commerce/items/edit":
+		{"page_name":"Redaguoti daiktą", "menu_icon":""},
+	"commerce/items/add":
+		{"page_name":"Pridėti daiktą", "menu_icon":""},
+	"commerce/subscriptions":
+		{"page_name":"Prenumeratos", "menu_icon":"recurring", "tagline":"Narių prenumeratos", "beta":true},
+	"commerce/externalfulfillment":
+		{"page_name":"Crowdfundingo Įvykdymas", "menu_icon":"fulfilment", "tagline":"Importuoti išorinius užsakymus", "beta":true},
+	"commerce/export":
+		{"page_name":"Eksportuoti užsakymus", "menu_icon":"dwnld","add_class":"lightboxed"},
+	"commerce/orders/view":
+		{"page_name":"Užsakymo detalės", "menu_icon":""},
+
+
+
+	"elements":
+		{"page_name":"Elementai", "menu_icon":""},
+	"elements/add":
+		{"page_name":"Pridėti elementų", "menu_icon":"plus" },
+	"elements/delete":
+		{"page_name":"Ištrinti elementą", "menu_icon":"", "hide":true},
+	"elements/edit":
+		{"page_name":"Redaguoti elementą", "menu_icon":"", "hide":true},
+	"elements/preview":
+		{"page_name":"Peržiūrėti elementą", "menu_icon":"", "hide":true},
+	"elements/stats":
+		{"page_name":"Elemento statistikos", "menu_icon":"", "hide":true},
+	"elements/templates":
+		{"page_name":"Įdėti šablonus", "menu_icon":"list" },
+	"elements/templates/add":
+		{"page_name":"Pridėti šabloną", "menu_icon":"", "hide":true},
+	"elements/templates/edit":
+		{"page_name":"Redaguoti šabloną", "menu_icon":"", "hide":true},
+	"elements/templates/delete":
+		{"page_name":"Ištrinti šabloną", "menu_icon":"", "hide":true},
+
+
+	"error":
+		{"page_name":"Puslapis nerastas", "menu_icon":""},
+
+
+	"help":
+		{"page_name":"Pagalba", "menu_icon":""},
+
+
+	"licenses":
+		{"page_name":"Atviros programinės įrangos licenzijos", "menu_icon":""},
+
+	"mainpage":
+		{"page_name":"Pagrindinis puslapis", "menu_icon":""},
+
+
+	"people":
+		{"page_name":"Žmonės", "menu_icon":"", "tagline":"sąrašai ir kontaktai"},
+	"people/contacts":
+		{"page_name":"Kontaktai", "menu_icon":""},
+	"people/lists/add":
+		{"page_name":"Pridėti sąrašą", "menu_icon":""},
+	"people/lists/delete":
+		{"page_name":"Ištrinti sąrašą", "menu_icon":""},
+	"people/lists/edit":
+		{"page_name":"Redaguoti sąrašą", "menu_icon":""},
+	"people/lists/export":
+		{"page_name":"Eksportuoti sąrašą", "menu_icon":""},
+	"people/lists/view":
+		{"page_name":"Sąrašo detalės", "menu_icon":""},
+	"people/mailings":
+		{"page_name":"Išsiūsti kampanijas", "menu_icon":"airplane"},
+	"people/press":
+		{"page_name":"Spauda", "menu_icon":"paperclip" },
+
+
+	"privacy":
+		{"page_name":"Privatumo politika", "menu_icon":""},
+
+
+	"settings":
+		{"page_name":"Sistemos nustatymai", "menu_icon":""},
+	"settings/connections":
+		{"page_name":"Klientūra", "menu_icon":"cog" },
+	"settings/update":
+		{"page_name":"Sistemos atnaujinimai", "menu_icon":"arrw-up" },
+
+
+	"terms":
+		{"page_name":"Nuostatos ir sąlygos", "menu_icon":""}
+}

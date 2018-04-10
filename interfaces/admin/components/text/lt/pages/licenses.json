@@ -1,0 +1,36 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"why_open_source":"Kodėl atviro kodo?",
+            "open_source":"Atviras kodas yra svarbi CASH Music dalis. Visa mūsų programinė įranga yra sukurta viešai ir tiesiogiai su muzikantais su atviro kodo licenzijomis kurios užtikrina, kad mes liksime nemokami ir atviri muzikos visuomenei. ",
+            "open_source_2":"Viskas ką rasite šioje platformoje gali būti pritaikyta ir gali būti pamatu ant kurio galėtumėt statyti su visais naudotojais. Atviras kodas užtikrina, kad visi muzikantai visada turės patikimą pasirinkimą parduoti, reklamuoti ir leisti savo darbus į viešuma tinkamu būdu kuris tinkamas kompanijoms ir inovatoriams.",
+            "open_source_3":"Tai tik pradžia.",
+            "third_party_software":"Išorinės programos",
+            "third_party_software_2":"CASH Music platforma yra pastatyta ant kitų didelių atvirų projektu. Kur įmanoma tinkamos licenzijos yra priskirtos mūsų leidime. Apačioje yra visi linkai į šiuos projektus:",
+            "pure_css":"Tik CSS",
+            "mailchimp":"MailChimp's PHP API wrapper",
+            "mustache":"Mustache.php",
+            "php":"PHP",
+            "php_markdown":"PHP Markdown",
+            "our_fork":"our fork",
+            "s3":"S3 PHP Class",
+            "simpletest":"SimpleTest",
+            "swift":"Swift Mailer",
+            "jquery":"jQuery",
+            "our_licenses":"Mūsų licenzijos",
+            "our_licenses_2":"Musu pagrindinis framework yra licenzijuotas su LGPL licenzija leidžiančia jį naudoti kaip biblioteką didesniuose darbuose. Likusi platformos dalis yra licenzijuota su AGPL licenzija, išskyrus JavaScript kuris siunčiamas į naršyklę. JavaScript yra licenzijuotas su BSD licenzija su viltimi, kad tai padės kitiems projektams. ",
+            "our_licenses_3":"Pagrinde tai reiškia, kad visas mūsų kodas yra galimas naudojimui arba modifikavimui net komerciniam naudojimui jei tik visi pokyčiai yra leidžiami atgal mūsų vartotojams. ",
+            "our_licenses_4":"Licenzijos trumpoji versija:",
+            "our_licenses_5":"Copyright (c) 2016, CASH Music",
+            "our_licenses_6":"This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.",
+            "our_licenses_7":"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.",
+            "full_text":"full AGPL license text"
+
+
+
+
+}
+}

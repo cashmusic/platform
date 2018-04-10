@@ -1,0 +1,32 @@
+{
+	"pagetip":"Visi sistemos nustatymai jūsų paskyrai.",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"currency":"Valiuta",
+		"current_db_format":"Dabartinis duomenų bazės formatas",
+      "hostname":"Serverio pavadinimas",
+      "db_name":"Duomenų bazės pavadinimas",
+      "admin_user":"Admin Vartotojas",
+      "admin_pass":"Admin Slaptažodis",
+      "default_email":"Numatysasis sistemos elektroninis paštas",
+      "time_zone":"Sistemos laiko zona"
+   },
+	"tooltips":{},
+	"copy":{
+		"connections":"Jungtys",
+		"platform_settings":"Platformos nuostatos",
+      "change_settings":"Pakeisti pagrindinius sistemos nustatymus neredaguojant cashmusic.ini.php failo. Platesni nustatymai yra paslepti ir negali būti keičiami nebent jums patinka neveikiantys failai.",
+      "manage":"Keisti išorines jungtis",
+      "database":"Duomenų bazė",
+      "sqlite":"(SQLite eksportavimas bus greitai)",
+      "migrate_mysql":"Migruoti į MySQL",
+      "migrating":"Migravimas reiškia patogesnį naudojima ir greitesnį.",
+      "server":"serveris arba server:port",
+      "miscellaneous":"Be kategorijos",
+      "commerce_currency":"Pardavimų valiuta",
+      "use_currency":"Naudoti šią valiutą",
+      "platform_install":"Platformos įrašymo vieta",
+      "full_path":"Pilnas kelias į cashmusic.php skriptą turi būti inicijuotas CASH platformoje:"
+	}
+}

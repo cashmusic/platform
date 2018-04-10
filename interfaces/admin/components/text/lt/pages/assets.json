@@ -1,0 +1,22 @@
+{
+	"pagetip":"",
+	"learn":"<p>Šioje vietoje galite pridėti arba redaguoti savo leidinius ir kelti virtualius failus kuriuos naudosite platformoje. Vertingus dalykus kaip dainas, albumus, nuotraukas, vaizdo įrašus ir t.t. </p><p>Kai pridėjote leidini arba failą galite generuoti atsisiuntimo kodus jiems čia. </p> <p>Patarimas: jei pridedate albumo zip failą galite pridėti viršelio atvaizdus, nuotraukas, pranešimus ir vaizdo įrašus į ta patį zip failą. Duokite fanams to ko jie nori.</p>",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Prekės yra virtualūs failai kuriuos naudosite savo elementuose. Svarūs dalykai kaip muzika, nuotraukos, vaizdo įrašai. <span class='first-para'> Prieš pridedant prekes turite prisijungti prie talpinimo platformos apačioje. </span>",
+      "host_own_files":"Aš talpinu failus savo serveryje! ",
+      "button_new_release":"Pridėti naują leidinį",
+      "no_releases_yet":"Jokių leidinių nebuvo sukurta. Pridėkite norint pradeti",
+      "additional_releases":"papildomi leidiniai",
+      "not_working":"Neveikia albumui arba tiesiog norite greitai įkelti failą?",
+      "your_spot":"Čia yra jūsų vieta.",
+      "button_upload_new_file":"Įkelti naują failą.",
+      "no_files_added_yet":"Jokių failų nėra įkelta. Pridėkite norėdami pradėti.",
+      "button_add_a_file":"Pridėti Failą",
+      "add_connection":"Pridėti Jungtį",
+      "releases":"Leidiniai",
+      "uploads":"Įkėlimai"
+	}
+}

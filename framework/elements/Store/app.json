@@ -18,6 +18,12 @@
 			"description":"Hannaðu þína verslun",
 			"longdescription":"Seldu hluti og/eða stafræn niðurhöl á heimasíðu þinni. Bættu við eins miklum varning og þú vilt selja. Við tökum ekki hluta af ágóðanum.",
 			"instructions":"...."
+		},
+		"lt":{
+			"name":"Parduotuvė",
+			"description":"Paruoškite savo parduotuvę.",
+			"longdescription":"Pardavinėkite fizinius ir arba virtualius dalykus savo svetainėje. Galite pridėti kiek tik norite prekybinių dalykų. Mes neimame mokesčio.",
+			"instructions":"...."
 		}
 	},
 	"copy":{
@@ -50,23 +56,41 @@
 			"pleaseselect":"Veldu svæði",
 			"qty":"Magn",
 			"checkout":"Ganga frá kaupum"
+		},
+		"en":{
+			"cart":"Pridėti į krepšelį",
+			"flexibleprice_suffix":"arba daugiau",
+			"choose_variants":"Pasirinkite kažką",
+			"choose_verb":"Pasirinkti",
+			"added":"Pridėta į krepšelį!",
+			"unavailable":"Atleiskite, šios prekės neparduodame šiuo metu.",
+			"emptycart":"Jūsų krepšelis tusčias.",
+			"subtotal":"Iš viso",
+			"total":"Iš viso",
+			"shipping":"Siuntimas",
+			"pleaseselect":"Pasirinkti siuntimo regioną",
+			"qty":"Kiekis",
+			"checkout":"Eiti į kasą"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"lt":"Pagrindiniai nustatymai"
 			},
 			"description":{
 				"en":"Choose an inventory item to sell and commerce connection to use.",
-				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota."
+				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota.",
+				"en":"Pasirinkite inventoriaus prekę kurią norite parduoti ir pardavimo jungtį kuria norite naudoti."
 			},
 			"data":{
 				"layout":{
 					"label":{
 						"en":"Layout type",
-						"is":"Tegund umbrots"
+						"is":"Tegund umbrots",
+						"lt":"Išsidėstymo tipas"
 					},
 					"type":"select",
 					"values":{
@@ -80,19 +104,22 @@
 				"featured_items":{
 					"label":{
 						"en":"Featured items",
-						"is":"Sérkynntir hlutir"
+						"is":"Sérkynntir hlutir",
+						"lt":"Išskirtinės prekės"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new featured item",
-						"is":"Bæta við nýjum sérkynntum hlut"
+						"is":"Bæta við nýjum sérkynntum hlut",
+						"lt":"Pridėti naują išskirtinę prekę"
 					},
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
-								"is":"Valinn hlutur"
+								"is":"Valinn hlutur",
+								"lt":"Pasirinkta prekė"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -105,19 +132,22 @@
 				"additional_items":{
 					"label":{
 						"en":"Additional items",
-						"is":"Auka hlutir"
+						"is":"Auka hlutir",
+						"lt":"Papildomos prekės"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
 						"en":"Add another item",
-						"is":"Bæta við öðrum hlut"
+						"is":"Bæta við öðrum hlut",
+						"lt":"Pridėti dar vieną prekę"
 					},
 					"values":{
 						"item_id":{
 							"label":{
 								"en":"Selected item",
-								"is":"Valinn hlutur"
+								"is":"Valinn hlutur",
+								"lt":"Pasirinkta prekė"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -127,12 +157,14 @@
 						"tags":{
 							"label":{
 								"en":"Tags (optional)",
-								"is":"Merki (valfrjálst)"
+								"is":"Merki (valfrjálst)",
+								"lt":"Etiketės (pasirinktina)"
 							},
 							"type":"text",
 							"default":{
 								"en":"",
-								"is":""
+								"is":"",
+								"lt":""
 							},
 							"displaysize":"small"
 						}
@@ -144,35 +176,41 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
-				"is":"Velgengnis/villu skilaboð"
+				"is":"Velgengnis/villu skilaboð",
+				"lt":"Sekmės/klaidos pranešimai"
 			},
 			"description":{
 				"en":"Customize messages shown to people using this element.",
-				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu.",
+				"lt":"Asmenizuokite pranešimus kuriuos žmonės naudojantys šį elementą matys."
 
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengis skilaboð"
+						"is":"Velgengis skilaboð",
+						"lt":"Sekmės pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page.",
-						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu."
+						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu.",
+						"en":"Ačiū! Patikrinkite savo pašto dėžutę ir spam aplankus norint rasti čekį ir linką atgal į šį puslapį."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
 						"en":"Invalid email message",
-						"is":"Ógilt tölvupóstskeyti"
+						"is":"Ógilt tölvupóstskeyti",
+						"lt":"Netinkamas e pašto pranešimas"
 					},
 					"type":"text",
 					"default":{
 						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur.",
+						"lt":"Įvyko klaida priemant jūsų mokestį. Prašome perkrauti ir bandyti dar kartą."
 
 					},
 					"displaysize":"medium"
@@ -180,12 +218,14 @@
 				"message_email":{
 					"label":{
 						"en":"Personalized email message",
-						"is":"Persónumiðað tölvupóstskeyti"
+						"is":"Persónumiðað tölvupóstskeyti",
+						"lt":"Asmenizuotas elektroninis laiškas"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"lt":""
 					},
 					"displaysize":"medium"
 				}

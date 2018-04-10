@@ -1,0 +1,17 @@
+{
+	"pagetip":"",
+	"learn":"<p>Čia pridėta prekė gali būti virtuali ir arba fizinė. Patikrinkite, kad jei jūsų prekė turi virtualų komponentą, kad jūs pridėjote tuos failus.</p><p>Jūsų prekė nebus matoma kol neprikabinsite jos prie vienetinio pirkimo elemento, tada arba publikuokite savo CASH puslapyje arba įstatykite.</p><p> Kaip pavadinsite ir kokį aprašymą pridėsite visą tai žmonės matys čia.Jei pardavinėjate įrašą, pavadinimas turėtų turėti grupės pavadinimą, išleidimo pavadinimą ir jo formatą.</p><p>Prekės aprašyme patikrinkite ar pridėjote svarbią informaciją tokią kaip išskirtinė prekė, spalvota vinylinė plokštelė, marškinėlių gamintoją, neišleistas dainas ir t.t. Leiskite žmonėms žinoti, kodėl jie turėtų tai pirkti.</p><p>Turėkite omenyje, kad jei paliksite kiekybę -1 tai reiškia kad kiekis nėra ribotas. Jei tai yra fizinė prekė užtikrinkite, kad įrašote tinkamą kiekybę, kad klientai nebegalėtu užsisakyti daugiau negu jūs turite.</p><p>Įjungus mokėti bent funkciją leidžia jūsų fanams mokėti daugiau negu nustatyta kaina jei jie to nori.</p><p>Jei turite prekių su daugiau nei vienu pasirinkimu (dydi, spalva ir t.t.) tai galite pridėti paspausdami rodyti prekės pasirinkimus žemiau.</p><p>Įjungus mokėti bent pasirinkimą leidžia jūsų prikėjams mokėti daugiau negu nustatyta kaina jei jie to nori.</p><p>Jūs turite keleta eksportavimo pasirinkimų užsakymams - neišpildyti ir išpildyti, virtualus ir fiziniai ir visada juos galite ekportuoti kartu.</p>",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"inventory":"Inventorius",
+            "button_add_item":"Pridėti prekę",
+            "no_items":"Nebuvo sukūrta jokių prekių. Pridėkite bent vieną norint pradėti.",
+            "previous":"Praeitas",
+            "next":"Sekantis",
+            "inventory_items":"Inventoriaus Prekės",
+            "inventory_items_needed":"Prekės turi būti įdetos į inventorių jei norite jas parduoti.",
+            "an_item_can_be":"Prekė gali būti prijungta prie išleidimo arba įkelto failo kaip išpildymo prekės atsisiuntimui."
+
+}
+}

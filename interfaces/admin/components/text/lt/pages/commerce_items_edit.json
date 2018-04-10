@@ -1,0 +1,37 @@
+{
+	"pagetip":"",
+	"learn":"<p>Pavadinimas turėtų turėti grupės pavadinimą, išleidimo pavadinimą ir jo formatą. Tai ką čia įdėsite tą viešai visi matys.</p><p>Prekės aprašyme patikrinkite ar pridėjote svarbią informaciją tokią kaip išskirtinė prekė, spalvota vinylinė plokštelė, marškinėlių gamintoją, neišleistas dainas ir t.t. Leiskite žmonėms žinoti, kodėl jie turėtų tai pirkti.</p><p>Jei parduodate kažką su daugiau pasirinkimų pridėkite juos paspausdami ant rodyti prekės nuostatas žemiau. Čia taip pat galėsite redaguoti savo inventorių.</p><p>Turėkite omenyje, kad jei paliksite kiekybę -1 tai reiškia kad kiekis nėra ribotas. Jei tai yra fizinė prekė užtikrinkite, kad įrašote tinkamą kiekybę, kad klientai nebegalėtu užsisakyti daugiau negu jūs turite.</p><p>Įjungus mokėti bent funkciją leidžia jūsų fanams mokėti daugiau negu nustatyta kaina jei jie to nori.</p> ",
+	"related":{},
+	"labels":{
+		"name":"Pavadinimas",
+      "description":"Aprašymas",
+      "price":"Kaina ($ USD)",
+      "quantity":"Kiekis (-1 = neribota)",
+      "fulfillment_asset":"Išpildymo Prekės",
+      "enable":" Įjungti 'mokėti bent' funkciją",
+      "physical":" Fizinė prekė? (Reikalaus siuntimo adreso)",
+		"first_shipped":"Pirmas išsiūstas",
+		"rest_shipped":"Papildomi dalykai išsiūsti"
+   },
+	"tooltips":{},
+	"copy":{
+		"op_none":"Nėra (virtualaus išpildymo)",
+		"view_item_settings":"Keisti nustatymus",
+      "button_save":"Išsaugoti pasikeitimus",
+      "button_delete":"Ištrinti šia prekę",
+      "configure":"prekės pasirinkimai (dydis, spalva ir t.t.)",
+      "variant_description":"Pasirinkimo aprašymas",
+      "available_quantity":"Galimas Kiekis",
+      "button_save_variants":"Išsaugoti Pasirinkimus",
+      "reconfigure_variants":"Perkonfigūruoti Pasirinkimus",
+      "reset_variants":"Norite naujų pasirinkimų? Perkraukite pasirinkimus ir kiekius čia.",
+      "add_item_variants":"Pridėti Prekės Pasirinkimus",
+      "variations":"Jūsų prekė gali būti kitų dydžių, spalvų ar formatų? Pridėkite šiuos pasirinkimus čia.",
+      "add_variants":"Pridėti Pasirinkimus",
+		"no_regions":"Nustatykite siuntimo regionus prieš nustatydami siuntimo kainas:",
+		"commerce_settings":"prekybos nuostatos",
+		"find_orders":"Rasti visus užsakymus šiai prekei",
+		"add_image":"Pridėti/pakeisti šios prekės paveikslėlį",
+		"show_shipping_prices":"Siuntimo regiono kainos"
+	}
+}

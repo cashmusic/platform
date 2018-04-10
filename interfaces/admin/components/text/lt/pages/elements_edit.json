@@ -1,0 +1,22 @@
+{
+	"pagetip":"",
+	"learn":"<p>Elementai yra personalizuojami įrankiai kurie leidžia susijungti su savo publika. Elektroninių laiškų kolekcijos, pardavimai, turų datos, ir daug daugiau.</p> <p>Bet koki individualųs elementai gali būti įstatyti bet kokioje svetainėje papraščiausiai kopijuojant/įklyjuojant arba galite pridėti keletą elementų į savo CASH music puslapį ir publikuoti kaip vienetinį puslapį.</p><p>Nesijaudinkite niekas nematys pokyčiu kol jų nepublikuosite ir juos visada galite koreguoti net kai juos publikuojate arba įstatote.</p>",
+	"related":{},
+	"labels":{"embed_style":"Įstatymo stilius:"
+
+   },
+	"tooltips":{},
+	"copy":{"total_unique_views":"Nesikartojančių peržiūrų skaičius:",
+            "top_embed_locations":"Dažniausios Įstatymo Vietos ",
+            "view_detailed_statistics":"Peržiūrėti detalią statistiką",
+						"view_element_settings":"Redaguoti nuostatas",
+            "php":"PHP: ",
+            "wordpress":"WordPress: ",
+            "html5_embed_code":"HTML5 įstatytas kodas: ",
+            "embed_anywhere":"(Įstatyti bet kur)",
+            "preview_element":"Peržiūrėti elementą",
+            "edit_custom_embed":"Redaguoti asmeninį įstatymą",
+            "button_change_style":"Pakeisti stilių",
+            "element_settings":"Elemento Nuostatos"
+}
+}

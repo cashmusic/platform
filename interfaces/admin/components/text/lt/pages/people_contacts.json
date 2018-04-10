@@ -1,0 +1,25 @@
+{
+	"pagetip":"",
+	"learn":"<p>Sekite žmones jūsų pasaulyje - fanus, rašytojus, rezervavimo agentus, muzikos kompanijas, draugus.</p>",
+	"related":{},
+	"labels":{"first_name":"Vardas",
+               "last_name":"Pavardė",
+               "email":"Elektroninio pašto adresas",
+               "org":"Organizacija(os)",
+               "phone":"Telefono numeris",
+               "mailing":"Adresas",
+               "city":"Miestas",
+               "state":"Valstija / provincija",
+               "postal":"Pašto kodas",
+               "country":"Šalis"
+
+   },
+	"tooltips":{},
+	"copy":{"add_new":"Pridėti naują kontaktą",
+            "additional":"papildomos nuostatos",
+            "contacts":"Kontaktai išrikiuoti pagal pavardę"
+
+
+
+}
+}

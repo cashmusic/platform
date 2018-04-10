@@ -1,0 +1,22 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"name":"Vardas",
+               "connect":"Prisijungti prie"
+
+   },
+	"tooltips":{},
+	"copy":{"add_new_list":"Pridėti naują sąrašą",
+            "none":"Nieko (tik lokalus sąrašas)",
+            "description":"Aprašymas",
+            "add_new_list_2":"Pridėti naują sąrašą",
+            "your_lists":"Jūsų sąrašai",
+            "view":"Peržiūrėti",
+            "edit":"Redaguoti",
+            "export":"Eksportuoti",
+            "delete":"Ištrinti",
+            "no_lists":"Jokių sąrašų nebuvo sukurta."
+
+}
+}

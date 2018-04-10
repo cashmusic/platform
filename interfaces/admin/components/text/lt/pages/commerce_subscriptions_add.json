@@ -1,0 +1,23 @@
+{
+	"pagetip": "",
+	"learn": "",
+	"related":{},
+	"labels":{
+		"plan_name":"Plano pavadinimas",
+		"description":"Aprašymas",
+		"interval":"Prenumeratos intervalas",
+		"price":"Kaina",
+		"option_day":"Diena",
+		"option_week":"Savaitė",
+		"option_month":"Mėnesis",
+		"option_year":"Metai",
+		"physical":"Fizinis",
+		"flexible":"Leisti kintančias kainas",
+		"recurring":"Kartotinė Prenumerata"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"",
+		"add_plan":"Sukurti naują planą"
+	}
+}

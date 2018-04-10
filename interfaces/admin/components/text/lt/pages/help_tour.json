@@ -1,0 +1,26 @@
+{
+	"pagetip":"Pasirinkite temą norint matyti daugiau apie ją.",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+		"intro":"CASH Music platforma sujungia jus tiesiogiai su jūsų publika.",
+		"intro_2":"Parduokite virtualias ir fizines prekes naudojant jūsų PayPal arba Stripe paskyromis, su atsisiuntimais išpildytai iš jūsų Amazon S3 arba Google Drive. Surinkite elektroninio pašto adresus ir automatiškai pridėkite juos į savo MailChimp paskyrą. Rodykite savo naujausius pranešimus iš jūsų Twitter ir Tumblr paskyrų savo namų puslapyje.",
+		"intro_3":"Mes leidžiame paprastai sujungti visus šiuos dalykus. Jūsų duomenys yra jūsų. Mes neimame mokesčių.",
+      "quick":"Šis turas parodys jums kaip viską pradėti!",
+      "page_2":"Elementai yra įrankiai kuriuos galite įstatyti bet kur visa tai yra paprasta.",
+			"page_2_2":"Elementai gali būti naudojami tokiems dalykams kaip surinkti elektroninius pašto adresus savo laiškų sąrašams, sukurti pirkimo mygtuką užsisakymui iš anksto, sukurti pilną parduotuvę kurioje galite parduoti virtualius ir fizinius dalykus tiesiogiai savo fanams, atsiimti atsisiuntimo kodus ir daugiau.",
+			"page_2_3":"Norint sukurti naujus elementus ir tvarkyti jau egzistuojančius, spustelėkite ant elementų skilties pagrindinio puslapio viršuje.",
+			"page_3":"Kai tik prisijungsite visada matysite aktyvumą savo paskyroje.",
+      "page_4":"Įstatykite elementus savo puslapyje arba savo CASH Music puslapyje.",
+			"page_4_2":"Norint įstatyti elementą bet kur internete tiesiog nukopijuokite kodą ir įklijuokite jį, taip pat kaip ir video kurį įstatytumėt bet kur internete.",
+			"page_4_3":"Norint pradėti su savo CASH Music puslapiu susiraskite savo URL pagrindiniame puslapyje prie aktyvumo ir elementų skilties. Galite redaguoti ir peržiūrėti kiek tik norite prieš padarant matomu. Padaryti puslapį matomu yra taip paprasta kaip įjungti šviesą kambaryje.",
+			"page_5":"Bet kada kai jums reikia pagalbos ieškokite klaustuko piktogramos viršuje dešinėje kiekvienam puslapyje.",
+			"page_5_2":"Mes aprašėme pagalbos patarimus kiekvienam puslapiui, taip pat turime DUK ten taip pat galite rasti šios platformos turą. Galite užsukti į <a href=\"http://help.cashmusic.org\" target=\"_blank\">help.cashmusic.org</a> jei turite daugiau klausymų.",
+			"tldr":"Trumpoji versija",
+      "tldr_2":"Mes sukūrėme tai norėdami padėti jums kontroliuoti kaip išleidžiate savo muziką, susijungiate su savo publika ir kaip priemate verslo sprendimus su jais.",
+      "tldr_3":"Sukurti elementus. Įstatykite tuos elementus savo svetainėje arba publikuokite juos į savo CASH Music puslapį.",
+      "tldr_4":"CASH Music platforma yra atviro kodo, dabar ir visada."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"submit_button":"Išsaugoti pasikeitimus",
+               "name":"Vardas",
+               "connect":"Prisijungti prie",
+               "description":"Aprašymas"
+
+
+},
+	"tooltips":{},
+	"copy":{"none":"Jokių (lokalų sąrašą)"
+
+}
+}

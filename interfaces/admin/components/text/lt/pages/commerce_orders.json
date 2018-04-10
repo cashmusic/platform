@@ -1,0 +1,21 @@
+{
+	"pagetip":"",
+	"learn":"<p>Čia galite eksportuoti savo užsakymus. Naujausi užsakymai remiasi visais praeitais užsakymais kuriuos gavote nuo savo paskutinio eksporto.</p><p>Čia rasite pagrindinę informaciją apie savo pabaigtus užsakymus. Spustelėkite ant detalės norint gauti daugiau informacijos apie kiekvieną užsakymą.</p> ",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"export_orders":"Eksportuoti užsakymus",
+            "export_recent":"Eksportuoti naujausius užsakymus",
+            "export_all":"Eksportuoti visus užsakymus",
+            "all_completed":"Visi baigti užsakymai",
+            "order_num":"Užsakymo #",
+            "date":"Data",
+            "customer":"Klientas",
+            "items":"Prekė",
+            "gross":"Urmu",
+            "net":"Net",
+            "no_orders":"Atleiskite, nėra pabaigtų užsakymų",
+            "no_orders_2":"Nėra baigtų užsakymų šiuo metu."
+
+}
+}

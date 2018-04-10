@@ -1,0 +1,18 @@
+{
+	"pagetip":"",
+	"learn":" <p>Šioje skiltyje galėsite paruošti savo elektroninių paštų sąrašus, nustatyti sąrašų galimybes, ir sekti savo spaudos priedėlius</p><p>Kodėl geriau naudoti išorinias paslaugas savo e paštų sąrašams? MailChimp turi daug galimybių tokių kaip laiškų šablonai, detalus prenumeratorių analitikas ir daugiau. Jų paslaugos puikiai veikia su mūsų platforma ir jie turi puikią nemokamą pakopą.</p>",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"firstuse":"Žmones skiltyje galėsite keisti ir jungti savo e pašto sąrašus. Galėsite sukurti sąrašus su arba be išorinių jungčių. <span class='first-para'>Jūsų sąrašai visada bus jūsų nuosavybė. Bet kokia informacija surinkta iš jūsų paskyros per platforma priklauso tik jums. Mes vertiname jūsų privatumą. </span>",
+         "button_add_connection":"Pridėti Jungtį",
+         "no_third_party":"Nenoriu pridėti jokių išorinių jungčių. Tiesiog sukursiu naują sąrašą CASH sistemoje.",
+         "button_create_list":"Sukurti sąrašą",
+         "mailing_lists":"Pranešimų Sąrašai",
+         "no_lists":"Nėra sukurtų sąrašų. Pridėkite vieną norint pradėti.",
+         "button_add_new_list":"Pridėti naują sąrašą"
+
+
+}
+
+}

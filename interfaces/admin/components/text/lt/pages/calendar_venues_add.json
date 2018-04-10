@@ -1,0 +1,19 @@
+{
+	"pagetip":"",
+	"learn":"<p>Pasirodymo vietos informacija kurią pridėsite bus rodoma visiems kurie naudojasi šia platforma. Patikrinkite ar tikrai turite naujausią informaciją apie vietą. Būkite atsargųs ir netyčia neįdėkite platintojo telefono numerio arba adreso.</p><p> Kuo daugiau žmonių naudosis platforma tuo didesnis pasirodymo vietų sąrašas taps!</p>"
+	"related":{},
+	"labels":{"name":"Pavadinimas",
+            "website":"Svetainė",
+            "phone":"Telefono numeris",
+            "address_1":"Pirmas Adresas",
+            "address_2":"Antras Adresas",
+            "city":"Miestas",
+            "state":"Valstija / Provincija / Regijonas",
+            "postal_code":"Pašto kodas",
+            "country":"Šalis"
+   },
+	"tooltips":{},
+	"copy":{"edit_venue":"Redaguoti vietą",
+            "delete_venue":"Ištrinti vietą"
+    }
+}
