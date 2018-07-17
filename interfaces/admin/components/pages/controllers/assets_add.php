@@ -8,14 +8,13 @@ use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
-
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
-	
 	$effective_user = $cash_admin->effective_user_id;
+
 	$add_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'asset', 
+			'cash_request_type' => 'asset',
 			'cash_action' => 'addasset',
 			'title' => $_POST['asset_title'],
 			'description' => $_POST['asset_description'],
@@ -33,7 +32,7 @@ if (isset($_POST['doassetadd'])) {
 			// try getting the parent asset
 			$asset_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'asset', 
+					'cash_request_type' => 'asset',
 					'cash_action' => 'getasset',
 					'id' => $_POST['parent_id']
 				)
@@ -60,7 +59,7 @@ if (isset($_POST['doassetadd'])) {
 				$effective_user = $cash_admin->effective_user_id;
 				$edit_response = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'asset', 
+						'cash_request_type' => 'asset',
 						'cash_action' => 'editasset',
 						'id' => $_POST['parent_id'],
 						'user_id' => $effective_user,

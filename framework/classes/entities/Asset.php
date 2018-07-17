@@ -116,6 +116,8 @@ class Asset extends EntityBase
      *
      * @Column(name="modification_date", type="integer", nullable=false, options={"default": "UNIX_TIMESTAMP()"})
      */
+
+
     protected $modification_date = '0';
 
     public function analytics($conditions=false) {

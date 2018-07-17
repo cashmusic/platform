@@ -251,13 +251,12 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
-
 	 	$result = $this->orm->create(Asset::class, [
             'title' => $title,
             'description' => $description,
             'location' => $location,
             'user_id' => $user_id,
-            'connection_id' => $connection_id,
+            'connection_id' => !empty($connection_id) ? $connection_id : null,
             'parent_id' => $parent_id,
             'public_status' => $public_status,
             'hash' => $hash,
