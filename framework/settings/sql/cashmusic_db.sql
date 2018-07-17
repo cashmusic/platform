@@ -1,15 +1,5 @@
---
--- CASH Music platform
--- flavor: MySQL
--- schema version: 8
--- modified: May 28, 2013
-
 SET FOREIGN_KEY_CHECKS = 0;
 
---
---
--- Section: ASSETS
---
 DROP TABLE IF EXISTS `assets`;
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -275,11 +265,7 @@ CREATE TABLE `commerce_subscriptions_members` (
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `people_subscr_user_id` (`user_id`),
-  KEY `people_subscr_id` (`subscription_id`),
-  FULLTEXT(email_address, first_name, last_name),
-  FULLTEXT(email_address),
-  FULLTEXT(first_name),
-  FULLTEXT(last_name)
+  KEY `people_subscr_id` (`subscription_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `commerce_orders`;
@@ -303,7 +289,7 @@ CREATE TABLE `commerce_orders` (
   `modification_date` int(11) DEFAULT '0',
   INDEX (user_id),
   INDEX (transaction_id),
-  INDEX (custonmer_user_id),
+  INDEX (customer_user_id),
   INDEX (user_id, customer_user_id),
   INDEX (user_id, transaction_id),
   INDEX (user_id, fulfilled),

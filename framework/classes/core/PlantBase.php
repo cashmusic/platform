@@ -68,7 +68,18 @@ use Exception;
 
 		$this->response = new CASHResponse();
 		if ($this->db_required) {
-			$this->connectDB();
+            $attempts = 0;
+            do {
+                try
+                {
+                    $this->connectDB();
+                } catch (Exception $e) {
+                    $attempts++;
+                    continue;
+                }
+
+                break;
+            } while($attempts < 3);
 		}
 	}
 
