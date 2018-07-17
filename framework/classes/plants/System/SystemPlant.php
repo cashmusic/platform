@@ -290,7 +290,7 @@ class SystemPlant extends PlantBase {
             'data' => $data
         ]);
 
-		if ($user && $is_admin) {
+		if ($user) {
 			$this->setAPICredentials($user->id);
 		}
 		return $user->id;
@@ -375,9 +375,12 @@ class SystemPlant extends PlantBase {
 		if ($password) {
 			$credentials['password'] = $password_hash;
 		}
+
+    	$this->setAPICredentials($user_id);
+
 		if ($is_admin) {
 			$credentials['is_admin'] = $is_admin;
-			$this->setAPICredentials($user_id);
+
 		}
 		if ($display_name) {
 			$credentials['display_name'] = $display_name;
@@ -526,7 +529,7 @@ class SystemPlant extends PlantBase {
 		if ($user) {
 
 			// shitty failsafe in case their api keys are null. this is basically covering us for old users.
-			if (isset($user->api_key, $user->api_secret)) {
+			if (!empty($user->api_key) && !empty($user->api_secret)) {
                 return array(
                     'api_key' => $user->api_key,
                     'api_secret' => $user->api_secret,
