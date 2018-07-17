@@ -507,7 +507,7 @@ class SystemPlant extends PlantBase {
 		$user->update($credentials);
 
 		if ($user) {
-			return $credentials;
+			return array_merge($credentials, ['user_id'=>$user_id]);
 		} else {
 			return false;
 		}
@@ -524,10 +524,17 @@ class SystemPlant extends PlantBase {
 		$user = $this->orm->find(People::class, $user_id);
 
 		if ($user) {
-			return array(
-				'api_key' => $user->api_key,
-				'api_secret' => $user->api_secret
-			);
+
+			// shitty failsafe in case their api keys are null. this is basically covering us for old users.
+			if (isset($user->api_key, $user->api_secret)) {
+                return array(
+                    'api_key' => $user->api_key,
+                    'api_secret' => $user->api_secret,
+                    'user_id' => $user_id
+                );
+			} else {
+				return $this->setAPICredentials($user_id);
+			}
 		}
 
 		return false;
