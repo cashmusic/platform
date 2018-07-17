@@ -151,10 +151,14 @@ class AdminCore  {
 	 * @return array / bool
 	 */public function getAllFavoriteAssets() {
 		$user_settings = $this->getUserSettings();
-		if (!count($user_settings['favorite_assets'])) {
+		if (isset($user_settings['favorite_assets'])) {
+            if (count($user_settings['favorite_assets']) > 0) {
+                return $user_settings['favorite_assets'];
+			}
+
 			return false;
 		} else {
-			return $user_settings['favorite_assets'];
+            return false;
 		}
 	}
 	
