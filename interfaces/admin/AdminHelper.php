@@ -1574,7 +1574,7 @@ class AdminHelper  {
 					$plant_name = 'asset';
 					$action_name = 'getassetsforuser';
 					$display_information = 'title';
-					if ($range) {
+					if (isset($range) && is_array($range)) {
 						if (!in_array($selected,$range)) {
 							$range[] = $selected;
 						}
