@@ -4,6 +4,41 @@
 
 - ...
 
+## 1.9.1 (2018-06-19)
+
+- Allow the use of a public DSN (private part of the DSN was deprecated in Sentry 9) (#615)
+- Send transaction as transaction not as culprit (#601)
+
+## 1.9.0 (2018-05-03)
+
+- Fixed undefined variable (#588)
+- Fix for exceptions throwing exceptions when setting event id (#587)
+- Fix monolog handler not accepting Throwable (#586)
+- Add `excluded_exceptions` option to exclude exceptions and their extending exceptions (#583)
+- Fix `HTTP_X_FORWARDED_PROTO` header detection (#578)
+- Fix sending events async in PHP 5 (#576)
+- Avoid double reporting due to `ErrorException`s (#574)
+- Make it possible to overwrite serializer message limit of 1024 (#559)
+- Allow request data to be nested up to 5 levels deep (#554)
+- Update serializer to handle UTF-8 characters correctly (#553)
+
+## 1.8.4 (2018-03-20)
+
+- Revert ignoring fatal errors on PHP 7+ (#571)
+- Add PHP runtime information (#564)
+- Cleanup the `site` value if it's empty (#555)
+- Add `application/json` input handling (#546)
+
+## 1.8.3 (2018-02-07)
+
+- Serialize breadcrumbs to prevent issues with binary data (#538)
+- Fix notice array_key_exists() expects parameter 2 to be array, null given (#527)
+
+## 1.8.2 (2017-12-21)
+
+- Improve handling DSN with "null" like values (#522)
+- Prevent warning in Raven_Stacktrace (#493)
+
 ## 1.8.1 (2017-11-09)
 
 - Add setters for the serializers on the `Raven_Client` (#515)

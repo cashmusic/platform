@@ -46,12 +46,24 @@ class Raven_Serializer
     protected $mb_detect_order = self::DEFAULT_MB_DETECT_ORDER;
 
     /**
-     * @param null|string $mb_detect_order
+     * The default maximum message lengths. Longer strings will be truncated
+     *
+     * @var int
      */
-    public function __construct($mb_detect_order = null)
+    protected $message_limit = Raven_Client::MESSAGE_LIMIT;
+
+    /**
+     * @param null|string $mb_detect_order
+     * @param null|int    $message_limit
+     */
+    public function __construct($mb_detect_order = null, $message_limit = null)
     {
         if ($mb_detect_order != null) {
             $this->mb_detect_order = $mb_detect_order;
+        }
+
+        if ($message_limit != null) {
+            $this->message_limit = (int) $message_limit;
         }
     }
 
@@ -82,19 +94,23 @@ class Raven_Serializer
     protected function serializeString($value)
     {
         $value = (string) $value;
-        if (function_exists('mb_detect_encoding')
-            && function_exists('mb_convert_encoding')
-        ) {
+
+        // Check if mbstring extension is loaded
+        if (extension_loaded('mbstring')) {
             // we always guarantee this is coerced, even if we can't detect encoding
             if ($currentEncoding = mb_detect_encoding($value, $this->mb_detect_order)) {
                 $value = mb_convert_encoding($value, 'UTF-8', $currentEncoding);
             } else {
                 $value = mb_convert_encoding($value, 'UTF-8');
             }
-        }
 
-        if (strlen($value) > 1024) {
-            $value = substr($value, 0, 1014) . ' {clipped}';
+            if (mb_strlen($value) > $this->message_limit) {
+                $value = mb_substr($value, 0, $this->message_limit - 10, 'UTF-8') . ' {clipped}';
+            }
+        } else {
+            if (strlen($value) > $this->message_limit) {
+                $value = substr($value, 0, $this->message_limit - 10) . ' {clipped}';
+            }
         }
 
         return $value;
@@ -140,5 +156,23 @@ class Raven_Serializer
         $this->mb_detect_order = $mb_detect_order;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     * @codeCoverageIgnore
+     */
+    public function getMessageLimit()
+    {
+        return $this->message_limit;
+    }
+
+    /**
+     * @param int $message_limit
+     * @codeCoverageIgnore
+     */
+    public function setMessageLimit($message_limit)
+    {
+        $this->message_limit = (int)$message_limit;
     }
 }

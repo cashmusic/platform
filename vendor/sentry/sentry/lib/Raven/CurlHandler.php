@@ -29,7 +29,7 @@ class Raven_CurlHandler
         $this->requests = array();
         $this->join_timeout = $join_timeout;
 
-        register_shutdown_function(array($this, 'join'));
+        $this->registerShutdownFunction();
     }
 
     public function __destruct()
@@ -69,6 +69,11 @@ class Raven_CurlHandler
         return $fd;
     }
 
+    public function registerShutdownFunction()
+    {
+        register_shutdown_function(array($this, 'join'));
+    }
+
     public function join($timeout = null)
     {
         if (!isset($timeout)) {
@@ -89,6 +94,8 @@ class Raven_CurlHandler
      */
     protected function select()
     {
+        $active = false;
+        
         do {
             $mrc = curl_multi_exec($this->multi_handle, $active);
         } while ($mrc == CURLM_CALL_MULTI_PERFORM);
