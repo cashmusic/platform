@@ -408,7 +408,7 @@ class CommercePlant extends PlantBase {
             }
         }
 
-        if ($result) {
+        if (isset($result)) {
             return $result;
         } else {
             return false;
