@@ -342,11 +342,13 @@ abstract class CASHSystem  {
 		if ($setting_name == 'all') {
 			return $cash_settings;
 		} else {
-			if (array_key_exists($setting_name, $cash_settings)) {
-				return $cash_settings[$setting_name];
-			} else {
-				return false;
+			if ($cash_settings) {
+                if (array_key_exists($setting_name, $cash_settings)) {
+                    return $cash_settings[$setting_name];
+                }
 			}
+
+            return false;
 		}
 	}
 

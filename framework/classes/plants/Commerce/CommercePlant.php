@@ -372,7 +372,7 @@ class CommercePlant extends PlantBase {
         }
 
         if ($deep) {
-            if ($result) {
+            if (isset($result)) {
                 // loop through and parse all transactions
                 if (is_array($result)) {
                     foreach ($result as &$order) {
