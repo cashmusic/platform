@@ -1038,8 +1038,24 @@ abstract class CASHSystem  {
 
 	public static function debug($data) {
 
-        Analog::handler (Slackbot::init ('cashmusic', 'xoxb-2152870352-401664295830-haiYIf9qOLItUtFWSz3kbbWE', 'livedebug'));
+        Analog::handler (Slackbot::init ('cashmusic', 'xoxb-2152870352-401664295830-haiYIf9qOLItUtFWSz3kbbWE', '#livedebug'));
         Analog::log ($data, Analog::WARNING);
+
+        /*ch = curl_init("https://slack.com/api/chat.postMessage");
+        $data = http_build_query([
+            "token" => "YOUR_API_TOKEN",
+            "channel" => $channel, //"#mychannel",
+            "text" => $message, //"Hello, Foo-Bar channel message.",
+            "username" => "MySlackBot",
+        ]);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $result = curl_exec($ch);
+        curl_close($ch);*/
+
+        return $result;
 	}
 	/**
 	 * Uploads files to FTP site
