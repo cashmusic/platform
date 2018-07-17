@@ -679,7 +679,7 @@ class ElementPlant extends PlantBase {
 
 	protected function getCampaignsForUser($user_id) {
 
-        $campaigns = $this->orm->findWhere(ElementsCampaign::class, ['user_id'=>$user_id] );
+        $campaigns = $this->orm->findWhere(ElementsCampaign::class, ['user_id'=>$user_id], true );
 
         if ($campaigns) {
 
