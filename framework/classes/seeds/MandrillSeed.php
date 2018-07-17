@@ -130,8 +130,10 @@ class MandrillSeed extends SeedBase {
 			}
 			// set up webhooks
 			$api_credentials = CASHSystem::getAPICredentials();
-            error_log("these credentials " . json_encode($api_credentials));
-			$webhook_api_url = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mandrillapp/api_key/' . $api_credentials['api_key'];
+
+			$webhook_api_url = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mandrillapp/api_key/' . $api_credentials['api_key'] . 'user_id/'.$api_credentials['user_id'];
+
+            error_log("die webhooken " . json_encode($webhook_api_url));
 
 			//$m->webhooksDelete($webhook_api_url); // remove duplicate webhooks
 			//$m->webhooksAdd($webhook_api_url,array('send','hard_bounce','soft_bounce','open','click','spam','unsub','reject')); // add it, all events
