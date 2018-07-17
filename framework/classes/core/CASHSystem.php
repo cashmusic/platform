@@ -2,6 +2,8 @@
 
 namespace CASHMusic\Core;
 
+use Analog\Analog;
+use Analog\Handler\Slackbot;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
@@ -1034,6 +1036,11 @@ abstract class CASHSystem  {
         }
 	}
 
+	public static function debug($data) {
+
+        Analog::handler (Slackbot::init ('cashmusic', 'xoxb-2152870352-401664295830-haiYIf9qOLItUtFWSz3kbbWE', 'livedebug'));
+        Analog::log ($data, Analog::WARNING);
+	}
 	/**
 	 * Uploads files to FTP site
 	 *

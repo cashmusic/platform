@@ -24,4 +24,5 @@ return array(
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
     'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
+    'Analog' => array($vendorDir . '/analog/analog/lib'),
 );

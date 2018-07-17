@@ -481,6 +481,13 @@ class ComposerStaticInit01ef7d64ed5d9b06483815f097e9a2f6
                 0 => __DIR__ . '/..' . '/behat/gherkin/src',
             ),
         ),
+        'A' => 
+        array (
+            'Analog' => 
+            array (
+                0 => __DIR__ . '/..' . '/analog/analog/lib',
+            ),
+        ),
     );
 
     public static $classMap = array (
