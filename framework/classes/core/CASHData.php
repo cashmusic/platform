@@ -9,6 +9,8 @@ use PDO;
 use CASHMusic\Entities\SystemConnection;
 use CASHMusic\Entities\SystemMetadata;
 use CASHMusic\Entities\SystemSession;
+use Pixie\Exception;
+use Whoops\Exception\ErrorException;
 
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
@@ -69,11 +71,22 @@ abstract class CASHData {
                 PDO::ATTR_PERSISTENT => true
 			]*/
 
-		$connection = new \Pixie\Connection('mysql', $config);
-		if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+        $attempts = 0;
+        do {
+            try
+            {
+                $this->startDBConnection($config);
 
-		// piggyback the PDO to Doctrine so we're using the same connection
-		if (empty($this->orm)) $this->orm = new CASHEntity($this->db->pdo());
+            } catch (\ErrorException $e) {
+                $attempts++;
+                continue;
+            } catch ( Exception $e) {
+                $attempts++;
+                continue;
+			}
+
+            break;
+        } while($attempts < 3);
 	}
 
 	/**
@@ -762,5 +775,18 @@ abstract class CASHData {
 		}
     	return false;
 	}
+
+    /**
+     * @param $config
+     * @throws \Pixie\Exception
+     */
+    protected function startDBConnection($config)
+    {
+        $connection = new \Pixie\Connection('mysql', $config);
+        if (empty($this->db)) $this->db = new \Pixie\QueryBuilder\QueryBuilderHandler($connection);
+
+        // piggyback the PDO to Doctrine so we're using the same connection
+        if (empty($this->orm)) $this->orm = new CASHEntity($this->db->pdo());
+    }
 } // END class
 ?>
