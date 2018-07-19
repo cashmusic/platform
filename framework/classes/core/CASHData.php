@@ -83,6 +83,9 @@ abstract class CASHData {
             } catch ( Exception $e) {
                 $attempts++;
                 continue;
+			} catch (\Exception $e) {
+                $attempts++;
+                continue;
 			}
 
             break;
