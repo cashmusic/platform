@@ -45,7 +45,7 @@ For more about installation, working with the platform, check out [the wiki](htt
 
 ## Submitting a pull request
 
-We the 'master' branch release-ready at all times, so we ask all contributors to [TEST](https://github.com/cashmusic/platform/blob/master/tests/README.md) your code before submitting a pull request. Please 
+We keep the 'master' branch release-ready at all times, so we ask all contributors to [TEST](https://github.com/cashmusic/platform/blob/master/tests/README.md) your code before submitting a pull request. Please 
 create a descriptively named branch off your repo and give as many details in your pull request as possible.
 
 We view pull requests as conversations. Submit a pull request early if you're working on something and
