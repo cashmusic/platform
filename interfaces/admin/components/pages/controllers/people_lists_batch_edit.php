@@ -46,6 +46,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
             )
         );
 
+
+        dd($add_response);
+
         if ($add_response['payload']) {
            if (is_array($add_response['payload'])) {
 
@@ -63,9 +66,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
            }
         }
 
-        dd($add_response);
-
-        if ($total_added > 0 && $list_response['payload']) {
+        if ($total_added > 0) {
             $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
         } else {
             $admin_helper->formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);
