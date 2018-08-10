@@ -36,23 +36,35 @@ if (isset($_POST['dobatchcontactsadd'])) {
         $email_array = CASHSystem::parseBulkEmailInput($_POST['element_content']);
 
         $total_added = 0;
-        foreach ($email_array as $address) {
-            $add_response = $cash_admin->requestAndStore(
-                array(
-                    'cash_request_type' => 'people',
-                    'cash_action' => 'addaddresstolist',
-                    'do_not_verify' => 1,
-                    'address' => $address,
-                    'list_id' => $request_parameters[0]
-                )
-            );
 
-            if ($add_response['payload']) {
-                $total_added++;
-            }
+        $add_response = $cash_admin->requestAndStore(
+            array(
+                'cash_request_type' => 'people',
+                'cash_action' => 'addbulkaddresses',
+                'do_not_verify' => 1,
+                'address' => $email_array
+            )
+        );
+
+        if ($add_response['payload']) {
+           if (is_array($add_response['payload'])) {
+
+               $created_user_ids = $add_response['payload'];
+               $total_added = count($created_user_ids);
+
+               $add_response = $cash_admin->requestAndStore(
+                   array(
+                       'cash_request_type' => 'people',
+                       'cash_action' => 'addbulkaddresses',
+                       'user_ids' => $created_user_ids,
+                       'list_id' => $request_parameters[0]
+                   )
+               );
+           }
         }
 
-        if ($total_added > 0) {
+
+        if ($total_added > 0 && $add_response['payload']) {
             $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
         } else {
             $admin_helper->formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);

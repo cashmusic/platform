@@ -691,7 +691,7 @@ class PeoplePlant extends PlantBase {
             $create_list_members = $this->db->table('people_list_members')->insert($list_members);
         }
 
-        $remove_tag = $this->db->table('people')
+        $this->db->table('people')
 			->where('list_id', $list_id)
 			->where('organization', 'bulk_import')
 			->update(['organization'=>'']);
