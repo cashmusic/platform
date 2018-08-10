@@ -52,7 +52,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
                $created_user_ids = $add_response['payload'];
                $total_added = count($created_user_ids);
 
-               $add_response = $cash_admin->requestAndStore(
+               $list_response = $cash_admin->requestAndStore(
                    array(
                        'cash_request_type' => 'people',
                        'cash_action' => 'addbulkaddresses',
@@ -63,8 +63,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
            }
         }
 
+        dd([$add_response, $list_response]);
 
-        if ($total_added > 0 && $add_response['payload']) {
+        if ($total_added > 0 && $list_response['payload']) {
             $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
         } else {
             $admin_helper->formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);
