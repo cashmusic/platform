@@ -42,12 +42,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
                 'cash_request_type' => 'people',
                 'cash_action' => 'addbulkaddresses',
                 'do_not_verify' => 1,
-                'address' => $email_array
+                'addresses' => $email_array
             )
         );
-
-
-        dd($add_response);
 
         if ($add_response['payload']) {
            if (is_array($add_response['payload'])) {
@@ -66,7 +63,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
            }
         }
 
-        if ($total_added > 0) {
+        if ($total_added > 0 && $list_response['payload']) {
             $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
         } else {
             $admin_helper->formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);
