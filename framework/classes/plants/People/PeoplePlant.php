@@ -688,9 +688,10 @@ class PeoplePlant extends PlantBase {
 				];
             }
 
-            $create_list_members = $this->db->table('people_list_members')->insert($list_members);
+            $create_list_members = $this->db->table('people_list_members')->insertIgnore($list_members);
         }
 
+        // get rid of this bulk import marker
         $this->db->table('people')
 			->where('list_id', $list_id)
 			->where('organization', 'bulk_import')
@@ -698,9 +699,9 @@ class PeoplePlant extends PlantBase {
 
         if ($create_list_members) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
 	}
 
 	/**

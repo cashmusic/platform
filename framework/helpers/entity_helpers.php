@@ -62,7 +62,7 @@ function format_date($date, $format=false) {
 }
 
 function dd($object) {
-//    if (CASH_DEBUG) {
+    if (CASH_DEBUG) {
         $whoops = new \Whoops\Run();
 
 // Configure the PrettyPageHandler:
@@ -76,7 +76,7 @@ function dd($object) {
 
 
         throw new \RuntimeException("dd on ".gettype($object));
-//    }
+    }
     //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
 }
 
