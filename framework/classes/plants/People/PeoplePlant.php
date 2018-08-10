@@ -625,7 +625,7 @@ class PeoplePlant extends PlantBase {
             $address_insert[] = [
 				'email_address' => trim($address),
 				'username' => trim($address),
-				'password'=> md5(rand(23456,9876541)),
+				'password'=> '',
 				'organization' => 'bulk_import',
 				'creation_date' => time()
 			];
