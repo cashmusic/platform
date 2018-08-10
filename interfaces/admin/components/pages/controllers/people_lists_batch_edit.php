@@ -63,7 +63,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
            }
         }
 
-        dd([$add_response, $list_response]);
+        dd($add_response);
 
         if ($total_added > 0 && $list_response['payload']) {
             $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
