@@ -20,7 +20,7 @@ if (isset($_POST['doassetadd'])) {
 			'title' => $_POST['asset_title'],
 			'description' => $_POST['asset_description'],
 			'parent_id' => $_POST['parent_id'],
-			'connection_id' => !empty($_POST['connection_id']) ? $_POST['connection_id'] : null,
+			'connection_id' => isset($_POST['connection_id']) ? $_POST['connection_id'] : null,
 			'location' => $_POST['asset_location'],
 			'user_id' => $effective_user,
 			'type' => $_POST['asset_type']
