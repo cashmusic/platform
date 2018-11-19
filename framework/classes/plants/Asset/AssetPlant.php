@@ -312,6 +312,9 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
+
+	 	if ($connection_id == '' || $connection_id == null) $connection_id = 0;
+
 		$result = $this->db->setData(
 			'assets',
 			array(
