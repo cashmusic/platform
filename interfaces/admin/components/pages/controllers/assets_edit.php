@@ -100,7 +100,7 @@ if (isset($_POST['doassetedit'])) {
 		array(
 			'cash_request_type' => 'asset',
 			'cash_action' => 'editasset',
-			'id' => $request_parameters[0],
+			'id' => preg_replace("/[^0-9]/", "", $request_parameters[0] ),
 			'user_id' => $effective_user,
 			'title' => $_POST['asset_title'],
 			'description' => $asset_description,

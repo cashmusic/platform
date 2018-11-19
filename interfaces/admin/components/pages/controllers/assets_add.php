@@ -27,8 +27,6 @@ if (isset($_POST['doassetadd'])) {
 		)
 	);
 
-	error_log("#ADD ASSET \n".print_r($add_response, true));
-
 	if ($add_response['payload']) {
 		// check for metadata settings
 		if (isset($_POST['metadata_command']) && isset($_POST['metadata_name'])) {
