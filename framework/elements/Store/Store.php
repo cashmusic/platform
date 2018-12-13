@@ -200,7 +200,7 @@ class Store extends ElementBase {
 
 		$this->element_data['total_features'] = count($featured_items);
 		if ($this->element_data['total_features'] > 3) {
-			$this->element_data['total_features'] = many;
+			$this->element_data['total_features'] = "many";
 		}
 
 		// get currency info for element owner

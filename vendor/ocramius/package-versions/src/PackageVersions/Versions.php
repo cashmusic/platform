@@ -53,6 +53,7 @@ final class Versions
   'psr/container' => '1.0.0@b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
   'psr/http-message' => '1.0@85d63699f0dbedb190bbd4b0d2b9dc707ea4c298',
   'psr/log' => '1.0.0@fe0936ee26643249e916849d48e3a51d5f5e278b',
+  'sentry/sentry' => '1.10.0@b2b8ffe1560b9fb0110b02993594a4b04a511959',
   'slim/slim' => '3.8.1@5385302707530b2bccee1769613ad769859b826d',
   'stripe/stripe-php' => 'v4.1.1@a3c940bd90f0ca1bad07c93ff31900ca4b99af64',
   'swiftmailer/swiftmailer' => 'v5.4.8@9a06dc570a0367850280eefd3f1dc2da45aef517',
@@ -62,7 +63,7 @@ final class Versions
   'symfony/yaml' => 'v3.2.8@acec26fcf7f3031e094e910b94b002fa53d4e4d6',
   'zendframework/zend-code' => '3.1.0@2899c17f83a7207f2d7f53ec2f421204d3beea27',
   'zendframework/zend-eventmanager' => '3.1.0@c3bce7b7d47c54040b9ae51bc55491c72513b75d',
-  'cashmusic/platform' => 'dev-dba-to-doctrine@986586f5c226c701806466830cca7bffdc23ca23',
+  'cashmusic/platform' => '9999999-dev@e9bcf69fcecb73c68aee1ccdfa97fc841eb0ed84',
 );
 
     private function __construct()
