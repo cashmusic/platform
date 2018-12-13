@@ -25,7 +25,8 @@ function fatal_handler() {
 require_once(__DIR__ . '/constants.php');
 require_once($root.'/../../vendor/autoload.php');
 
-$client = new Raven_Client('https://5187f769984e4625855058d791aeb759@sentry.io/246545');
+$client = new Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de@sentry.io/252348');
+
 $error_handler = new Raven_ErrorHandler($client);
 $error_handler->registerExceptionHandler();
 $error_handler->registerErrorHandler();

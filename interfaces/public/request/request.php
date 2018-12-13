@@ -7,7 +7,7 @@ require_once(dirname(__FILE__) . '/../../../vendor/autoload.php');
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
-$client = new \Raven_Client('https://5187f769984e4625855058d791aeb759@sentry.io/246545');
+$client = new \Raven_Client('https://319ebcf106aa451faf4e1d3d7605b3de@sentry.io/252348');
 $error_handler = new \Raven_ErrorHandler($client);
 $error_handler->registerExceptionHandler();
 $error_handler->registerErrorHandler();
