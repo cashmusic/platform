@@ -181,14 +181,14 @@ class Store extends ElementBase {
 		$unfeatured_items = array();
 		if (is_array($this->element_data['featured_items'])) {
 			foreach ($this->element_data['featured_items'] as $i) {
-				if ($i['item_id'] > 0) {
+				if ($i['item_id'] > 0 && isset($indexed_items[$i['item_id']])) {
 					$featured_items[] = $indexed_items[$i['item_id']];
 				}
 			}
 		}
 		if (is_array($this->element_data['additional_items'])) {
 			foreach ($this->element_data['additional_items'] as $i) {
-				if ($i['item_id'] > 0) {
+				if ($i['item_id'] > 0 && isset($indexed_items[$i['item_id']])) {
 					$unfeatured_items[] = $indexed_items[$i['item_id']];
 				}
 			}
