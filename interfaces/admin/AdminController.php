@@ -131,6 +131,10 @@ class AdminController {
          *
          ***************************************************************************************************/
         define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
+
+        $exploded_request = [];
+        $fails_at_level = 0;
+
         $cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
         if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_') && $logged_in) {
             $parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
@@ -176,7 +180,12 @@ class AdminController {
                 }
                 // turn the rest of the request into the parameters array
                 // (available to page controllers)
-                $request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
+                $request_parameters = [];
+
+                if (isset($exploded_request, $fails_at_level)) {
+                    $request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
+                }
+
             }
         } else {
             if ($logged_in) {
