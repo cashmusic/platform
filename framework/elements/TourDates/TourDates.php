@@ -47,7 +47,7 @@ class TourDates extends ElementBase {
 			}
 			$all_events = array_slice($all_events,0,$max_dates,true);
 			foreach ($all_events as &$event) {
-				if ($event['venue_city'] != ""){
+				if (isset($event['venue_city'])){
 					if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
 						$event['location'] = $event['venue_city'] . ', ' . $event['venue_region'];
 					} else {
@@ -66,7 +66,7 @@ class TourDates extends ElementBase {
 				else if ($date_format == 'day-month-year'){$event['formatted_date'] = date('D d F, Y',$event['date']);}
 				}
 
-				if (!$event['venue_name']) $event['venue_name'] ='TBA';
+				if (!isset($event['venue_name'])) $event['venue_name'] ='TBA';
 			}
 			// add all dates to the element data
 			$this->element_data['all_events'] = $all_events;
