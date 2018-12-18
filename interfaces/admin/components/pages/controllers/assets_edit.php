@@ -128,6 +128,12 @@ $asset_response = $cash_admin->requestAndStore(
 		'id' => $request_parameters[0]
 	)
 );
+
+if (isset($asset_response['status_code']) && $asset_response['status_code'] != 200) {
+    AdminHelper::controllerRedirect('/assets/', true);
+    return;
+}
+
 if ($asset_response['payload']) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);
 }

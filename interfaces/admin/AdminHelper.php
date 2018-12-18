@@ -1122,7 +1122,16 @@ class AdminHelper  {
 	 *
 	 *********************************************/
 
-	public static function controllerRedirect($location) {
+	public static function controllerRedirect($location, $js=false) {
+
+		if ($js) {
+            $string = '<script type="text/javascript">';
+            $string .= 'window.location = "' . ADMIN_WWW_BASE_PATH . $location . '"';
+            $string .= '</script>';
+
+            echo $string;
+		}
+
 		if (isset($_REQUEST['data_only'])) {
 			echo json_encode(
 				array(
