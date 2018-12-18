@@ -28,7 +28,7 @@ if (isset($_POST['export_options'])) {
 		header('Content-Disposition: attachment; filename="orders_' . $_POST['export_options'] . '_' . date('Mj-Y',time()) . '.csv"');
 		echo '"order id","order date","description","shipping name","email address","first name","last name","address 1","address 2","city","region","postal code","country code","country","gross price","service fee","total shipping"' . "\n";
 
-		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200') {
+		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200' && is_array($orders_response['payload'])) {
 			foreach ($orders_response['payload'] as $entry) {
 				$go = true;
 				if ($_POST['export_options'] == 'fulfilled') {

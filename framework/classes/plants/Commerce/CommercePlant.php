@@ -786,7 +786,7 @@ class CommercePlant extends PlantBase {
              return $cart[$element_id];
            }
         }
-        return false;
+        return [];
     }
 
     protected function addOrder(
@@ -1920,14 +1920,14 @@ class CommercePlant extends PlantBase {
             $user_request = new CASHRequest(
                 array('cash_request_type' => 'system',
                     'cash_action' => 'addlogin',
-                    'address' => $payment_details['customer_email'],
+                    'address' => isset($payment_details['customer_email']) ? $payment_details['customer_email'] : '',
                     'password' => time(),
                     'username' => preg_replace('/\s+/', '', $payment_details['customer_first_name'] . $payment_details['customer_last_name']),
                     'is_admin' => 0,
-                    'display_name' => $payment_details['customer_name'],
-                    'first_name' => $payment_details['customer_first_name'],
-                    'last_name' => $payment_details['customer_last_name'],
-                    'address_country' => $payment_details['customer_countrycode'],
+                    'display_name' => isset($payment_details['customer_name']) ? $payment_details['customer_name'] : '',
+                    'first_name' => isset($payment_details['customer_first_name']) ? $payment_details['customer_first_name'] : '',
+                    'last_name' => isset($payment_details['customer_last_name']) ? $payment_details['customer_last_name'] : '',
+                    'address_country' => isset($payment_details['customer_countrycode']) ? $payment_details['customer_countrycode'] : '',
                     'data' => ['new_subscriber' => true]
                     )
             );

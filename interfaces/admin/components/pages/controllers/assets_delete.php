@@ -9,7 +9,7 @@ use CASHMusic\Admin\AdminHelper;
 
 $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
-if (!$request_parameters) {
+if (empty($request_parameters)) {
 	AdminHelper::controllerRedirect('/assets/');
 }
 
@@ -19,7 +19,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'deleteasset',
 			'id' => $request_parameters[0],
-            'connection_id' => $request_parameters[1],
+            'connection_id' => isset($request_parameters[1]) ? $request_parameters[1] : 0,
             'user_id' => $admin_helper->getPersistentData('cash_effective_user')
 		)
 	);
