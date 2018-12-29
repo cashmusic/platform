@@ -96,9 +96,9 @@ $settings_response = $cash_admin->requestAndStore(
 	)
 );
 if (is_array($settings_response['payload'])) {
-	$pp_default = $settings_response['payload']['pp_default'];
-	$pp_micro = $settings_response['payload']['pp_micro'];
-	$stripe_selected = $settings_response['payload']['stripe_default'];
+	$pp_default = isset($settings_response['payload']['pp_default']) ? $settings_response['payload']['pp_default'] : 0;
+	$pp_micro = isset($settings_response['payload']['pp_micro']) ? $settings_response['payload']['pp_micro'] : 0;
+	$stripe_selected = isset($settings_response['payload']['stripe_default']) ? $settings_response['payload']['stripe_default'] : 0;
 } else {
 	$pp_default = 0;
 	$pp_micro = 0;
