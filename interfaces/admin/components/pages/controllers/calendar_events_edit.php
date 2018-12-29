@@ -73,7 +73,7 @@ if (is_array($current_event)) {
 }
 
 $cash_admin->page_data['formatted_date'] = date('m/j/Y h:iA T',$current_event['date']);
-if ($cash_admin->page_data['published']) {
+if (!empty($cash_admin->page_data['published'])) {
 	$cash_admin->page_data['published'] = 1;
 }
 $cash_admin->page_data['form_state_action'] = 'doeventedit';

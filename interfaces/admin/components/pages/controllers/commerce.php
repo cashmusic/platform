@@ -306,17 +306,20 @@ if (is_array($orders_response['payload'])) {
 				$shipping_cost = false;
 			}
 
+			$first_name = isset($o['customer_first_name']) ? $o['customer_first_name'] : "";
+			$last_name = isset($o['customer_last_name']) ? $o['customer_last_name'] : "";
+
 			$all_order_details[] = array(
 				'id' => $o['id'],
-				'customer_name' => $o['customer_first_name'] . " " . $o['customer_last_name'],
-				'customer_shipping_name' => $o['customer_shipping_name'],
-				'customer_email' => $o['customer_email'],
-				'customer_address1' => $o['customer_address1'],
-				'customer_address2' => $o['customer_address2'],
-				'customer_city' => $o['customer_city'],
-				'customer_region' => $o['customer_region'],
-				'customer_postalcode' => $o['customer_postalcode'],
-				'customer_country' => $o['customer_countrycode'],
+				'customer_name' => $first_name . " " . $last_name,
+				'customer_shipping_name' => isset($o['customer_shipping_name']) ? $o['customer_shipping_name'] : "",
+				'customer_email' => isset($o['customer_email']) ? $o['customer_email'] : "",
+				'customer_address1' => isset($o['customer_address1']) ? $o['customer_address1'] : "",
+				'customer_address2' => isset($o['customer_address2']) ? $o['customer_address2'] : "",
+				'customer_city' => isset($o['customer_city']) ? $o['customer_city'] : "",
+				'customer_region' => isset($o['customer_region']) ? $o['customer_region'] : "",
+				'customer_postalcode' => isset($o['customer_postalcode']) ? $o['customer_postalcode'] : "",
+				'customer_country' => isset($o['customer_countrycode']) ? $o['customer_countrycode'] : "",
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
 				'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'],true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
@@ -325,8 +328,8 @@ if (is_array($orders_response['payload'])) {
 				'itemtotal' => $item_price,
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
 				'fulfilled' => $o['fulfilled'],
-				'notes' => $o['notes'],
-				'canceled' => $o['canceled']
+				'notes' => isset($o['notes']) ? $o['notes'] : "",
+				'canceled' => isset($o['canceled']) ? $o['canceled'] : ""
 			);
 		}
 	}

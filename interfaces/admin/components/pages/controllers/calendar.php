@@ -15,14 +15,23 @@ function formatEventOutput(&$response) {
 		$event['venue_name'] = isset($event['venue_name']) ? $event['venue_name'] : 'TBA';
 
 		// format date for viewing
-		$event['formatted_date'] = date('d M',$event['date']);
-
+		$event['formatted_date'] = isset($event['date']) ? date('d M',$event['date']) : 0;
 		// format location
-		if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+
+        $event['event_location'] = '';
+
+        if (isset($event['venue_country'])) {
+            if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
+                $event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+            } else {
+                $event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+            }
 		} else {
-			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+			if (isset($event['venue_city'], $event['venue_region'])) {
+                $event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+			}
 		}
+
 		if ($event['event_location'] == ', ') {
 			$event['event_location'] = '';
 		}
