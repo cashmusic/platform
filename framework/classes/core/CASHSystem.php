@@ -540,11 +540,16 @@ abstract class CASHSystem  {
 	 *
 	 */public static function getDefaultEmail($all_settings=false) {
 		$cash_settings = CASHSystem::getSystemSettings();
+
+		if (!preg_match('/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/', $cash_settings['systememail'])) {
+            $cash_settings['systememail'] = "CASH Music <info@cashmusic.org>"; //stopgap for now :(
+		}
+
 		if (!$all_settings) {
-			return $cash_settings['systememail'];
+			return html_entity_decode($cash_settings['systememail']);
 		} else {
 			$return_array = array(
-				'systememail' => $cash_settings['systememail'],
+				'systememail' => html_entity_decode($cash_settings['systememail']),
 				'smtp' => $cash_settings['smtp'],
 				'smtpserver' => $cash_settings['smtpserver'],
 				'smtpport' => $cash_settings['smtpport'],
