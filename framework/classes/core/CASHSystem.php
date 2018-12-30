@@ -1212,11 +1212,10 @@ abstract class CASHSystem  {
 
             throw new \RuntimeException("Backtrace fired.");
 		}
-        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
 	}
 
     public static function dd($object) {
-        if (CASH_DEBUG) {
+        if (!empty(CASH_DEBUG)) {
             $whoops = new Run();
 
 // Configure the PrettyPageHandler:
