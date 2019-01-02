@@ -28,8 +28,10 @@ class Subscription extends ElementBase {
 
         $subscription_data = new ElementData($this->element_data['user_id']);
 
-        foreach ($this->element_data['plans'] as $plan) {
-            $plans[] = $subscription_data->getPlan($plan['plan_id']);
+        if (is_array($this->element_data['plans'])) {
+            foreach ($this->element_data['plans'] as $plan) {
+                $plans[] = $subscription_data->getPlan($plan['plan_id']);
+            }
         }
 
         // add plan data to element_data array
@@ -45,9 +47,13 @@ class Subscription extends ElementBase {
 
         //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
         // if we're logged in already, show them the my account button instead of login
-        if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
-            $this->element_data['logged_in'] = true;
+
+        if (is_array($this->element_data['plans'])) {
+            if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
+                $this->element_data['logged_in'] = true;
+            }
         }
+
 
         //TODO: this is also a problem if someone wants one plan to not be flexible price
         $this->element_data['flexible_price'] = false;
