@@ -1405,7 +1405,7 @@ class CommercePlant extends PlantBase {
 
             $cart = $this->getCart($element_id,$session_id);
 
-            $shipto = $cart['shipto'];
+            $shipto = isset($cart['shipto']) ? $cart['shipto'] : "";
             unset($cart['shipto']);
             if ($shipto != 'r1' && $shipto != 'r2') {
               $shipto = 'r1';

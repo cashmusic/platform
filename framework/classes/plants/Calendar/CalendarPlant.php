@@ -231,7 +231,7 @@ class CalendarPlant extends PlantBase {
 		);
 
 		$venue = $this->getVenue($result[0]['venue_id']);
-		$results = array_merge($result[0], $venue);
+		$results = is_array($venue) ? array_merge($result[0], $venue) : $result[0];
 
 		return $results;
 	}

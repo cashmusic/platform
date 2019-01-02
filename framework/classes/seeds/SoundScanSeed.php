@@ -216,7 +216,7 @@ class SoundScanSeed extends SeedBase
     }
 
     private function formatDigitalOrders() {
-        
+
         $orders_formatted = [];
 
         if (!empty($this->orders) && is_array($this->orders)) {
