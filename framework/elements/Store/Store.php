@@ -44,90 +44,92 @@ class Store extends ElementBase {
 		);
 		$items = $item_request->response['payload'];
 		$indexed_items = array();
-		foreach ($items as &$item) {
-			$item['price'] = number_format($item['price'], 2, '.', '');
-			if ($item['available_units'] != 0) {
-				$item['is_available'] = true;
-			} else {
-				$item['is_available'] = false;
-			}
-			if ($item['variants']) {
-				$item['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
-				$item['has_variants'] = true;
-				$verified_attributes = array();
-				$item['attributes_count'] = count($item['variants']['attributes']);
-				foreach ($item['variants']['attributes'] as $key => $attribute) {
-					$attribute['index'] = $key;
-					$attribute['name'] = ''.strtolower(str_replace(' ','',$attribute['key']));
-					$verified_items = array();
-					foreach ($attribute['items'] as $i) {
-						if ($i['value'] > 0) { // this means we've got some quantity for this specific attribute
-							if ($item['attributes_count'] > 1) { // check if we have multiple attribute types
-								// hard coding for 2 attributes RN, sort out which is "other"
-								$counter_index = 1;
-								if ($attribute['index'] == 1) {
-									$counter_index = 0;
-								}
-								$counter_attribute = $item['variants']['attributes'][$counter_index];
-								$counter_key = $counter_attribute['key'];
-								if ($item['json_keys']) {
-									$this_frag = array($attribute['key'] => $i['key']);
-								} else {
-									$this_frag = $attribute['key'] . '->' . $i['key']; // current attribute id for qty
-								}
 
-								$counter_options = array();
-								$defaultArray = array();
-								foreach ($counter_attribute['items'] as $ci) {
-									if (!in_array($ci['key'],$defaultArray)) {
-										// here we're storing the default "other" dropdown for JS to use
-										if ($ci['value'] > 0) { // check qty here too
-											$defaultArray[] = $ci['key'];
-										}
-									}
-									if ($item['json_keys']) {
-										$that_frag = array($counter_key => $ci['key']);
-										// combine attribute ids to get the quantity key
-										if ($counter_index == 1) {
-											$qty_key = json_encode(array_merge($this_frag,$that_frag));
-										} else {
-											$qty_key = json_encode(array_merge($that_frag,$this_frag));
-										}
-									} else {
-										$that_frag = $counter_key.'->'.$ci['key']; // other attribute id
-										// combine attribute ids to get the quantity key
-										if ($counter_index == 1) {
-											$qty_key = $this_frag.'+'.$that_frag;
-										} else {
-											$qty_key = $that_frag.'+'.$this_frag;
-										}
-									}
+		if (is_array($items)) {
+            foreach ($items as &$item) {
+                $item['price'] = number_format($item['price'], 2, '.', '');
+                if ($item['available_units'] != 0) {
+                    $item['is_available'] = true;
+                } else {
+                    $item['is_available'] = false;
+                }
+                if ($item['variants']) {
+                    $item['json_keys'] = (bool)json_decode($item['variants']['quantities'][0]['key']);
+                    $item['has_variants'] = true;
+                    $verified_attributes = array();
+                    $item['attributes_count'] = count($item['variants']['attributes']);
+                    foreach ($item['variants']['attributes'] as $key => $attribute) {
+                        $attribute['index'] = $key;
+                        $attribute['name'] = '' . strtolower(str_replace(' ', '', $attribute['key']));
+                        $verified_items = array();
+                        foreach ($attribute['items'] as $i) {
+                            if ($i['value'] > 0) { // this means we've got some quantity for this specific attribute
+                                if ($item['attributes_count'] > 1) { // check if we have multiple attribute types
+                                    // hard coding for 2 attributes RN, sort out which is "other"
+                                    $counter_index = 1;
+                                    if ($attribute['index'] == 1) {
+                                        $counter_index = 0;
+                                    }
+                                    $counter_attribute = $item['variants']['attributes'][$counter_index];
+                                    $counter_key = $counter_attribute['key'];
+                                    if ($item['json_keys']) {
+                                        $this_frag = array($attribute['key'] => $i['key']);
+                                    } else {
+                                        $this_frag = $attribute['key'] . '->' . $i['key']; // current attribute id for qty
+                                    }
 
-									// we need to loop through our list of quantities and check keys
-									foreach ($item['variants']['quantities'] as $q) {
-										if ($q['key'] == $qty_key && $q['value']) { // check that value > 0
-											$counter_options[] = $ci['key'];
-											break;
-										}
-									}
-								}
-								$i['keyvalue'] = $this_frag; // set the
-								$i['countermenu'] = str_replace("'","&apos;",json_encode($counter_options));
-								$attribute['defaultcountermenu'] = str_replace("'","&apos;",json_encode($defaultArray));
-							}
-							$verified_items[] = $i;
-						}
-					}
-					if (count($verified_items)) {
-						$attribute['items'] = $verified_items;
-						$verified_attributes[] = $attribute;
-					}
-				}
-				$item['attributes'] = $verified_attributes;
-			}
-			$indexed_items[$item['id']] = $item;
-		}
+                                    $counter_options = array();
+                                    $defaultArray = array();
+                                    foreach ($counter_attribute['items'] as $ci) {
+                                        if (!in_array($ci['key'], $defaultArray)) {
+                                            // here we're storing the default "other" dropdown for JS to use
+                                            if ($ci['value'] > 0) { // check qty here too
+                                                $defaultArray[] = $ci['key'];
+                                            }
+                                        }
+                                        if ($item['json_keys']) {
+                                            $that_frag = array($counter_key => $ci['key']);
+                                            // combine attribute ids to get the quantity key
+                                            if ($counter_index == 1) {
+                                                $qty_key = json_encode(array_merge($this_frag, $that_frag));
+                                            } else {
+                                                $qty_key = json_encode(array_merge($that_frag, $this_frag));
+                                            }
+                                        } else {
+                                            $that_frag = $counter_key . '->' . $ci['key']; // other attribute id
+                                            // combine attribute ids to get the quantity key
+                                            if ($counter_index == 1) {
+                                                $qty_key = $this_frag . '+' . $that_frag;
+                                            } else {
+                                                $qty_key = $that_frag . '+' . $this_frag;
+                                            }
+                                        }
 
+                                        // we need to loop through our list of quantities and check keys
+                                        foreach ($item['variants']['quantities'] as $q) {
+                                            if ($q['key'] == $qty_key && $q['value']) { // check that value > 0
+                                                $counter_options[] = $ci['key'];
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    $i['keyvalue'] = $this_frag; // set the
+                                    $i['countermenu'] = str_replace("'", "&apos;", json_encode($counter_options));
+                                    $attribute['defaultcountermenu'] = str_replace("'", "&apos;", json_encode($defaultArray));
+                                }
+                                $verified_items[] = $i;
+                            }
+                        }
+                        if (count($verified_items)) {
+                            $attribute['items'] = $verified_items;
+                            $verified_attributes[] = $attribute;
+                        }
+                    }
+                    $item['attributes'] = $verified_attributes;
+                }
+                $indexed_items[$item['id']] = $item;
+            }
+        }
 		// payment connection settings
 		$this->element_data['paypal_connection'] = false;
 		$this->element_data['stripe_public_key'] = false;
