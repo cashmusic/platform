@@ -133,8 +133,8 @@ class MailchimpSeed extends SeedBase {
 
 	public static function handleRedirectReturn($cash_effective_user=false, $data=false, $admin_helper=false) {
 
-		if (isset($data['error'])) {
-			return 'There was an error. (general) Please try again. More: ' . $data['error'];
+		if (isset($data['error']) || !isset($data['code'])) {
+			return 'There was an error. Please try again. More: ' . $data['error'];
 		} else {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
