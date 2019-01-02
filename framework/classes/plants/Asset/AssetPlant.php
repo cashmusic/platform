@@ -368,14 +368,14 @@ class AssetPlant extends PlantBase {
 								$parent_details['metadata']['cover'] = '';
 							}
 						}
-						if (isset($parent_details['metadata']['fulfillment'])) {
+						if (isset($parent_details['metadata']['fulfillment']) && is_array($parent_details['metadata']['fulfillment'])) {
 							foreach ($parent_details['metadata']['fulfillment'] as $key => $value) {
 								if ($value == $id) {
 									unset($parent_details['metadata']['fulfillment'][$key]);
 								}
 							}
 						}
-						if (isset($parent_details['metadata']['private'])) {
+						if (isset($parent_details['metadata']['private']) && is_array($parent_details['metadata']['private'])) {
 							foreach ($parent_details['metadata']['private'] as $key => $value) {
 								if ($value == $id) {
 									unset($parent_details['metadata']['private'][$key]);

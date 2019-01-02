@@ -114,18 +114,21 @@ class SoundScanSeed extends SeedBase
             // loop through each order, then contents, and dump
             // D3 | UPC (if album) | ZIP | S/R (sale/return) | # in order (3 digits, left pad) | ISRC (if single) | PRICE | S/A (single/album) | P/M (PC/web or Mobile)
             $itemcount = 1;
-            foreach ($this->orders as $item) {
-                $output = "D3" . "|";
-                if ($item[0] == 'A') {
-                    $output .= $item[1] . "|" . $this->stripPostalCode($item[2]) . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "||" . $item[3] . "|" . $item[0] . "|P\n";
-                } else {
-                    $output .= "|" . $item[2] . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "|" . $item[1] . "|" . $item[3] . "|" . $item[0] . "|P\n";
+
+            if (!empty($this->orders) && is_array($this->orders)) {
+                foreach ($this->orders as $item) {
+                    $output = "D3" . "|";
+                    if ($item[0] == 'A') {
+                        $output .= $item[1] . "|" . $this->stripPostalCode($item[2]) . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "||" . $item[3] . "|" . $item[0] . "|P\n";
+                    } else {
+                        $output .= "|" . $item[2] . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "|" . $item[1] . "|" . $item[3] . "|" . $item[0] . "|P\n";
+                    }
+                    $this->report .= $output;
+                    $this->total_items++;
+                    //$itemcount++;
+                //}
                 }
-                $this->report .= $output;
-                $this->total_items++;
-                //$itemcount++;
-            //}
-        }
+            }
 
         return $this;
     }
@@ -213,15 +216,19 @@ class SoundScanSeed extends SeedBase
     }
 
     private function formatDigitalOrders() {
+        
+        $orders_formatted = [];
 
-        foreach ($this->orders as $order) {
-            // album(A) or single(S), ISRC/UPC, zip (no +4. first 5 digits only), price (4 digits in pennies)
-            $orders_formatted[] = [
-                'A',
-                $order['upc'],
-                $order['postal'],
-                $order['price']
-            ];
+        if (!empty($this->orders) && is_array($this->orders)) {
+            foreach ($this->orders as $order) {
+                // album(A) or single(S), ISRC/UPC, zip (no +4. first 5 digits only), price (4 digits in pennies)
+                $orders_formatted[] = [
+                    'A',
+                    $order['upc'],
+                    $order['postal'],
+                    $order['price']
+                ];
+            }
         }
 
         $this->orders = $orders_formatted;
